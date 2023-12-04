@@ -8,18 +8,16 @@ The `Description` block displays the description for a component, story, or meta
 
 ![Screenshot of Description block](./doc-block-title-subtitle-description.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Description } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Description of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
 
 ## Description
 
@@ -92,35 +90,29 @@ This flow gives you powerful ways to override the description for each scenario.
 export const Button = () => <button>Click me</button>;
 ```
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-description-example.ts.mdx',
-    'web-components/api-doc-block-description-example.js.mdx',
-    'web-components/api-doc-block-description-example.ts.mdx',
-    'common/api-doc-block-description-example.js.mdx',
-    'common/api-doc-block-description-example.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-description-example.ts.mdx',
+'web-components/api-doc-block-description-example.js.mdx',
+'web-components/api-doc-block-description-example.ts.mdx',
+'common/api-doc-block-description-example.js.mdx',
+'common/api-doc-block-description-example.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Description } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
-{/* Shows the description for the default export (the meta).
-    If that didn't have any comments, it would show the 
-    comments from the component instead */}
+{/_ Shows the description for the default export (the meta).
+If that didn't have any comments, it would show the
+comments from the component instead _/}
 <Description of={ButtonStories} />
 
-{/* Shows the description for the Primary export */}
+{/_ Shows the description for the Primary export _/}
 <Description of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->

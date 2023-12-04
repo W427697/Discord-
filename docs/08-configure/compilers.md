@@ -8,16 +8,12 @@ Javascript compilers are essential in optimizing and transforming code, enhancin
 
 SWC is a fast, highly extensible tool for compiling and bundling modern JavaScript applications. Powered by [Rust](https://www.rust-lang.org/), it improves performance and reduces build times. Storybook includes a built-in integration with SWC, allowing zero-configuration setup and built-in types for APIs. If you've initialized Storybook in a Webpack-based project with any of the supported [frameworks](./frameworks.md), except Angular, it will automatically use SWC as its default, providing you with faster loading time. However, if you're upgrading from a previous version of Storybook, you may need to opt-in to use SWC by adjusting your Storybook configuration file (i.e., `.storybook/main.js|ts`) as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
+paths={[
+'common/main-config-framework-options-builder-use-swc.js.mdx',
+'common/main-config-framework-options-builder-use-swc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -44,17 +40,13 @@ By default, Babel provides an opinionated [configuration](https://babeljs.io/doc
 
 Storybook relies on an agnostic approach to configuring Babel, enabling you to provide the necessary configuration for your project, and it will use it. Based on the supported frameworks, builders, and addons, it may include minor adjustments to ensure compatibility with Storybook's features. If you need to provide a custom configuration, you can generate a `.babelrc.json` file by running the following command:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-cli-babelrc-file.yarn.mdx',
-    'common/storybook-cli-babelrc-file.npm.mdx',
-    'common/storybook-cli-babelrc-file.pnpm.mdx',
-  ]}
+paths={[
+'common/storybook-cli-babelrc-file.yarn.mdx',
+'common/storybook-cli-babelrc-file.npm.mdx',
+'common/storybook-cli-babelrc-file.pnpm.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When the command runs, it will prompt you to install additional packages and generate a `.babelrc.json` file in the current working directory of your project and apply it, assuming that you're using the default configuration and co-locating your Storybook stories in the current working directory of your project.
 
@@ -145,16 +137,12 @@ If you're working with a project that was initialized with [Create React App](ht
 
 If you have enabled the SWC builder option in a React-based project and you are not explicitly importing React in your `jsx|tsx` files, it can cause Storybook to fail to load. SWC does not automatically import the `jsx-runtime` module when using the SWC builder. To resolve this issue, you need to adjust your Storybook configuration file (i.e., `.storybook/main.js|ts`) and configure the `swc` option as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-swc-jsx-transform.js.mdx',
-    'common/main-config-swc-jsx-transform.ts.mdx',
-  ]}
+paths={[
+'common/main-config-swc-jsx-transform.js.mdx',
+'common/main-config-swc-jsx-transform.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 

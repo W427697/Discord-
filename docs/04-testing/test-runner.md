@@ -15,17 +15,13 @@ The test-runner is a standalone, framework-agnostic utility that runs parallel t
 
 Run the following command to install it.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-install.yarn.js.mdx',
-    'common/test-runner-install.npm.js.mdx',
-    'common/test-runner-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-install.yarn.js.mdx',
+'common/test-runner-install.npm.js.mdx',
+'common/test-runner-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your `package.json` scripts and enable the test runner.
 
@@ -39,18 +35,14 @@ Update your `package.json` scripts and enable the test runner.
 
 Start your Storybook with:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-run-dev.with-builder.js.mdx',
-    'common/storybook-run-dev.yarn.js.mdx',
-    'common/storybook-run-dev.npm.js.mdx',
-    'common/storybook-run-dev.pnpm.js.mdx',
-  ]}
+paths={[
+'angular/storybook-run-dev.with-builder.js.mdx',
+'common/storybook-run-dev.yarn.js.mdx',
+'common/storybook-run-dev.npm.js.mdx',
+'common/storybook-run-dev.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -60,17 +52,13 @@ Storybook's test runner requires either a locally running Storybook instance or 
 
 Finally, open a new terminal window and run the test-runner with:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-execute.yarn.js.mdx',
-    'common/test-runner-execute.npm.js.mdx',
-    'common/test-runner-execute.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-execute.yarn.js.mdx',
+'common/test-runner-execute.npm.js.mdx',
+'common/test-runner-execute.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Configure
 
@@ -109,34 +97,26 @@ If you're already using any of those flags in your project, you should be able t
 | `--excludeTags`                 | Experimental feature <br/>Prevents stories from being tested if they match the provided [tags](#experimental-filter-tests). <br/>`test-storybook --excludeTags="no-tests, tokens"`                      |
 | `--skipTags`                    | Experimental feature <br/>Configures the test runner to skip running tests for stories that match the provided [tags](#experimental-filter-tests). <br/>`test-storybook --skipTags="skip-test, layout"` |
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-execute-with-flags.yarn.js.mdx',
-    'common/test-runner-execute-with-flags.npm.js.mdx',
-    'common/test-runner-execute-with-flags.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-execute-with-flags.yarn.js.mdx',
+'common/test-runner-execute-with-flags.npm.js.mdx',
+'common/test-runner-execute-with-flags.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Run tests against a deployed Storybook
 
 By default, the test-runner assumes that you're running it against a locally served Storybook on port `6006`. If you want to define a target URL to run against deployed Storybooks, you can use the `--url` flag or set the `TARGET_URL` environment variable. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-execute-with-url.yarn.js.mdx',
-    'common/test-runner-execute-with-url.npm.js.mdx',
-    'common/test-runner-execute-with-url.pnpm.js.mdx',
-    'common/test-runner-execute-with-url.env-var.js.mdx',
-  ]}
+paths={[
+'common/test-runner-execute-with-url.yarn.js.mdx',
+'common/test-runner-execute-with-url.npm.js.mdx',
+'common/test-runner-execute-with-url.pnpm.js.mdx',
+'common/test-runner-execute-with-url.env-var.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Set up CI to run tests
 
@@ -146,15 +126,11 @@ You can also configure the test-runner to run tests on a CI environment. Documen
 
 If you're publishing your Storybook with services such as [Vercel](https://vercel.com/) or [Netlify](https://docs.netlify.com/site-deploys/notifications/#github-commit-statuses), they emit a `deployment_status` event in GitHub Actions. You can use it and set the `deployment_status.target_url` as the `TARGET_URL` environment variable. Here's how:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-with-deploy-event-workflow.yml.mdx',
-  ]}
+paths={[
+'common/test-runner-with-deploy-event-workflow.yml.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -166,15 +142,11 @@ The published Storybook must be publicly available for this example to work. We 
 
 You can use your CI provider (for example, [GitHub Actions](https://github.com/features/actions), [GitLab Pipelines](https://docs.gitlab.com/ee/ci/pipelines/), [CircleCI](https://circleci.com/)) to build and run the test runner against your built Storybook. Here's a recipe that relies on third-party libraries, that is to say, [concurrently](https://www.npmjs.com/package/concurrently), [http-server](https://www.npmjs.com/package/http-server), and [wait-on](https://www.npmjs.com/package/wait-on) to build Storybook and run tests with the test-runner.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-local-build-workflow.yml.mdx',
-  ]}
+paths={[
+'common/test-runner-local-build-workflow.yml.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -217,16 +189,12 @@ These test hooks are experimental and may be subject to breaking changes. We enc
 
 To enable the hooks API, you'll need to add a new configuration file inside your Storybook directory and set them up as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-hooks-example.js.mdx',
-    'common/test-runner-hooks-example.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-hooks-example.js.mdx',
+'common/test-runner-hooks-example.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -253,16 +221,12 @@ When you run the test-runner on Storybook, it tests every story by default. Howe
 | `include` | Defines a subset of stories only to be tested if they match the enabled tags. |
 | `skip`    | Skips testing on stories if they match the provided tags.                     |
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-tags-config.js.mdx',
-    'common/test-runner-tags-config.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-tags-config.js.mdx',
+'common/test-runner-tags-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="ℹ️">
 
@@ -274,35 +238,27 @@ Running tests with the CLI flags takes precedence over the options provided in t
 
 If you want to prevent specific stories from being tested by the test-runner, you can configure your story with a custom tag, enable it to the test-runner configuration file or run the test-runner with the `--excludeTags` [CLI](#cli-options) flag and exclude them from testing. This is helpful when you want to exclude stories that are not yet ready for testing or are irrelevant to your tests. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/my-component-exclude-tags.story.js.mdx',
-    'common/my-component-exclude-tags.story.ts.mdx',
-    'common/test-runner-tags-exclude.config.js.mdx',
-    'common/test-runner-tags-exclude.config.ts.mdx',
-  ]}
+paths={[
+'common/my-component-exclude-tags.story.js.mdx',
+'common/my-component-exclude-tags.story.ts.mdx',
+'common/test-runner-tags-exclude.config.js.mdx',
+'common/test-runner-tags-exclude.config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Run tests for a subset of stories
 
 To allow the test-runner only to run tests on a specific story or subset of stories, you can configure the story with a custom tag, enable it in the test-runner configuration file or run the test-runner with the `--includeTags` [CLI](#cli-options) flag and include them in your tests. For example, if you wanted to run tests based on the `test-only` tag, you can adjust your configuration as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/my-component-include-tags.story.js.mdx',
-    'common/my-component-include-tags.story.ts.mdx',
-    'common/test-runner-tags-include.config.js.mdx',
-    'common/test-runner-tags-include.config.ts.mdx',
-  ]}
+paths={[
+'common/my-component-include-tags.story.js.mdx',
+'common/my-component-include-tags.story.ts.mdx',
+'common/test-runner-tags-include.config.js.mdx',
+'common/test-runner-tags-include.config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="ℹ️">
 
@@ -314,78 +270,58 @@ Applying tags for the component's stories should either be done at the component
 
 If you want to skip running tests on a particular story or subset of stories, you can configure your story with a custom tag, enable it in the test-runner configuration file, or run the test-runner with the `--skipTags` [CLI](#cli-options) flag. Running tests with this option will cause the test-runner to ignore and flag them accordingly in the test results, indicating that the tests are temporarily disabled. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/my-component-skip-tags.story.js.mdx',
-    'common/my-component-skip-tags.story.ts.mdx',
-    'common/test-runner-tags-skip.config.js.mdx',
-    'common/test-runner-tags-skip.config.ts.mdx',
-  ]}
+paths={[
+'common/my-component-skip-tags.story.js.mdx',
+'common/my-component-skip-tags.story.ts.mdx',
+'common/test-runner-tags-skip.config.js.mdx',
+'common/test-runner-tags-skip.config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Authentication for deployed Storybooks
 
 If you use a secure hosting provider that requires authentication to host your Storybook, you may need to set HTTP headers. This is mainly because of how the test runner checks the status of the instance and the index of its stories through fetch requests and Playwright. To do this, you can modify the test-runner configuration file to include the `getHttpHeaders` function. This function takes the URL of the fetch calls and page visits as input and returns an object containing the headers that need to be set.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-auth.js.mdx',
-    'common/test-runner-auth.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-auth.js.mdx',
+'common/test-runner-auth.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Helpers
 
 The test-runner exports a few helpers that can be used to make your tests more readable and maintainable by accessing Storybook's internals (e.g., `args`, `parameters`). Listed below are the available helpers and an overview of how to use them.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-helper-function.js.mdx',
-    'common/test-runner-helper-function.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-helper-function.js.mdx',
+'common/test-runner-helper-function.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Accessing story information with the test-runner
 
 If you need to access information about the story, such as its parameters, the test-runner includes a helper function named `getStoryContext` that you can use to retrieve it. You can then use it to customize your tests further as needed. For example, if you need to configure Playwright's page [viewport size](https://playwright.dev/docs/api/class-page#page-set-viewport-size) to use the viewport size defined in the story's parameters, you can do so as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-custom-page-viewport.js.mdx',
-    'common/test-runner-custom-page-viewport.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-custom-page-viewport.js.mdx',
+'common/test-runner-custom-page-viewport.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Working with assets
 
 If you're running a specific set of tests (e.g., image snapshot testing), the test-runner provides a helper function named `waitForPageReady` that you can use to ensure the page is fully loaded and ready before running the test. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-waitpageready.js.mdx',
-    'common/test-runner-waitpageready.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-waitpageready.js.mdx',
+'common/test-runner-waitpageready.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Index.json mode
 
@@ -395,17 +331,13 @@ The test-runner transforms your story files into tests when testing a local Stor
 
 Suppose you run into a situation where the local and remote Storybooks appear out of sync, or you might not even have access to the code. In that case, the `index.json` file is guaranteed to be the most accurate representation of the deployed Storybook you are testing. To test a local Storybook using this feature, use the `--index-json` flag as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-with-index-json.yarn.js.mdx',
-    'common/test-runner-with-index-json.npm.js.mdx',
-    'common/test-runner-with-index-json.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-with-index-json.yarn.js.mdx',
+'common/test-runner-with-index-json.npm.js.mdx',
+'common/test-runner-with-index-json.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -415,17 +347,13 @@ The `index.json` mode is not compatible with the watch mode.
 
 If you need to disable it, use the `--no-index-json` flag:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-no-index-json.yarn.js.mdx',
-    'common/test-runner-no-index-json.npm.js.mdx',
-    'common/test-runner-no-index-json.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-no-index-json.yarn.js.mdx',
+'common/test-runner-no-index-json.npm.js.mdx',
+'common/test-runner-no-index-json.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### How do I check if my Storybook has a `index.json` file?
 

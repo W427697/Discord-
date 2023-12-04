@@ -26,17 +26,13 @@ There are two main categories of addons, each with its role:
 
 The addon built in this guide is a UI-based addon, specifically a [toolbar](./addon-types.md#toolbars) addon, enabling users to draw outlines around each element in the story through a shortcut or click of a button. UI addons can create other types of UI elements, each with its function: [panels](./addon-types.md#panels) and [tabs](./addon-types.md#tabs), providing users with various ways to interact with the UI.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-toolkit-toolbar-example.toolbar.ts.mdx',
-    'common/storybook-addon-toolkit-panel-example.panel.ts.mdx',
-    'common/storybook-addon-toolkit-tab-example.tab.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-toolkit-toolbar-example.toolbar.ts.mdx',
+'common/storybook-addon-toolkit-panel-example.panel.ts.mdx',
+'common/storybook-addon-toolkit-tab-example.tab.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Setup
 
@@ -51,17 +47,13 @@ To create your first addon, you're going to use the [Addon Kit](https://github.c
 
 Clone the repository you just created and install its dependencies. When the installation process finishes, you will be prompted with questions to configure your addon. Answer them, and when you're ready to start building your addon, run the following command to start Storybook in development mode and develop your addon in watch mode:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-run-dev-mode.yarn.js.mdx',
-    'common/storybook-addon-run-dev-mode.npm.js.mdx',
-    'common/storybook-addon-run-dev-mode.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-run-dev-mode.yarn.js.mdx',
+'common/storybook-addon-run-dev-mode.npm.js.mdx',
+'common/storybook-addon-run-dev-mode.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -81,15 +73,11 @@ The `tsup` configuration handles these complexities by default, but you can cust
 
 By default, code for the UI-based addons is located in one of the following files, depending on the type of addon built: **`src/Tool.tsx`**, **`src/Panel.tsx`**, or **`src/Tab.tsx`**. Since we're building a toolbar addon, we can safely remove the `Panel` and `Tab` files and update the remaining file to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-tool-initial-setup.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-tool-initial-setup.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Going through the code blocks in sequence:
 
@@ -141,15 +129,11 @@ The `Tool` component is the entry point of the addon. It renders the UI elements
 
 Moving onto the manager, here we register the addon with Storybook using a unique name and identifier. Since we've removed the `Panel` and `Tab` files, we'll need to adjust the file to only reference the addon we're building.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-manager-initial-state.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-manager-initial-state.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you must adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
 
@@ -161,39 +145,27 @@ Run the `start` script to build and start Storybook and verify that the addon is
 
 In Storybook, applying styles for addons is considered a side-effect. Therefore, we'll need to make some changes to our addon to allow it to use the styles when it is active and remove them when it's disabled. We're going to rely on two of Storybook's features to handle this: [decorators](../writing-stories/decorators.md) and [globals](../essentials/toolbars-and-globals.md#globals). To handle the CSS logic, we must include some helper functions to inject and remove the stylesheets from the DOM. Start by creating the helper file with the following content:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-css-helpers.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-css-helpers.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Next, create the file with the styles we want to inject with the following content:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-css-example.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-css-example.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Since the addon can be active in both the story and documentation modes, the DOM node for Storybook's preview `iframe` is different in these two modes. In fact, Storybook renders multiple story previews on one page when in documentation mode. Therefore, we'll need to choose the correct selector for the DOM node where the styles will be injected and ensure the CSS is scoped to that particular selector. That mechanism is provided as an example within the `src/withGlobals.ts` file, which we'll use to connect the styling and helper functions to the addon logic. Update the file to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-use-global.ts.mdx',
-  ]}
+paths={[
+'common/storybook-addon-use-global.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Packaging and publishing
 
@@ -300,17 +272,13 @@ npx auto create-labels
 
 Finally, run the following command to create a release for your addon. This will build and package the addon code, bump the version, push the release into GitHub and npm, and generate a changelog.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-release.yarn.js.mdx',
-    'common/storybook-addon-release.npm.js.mdx',
-    'common/storybook-addon-release.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-release.yarn.js.mdx',
+'common/storybook-addon-release.npm.js.mdx',
+'common/storybook-addon-release.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### CI automation
 

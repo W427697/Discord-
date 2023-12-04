@@ -14,24 +14,20 @@ Some components require a “harness” to render in a useful way. For instance,
 
 ![Story without padding](./decorators-no-padding.png)
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/your-component-with-decorator.js.mdx',
-    'react/your-component-with-decorator.ts.mdx',
-    'vue/your-component-with-decorator.js.mdx',
-    'vue/your-component-with-decorator.ts.mdx',
-    'angular/your-component-with-decorator.ts.mdx',
-    'web-components/your-component-with-decorator.js.mdx',
-    'web-components/your-component-with-decorator.ts.mdx',
-    'svelte/your-component-with-decorator.js.mdx',
-    'solid/your-component-with-decorator.js.mdx',
-    'solid/your-component-with-decorator.ts.mdx'
-  ]}
+paths={[
+'react/your-component-with-decorator.js.mdx',
+'react/your-component-with-decorator.ts.mdx',
+'vue/your-component-with-decorator.js.mdx',
+'vue/your-component-with-decorator.ts.mdx',
+'angular/your-component-with-decorator.ts.mdx',
+'web-components/your-component-with-decorator.js.mdx',
+'web-components/your-component-with-decorator.ts.mdx',
+'svelte/your-component-with-decorator.js.mdx',
+'solid/your-component-with-decorator.js.mdx',
+'solid/your-component-with-decorator.ts.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Story with padding](./decorators-padding.png)
 
@@ -41,30 +37,26 @@ Framework-specific libraries (e.g., [Styled Components](https://styled-component
 
 For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/storybook-preview-with-styled-components-decorator.js.mdx',
-    'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
-    'angular/add-localize-package-to-polyfills.ts.mdx',
-    'angular/storybook-preview-with-angular-polyfills.js.mdx',
-    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
-    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
-  ]}
+paths={[
+'react/storybook-preview-with-styled-components-decorator.js.mdx',
+'react/storybook-preview-with-styled-components-decorator.ts.mdx',
+'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
+'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
+'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
+'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
+'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
+'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
+'angular/add-localize-package-to-polyfills.ts.mdx',
+'angular/storybook-preview-with-angular-polyfills.js.mdx',
+'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 In the example above, the values provided are hardcoded. Still, you may want to vary them, either per-story basis (i.e., if the values you're adding are relevant to a specific story) or in a user-controlled way (e.g., provide a theme switcher or a different set of icons).
 
@@ -91,27 +83,22 @@ If your components are “connected” and require side-loaded data to render, y
 
 To define a decorator for a single story, use the `decorators` key on a named export:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-decorator.js.mdx',
-    'react/button-story-decorator.ts.mdx',
-    'vue/button-story-decorator.js.mdx',
-    'vue/button-story-decorator.ts.mdx',
-    'angular/button-story-decorator.ts.mdx',
-    'web-components/button-story-decorator.js.mdx',
-    'web-components/button-story-decorator.ts.mdx',
-    'svelte/button-story-decorator.js.mdx',
-    'solid/button-story-decorator.js.mdx',
-    'solid/button-story-decorator.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/decorators#snippet-button-story-decorator"
+paths={[
+'react/button-story-decorator.js.mdx',
+'react/button-story-decorator.ts.mdx',
+'vue/button-story-decorator.js.mdx',
+'vue/button-story-decorator.ts.mdx',
+'angular/button-story-decorator.ts.mdx',
+'web-components/button-story-decorator.js.mdx',
+'web-components/button-story-decorator.ts.mdx',
+'svelte/button-story-decorator.js.mdx',
+'solid/button-story-decorator.js.mdx',
+'solid/button-story-decorator.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/decorators#snippet-button-story-decorator"
 />
-
-
-<!-- prettier-ignore-end -->
 
 It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
@@ -119,46 +106,38 @@ It is useful to ensure that the story remains a “pure” rendering of the comp
 
 To define a decorator for all stories of a component, use the `decorators` key of the default CSF export:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-component-decorator.js.mdx',
-    'react/button-story-component-decorator.ts.mdx',
-    'vue/button-story-component-decorator.js.mdx',
-    'vue/button-story-component-decorator.ts.mdx',
-    'angular/button-story-component-decorator.ts.mdx',
-    'web-components/button-story-component-decorator.js.mdx',
-    'web-components/button-story-component-decorator.ts.mdx',
-    'svelte/button-story-component-decorator.js.mdx',
-    'solid/button-story-component-decorator.js.mdx',
-    'solid/button-story-component-decorator.ts.mdx',
-  ]}
+paths={[
+'react/button-story-component-decorator.js.mdx',
+'react/button-story-component-decorator.ts.mdx',
+'vue/button-story-component-decorator.js.mdx',
+'vue/button-story-component-decorator.ts.mdx',
+'angular/button-story-component-decorator.ts.mdx',
+'web-components/button-story-component-decorator.js.mdx',
+'web-components/button-story-component-decorator.ts.mdx',
+'svelte/button-story-component-decorator.js.mdx',
+'solid/button-story-component-decorator.js.mdx',
+'solid/button-story-component-decorator.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Global decorators
 
 We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/storybook-preview-global-decorator.js.mdx',
-    'react/storybook-preview-global-decorator.ts.mdx',
-    'vue/storybook-preview-global-decorator.js.mdx',
-    'vue/storybook-preview-global-decorator.ts.mdx',
-    'angular/storybook-preview-global-decorator.ts.mdx',
-    'web-components/storybook-preview-global-decorator.js.mdx',
-    'svelte/storybook-preview-global-decorator.js.mdx',
-    'solid/storybook-preview-global-decorator.js.mdx',
-    'solid/storybook-preview-global-decorator.ts.mdx',
-  ]}
+paths={[
+'react/storybook-preview-global-decorator.js.mdx',
+'react/storybook-preview-global-decorator.ts.mdx',
+'vue/storybook-preview-global-decorator.js.mdx',
+'vue/storybook-preview-global-decorator.ts.mdx',
+'angular/storybook-preview-global-decorator.ts.mdx',
+'web-components/storybook-preview-global-decorator.js.mdx',
+'svelte/storybook-preview-global-decorator.js.mdx',
+'solid/storybook-preview-global-decorator.js.mdx',
+'solid/storybook-preview-global-decorator.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Decorator inheritance
 

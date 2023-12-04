@@ -10,22 +10,18 @@ Storybook Autodocs is a powerful tool that can help you quickly generate compreh
 
 To enable auto-generated documentation for your stories, you'll need to add the `tags` configuration property to the story's default export. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-auto-docs.js.mdx',
-    'react/button-story-auto-docs.ts.mdx',
-    'vue/button-story-auto-docs.js.mdx',
-    'vue/button-story-auto-docs.ts.mdx',
-    'angular/button-story-auto-docs.ts.mdx',
-    'svelte/button-story-auto-docs.js.mdx',
-    'web-components/button-story-auto-docs.js.mdx',
-    'web-components/button-story-auto-docs.ts.mdx',
-  ]}
+paths={[
+'react/button-story-auto-docs.js.mdx',
+'react/button-story-auto-docs.ts.mdx',
+'vue/button-story-auto-docs.js.mdx',
+'vue/button-story-auto-docs.ts.mdx',
+'angular/button-story-auto-docs.ts.mdx',
+'svelte/button-story-auto-docs.js.mdx',
+'web-components/button-story-auto-docs.js.mdx',
+'web-components/button-story-auto-docs.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Storybook autodocs](./autodocs.png)
 
@@ -35,16 +31,12 @@ Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../
 
 By default, Storybook offers zero-config support for documentation and automatically sets up a documentation page for each story enabled via the `tags` configuration property. However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts|cjs`) and provide additional options to control how documentation gets created. Listed below are the available options and examples of how to use them.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-full-config.js.mdx',
-    'common/storybook-auto-docs-full-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-full-config.js.mdx',
+'common/storybook-auto-docs-full-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 | Option        | Description                                                                                                                                                                                                                                                                                                              |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -57,16 +49,12 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js|ts`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-custom-template-function.js.mdx',
-    'common/storybook-preview-auto-docs-custom-template-function.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-auto-docs-custom-template-function.js.mdx',
+'common/storybook-preview-auto-docs-custom-template-function.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -85,27 +73,19 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-mdx-template-with-prop.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-mdx-template-with-prop.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Then you can use it in your `.storybook/preview.js` or an individual story file by importing it:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-custom-mdx-template.js.mdx',
-  ]}
+paths={[
+'common/storybook-preview-auto-docs-custom-mdx-template.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -117,16 +97,12 @@ If you only need to override the documentation page for a single component, we r
 
 Storybook's auto-generated documentation pages can be quite long and difficult to navigate. To help with this, you can enable the table of contents feature to provide a quick overview of the documentation page and allow users to jump to a specific section. To enable it, extend your Storybook UI configuration file (i.e., `.storybook/preview.js`) and provide a `docs` [parameter](../writing-stories/parameters.md#global-parameters) with a `toc` property.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-enable-toc.js.mdx',
-    'common/storybook-preview-enable-toc.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-enable-toc.js.mdx',
+'common/storybook-preview-enable-toc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Configure the table of contents
 
@@ -147,34 +123,26 @@ The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow
 
 </Callout>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-custom-toc.js.mdx',
-    'common/storybook-preview-custom-toc.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-custom-toc.js.mdx',
+'common/storybook-preview-custom-toc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Component-level configuration
 
 If you want to customize the table of contents for a specific story, you can include a `toc` property in the story's default export and provide the required [configuration](#configure-the-table-of-contents). For example, if you need to hide the table of contents for a specific story, adjust your story as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/my-component-disable-toc.ts.mdx',
-    'web-components/my-component-disable-toc.js.mdx',
-    'web-components/my-component-disable-toc.ts.mdx',
-    'common/my-component-disable-toc.js.mdx',
-    'common/my-component-disable-toc.ts.mdx',
-  ]}
+paths={[
+'angular/my-component-disable-toc.ts.mdx',
+'web-components/my-component-disable-toc.js.mdx',
+'web-components/my-component-disable-toc.ts.mdx',
+'common/my-component-disable-toc.js.mdx',
+'common/my-component-disable-toc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Customize component documentation
 
@@ -186,46 +154,34 @@ Creating automated documentation with Storybook's Autodocs provides you with the
 
 The Docs Container is the component that wraps up the documentation page. It's responsible for rendering the documentation page in Storybook's UI. You can customize it by creating your own component and updating your Storybook UI configuration file (i.e., `.storybook/preview.js`) to reference it.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-custom-docs-container.js.mdx',
-    'common/storybook-preview-auto-docs-custom-docs-container.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-auto-docs-custom-docs-container.js.mdx',
+'common/storybook-preview-auto-docs-custom-docs-container.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Override the default theme
 
 By default, Storybook provides two themes for the UI: `light` and `dark`. If you need to customize the theme used by the documentation to match the existing one, you can update your Storybook UI configuration file (i.e., `.storybook/preview.js`) and apply it.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-override-theme.js.mdx',
-    'common/storybook-preview-auto-docs-override-theme.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-auto-docs-override-theme.js.mdx',
+'common/storybook-preview-auto-docs-override-theme.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Working with custom MDX components
 
 Out of the box, Storybook has a set of components that you can use to customize your documentation page. If you're working with a design system or component library and wish to add them to your documentation page, you can override the `MDXProvider` component inherited from `@mdx-js/react` with your own. However, there's a caveat to this, the component replacement will only have an impact if you're writing documentation using Markdown syntax (e.g., `#` for headings). Native HTML elements, such as `<h1>`, will not be replaced with your custom implementation.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-override-mdx-container.js.mdx',
-    'common/storybook-preview-auto-docs-override-mdx-container.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-auto-docs-override-mdx-container.js.mdx',
+'common/storybook-preview-auto-docs-override-mdx-container.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -257,31 +213,21 @@ Out of the box, Storybook's Autodocs feature is built to generate documentation 
 
 Update your import statements to reference the component directly instead of the package's root. For example:
 
-<!-- prettier-ignore-start -->
-
-
 <CodeSnippets
-  paths={[
-    'common/storybook-fix-imports-autodocs-monorepo.js.mdx',
-    'common/storybook-fix-imports-autodocs-monorepo.ts.mdx',
-  ]}
+paths={[
+'common/storybook-fix-imports-autodocs-monorepo.js.mdx',
+'common/storybook-fix-imports-autodocs-monorepo.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Additionally, if you're developing using TypeScript, you may need to update Storybook's configuration file (i.e., `.storybook/main.js|ts`) to include the following:
 
-<!-- prettier-ignore-start -->
-
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-fix-imports-autodocs-monorepo.js.mdx',
-    'common/storybook-main-fix-imports-autodocs-monorepo.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-fix-imports-autodocs-monorepo.js.mdx',
+'common/storybook-main-fix-imports-autodocs-monorepo.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 

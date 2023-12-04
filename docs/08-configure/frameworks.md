@@ -25,16 +25,12 @@ In addition to supporting the most popular frameworks in the industry, Storybook
 
 Every modern web application has unique requirements and relies on various tools and frameworks. By default, with Storybook, you get an out-of-the-box configuration generated to work with most frameworks. However, you can extend your existing configuration file (i.e., `./storybook/main.js|ts|cjs`) and provide additional options. Below is an abridged table with available options and examples of configuring Storybook for your framework.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-framework.js.mdx',
-    'common/main-config-framework.ts.mdx',
-  ]}
+paths={[
+'common/main-config-framework.js.mdx',
+'common/main-config-framework.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 | Option           | Description                                                                                                                                                                                                                                                 | Framework |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |

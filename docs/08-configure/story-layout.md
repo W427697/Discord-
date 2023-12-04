@@ -8,16 +8,12 @@ The `layout` [parameter](../writing-stories/parameters.md) allows you to configu
 
 You can add the parameter to your [`./storybook/preview.js`](./index.md#configure-story-rendering), like so:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-layout-param.js.mdx',
-    'common/storybook-preview-layout-param.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-layout-param.js.mdx',
+'common/storybook-preview-layout-param.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Layout params centered story](./layout-params-story-centered.png)
 
@@ -31,36 +27,28 @@ In the example above, Storybook will center all stories in the UI. `layout` acce
 
 You can also set it at a component level like so:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-component-layout-param.ts.mdx',
-    'web-components/storybook-component-layout-param.js.mdx',
-    'web-components/storybook-component-layout-param.ts.mdx',
-    'common/storybook-component-layout-param.js.mdx',
-    'common/storybook-component-layout-param.ts.mdx',
-  ]}
+paths={[
+'angular/storybook-component-layout-param.ts.mdx',
+'web-components/storybook-component-layout-param.js.mdx',
+'web-components/storybook-component-layout-param.ts.mdx',
+'common/storybook-component-layout-param.js.mdx',
+'common/storybook-component-layout-param.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Story layout
 
 Or even apply it to specific stories like so:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-story-layout-param.ts.mdx',
-    'web-components/storybook-story-layout-param.js.mdx',
-    'web-components/storybook-story-layout-param.ts.mdx',
-    'common/storybook-story-layout-param.js.mdx',
-    'common/storybook-story-layout-param.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="configure/story-layout#snippet-storybook-story-layout-param"
+paths={[
+'angular/storybook-story-layout-param.ts.mdx',
+'web-components/storybook-story-layout-param.js.mdx',
+'web-components/storybook-story-layout-param.ts.mdx',
+'common/storybook-story-layout-param.js.mdx',
+'common/storybook-story-layout-param.ts.mdx',
+]}
+usesCsf3
+csf2Path="configure/story-layout#snippet-storybook-story-layout-param"
 />
-
-<!-- prettier-ignore-end -->

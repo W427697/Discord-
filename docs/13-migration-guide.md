@@ -21,17 +21,13 @@ If any of these apply to your project, please read through the [full migration n
 
 To upgrade your Storybook:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-upgrade.npm.js.mdx',
-    'common/storybook-upgrade.pnpm.js.mdx',
-    'common/storybook-upgrade.yarn.js.mdx'
-  ]}
+paths={[
+'common/storybook-upgrade.npm.js.mdx',
+'common/storybook-upgrade.pnpm.js.mdx',
+'common/storybook-upgrade.yarn.js.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 This will:
 
@@ -43,17 +39,13 @@ This will:
 
 To add Storybook to a project that isn’t currently using Storybook:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/init-command.npx.js.mdx',
-    'common/init-command.pnpm.js.mdx',
-    'common/init-command.yarn.js.mdx'
-  ]}
+paths={[
+'common/init-command.npx.js.mdx',
+'common/init-command.pnpm.js.mdx',
+'common/init-command.yarn.js.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 This will:
 
@@ -103,16 +95,12 @@ To use MDX1:
 1. Install `@storybook/mdx1-csf` as a dev dependency
 2. Add the `legacyMdx1` feature flag to your `.storybook/main.js`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx'
-  ]}
+paths={[
+'common/main-config-features-legacy-mdx-1.js.mdx',
+'common/main-config-features-legacy-mdx-1.ts.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### storiesOf support discontinued by default
 
@@ -124,16 +112,12 @@ If you can’t upgrade to CSF, or want to get your project working with Storyboo
 
 To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-    'common/main-config-features-story-store-v7.ts.mdx'
-  ]}
+paths={[
+'common/main-config-features-story-store-v7.js.mdx',
+'common/main-config-features-story-store-v7.ts.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 For more information on this change, see the [migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default).
 
@@ -232,19 +216,17 @@ module.exports = {
 
 Your MDX files should be updated to reference the CSF story export, which is safer and cleaner than referencing the string ID:
 
-<!-- prettier-ignore-start -->
 ```mdx
 {/* Button.mdx */}
 
 {/* Note the new package we import from */}
 import { Story } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 # Story embed
 
 <Story of={ButtonStories.Basic} />
 ```
-<!-- prettier-ignore-end -->
 
 You should also remove the MDX imports from your story files:
 

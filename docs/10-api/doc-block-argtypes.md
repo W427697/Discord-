@@ -14,18 +14,16 @@ If you’re looking for a dynamic table that shows a story’s current arg value
 
 ![Screenshot of ArgTypes block](./doc-block-argtypes.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, ArgTypes } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <ArgTypes of={ButtonStories} />
 ```
-<!-- prettier-ignore-end -->
 
 ## ArgTypes
 
@@ -40,28 +38,22 @@ import { ArgTypes } from '@storybook/blocks';
 
 The following `exclude` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-argtypes-parameter.ts.mdx',
-    'web-components/api-doc-block-argtypes-parameter.js.mdx',
-    'web-components/api-doc-block-argtypes-parameter.ts.mdx',
-    'web-components/api-doc-block-argtypes-parameter.ts.mdx',
-    'common/api-doc-block-argtypes-parameter.js.mdx',
-    'common/api-doc-block-argtypes-parameter.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-argtypes-parameter.ts.mdx',
+'web-components/api-doc-block-argtypes-parameter.js.mdx',
+'web-components/api-doc-block-argtypes-parameter.ts.mdx',
+'web-components/api-doc-block-argtypes-parameter.ts.mdx',
+'common/api-doc-block-argtypes-parameter.js.mdx',
+'common/api-doc-block-argtypes-parameter.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 <ArgTypes of={ButtonStories} exclude={['style']} />
 ```
-<!-- prettier-ignore-end -->
 
 The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
 

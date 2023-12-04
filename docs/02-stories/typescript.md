@@ -12,17 +12,13 @@ When writing stories, there are two aspects that are helpful to type. The first 
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/typed-csf-file.ts.mdx',
-    'web-components/typed-csf-file.ts.mdx',
-    'common/typed-csf-file.ts.mdx',
-  ]}
+paths={[
+'angular/typed-csf-file.ts.mdx',
+'web-components/typed-csf-file.ts.mdx',
+'common/typed-csf-file.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Props type parameter
 
@@ -63,22 +59,18 @@ Finally, use of `satisfies` allows you to pass `typeof meta` to the `StoryObj` g
 
 Sometimes stories need to define args that aren’t included in the component's props. For this case, you can use an [intersection type](https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types) to combine a component's props type and your custom args' type. For example, here's how you could use a `footer` arg to populate a child component:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.ts.mdx',
-    'vue/page-story-slots.3.ts.mdx',
-    'angular/page-story-slots.ts.mdx',
-    'web-components/page-story-slots.ts.mdx',
-    'solid/page-story-slots.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/args#snippet-page-story-slots"
+paths={[
+'react/page-story-slots.ts.mdx',
+'vue/page-story-slots.2.ts.mdx',
+'vue/page-story-slots.3.ts.mdx',
+'angular/page-story-slots.ts.mdx',
+'web-components/page-story-slots.ts.mdx',
+'solid/page-story-slots.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/args#snippet-page-story-slots"
 />
-
-<!-- prettier-ignore-end -->
 
 <IfRenderer renderer={['vue']}>
 

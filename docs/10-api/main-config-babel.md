@@ -14,16 +14,12 @@ Customize Storybook's [Babel](https://babeljs.io/) setup.
 
 </Callout>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-babel.js.mdx',
-    'common/main-config-babel.ts.mdx',
-  ]}
+paths={[
+'common/main-config-babel.js.mdx',
+'common/main-config-babel.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `Babel.Config`
 

@@ -10,16 +10,12 @@ Type: `FrameworkName | { name: FrameworkName; options?: FrameworkOptions }`
 
 Configures Storybook based on a set of [framework-specific](../configure/frameworks.md) settings.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-framework.js.mdx',
-    'common/main-config-framework.ts.mdx',
-  ]}
+paths={[
+'common/main-config-framework.js.mdx',
+'common/main-config-framework.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `name`
 
@@ -45,13 +41,9 @@ For frameworks made with [Webpack](../builders/webpack.md) builder, except Angul
 
 When Storybook loads, it will update Webpack's configuration including the required loaders (e.g., [`TerserPlugin`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`babel-loader`](https://webpack.js.org/loaders/babel-loader/)) with SWC equivalents (e.g., [`swc-loader`](https://swc.rs/docs/usage/swc-loader)) for bundling and minification.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
+paths={[
+'common/main-config-framework-options-builder-use-swc.js.mdx',
+'common/main-config-framework-options-builder-use-swc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

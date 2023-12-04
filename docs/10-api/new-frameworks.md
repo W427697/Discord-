@@ -43,15 +43,11 @@ These scripts pass an `options` object to `@storybook/core/server`, a library th
 
 For example, here’s the boilerplate to start the dev server with `storybook dev`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-start-dev-server.ts.mdx',
-  ]}
+paths={[
+'common/storybook-start-dev-server.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Thus the essence of adding framework presets is just filling in that options object.
 
@@ -61,15 +57,11 @@ As described above, the server `options` object does the heavy lifting of config
 
 Let’s look at the `@storybook/vue`’s options definition:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-server-options.ts.mdx',
-  ]}
+paths={[
+'common/storybook-server-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 The value of the `framework` option (i.e., ‘vue’) is something that gets passed to addons and allows them to do specific tasks related to your framework.
 
@@ -77,15 +69,11 @@ The essence of this file is the framework presets, and these are standard [Story
 
 While developing your custom framework, not maintained by Storybook, you can specify the path to the location file with the `frameworkPath` key:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-server-framework-options.ts.mdx',
-  ]}
+paths={[
+'common/storybook-server-framework-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 You can add a relative path to `frameworkPath`. Don't forget that they resolve from the Storybook configuration directory (i.e., `.storybook`) by default.
 
@@ -101,17 +89,13 @@ Storybook stories are ES6 objects that return a “renderable object.”
 
 Consider the following React story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-with-sample.js.mdx'
-  ]}
-  usesCsf3
-  csf2Path="api/new-frameworks#snippet-button-story-with-sample"
+paths={[
+'react/button-story-with-sample.js.mdx'
+]}
+usesCsf3
+csf2Path="api/new-frameworks#snippet-button-story-with-sample"
 />
-
-<!-- prettier-ignore-end -->
 
 In this case, the renderable object is the React element, `<Button .../>`.
 
@@ -119,18 +103,14 @@ In most other frameworks, the renderable object is actually a plain JavaScript o
 
 Consider the following hypothetical example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/button-story-hypothetical-example.js.mdx',
-    'common/button-story-hypothetical-example.ts.mdx'
-  ]}
-  usesCsf3
-  csf2Path="api/new-frameworks#snippet-button-story-hypothetical-example"
+paths={[
+'common/button-story-hypothetical-example.js.mdx',
+'common/button-story-hypothetical-example.ts.mdx'
+]}
+usesCsf3
+csf2Path="api/new-frameworks#snippet-button-story-hypothetical-example"
 />
-
-<!-- prettier-ignore-end -->
 
 The design of this “renderable object” is framework-specific and should ideally match the idioms of that framework.
 
@@ -138,40 +118,28 @@ The design of this “renderable object” is framework-specific and should idea
 
 The framework's render function is the entity responsible for converting the renderable object into DOM nodes. It is typically of the form:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-framework-render-function.js.mdx'
-  ]}
+paths={[
+'common/storybook-framework-render-function.js.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Package structure
 
 On the client side, the key file is [`src/client/preview.js`](../configure/index.md#configure-story-rendering):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-client-preview.ts.mdx'
-  ]}
+paths={[
+'common/storybook-client-preview.ts.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 The globals file typically sets up a single global variable that client-side code (such as addon-provided decorators) can refer to if needed to understand which framework it's running in:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-client-globals-example-file.ts.mdx'
-  ]}
+paths={[
+'common/storybook-client-globals-example-file.ts.mdx'
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 The `start` function abstracts all of Storybook’s framework-independent client-side (browser) code, and it takes the render function we defined above. For examples of render functions, see [React](https://github.com/storybookjs/storybook/blob/main/app/react/src/client/preview/render.tsx), [Vue](https://github.com/storybookjs/storybook/blob/main/app/vue/src/client/preview/render.ts), [Angular](https://github.com/storybookjs/storybook/blob/main/app/angular/src/client/preview/render.ts), and [Web Components](https://github.com/storybookjs/storybook/blob/main/app/web-components/src/client/preview/render.ts) in the Storybook monorepo.

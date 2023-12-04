@@ -12,21 +12,17 @@ Storybook supports `<iframe>` embeds out of the box. If you use Chromatic to [pu
 
 Embed a story with the toolbar, and paste the published story URL. For example:
 
-<!-- prettier-ignore-start -->
-
 ```js
 // oEmbed
-https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/?path=/story/shadowboxcta--default
+//5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/?path=/story/shadowboxcta--default
 
 // iframe embed
-<iframe
+https: <iframe
   src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/?path=/story/shadowboxcta--default&full=1&shortcuts=false&singleStory=true"
   width="800"
   height="260"
-></iframe>
+></iframe>;
 ```
-
-<!-- prettier-ignore-end -->
 
 <br/>
 
@@ -36,20 +32,17 @@ https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/?path=/story/shadowbox
 
 To embed a plain story without Storybook's toolbar, click the "open canvas in new tab" icon in the top-right corner of Storybook to get the canvas URL. For example:
 
-<!-- prettier-ignore-start -->
-
 ```js
 // oEmbed
-https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/shadowboxcta--default&viewMode=story
+//5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/shadowboxcta--default&viewMode=story
 
 // iframe embed
- <iframe
+https: <iframe
   src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--default&viewMode=story&shortcuts=false&singleStory=true"
   width="800"
   height="200"
-></iframe>
+></iframe>;
 ```
-<!-- prettier-ignore-end -->
 
 <br/>
 
@@ -59,21 +52,17 @@ https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=/story/
 
 Embed a documentation page by replacing `viewMode=story` with the uniquely auto-generated documentation entry for the story.
 
-<!-- prettier-ignore-start -->
-
 ```js
 // oEmbed
-https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true
+//5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true
 
 // iframe embed
- <iframe
+https: <iframe
   src="https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowboxcta--docs&viewMode=docs&shortcuts=false&singleStory=true"
   width="800"
   height="400"
-></iframe>
+></iframe>;
 ```
-
-<!-- prettier-ignore-end -->
 
 <br/>
 

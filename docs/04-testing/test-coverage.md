@@ -25,58 +25,42 @@ Engineered to work alongside modern testing tools (e.g., [Playwright](https://pl
 
 Run the following command to install the addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-install.yarn.js.mdx',
-    'common/storybook-coverage-addon-install.npm.js.mdx',
-    'common/storybook-coverage-addon-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-coverage-addon-install.yarn.js.mdx',
+'common/storybook-coverage-addon-install.npm.js.mdx',
+'common/storybook-coverage-addon-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the coverage addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-registration.js.mdx',
-    'common/storybook-coverage-addon-registration.ts.mdx',
-  ]}
+paths={[
+'common/storybook-coverage-addon-registration.js.mdx',
+'common/storybook-coverage-addon-registration.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Start your Storybook with:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-run-dev.yarn.js.mdx',
-    'common/storybook-run-dev.npm.js.mdx',
-    'common/storybook-run-dev.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-run-dev.yarn.js.mdx',
+'common/storybook-run-dev.npm.js.mdx',
+'common/storybook-run-dev.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Finally, open a new terminal window and run the test-runner with:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-coverage.yarn.js.mdx',
-    'common/test-runner-coverage.npm.js.mdx',
-    'common/test-runner-coverage.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-coverage.yarn.js.mdx',
+'common/test-runner-coverage.npm.js.mdx',
+'common/test-runner-coverage.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Coverage test output](./test-runner-coverage-result.png)
 
@@ -84,16 +68,12 @@ Finally, open a new terminal window and run the test-runner with:
 
 By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage) offers zero-config support for Storybook and instruments your code via [`babel-plugin-istanbul`](https://github.com/istanbuljs/babel-plugin-istanbul) for [Babel](https://babeljs.io/), or [`vite-plugin-istanbul`](https://github.com/iFaxity/vite-plugin-istanbul) for [Vite](https://vitejs.dev/). However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts`) and provide additional options to the addon. Listed below are the available options and examples of how to use them.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-config-options.js.mdx',
-    'common/storybook-coverage-addon-config-options.ts.mdx',
-  ]}
+paths={[
+'common/storybook-coverage-addon-config-options.js.mdx',
+'common/storybook-coverage-addon-config-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 | Option                 | Description                                                                                                                                            | Plugin      |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
@@ -122,15 +102,11 @@ Including the `nycrcPath` option enables use of an existing `nyc` configuration 
 
 Out of the box, code coverage tests work seamlessly with Storybook's test-runner and the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage). However, that doesn't mean you can't use additional reporting tools (e.g., [Codecov](https://about.codecov.io/)). For instance, if you're working with [LCOV](https://wiki.documentfoundation.org/Development/Lcov), you can use the generated output (in `coverage/storybook/coverage-storybook.json`) and create your own report with:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-coverage-report-lcov.js.mdx',
-  ]}
+paths={[
+'common/storybook-coverage-report-lcov.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ---
 
@@ -140,16 +116,12 @@ Out of the box, code coverage tests work seamlessly with Storybook's test-runner
 
 If you intend on running coverage tests in frameworks with special files like Vue or Svelte, you'll need to adjust your configuration and enable the required file extensions. For example, if you're using Vue, you'll need to add the following to your nyc configuration file (i.e., `.nycrc.json` or `nyc.config.js`):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-coverage-report-vue.json.mdx',
-    'common/storybook-coverage-report-vue.js.mdx',
-  ]}
+paths={[
+'common/storybook-coverage-report-vue.json.mdx',
+'common/storybook-coverage-report-vue.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### The coverage addon doesn't support instrumented code
 

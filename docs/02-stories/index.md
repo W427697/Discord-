@@ -27,25 +27,21 @@ The key ingredients are the [default export](https://developer.mozilla.org/en-US
 
 The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js|ts`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-default-export-with-component.js.mdx',
-    'react/button-story-default-export-with-component.ts.mdx',
-    'vue/button-story-default-export-with-component.js.mdx',
-    'vue/button-story-default-export-with-component.ts.mdx',
-    'angular/button-story-default-export-with-component.ts.mdx',
-    'svelte/button-story-default-export-with-component.js.mdx',
-    'web-components/button-story-default-export-with-component.js.mdx',
-    'html/button-story-default-export.js.mdx',
-    'html/button-story-default-export.ts.mdx',
-    'solid/button-story-default-export-with-component.js.mdx',
-    'solid/button-story-default-export-with-component.ts.mdx',
-  ]}
+paths={[
+'react/button-story-default-export-with-component.js.mdx',
+'react/button-story-default-export-with-component.ts.mdx',
+'vue/button-story-default-export-with-component.js.mdx',
+'vue/button-story-default-export-with-component.ts.mdx',
+'angular/button-story-default-export-with-component.ts.mdx',
+'svelte/button-story-default-export-with-component.js.mdx',
+'web-components/button-story-default-export-with-component.js.mdx',
+'html/button-story-default-export.js.mdx',
+'html/button-story-default-export.ts.mdx',
+'solid/button-story-default-export-with-component.js.mdx',
+'solid/button-story-default-export-with-component.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -57,28 +53,24 @@ Starting with Storybook version 7.0, story titles are analyzed statically as par
 
 Use the _named_ exports of a CSF file to define your component’s stories. We recommend you use UpperCamelCase for your story exports. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story.js.mdx',
-    'react/button-story.ts.mdx',
-    'vue/button-story.js.mdx',
-    'vue/button-story.ts.mdx',
-    'angular/button-story.ts.mdx',
-    'web-components/button-story.js.mdx',
-    'web-components/button-story.ts.mdx',
-    'svelte/button-story.js.mdx',
-    'html/button-story.js.mdx',
-    'html/button-story.ts.mdx',
-    'solid/button-story.js.mdx',
-    'solid/button-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story"
+paths={[
+'react/button-story.js.mdx',
+'react/button-story.ts.mdx',
+'vue/button-story.js.mdx',
+'vue/button-story.ts.mdx',
+'angular/button-story.ts.mdx',
+'web-components/button-story.js.mdx',
+'web-components/button-story.ts.mdx',
+'svelte/button-story.js.mdx',
+'html/button-story.js.mdx',
+'html/button-story.ts.mdx',
+'solid/button-story.js.mdx',
+'solid/button-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story"
 />
-
-<!-- prettier-ignore-end -->
 
 <IfRenderer renderer='react'>
 
@@ -86,18 +78,14 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 [React Hooks](https://react.dev/reference/react) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story.with-hooks.js.mdx',
-    'react/button-story.with-hooks.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story-with-hooks"
+paths={[
+'react/button-story.with-hooks.js.mdx',
+'react/button-story.with-hooks.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -113,18 +101,14 @@ The recommendation mentioned above also applies to other frameworks, not only Re
 
 [Solid Signals](https://www.solidjs.com/docs/latest/api#basic-reactivity) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses Solid Signals to change the button's state:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'solid/button-story.with-hooks.js.mdx',
-    'solid/button-story.with-hooks.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story-with-hooks"
+paths={[
+'solid/button-story.with-hooks.js.mdx',
+'solid/button-story.with-hooks.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -138,28 +122,24 @@ The recommendation mentioned above also applies to other frameworks, not only So
 
 You can rename any particular story you need. For instance, to give it a more accurate name. Here's how you can change the name of the `Primary` story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-rename-story.js.mdx',
-    'react/button-story-rename-story.ts.mdx',
-    'vue/button-story-rename-story.js.mdx',
-    'vue/button-story-rename-story.ts.mdx',
-    'angular/button-story-rename-story.ts.mdx',
-    'web-components/button-story-rename-story.js.mdx',
-    'web-components/button-story-rename-story.ts.mdx',
-    'svelte/button-story-rename-story.js.mdx',
-    'html/button-story-rename-story.js.mdx',
-    'html/button-story-rename-story.ts.mdx',
-    'solid/button-story-rename-story.js.mdx',
-    'solid/button-story-rename-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story-rename-story"
+paths={[
+'react/button-story-rename-story.js.mdx',
+'react/button-story-rename-story.ts.mdx',
+'vue/button-story-rename-story.js.mdx',
+'vue/button-story-rename-story.ts.mdx',
+'angular/button-story-rename-story.ts.mdx',
+'web-components/button-story-rename-story.js.mdx',
+'web-components/button-story-rename-story.ts.mdx',
+'svelte/button-story-rename-story.js.mdx',
+'html/button-story-rename-story.js.mdx',
+'html/button-story-rename-story.ts.mdx',
+'solid/button-story-rename-story.js.mdx',
+'solid/button-story-rename-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story-rename-story"
 />
-
-<!-- prettier-ignore-end -->
 
 Your story will now be shown in the sidebar with the given text.
 
@@ -167,28 +147,24 @@ Your story will now be shown in the sidebar with the given text.
 
 A story is a function that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-with-emojis.js.mdx',
-    'react/button-story-with-emojis.ts.mdx',
-    'vue/button-story-with-emojis.js.mdx',
-    'vue/button-story-with-emojis.ts.mdx',
-    'angular/button-story-with-emojis.ts.mdx',
-    'web-components/button-story-with-emojis.js.mdx',
-    'web-components/button-story-with-emojis.ts.mdx',
-    'svelte/button-story-with-emojis.js.mdx',
-    'html/button-story-with-emojis.js.mdx',
-    'html/button-story-with-emojis.ts.mdx',
-    'solid/button-story-with-emojis.js.mdx',
-    'solid/button-story-with-emojis.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story-with-emojis"
+paths={[
+'react/button-story-with-emojis.js.mdx',
+'react/button-story-with-emojis.ts.mdx',
+'vue/button-story-with-emojis.js.mdx',
+'vue/button-story-with-emojis.ts.mdx',
+'angular/button-story-with-emojis.ts.mdx',
+'web-components/button-story-with-emojis.js.mdx',
+'web-components/button-story-with-emojis.ts.mdx',
+'svelte/button-story-with-emojis.js.mdx',
+'html/button-story-with-emojis.js.mdx',
+'html/button-story-with-emojis.ts.mdx',
+'solid/button-story-with-emojis.js.mdx',
+'solid/button-story-with-emojis.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story-with-emojis"
 />
-
-<!-- prettier-ignore-end -->
 
 It's straightforward for components with few stories but can be repetitive with many stories.
 
@@ -196,58 +172,49 @@ It's straightforward for components with few stories but can be repetitive with 
 
 Refine this pattern by introducing `args` for your component's stories. It reduces the boilerplate code you'll need to write and maintain for each story.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-using-args.js.mdx',
-    'react/button-story-using-args.ts.mdx',
-    'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.2.ts.mdx',
-    'vue/button-story-using-args.3.js.mdx',
-    'vue/button-story-using-args.3.ts.mdx',
-    'angular/button-story-using-args.ts.mdx',
-    'web-components/button-story-using-args.js.mdx',
-    'web-components/button-story-using-args.ts.mdx',
-    'svelte/button-story-using-args.js.mdx',
-    'html/button-story-using-args.js.mdx',
-    'html/button-story-using-args.ts.mdx',
-    'solid/button-story-using-args.js.mdx',
-    'solid/button-story-using-args.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-story-using-args"
+paths={[
+'react/button-story-using-args.js.mdx',
+'react/button-story-using-args.ts.mdx',
+'vue/button-story-using-args.2.js.mdx',
+'vue/button-story-using-args.2.ts.mdx',
+'vue/button-story-using-args.3.js.mdx',
+'vue/button-story-using-args.3.ts.mdx',
+'angular/button-story-using-args.ts.mdx',
+'web-components/button-story-using-args.js.mdx',
+'web-components/button-story-using-args.ts.mdx',
+'svelte/button-story-using-args.js.mdx',
+'html/button-story-using-args.js.mdx',
+'html/button-story-using-args.ts.mdx',
+'solid/button-story-using-args.js.mdx',
+'solid/button-story-using-args.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-story-using-args"
 />
-
-<!-- prettier-ignore-end -->
 
 By introducing args into your component's stories, you're not only reducing the amount of code you need to write, but you're also decreasing data duplication, as shown by spreading the `Primary` story's args into the other stories.
 
 What’s more, you can import `args` to reuse when writing stories for other components, and it's helpful when you’re building composite components. For example, if we make a `ButtonGroup` story, we might remix two stories from its child component `Button`.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-group-story.js.mdx',
-    'react/button-group-story.ts.mdx',
-    'angular/button-group-story.ts.mdx',
-    'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.2.ts.mdx',
-    'vue/button-group-story.3.js.mdx',
-    'vue/button-group-story.3.ts.mdx',
-    'web-components/button-group-story.js.mdx',
-    'web-components/button-group-story.ts.mdx',
-    'svelte/button-group-story.js.mdx',
-    'solid/button-group-story.js.mdx',
-    'solid/button-group-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-button-group-story"
+paths={[
+'react/button-group-story.js.mdx',
+'react/button-group-story.ts.mdx',
+'angular/button-group-story.ts.mdx',
+'vue/button-group-story.2.js.mdx',
+'vue/button-group-story.2.ts.mdx',
+'vue/button-group-story.3.js.mdx',
+'vue/button-group-story.3.ts.mdx',
+'web-components/button-group-story.js.mdx',
+'web-components/button-group-story.ts.mdx',
+'svelte/button-group-story.js.mdx',
+'solid/button-group-story.js.mdx',
+'solid/button-group-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-button-group-story"
 />
-
-
-<!-- prettier-ignore-end -->
 
 When Button’s signature changes, you only need to change Button’s stories to reflect the new schema, and ButtonGroup’s stories will automatically be updated. This pattern allows you to reuse your data definitions across the component hierarchy, making your stories more maintainable.
 
@@ -273,26 +240,24 @@ Addons can enhance args. For instance, [Actions](../essentials/actions.md) auto-
 
 Storybook's `play` function and the [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions) are convenient helper methods to test component scenarios that otherwise require user intervention. They're small code snippets that execute once your story renders. For example, suppose you wanted to validate a form component, you could write the following story using the `play` function to check how the component responds when filling in the inputs with information:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/login-form-with-play-function.js.mdx',
-    'react/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.js.mdx',
-    'vue/login-form-with-play-function.ts.mdx',
-    'web-components/login-form-with-play-function.js.mdx',
-    'web-components/login-form-with-play-function.ts.mdx',
-    'svelte/login-form-with-play-function.js.mdx',
-    'solid/login-form-with-play-function.js.mdx',
-    'solid/login-form-with-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-login-form-with-play-function"
+paths={[
+'react/login-form-with-play-function.js.mdx',
+'react/login-form-with-play-function.ts.mdx',
+'angular/login-form-with-play-function.ts.mdx',
+'vue/login-form-with-play-function.js.mdx',
+'vue/login-form-with-play-function.ts.mdx',
+'web-components/login-form-with-play-function.js.mdx',
+'web-components/login-form-with-play-function.ts.mdx',
+'svelte/login-form-with-play-function.js.mdx',
+'solid/login-form-with-play-function.js.mdx',
+'solid/login-form-with-play-function.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-login-form-with-play-function"
 />
 
-Without the help of the `play` function and the `@storybook/addon-interactions`, you had to write your own stories and manually interact with the component to test out each use case scenario possible. 
+Without the help of the `play` function and the `@storybook/addon-interactions`, you had to write your own stories and manually interact with the component to test out each use case scenario possible.
 
 ### Using parameters
 
@@ -300,26 +265,22 @@ Parameters are Storybook’s method of defining static metadata for stories. A s
 
 For instance, suppose you wanted to test your Button component against a different set of backgrounds than the other components in your app. You might add a component-level `backgrounds` parameter:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-with-blue-args.js.mdx',
-    'react/button-story-with-blue-args.ts.mdx',
-    'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.ts.mdx',
-    'web-components/button-story-with-blue-args.js.mdx',
-    'web-components/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
-    'html/button-story-with-blue-args.js.mdx',
-    'html/button-story-with-blue-args.ts.mdx',
-    'solid/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.ts.mdx',
-  ]}
+paths={[
+'react/button-story-with-blue-args.js.mdx',
+'react/button-story-with-blue-args.ts.mdx',
+'vue/button-story-with-blue-args.js.mdx',
+'vue/button-story-with-blue-args.ts.mdx',
+'angular/button-story-with-blue-args.ts.mdx',
+'web-components/button-story-with-blue-args.js.mdx',
+'web-components/button-story-with-blue-args.ts.mdx',
+'svelte/button-story-with-blue-args.js.mdx',
+'html/button-story-with-blue-args.js.mdx',
+'html/button-story-with-blue-args.ts.mdx',
+'solid/button-story-with-blue-args.js.mdx',
+'solid/button-story-with-blue-args.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Parameters background color](./parameters-background-colors.png)
 
@@ -331,26 +292,22 @@ Decorators are a mechanism to wrap a component in arbitrary markup when renderin
 
 A simple example is adding padding to a component’s stories. Accomplish this using a decorator that wraps the stories in a `div` with padding, like so:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/button-story-component-decorator.js.mdx',
-    'react/button-story-component-decorator.ts.mdx',
-    'vue/button-story-component-decorator.js.mdx',
-    'vue/button-story-component-decorator.ts.mdx',
-    'angular/button-story-component-decorator.ts.mdx',
-    'web-components/button-story-component-decorator.js.mdx',
-    'web-components/button-story-component-decorator.ts.mdx',
-    'svelte/button-story-component-decorator.js.mdx',
-    'html/button-story-component-decorator.js.mdx',
-    'html/button-story-component-decorator.ts.mdx',
-    'solid/button-story-component-decorator.js.mdx',
-    'solid/button-story-component-decorator.ts.mdx',
-  ]}
+paths={[
+'react/button-story-component-decorator.js.mdx',
+'react/button-story-component-decorator.ts.mdx',
+'vue/button-story-component-decorator.js.mdx',
+'vue/button-story-component-decorator.ts.mdx',
+'angular/button-story-component-decorator.ts.mdx',
+'web-components/button-story-component-decorator.js.mdx',
+'web-components/button-story-component-decorator.ts.mdx',
+'svelte/button-story-component-decorator.js.mdx',
+'html/button-story-component-decorator.js.mdx',
+'html/button-story-component-decorator.ts.mdx',
+'solid/button-story-component-decorator.js.mdx',
+'solid/button-story-component-decorator.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Decorators [can be more complex](./decorators.md#context-for-mocking) and are often provided by [addons](../configure/storybook-addons.md). You can also configure decorators at the [story](./decorators.md#story-decorators), [component](./decorators.md#component-decorators) and [global](./decorators.md#global-decorators) level.
 
@@ -358,77 +315,65 @@ Decorators [can be more complex](./decorators.md#context-for-mocking) and are of
 
 When building design systems or component libraries, you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/list-story-starter.js.mdx',
-    'react/list-story-starter.ts.mdx',
-    'angular/list-story-starter.ts.mdx',
-    'vue/list-story-starter.js.mdx',
-    'vue/list-story-starter.ts.mdx',
-    'web-components/list-story-starter.js.mdx',
-    'web-components/list-story-starter.ts.mdx',
-    'html/list-story-starter.js.mdx',
-    'html/list-story-starter.ts.mdx',
-    'solid/list-story-starter.js.mdx',
-    'solid/list-story-starter.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-list-story-starter"
+paths={[
+'react/list-story-starter.js.mdx',
+'react/list-story-starter.ts.mdx',
+'angular/list-story-starter.ts.mdx',
+'vue/list-story-starter.js.mdx',
+'vue/list-story-starter.ts.mdx',
+'web-components/list-story-starter.js.mdx',
+'web-components/list-story-starter.ts.mdx',
+'html/list-story-starter.js.mdx',
+'html/list-story-starter.ts.mdx',
+'solid/list-story-starter.js.mdx',
+'solid/list-story-starter.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-list-story-starter"
 />
-
-<!-- prettier-ignore-end -->
 
 In such cases, it makes sense to render a different function for each story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/list-story-expanded.js.mdx',
-    'react/list-story-expanded.ts.mdx',
-    'angular/list-story-expanded.ts.mdx',
-    'vue/list-story-expanded.js.mdx',
-    'vue/list-story-expanded.ts.mdx',
-    'web-components/list-story-expanded.js.mdx',
-    'web-components/list-story-expanded.ts.mdx',
-    'html/list-story-expanded.js.mdx',
-    'html/list-story-expanded.ts.mdx',
-    'solid/list-story-expanded.js.mdx',
-    'solid/list-story-expanded.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-list-story-expanded"
+paths={[
+'react/list-story-expanded.js.mdx',
+'react/list-story-expanded.ts.mdx',
+'angular/list-story-expanded.ts.mdx',
+'vue/list-story-expanded.js.mdx',
+'vue/list-story-expanded.ts.mdx',
+'web-components/list-story-expanded.js.mdx',
+'web-components/list-story-expanded.ts.mdx',
+'html/list-story-expanded.js.mdx',
+'html/list-story-expanded.ts.mdx',
+'solid/list-story-expanded.js.mdx',
+'solid/list-story-expanded.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-list-story-expanded"
 />
-
-<!-- prettier-ignore-end -->
 
 You can also reuse stories from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to keep the identical story definitions updated in multiple places.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/list-story-reuse-data.js.mdx',
-    'react/list-story-reuse-data.ts.mdx',
-    'angular/list-story-reuse-data.ts.mdx',
-    'vue/list-story-reuse-data.2.js.mdx',
-    'vue/list-story-reuse-data.2.ts.mdx',
-    'vue/list-story-reuse-data.3.js.mdx',
-    'vue/list-story-reuse-data.3.ts.mdx',
-    'web-components/list-story-reuse-data.js.mdx',
-    'web-components/list-story-reuse-data.ts.mdx',
-    'html/list-story-reuse-data.js.mdx',
-    'html/list-story-reuse-data.ts.mdx',
-    'solid/list-story-reuse-data.js.mdx',
-    'solid/list-story-reuse-data.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/#snippet-list-story-reuse-data"
+paths={[
+'react/list-story-reuse-data.js.mdx',
+'react/list-story-reuse-data.ts.mdx',
+'angular/list-story-reuse-data.ts.mdx',
+'vue/list-story-reuse-data.2.js.mdx',
+'vue/list-story-reuse-data.2.ts.mdx',
+'vue/list-story-reuse-data.3.js.mdx',
+'vue/list-story-reuse-data.3.ts.mdx',
+'web-components/list-story-reuse-data.js.mdx',
+'web-components/list-story-reuse-data.ts.mdx',
+'html/list-story-reuse-data.js.mdx',
+'html/list-story-reuse-data.ts.mdx',
+'solid/list-story-reuse-data.js.mdx',
+'solid/list-story-reuse-data.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/#snippet-list-story-reuse-data"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 

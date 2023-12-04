@@ -14,15 +14,11 @@ To adjust your Storybook's Babel setup directly—not via an addon—use [`babel
 
 </Callout>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-babel-configuration-example.ts.mdx',
-  ]}
+paths={[
+'common/storybook-babel-configuration-example.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `Babel.Config`
 

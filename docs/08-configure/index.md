@@ -14,16 +14,12 @@ Note that you can change the folder that Storybook uses by setting the `-c` flag
 
 Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook project's behavior, including the location of your stories, the addons you use, feature flags and other project-specific settings. This file should be in the `.storybook` folder in your project's root directory. You can author this file in either JavaScript or [TypeScript](./typescript.md). Listed below are the available options and examples of how to use them.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typical.js.mdx',
-    'common/main-config-typical.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typical.js.mdx',
+'common/main-config-typical.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -73,31 +69,23 @@ If you want to use a different naming convention, you can alter the glob using t
 
 For example, if you wanted to pull both `.md` and `.js` files from the `my-project/src/components` directory, you could write:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-js-md-files.js.mdx',
-    'common/storybook-main-js-md-files.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-js-md-files.js.mdx',
+'common/storybook-main-js-md-files.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### With a configuration object
 
 Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories-with-object.js.mdx',
-    'common/main-config-stories-with-object.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories-with-object.js.mdx',
+'common/main-config-stories-with-object.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
@@ -105,46 +93,34 @@ When Storybook starts, it will look for any file containing the `stories` extens
 
 You can also simplify your Storybook configuration and load the stories using a directory. For example, if you want to load all the stories inside a `packages/MyStories`, you can adjust the configuration as such:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-storyloading-with-directory.js.mdx',
-    'common/storybook-storyloading-with-directory.ts.mdx',
-  ]}
+paths={[
+'common/storybook-storyloading-with-directory.js.mdx',
+'common/storybook-storyloading-with-directory.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### With a custom implementation
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories-with-logic.js.mdx',
-    'common/main-config-stories-with-logic.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories-with-logic.js.mdx',
+'common/main-config-stories-with-logic.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### On-demand story loading
 
 As your Storybook grows, it gets challenging to load all of your stories performantly, slowing down the loading times and yielding a large bundle. Out of the box, Storybook loads your stories on demand rather than during boot-up to improve the performance of your Storybook. If you need to load all of your stories during boot-up, you can disable this feature by setting the `storyStoreV7` feature flag to `false` in your configuration as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-    'common/main-config-features-story-store-v7.ts.mdx',
-  ]}
+paths={[
+'common/main-config-features-story-store-v7.js.mdx',
+'common/main-config-features-story-store-v7.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Known limitations
 

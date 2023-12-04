@@ -8,18 +8,16 @@ The `Primary` block displays the primary (first defined in the stories file) sto
 
 ![Screenshot of Primary block](./doc-block-primary.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Primary } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Primary />
 ```
-<!-- prettier-ignore-end -->
 
 ## Primary
 

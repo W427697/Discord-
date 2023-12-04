@@ -19,32 +19,24 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 <IfRenderer renderer={['angular', 'ember' ]}>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-read-environment-variables.node-env.js.mdx',
-  ]}
+paths={[
+'common/storybook-read-environment-variables.node-env.js.mdx',
+]}
 />
 
 </IfRenderer>
-
-<!-- prettier-ignore-end -->
 
 <IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-read-environment-variables.node-env.js.mdx',
-    'common/storybook-read-environment-variables.vite-env.js.mdx',
-  ]}
+paths={[
+'common/storybook-read-environment-variables.node-env.js.mdx',
+'common/storybook-read-environment-variables.vite-env.js.mdx',
+]}
 />
 
 </IfRenderer>
-
-<!-- prettier-ignore-end -->
 
 You can also access these variables in your custom `<head>`/`<body>` using the substitution `%STORYBOOK_X%`, for example: `%STORYBOOK_THEME%` will become `red`.
 
@@ -64,19 +56,15 @@ STORYBOOK_DATA_KEY=12345
 
 Then you can access this environment variable anywhere, even within your stories:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/my-component-with-env-variables.ts.mdx',
-    'web-components/my-component-with-env-variables.js.mdx',
-    'web-components/my-component-with-env-variables.ts.mdx',
-    'common/my-component-with-env-variables.js.mdx',
-    'common/my-component-with-env-variables.ts.mdx',
-  ]}
+paths={[
+'angular/my-component-with-env-variables.ts.mdx',
+'web-components/my-component-with-env-variables.js.mdx',
+'web-components/my-component-with-env-variables.ts.mdx',
+'common/my-component-with-env-variables.js.mdx',
+'common/my-component-with-env-variables.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
 
@@ -84,18 +72,14 @@ Then you can access this environment variable anywhere, even within your stories
 
 Out of the box, Storybook provides a [Vite builder](../builders/vite.md), which does not output Node.js globals like `process.env`. To access environment variables in Storybook (e.g., `STORYBOOK_`, `VITE_`), you can use `import.meta.env`. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'web-components/my-component-vite-env-variables.js.mdx',
-    'web-components/my-component-vite-env-variables.ts.mdx',
-    'common/my-component-vite-env-variables.js.mdx',
-    'common/my-component-vite-env-variables.ts.mdx',
-  ]}
+paths={[
+'web-components/my-component-vite-env-variables.js.mdx',
+'web-components/my-component-vite-env-variables.ts.mdx',
+'common/my-component-vite-env-variables.js.mdx',
+'common/my-component-vite-env-variables.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -113,34 +97,26 @@ Then they'll be hardcoded to the static version of your Storybook.
 
 Additionally, you can extend your Storybook configuration file (i.e., [`.storybook/main.js|.ts`](../configure/index.md#configure-story-rendering)) and provide a configuration field that you can use to define specific variables (e.g., API URLs). For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-env.js.mdx',
-    'common/main-config-env.ts.mdx',
-  ]}
+paths={[
+'common/main-config-env.js.mdx',
+'common/main-config-env.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook loads, it will enable you to access them in your stories similar as you would do if you were working with an `env` file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/my-component-env-var-config.ts.mdx',
-    'web-components/my-component-env-var-config.js.mdx',
-    'web-components/my-component-env-var-config.ts.mdx',
-    'common/my-component-env-var-config.js.mdx',
-    'common/my-component-env-var-config.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="configure/environment-variables#snippet-my-component-env-var-config"
+paths={[
+'angular/my-component-env-var-config.ts.mdx',
+'web-components/my-component-env-var-config.js.mdx',
+'web-components/my-component-env-var-config.ts.mdx',
+'common/my-component-env-var-config.js.mdx',
+'common/my-component-env-var-config.ts.mdx',
+]}
+usesCsf3
+csf2Path="configure/environment-variables#snippet-my-component-env-var-config"
 />
-
-<!-- prettier-ignore-end -->
 
 ### Using environment variables to choose the browser
 

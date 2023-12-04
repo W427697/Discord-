@@ -65,30 +65,22 @@ Once they're connected, you'll be able to view the story by clicking the link in
 
 Run the following command to install the addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-figma-addon-install.yarn.js.mdx',
-    'common/storybook-figma-addon-install.npm.js.mdx',
-    'common/storybook-figma-addon-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-figma-addon-install.yarn.js.mdx',
+'common/storybook-figma-addon-install.npm.js.mdx',
+'common/storybook-figma-addon-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-figma-addon-register.js.mdx',
-    'common/storybook-main-figma-addon-register.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-figma-addon-register.js.mdx',
+'common/storybook-main-figma-addon-register.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Link Figma components to stories
 
@@ -100,26 +92,22 @@ In Figma, open the file you want to embed in Storybook. You can embed files, pro
 
 In Storybook, add a new [parameter](../writing-stories/parameters.md) named `design` to your story and paste the Figma URL. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/component-story-figma-integration.js.mdx',
-    'react/component-story-figma-integration.ts.mdx',
-    'vue/component-story-figma-integration.js.mdx',
-    'vue/component-story-figma-integration.ts.mdx',
-    'angular/component-story-figma-integration.ts.mdx',
-    'svelte/component-story-figma-integration.js.mdx',
-    'web-components/component-story-figma-integration.js.mdx',
-    'web-components/component-story-figma-integration.ts.mdx',
-    'solid/component-story-figma-integration.js.mdx',
-    'solid/component-story-figma-integration.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
+paths={[
+'react/component-story-figma-integration.js.mdx',
+'react/component-story-figma-integration.ts.mdx',
+'vue/component-story-figma-integration.js.mdx',
+'vue/component-story-figma-integration.ts.mdx',
+'angular/component-story-figma-integration.ts.mdx',
+'svelte/component-story-figma-integration.js.mdx',
+'web-components/component-story-figma-integration.js.mdx',
+'web-components/component-story-figma-integration.ts.mdx',
+'solid/component-story-figma-integration.js.mdx',
+'solid/component-story-figma-integration.ts.mdx',
+]}
+usesCsf3
+csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
 />
-
-<!-- prettier-ignore-end -->
 
 #### View designs in Storybook
 

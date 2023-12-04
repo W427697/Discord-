@@ -10,18 +10,16 @@ The `Canvas` block is a wrapper around a [`Story`](./doc-block-story.md), featu
 
 When using the Canvas block in MDX, it references a story with the `of` prop:
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Canvas } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Canvas of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -42,27 +40,21 @@ import { Canvas } from '@storybook/blocks';
 
 The following `sourceState` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-canvas-parameter.ts.mdx',
-    'web-components/api-doc-block-canvas-parameter.js.mdx',
-    'web-components/api-doc-block-canvas-parameter.ts.mdx',
-    'common/api-doc-block-canvas-parameter.js.mdx',
-    'common/api-doc-block-canvas-parameter.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-canvas-parameter.ts.mdx',
+'web-components/api-doc-block-canvas-parameter.js.mdx',
+'web-components/api-doc-block-canvas-parameter.ts.mdx',
+'common/api-doc-block-canvas-parameter.js.mdx',
+'common/api-doc-block-canvas-parameter.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 <Canvas of={ButtonStories.Basic} sourceState="shown" />
 ```
-<!-- prettier-ignore-end -->
 
 The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
 
@@ -72,7 +64,6 @@ The example above applied the parameter at the [story](../writing-stories/parame
 
 Type:
 
-<!-- prettier-ignore-start -->
 ```ts
 Array<{
   title: string | JSX.Element;
@@ -81,38 +72,35 @@ Array<{
   disabled?: boolean;
 }>;
 ```
-<!-- prettier-ignore-end -->
 
 Default: `parameters.docs.canvas.additionalActions`
 
 Provides any additional custom actions to show in the bottom right corner. These are simple buttons that do anything you specify in the `onClick` function.
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Story, Canvas, SourceState } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
-{/* with an additional action */}
+{/_ with an additional action _/}
 <Canvas
-  additionalActions={[
-    {
-      title: 'Open in GitHub',
-      onClick: () => {
-        window.open(
-          'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
-          '_blank'
-        );
-      },
-    }
-  ]}
-  of={ButtonStories.Primary}
+additionalActions={[
+{
+title: 'Open in GitHub',
+onClick: () => {
+window.open(
+'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
+'_blank'
+);
+},
+}
+]}
+of={ButtonStories.Primary}
 />
 ```
-<!-- prettier-ignore-end -->
 
 ### `className`
 
@@ -144,21 +132,19 @@ Specifies the CSF file to which the story is associated.
 
 You can render a story from a CSF file that you haven’t attached to the MDX file (via `Meta`) by using the `meta` prop. Pass the **full set of exports** from the CSF file (not the default export!).
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Canvas } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
-import * as HeaderStories from './Header.stories';
+import _ as ButtonStories from './Button.stories';
+import _ as HeaderStories from './Header.stories';
 
 <Meta of={ButtonStories} />
 
-{/* Although this MDX file is largely concerned with Button,
-    it can render Header stories too */}
+{/_ Although this MDX file is largely concerned with Button,
+it can render Header stories too _/}
 <Canvas of={HeaderStories.LoggedIn} meta={HeaderStories} />
 ```
-<!-- prettier-ignore-end -->
 
 ### `of`
 

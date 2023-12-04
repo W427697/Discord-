@@ -8,18 +8,16 @@ The `Stories` block renders the full collection of stories in a stories file.
 
 ![Screenshot of Stories block](./doc-block-stories.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Stories } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Stories />
 ```
-<!-- prettier-ignore-end -->
 
 ## Stories
 

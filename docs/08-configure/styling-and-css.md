@@ -12,16 +12,12 @@ If you're using Vite to build your Storybook, you're covered! Storybook will use
 
 Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./index.md#configure-story-rendering).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-import-global-styles.js.mdx',
-    'common/storybook-preview-import-global-styles.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-import-global-styles.js.mdx',
+'common/storybook-preview-import-global-styles.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 If your component files import their CSS files, this will work too. The noticeable exception to this is if you're using CSS processor tools like Sass or Postcss.
 

@@ -20,33 +20,25 @@ Writing stories directly in MDX was deprecated in Storybook 7. Please reference 
 
 Let's start with an example, `Checkbox.mdx`, combining Markdown with a single story.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/checkbox-story.mdx.mdx',
-  ]}
+paths={[
+'common/checkbox-story.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 This MDX file references a story file, `Checkbox.stories.js|ts`, that is written in [Component Story Format (CSF)](../api/csf.md):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/checkbox-story-csf.ts.mdx',
-    'web-components/checkbox-story-csf.js.mdx',
-    'web-components/checkbox-story-csf.ts.mdx',
-    'common/checkbox-story-csf.js.mdx',
-    'common/checkbox-story-csf.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-docs/mdx#snippet-checkbox-story-csf"
+paths={[
+'angular/checkbox-story-csf.ts.mdx',
+'web-components/checkbox-story-csf.js.mdx',
+'web-components/checkbox-story-csf.ts.mdx',
+'common/checkbox-story-csf.js.mdx',
+'common/checkbox-story-csf.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-docs/mdx#snippet-checkbox-story-csf"
 />
-
-<!-- prettier-ignore-end -->
 
 And here's how that's rendered in Storybook:
 
@@ -77,37 +69,25 @@ The document consists of a number of blocks separated by blank lines. Since MDX 
 
 Going through the code blocks in sequence:
 
-<!-- prettier-ignore-start -->
-
 ```mdx
-{ /* Checkbox.mdx */ }
+{/* Checkbox.mdx */}
 ```
-
-<!-- prettier-ignore-end -->
 
 Comments in MDX are JSX blocks that contain JS comments.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-imports.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-docs-imports.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Imports the components and stories that will be used in the JSX throughout the rest of the file.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-meta-block.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-docs-meta-block.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -117,27 +97,19 @@ When providing the `of` prop to the `Meta` block, make sure that you're referenc
 
 The `Meta` block defines where the document will be placed in the sidebar. In this case, it is adjacent to the Checkbox’s stories. By default, the docs sidebar node is titled `"Docs"`, but this can be customized by passing a `name` prop (e.g., `<Meta of={CheckboxStories} name="Info" />`). If you want to place a docs node at an arbitrary point in the navigation hierarchy, you can use the `title` prop (e.g., `<Meta title="path/to/node" />`).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-definition.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-docs-definition.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 MDX2 supports standard markdown ([”commonmark”](https://commonmark.org/)) by default and can be extended to support [GitHub-flavored markdown (GFM)](https://github.github.com/gfm) and other extensions (see [Breaking changes](#breaking-changes), below).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-story.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-docs-story.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Finally, MDX supports blocks of arbitrary JSX.
 
@@ -145,15 +117,11 @@ In this case, we are leveraging “Doc Blocks”, a library of documentation com
 
 In addition to Doc Blocks, MDX can incorporate arbitrary React components, making it a very flexible documentation system. Suppose you want a stylized list of “dos and don’ts” for your component; you can use off-the-shelf components or write your own.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-dos-donts.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-docs-dos-donts.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Known limitations
 
@@ -171,15 +139,11 @@ From the MDX migration guide:
 
 This means that the first heading in the following example gets replaced, whereas the second does not. It may not sound like a significant change, but in practice, it is highly disruptive and manifests itself in various ways. Unfortunately, this cannot be automatically converted in a safe way.
 
-<!-- prettier-ignore-start -->
-
 ```md
 # Some heading
 
 <h1>another heading</h1>
 ```
-
-<!-- prettier-ignore-end -->
 
 ### Lack of GitHub Flavored Markdown (GFM)
 
@@ -189,16 +153,12 @@ Also, from the MDX migration guide:
 
 In Storybook, you can apply MDX options, including plugins, in the main configuration file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
 paths={[
-  'common/storybook-main-config-remark-options.js.mdx',
-  'common/storybook-main-config-remark-options.ts.mdx',
+'common/storybook-main-config-remark-options.js.mdx',
+'common/storybook-main-config-remark-options.ts.mdx',
 ]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -218,16 +178,12 @@ npx storybook@latest automigrate mdx1to2
 
 In addition, to document your components with MDX, you can also extend it to write other types of content, such as guidelines or best practices on how to use them. To enable custom documentation for your stories with this format, start by updating your Storybook configuration file (i.e., `.storybook/main.js|ts|cjs`).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-main-mdx-config.js.mdx',
-    'common/storybook-auto-docs-main-mdx-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-main-mdx-config.js.mdx',
+'common/storybook-auto-docs-main-mdx-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Create an MDX file to add your custom documentation. Depending on how you want your documentation to render in the UI, you'll need to consider the following use cases.
 
@@ -235,30 +191,22 @@ Create an MDX file to add your custom documentation. Depending on how you want y
 
 If you need to match the component documentation to an existing story, you can configure the [`Meta`](../api/doc-block-meta.md) Doc Block to control how the documentation gets rendered. Out of the box, it allows you to define a custom title or a reference to the story you need to document (i.e., via the `of` prop). For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-baseline-example.custom-title.mdx.mdx',
-    'common/storybook-auto-docs-baseline-example.of-prop.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-baseline-example.custom-title.mdx.mdx',
+'common/storybook-auto-docs-baseline-example.of-prop.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Writing unattached documentation
 
 Suppose you're documenting an existing component and only provide the `Meta` Doc Block without additional props or other blocks. In that case, Storybook will consider it as "unattached" documentation, or in other words, a "documentation-only" page, and it will render it differently in the sidebar navigation menu:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
 paths={[
-  'common/storybook-auto-docs-mdx-docs-docs-only-page.mdx.mdx',
+'common/storybook-auto-docs-mdx-docs-docs-only-page.mdx.mdx',
 ]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![MDX docs only story](./mdx-documentation-only.png)
 
@@ -266,15 +214,11 @@ paths={[
 
 However, providing the `Meta` Doc Block may not be required for certain use cases, such as standalone pages or even as guidelines for testing your components. In that case, you can safely omit it. Storybook will instead rely on the file's physical location to place the documentation in the sidebar, overriding any pre-existent [auto-generated](./autodocs.md) documentation with your own. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-custom-file.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-custom-file.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -288,15 +232,11 @@ Once the custom MDX documentation is loaded, Storybook will infer the title and 
 
 Writing standalone documentation pages is a common use case that applies not only on a per-component but also on a per-project basis. For example, you might want to document your project's onboarding process with instructions on using it. To do so, you can create a new MDX file containing your documentation using a similar structure and content:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-standalone-page.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-standalone-page.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![MDX guidelines page](./mdx-standalone-page.png)
 
@@ -306,43 +246,31 @@ When Storybook loads the documentation, it will infer the placement of the page 
 
 Documentation can be expensive to maintain and keep up to date when applied to every project component. To help simplify this process, Storybook provides a set of useful UI components (i.e., Doc Blocks) to help cover more advanced cases. If you need additional content, use them to help create your custom documentation.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-starter-example.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-starter-example.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Working with multiple components
 
 If you need to document multiple components in a single documentation page, you can reference them directly inside your MDX file. Internally, Storybook looks for the story metadata and composes it alongside your existing documentation. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-file.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-auto-docs-mdx-file.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Generate documentation from Markdown
 
 If you need to extend your documentation with additional content written in Markdown, you can use the `Markdown` Doc Block to import the available content, and Storybook will render it alongside your existing documentation. For example, if you have a `CHANGELOG.md` file, you can import it and render it in your documentation page as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-custom-docs-markdown.mdx.mdx',
-  ]}
+paths={[
+'common/storybook-custom-docs-markdown.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -402,30 +330,22 @@ If you're still having issues with MDX documentation, you can enable MDX 1 as a 
 
 Run the following command to install the required dependency.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-fallback-mdx-install.yarn.js.mdx',
-    'common/storybook-fallback-mdx-install.npm.js.mdx',
-    'common/storybook-fallback-mdx-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-fallback-mdx-install.yarn.js.mdx',
+'common/storybook-fallback-mdx-install.npm.js.mdx',
+'common/storybook-fallback-mdx-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in `.storybook/main.js|ts`), and provide the `legacyMdx1` feature flag to enable MDX 1 support.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx',
-  ]}
+paths={[
+'common/main-config-features-legacy-mdx-1.js.mdx',
+'common/main-config-features-legacy-mdx-1.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### The migration seems flaky and keeps failing
 

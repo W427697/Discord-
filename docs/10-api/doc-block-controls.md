@@ -14,12 +14,11 @@ If you’re looking for a static table that shows a component's arg types with n
 
 ![Screenshot of Controls block](./doc-block-controls.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Canvas, Controls } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories'
+import \* as ButtonStories from './Button.stories'
 
 <Meta of={ButtonStories} />
 
@@ -27,7 +26,6 @@ import * as ButtonStories from './Button.stories'
 
 <Controls of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
 
 <Callout variant="warning">
 
@@ -48,27 +46,21 @@ import { Controls } from '@storybook/blocks';
 
 The following `exclude` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-controls-parameter.ts.mdx',
-    'web-components/api-doc-block-controls-parameter.js.mdx',
-    'web-components/api-doc-block-controls-parameter.ts.mdx',
-    'common/api-doc-block-controls-parameter.js.mdx',
-    'common/api-doc-block-controls-parameter.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-controls-parameter.ts.mdx',
+'web-components/api-doc-block-controls-parameter.js.mdx',
+'web-components/api-doc-block-controls-parameter.ts.mdx',
+'common/api-doc-block-controls-parameter.js.mdx',
+'common/api-doc-block-controls-parameter.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 <Controls of={ButtonStories} exclude={['style']} />
 ```
-<!-- prettier-ignore-end -->
 
 The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
 

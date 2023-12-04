@@ -8,15 +8,13 @@ The `Title` block serves as the primary heading for your docs entry. It is typic
 
 ![Screenshot of Title block](./doc-block-title-subtitle-description.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Title } from '@storybook/blocks';
 
 <Title>This is the title</Title>
 ```
-<!-- prettier-ignore-end -->
 
 ## Title
 

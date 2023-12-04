@@ -24,21 +24,17 @@ Based on how you structure your Storybook, you can see that the story hierarchy 
 
 When creating your stories, you can explicitly use the `title` parameter to define the story's position in the sidebar. It can also be used to [group](#grouping) related components together in an expandable interface to help with Storybook organization providing a more intuitive experience for your users. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/button-story-default-export.ts.mdx',
-    'web-components/button-story-default-export.js.mdx',
-    'web-components/button-story-default-export.ts.mdx',
-    'common/button-story-default-export.js.mdx',
-    'common/button-story-default-export.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-default-export"
+paths={[
+'angular/button-story-default-export.ts.mdx',
+'web-components/button-story-default-export.js.mdx',
+'web-components/button-story-default-export.ts.mdx',
+'common/button-story-default-export.js.mdx',
+'common/button-story-default-export.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-default-export"
 />
-
-<!-- prettier-ignore-end -->
 
 Yields this:
 
@@ -48,37 +44,29 @@ Yields this:
 
 It is also possible to group related components in an expandable interface to help with Storybook organization. To do so, use the `/` as a separator:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/button-story-grouped.ts.mdx',
-    'web-components/button-story-grouped.js.mdx',
-    'web-components/button-story-grouped.ts.mdx',
-    'common/button-story-grouped.js.mdx',
-    'common/button-story-grouped.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-grouped"
+paths={[
+'angular/button-story-grouped.ts.mdx',
+'web-components/button-story-grouped.js.mdx',
+'web-components/button-story-grouped.ts.mdx',
+'common/button-story-grouped.js.mdx',
+'common/button-story-grouped.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-grouped"
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/checkbox-story-grouped.ts.mdx',
-    'web-components/checkbox-story-grouped.js.mdx',
-    'web-components/checkbox-story-grouped.ts.mdx',
-    'common/checkbox-story-grouped.js.mdx',
-    'common/checkbox-story-grouped.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/naming-components-and-hierarchy#snippet-checkbox-story-grouped"
+paths={[
+'angular/checkbox-story-grouped.ts.mdx',
+'web-components/checkbox-story-grouped.js.mdx',
+'web-components/checkbox-story-grouped.ts.mdx',
+'common/checkbox-story-grouped.js.mdx',
+'common/checkbox-story-grouped.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/naming-components-and-hierarchy#snippet-checkbox-story-grouped"
 />
-
-<!-- prettier-ignore-end -->
 
 Yields this:
 
@@ -92,21 +80,17 @@ By default, the top-level grouping will be displayed as “root” in the Storyb
 
 Single-story components (i.e., component stories without **siblings**) whose **display name** exactly matches the component's name (last part of `title`) are automatically hoisted up to replace their parent component in the UI. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/button-story-hoisted.ts.mdx',
-    'web-components/button-story-hoisted.js.mdx',
-    'web-components/button-story-hoisted.ts.mdx',
-    'common/button-story-hoisted.js.mdx',
-    'common/button-story-hoisted.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-hoisted"
+paths={[
+'angular/button-story-hoisted.ts.mdx',
+'web-components/button-story-hoisted.js.mdx',
+'web-components/button-story-hoisted.ts.mdx',
+'common/button-story-hoisted.js.mdx',
+'common/button-story-hoisted.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/naming-components-and-hierarchy#snippet-button-story-hoisted"
 />
-
-<!-- prettier-ignore-end -->
 
 ![Stories hierarchy with single story hoisting](./naming-hierarchy-single-story-hoisting.png)
 
@@ -116,16 +100,12 @@ Because story exports are automatically "start cased" (`myStory` becomes `"My St
 
 Out of the box, Storybook sorts stories based on the order in which they are imported. However, you can customize this pattern to suit your needs and provide a more intuitive experience by adding `storySort` to the `options` parameter in your `preview.js` file.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-sort-function.js.mdx',
-    'common/storybook-preview-sort-function.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-sort-function.js.mdx',
+'common/storybook-preview-sort-function.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -135,16 +115,12 @@ Asides from the unique story identifier, you can also use the `title`, `name`, a
 
 The `storySort` can also accept a configuration object.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-empty-sort-object.js.mdx',
-    'common/storybook-preview-empty-sort-object.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-empty-sort-object.js.mdx',
+'common/storybook-preview-empty-sort-object.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 | Field            |  Type   |                       Description                        | Required |      Default Value      |          Example          |
 | ---------------- | :-----: | :------------------------------------------------------: | :------: | :---------------------: | :-----------------------: |
@@ -157,16 +133,12 @@ To sort your stories alphabetically, set `method` to `'alphabetical'` and option
 
 The `order` array can accept a nested array to sort 2nd-level story kinds. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-with-ordered-pages.js.mdx',
-    'common/storybook-preview-with-ordered-pages.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-with-ordered-pages.js.mdx',
+'common/storybook-preview-with-ordered-pages.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Which would result in this story ordering:
 
@@ -181,16 +153,12 @@ Which would result in this story ordering:
 
 If you want specific categories to sort to the end of the list, you can insert a `*` into your `order` array to indicate where "all other stories" should go:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-with-ordered-pages-and-wildcard.js.mdx',
-    'common/storybook-preview-with-ordered-pages-and-wildcard.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-with-ordered-pages-and-wildcard.js.mdx',
+'common/storybook-preview-with-ordered-pages-and-wildcard.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 In this example, the `WIP` category would be displayed at the end of the list.
 

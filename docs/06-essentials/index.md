@@ -20,30 +20,22 @@ If you ran `npx storybook@latest init` to include Storybook in your project, the
 
 However, if you intend to install the Essentials addon manually into an existing Storybook instance, you can do so by running the following command in your terminal:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-essentials-install.yarn.js.mdx',
-    'common/storybook-addon-essentials-install.npm.js.mdx',
-    'common/storybook-addon-essentials-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-essentials-install.yarn.js.mdx',
+'common/storybook-addon-essentials-install.npm.js.mdx',
+'common/storybook-addon-essentials-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering)) to include the Essentials addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-register-essentials-addon.js.mdx',
-    'common/storybook-main-register-essentials-addon.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-register-essentials-addon.js.mdx',
+'common/storybook-main-register-essentials-addon.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Configuration
 
@@ -51,41 +43,29 @@ Essentials is "zero-config”. It comes with a recommended configuration out of 
 
 If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, and depending on the method of choice, register them in your Storybook configuration file (i.e., [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-actions-install.yarn.js.mdx',
-    'common/storybook-addon-actions-install.npm.js.mdx',
-    'common/storybook-addon-actions-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-actions-install.yarn.js.mdx',
+'common/storybook-addon-actions-install.npm.js.mdx',
+'common/storybook-addon-actions-install.pnpm.js.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-register-individual-actions-addon.js.mdx',
-    'common/storybook-main-register-individual-actions-addon.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-register-individual-actions-addon.js.mdx',
+'common/storybook-main-register-individual-actions-addon.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Below is an abridged configuration and table with all the available options for each addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-full-individual-essentials-config.js.mdx',
-    'common/storybook-main-full-individual-essentials-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-full-individual-essentials-config.js.mdx',
+'common/storybook-main-full-individual-essentials-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 | Addon                          | Option             | Description                                                                                                                                              |
 | ------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -107,16 +87,12 @@ If you need to disable any of the Essential's addons, you can do it by changing 
 
 For example, if you wanted to disable the [backgrounds addon](./backgrounds.md), you would apply the following change to your Storybook configuration:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-disable-addon.js.mdx',
-    'common/storybook-main-disable-addon.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-disable-addon.js.mdx',
+'common/storybook-main-disable-addon.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 

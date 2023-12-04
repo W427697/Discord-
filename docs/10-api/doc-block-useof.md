@@ -33,26 +33,24 @@ export const StoryName = ({ of }) => {
 };
 ```
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta } from '@storybook/blocks';
 import { StoryName } from '../.storybook/blocks/StoryName';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
-{/* renders "Secondary" */}
+{/_ renders "Secondary" _/}
 <StoryName of={ButtonStories.Secondary} />
 
-{/* renders "Primary" */}
+{/_ renders "Primary" _/}
 <StoryName />
 
-{/* renders "Button" */}
+{/_ renders "Button" _/}
 <StoryName of={ButtonStories} />
 ```
-<!-- prettier-ignore-end -->
 
 ## useOf
 

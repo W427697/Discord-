@@ -8,15 +8,11 @@ In Storybook, your stories render in a particular “preview” iframe (Canvas t
 
 If you need to add extra elements to the `head` of the preview iframe, for instance, to load static stylesheets, font files, or similar, you can create a file called [`.storybook/preview-head.html`](./index.md#configure-story-rendering) and add tags like this:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-head-example.html.mdx',
-  ]}
+paths={[
+'common/storybook-preview-head-example.html.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -32,27 +28,19 @@ Sometimes, you may need to add different tags to the `<body>`. Helpful for addin
 
 You can accomplish this by creating a file called `preview-body.html` inside your `.storybook` directory and adding tags like this:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-body-example.html.mdx',
-  ]}
+paths={[
+'common/storybook-preview-body-example.html.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 If using relative sizing in your project (like `rem` or `em`), you may update the base `font-size` by adding a `style` tag to `preview-body.html`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-body-font-size.html.mdx',
-  ]}
+paths={[
+'common/storybook-preview-body-font-size.html.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 

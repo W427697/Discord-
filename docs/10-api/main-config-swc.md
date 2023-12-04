@@ -8,16 +8,12 @@ Type: `(config: swc.Options, options: Options) => swc.Options | Promise<swc.Opti
 
 Customize Storybook's [SWC](https://swc.rs/) setup.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-swc.js.mdx',
-    'common/main-config-swc.ts.mdx',
-  ]}
+paths={[
+'common/main-config-swc.js.mdx',
+'common/main-config-swc.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `SWC.Options`
 

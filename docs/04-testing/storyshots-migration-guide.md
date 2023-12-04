@@ -45,16 +45,12 @@ The Storyshots addon offered a highly customizable testing solution, allowing us
 
 To enable DOM snapshot testing with the test-runner, you can extend the test-runner's configuration file and use the available [hooks](./test-runner.md#test-hook-api) and combine them with Playwright's built-in [`APIs`](https://playwright.dev/docs/test-snapshots) to generate DOM snapshots for each story in your project. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-dom-snapshot-testing.js.mdx',
-    'common/test-runner-dom-snapshot-testing.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-dom-snapshot-testing.js.mdx',
+'common/test-runner-dom-snapshot-testing.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -66,16 +62,12 @@ If you've set up DOM snapshot tests in your project with the test-runner and ena
 
 By default, the test-runner provides you with the option to run multiple testing patterns (e.g., DOM snapshot testing, [accessibility](./accessibility-testing.md#a11y-config-with-the-test-runner)) with minimal configuration. However, if you want, you can extend it to run visual regression testing alongside your other tests. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-image-snapshot-testing.js.mdx',
-    'common/test-runner-image-snapshot-testing.ts.mdx',
-  ]}
+paths={[
+'common/test-runner-image-snapshot-testing.js.mdx',
+'common/test-runner-image-snapshot-testing.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <IfRenderer renderer={['react', 'vue' ]}>
 
@@ -91,15 +83,11 @@ We recommend you turn off your current storyshots tests to start the migration p
 
 If you need project-level annotations (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md), styles) enabled in your `./storybook/preview.js|ts` included in your tests, adjust your test set up file to import the annotations as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/portable-stories-import-annotations.js.mdx',
-  ]}
+paths={[
+'common/portable-stories-import-annotations.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="ℹ️">
 
@@ -119,55 +107,39 @@ To help you migrate from Storyshots addon to Storybook's portable stories with t
 
 If you're using [Vitest](https://vitest.dev/) as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/portable-stories-vitest-snapshot-test.js.mdx',
-    'common/portable-stories-vitest-snapshot-test.ts.mdx',
-  ]}
+paths={[
+'common/portable-stories-vitest-snapshot-test.js.mdx',
+'common/portable-stories-vitest-snapshot-test.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When your test is executed with Vitest, it will generate a single snapshot file (i.e., `storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use Vitest's [`toMatchFileSnapshot`](https://vitest.dev/guide/snapshot.html#file-snapshots) API. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/portable-stories-vitest-multi-snapshot-test.js.mdx',
-  ]}
+paths={[
+'common/portable-stories-vitest-multi-snapshot-test.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Jest
 
 If you're using Jest as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/portable-stories-jest-snapshot-test.js.mdx',
-    'common/portable-stories-jest-snapshot-test.ts.mdx',
-  ]}
+paths={[
+'common/portable-stories-jest-snapshot-test.js.mdx',
+'common/portable-stories-jest-snapshot-test.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When your test is executed with Jest, it will generate a single snapshot file (i.e., `__snapshots__/storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use the [`jest-specific-snapshot`](https://github.com/igor-dv/jest-specific-snapshot) package. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/portable-stories-jest-multi-snapshot-test.js.mdx',
-  ]}
+paths={[
+'common/portable-stories-jest-multi-snapshot-test.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### Known limitations
 
@@ -197,41 +169,29 @@ If you've configured the test-runner to run snapshot tests, you may notice that 
 
 Run the following command to generate a custom configuration file for the test-runner that you can use to configure Jest:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-eject-config.yarn.js.mdx',
-    'common/test-runner-eject-config.npm.js.mdx',
-    'common/test-runner-eject-config.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-eject-config.yarn.js.mdx',
+'common/test-runner-eject-config.npm.js.mdx',
+'common/test-runner-eject-config.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update the file and enable the `snapshotResolver` option to use a custom snapshot resolver:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-config-snapshot-resolver.js.mdx',
-  ]}
+paths={[
+'common/test-runner-config-snapshot-resolver.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Finally, create a `snapshot-resolver.js` file to implement a custom snapshot resolver:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-custom-snapshot-resolver.js.mdx',
-  ]}
+paths={[
+'common/test-runner-custom-snapshot-resolver.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### The format of the snapshot files is different from the ones generated by the Storyshots addon
 
@@ -239,40 +199,28 @@ By default, the test-runner uses [`jest-serializer-html`](https://github.com/alg
 
 Run the following command to generate a custom configuration file for the test-runner that you can use to provide additional configuration options.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-eject-config.yarn.js.mdx',
-    'common/test-runner-eject-config.npm.js.mdx',
-    'common/test-runner-eject-config.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-eject-config.yarn.js.mdx',
+'common/test-runner-eject-config.npm.js.mdx',
+'common/test-runner-eject-config.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update the file and enable the `snapshotSerializers` option to use a custom snapshot resolver. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-config-serializer.js.mdx',
-  ]}
+paths={[
+'common/test-runner-config-serializer.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Finally, create a `snapshot-serializer.js` file to implement a custom snapshot serializer:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-custom-snapshot-serializer.js.mdx',
-  ]}
+paths={[
+'common/test-runner-custom-snapshot-serializer.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When the test-runner executes your tests, it will introspect the resulting HTML and replace any dynamically generated attributes with the static ones provided by the regex expression before snapshotting the component.

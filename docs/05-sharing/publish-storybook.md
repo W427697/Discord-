@@ -17,19 +17,15 @@ Teams publish Storybook online to review and collaborate on works in progress. T
 
 First, we'll need to build Storybook as a static web application. The functionality is already built-in and pre-configured for most supported frameworks. Others require a bit of customization (e.g., Angular). Run the following command inside your project's root directory:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/custom-build-script-production.script-for-builder.js.mdx',
-    'angular/build-storybook-production-mode.with-builder.js.mdx',
-    'common/build-storybook-production-mode.yarn.js.mdx',
-    'common/build-storybook-production-mode.npm.js.mdx',
-    'common/build-storybook-production-mode.pnpm.js.mdx',
-  ]}
+paths={[
+'angular/custom-build-script-production.script-for-builder.js.mdx',
+'angular/build-storybook-production-mode.with-builder.js.mdx',
+'common/build-storybook-production-mode.yarn.js.mdx',
+'common/build-storybook-production-mode.npm.js.mdx',
+'common/build-storybook-production-mode.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -39,32 +35,24 @@ You can provide additional flags to customize the command. Read more about the f
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/preview-storybook-production-mode.npm.js.mdx',
-    'common/preview-storybook-production-mode.pnpm.js.mdx',
-  ]}
+paths={[
+'common/preview-storybook-production-mode.npm.js.mdx',
+'common/preview-storybook-production-mode.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Customizing the build for performance
 
 By default, Storybook's production build will encapsulate all stories and documentation into the production bundle. This is ideal for small projects but can cause performance issues for larger projects or when decreased build times are a priority (e.g., testing, CI/CD). If you need, you can customize the production build with the [`test` option](../api/main-config-build.md#test) in your `main.js|ts` configuration file and adjust your build script to enable the optimizations with the `--test` [flag](../api/cli-options.md#build).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-build-test-flag.yarn.js.mdx',
-    'common/storybook-build-test-flag.npm.js.mdx',
-    'common/storybook-build-test-flag.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-build-test-flag.yarn.js.mdx',
+'common/storybook-build-test-flag.npm.js.mdx',
+'common/storybook-build-test-flag.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Publish Storybook with Chromatic
 
@@ -76,16 +64,12 @@ To get started, sign up with your GitHub, GitLab, Bitbucket, or email and genera
 
 Next, install the [Chromatic CLI](https://www.npmjs.com/package/chromatic) package from npm:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/chromatic-install.yarn.js.mdx',
-    'common/chromatic-install.npm.js.mdx',
-  ]}
+paths={[
+'common/chromatic-install.yarn.js.mdx',
+'common/chromatic-install.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Run the following command after the package finishes installing. Make sure that you replace `your-project-token` with your own project token.
 
@@ -109,15 +93,11 @@ Configure your CI environment to publish your Storybook and [run Chromatic](http
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/chromatic-github-action.js.mdx',
-  ]}
+paths={[
+'common/chromatic-github-action.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -153,15 +133,11 @@ Since Storybook is built as a static web application, you can also publish it to
 
 To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/ghp-github-action.yml.mdx',
-  ]}
+paths={[
+'common/ghp-github-action.yml.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -201,26 +177,18 @@ If your Storybook is publicly viewable, you may wish to configure how it is repr
 
 You can provide a description for search engines to display in the results listing, by adding the following to the `manager-head.html` file in your config directory:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/seo-description.html.mdx',
-  ]}
+paths={[
+'common/seo-description.html.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Preventing your Storybook from being crawled
 
 You can prevent your published Storybook from appearing in search engine results by including a noindex meta tag, which you can do by adding the following to the `manager-head.html` file in your config directory:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/seo-noindex.html.mdx',
-  ]}
+paths={[
+'common/seo-noindex.html.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

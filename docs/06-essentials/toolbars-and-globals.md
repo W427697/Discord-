@@ -18,16 +18,12 @@ When the globals change, the story re-renders, and the decorators rerun with the
 
 Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-configure-globaltypes.js.mdx',
-    'common/storybook-preview-configure-globaltypes.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-configure-globaltypes.js.mdx',
+'common/storybook-preview-configure-globaltypes.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -45,16 +41,12 @@ We have a `global` implemented. Let's wire it up! We can consume our new `theme`
 
 For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/storybook-preview-use-global-type.js.mdx',
-    'react/storybook-preview-use-global-type.ts.mdx',
-  ]}
+paths={[
+'react/storybook-preview-use-global-type.js.mdx',
+'react/storybook-preview-use-global-type.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -62,16 +54,12 @@ For example, suppose you are using [`styled-components`](https://styled-componen
 
 For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'vue/storybook-preview-use-global-type.3.js.mdx',
-    'vue/storybook-preview-use-global-type.3.ts.mdx',
-  ]}
+paths={[
+'vue/storybook-preview-use-global-type.3.js.mdx',
+'vue/storybook-preview-use-global-type.3.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -79,15 +67,11 @@ For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You c
 
 For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-preview-use-global-type.ts.mdx',
-  ]}
+paths={[
+'angular/storybook-preview-use-global-type.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -95,16 +79,12 @@ For example, suppose you are using [`Angular Material`](https://material.angular
 
 Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-use-global-type.js.mdx',
-    'common/storybook-preview-use-global-type.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-use-global-type.js.mdx',
+'common/storybook-preview-use-global-type.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </IfRenderer>
 
@@ -116,16 +96,12 @@ Now let's take a look at a more complex example. Let's suppose we wanted to impl
 
 In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), add the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-locales-globaltype.js.mdx',
-    'common/storybook-preview-locales-globaltype.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-locales-globaltype.js.mdx',
+'common/storybook-preview-locales-globaltype.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡" style={{ marginBottom: '10px' }}>
 
@@ -160,46 +136,38 @@ But we're aware that sometimes it's more beneficial to use toolbar options on a 
 
 Using the example above, you can modify any story to retrieve the **Locale** `global` from the story context:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype.js.mdx',
-    'react/my-component-story-use-globaltype.ts.mdx',
-    'vue/my-component-story-use-globaltype.js.mdx',
-    'vue/my-component-story-use-globaltype.ts.mdx',
-    'angular/my-component-story-use-globaltype.ts.mdx',
-    'svelte/my-component-story-use-globaltype.js.mdx',
-    'web-components/my-component-story-use-globaltype.js.mdx',
-    'web-components/my-component-story-use-globaltype.ts.mdx',
-    'solid/my-component-story-use-globaltype.js.mdx',
-    'solid/my-component-story-use-globaltype.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
+paths={[
+'react/my-component-story-use-globaltype.js.mdx',
+'react/my-component-story-use-globaltype.ts.mdx',
+'vue/my-component-story-use-globaltype.js.mdx',
+'vue/my-component-story-use-globaltype.ts.mdx',
+'angular/my-component-story-use-globaltype.ts.mdx',
+'svelte/my-component-story-use-globaltype.js.mdx',
+'web-components/my-component-story-use-globaltype.js.mdx',
+'web-components/my-component-story-use-globaltype.ts.mdx',
+'solid/my-component-story-use-globaltype.js.mdx',
+'solid/my-component-story-use-globaltype.ts.mdx',
+]}
+usesCsf3
+csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
 In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
-  ]}
+paths={[
+'react/my-component-story-use-globaltype-backwards-compat.js.mdx',
+'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
+'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
+'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
+'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
+'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
+'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </Callout>
 
@@ -209,15 +177,11 @@ If you're working on a Storybook addon and need to retrieve globals, you can do 
 
 Using the ThemeProvider example above, you could expand it to display which theme is active inside a panel as such:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/addon-consume-globaltype.js.mdx',
-  ]}
+paths={[
+'common/addon-consume-globaltype.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Updating globals from within an addon
 
@@ -225,12 +189,8 @@ If you're working on a Storybook addon that needs to update the global and refre
 
 For example, if you were working on a [toolbar addon](../addons/addon-types.md#toolbars), and you want to refresh the UI and update the global once the user clicks on a button:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/addon-consume-and-update-globaltype.js.mdx',
-  ]}
+paths={[
+'common/addon-consume-and-update-globaltype.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

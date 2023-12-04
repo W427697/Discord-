@@ -8,15 +8,11 @@ Storybook provides an integrated [TypeScript](https://www.typescriptlang.org/) e
 
 Storybook's configuration file (i.e., `main.ts`) is defined as an ESM module written in TypeScript, providing you with the baseline configuration to support your existing framework while enabling you stricter type-checking and autocompletion in your editor. Below is an abridged configuration file.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typical.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typical.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 See the [main configuration API reference](../api/main-config) for more details and additional properties.
 
@@ -32,31 +28,23 @@ Out of the box, Storybook is built to work with a wide range of third-party libr
 
 The above example extends the baseline configuration to remove existing props from third-party libraries. Useful if you want to document only your components. However, if you need to include them, you can do so by adjusting your configuration as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-extend-ts-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-extend-ts-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Write stories with TypeScript
 
 Storybook provides zero-config TypeScript support, allowing you to write stories using this language without additional configuration. You can use this format for improved type safety and code completion. For example, if you're testing a `Button` component, you could do the following in your story file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/button-story-baseline.ts.mdx',
-    'web-components/button-story-baseline.ts.mdx',
-    'common/button-story-baseline.ts.mdx',
-  ]}
+paths={[
+'angular/button-story-baseline.ts.mdx',
+'web-components/button-story-baseline.ts.mdx',
+'common/button-story-baseline.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 The example above uses the power of TypeScript in combination with the exported generic types (`Meta` and `StoryObj`) to tell Storybook how to infer the component's metadata and the type of the component's inputs (e.g., props). This can greatly improve the developer experience by letting your IDE show you what properties are injected by Storybook.
 
@@ -64,27 +52,19 @@ The example above uses the power of TypeScript in combination with the exported 
 
 Assuming that you're working on a project that uses TypeScript 4.9+, you can update your component stories to use the new [`satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html) operator to ensure stricter type checking for your component stories. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/button-story-baseline-with-satisfies.ts-4-9.mdx',
-  ]}
+paths={[
+'common/button-story-baseline-with-satisfies.ts-4-9.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Now, when you define a story or update an existing one, you'll automatically get notified that you're missing a required [`arg`](../writing-stories/args). However, you're not limited to using the `satisfies` operator at the component level. If you need, you can also use it at the story level. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/button-story-baseline-with-satisfies-story-level.ts-4-9.mdx',
-  ]}
+paths={[
+'common/button-story-baseline-with-satisfies-story-level.ts-4-9.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Troubleshooting
 

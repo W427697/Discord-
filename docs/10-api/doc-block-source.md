@@ -8,18 +8,16 @@ The `Source` block is used to render a snippet of source code directly.
 
 ![Screenshot of Source block](./doc-block-source.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Source } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Source of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
 
 ## Source
 
@@ -34,27 +32,21 @@ import { Source } from '@storybook/blocks';
 
 The following `language` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-source-parameter.ts.mdx',
-    'web-components/api-doc-block-source-parameter.js.mdx',
-    'web-components/api-doc-block-source-parameter.ts.mdx',
-    'common/api-doc-block-source-parameter.js.mdx',
-    'common/api-doc-block-source-parameter.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-source-parameter.ts.mdx',
+'web-components/api-doc-block-source-parameter.js.mdx',
+'web-components/api-doc-block-source-parameter.ts.mdx',
+'common/api-doc-block-source-parameter.js.mdx',
+'common/api-doc-block-source-parameter.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 <Source of={ButtonStories.Basic} language="tsx" />
 ```
-<!-- prettier-ignore-end -->
 
 The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
 
@@ -68,12 +60,11 @@ Default: `parameters.docs.source.code`
 
 Provides the source code to be rendered.
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Source } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
@@ -82,7 +73,6 @@ if (isSyntaxHighlighted) {
   console.log('syntax highlighting is working');
 }`} />
 ```
-<!-- prettier-ignore-end -->
 
 ### `dark`
 
@@ -110,11 +100,19 @@ Specifies the formatting used on source code. Both `true` and `'dedent'` have th
 
 Type:
 
-<!-- prettier-ignore-start -->
 ```ts
-'jsextra' | 'jsx' | 'json' | 'yml' | 'md' | 'bash' | 'css' | 'html' | 'tsx' | 'typescript' | 'graphql'
+'jsextra' |
+  'jsx' |
+  'json' |
+  'yml' |
+  'md' |
+  'bash' |
+  'css' |
+  'html' |
+  'tsx' |
+  'typescript' |
+  'graphql';
 ```
-<!-- prettier-ignore-end -->
 
 Default: `parameters.docs.source.language` or `'jsx'`
 

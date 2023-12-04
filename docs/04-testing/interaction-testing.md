@@ -30,55 +30,43 @@ To enable interaction testing with Storybook, you'll need to take additional ste
 
 Run the following command to install the interactions addon and related dependencies.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
+'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-interactions-addon-registration.js.mdx',
-    'common/storybook-interactions-addon-registration.ts.mdx',
-  ]}
+paths={[
+'common/storybook-interactions-addon-registration.js.mdx',
+'common/storybook-interactions-addon-registration.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Write an interaction test
 
 The test itself is defined inside a `play` function connected to a story. Here's an example of how to set up an interaction test with Storybook and the `play` function:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/login-form-with-play-function.js.mdx',
-    'react/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.js.mdx',
-    'vue/login-form-with-play-function.ts.mdx',
-    'web-components/login-form-with-play-function.js.mdx',
-    'web-components/login-form-with-play-function.ts.mdx',
-    'svelte/login-form-with-play-function.js.mdx',
-    'solid/login-form-with-play-function.js.mdx',
-    'solid/login-form-with-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
+paths={[
+'react/login-form-with-play-function.js.mdx',
+'react/login-form-with-play-function.ts.mdx',
+'angular/login-form-with-play-function.ts.mdx',
+'vue/login-form-with-play-function.js.mdx',
+'vue/login-form-with-play-function.ts.mdx',
+'web-components/login-form-with-play-function.js.mdx',
+'web-components/login-form-with-play-function.ts.mdx',
+'svelte/login-form-with-play-function.js.mdx',
+'solid/login-form-with-play-function.js.mdx',
+'solid/login-form-with-play-function.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
 />
-
-<!-- prettier-ignore-end -->
 
 Once the story loads in the UI, it simulates the user's behavior and verifies the underlying logic.
 
@@ -111,41 +99,33 @@ Below is an abridged API for user-event. For more, check out the [official user-
 
 Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn). These APIs improve your testing experience, helping you assert whether a function has been called, if an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you can write interaction tests in much the same way.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-interactions-play-function.ts.mdx',
-    'web-components/storybook-interactions-play-function.js.mdx',
-    'web-components/storybook-interactions-play-function.ts.mdx',
-    'common/storybook-interactions-play-function.js.mdx',
-    'common/storybook-interactions-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
+paths={[
+'angular/storybook-interactions-play-function.ts.mdx',
+'web-components/storybook-interactions-play-function.js.mdx',
+'web-components/storybook-interactions-play-function.ts.mdx',
+'common/storybook-interactions-play-function.js.mdx',
+'common/storybook-interactions-play-function.ts.mdx',
+]}
+usesCsf3
+csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
-
-<!-- prettier-ignore-end -->
 
 ### Group interactions with the `step` function
 
 For complex flows, it can be worthwhile to group sets of related interactions together using the `step` function. This allows you to provide a custom label that describes a set of interactions:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-interactions-step-function.ts.mdx',
-    'web-components/storybook-interactions-step-function.js.mdx',
-    'web-components/storybook-interactions-step-function.ts.mdx',
-    'common/storybook-interactions-step-function.js.mdx',
-    'common/storybook-interactions-step-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
+paths={[
+'angular/storybook-interactions-step-function.ts.mdx',
+'web-components/storybook-interactions-step-function.js.mdx',
+'web-components/storybook-interactions-step-function.ts.mdx',
+'common/storybook-interactions-step-function.js.mdx',
+'common/storybook-interactions-step-function.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
 />
-
-<!-- prettier-ignore-end -->
 
 This will show your interactions nested in a collapsible group:
 
@@ -176,17 +156,13 @@ Streamline interaction testing further by automatically [publishing Storybook](.
 
 Storybook only runs the interaction test when you're viewing a story. Therefore, you'd have to go through each story to run all your checks. As your Storybook grows, it becomes unrealistic to review each change manually. Storybook [test-runner](https://github.com/storybookjs/test-runner) automates the process by running all tests for you. To execute the test-runner, open a new terminal window and run the following command:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/test-runner-execute.yarn.js.mdx',
-    'common/test-runner-execute.npm.js.mdx',
-    'common/test-runner-execute.pnpm.js.mdx',
-  ]}
+paths={[
+'common/test-runner-execute.yarn.js.mdx',
+'common/test-runner-execute.npm.js.mdx',
+'common/test-runner-execute.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ![Interaction test with test runner](./storybook-interaction-test-runner-loginform-optimized.png)
 

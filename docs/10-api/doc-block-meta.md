@@ -7,16 +7,14 @@ The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs 
 - Attaches the MDX file to a component and its stories, or
 - Controls the location of the unattached docs entry in the sidebar.
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 ```
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -44,17 +42,16 @@ Type: `string`
 
 Sets the name of the [attached](#attached-vs-unattached) doc entry. You can attach more than one MDX file to the same component in the sidebar by setting different names for each file's `Meta`.
 
-<!-- prettier-ignore-start -->
 ```md
-{/* Component.mdx */}
+{/_ Component.mdx _/}
 
 import { Meta } from '@storybook/blocks';
-import * as ComponentStories from './component.stories';
+import \* as ComponentStories from './component.stories';
 
-{/* This MDX file is now called "Special Docs" */}
+{/_ This MDX file is now called "Special Docs" _/}
+
 <Meta of={ComponentStories} name="Special Docs" />
 ```
-<!-- prettier-ignore-end -->
 
 ### `of`
 
@@ -62,16 +59,14 @@ Type: CSF file exports
 
 Specifies which CSF file is [attached](#attached-vs-unattached) to this MDX file. Pass the **full set of exports** from the CSF file (not the default export!).
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Story } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 ```
-<!-- prettier-ignore-end -->
 
 Attaching an MDX file to a component’s stories with the `of` prop serves two purposes:
 
@@ -90,16 +85,15 @@ Type: `string`
 
 Sets the title of an [unattached](#attached-vs-unattached) MDX file.
 
-<!-- prettier-ignore-start -->
 ```md
-{/* Introduction.mdx */}
+{/_ Introduction.mdx _/}
 
 import { Meta } from '@storybook/blocks';
 
-{/* Override the docs entry's location in the sidebar with title */}
+{/_ Override the docs entry's location in the sidebar with title _/}
+
 <Meta title="path/to/Introduction" />
 ```
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 

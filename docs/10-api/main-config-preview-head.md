@@ -16,13 +16,9 @@ If you don't need to programmatically adjust the preview head, you can add scrip
 
 For example, you can conditionally add scripts or styles, depending on the environment:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-preview-head.js.mdx',
-    'common/main-config-preview-head.ts.mdx',
-  ]}
+paths={[
+'common/main-config-preview-head.js.mdx',
+'common/main-config-preview-head.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

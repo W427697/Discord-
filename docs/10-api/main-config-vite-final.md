@@ -8,16 +8,12 @@ Type: `(config: Vite.InlineConfig, options: Options) => Vite.InlineConfig | Prom
 
 Customize Storybook's Vite setup when using the [Vite builder](../builders/vite.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-vite-final.js.mdx',
-    'common/main-config-vite-final.ts.mdx',
-  ]}
+paths={[
+'common/main-config-vite-final.js.mdx',
+'common/main-config-vite-final.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `Options`
 

@@ -10,16 +10,12 @@ This configuration is defined in `.storybook/main.js|ts`, which is located relat
 
 A typical Storybook configuration file looks like this:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typical.js.mdx',
-    'common/main-config-typical.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typical.js.mdx',
+'common/main-config-typical.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## config
 

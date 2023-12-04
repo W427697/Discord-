@@ -24,28 +24,20 @@ The Storyshots addon has been deprecated and will be removed in a future release
 
 Run the following command to install Storyshots:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-storyshots-install.yarn.js.mdx',
-    'common/storybook-addon-storyshots-install.npm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-storyshots-install.yarn.js.mdx',
+'common/storybook-addon-storyshots-install.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Add a test file to your environment with the following contents to configure Storyshots:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-storyshots-config.js.mdx',
-  ]}
+paths={[
+'common/storybook-storyshots-config.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -81,15 +73,11 @@ yarn add @storybook/addon-storyshots-puppeteer puppeteer
 
 Next, update your test file (for example, `storybook.test.js`) to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-storyshots-custom-directory.js.mdx',
-  ]}
+paths={[
+'common/storybook-storyshots-custom-directory.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -103,15 +91,11 @@ When you run your tests, the snapshots will be available in your specified direc
 
 By default, Storyshots detects your project's framework. If you encounter a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-storyshots-custom-framework.js.mdx',
-  ]}
+paths={[
+'common/storybook-storyshots-custom-framework.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 These are the frameworks currently supported by Storyshots: `angular`, `html`, `preact`, `react`, `react-native`, `svelte`, `vue`, `vue3`, and `web-components`.
 

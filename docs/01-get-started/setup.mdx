@@ -6,32 +6,28 @@ Now that you’ve learned what stories are and how to browse them, let’s demo 
 
 Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.ts` file to go along with it. It might look something like this:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/your-component.js.mdx',
-    'react/your-component.ts.mdx',
-    'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
-    'vue/your-component.2.ts.mdx',
-    'vue/your-component.3.js.mdx',
-    'vue/your-component.3.ts.mdx',
-    'web-components/your-component.js.mdx',
-    'web-components/your-component.ts.mdx',
-    'svelte/your-component.js.mdx',
-    'svelte/your-component.ts.mdx',
-    'html/your-component.js.mdx',
-    'html/your-component.ts.mdx',
-    'preact/your-component.js.mdx',
-    'solid/your-component.js.mdx',
-    'solid/your-component.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="get-started/setup#snippet-your-component"
+paths={[
+'react/your-component.js.mdx',
+'react/your-component.ts.mdx',
+'angular/your-component.ts.mdx',
+'vue/your-component.2.js.mdx',
+'vue/your-component.2.ts.mdx',
+'vue/your-component.3.js.mdx',
+'vue/your-component.3.ts.mdx',
+'web-components/your-component.js.mdx',
+'web-components/your-component.ts.mdx',
+'svelte/your-component.js.mdx',
+'svelte/your-component.ts.mdx',
+'html/your-component.js.mdx',
+'html/your-component.ts.mdx',
+'preact/your-component.js.mdx',
+'solid/your-component.js.mdx',
+'solid/your-component.ts.mdx',
+]}
+usesCsf3
+csf2Path="get-started/setup#snippet-your-component"
 />
-
-<!-- prettier-ignore-end -->
 
 Go to your Storybook to view the rendered component. It’s OK if it looks a bit unusual right now.
 
@@ -88,29 +84,25 @@ A common frontend pattern is for components to assume that they render in a spec
 
 Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fontawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/storybook-preview-with-styled-components-decorator.js.mdx',
-    'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
-    'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
-    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
-  ]}
+paths={[
+'react/storybook-preview-with-styled-components-decorator.js.mdx',
+'react/storybook-preview-with-styled-components-decorator.ts.mdx',
+'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
+'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
+'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
+'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
+'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
+'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
+'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
+'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
+'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 </details>
 

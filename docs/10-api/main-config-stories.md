@@ -22,16 +22,12 @@ Configures Storybook to load stories from the specified locations. The intention
     └── Button.stories.ts
 ```
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories.js.mdx',
-    'common/main-config-stories.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories.js.mdx',
+'common/main-config-stories.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -47,16 +43,12 @@ Storybook will load stories from your project as found by this array of globs (p
 
 Stories are loaded in the order they are defined in the array. This allows you to control the order in which stories are displayed in the sidebar:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories-ordered.js.mdx',
-    'common/main-config-stories-ordered.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories-ordered.js.mdx',
+'common/main-config-stories-ordered.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## With a configuration object
 
@@ -64,16 +56,12 @@ Additionally, you can customize your Storybook configuration to load your storie
 
 For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories-with-object.js.mdx',
-    'common/main-config-stories-with-object.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories-with-object.js.mdx',
+'common/main-config-stories-with-object.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
@@ -123,13 +111,9 @@ With [`storyStoreV7`](./main-config-features.md#storystorev7) (the default in St
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-stories-with-logic.js.mdx',
-    'common/main-config-stories-with-logic.ts.mdx',
-  ]}
+paths={[
+'common/main-config-stories-with-logic.js.mdx',
+'common/main-config-stories-with-logic.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

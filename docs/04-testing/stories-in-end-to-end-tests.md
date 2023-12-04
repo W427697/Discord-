@@ -10,24 +10,20 @@ Storybook seamlessly integrates with additional testing frameworks like [Cypress
 
 An example of an end-to-end test with Cypress and Storybook is testing a login component for the correct inputs. For example, if you had the following story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/login-form-with-play-function.js.mdx',
-    'react/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.js.mdx',
-    'vue/login-form-with-play-function.ts.mdx',
-    'web-components/login-form-with-play-function.js.mdx',
-    'web-components/login-form-with-play-function.ts.mdx',
-    'svelte/login-form-with-play-function.js.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
+paths={[
+'react/login-form-with-play-function.js.mdx',
+'react/login-form-with-play-function.ts.mdx',
+'angular/login-form-with-play-function.ts.mdx',
+'vue/login-form-with-play-function.js.mdx',
+'vue/login-form-with-play-function.ts.mdx',
+'web-components/login-form-with-play-function.js.mdx',
+'web-components/login-form-with-play-function.ts.mdx',
+'svelte/login-form-with-play-function.js.mdx',
+]}
+usesCsf3
+csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -37,15 +33,11 @@ The play function contains small snippets of code that run after the story rende
 
 With Cypress, you could write the following test:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/component-cypress-test.js.mdx',
-  ]}
+paths={[
+'common/component-cypress-test.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Cypress runs your test, it loads Storybook's isolated iframe and checks if the inputs match the test values.
 
@@ -57,24 +49,20 @@ When Cypress runs your test, it loads Storybook's isolated iframe and checks if 
 
 A real-life scenario of user flow testing with Playwright would be how to test a login form for validity. For example, if you had the following story already created:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/login-form-with-play-function.js.mdx',
-    'react/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.js.mdx',
-    'vue/login-form-with-play-function.ts.mdx',
-    'web-components/login-form-with-play-function.js.mdx',
-    'web-components/login-form-with-play-function.ts.mdx',
-    'svelte/login-form-with-play-function.js.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
+paths={[
+'react/login-form-with-play-function.js.mdx',
+'react/login-form-with-play-function.ts.mdx',
+'angular/login-form-with-play-function.ts.mdx',
+'vue/login-form-with-play-function.js.mdx',
+'vue/login-form-with-play-function.ts.mdx',
+'web-components/login-form-with-play-function.js.mdx',
+'web-components/login-form-with-play-function.ts.mdx',
+'svelte/login-form-with-play-function.js.mdx',
+]}
+usesCsf3
+csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -84,15 +72,11 @@ The play function contains small snippets of code that run after the story rende
 
 With Playwright, you can write a test to check if the inputs are filled and match the story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/component-playwright-test.js.mdx',
-  ]}
+paths={[
+'common/component-playwright-test.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Once you execute Playwright, it opens a new browser window, loads Storybook's isolated iframe, asserts if the inputs contain the specified values, and displays the test results in the terminal.
 

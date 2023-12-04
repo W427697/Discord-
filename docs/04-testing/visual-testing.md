@@ -25,16 +25,12 @@ To get started, sign up with your [GitHub](https://github.com/), [GitLab](https:
 
 Next, install the [chromatic](https://www.npmjs.com/package/chromatic) CLI package from npm:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/chromatic-install.yarn.js.mdx',
-    'common/chromatic-install.npm.js.mdx',
-  ]}
+paths={[
+'common/chromatic-install.yarn.js.mdx',
+'common/chromatic-install.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Run the following command after the package finishes installing:
 

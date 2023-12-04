@@ -20,30 +20,22 @@ By default, the [`@storybook/addon-interactions`](https://storybook.js.org/addon
 
 Run the following command to install the interactions addon and related dependencies.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
+'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-interactions-addon-registration.js.mdx',
-    'common/storybook-interactions-addon-registration.ts.mdx',
-  ]}
+paths={[
+'common/storybook-interactions-addon-registration.js.mdx',
+'common/storybook-interactions-addon-registration.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -61,21 +53,17 @@ Interactions run as part of the `play` function of your stories. We rely on Test
 
 Make sure to import the Storybook wrappers for Vitest and Testing Library via `@storybook/test` rather than importing the original packages directly.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-interactions-play-function.ts.mdx',
-    'web-components/storybook-interactions-play-function.js.mdx',
-    'web-components/storybook-interactions-play-function.ts.mdx',
-    'common/storybook-interactions-play-function.js.mdx',
-    'common/storybook-interactions-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
+paths={[
+'angular/storybook-interactions-play-function.ts.mdx',
+'web-components/storybook-interactions-play-function.js.mdx',
+'web-components/storybook-interactions-play-function.ts.mdx',
+'common/storybook-interactions-play-function.js.mdx',
+'common/storybook-interactions-play-function.ts.mdx',
+]}
+usesCsf3
+csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
-
-<!-- prettier-ignore-end -->
 
 The above example uses the `canvasElement` to scope your element queries to the current story. It's essential if you want your play functions to eventually be compatible with Storybook Docs, which renders multiple components on the same page. Additionally, the `step` function can be used to create labeled groups of interactions.
 

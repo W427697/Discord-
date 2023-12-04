@@ -24,15 +24,11 @@ Type: `boolean`
 
 Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin). Note that because this uses a Webpack plugin, it is only available when using the [Webpack builder](../builders/webpack.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-check.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-check.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `checkOptions`
 
@@ -40,15 +36,11 @@ Type: `CheckOptions`
 
 Options to pass to `fork-ts-checker-webpack-plugin`, if [enabled](#check). See [docs for available options](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-check-options.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-check-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `reactDocgen`
 
@@ -61,15 +53,11 @@ Default:
 
 Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-react-docgen.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-react-docgen.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `reactDocgenTypescriptOptions`
 
@@ -77,15 +65,11 @@ Type: `ReactDocgenTypescriptOptions`
 
 Only available for React Storybook projects. Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-react-docgen-typescript-options.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-react-docgen-typescript-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `skipBabel`
 
@@ -95,15 +79,11 @@ Type: `boolean`
 
 Disable parsing of TypeScript files through Babel.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-skip-babel.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-skip-babel.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `skipCompiler`
 
@@ -111,12 +91,8 @@ Type: `boolean`
 
 Disable parsing of TypeScript files through the compiler, which is used for Webpack5.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-typescript-skip-compiler.ts.mdx',
-  ]}
+paths={[
+'common/main-config-typescript-skip-compiler.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

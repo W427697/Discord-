@@ -6,7 +6,6 @@ The `Unstyled` block is a special block that disables Storybook's default stylin
 
 By default, most elements (like `h1`, `p`, etc.) in docs have a few default styles applied to ensure the docs look good. However, sometimes you might want some of your content to not have these styles applied. In those cases, wrap the content with the `Unstyled` block to remove the default styles.
 
-<!-- prettier-ignore-start -->
 ```md
 import { Meta, Unstyled } from "@storybook/blocks";
 import { Header } from "./Header.tsx";
@@ -20,13 +19,12 @@ import { Header } from "./Header.tsx";
 <Unstyled>
   > This block quote will not be styled
 
-  ... neither will this paragraph, nor the following component (which contains an \<h1\>):
+... neither will this paragraph, nor the following component (which contains an \<h1\>):
 
   <Header />
 
 </Unstyled>
 ```
-<!-- prettier-ignore-end -->
 
 Yields:
 
@@ -42,7 +40,6 @@ The other blocks like [`Story`](./doc-block-story.md) and [`Canvas`](./doc-block
 
 Due to how CSS inheritance works it’s best to always add the Unstyled block to the root of your MDX, and not nested into other elements. The following example will cause some Storybook styles like `color` to be inherited into `CustomComponent` because they are applied to the root `div`:
 
-<!-- prettier-ignore-start -->
 ```md
 <div>
   <Unstyled>
@@ -50,7 +47,6 @@ Due to how CSS inheritance works it’s best to always add the Unstyled block to
   </Unstyled>
 </div>
 ```
-<!-- prettier-ignore-end -->
 
 </Callout>
 

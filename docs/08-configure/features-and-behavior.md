@@ -4,15 +4,11 @@ title: 'Features and behavior'
 
 To control the layout of Storybook’s UI you can use `addons.setConfig` in your `.storybook/manager.js`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-config-layout.js.mdx',
-  ]}
+paths={[
+'common/storybook-config-layout.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 The following table details how to use the API values:
 

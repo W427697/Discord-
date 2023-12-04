@@ -14,26 +14,22 @@ Stories are isolated component examples that render internal data defined as par
 
 Loaders are helpful when you need to load story data externally (e.g., from a remote API). Consider the following example that fetches a todo item to display in a todo list:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'react/loader-story.js.mdx',
-    'react/loader-story.ts.mdx',
-    'vue/loader-story.js.mdx',
-    'vue/loader-story.ts.mdx',
-    'angular/loader-story.ts.mdx',
-    'web-components/loader-story.js.mdx',
-    'web-components/loader-story.ts.mdx',
-    'svelte/loader-story.js.mdx',
-    'solid/loader-story.js.mdx',
-    'solid/loader-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/loaders#snippet-loader-story"
+paths={[
+'react/loader-story.js.mdx',
+'react/loader-story.ts.mdx',
+'vue/loader-story.js.mdx',
+'vue/loader-story.ts.mdx',
+'angular/loader-story.ts.mdx',
+'web-components/loader-story.js.mdx',
+'web-components/loader-story.ts.mdx',
+'svelte/loader-story.js.mdx',
+'solid/loader-story.js.mdx',
+'solid/loader-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="writing-stories/loaders#snippet-loader-story"
 />
-
-<!-- prettier-ignore-end -->
 
 The response obtained from the remote API call is combined into a `loaded` field on the story context, which is the second argument to a story function. For example, in React, the story's args were spread first to prioritize them over the static data provided by the loader. With other frameworks (e.g., Angular), you can write your stories as you'd usually do.
 
@@ -41,16 +37,12 @@ The response obtained from the remote API call is combined into a `loaded` field
 
 We can also set a loader for **all stories** via the `loaders` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preview-global-loader.js.mdx',
-    'common/storybook-preview-global-loader.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preview-global-loader.js.mdx',
+'common/storybook-preview-global-loader.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 In this example, we load a "current user" available as `loaded.currentUser` for all stories.
 

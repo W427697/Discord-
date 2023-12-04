@@ -8,7 +8,6 @@ The `Markdown` block allows you to import and include plain markdown in your MD
 
 When importing markdown files, it’s important to use the `?raw` suffix on the import path to ensure the content is imported as-is, and isn’t being evaluated:
 
-<!-- prettier-ignore-start -->
 ````md
 <!-- README.md -->
 
@@ -17,12 +16,10 @@ When importing markdown files, it’s important to use the `?raw` suffix on the 
 Primary UI component for user interaction
 
 ```js
-import { Button } from "@storybook/design-system";
+import { Button } from '@storybook/design-system';
 ```
 ````
-<!-- prettier-ignore-end -->
 
-<!-- prettier-ignore-start -->
 ```md
 // DON'T do this, will error
 import ReadMe from './README.md';
@@ -31,11 +28,10 @@ import ReadMe from './README.md?raw';
 
 import { Markdown } from '@storybook/blocks';
 
-# A header 
+# A header
 
 <Markdown>{ReadMe}</Markdown>
 ```
-<!-- prettier-ignore-end -->
 
 ## Markdown
 
@@ -59,21 +55,18 @@ Specifies the options passed to the underlying [`markdown-to-jsx` library](https
 
 From a purely technical standpoint, we could include the imported markdown directly in the MDX file like this:
 
-<!-- prettier-ignore-start -->
 ```md
-{/* THIS WON'T WORK, THIS IS TO DEMONSTRATE AN ERROR */}
+{/_ THIS WON'T WORK, THIS IS TO DEMONSTRATE AN ERROR _/}
 
 import ReadMe from './README.md';
 
-# A header 
+# A header
 
 {ReadMe}
 ```
-<!-- prettier-ignore-end -->
 
 However, there are small syntactical differences between plain markdown and MDX2. MDX2 is more strict and will interpret certain content as JSX expressions. Here’s an example of a perfectly valid markdown file, that would break if it was handled directly by MDX2:
 
-<!-- prettier-ignore-start -->
 ```md
 # A header
 
@@ -81,11 +74,9 @@ However, there are small syntactical differences between plain markdown and MDX2
 
 <This is also valid, but MDX2 thinks this is a JSX component />
 ```
-<!-- prettier-ignore-end -->
 
 Furthermore, MDX2 wraps all strings on newlines in `p` tags or similar, meaning that content would render differently between a plain `.md` file and an `.mdx` file.
 
-<!-- prettier-ignore-start -->
 ```md
 # A header
 
@@ -101,4 +92,3 @@ The example above will remain as-is in plain markdown, but MDX2 will compile it 
   <p>Some text</p>
 </div>
 ```
-<!-- prettier-ignore-end -->

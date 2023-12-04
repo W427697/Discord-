@@ -8,9 +8,8 @@ The `IconGallery` block enables you to easily document React icon components ass
 
 ![Screenshot of IconGallery and IconItem blocks](./doc-block-icongallery.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* Iconography.mdx */}
+{/_ Iconography.mdx _/}
 
 import { Meta, Title, IconGallery, IconItem } from '@storybook/blocks';
 
@@ -53,7 +52,6 @@ import { Icon as IconExample } from './Icon';
   </IconItem>
 </IconGallery>
 ```
-<!-- prettier-ignore-end -->
 
 ## IconGallery
 

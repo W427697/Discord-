@@ -32,48 +32,36 @@ For most Storybook projects, argTypes are [automatically inferred](#automatic-ar
 
 ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/index.md#default-export) of the CSF file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-in-meta.ts.mdx',
-    'web-components/arg-types-in-meta.js.mdx',
-    'web-components/arg-types-in-meta.ts.mdx',
-    'common/arg-types-in-meta.js.mdx',
-    'common/arg-types-in-meta.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-in-meta.ts.mdx',
+'web-components/arg-types-in-meta.js.mdx',
+'web-components/arg-types-in-meta.ts.mdx',
+'common/arg-types-in-meta.js.mdx',
+'common/arg-types-in-meta.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 They can apply to all stories when specified at the project (global) level, in the `preview.js|ts` configuration file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/arg-types-in-preview.js.mdx',
-    'common/arg-types-in-preview.ts.mdx',
-  ]}
+paths={[
+'common/arg-types-in-preview.js.mdx',
+'common/arg-types-in-preview.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Or they can apply only to a [specific story](../writing-stories/index.md#defining-stories):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-in-story.ts.mdx',
-    'web-components/arg-types-in-story.js.mdx',
-    'web-components/arg-types-in-story.ts.mdx',
-    'common/arg-types-in-story.js.mdx',
-    'common/arg-types-in-story.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-in-story.ts.mdx',
+'web-components/arg-types-in-story.js.mdx',
+'web-components/arg-types-in-story.ts.mdx',
+'common/arg-types-in-story.js.mdx',
+'common/arg-types-in-story.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `argTypes`
 
@@ -128,19 +116,15 @@ Default:
 
 Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration. Specifying `false` will prevent the control from rendering.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-control.ts.mdx',
-    'web-components/arg-types-control.js.mdx',
-    'web-components/arg-types-control.ts.mdx',
-    'common/arg-types-control.js.mdx',
-    'common/arg-types-control.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-control.ts.mdx',
+'web-components/arg-types-control.js.mdx',
+'web-components/arg-types-control.ts.mdx',
+'common/arg-types-control.js.mdx',
+'common/arg-types-control.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### `control.type`
 
@@ -218,19 +202,15 @@ Default: [Inferred](#automatic-argtype-inference)
 
 Describe the arg. (If you intend to describe the type of the arg, you should use [`table.type`](#tabletype), instead.)
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-description.ts.mdx',
-    'web-components/arg-types-description.js.mdx',
-    'web-components/arg-types-description.ts.mdx',
-    'common/arg-types-description.js.mdx',
-    'common/arg-types-description.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-description.ts.mdx',
+'web-components/arg-types-description.js.mdx',
+'web-components/arg-types-description.ts.mdx',
+'common/arg-types-description.js.mdx',
+'common/arg-types-description.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### `if`
 
@@ -248,19 +228,15 @@ Type:
 
 Conditionally render an argType based on the value of another [arg](../writing-stories/args.md) or [global](../essentials/toolbars-and-globals.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-if.ts.mdx',
-    'web-components/arg-types-if.js.mdx',
-    'web-components/arg-types-if.ts.mdx',
-    'common/arg-types-if.js.mdx',
-    'common/arg-types-if.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-if.ts.mdx',
+'web-components/arg-types-if.js.mdx',
+'web-components/arg-types-if.ts.mdx',
+'common/arg-types-if.js.mdx',
+'common/arg-types-if.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### `mapping`
 
@@ -272,19 +248,15 @@ When dealing with non-primitive values, you'll notice that you'll run into some 
 
 `mapping` doesn't have to be exhaustive. If the currently selected option is not listed, it's used verbatim. Can be used with [`control.labels`](#labels).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-mapping.ts.mdx',
-    'web-components/arg-types-mapping.js.mdx',
-    'web-components/arg-types-mapping.ts.mdx',
-    'common/arg-types-mapping.js.mdx',
-    'common/arg-types-mapping.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-mapping.ts.mdx',
+'web-components/arg-types-mapping.js.mdx',
+'web-components/arg-types-mapping.ts.mdx',
+'common/arg-types-mapping.js.mdx',
+'common/arg-types-mapping.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### `name`
 
@@ -292,19 +264,15 @@ Type: `string`
 
 The `argTypes` object uses the name of the arg as the key. By default, that key is used when displaying the argType in Storybook. You can override the displayed name by specifying a `name` property.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-name.ts.mdx',
-    'web-components/arg-types-name.js.mdx',
-    'web-components/arg-types-name.ts.mdx',
-    'common/arg-types-name.js.mdx',
-    'common/arg-types-name.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-name.ts.mdx',
+'web-components/arg-types-name.js.mdx',
+'web-components/arg-types-name.ts.mdx',
+'common/arg-types-name.js.mdx',
+'common/arg-types-name.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="warning">
 
@@ -322,19 +290,15 @@ Default: [Inferred](#automatic-argtype-inference)
 
 If the arg accepts a finite set of values, you can specify them with `options`. If those values are [complex](../essentials/controls#dealing-with-complex-values), like JSX elements, you can use [`mapping`](#mapping) to map them to string values. You can use [`control.labels`](#labels) to provide custom labels for the options.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-options.ts.mdx',
-    'web-components/arg-types-options.js.mdx',
-    'web-components/arg-types-options.ts.mdx',
-    'common/arg-types-options.js.mdx',
-    'common/arg-types-options.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-options.ts.mdx',
+'web-components/arg-types-options.js.mdx',
+'web-components/arg-types-options.ts.mdx',
+'common/arg-types-options.js.mdx',
+'common/arg-types-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### `table`
 
@@ -360,19 +324,15 @@ Default: [Inferred](#automatic-argtype-inference)
 
 Specify how the arg is documented in the [`ArgTypes` doc block](./doc-block-argtypes.md), [`Controls` doc block](./doc-block-controls.md), and [Controls addon panel](../essentials/controls.md).
 
-<!-- prettier-ignore-start -->
-
- <CodeSnippets
-  paths={[
-    'angular/arg-types-table.ts.mdx',
-    'web-components/arg-types-table.js.mdx',
-    'web-components/arg-types-table.ts.mdx',
-    'common/arg-types-table.js.mdx',
-    'common/arg-types-table.ts.mdx',
-  ]}
+<CodeSnippets
+paths={[
+'angular/arg-types-table.ts.mdx',
+'web-components/arg-types-table.js.mdx',
+'web-components/arg-types-table.ts.mdx',
+'common/arg-types-table.js.mdx',
+'common/arg-types-table.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 #### `table.category`
 
@@ -474,19 +434,15 @@ Specifies the semantic type of the argType. When an argType is [inferred](#autom
 
 If you only need to specify the documented type, you should use [`table.type`](#tabletype), instead.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-type.ts.mdx',
-    'web-components/arg-types-type.js.mdx',
-    'web-components/arg-types-type.ts.mdx',
-    'common/arg-types-type.js.mdx',
-    'common/arg-types-type.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-type.ts.mdx',
+'web-components/arg-types-type.js.mdx',
+'web-components/arg-types-type.ts.mdx',
+'common/arg-types-type.js.mdx',
+'common/arg-types-type.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### `defaultValue`
 
@@ -496,16 +452,12 @@ Type: `any`
 
 Define the default value of the argType. Deprecated in favor of defining the [`arg`](../writing-stories/args.md) value directly.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/arg-types-default-value.ts.mdx',
-    'web-components/arg-types-default-value.js.mdx',
-    'web-components/arg-types-default-value.ts.mdx',
-    'common/arg-types-default-value.js.mdx',
-    'common/arg-types-default-value.ts.mdx',
-  ]}
+paths={[
+'angular/arg-types-default-value.ts.mdx',
+'web-components/arg-types-default-value.js.mdx',
+'web-components/arg-types-default-value.ts.mdx',
+'common/arg-types-default-value.js.mdx',
+'common/arg-types-default-value.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

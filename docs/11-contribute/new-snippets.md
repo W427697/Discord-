@@ -41,8 +41,6 @@ Browse the documentation and look for the code snippets you're willing to contri
 ```jsx
 // /docs/get-started/setup.md
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
   paths={[
     'react/your-component.js.mdx',
@@ -56,16 +54,12 @@ Browse the documentation and look for the code snippets you're willing to contri
     'solid/your-component.ts.mdx',
   ]}
 />
-
-<!-- prettier-ignore-end -->
 ```
 
 Create the file `ember/your-component.js.mdx`, similar to the other frameworks, and reference it.
 
 ```jsx
 // /docs/get-started/setup.md
-
-<!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
@@ -81,8 +75,6 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
     'ember/your-component.js.mdx', //👈🏼 The code snippet you created.
   ]}
 />
-
-<!-- prettier-ignore-end -->
 ```
 
 <Callout variant="info" icon="💡">

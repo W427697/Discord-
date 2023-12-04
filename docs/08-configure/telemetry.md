@@ -46,16 +46,12 @@ Access to the raw data is highly controlled, limited to select members of Storyb
 
 We take your privacy and our security very seriously. We perform additional steps to ensure that secure data (e.g., environment variables or other forms of sensitive data) **do not** make their way into our analytics. You can view all the information we collect by setting the `STORYBOOK_TELEMETRY_DEBUG` to `1` to print out the information gathered. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-telemetry-preview-event.yarn.js.mdx',
-    'common/storybook-telemetry-preview-event.npm.js.mdx',
-  ]}
+paths={[
+'common/storybook-telemetry-preview-event.yarn.js.mdx',
+'common/storybook-telemetry-preview-event.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Will generate the following output:
 
@@ -163,20 +159,16 @@ In the future, we plan to share relevant data with the community through public 
 
 You may opt-out of the telemetry by setting Storybook's configuration element `disableTelemetry` to `true`, using the `--disable-telemetry` flag, or setting the environment variable`STORYBOOK_DISABLE_TELEMETRY` to `1`. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-disable-telemetry.main-js.js.mdx',
-    'common/storybook-main-disable-telemetry.main-ts.ts.mdx',
-    'common/storybook-disable-telemetry-flag.yarn.js.mdx',
-    'common/storybook-disable-telemetry-flag.npm.js.mdx',
-    'common/storybook-disable-telemetry-flag.pnpm.js.mdx',
-    'common/storybook-disable-telemetry-env.env-var.js.mdx',
-  ]}
+paths={[
+'common/storybook-main-disable-telemetry.main-js.js.mdx',
+'common/storybook-main-disable-telemetry.main-ts.ts.mdx',
+'common/storybook-disable-telemetry-flag.yarn.js.mdx',
+'common/storybook-disable-telemetry-flag.npm.js.mdx',
+'common/storybook-disable-telemetry-flag.pnpm.js.mdx',
+'common/storybook-disable-telemetry-env.env-var.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -188,29 +180,21 @@ There is a `boot` event containing no metadata (used to ensure the telemetry is 
 
 In addition to general usage telemetry, you may also choose to share crash reports. Storybook will then sanitize the error object (removing all user paths) and append it to the telemetry event. To enable crash reporting, you can set the `enableCrashReports` configuration element to `true`, using the `--enable-crash-reports` flag, or set the `STORYBOOK_ENABLE_CRASH_REPORTS` environment variable to `1`. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-telemetry-main-enable-crash-reports.main-js.js.mdx',
-    'common/storybook-telemetry-main-enable-crash-reports.main-ts.ts.mdx',
-    'common/storybook-telemetry-storybook-enable-crash-reports.yarn.js.mdx',
-    'common/storybook-telemetry-storybook-enable-crash-reports.npm.js.mdx',
-    'common/storybook-telemetry-storybook-enable-crash-reports.pnpm.js.mdx',
-    'common/storybook-telemetry-storybook-enable-crash-reports.env-var.js.mdx',
-  ]}
+paths={[
+'common/storybook-telemetry-main-enable-crash-reports.main-js.js.mdx',
+'common/storybook-telemetry-main-enable-crash-reports.main-ts.ts.mdx',
+'common/storybook-telemetry-storybook-enable-crash-reports.yarn.js.mdx',
+'common/storybook-telemetry-storybook-enable-crash-reports.npm.js.mdx',
+'common/storybook-telemetry-storybook-enable-crash-reports.pnpm.js.mdx',
+'common/storybook-telemetry-storybook-enable-crash-reports.env-var.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Generates the following item in the telemetry event:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-telemetry-crash-report-event.js.mdx',
-  ]}
+paths={[
+'common/storybook-telemetry-crash-report-event.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->

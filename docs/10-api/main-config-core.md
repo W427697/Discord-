@@ -44,16 +44,12 @@ You should only use `core.builder.options` if you need to configure a builder th
 
 </Callout>
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-builder.js.mdx',
-    'common/main-config-core-builder.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-builder.js.mdx',
+'common/main-config-core-builder.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `channelOptions`
 
@@ -104,16 +100,12 @@ This enables these headers in development-mode:
 - `Cross-Origin-Opener-Policy: same-origin`
 - `Cross-Origin-Embedder-Policy: require-corp`
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-cross-origin-isolated.js.mdx',
-    'common/main-config-core-cross-origin-isolated.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-cross-origin-isolated.js.mdx',
+'common/main-config-core-cross-origin-isolated.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `disableProjectJson`
 
@@ -121,16 +113,12 @@ Type: `boolean`
 
 Disables the generation of `project.json`, a file containing Storybook metadata
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-disable-project-json.js.mdx',
-    'common/main-config-core-disable-project-json.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-disable-project-json.js.mdx',
+'common/main-config-core-disable-project-json.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `disableTelemetry`
 
@@ -138,16 +126,12 @@ Type: `boolean`
 
 Disables Storybook's [telemetry collection](../configure/telemetry.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-disable-telemetry.js.mdx',
-    'common/main-config-core-disable-telemetry.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-disable-telemetry.js.mdx',
+'common/main-config-core-disable-telemetry.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `disableWebpackDefaults`
 
@@ -155,16 +139,12 @@ Type: `boolean`
 
 Disables Storybook's default Webpack configuration.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-disable-webpack-defaults.js.mdx',
-    'common/main-config-core-disable-webpack-defaults.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-disable-webpack-defaults.js.mdx',
+'common/main-config-core-disable-webpack-defaults.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `disableWhatsNewNotifications`
 
@@ -172,16 +152,12 @@ Type: `boolean`
 
 Disables the "What's New" notifications in the UI for new Storybook versions and ecosystem updates (e.g., [addons](https://storybook.js.org/integrations/), [content](https://storybook.js.org/blog/), etc.).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-disable-update-notifications.js.mdx',
-    'common/main-config-core-disable-update-notifications.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-disable-update-notifications.js.mdx',
+'common/main-config-core-disable-update-notifications.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `enableCrashReports`
 
@@ -189,16 +165,12 @@ Type: `boolean`
 
 Enable crash reports to be sent to Storybook [telemetry](../configure/telemetry.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-core-enable-crash-reports.js.mdx',
-    'common/main-config-core-enable-crash-reports.ts.mdx',
-  ]}
+paths={[
+'common/main-config-core-enable-crash-reports.js.mdx',
+'common/main-config-core-enable-crash-reports.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `renderer`
 

@@ -8,16 +8,12 @@ Type: `async (config: Config, options: WebpackOptions) => Config`
 
 Customize Storybook's Webpack setup when using the [webpack builder](../builders/webpack.md).
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-webpack-final.js.mdx',
-    'common/main-config-webpack-final.ts.mdx',
-  ]}
+paths={[
+'common/main-config-webpack-final.js.mdx',
+'common/main-config-webpack-final.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## `Options`
 

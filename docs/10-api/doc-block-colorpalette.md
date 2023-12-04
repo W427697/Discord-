@@ -8,9 +8,8 @@ The `ColorPalette` block allows you to document all color-related items (e.g., s
 
 ![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* Colors.mdx */}
+{/_ Colors.mdx _/}
 
 import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
 
@@ -44,7 +43,6 @@ import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
   />
 </ColorPalette>
 ```
-<!-- prettier-ignore-end -->
 
 ## ColorPalette
 

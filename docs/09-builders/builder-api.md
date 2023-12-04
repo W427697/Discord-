@@ -12,41 +12,29 @@ In Storybook, a builder is responsible for compiling your components and stories
 
 To opt into a builder, the user must add it as a dependency and then edit their configuration file (`.storybook/main.js`) to enable it. For example, with the Vite builder:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-install.yarn.js.mdx',
-    'common/storybook-vite-builder-install.pnpm.js.mdx',
-    'common/storybook-vite-builder-install.npm.js.mdx',
-  ]}
+paths={[
+'common/storybook-vite-builder-install.yarn.js.mdx',
+'common/storybook-vite-builder-install.pnpm.js.mdx',
+'common/storybook-vite-builder-install.npm.js.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-register.js.mdx',
-  ]}
+paths={[
+'common/storybook-vite-builder-register.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Builder API
 
 In Storybook, every builder must implement the following [API](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/core-common.ts#L183-L203), exposing the following configuration options and entry points:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-interface.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-interface.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 In development mode, the `start` API call is responsible for initializing the development server to monitor the file system for changes (for example, components and stories) then execute a hot module reload in the browser.
 It also provides a **bail** function to allow the running process to end gracefully, either via user input or error.
@@ -65,43 +53,31 @@ The `stories` configuration field enables story loading in Storybook. It defines
 
 By default, Storybook's configuration is handled in a dedicated file (`storybook/main.js|ts`), giving the user the option to customize it to suit its needs. The builder should also provide its own configuration support through additional fields or some other builder-appropriate mechanism. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-configuration-options.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-configuration-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Handle preview.js exports
 
 The [`preview.js`](../configure/index.md#configure-story-rendering) configuration file allows users to control how the story renders in the UI. This is provided via the [decorators](../writing-stories/decorators.md) named export. When Storybook starts, it converts these named exports into internal API calls via virtual module entry, for example, `addDecorator()`. The builder must also provide a similar implementation. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-preview-exports.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-preview-exports.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### MDX support
 
 [Storybook's Docs](../writing-docs/index.md) includes the ability to author stories/documentation in MDX using a Webpack loader. The builder must also know how to interpret MDX and invoke Storybook's special extensions. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-mdx.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-mdx.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Generate source code snippets
 
@@ -111,43 +87,31 @@ Storybook annotates components and stories with additional metadata related to t
 
 One of Storybook's core features it's the ability to generate a static build that can be [published](../sharing/publish-storybook.md) to a web hosting service. The builder must also be able to provide a similar mechanism. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-build-server.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-build-server.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Development server integration
 
 By default, when Storybook starts in development mode, it relies on its internal development server. The builder needs to be able to integrate with it. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-dev-server.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-dev-server.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Shutdown the development server
 
 The builder must provide a way to stop the development server once the process terminates; this can be via user input or error. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-builder-api-shutdown-server.ts.mdx',
-  ]}
+paths={[
+'common/storybook-builder-api-shutdown-server.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### HMR support
 

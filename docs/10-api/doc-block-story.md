@@ -16,18 +16,16 @@ Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render 
 
 ![Screenshot of Story block](./doc-block-story.png)
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Story } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
+import \* as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Story of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
 
 ## Story
 
@@ -42,27 +40,21 @@ import { Story } from '@storybook/blocks';
 
 The following `autoplay` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/api-doc-block-story-parameter.ts.mdx',
-    'web-components/api-doc-block-story-parameter.js.mdx',
-    'web-components/api-doc-block-story-parameter.ts.mdx',
-    'common/api-doc-block-story-parameter.js.mdx',
-    'common/api-doc-block-story-parameter.ts.mdx',
-  ]}
+paths={[
+'angular/api-doc-block-story-parameter.ts.mdx',
+'web-components/api-doc-block-story-parameter.js.mdx',
+'web-components/api-doc-block-story-parameter.ts.mdx',
+'common/api-doc-block-story-parameter.js.mdx',
+'common/api-doc-block-story-parameter.ts.mdx',
+]}
 />
 
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 <Story of={ButtonStories.Basic} autoplay />
 ```
-<!-- prettier-ignore-end -->
 
 The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
 
@@ -104,21 +96,19 @@ Specifies the CSF file to which the story is associated.
 
 You can render a story from a CSF file that you haven’t attached to the MDX file (via `Meta`) by using the `meta` prop. Pass the **full set of exports** from the CSF file (not the default export!).
 
-<!-- prettier-ignore-start -->
 ```md
-{/* ButtonDocs.mdx */}
+{/_ ButtonDocs.mdx _/}
 
 import { Meta, Story } from '@storybook/blocks';
-import * as ButtonStories from './Button.stories';
-import * as HeaderStories from './Header.stories';
+import _ as ButtonStories from './Button.stories';
+import _ as HeaderStories from './Header.stories';
 
 <Meta of={ButtonStories} />
 
-{/* Although this MDX file is largely concerned with Button,
-    it can render Header stories too */}
+{/_ Although this MDX file is largely concerned with Button,
+it can render Header stories too _/}
 <Story of={HeaderStories.LoggedIn} meta={HeaderStories} />
 ```
-<!-- prettier-ignore-end -->
 
 ### `of`
 

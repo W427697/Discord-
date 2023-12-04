@@ -18,15 +18,11 @@ By default, Storybook will treat your top-level nodes as “roots”. Roots are 
 
 If you’d prefer to show top-level nodes as folders rather than roots, you can set the `sidebar.showRoots` option to `false` in [`./storybook/manager.js`](./features-and-behavior.md):
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-manager-disable-roots.js.mdx',
-  ]}
+paths={[
+'common/storybook-manager-disable-roots.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Permalink to stories
 
@@ -34,41 +30,33 @@ By default, Storybook generates an `id` for each story based on the component ti
 
 Consider the following story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/foo-bar-baz-story.ts.mdx',
-    'web-components/foo-bar-baz-story.js.mdx',
-    'web-components/foo-bar-baz-story.ts.mdx',
-    'common/foo-bar-baz-story.js.mdx',
-    'common/foo-bar-baz-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="configure/sidebar-and-urls#snippet-foo-bar-baz-story"
+paths={[
+'angular/foo-bar-baz-story.ts.mdx',
+'web-components/foo-bar-baz-story.js.mdx',
+'web-components/foo-bar-baz-story.ts.mdx',
+'common/foo-bar-baz-story.js.mdx',
+'common/foo-bar-baz-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="configure/sidebar-and-urls#snippet-foo-bar-baz-story"
 />
-
-<!-- prettier-ignore-end -->
 
 Storybook's ID-generation logic will give this the `id` `foo-bar--baz`, so the link would be `?path=/story/foo-bar--baz`.
 
 It is possible to manually set the story's id, which is helpful if you want to rename stories without breaking permalinks. Suppose you want to change the position in the hierarchy to `OtherFoo/Bar` and the story name to `Moo`. Here's how to do that:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/other-foo-bar-story.ts.mdx',
-    'web-components/other-foo-bar-story.js.mdx',
-    'web-components/other-foo-bar-story.ts.mdx',
-    'common/other-foo-bar-story.js.mdx',
-    'common/other-foo-bar-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="configure/sidebar-and-urls#snippet-other-foo-bar-story"
+paths={[
+'angular/other-foo-bar-story.ts.mdx',
+'web-components/other-foo-bar-story.js.mdx',
+'web-components/other-foo-bar-story.ts.mdx',
+'common/other-foo-bar-story.js.mdx',
+'common/other-foo-bar-story.ts.mdx',
+]}
+usesCsf3
+csf2Path="configure/sidebar-and-urls#snippet-other-foo-bar-story"
 />
-
-<!-- prettier-ignore-end -->
 
 Storybook will prioritize the `id` over the title for ID generation if provided and prioritize the `story.name` over the export key for display.
 
@@ -76,36 +64,28 @@ Storybook will prioritize the `id` over the title for ID generation if provided 
 
 Storybook 6.4 introduced [CSF 3.0](https://storybook.js.org/blog/component-story-format-3-0/) as an experimental feature, allowing you to write stories more compactly. Suppose you're already using this format to write your stories. In that case, you can omit the `title` element from the default export and allow Storybook automatically infer it based on the file's physical location. For example, given the following configuration and story:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-configuration-src-dir.main-js.js.mdx',
-    'common/storybook-main-configuration-src-dir.main-ts.ts.mdx',
-    'angular/component-story-auto-title.csf3-story-ts.ts.mdx',
-    'web-components/component-story-auto-title.csf3-story-ts.js.mdx',
-    'web-components/component-story-auto-title.csf3-story-ts.ts.mdx',
-    'common/component-story-auto-title.csf3-story.js.mdx',
-    'common/component-story-auto-title.csf3-story-ts.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-configuration-src-dir.main-js.js.mdx',
+'common/storybook-main-configuration-src-dir.main-ts.ts.mdx',
+'angular/component-story-auto-title.csf3-story-ts.ts.mdx',
+'web-components/component-story-auto-title.csf3-story-ts.js.mdx',
+'web-components/component-story-auto-title.csf3-story-ts.ts.mdx',
+'common/component-story-auto-title.csf3-story.js.mdx',
+'common/component-story-auto-title.csf3-story-ts.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook loads, the story can show up in the sidebar as `components/My Component`.
 
 Auto-titles work with explicit titling options like the component's `title` and the story's `name`:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/csf-3-example-title.ts.mdx',
-    'common/csf-3-example-title.mdx.mdx',
-  ]}
+paths={[
+'common/csf-3-example-title.ts.mdx',
+'common/csf-3-example-title.mdx.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Auto-title filename case
 
@@ -114,15 +94,11 @@ Instead, the file name casing is preserved, allowing additional control over the
 
 If you need, you can revert to the previous pattern by adding the following configuration:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-manager-render-label-stories.js.mdx',
-  ]}
+paths={[
+'common/storybook-manager-render-label-stories.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Auto-title redundant filenames
 
@@ -130,33 +106,25 @@ In addition to improvements to the story file name casing, a new heuristic was i
 
 If you need to preserve the naming scheme, you can add the `title` element to the default export. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'angular/storybook-csf-3-auto-title-redundant.ts.mdx',
-    'common/storybook-csf-3-auto-title-redundant.js.mdx',
-    'common/storybook-csf-3-auto-title-redundant.ts.mdx',
-  ]}
-  usesCsf3
+paths={[
+'angular/storybook-csf-3-auto-title-redundant.ts.mdx',
+'common/storybook-csf-3-auto-title-redundant.js.mdx',
+'common/storybook-csf-3-auto-title-redundant.ts.mdx',
+]}
+usesCsf3
 />
-
-<!-- prettier-ignore-end -->
 
 ### Auto-title prefixes
 
 Additionally, if you customize your Storybook to load your stories based on a [configuration object](./index.md#with-a-configuration-object), including a `titlePrefix`, Storybook automatically prefixes all titles to matching stories. For example, assuming you have the following configuration:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-auto-title-custom.js.mdx',
-    'common/storybook-main-auto-title-custom.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-auto-title-custom.js.mdx',
+'common/storybook-main-auto-title-custom.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook generates the titles for all matching stories, they'll retain the `Custom` prefix.
 

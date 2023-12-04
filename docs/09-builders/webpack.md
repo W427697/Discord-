@@ -14,31 +14,23 @@ By default, Storybook provides zero-config support for Webpack and automatically
 | `lazyCompilation` | Enables Webpack's experimental [`lazy compilation`](https://webpack.js.org/configuration/experiments/#experimentslazycompilation)<br/>`core: { builder: { options: { lazyCompilation: true } } }` |
 | `fsCache`         | Configures Webpack's filesystem [caching](https://webpack.js.org/configuration/cache/#cachetype) feature<br/> `core: { builder: { options: { fsCache: true } } }`                                 |
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-webpack-options.js.mdx',
-    'common/storybook-main-webpack-options.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-webpack-options.js.mdx',
+'common/storybook-main-webpack-options.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Override the default configuration
 
 Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org/), allowing it to be extended to fit your project's needs. If you need to add a loader or a plugin, you can provide the `webpackFinal` configuration element in your [`.storybook/main.js|ts`](../configure/index.md#configure-your-storybook-project) file. The configuration element should export a function that receives the baseline configuration as the first argument and Storybook's options object as the second argument. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/main-config-webpack-final.js.mdx',
-    'common/main-config-webpack-final.ts.mdx',
-  ]}
+paths={[
+'common/main-config-webpack-final.js.mdx',
+'common/main-config-webpack-final.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 When Storybook starts, it automatically merges the configuration into its own. However, when providing the `webpackFinal` configuration element, you're responsible for merging the configuration yourself. We recommend that you handle the changes to the `config` object responsibly, preserving both the `entry` and `output` properties.
 
@@ -46,16 +38,12 @@ When Storybook starts, it automatically merges the configuration into its own. H
 
 Another way to customize your Storybook configuration is to add a custom plugin or loader to help with code optimization, asset management, or other tasks. Nevertheless, since Storybook relies on the `HtmlWebpackPlugin` to generate the preview page, we recommend that you append the changes to the `config.plugins` array rather than overwriting it. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-simplified-config.js.mdx',
-    'common/storybook-main-simplified-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-simplified-config.js.mdx',
+'common/storybook-main-simplified-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Additionally, when working with Webpack loaders that don't explicitly include specific file extensions (i.e., via the `test` property), you should `exclude` the `.ejs` file extension for that loader.
 
@@ -63,16 +51,12 @@ Additionally, when working with Webpack loaders that don't explicitly include sp
 
 If you already have an existing Webpack configuration file that you need to reuse with Storybook, you can import it and merge it into the default configuration. For example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-using-existing-config.js.mdx',
-    'common/storybook-main-using-existing-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-using-existing-config.js.mdx',
+'common/storybook-main-using-existing-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 
@@ -84,29 +68,21 @@ Projects scaffolded based on generators may require that you import their specif
 
 If you intend to debug the Webpack configuration used by Storybook, you can use the Storybook CLI to help you. If you're running in [development mode](../api/cli-options.md#dev), you can use the following command:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-debug-webpack-dev.yarn.js.mdx',
-    'common/storybook-debug-webpack-dev.npm.js.mdx',
-  ]}
+paths={[
+'common/storybook-debug-webpack-dev.yarn.js.mdx',
+'common/storybook-debug-webpack-dev.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Additionally, if you're generating a [static build](../api/cli-options.md#build) of your Storybook, you can use the following command:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-debug-webpack-prod.yarn.js.mdx',
-    'common/storybook-debug-webpack-prod.npm.js.mdx',
-  ]}
+paths={[
+'common/storybook-debug-webpack-prod.yarn.js.mdx',
+'common/storybook-debug-webpack-prod.npm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## What about Webpack 4 support?
 
@@ -118,29 +94,21 @@ Support for Webpack 4 has been removed and is no longer being maintained. If you
 
 Storybook's default Webpack configuration provides support for most project setups without the need for any additional configuration. Nevertheless, depending on your project configuration, or the framework of choice, you may run into issues with TypeScript modules not being resolved within Storybook when aliased from your [`tsconfig` file](https://www.typescriptlang.org/tsconfig). If you encounter this issue, you can use [`tsconfig-paths-webpack-plugin`](https://github.com/dividab/tsconfig-paths-webpack-plugin#tsconfig-paths-webpack-plugin) while [extending Storybook's Webpack config](#override-the-default-configuration) as follows:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-ts-module-resolution.js.mdx',
-    'common/storybook-main-ts-module-resolution.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-ts-module-resolution.js.mdx',
+'common/storybook-main-ts-module-resolution.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 However, if you're working with a framework that provides a default aliasing configuration (e.g., Next.js, Nuxt) and you want to configure Storybook to use the same aliases, you may not need to install any additional packages. Instead, you can extend the default configuration of Storybook to use the same aliases provided by the framework. For example, to set up an alias for the `@` import path, you can add the following to your `.storybook/main.js|ts` file:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
-    'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
+'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Pre-bundled assets do not show in the Storybook UI
 

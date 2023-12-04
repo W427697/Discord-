@@ -16,15 +16,11 @@ Panel addons allow you to add your own UI in Storybook's addon panel. This is th
 
 Use this boilerplate code to add a new `Panel` to Storybook's UI:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-panel-example.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-panel-example.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ### Toolbars
 
@@ -34,15 +30,11 @@ Toolbar addons allow you to add your own custom tools in Storybook's Toolbar. Fo
 
 Use this boilerplate code to add a new `button` to Storybook's Toolbar:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-toolbar-example.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-toolbar-example.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -58,15 +50,11 @@ Tab addons allow you to create your own custom tabs in Storybook. For example, t
 
 Use this boilerplate code to add a new `Tab` to Storybook's UI:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-addon-tab-example.js.mdx',
-  ]}
+paths={[
+'common/storybook-addon-tab-example.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -80,15 +68,11 @@ Storybook preset addons are grouped collections of `babel`, `webpack`, and `addo
 
 Use this boilerplate code while writing your own preset addon.
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preset-full-config-object.js.mdx',
-  ]}
+paths={[
+'common/storybook-preset-full-config-object.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 ## Learn more about the Storybook addon ecosystem
 

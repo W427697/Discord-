@@ -10,30 +10,22 @@ With the exception of preset addons, all addons have the same installation proce
 
 For example, to include accessibility testing in Storybook, run the following command to install the necessary addon:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-a11y-install.yarn.js.mdx',
-    'common/storybook-a11y-install.npm.js.mdx',
-    'common/storybook-a11y-install.pnpm.js.mdx',
-  ]}
+paths={[
+'common/storybook-a11y-install.yarn.js.mdx',
+'common/storybook-a11y-install.npm.js.mdx',
+'common/storybook-a11y-install.pnpm.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-a11y-register.js.mdx',
-    'common/storybook-a11y-register.ts.mdx',
-  ]}
+paths={[
+'common/storybook-a11y-register.js.mdx',
+'common/storybook-a11y-register.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -51,16 +43,12 @@ Storybook preset addons are grouped collections of specific `babel`, `webpack` a
 
 For example, to use SCSS styling, run the following command to install the addon and the required dependencies:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preset-scss.webpack-4.js.mdx',
-    'common/storybook-preset-scss.webpack-5.js.mdx',
-  ]}
+paths={[
+'common/storybook-preset-scss.webpack-4.js.mdx',
+'common/storybook-preset-scss.webpack-5.js.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡" title="Tip:">
 
@@ -70,16 +58,12 @@ Use the Webpack 5 snippet only if your framework already includes support for th
 
 Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-main-preset-config.js.mdx',
-    'common/storybook-main-preset-config.ts.mdx',
-  ]}
+paths={[
+'common/storybook-main-preset-config.js.mdx',
+'common/storybook-main-preset-config.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 Now when you run Storybook it will configure itself to use SCSS styling. No further configuration is needed.
 
@@ -92,16 +76,12 @@ Most preset addons can also take additional parameters. The most common use case
 
 Consider the following example:
 
-<!-- prettier-ignore-start -->
-
 <CodeSnippets
-  paths={[
-    'common/storybook-preset-configuration.js.mdx',
-    'common/storybook-preset-configuration.ts.mdx',
-  ]}
+paths={[
+'common/storybook-preset-configuration.js.mdx',
+'common/storybook-preset-configuration.ts.mdx',
+]}
 />
-
-<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
