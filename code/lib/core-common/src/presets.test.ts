@@ -670,10 +670,12 @@ describe('loadPreset', () => {
     const loaded = await loadPreset(
       {
         name: '',
-        type: 'virtual',
-        framework: '@storybook/react',
-        presets: ['@storybook/preset-typescript'],
-        addons: ['@storybook/addon-docs', 'addon-bar'],
+        options: {
+          type: 'virtual',
+          framework: '@storybook/react',
+          presets: ['@storybook/preset-typescript'],
+          addons: ['@storybook/addon-docs', 'addon-bar'],
+        },
       },
       0,
       {
@@ -682,6 +684,8 @@ describe('loadPreset', () => {
             disabledAddons: ['@storybook/addon-docs'],
           },
         },
+        configDir: '',
+        packageJson: {},
       }
     );
 

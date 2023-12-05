@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { reactDocgen } from './react-docgen';
 
