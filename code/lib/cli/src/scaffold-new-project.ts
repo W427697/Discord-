@@ -1,9 +1,8 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
 import execa from 'execa';
-import { readdirSync, existsSync, move } from 'fs-extra';
+import { readdirSync, remove } from 'fs-extra';
 import prompts from 'prompts';
-import * as tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
@@ -159,32 +158,26 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   const projectDisplayName = buildProjectDisplayNameForPrint(projectStrategy);
   const createScript = projectStrategy.createScript[packageManagerName];
 
-  const tempDir = tempy.directory();
-  const targetDir = process.cwd();
-
   logger.line(1);
   logger.plain(
     `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
   );
   logger.line(1);
 
+  const targetDir = process.cwd();
+
   try {
+    // If target directory has a .cache folder, remove it
+    // so that it does not block the creation of the new project
+    await remove(`${targetDir}/.cache`);
+
     // Create new project in temp directory
     await execa.command(createScript, {
       stdio: 'pipe',
       shell: true,
-      cwd: tempDir,
+      cwd: targetDir,
       cleanup: true,
     });
-
-    // If target directory has a .cache folder, move it to temp directory
-    // so that it's not overwritten by the move operation below
-    if (existsSync(`${targetDir}/.cache`)) {
-      await move(`${targetDir}/.cache`, `${tempDir}/.cache`);
-    }
-
-    // Move temp directory to target directory
-    await move(`${tempDir}`, targetDir, { overwrite: true });
   } catch (e) {
     throw new GenerateNewProjectOnInitError({
       error: e,
@@ -222,11 +215,6 @@ const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string
 export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
   const cwdFolderEntries = readdirSync(process.cwd());
-
-  if (process.env.DEBUG) {
-    console.log('CWD entries:');
-    console.log(cwdFolderEntries);
-  }
 
   const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 

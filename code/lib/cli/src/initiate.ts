@@ -360,6 +360,7 @@ async function doInitiate(
     projectType === ProjectType.ANGULAR
       ? `ng run ${installResult.projectName}:storybook`
       : packageManager.getRunStorybookCommand();
+
   logger.log(
     boxen(
       dedent`
