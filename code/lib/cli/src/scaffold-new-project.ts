@@ -1,12 +1,13 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
-import prompts from 'prompts';
-import dedent from 'ts-dedent';
 import execa from 'execa';
-import { readdirSync } from 'fs-extra';
+import { readdirSync, existsSync, move } from 'fs-extra';
+import prompts from 'prompts';
+import * as tempy from 'tempy';
+import dedent from 'ts-dedent';
 
-import { logger } from '@storybook/node-logger';
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
+import { logger } from '@storybook/node-logger';
 
 import type { PackageManagerName } from './js-package-manager';
 
@@ -158,19 +159,32 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   const projectDisplayName = buildProjectDisplayNameForPrint(projectStrategy);
   const createScript = projectStrategy.createScript[packageManagerName];
 
-  try {
-    logger.line(1);
-    logger.plain(
-      `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
-    );
-    logger.line(1);
+  const tempDir = tempy.directory();
+  const targetDir = process.cwd();
 
+  logger.line(1);
+  logger.plain(
+    `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
+  );
+  logger.line(1);
+
+  try {
+    // Create new project in temp directory
     await execa.command(createScript, {
       stdio: 'pipe',
       shell: true,
-      cwd: process.cwd(),
+      cwd: tempDir,
       cleanup: true,
     });
+
+    // If target directory has a .cache folder, move it to temp directory
+    // so that it's not overwritten by the move operation below
+    if (existsSync(`${targetDir}/.cache`)) {
+      await move(`${targetDir}/.cache`, `${tempDir}/.cache`);
+    }
+
+    // Move temp directory to target directory
+    await move(`${tempDir}`, targetDir, { overwrite: true });
   } catch (e) {
     throw new GenerateNewProjectOnInitError({
       error: e,
