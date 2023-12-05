@@ -117,6 +117,7 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
