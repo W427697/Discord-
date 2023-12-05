@@ -11,12 +11,10 @@ import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
-import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
-import { configureAliasing } from './dependency-map';
 import { configureSWCLoader } from './swc/loader';
 
 export const addons: PresetProperty<'addons'> = [
@@ -142,9 +140,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configDir: options.configDir,
   });
 
-  configureAliasing(baseConfig);
   configureNextFont(baseConfig, builder?.useSWC);
-  configureNextImport(baseConfig);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);
