@@ -95,7 +95,7 @@ describe('eslint-plugin fix', () => {
             packageJson,
           })
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"warn: Unable to find .eslintrc config file, skipping"`
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
         );
       });
 
@@ -106,7 +106,7 @@ describe('eslint-plugin fix', () => {
             eslintExtension: 'yml',
           })
         ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"warn: Unable to find .eslintrc config file, skipping"`
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
         );
       });
     });

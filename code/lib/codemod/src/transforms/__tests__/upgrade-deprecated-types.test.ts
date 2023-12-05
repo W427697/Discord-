@@ -5,7 +5,7 @@ import ansiRegex from 'ansi-regex';
 import _transform from '../upgrade-deprecated-types';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => val,
+  serialize: (val: any) => (typeof val === 'string' ? val : val.toString()),
   test: () => true,
 });
 
@@ -62,7 +62,10 @@ describe('upgrade-deprecated-types', () => {
 
     it('upgrade imports with conflicting local names', () => {
       expect.addSnapshotSerializer({
-        serialize: (value) => value.replace(ansiRegex(), ''),
+        serialize: (value) => {
+          const stringVal = typeof value === 'string' ? value : value.toString();
+          return stringVal.replace(ansiRegex(), '');
+        },
         test: () => true,
       });
 

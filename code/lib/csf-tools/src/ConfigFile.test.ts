@@ -4,7 +4,7 @@ import { loadConfig, printConfig } from './ConfigFile';
 import { babelPrint } from './babelParse';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => val,
+  serialize: (val: any) => (typeof val === 'string' ? val : val.toString()),
   test: (val) => true,
 });
 
@@ -463,7 +463,9 @@ describe('ConfigFile', () => {
               export default { addons: 5 };
             `
         )
-      ).toThrowErrorMatchingInlineSnapshot(`Expected array at 'addons', got 'NumericLiteral'`);
+      ).toThrowErrorMatchingInlineSnapshot(
+        `Error: Expected array at 'addons', got 'NumericLiteral'`
+      );
     });
     it('array of simple values', () => {
       expect(

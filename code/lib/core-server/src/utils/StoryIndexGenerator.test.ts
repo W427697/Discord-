@@ -539,7 +539,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./errors/MetaOfClashingDefaultName.mdx,./src/B.stories.ts"`
+          `[Error: Unable to index ./errors/MetaOfClashingDefaultName.mdx,./src/B.stories.ts]`
         );
       });
 
@@ -558,7 +558,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./errors/B.mdx,./src/B.stories.ts"`
+          `[Error: Unable to index ./errors/B.mdx,./src/B.stories.ts]`
         );
       });
 
@@ -1173,7 +1173,7 @@ describe('StoryIndexGenerator', () => {
         );
         await generator.initialize();
         await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./src/docs2/MetaOf.mdx"`
+          `[Error: Unable to index ./src/docs2/MetaOf.mdx]`
         );
       });
     });
@@ -1207,7 +1207,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./errors/A.mdx,./errors/duplicate/A.mdx"`
+          `[Error: Unable to index ./errors/A.mdx,./errors/duplicate/A.mdx]`
         );
       });
 
@@ -1224,7 +1224,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./src/A.stories.js,./errors/MetaOfClashingName.mdx"`
+          `[Error: Unable to index ./src/A.stories.js,./errors/MetaOfClashingName.mdx]`
         );
       });
 
@@ -1244,7 +1244,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index ./src/A.stories.js,./errors/A.mdx"`
+          `[Error: Unable to index ./src/A.stories.js,./errors/A.mdx]`
         );
       });
       it('errors when two duplicate stories exists, with duplicated entries details', async () => {
@@ -1261,7 +1261,7 @@ describe('StoryIndexGenerator', () => {
         };
         expect(() => {
           generator.chooseDuplicate(mockEntry, { ...mockEntry, importPath: 'DifferentPath' });
-        }).toThrowErrorMatchingInlineSnapshot(`"Duplicate stories with id: StoryId"`);
+        }).toThrowErrorMatchingInlineSnapshot(`[Error: Duplicate stories with id: StoryId]`);
       });
 
       it('DOES NOT error when the same MDX file matches two specifiers', async () => {

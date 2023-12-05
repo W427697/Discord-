@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`upgrade-deprecated-types > typescript > upgrade imports with conflicting local names 1`] = `
-This codemod does not support local imports that are called the same as a storybook import.
+SyntaxError: This codemod does not support local imports that are called the same as a storybook import.
 Rename this local import and try again.
 > 1 |  import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@storybook/react';
     |           ^^^^^^^^^^^^^^^^^^^^^
