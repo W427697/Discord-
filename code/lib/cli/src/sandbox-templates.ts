@@ -237,17 +237,6 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
-  'vue2-vite/2.7-js': {
-    name: 'Vue v2 (Vite | JavaScript)',
-    script: 'npx create-vue@2 {{beforeDir}} --default',
-    expected: {
-      framework: '@storybook/vue-vite',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-vite',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
   'html-webpack/default': {
     name: 'HTML Latest (Webpack | JavaScript)',
     script: 'yarn create webpack5-html {{beforeDir}}',
