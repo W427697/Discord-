@@ -1,20 +1,15 @@
 import { beforeEach, expect, vi, test } from 'vitest';
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
-import { mockDeep } from 'vitest-mock-extended';
 import { run } from '../label-patches';
 import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
 import * as github_ from '../utils/github-client';
 
 vi.mock('uuid');
-vi.mock('simple-git');
 vi.mock('../utils/get-github-info');
 vi.mock('../utils/github-client');
-vi.mock('../utils/git-client', async () => {
-  const y = await import('../utils/git-client');
-  return mockDeep(y);
-});
+vi.mock('../utils/git-client');
 
 const gitClient = vi.mocked(gitClient_, true);
 const github = vi.mocked(github_, true);
@@ -99,12 +94,10 @@ beforeEach(() => {
 
 test('it should fail early when no GH_TOKEN is set', async () => {
   delete process.env.GH_TOKEN;
-  await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(
-    `"GH_TOKEN environment variable must be set, exiting."`
-  );
+  await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: GH_TOKEN environment variable must be set, exiting.]`);
 });
 
-test.only('it should label the PR associated with cherry picks in the current branch', async () => {
+test('it should label the PR associated with cherry picks in the current branch', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
   const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);

@@ -2,24 +2,16 @@
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { mockDeep } from 'vitest-mock-extended';
 import { run as ensureNextAhead } from '../ensure-next-ahead';
 import * as gitClient_ from '../utils/git-client';
 import * as bumpVersion_ from '../version';
+import * as fsExtraOriginal from 'fs-extra';
 
-vi.mock('../utils/git-client', async () => {
-  const y = await import('../utils/git-client');
-  return mockDeep(y);
-});
-vi.mock('../version', async () => {
-  const y = await import('../version');
-  return mockDeep(y);
-});
+vi.mock('../utils/git-client');
+vi.mock('../version');
+vi.mock('fs-extra', async() => await import('../../../code/__mocks__/fs-extra'));
 
-// eslint-disable-next-line jest/no-mocks-import
-vi.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
-
-const fsExtra = require('fs-extra');
+const fsExtra = vi.mocked<typeof import('../../../code/__mocks__/fs-extra')>(fsExtraOriginal as any);
 
 const bumpVersion = vi.mocked(bumpVersion_, true);
 const gitClient = vi.mocked(gitClient_, true);
@@ -41,30 +33,30 @@ describe('Ensure next ahead', () => {
 
   it('should throw when main-version is missing', async () => {
     await expect(ensureNextAhead({})).rejects.toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
-          "path": [
-            "mainVersion"
-          ],
-          "message": "Required"
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "mainVersion"
+    ],
+    "message": "Required"
+  }
+]]
     `);
   });
 
   it('should throw when main-version is not a semver string', async () => {
     await expect(ensureNextAhead({ mainVersion: '200' })).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      "[
-        {
-          "code": "custom",
-          "message": "main-version must be a valid semver version string like '7.4.2'.",
-          "path": []
-        }
-      ]"
+      [ZodError: [
+  {
+    "code": "custom",
+    "message": "main-version must be a valid semver version string like '7.4.2'.",
+    "path": []
+  }
+]]
     `);
   });
 

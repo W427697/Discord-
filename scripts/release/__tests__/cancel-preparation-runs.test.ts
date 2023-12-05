@@ -61,8 +61,7 @@ describe('Cancel preparation runs', () => {
   it('should fail early when no GH_TOKEN is set', async () => {
     delete process.env.GH_TOKEN;
     await expect(cancelPreparationWorkflows()).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"GH_TOKEN environment variable must be set, exiting."`
-    );
+    `[Error: GH_TOKEN environment variable must be set, exiting.]`);
   });
 
   it('should cancel all running preparation workflows in GitHub', async () => {

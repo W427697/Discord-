@@ -191,7 +191,6 @@
     "util": "^0.12.4",
     "uuid": "^9.0.0",
     "vitest": "^1.0.1",
-    "vitest-mock-extended": "^1.2.1",
     "wait-on": "^7.0.1",
     "window-size": "^1.1.1",
     "yaml": "^2.3.1",
