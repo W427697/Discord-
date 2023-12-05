@@ -1,6 +1,7 @@
 import { pathExists, readJSON, writeJSON } from 'fs-extra';
 import path from 'path';
 
+import type { TemplateKey } from 'get-template';
 import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
 import storybookVersions from '../../code/lib/cli/src/versions';
@@ -79,8 +80,8 @@ export const configureYarn2ForVerdaccio = async ({
   cwd,
   dryRun,
   debug,
-  sandboxDir,
-}: YarnOptions & { sandboxDir: string }) => {
+  key,
+}: YarnOptions & { key: TemplateKey }) => {
   const command = [
     // We don't want to use the cache or we might get older copies of our built packages
     // (with identical versions), as yarn (correctly I guess) assumes the same version hasn't changed
@@ -96,7 +97,7 @@ export const configureYarn2ForVerdaccio = async ({
     `yarn config set enableImmutableInstalls false`,
   ];
 
-  if (sandboxDir.split(path.sep).at(-1) === 'svelte-kit-prerelease-ts') {
+  if (key === 'svelte-kit/prerelease-ts') {
     // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit prerelease, it is expected
     command.push(
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`
