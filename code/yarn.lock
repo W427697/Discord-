@@ -5966,12 +5966,12 @@ __metadata:
   linkType: soft
 
 "@storybook/icons@npm:^1.2.1":
-  version: 1.2.2
-  resolution: "@storybook/icons@npm:1.2.2"
+  version: 1.2.3
+  resolution: "@storybook/icons@npm:1.2.3"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: b879b87f6036270fdbafba8c762f051f8d7a12fa7af6482a3426d47c9b2a22c0bcd5d7b3298252933c0dc21e61e4694785efcb88059e7b3ee979fd77f6567451
+  checksum: 510878cc80a844eb5b83460be8e71890743fb9fd70afb3cc46658d3324574d6389542a5dd078c5f613741193d0ac1ff7d2d83b33e447ee0fc1c3699d255ba225
   languageName: node
   linkType: hard
 
