@@ -7,7 +7,9 @@ export function mockSveltekitStores() {
     config: () => ({
       resolve: {
         alias: {
-          $app: resolve(__dirname, '../src/mocks/app/'),
+          '$app/forms': resolve(__dirname, '../src/mocks/app/forms'),
+          '$app/navigation': resolve(__dirname, '../src/mocks/app/navigation'),
+          '$app/store': resolve(__dirname, '../src/mocks/app/store'),
         },
       },
     }),
