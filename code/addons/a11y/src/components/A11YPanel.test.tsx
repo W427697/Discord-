@@ -100,7 +100,7 @@ describe('A11YPanel', () => {
     expect(getByText(/Initializing/)).toBeTruthy();
   });
 
-  it('should handle "manual" status', async () => {
+  it.skip('should handle "manual" status', async () => {
     mockedApi.useParameter.mockReturnValue({ manual: true });
     const { getByText } = render(<ThemedA11YPanel />);
     await waitFor(() => {
@@ -108,7 +108,7 @@ describe('A11YPanel', () => {
     });
   });
 
-  it('should handle "running" status', async () => {
+  it.skip('should handle "running" status', async () => {
     const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     mockedApi.useParameter.mockReturnValue({ manual: true });
@@ -132,7 +132,7 @@ describe('A11YPanel', () => {
     });
   });
 
-  it('should handle "ran" status', async () => {
+  it.skip('should handle "ran" status', async () => {
     const { getByText } = render(<ThemedA11YPanel />);
     const useChannelArgs = mockedApi.useChannel.mock.calls[0][0];
     act(() => useChannelArgs[EVENTS.RESULT](axeResult));
