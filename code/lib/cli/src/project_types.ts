@@ -28,7 +28,6 @@ export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 
 export type SupportedRenderers =
   | 'react'
   | 'react-native'
-  | 'vue'
   | 'vue3'
   | 'angular'
   | 'ember'
@@ -43,7 +42,6 @@ export type SupportedRenderers =
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
   'react-native',
-  'vue',
   'vue3',
   'angular',
   'ember',
