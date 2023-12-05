@@ -1,16 +1,16 @@
-import { glob as globlOriginal } from 'glob';
+import { glob as globOriginal } from 'glob';
 import { type StoriesEntry } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import { join } from 'path';
 import slash from 'slash';
+import { vi } from 'vitest';
 import { removeMDXEntries } from '../remove-mdx-entries';
-
-const glob = globlOriginal as jest.MockedFunction<typeof globlOriginal>;
 
 const configDir = '/configDir/';
 const workingDir = '/';
 
-jest.mock('glob', () => ({ glob: jest.fn() }));
+vi.mock('glob', () => ({ glob: vi.fn() }));
+const glob = vi.mocked(globOriginal);
 
 const createList = (list: { entry: StoriesEntry; result: string[] }[]) => {
   return list.reduce<Record<string, { result: string[]; entry: StoriesEntry }>>(
@@ -65,8 +65,8 @@ test('minimal', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
@@ -88,13 +88,13 @@ test('multiple', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "*.ts",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
@@ -116,13 +116,13 @@ test('mdx but not matching any files', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "*.mdx",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
@@ -144,8 +144,8 @@ test('removes entries that only yield mdx files', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
@@ -167,13 +167,13 @@ test('expands entries that only yield mixed files', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "**/my-file.ts",
         "titlePrefix": "",
       },
-      Object {
+      {
         "directory": ".",
         "files": "*.js",
         "titlePrefix": "",
@@ -197,8 +197,8 @@ test('passes titlePrefix', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "**/my-file.ts",
         "titlePrefix": "foo",
@@ -227,18 +227,18 @@ test('expands to multiple entries', async () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "directory": ".",
         "files": "**/my-file1.ts",
         "titlePrefix": "foo",
       },
-      Object {
+      {
         "directory": ".",
         "files": "**/my-file2.ts",
         "titlePrefix": "foo",
       },
-      Object {
+      {
         "directory": ".",
         "files": "**/my-file3.ts",
         "titlePrefix": "foo",

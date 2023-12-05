@@ -60,8 +60,8 @@ const store = {
 function createMockStore(initialState: Partial<State> = {}) {
   let state = initialState;
   return {
-    getState: jest.fn(() => state),
-    setState: jest.fn((s: typeof state) => {
+    getState: vi.fn(() => state),
+    setState: vi.fn((s: typeof state) => {
       state = { ...state, ...s };
       return Promise.resolve(state);
     }),
