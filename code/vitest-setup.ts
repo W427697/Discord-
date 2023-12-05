@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest';
+import { vi } from 'vitest';
 
 const ignoreList = [
   (error: any) => error.message.includes('":nth-child" is potentially unsafe'),
@@ -18,5 +19,5 @@ const throwMessage = (type: any, message: any) => {
 const throwWarning = (message: any) => throwMessage('warn: ', message);
 const throwError = (message: any) => throwMessage('error: ', message);
 
-global.console.error = throwError;
-global.console.warn = throwWarning;
+vi.spyOn(console, 'warn').mockImplementation(throwWarning);
+vi.spyOn(console, 'error').mockImplementation(throwError);

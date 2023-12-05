@@ -6,7 +6,7 @@ import { vi } from 'vitest';
 let mockFiles = Object.create(null);
 
 // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
-export function __setMockFiles(newMockFiles: Record<string, string>) {
+export function __setMockFiles(newMockFiles: Record<string, string | null>) {
   mockFiles = newMockFiles;
 }
 
