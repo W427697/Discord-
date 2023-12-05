@@ -38,7 +38,6 @@ function printError(error: any) {
 }
 
 export const dev = async (cliOptions: CLIOptions) => {
-  console.log('Hey there from dev!');
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
   const readUpResult = readUpSync({ cwd: __dirname });

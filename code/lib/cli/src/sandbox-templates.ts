@@ -745,21 +745,21 @@ export const merged: TemplateKey[] = [
 ];
 
 const emptyTemplateKeys: TemplateKey[] = [
-  // 'internal/npm/empty/react-vite/default-ts',
-  // 'internal/pnpm/empty/react-vite/default-ts',
-  // 'internal/yarn/empty/react-vite/default-ts',
-  // 'internal/npm/empty/nextjs/default-ts',
-  // 'internal/pnpm/empty/nextjs/default-ts',
-  // 'internal/yarn/empty/nextjs/default-ts',
-  // 'internal/npm/empty/vue3-vite/default-ts',
-  // 'internal/pnpm/empty/vue3-vite/default-ts',
-  // 'internal/yarn/empty/vue3-vite/default-ts',
-  // 'internal/npm/empty/angular-cli/default-ts',
-  // 'internal/pnpm/empty/angular-cli/default-ts',
-  // 'internal/yarn/empty/angular-cli/default-ts',
-  // 'internal/npm/empty/lit-vite/default-ts',
-  // 'internal/pnpm/empty/lit-vite/default-ts',
-  // 'internal/yarn/empty/lit-vite/default-ts',
+  'internal/npm/empty/react-vite/default-ts',
+  'internal/pnpm/empty/react-vite/default-ts',
+  'internal/yarn/empty/react-vite/default-ts',
+  'internal/npm/empty/nextjs/default-ts',
+  'internal/pnpm/empty/nextjs/default-ts',
+  'internal/yarn/empty/nextjs/default-ts',
+  'internal/npm/empty/vue3-vite/default-ts',
+  'internal/pnpm/empty/vue3-vite/default-ts',
+  'internal/yarn/empty/vue3-vite/default-ts',
+  'internal/npm/empty/angular-cli/default-ts',
+  'internal/pnpm/empty/angular-cli/default-ts',
+  'internal/yarn/empty/angular-cli/default-ts',
+  'internal/npm/empty/lit-vite/default-ts',
+  'internal/pnpm/empty/lit-vite/default-ts',
+  'internal/yarn/empty/lit-vite/default-ts',
 ];
 
 export const daily: TemplateKey[] = [
@@ -780,7 +780,6 @@ export const daily: TemplateKey[] = [
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
-  ...emptyTemplateKeys,
 ];
 
 export const templatesByCadence = { normal, merged, daily };
