@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type { Mock, Mocked } from 'vitest';
 import { vi } from 'vitest';
 

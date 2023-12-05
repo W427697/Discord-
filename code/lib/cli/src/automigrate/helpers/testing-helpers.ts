@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { vi } from 'vitest';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 
