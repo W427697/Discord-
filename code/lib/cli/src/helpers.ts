@@ -206,8 +206,7 @@ const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, Supp
   solid: 'solid',
   svelte: 'svelte',
   sveltekit: 'svelte',
-  vue: 'vue',
-  vue3: 'vue',
+  vue3: 'vue3',
   'web-components': 'web-components',
 };
 
