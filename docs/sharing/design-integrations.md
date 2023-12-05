@@ -57,7 +57,7 @@ Once they're connected, you'll be able to view the story by clicking the link in
 
 ### Embed Figma in Storybook with the addon
 
-[Design addon](https://storybook.js.org/addons/storybook-addon-designs) allows you to embed Figma files and prototypes in Storybook.
+[Designs addon](https://storybook.js.org/addons/@storybook/addon-designs) allows you to embed Figma files and prototypes in Storybook.
 
 ![Storybook addon figma](./storybook-figma-addon.png)
 
@@ -176,5 +176,5 @@ Integrate Adobe XD with Storybook using the [design addon](https://storybook.js.
 
 Extend and customize Storybook by building an integration. Integrate with lower-level Storybook APIs or bootstrap an addon to customize Storybook's UI and behavior.
 
-- [Addon documentation](../addons/introduction.md)
+- [Addon documentation](../addons/index.md)
 - [Create an addon tutorial](https://storybook.js.org/tutorials/create-an-addon/)

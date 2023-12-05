@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { addReact } from './add-react';
 
@@ -10,7 +10,7 @@ const checkAddReact = async (packageJson: PackageJson) => {
 
   return addReact.check({
     packageManager,
-    mainConfig: {} as StorybookConfig,
+    mainConfig: {} as StorybookConfigRaw,
     storybookVersion: '7.0.0',
   });
 };

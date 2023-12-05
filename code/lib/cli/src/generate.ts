@@ -7,6 +7,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
+import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
@@ -21,10 +22,13 @@ import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 import versions from './versions';
 import { JsPackageManagerFactory } from './js-package-manager';
+import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>
@@ -159,7 +163,7 @@ command('link <repo-url-or-directory>')
   );
 
 command('automigrate [fixId]')
-  .description('Check storybook for known problems or migrations and apply fixes')
+  .description('Check storybook for incompatibilities or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
@@ -173,6 +177,17 @@ command('automigrate [fixId]')
   )
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    });
+  });
+
+command('doctor')
+  .description('Check Storybook for known problems and provide suggestions or fixes')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configuration')
+  .action(async (options) => {
+    await doctor(options).catch((e) => {
       logger.error(e);
       process.exit(1);
     });

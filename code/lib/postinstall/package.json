@@ -1,6 +1,6 @@
 {
   "name": "@storybook/postinstall",
-  "version": "7.6.0-alpha.6",
+  "version": "8.0.0-alpha.0",
   "description": "Storybook addons postinstall utilities",
   "keywords": [
     "api",
@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "jscodeshift": "^0.14.0",
-    "typescript": "~5.2.2"
+    "jscodeshift": "^0.15.1",
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"

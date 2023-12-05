@@ -151,7 +151,10 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
               </ul>{' '}
             </>
           ) : (
-            <>Yikes! Something went wrong loading these stories.</>
+            <>
+              This composed storybook is empty, maybe you're using filter-functions, and all stories
+              are filtered away.
+            </>
           )}
         </Text>
       </WideSpaced>

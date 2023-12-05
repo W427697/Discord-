@@ -5,6 +5,7 @@ export const globalsNameReferenceMap = {
   '@storybook/channels': '__STORYBOOK_MODULE_CHANNELS__',
   '@storybook/client-logger': '__STORYBOOK_MODULE_CLIENT_LOGGER__',
   '@storybook/core-events': '__STORYBOOK_MODULE_CORE_EVENTS__',
+  '@storybook/core-events/preview-errors': '__STORYBOOK_MODULE_CORE_EVENTS_PREVIEW_ERRORS__',
   '@storybook/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',
   '@storybook/types': '__STORYBOOK_MODULE_TYPES__',
 } as const;

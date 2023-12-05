@@ -84,8 +84,8 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('MY_LITERAL');
-          expect(type.detail).toBeUndefined();
+          expect(type?.summary).toBe('MY_LITERAL');
+          expect(type?.detail).toBeUndefined();
         });
 
         it('should support short object', () => {
@@ -100,8 +100,8 @@ describe('enhancePropTypesProp', () => {
 
           const expectedSummary = '{ text: string }';
 
-          expect(type.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
-          expect(type.detail).toBeUndefined();
+          expect(type?.summary?.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+          expect(type?.detail).toBeUndefined();
         });
 
         it('should support long object', () => {
@@ -114,7 +114,7 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('object');
+          expect(type?.summary).toBe('object');
 
           const expectedDetail = `{
             text: string,
@@ -124,7 +124,7 @@ describe('enhancePropTypesProp', () => {
             value4: string
           }`;
 
-          expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+          expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
         });
 
         it('should not have a deep object as summary', () => {
@@ -137,7 +137,7 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('object');
+          expect(type?.summary).toBe('object');
         });
 
         it('should use identifier of a React element when available', () => {
@@ -150,13 +150,13 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('InlinedFunctionalComponent');
+          expect(type?.summary).toBe('InlinedFunctionalComponent');
 
           const expectedDetail = `function InlinedFunctionalComponent() {
             return <div>Inlined FunctionalComponent!</div>;
           }`;
 
-          expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+          expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
         });
 
         it('should not use identifier of a HTML element', () => {
@@ -169,12 +169,12 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('element');
+          expect(type?.summary).toBe('element');
 
           const expectedDetail =
             '<div>Hello world from Montreal, Quebec, Canada!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</div>';
 
-          expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+          expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
         });
 
         it('should support element without identifier', () => {
@@ -187,13 +187,13 @@ describe('enhancePropTypesProp', () => {
 
           const { type } = extractPropDef(component);
 
-          expect(type.summary).toBe('element');
+          expect(type?.summary).toBe('element');
 
           const expectedDetail = `() => {
               return <div>Inlined FunctionalComponent!</div>;
             }`;
 
-          expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+          expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
         });
 
         describe('when it is not a known type', () => {
@@ -207,8 +207,8 @@ describe('enhancePropTypesProp', () => {
 
             const { type } = extractPropDef(component);
 
-            expect(type.summary).toBe('custom');
-            expect(type.detail).toBe(
+            expect(type?.summary).toBe('custom');
+            expect(type?.detail).toBe(
               'Symbol("A very very very very very very lonnnngggggggggggggggggggggggggggggggggggg symbol")'
             );
           });
@@ -223,8 +223,8 @@ describe('enhancePropTypesProp', () => {
 
             const { type } = extractPropDef(component);
 
-            expect(type.summary).toBe('Symbol("Hey!")');
-            expect(type.detail).toBeUndefined();
+            expect(type?.summary).toBe('Symbol("Hey!")');
+            expect(type?.detail).toBeUndefined();
           });
         });
       });
@@ -238,7 +238,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('custom');
+        expect(type?.summary).toBe('custom');
       });
     });
 
@@ -262,7 +262,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe(x);
+        expect(type?.summary).toBe(x);
       });
     });
 
@@ -283,8 +283,8 @@ describe('enhancePropTypesProp', () => {
 
       const expectedSummary = '{ foo: string }';
 
-      expect(type.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
-      expect(type.detail).toBeUndefined();
+      expect(type?.summary?.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+      expect(type?.detail).toBeUndefined();
     });
 
     it('should support long shape', () => {
@@ -322,7 +322,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('object');
+      expect(type?.summary).toBe('object');
 
       const expectedDetail = `{
         foo: string,
@@ -333,7 +333,7 @@ describe('enhancePropTypesProp', () => {
         another4: string
       }`;
 
-      expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should not have a deep shape as summary', () => {
@@ -357,7 +357,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('object');
+      expect(type?.summary).toBe('object');
     });
 
     it('should support enum of string', () => {
@@ -379,7 +379,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe("'News' | 'Photos'");
+      expect(type?.summary).toBe("'News' | 'Photos'");
     });
 
     it('should support enum of object', () => {
@@ -403,7 +403,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('object | object');
+      expect(type?.summary).toBe('object | object');
 
       const expectedDetail = `{
           text: string,
@@ -415,7 +415,7 @@ describe('enhancePropTypesProp', () => {
           ho: string
         }`;
 
-      expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     it('should support short object in enum summary', () => {
@@ -437,7 +437,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('{ text: string } | { foo: string }');
+      expect(type?.summary).toBe('{ text: string } | { foo: string }');
     });
 
     it('should not have a deep object in an enum summary', () => {
@@ -459,7 +459,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('object | object');
+      expect(type?.summary).toBe('object | object');
     });
 
     it('should support enum of element', () => {
@@ -482,7 +482,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('element | ClassComponent');
+      expect(type?.summary).toBe('element | ClassComponent');
 
       const expectedDetail = `() => {
           return <div>FunctionalComponent!</div>;
@@ -492,7 +492,7 @@ describe('enhancePropTypesProp', () => {
           }
         }`;
 
-      expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+      expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
     });
 
     describe('func', () => {
@@ -505,7 +505,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('func');
+        expect(type?.summary).toBe('func');
       });
 
       it('should return "func" when the prop have a description without JSDoc tags', () => {
@@ -518,7 +518,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('func');
+        expect(type?.summary).toBe('func');
       });
 
       it('should return a func signature when there is JSDoc tags.', () => {
@@ -531,7 +531,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('(event, data) => string');
+        expect(type?.summary).toBe('(event, data) => string');
       });
     });
 
@@ -545,7 +545,7 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('Set');
+      expect(type?.summary).toBe('Set');
     });
 
     describe('objectOf', () => {
@@ -561,8 +561,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(number)');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('objectOf(number)');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support objectOf of identifier', () => {
@@ -578,8 +578,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(NAMED_OBJECT)');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('objectOf(NAMED_OBJECT)');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support objectOf short object', () => {
@@ -595,8 +595,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf({ foo: string })');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('objectOf({ foo: string })');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support objectOf long object', () => {
@@ -612,7 +612,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(object)');
+        expect(type?.summary).toBe('objectOf(object)');
 
         const expectedDetail = `objectOf({
           foo: string,
@@ -621,7 +621,7 @@ describe('enhancePropTypesProp', () => {
           anotherAnother: string
         })`;
 
-        expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should not have deep object in summary', () => {
@@ -637,7 +637,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(object)');
+        expect(type?.summary).toBe('objectOf(object)');
       });
 
       it('should support objectOf short shape', () => {
@@ -658,8 +658,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf({ foo: string })');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('objectOf({ foo: string })');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support objectOf long shape', () => {
@@ -692,7 +692,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(object)');
+        expect(type?.summary).toBe('objectOf(object)');
 
         const expectedDetail = `objectOf({
           foo: string,
@@ -701,7 +701,7 @@ describe('enhancePropTypesProp', () => {
           anotherAnother: string
         })`;
 
-        expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should not have a deep shape in summary', () => {
@@ -728,7 +728,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('objectOf(object)');
+        expect(type?.summary).toBe('objectOf(object)');
       });
     });
 
@@ -750,8 +750,8 @@ describe('enhancePropTypesProp', () => {
 
       const { type } = extractPropDef(component);
 
-      expect(type.summary).toBe('string | Set');
-      expect(type.detail).toBeUndefined();
+      expect(type?.summary).toBe('string | Set');
+      expect(type?.detail).toBeUndefined();
     });
 
     describe('array', () => {
@@ -767,8 +767,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('number[]');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('number[]');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support array of identifier', () => {
@@ -784,8 +784,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('NAMED_OBJECT[]');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('NAMED_OBJECT[]');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support array of short object', () => {
@@ -801,8 +801,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('[{ foo: string }]');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('[{ foo: string }]');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support array of long object', () => {
@@ -818,7 +818,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('object[]');
+        expect(type?.summary).toBe('object[]');
 
         const expectedDetail = `[{
           text: string,
@@ -829,7 +829,7 @@ describe('enhancePropTypesProp', () => {
           another4: string
         }]`;
 
-        expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should not have deep object in summary', () => {
@@ -845,7 +845,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('object[]');
+        expect(type?.summary).toBe('object[]');
       });
 
       it('should support array of short shape', () => {
@@ -866,8 +866,8 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('[{ foo: string }]');
-        expect(type.detail).toBeUndefined();
+        expect(type?.summary).toBe('[{ foo: string }]');
+        expect(type?.detail).toBeUndefined();
       });
 
       it('should support array of long shape', () => {
@@ -908,7 +908,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('object[]');
+        expect(type?.summary).toBe('object[]');
 
         const expectedDetail = `[{
           foo: string,
@@ -919,7 +919,7 @@ describe('enhancePropTypesProp', () => {
           another4: string
         }]`;
 
-        expect(type.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
+        expect(type?.detail?.replace(/\s/g, '')).toBe(expectedDetail.replace(/\s/g, ''));
       });
 
       it('should not have deep shape in summary', () => {
@@ -946,7 +946,7 @@ describe('enhancePropTypesProp', () => {
 
         const { type } = extractPropDef(component);
 
-        expect(type.summary).toBe('object[]');
+        expect(type?.summary).toBe('object[]');
       });
     });
   });
@@ -974,7 +974,7 @@ describe('enhancePropTypesProp', () => {
 
       const expectedSummary = "{ foo: 'foo', bar: 'bar' }";
 
-      expect(defaultValue?.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+      expect(defaultValue?.summary?.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
       expect(defaultValue?.detail).toBeUndefined();
     });
 

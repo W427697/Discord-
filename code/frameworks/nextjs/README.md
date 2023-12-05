@@ -122,7 +122,12 @@ export default {
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
     name: '@storybook/nextjs', // Add this
-    options: {},
+    options: {
+      builder: {
+        // Set useSWC to true if you want to try out the experimental SWC compiler in Next.js >= 14.0.0
+        useSWC: true,
+      },
+    },
   },
 };
 ```
@@ -263,7 +268,6 @@ The following features are not supported (yet). Support for these features might
 - [Support font loaders configuration in next.config.js](https://nextjs.org/docs/basic-features/font-optimization#specifying-a-subset)
 - [fallback](https://nextjs.org/docs/api-reference/next/font#fallback) option
 - [adjustFontFallback](https://nextjs.org/docs/api-reference/next/font#adjustfontfallback) option
-- [declarations](https://nextjs.org/docs/api-reference/next/font#declarations) option
 - [preload](https://nextjs.org/docs/api-reference/next/font#preload) option gets ignored. Storybook handles Font loading its own way.
 - [display](https://nextjs.org/docs/api-reference/next/font#display) option gets ignored. All fonts are loaded with display set to "block" to make Storybook load the font properly.
 
@@ -349,7 +353,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -484,7 +488,7 @@ export const Example = {
 },
 ```
 
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
@@ -529,7 +533,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -689,7 +693,7 @@ export const parameters = {
 
 ### Sass/Scss
 
-[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering)
+[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering)
 
 ```js
 import '../styles/globals.scss';

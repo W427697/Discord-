@@ -177,6 +177,11 @@ export default {
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
   ],
+  '@storybook/core-events/manager-errors': [
+    'Category',
+    'ProviderDoesNotExtendBaseProviderError',
+    'UncaughtManagerError',
+  ],
   '@storybook/router': [
     'BaseLocationProvider',
     'DEEPLY_EQUAL',
@@ -227,6 +232,8 @@ export default {
     'AdminIcon',
     'AlertAltIcon',
     'AlertIcon',
+    'AlignLeftIcon',
+    'AlignRightIcon',
     'AppleIcon',
     'ArrowDownIcon',
     'ArrowLeftIcon',
@@ -353,7 +360,6 @@ export default {
     'MediumIcon',
     'MemoryIcon',
     'MenuIcon',
-    'MenuReverseIcon',
     'MergeIcon',
     'MirrorIcon',
     'MobileIcon',

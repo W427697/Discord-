@@ -3,13 +3,18 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
-      - [Storyshots has been removed](#storyshots-has-been-removed)
+    - [Storyshots has been removed](#storyshots-has-been-removed)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
+    - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
+  - [Framework-specific changes](#framework-specific-changes)
+    - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
-    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated) 
+    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
+    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
     - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
@@ -48,6 +53,7 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
+    - [Dark mode detection](#dark-mode-detection)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -318,6 +324,7 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+
 ## From version 7.x to 8.0.0
 
 ### Implicit actions can not be used during rendering (for example in the play function)
@@ -371,6 +378,18 @@ To summarize:
 
 ### Core changes
 
+#### Autotitle breaking fixes
+
+In Storybook 7, the file name `path/to/foo.bar.stories.js` would result in the [autotitle](https://storybook.js.org/docs/react/configure/overview#configure-story-loading) `path/to/foo`. In 8.0, this has been changed to generate `path/to/foo.bar`. We consider this a bugfix but it is also a breaking change if you depended on the old behavior. To get the old titles, you can manually specify the desired title in the default export of your story file. For example:
+
+```js
+export default {
+  title: 'path/to/foo',
+}
+```
+
+Alternatively, if you need to achieve a different behavior for a large number of files, you can provide a [custom indexer](https://storybook.js.org/docs/7.0/vue/configure/sidebar-and-urls#processing-custom-titles) to generate the titles dynamically.
+
 #### React v18 in the manager UI (including addons)
 
 Storybook 7 used React 16 in the manager. In Storybook 8 this is upgraded to react v18.
@@ -378,7 +397,7 @@ Addons that inject UI into panels, tools, etc. are possibly affected by this.
 
 Addon authors are advised to upgrade to react v18.
 
-##### Storyshots has been removed
+#### Storyshots has been removed
 
 Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
 
@@ -427,7 +446,35 @@ The `IconButton` doesn't have any deprecated props but it now uses the new `Butt
 
 In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
 
+#### React-docgen component analysis by default
+
+In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generate controls. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
+
+We feel `react-docgen` is the right tradeoff for most React projects. However, if you need the full fidelity of `react-docgen-typescript`, you can opt-in using the following setting in `.storybook/main.js`:
+
+```js
+export default {
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  }
+}
+```
+
+For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
+
+### Framework-specific changes
+
+#### Angular: Drop support for Angular \< 15
+
+Starting in 8.0, we drop support for Angular < 15
+
 ## From version 7.5.0 to 7.6.0
+
+#### CommonJS with Vite is deprecated
+
+Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because [Vite will remove support for CommonJS in an upcoming release](https://github.com/vitejs/vite/discussions/13928).
+
+You can address this by converting your `main` configuration file to ESM syntax and renaming it to `main.mjs` or `main.mts` if your project does not have `"type": "module"` in its `package.json`. To convert the config file to ESM you will need to replace any CommonJS syntax like `require()`, `module.exports`, or `__dirname`. If you haven't already, you may also consider adding `"type": "module"` to your package.json and converting your project to ESM.
 
 #### Using implicit actions during rendering is deprecated
 
@@ -1098,7 +1145,7 @@ import ReadMe from './README.md?raw';
 #### Stories field in .storybook/main.js is mandatory
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
-Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project) section to configure your Storybook project.
 
 #### Stricter global types
 
@@ -1198,6 +1245,14 @@ export default {
   },
 };
 ```
+
+#### Dark mode detection
+
+Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode preference if a theme is not set.
+
+Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
+
+To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
 
 ### 7.0 core addons changes
 

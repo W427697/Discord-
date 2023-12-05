@@ -71,11 +71,11 @@ describe('is not Nx project', () => {
       });
     });
 
-    describe('Angular < 14.0.0', () => {
+    describe('Angular < 15.0.0', () => {
       const packageManager = {
         getPackageVersion: (packageName: string) => {
           if (packageName === '@angular/core') {
-            return Promise.resolve('12.0.0');
+            return Promise.resolve('14.0.0');
           }
 
           return null;
@@ -89,11 +89,11 @@ describe('is not Nx project', () => {
       });
     });
 
-    describe('Angular >= 14.0.0', () => {
+    describe('Angular >= 16.0.0', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
           if (packageName === '@angular/core') {
-            return Promise.resolve('15.0.0');
+            return Promise.resolve('16.0.0');
           }
 
           return null;

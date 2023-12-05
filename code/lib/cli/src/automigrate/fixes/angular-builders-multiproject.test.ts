@@ -30,6 +30,7 @@ vi.mock('../../generators/ANGULAR/helpers', async (importOriginal) => ({
 }));
 
 describe('is Nx project', () => {
+  // @ts-expect-error (Type 'null' is not comparable)
   const packageManager = {
     getPackageVersion: () => {
       return null;

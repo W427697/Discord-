@@ -1,5 +1,5 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import type { JsPackageManager } from '../../js-package-manager';
 import { cra5 } from './cra5';
 
@@ -9,12 +9,12 @@ const checkCra5 = async ({
   storybookVersion = '7.0.0',
 }: {
   packageManager: any;
-  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  main?: Partial<StorybookConfigRaw> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
   return cra5.check({
     packageManager,
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     storybookVersion,
   });
 };
@@ -112,6 +112,7 @@ describe('cra5 fix', () => {
       });
     });
     describe('no cra dependency', () => {
+      // @ts-expect-error (Type 'null' is not comparable)
       const packageManager = {
         getPackageVersion: () => {
           return null;

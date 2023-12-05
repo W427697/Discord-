@@ -1,20 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
+import { getProjectRoot } from '@storybook/core-common';
 import path from 'path';
 
 import type { LoaderOptions } from '../types';
 
 type LocalFontSrc = string | Array<{ path: string; weight?: string; style?: string }>;
 
-export async function getFontFaceDeclarations(options: LoaderOptions, rootContext: string) {
+export async function getFontFaceDeclarations(
+  options: LoaderOptions,
+  rootContext: string,
+  swcMode: boolean
+) {
   const localFontSrc = options.props.src as LocalFontSrc;
 
   // Parent folder relative to the root context
-  const parentFolder = path.dirname(options.filename).replace(rootContext, '');
+  const parentFolder = swcMode
+    ? path.dirname(path.join(getProjectRoot(), options.filename)).replace(rootContext, '')
+    : path.dirname(options.filename).replace(rootContext, '');
 
   const { validateData } = require('../utils/local-font-utils');
-  const { weight, style, variable } = validateData('', options.props);
+  const { weight, style, variable, declarations = [] } = validateData('', options.props);
 
   const id = `font-${loaderUtils.getHashDigest(
     Buffer.from(JSON.stringify(localFontSrc)),
@@ -22,6 +29,10 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     'hex',
     6
   )}`;
+
+  const fontDeclarations = declarations
+    .map(({ prop, value }: { prop: string; value: string }) => `${prop}: ${value};`)
+    .join('\n');
 
   const arePathsWin32Format = /^[a-z]:\\/iu.test(options.filename);
   const cleanWin32Path = (pathString: string): string =>
@@ -34,6 +45,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
       return `@font-face {
           font-family: ${id};
           src: url(.${localFontPath});
+          ${fontDeclarations}
       }`;
     }
     return localFontSrc
@@ -45,6 +57,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
           src: url(.${localFontPath});
           ${font.weight ? `font-weight: ${font.weight};` : ''}
           ${font.style ? `font-style: ${font.style};` : ''}
+          ${fontDeclarations}
         }`;
       })
       .join('');

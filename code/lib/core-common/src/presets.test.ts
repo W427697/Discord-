@@ -665,4 +665,68 @@ describe('loadPreset', () => {
       ]
     `);
   });
+
+  it('should filter out disabledAddons', async () => {
+    const loaded = await loadPreset(
+      {
+        name: '',
+        type: 'virtual',
+        framework: '@storybook/react',
+        presets: ['@storybook/preset-typescript'],
+        addons: ['@storybook/addon-docs', 'addon-bar'],
+      },
+      0,
+      {
+        build: {
+          test: {
+            disabledAddons: ['@storybook/addon-docs'],
+          },
+        },
+      }
+    );
+
+    // addon-docs should not be at the top level, but addon-bar and others should be.
+    expect(loaded).toMatchInlineSnapshot(`
+      [
+        {
+          "name": "@storybook/preset-typescript",
+          "options": {},
+          "preset": {},
+        },
+        {
+          "name": "@storybook/addon-interactions/preset",
+          "options": {},
+          "preset": {},
+        },
+        {
+          "name": "@storybook/addon-cool",
+          "options": {},
+          "preset": {},
+        },
+        {
+          "name": "addon-bar",
+          "options": {},
+          "preset": {},
+        },
+        {
+          "name": {
+            "addons": [
+              "@storybook/addon-docs",
+              "addon-bar",
+            ],
+            "framework": "@storybook/react",
+            "name": "",
+            "presets": [
+              "@storybook/preset-typescript",
+            ],
+            "type": "virtual",
+          },
+          "options": {},
+          "preset": {
+            "framework": "@storybook/react",
+          },
+        },
+      ]
+    `);
+  });
 });
