@@ -116,6 +116,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
     inDevelopment: true,
   },
@@ -128,6 +133,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/default-ts': {
@@ -139,6 +149,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/prerelease': {
@@ -149,6 +164,11 @@ const baseTemplates = {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
