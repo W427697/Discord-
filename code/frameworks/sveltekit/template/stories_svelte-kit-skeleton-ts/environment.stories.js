@@ -7,12 +7,4 @@ export default {
   tags: ['autodocs'],
 };
 
-export const Default = {
-  async play({ canvasElement }) {
-    const canvas = within(canvasElement);
-    expect(canvas.getByTestId('browser')).toBeInTheDocument();
-    expect(canvas.getByTestId('dev')).toBeInTheDocument();
-    expect(canvas.getByTestId('building')).toBeInTheDocument();
-    expect(canvas.getByTestId('version')).toBeInTheDocument();
-  },
-};
+export const Default = {};

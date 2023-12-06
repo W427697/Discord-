@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { mergeConfig, type Plugin } from 'vite';
+import type { Plugin } from 'vite';
 
 export function mockSveltekitStores() {
   return {
