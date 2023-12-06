@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import 'jest-specific-snapshot';
-import { applyTransform } from 'jscodeshift/dist/testUtils';
+import { applyAsyncTransform } from './applyAsyncTransform';
 
 jest.mock('@storybook/node-logger');
 
@@ -18,15 +18,16 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
       .filter((fileName) => inputRegExp.test(fileName))
       .forEach((fileName) => {
         const inputPath = path.join(transformFixturesDir, fileName);
-        it(`transforms correctly using "${fileName}" data`, () =>
-          expect(
-            applyTransform(
-              // eslint-disable-next-line global-require,import/no-dynamic-require
-              require(path.join(__dirname, '..', transformName)),
-              null,
-              { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
-            )
-          ).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
+        it(`transforms correctly using "${fileName}" data`, async () => {
+          const value = await applyAsyncTransform(
+            // eslint-disable-next-line global-require,import/no-dynamic-require
+            require(path.join(__dirname, '..', transformName)),
+            null,
+            { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
+          );
+
+          expect(value).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot'));
+        });
       });
   });
 });

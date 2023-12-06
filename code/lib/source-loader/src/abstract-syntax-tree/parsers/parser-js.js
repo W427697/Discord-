@@ -1,8 +1,8 @@
-import parseJs from 'prettier/parser-babel';
+import { parsers } from 'prettier/plugins/babel';
 
 function parse(source) {
   try {
-    return parseJs.parsers.babel.parse(source);
+    return parsers.babel.parse(source);
   } catch (error1) {
     try {
       return JSON.stringify(source);
@@ -12,7 +12,7 @@ function parse(source) {
   }
 }
 function format(source) {
-  return parseJs.parsers.babel.format(source);
+  return parsers.babel.format(source);
 }
 
 export default {

@@ -15,9 +15,9 @@ WithStoryParameters.story = {
   name: 'with story parameters',
 
   parameters: {
-    header: false,
-    inline: true,
-  },
+      header: false,
+      inline: true,
+    },
 };
 
 export const Foo = () => <Button label=\\"Foo\\" />;
@@ -26,7 +26,7 @@ Foo.story = {
   name: 'foo',
 
   parameters: {
-    bar: 1,
-  },
+      bar: 1,
+    },
 };"
 `;

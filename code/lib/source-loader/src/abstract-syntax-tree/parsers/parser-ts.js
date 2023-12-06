@@ -1,8 +1,8 @@
-import parseTs from 'prettier/parser-typescript';
+import { parsers } from 'prettier/plugins/typescript';
 
 function parse(source) {
   try {
-    return parseTs.parsers.typescript.parse(source);
+    return parsers.typescript.parse(source);
   } catch (error1) {
     try {
       return JSON.stringify(source);
@@ -12,7 +12,7 @@ function parse(source) {
   }
 }
 function format(source) {
-  return parseTs.parsers.typescript.format(source);
+  return parsers.typescript.format(source);
 }
 
 export default {

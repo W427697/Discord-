@@ -1,8 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import 'jest-specific-snapshot';
-// @ts-expect-error (broken types)
-import { applyTransform } from 'jscodeshift/dist/testUtils';
+import { applyAsyncTransform } from './applyAsyncTransform';
 
 jest.mock('@storybook/node-logger');
 
@@ -16,15 +15,15 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
       .filter((fileName) => inputRegExp.test(fileName))
       .forEach((fileName) => {
         const inputPath = path.join(transformFixturesDir, fileName);
-        it(`transforms correctly using "${fileName}" data`, () =>
+        it(`transforms correctly using "${fileName}" data`, async () =>
           expect(
-            applyTransform(
+            applyAsyncTransform(
               // eslint-disable-next-line global-require,import/no-dynamic-require
               require(path.join(__dirname, '__testtransforms__', transformName)),
               null,
               { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
             )
-          ).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
+          ).resolves.toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
       });
   });
 });

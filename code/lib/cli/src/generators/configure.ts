@@ -105,8 +105,8 @@ export async function configureMain({
 
   try {
     const prettier = (await import('prettier')).default;
-    mainJsContents = prettier.format(dedent(mainJsContents), {
-      ...prettier.resolveConfig.sync(process.cwd()),
+    mainJsContents = await prettier.format(dedent(mainJsContents), {
+      ...(await prettier.resolveConfig(process.cwd())),
       filepath: mainPath,
     });
   } catch {
@@ -169,8 +169,8 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
 
   try {
     const prettier = (await import('prettier')).default;
-    preview = prettier.format(preview, {
-      ...prettier.resolveConfig.sync(process.cwd()),
+    preview = await prettier.format(preview, {
+      ...(await prettier.resolveConfig(process.cwd())),
       filepath: previewPath,
     });
   } catch {

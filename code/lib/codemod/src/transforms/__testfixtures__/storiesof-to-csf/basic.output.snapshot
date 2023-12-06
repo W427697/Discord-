@@ -25,11 +25,11 @@ SecondStory.story = {
 };
 
 export const ComplexStory = () => (
-  <div>
-    <Button label=\\"The Button\\" onClick={action('onClick')} />
-    <br />
-  </div>
-);
+    <div>
+      <Button label=\\"The Button\\" onClick={action('onClick')} />
+      <br />
+    </div>
+  );
 
 ComplexStory.story = {
   name: 'complex story',

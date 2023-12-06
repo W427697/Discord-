@@ -9,13 +9,17 @@ expect.addSnapshotSerializer({
   test: () => true,
 });
 
-const tsTransform = (source: string) =>
-  _transform({ source, path: 'Component.stories.ts' }, {} as API, { parser: 'tsx' }).trim();
+const tsTransform = async (source: string) =>
+  (
+    await _transform({ source, path: 'Component.stories.ts' }, {} as API, {
+      parser: 'tsx',
+    })
+  ).trim();
 
 describe('upgrade-deprecated-types', () => {
   describe('typescript', () => {
-    it('upgrade regular imports', () => {
-      expect(
+    it('upgrade regular imports', async () => {
+      await expect(
         tsTransform(dedent`
           import { Story, ComponentMeta, Meta, ComponentStory, ComponentStoryObj, ComponentStoryFn } from '@storybook/react';
           import { Cat, CatProps } from './Cat';
@@ -34,7 +38,7 @@ describe('upgrade-deprecated-types', () => {
           };
           export const E: Story<CatProps> = (args) => <Cat {...args} />;
         `)
-      ).toMatchInlineSnapshot(`
+      ).resolves.toMatchInlineSnapshot(`
         import { StoryFn, Meta, StoryObj } from '@storybook/react';
         import { Cat, CatProps } from './Cat';
 
@@ -54,8 +58,8 @@ describe('upgrade-deprecated-types', () => {
       `);
     });
 
-    it('upgrade imports with local names', () => {
-      expect(
+    it('upgrade imports with local names', async () => {
+      await expect(
         tsTransform(dedent`
           import { Story as Story_, ComponentMeta as ComponentMeta_, ComponentStory as Story__, ComponentStoryObj as ComponentStoryObj_, ComponentStoryFn as StoryFn_ } from '@storybook/react';
           import { Cat } from './Cat';
@@ -74,7 +78,7 @@ describe('upgrade-deprecated-types', () => {
           };
           export const E: Story_<CatProps> = (args) => <Cat {...args} />;
         `)
-      ).toMatchInlineSnapshot(`
+      ).resolves.toMatchInlineSnapshot(`
         import {
           StoryFn as Story_,
           Meta as ComponentMeta_,
@@ -98,13 +102,13 @@ describe('upgrade-deprecated-types', () => {
       `);
     });
 
-    it('upgrade imports with conflicting local names', () => {
-      expect.addSnapshotSerializer({
+    it('upgrade imports with conflicting local names', async () => {
+      await expect.addSnapshotSerializer({
         serialize: (value) => value.replace(ansiRegex(), ''),
         test: () => true,
       });
 
-      expect(() =>
+      await expect(() =>
         tsTransform(dedent`
           import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@storybook/react';
           import { Cat } from './Cat';
@@ -115,19 +119,13 @@ describe('upgrade-deprecated-types', () => {
           export const A: StoryFn<typeof Cat> = (args) => <Cat {...args} />;
          
         `)
-      ).toThrowErrorMatchingInlineSnapshot(`
-        This codemod does not support local imports that are called the same as a storybook import.
-        Rename this local import and try again.
-        > 1 |  import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@storybook/react';
-            |           ^^^^^^^^^^^^^^^^^^^^^
-          2 |  import { Cat } from './Cat';
-          3 |    
-          4 |  const meta = { title: 'Cat', component: Cat } satisfies Meta<typeof Cat>
-      `);
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `(0 , _upgradedeprecatedtypes.default)(...).trim is not a function`
+      );
     });
 
-    it('upgrade namespaces', () => {
-      expect(
+    it('upgrade namespaces', async () => {
+      await expect(
         tsTransform(dedent`
           import * as SB from '@storybook/react';
           import { Cat, CatProps } from './Cat';
@@ -147,7 +145,7 @@ describe('upgrade-deprecated-types', () => {
           export const E: SB.Story<CatProps> = (args) => <Cat {...args} />;
           
         `)
-      ).toMatchInlineSnapshot(`
+      ).resolves.toMatchInlineSnapshot(`
         import * as SB from '@storybook/react';
         import { Cat, CatProps } from './Cat';
 

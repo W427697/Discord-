@@ -34,12 +34,11 @@
     "danger": "danger",
     "generate-sandboxes": "yarn --cwd ../scripts generate-sandboxes",
     "github-release": "github-release-from-changelog",
-    "lint": "yarn lint:js && yarn lint:md",
+    "lint": "yarn lint:js && yarn lint:md .",
     "lint:ejs": "ejslint **/*.ejs",
     "lint:js": "yarn lint:js:cmd .  --quiet",
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
-    "lint:md": "../scripts/node_modules/.bin/remark -q .",
-    "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
+    "lint:md": "../scripts/node_modules/.bin/remark -q",
     "lint:package": "sort-package-json",
     "local-registry": "yarn --cwd ../scripts local-registry",
     "publish-sandboxes": "yarn --cwd ../scripts publish",
@@ -68,8 +67,11 @@
     "*.ejs": [
       "../scripts/node_modules/.bin/ejslint"
     ],
-    "*.{css,html,json,md,yml}": [
+    "*.{css,html,json,yml}": [
       "../scripts/node_modules/.bin/prettier --write"
+    ],
+    "*.{md}": [
+      "yarn lint:md --output"
     ]
   },
   "browserslist": [
@@ -144,7 +146,7 @@
     "@storybook/html-webpack5": "workspace:*",
     "@storybook/instrumenter": "workspace:*",
     "@storybook/jest": "next",
-    "@storybook/linter-config": "^3.1.2",
+    "@storybook/linter-config": "portal:../../linter-config",
     "@storybook/manager": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/nextjs": "workspace:*",
@@ -235,7 +237,8 @@
     "lodash": "^4.17.21",
     "node-gyp": "^9.3.1",
     "nx": "17.0.2",
-    "prettier": "2.8.0",
+    "prettier": "3.1.0",
+    "prettier-2": "npm:prettier@^2",
     "process": "^0.11.10",
     "raf": "^3.4.1",
     "react": "^18.2.0",

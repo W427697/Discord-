@@ -25,7 +25,7 @@ import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
-export default function jscodeshift(info: FileInfo) {
+export default async function jscodeshift(info: FileInfo) {
   const parsed = path.parse(info.path);
 
   let baseName = path.join(
@@ -38,7 +38,7 @@ export default function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const result = transform(info.source, path.basename(baseName));
+  const result = await transform(info.source, path.basename(baseName));
 
   const [mdx, csf] = result;
 
@@ -49,7 +49,7 @@ export default function jscodeshift(info: FileInfo) {
   return mdx;
 }
 
-export function transform(source: string, baseName: string): [string, string] {
+export async function transform(source: string, baseName: string): Promise<[string, string]> {
   const root = mdxProcessor.parse(source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
@@ -295,15 +295,19 @@ export function transform(source: string, baseName: string): [string, string] {
   const newMdx = mdxProcessor.stringify(root);
   let output = recast.print(file.path.node).code;
 
-  const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
-    printWidth: 100,
-    tabWidth: 2,
-    bracketSpacing: true,
-    trailingComma: 'es5',
-    singleQuote: true,
-  };
+  try {
+    const prettierConfig = (await prettier.resolveConfig('.', { editorconfig: true })) || {
+      printWidth: 100,
+      tabWidth: 2,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+    };
 
-  output = prettier.format(output, { ...prettierConfig, filepath: `file.jsx` });
+    output = await prettier.format(output, { ...prettierConfig, filepath: `file.jsx` });
+  } catch (e) {
+    console.log(`Failed to format file ${baseName} with prettier`);
+  }
 
   return [newMdx, output];
 }

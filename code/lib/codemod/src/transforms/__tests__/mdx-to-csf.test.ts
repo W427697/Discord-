@@ -15,14 +15,14 @@ beforeEach(() => {
   fs.existsSync.mockImplementation(() => false);
 });
 
-test('update import even when no stories can be extracted', () => {
+test('update import even when no stories can be extracted', async () => {
   const input = dedent`
       import { Heading } from '@storybook/addon-docs';
 
       <Heading />     
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Heading } from '@storybook/blocks';
@@ -32,7 +32,7 @@ test('update import even when no stories can be extracted', () => {
   `);
 });
 
-test('drop invalid story nodes', () => {
+test('drop invalid story nodes', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -43,7 +43,7 @@ test('drop invalid story nodes', () => {
       <Story name="Primary">Story</Story>     
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -58,7 +58,7 @@ test('drop invalid story nodes', () => {
   `);
 });
 
-test('convert story re-definition', () => {
+test('convert story re-definition', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Primary } from './Foobar.stories';
@@ -70,7 +70,7 @@ test('convert story re-definition', () => {
 
   fs.existsSync.mockImplementation((path) => path === 'Foobar.stories.js');
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -88,15 +88,14 @@ test('convert story re-definition', () => {
     import { Primary } from './Foobar.stories';
 
     export default {
-      title: 'Foobar',
+      title: "Foobar"
     };
 
     export { Primary };
-
   `);
 });
 
-test('Comment out story nodes with id', () => {
+test('Comment out story nodes with id', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -105,7 +104,7 @@ test('Comment out story nodes with id', () => {
       <Story id="button--primary" />
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -120,7 +119,7 @@ test('Comment out story nodes with id', () => {
   `);
 });
 
-test('convert correct story nodes', () => {
+test('convert correct story nodes', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -129,7 +128,7 @@ test('convert correct story nodes', () => {
       <Story name="Primary">Story</Story>
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -144,18 +143,17 @@ test('convert correct story nodes', () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
   expect(csf).toMatchInlineSnapshot(`
     export default {
-      title: 'Foobar',
+      title: "Foobar"
     };
 
     export const Primary = {
-      render: () => 'Story',
-      name: 'Primary',
+      render: () => "Story",
+      name: "Primary"
     };
-
   `);
 });
 
-test('convert addon-docs imports', () => {
+test('convert addon-docs imports', async () => {
   const input = dedent`
       import { Meta } from '@storybook/addon-docs';
       import { Story } from '@storybook/addon-docs/blocks';
@@ -165,7 +163,7 @@ test('convert addon-docs imports', () => {
       <Story name="Primary">Story</Story>
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta } from '@storybook/blocks';
@@ -179,7 +177,7 @@ test('convert addon-docs imports', () => {
   `);
 });
 
-test('convert story nodes with spaces', () => {
+test('convert story nodes with spaces', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -188,7 +186,7 @@ test('convert story nodes with spaces', () => {
       <Story name="Primary Space">Story</Story>
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -203,18 +201,17 @@ test('convert story nodes with spaces', () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
   expect(csf).toMatchInlineSnapshot(`
     export default {
-      title: 'Foobar',
+      title: "Foobar"
     };
 
     export const PrimarySpace = {
-      render: () => 'Story',
-      name: 'Primary Space',
+      render: () => "Story",
+      name: "Primary Space"
     };
-
   `);
 });
 
-test('extract esm into csf head code', () => {
+test('extract esm into csf head code', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Button } from './Button';
@@ -240,7 +237,7 @@ test('extract esm into csf head code', () => {
       </Story>
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -271,24 +268,23 @@ test('extract esm into csf head code', () => {
     const Template = (args) => <Button {...args} />;
 
     export default {
-      title: 'foobar',
+      title: "foobar"
     };
 
     export const Foo = {
-      render: () => 'bar',
-      name: 'foo',
+      render: () => "bar",
+      name: "foo"
     };
 
     export const Unchecked = {
       render: Template.bind({}),
-      name: 'Unchecked',
+      name: "Unchecked",
 
       args: {
         ...args,
-        label: 'Unchecked',
-      },
+        label: "Unchecked"
+      }
     };
-
   `);
 });
 
@@ -392,7 +388,7 @@ test('extract all story attributes', () => {
   `);
 });
 
-test('duplicate story name', () => {
+test('duplicate story name', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Button } from './Button';
@@ -409,7 +405,7 @@ test('duplicate story name', () => {
       
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(mdx).toMatchInlineSnapshot(`
@@ -432,23 +428,22 @@ test('duplicate story name', () => {
     const Default = (args) => <Button {...args} />;
 
     export default {
-      title: 'Button',
+      title: "Button"
     };
 
     export const Default_ = {
       render: Default.bind({}),
-      name: 'Default',
+      name: "Default"
     };
 
     export const Second = {
       render: Default.bind({}),
-      name: 'Second',
+      name: "Second"
     };
-
   `);
 });
 
-test('kebab case file name', () => {
+test('kebab case file name', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Kebab } from './my-component/some-kebab-case';
@@ -465,7 +460,10 @@ test('kebab case file name', () => {
       
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'some-kebab-case.stories.mdx' });
+  const mdx = await jscodeshift({
+    source: input,
+    path: 'some-kebab-case.stories.mdx',
+  });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -490,24 +488,23 @@ test('kebab case file name', () => {
     const Template = (args) => <Kebab {...args} />;
 
     export default {
-      title: 'Kebab',
+      title: "Kebab"
     };
 
     export const MuchKebab = {
       render: Template.bind({}),
-      name: 'Much-Kebab',
+      name: "Much-Kebab"
     };
 
     export const ReallyMuchKebab = {
       render: Template.bind({}),
-      name: 'Really-Much-Kebab',
+      name: "Really-Much-Kebab"
     };
-
   `);
 });
 
-test('story child is jsx', () => {
-  const input = dedent`
+test('story child is jsx', async () => {
+  const input = dedent`async 
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
       import { Button } from './button';
       
@@ -518,7 +515,7 @@ test('story child is jsx', () => {
       </Story>
     `;
 
-  jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  await jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   const [, csf] = fs.writeFileSync.mock.calls[0];
 

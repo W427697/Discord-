@@ -23,6 +23,7 @@ const modulesToTransform = [
   '@lit',
   '@mdx-js',
   '@vitest',
+  'bail',
   'ccount',
   'character-entities',
   'decode-named-character-reference',
@@ -30,6 +31,7 @@ const modulesToTransform = [
   'is-absolute-url',
   'lit-html',
   'lit',
+  'longest-streak',
   'mdast',
   'micromark',
   'nanoid',
@@ -39,9 +41,11 @@ const modulesToTransform = [
   'data-uri-to-buffer',
   'fetch-blob',
   'formdata-polyfill',
+  'prettier',
   'slash',
   'space-separated-tokens',
   'stringify-entities',
+  'trough',
   'unified',
   'unist',
   'uuid',
@@ -54,6 +58,7 @@ const modulesToTransform = [
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
+  prettierPath: require.resolve('prettier-2'),
   moduleNameMapper: {
     // non-js files
     '\\.(jpg|jpeg|png|apng|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
