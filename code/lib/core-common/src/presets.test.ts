@@ -1,7 +1,7 @@
+import mockRequire from 'mock-require';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import path from 'path';
 import { logger } from '@storybook/node-logger';
-import { isObject } from 'lodash';
 import { getPresets, resolveAddonName, loadPreset } from './presets';
 
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
@@ -11,22 +11,8 @@ function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
   };
 }
 
-// Vitest will error if it tries to access `addons` or `presets` and they haven't been explicitly mocked.
-const basePresetMock = {
-  addons: undefined,
-  presets: undefined,
-};
-
 function mockPreset(name: string, mockPresetObject: any) {
-  vi.doMock(name, () => {
-    if (Array.isArray(mockPresetObject)) {
-      return mockPresetObject;
-    }
-    if (isObject(mockPresetObject)) {
-      return { ...basePresetMock, ...mockPresetObject };
-    }
-    return mockPresetObject;
-  });
+  mockRequire(name, mockPresetObject);
 }
 
 vi.mock('@storybook/node-logger', () => ({
@@ -93,7 +79,6 @@ describe('presets', () => {
 
     expect(presets).toBeDefined();
   });
-
   it('does not throw when presets are empty', async () => {
     // @ts-expect-error (invalid use)
     const presets = wrapPreset(await getPresets([]));
@@ -391,9 +376,9 @@ describe('presets', () => {
 
   afterEach(() => {
     vi.resetModules();
+    mockRequire.stopAll();
   });
 });
-
 describe('resolveAddonName', () => {
   it('should resolve packages with metadata (relative path)', () => {
     mockPreset('./local/preset', {
@@ -459,22 +444,25 @@ describe('resolveAddonName', () => {
 });
 
 describe('loadPreset', () => {
-  mockPreset('@storybook/react', {});
-  mockPreset('@storybook/preset-typescript', {});
-  mockPreset('@storybook/addon-docs/preset', {});
-  mockPreset('@storybook/addon-actions/register.js', {});
-  mockPreset('addon-foo/register.js', {});
-  mockPreset('@storybook/addon-cool', {});
-  mockPreset('@storybook/addon-interactions/preset', {});
-  mockPreset('addon-bar', {
-    addons: ['@storybook/addon-cool'],
-    presets: ['@storybook/addon-interactions/preset'],
-  });
-  mockPreset('addon-baz/register.js', {});
-  mockPreset('@storybook/addon-notes/register-panel', {});
-
   beforeEach(() => {
     vi.spyOn(logger, 'warn');
+    mockPreset('@storybook/react', {});
+    mockPreset('@storybook/preset-typescript', {});
+    mockPreset('@storybook/addon-docs/preset', {});
+    mockPreset('@storybook/addon-actions/register.js', {});
+    mockPreset('addon-foo/register.js', {});
+    mockPreset('@storybook/addon-cool', {});
+    mockPreset('@storybook/addon-interactions/preset', {});
+    mockPreset('addon-bar', {
+      addons: ['@storybook/addon-cool'],
+      presets: ['@storybook/addon-interactions/preset'],
+    });
+    mockPreset('addon-baz/register.js', {});
+    mockPreset('@storybook/addon-notes/register-panel', {});
+  });
+
+  afterEach(() => {
+    mockRequire.stopAll();
   });
 
   it('should prepend framework field to list of presets', async () => {
@@ -670,12 +658,11 @@ describe('loadPreset', () => {
     const loaded = await loadPreset(
       {
         name: '',
-        options: {
-          type: 'virtual',
-          framework: '@storybook/react',
-          presets: ['@storybook/preset-typescript'],
-          addons: ['@storybook/addon-docs', 'addon-bar'],
-        },
+        // @ts-expect-error (invalid use)
+        type: 'virtual',
+        framework: '@storybook/react',
+        presets: ['@storybook/preset-typescript'],
+        addons: ['@storybook/addon-docs', 'addon-bar'],
       },
       0,
       {
@@ -684,8 +671,6 @@ describe('loadPreset', () => {
             disabledAddons: ['@storybook/addon-docs'],
           },
         },
-        configDir: '',
-        packageJson: {},
       }
     );
 

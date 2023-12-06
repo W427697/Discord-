@@ -6670,6 +6670,7 @@ __metadata:
     husky: "npm:^4.3.7"
     lint-staged: "npm:^13.2.2"
     lodash: "npm:^4.17.21"
+    mock-require: "npm:^3.0.3"
     node-gyp: "npm:^9.3.1"
     nx: "npm:17.0.2"
     prettier: "npm:2.8.0"
@@ -16456,6 +16457,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-caller-file@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "get-caller-file@npm:1.0.3"
+  checksum: 763dcee2de8ff60ae7e13a4bad8306205a2fbe108e555686344ddd9ef211b8bebfe459d3a739669257014c59e7cc1e7a44003c21af805c1214673e6a45f06c51
+  languageName: node
+  linkType: hard
+
 "get-caller-file@npm:^2.0.1, get-caller-file@npm:^2.0.5":
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
@@ -21793,6 +21801,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mock-require@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "mock-require@npm:3.0.3"
+  dependencies:
+    get-caller-file: "npm:^1.0.2"
+    normalize-path: "npm:^2.1.1"
+  checksum: 55ef23d393b7047c825fbe8010fce12391c44691c530dcfcd306e9e9eea27f33501d3d8a74f54c51af645d3f1448e8019ea4c8d0f67b385cb4567519461ceb9f
+  languageName: node
+  linkType: hard
+
 "mount-point@npm:^3.0.0":
   version: 3.0.0
   resolution: "mount-point@npm:3.0.0"
@@ -22298,6 +22316,15 @@ __metadata:
     semver: "npm:^7.3.5"
     validate-npm-package-license: "npm:^3.0.4"
   checksum: dbd7c712c1e016a4b682640a53b44e9290c9db7b94355c71234bafee1534bef4c5dc3970c30c7ee2c4990a3c07e963e15e211b61624d58eb857d867ec71d3bb6
+  languageName: node
+  linkType: hard
+
+"normalize-path@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "normalize-path@npm:2.1.1"
+  dependencies:
+    remove-trailing-separator: "npm:^1.0.1"
+  checksum: db814326ff88057437233361b4c7e9cac7b54815b051b57f2d341ce89b1d8ec8cbd43e7fa95d7652b3b69ea8fcc294b89b8530d556a84d1bdace94229e1e9a8b
   languageName: node
   linkType: hard
 
@@ -25544,6 +25571,13 @@ __metadata:
     remark-stringify: "npm:^10.0.0"
     unified: "npm:^10.0.0"
   checksum: d4dbef29abdb62b01ae632d787bf0038af819df3e4308e037754ece8cb9c4d8ea52e8629174a47b5c46a7448cd22feba5dfea09b3ffdaa8c745b4c9bdd01b41d
+  languageName: node
+  linkType: hard
+
+"remove-trailing-separator@npm:^1.0.1":
+  version: 1.1.0
+  resolution: "remove-trailing-separator@npm:1.1.0"
+  checksum: 3568f9f8f5af3737b4aee9e6e1e8ec4be65a92da9cb27f989e0893714d50aa95ed2ff02d40d1fa35e1b1a234dc9c2437050ef356704a3999feaca6667d9e9bfc
   languageName: node
   linkType: hard
 
