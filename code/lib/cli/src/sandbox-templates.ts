@@ -376,6 +376,17 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
+  'svelte-kit/prerelease-ts': {
+    name: 'SvelteKit Prerelease (Vite | TypeScript)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/prerelease-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --svelte5',
+    expected: {
+      framework: '@storybook/sveltekit',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
   'lit-vite/default-js': {
     name: 'Lit Latest (Vite | JavaScript)',
     script:
@@ -619,6 +630,7 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
+  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
