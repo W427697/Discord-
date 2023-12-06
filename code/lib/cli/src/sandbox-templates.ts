@@ -116,6 +116,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
     inDevelopment: true,
   },
@@ -128,6 +133,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/default-ts': {
@@ -139,6 +149,11 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/prerelease': {
@@ -149,6 +164,11 @@ const baseTemplates = {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -338,6 +358,17 @@ const baseTemplates = {
     name: 'SvelteKit Latest (Vite | TypeScript)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
+    expected: {
+      framework: '@storybook/sveltekit',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'svelte-kit/prerelease-ts': {
+    name: 'SvelteKit Prerelease (Vite | TypeScript)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/prerelease-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -574,6 +605,7 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
+  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
