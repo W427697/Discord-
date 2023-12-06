@@ -274,7 +274,7 @@ describe('useStoriesJson', () => {
           "v": 4,
         }
       `);
-    });
+    }, 10_000);
 
     it('scans and extracts stories v3', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;

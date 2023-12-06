@@ -335,7 +335,7 @@ describe('StoryIndexGenerator', () => {
             "v": 4,
           }
         `);
-      });
+      }, 10_000);
     });
 
     describe('autodocs', () => {

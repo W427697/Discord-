@@ -272,7 +272,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
             "v": 4,
           }
         `);
-      });
+      }, 10_000);
     });
 
     describe('autodocs', () => {

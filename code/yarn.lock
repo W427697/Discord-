@@ -6638,6 +6638,7 @@ __metadata:
     "@types/fs-extra": "npm:^11.0.1"
     "@types/jest-specific-snapshot": "npm:^0.5.6"
     "@types/lodash": "npm:^4.14.167"
+    "@types/mock-require": "npm:^2.0.3"
     "@types/node": "npm:^18.0.0"
     "@types/react": "npm:^18.0.37"
     "@types/react-dom": "npm:^18.0.11"
@@ -8200,6 +8201,15 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 76fad0ce1e9bbd4d0ea9189aae13b6423d4a3fec4676ccea7958cd0b3f13b67849d19b7bc80f59ad61d49a864d359b36bf71773c27b4a4b7018433967f3baefe
+  languageName: node
+  linkType: hard
+
+"@types/mock-require@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@types/mock-require@npm:2.0.3"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 44552580cb933ed4739fe1faab9c84272879624313c112fd0afbc85bd1d05fabdd0cac68f5869911c27e028909e17af4ebe8c6604c46f7fb7b618f6834649683
   languageName: node
   linkType: hard
 
