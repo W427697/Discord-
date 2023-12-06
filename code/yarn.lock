@@ -4857,7 +4857,6 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
-    "@storybook/vue": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
@@ -6515,8 +6514,6 @@ __metadata:
     "@storybook/testing-library": "npm:next"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    "@storybook/vue-webpack5": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@storybook/vue3-vite": "workspace:*"
     "@storybook/vue3-webpack5": "workspace:*"
@@ -6854,48 +6851,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue-vite@workspace:frameworks/vue-vite":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
-  dependencies:
-    "@storybook/builder-vite": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-server": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    magic-string: "npm:^0.30.0"
-    typescript: "npm:^5.3.2"
-    vite: "npm:^4.0.0"
-    vue: "npm:^2.7.10"
-    vue-docgen-api: "npm:^4.40.0"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
-    vue: ^2.7.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue-webpack5@workspace:*, @storybook/vue-webpack5@workspace:frameworks/vue-webpack5":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue-webpack5@workspace:frameworks/vue-webpack5"
-  dependencies:
-    "@storybook/builder-webpack5": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/preset-vue-webpack": "workspace:*"
-    "@storybook/vue": "workspace:*"
-    "@types/node": "npm:^18.0.0"
-    typescript: "npm:^5.3.2"
-    vue: "npm:^2.6.12"
-    vue-loader: "npm:^15.7.0"
-    vue-template-compiler: "npm:^2.6.14"
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-    css-loader: "*"
-    vue: ^2.6.8
-    vue-loader: ^15.7.0
-    vue-template-compiler: ^2.6.8
-  languageName: unknown
-  linkType: soft
-
 "@storybook/vue3-vite@workspace:*, @storybook/vue3-vite@workspace:frameworks/vue3-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
@@ -6957,32 +6912,6 @@ __metadata:
   peerDependencies:
     "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
-  languageName: unknown
-  linkType: soft
-
-"@storybook/vue@workspace:*, @storybook/vue@workspace:renderers/vue":
-  version: 0.0.0-use.local
-  resolution: "@storybook/vue@workspace:renderers/vue"
-  dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
-    tiny-invariant: "npm:^1.3.1"
-    ts-dedent: "npm:^2.0.0"
-    type-fest: "npm:~2.19"
-    typescript: "npm:^5.3.2"
-    vue: "npm:2.6.14"
-    vue-tsc: "npm:latest"
-  peerDependencies:
-    "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-    css-loader: "*"
-    vue: ^2.6.8
-  peerDependenciesMeta:
-    babel-loader:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -29299,13 +29228,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:2.6.14":
-  version: 2.6.14
-  resolution: "vue@npm:2.6.14"
-  checksum: efbe26ccc7c1bd025b88e464ebc81217b92350a77b98049122a46ac2242e249719f930d3914e2efdeaaa521a51e6e6b1cb9ffbf95b4835ed94dc92efb481040f
-  languageName: node
-  linkType: hard
-
 "vue@npm:3.0.0":
   version: 3.0.0
   resolution: "vue@npm:3.0.0"
@@ -29317,7 +29239,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^2.6.12, vue@npm:^2.7.10":
+"vue@npm:^2.6.12":
   version: 2.7.15
   resolution: "vue@npm:2.7.15"
   dependencies:
