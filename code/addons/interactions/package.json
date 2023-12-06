@@ -28,26 +28,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./register.js": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
-    "./preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.js"
-    },
+    "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
+    "./register.js": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
