@@ -2,8 +2,6 @@
 
 ## 📦 Install addon
 
-<!-- **NOTE:** As of Storybook 7.2, `@storybook/addon-themes` ships in `@storybook/addon-essentials`. If you're using Storybook >= 7.2, skip to ["Import your css"](#🥾-import-your-css). -->
-
 To get started, **install the package** as a dev dependency
 
 yarn:
@@ -41,6 +39,36 @@ module.exports = {
 };
 ```
 
+## 🏷️ Add class to `prefers-color-scheme` media
+
+CSS has special media at-rule for dark theme: `@media (prefers-color-scheme: dark)`. [`postcss-dark-theme-class`](https://github.com/postcss/postcss-dark-theme-class) can copy content of those at-rules to `.is-dark` selector.
+
+Check your project for existing PostCSS config: `postcss.config.js` in the project root, `"postcss"` section in `package.json` or postcss in bundle config.
+
+Add plugin to the list.
+
+```diff
+module.exports = {
+  plugins: [
++   require('postcss-dark-theme-class'),
+    require('autoprefixer')
+  ]
+}
+```
+
+Use `prefers-color-scheme` media in your CSS:
+
+```css
+:root {
+  --text-color: black;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    --text-color: white
+  }
+}
+```
+
 ## 🥾 Import your CSS
 
 To give your stories access to styles, import them into your `.storybook/preview.js` file.
@@ -58,8 +86,6 @@ export default preview;
 ```
 
 ## 🎨 Provide your theme(s)
-
-Tailwind supports light and dark color modes out of the box. These modes can be activated by setting a `.dark` class on a parent element.
 
 To enable switching between these modes in a click for your stories, use our `withThemeByClassName` decorator by adding the following code to your `.storybook/preview.js` file.
 
@@ -85,32 +111,4 @@ const preview: Preview = {
 };
 
 export default preview;
-```
-
-## 🏷️ Add class to `prefers-color-scheme` media
-
-Check your project for existing PostCSS config: postcss.config.js in the project root, "postcss" section in package.json or postcss in bundle config.
-
-Add plugin to the list.
-
-```diff
-module.exports = {
-  plugins: [
-+   require('postcss-dark-theme-class'),
-    require('autoprefixer')
-  ]
-}
-```
-
-Use `prefers-color-scheme` media in your CSS:
-
-```css
-:root {
-  --text-color: black;
-}
-@media (prefers-color-scheme: dark) {
-  html {
-    --text-color: white
-  }
-}
 ```
