@@ -65,10 +65,17 @@ export const core: PresetProperty<'core'> = async (config, options) => {
   };
 };
 
-export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
-  ...entry,
-  join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
-];
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
+  entry = [],
+  { features }
+) => {
+  const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
+  const result = [...entry, join(nextDir, 'dist/preview.mjs')];
+  if (features?.experimentalNextRSC) {
+    result.unshift(join(nextDir, 'dist/previewRSC.mjs'));
+  }
+  return result;
+};
 
 // Not even sb init - automigrate - running dev
 // You're using a version of Nextjs prior to v10, which is unsupported by this framework.
