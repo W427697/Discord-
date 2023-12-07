@@ -79,20 +79,21 @@ export class JsPackageManagerFactory {
    */
   private static inferPackageManagerFromUserAgent(): PackageManagerName | undefined {
     const userAgent = process.env.npm_config_user_agent;
-    if (!userAgent) return 'npm';
-    const packageSpec = userAgent.split(' ')[0];
-    const [pkgMgrName, pkgMgrVersion] = packageSpec.split('/');
+    if (userAgent) {
+      const packageSpec = userAgent.split(' ')[0];
+      const [pkgMgrName, pkgMgrVersion] = packageSpec.split('/');
 
-    if (pkgMgrName === 'pnpm') {
-      return 'pnpm';
-    }
+      if (pkgMgrName === 'pnpm') {
+        return 'pnpm';
+      }
 
-    if (pkgMgrName === 'npm') {
-      return 'npm';
-    }
+      if (pkgMgrName === 'npm') {
+        return 'npm';
+      }
 
-    if (pkgMgrName === 'yarn') {
-      return `yarn${pkgMgrVersion?.startsWith('1.') ? '1' : '2'}`;
+      if (pkgMgrName === 'yarn') {
+        return `yarn${pkgMgrVersion?.startsWith('1.') ? '1' : '2'}`;
+      }
     }
 
     return undefined;
