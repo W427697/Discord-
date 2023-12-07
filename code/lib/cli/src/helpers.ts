@@ -13,7 +13,6 @@ import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
-  PackageManagerName,
 } from './js-package-manager';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
