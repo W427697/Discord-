@@ -107,17 +107,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'nextjs/12-js': {
-    name: 'Next.js v12 (Webpack | JavaScript)',
-    script:
-      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
-    expected: {
-      framework: '@storybook/nextjs',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
     script:
@@ -391,18 +380,6 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
-  'vue-cli/vue2-default-js': {
-    name: 'Vue CLI v2 (Webpack | JavaScript)',
-    script:
-      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/vue-webpack5',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-webpack5',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
   'preact-webpack5/default-js': {
     name: 'Preact CLI Latest (Webpack | JavaScript)',
     script:
@@ -567,7 +544,6 @@ export const normal: TemplateKey[] = [
   'react-vite/default-ts',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
-  'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',
@@ -599,7 +575,6 @@ export const daily: TemplateKey[] = [
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
   'svelte-vite/default-js',
-  'nextjs/12-js',
   'nextjs/default-js',
   'nextjs/prerelease',
   'qwik-vite/default-ts',
