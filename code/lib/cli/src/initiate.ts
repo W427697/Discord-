@@ -11,7 +11,7 @@ import boxen from 'boxen';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
-import { commandLog, codeLog, paddedLog, inferPackageManagerFromUserAgent } from './helpers';
+import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
@@ -255,7 +255,7 @@ async function doInitiate(
   }
 
   const packageManager = JsPackageManagerFactory.getPackageManager({
-    force: pkgMgr || inferPackageManagerFromUserAgent(),
+    force: pkgMgr,
   });
 
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';

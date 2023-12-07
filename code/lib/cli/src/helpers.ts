@@ -315,29 +315,3 @@ export function coerceSemver(version: string) {
   invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
   return coercedSemver;
 }
-
-/**
- * Infer the package manager based on the command the user is running.
- * Each package manager sets the `npm_config_user_agent` environment variable with its name and version e.g. "npm/7.24.0"
- * Which is really useful when invoking commands via npx/pnpx/yarn create/etc.
- */
-export function inferPackageManagerFromUserAgent(): PackageManagerName {
-  const userAgent = process.env.npm_config_user_agent;
-  if (!userAgent) return 'npm';
-  const packageSpec = userAgent.split(' ')[0];
-  const [pkgMgrName, pkgMgrVersion] = packageSpec.split('/');
-
-  if (pkgMgrName === 'pnpm') {
-    return 'pnpm';
-  }
-
-  if (pkgMgrName === 'npm') {
-    return 'npm';
-  }
-
-  if (pkgMgrName === 'yarn') {
-    return `yarn${pkgMgrVersion?.startsWith('1.') ? '1' : '2'}`;
-  }
-
-  return 'npm';
-}
