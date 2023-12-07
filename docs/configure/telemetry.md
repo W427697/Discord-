@@ -34,8 +34,8 @@ Specifically, we track the following information in our telemetry events:
   - Supported view layers (e.g., React, Vue, Angular, Svelte).
   - Builder (e.g., Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
-  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
-  - [Feature flags](./overview.md#feature-flags) (e.g., `buildStoriesJson`).
+  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/index.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
+  - [Feature flags](./index.md#feature-flags) (e.g., `buildStoriesJson`).
 - Package manager information (e.g., `npm`, `yarn`).
 - Monorepo information (e.g., [NX](https://nx.dev/), [Turborepo](https://turborepo.org/)).
 - In-app events (e.g., [Storybook guided tour](https://github.com/storybookjs/addon-onboarding)).
@@ -178,11 +178,11 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
+There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
 
-</div>
+</Callout>
 
 ## Crash reports (disabled by default)
 

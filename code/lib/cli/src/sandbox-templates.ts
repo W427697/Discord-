@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -66,7 +66,7 @@ export type Template = {
    */
   modifications?: {
     skipTemplateStories?: boolean;
-    mainConfig?: Partial<StorybookConfig>;
+    mainConfig?: Partial<StorybookConfigRaw>;
     testBuild?: boolean;
     disableDocs?: boolean;
   };
@@ -107,34 +107,52 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'nextjs/12-js': {
-    name: 'Next.js v12 (Webpack | JavaScript)',
+  'nextjs/13-ts': {
+    name: 'Next.js v13.5 (Webpack | TypeScript)',
     script:
-      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
-    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --javascript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'nextjs/default-ts': {
     name: 'Next.js Latest (Webpack | TypeScript)',
-    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -146,6 +164,11 @@ const baseTemplates = {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      mainConfig: {
+        features: { experimentalNextRSC: true },
+      },
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
@@ -234,17 +257,6 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
-  'vue2-vite/2.7-js': {
-    name: 'Vue v2 (Vite | JavaScript)',
-    script: 'npx create-vue@2 {{beforeDir}} --default',
-    expected: {
-      framework: '@storybook/vue-vite',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-vite',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
   'html-webpack/default': {
     name: 'HTML Latest (Webpack | JavaScript)',
     script: 'yarn create webpack5-html {{beforeDir}}',
@@ -301,7 +313,7 @@ const baseTemplates = {
   'angular-cli/prerelease': {
     name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -312,7 +324,7 @@ const baseTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -334,7 +346,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-js': {
     name: 'SvelteKit Latest (Vite | JavaScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -345,7 +357,18 @@ const baseTemplates = {
   'svelte-kit/skeleton-ts': {
     name: 'SvelteKit Latest (Vite | TypeScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
+    expected: {
+      framework: '@storybook/sveltekit',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'svelte-kit/prerelease-ts': {
+    name: 'SvelteKit Prerelease (Vite | TypeScript)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/prerelease-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -384,18 +407,6 @@ const baseTemplates = {
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
-      builder: '@storybook/builder-webpack5',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
-  'vue-cli/vue2-default-js': {
-    name: 'Vue CLI v2 (Webpack | JavaScript)',
-    script:
-      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/vue-webpack5',
-      renderer: '@storybook/vue',
       builder: '@storybook/builder-webpack5',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
@@ -464,34 +475,6 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/ssv6-vite': {
-    ...baseTemplates['react-vite/default-ts'],
-    name: 'StoryStore v6 (react-vite/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
-  'internal/ssv6-webpack': {
-    ...baseTemplates['cra/default-ts'],
-    name: 'StoryStore v6 (cra/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
   'internal/swc-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'SWC (react-webpack/18-ts)',
@@ -568,7 +551,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
   'bench/react-webpack-18-ts-test-build': {
     ...baseTemplates['react-webpack/18-ts'],
@@ -578,7 +561,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
 } satisfies Record<string, Template & { isInternal: true }>;
 
@@ -593,7 +576,6 @@ export const normal: TemplateKey[] = [
   'react-vite/default-ts',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
-  'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',
@@ -613,8 +595,6 @@ export const merged: TemplateKey[] = [
   'preact-vite/default-ts',
   'html-webpack/default',
   'html-vite/default-ts',
-  'internal/ssv6-vite',
-  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
@@ -622,12 +602,12 @@ export const daily: TemplateKey[] = [
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
-  'vue2-vite/2.7-js',
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
+  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
-  'nextjs/12-js',
+  'nextjs/13-ts',
   'nextjs/default-js',
   'nextjs/prerelease',
   'qwik-vite/default-ts',

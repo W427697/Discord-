@@ -9,6 +9,7 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
 import { readdirSync } from 'fs-extra';
+import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -18,8 +19,6 @@ import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import nextjsGenerator from './generators/NEXTJS';
-import sfcVueGenerator from './generators/SFC_VUE';
-import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
 import htmlGenerator from './generators/HTML';
@@ -53,11 +52,11 @@ const installStorybook = async <Project extends ProjectType>(
 
   const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder,
+    builder: options.builder as Builder,
     linkable: !!options.linkable,
-    pnp: pnp || options.usePnp,
-    yes: options.yes,
-    projectType: options.type,
+    pnp: pnp || (options.usePnp as boolean),
+    yes: options.yes as boolean,
+    projectType,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -97,16 +96,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.NEXTJS:
         return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Next" app')
-        );
-
-      case ProjectType.SFC_VUE:
-        return sfcVueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Single File Components Vue" app')
-        );
-
-      case ProjectType.VUE:
-        return vueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Vue" app')
         );
 
       case ProjectType.VUE3:
@@ -187,7 +176,7 @@ const installStorybook = async <Project extends ProjectType>(
 
   try {
     return await runGenerator();
-  } catch (err) {
+  } catch (err: any) {
     if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
@@ -336,9 +325,9 @@ async function doInitiate(
     }
   } else {
     try {
-      projectType = await detect(packageManager, options);
+      projectType = (await detect(packageManager, options)) as ProjectType;
     } catch (err) {
-      done(err.message);
+      done(String(err));
       throw new HandledError(err);
     }
   }
@@ -430,7 +419,7 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
     () => doInitiate(options, pkg)
   );
 
-  if (initiateResult.shouldRunDev) {
+  if (initiateResult?.shouldRunDev) {
     const { projectType, packageManager, storybookCommand } = initiateResult;
     logger.log('\nRunning Storybook');
 

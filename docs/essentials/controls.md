@@ -19,13 +19,13 @@ Controls do not require any modification to your components. Stories for control
 - Portable. Reuse your interactive stories in documentation, tests, and even in designs.
 - Rich. Customize the controls and interactive data to suit your exact needs.
 
-To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
+To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/arg-types.md), see below.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you have stories in the older pre-Storybook 6 style, check the <a href="https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5">args & controls migration guide</a> to learn how to convert your existing stories for args.
+If you have stories in the older pre-Storybook 6 style, check the [args & controls migration guide](https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5) to learn how to convert your existing stories for args.
 
-</div>
+</Callout>
 
 ## Choosing the control type
 
@@ -70,7 +70,7 @@ By default, Storybook will render a free text input for the `variant` arg:
 
 It works as long as you type a valid string into the auto-generated text control. Still, it's not the best UI for our scenario, given that the component only accepts `primary` or `secondary` as variants. Let’s replace it with Storybook’s radio component.
 
-We can specify which controls get used by declaring a custom [argType](../api/argtypes.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
+We can specify which controls get used by declaring a custom [argType](../api/arg-types.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
 
 `ArgTypes` can also contain arbitrary annotations, which the user can override. Since `variant` is a property of the component, let's put that annotation on the default export.
 
@@ -89,11 +89,11 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
 
-</div>
+</Callout>
 
 This replaces the input with a radio group for a more intuitive experience.
 
@@ -101,9 +101,9 @@ This replaces the input with a radio group for a more intuitive experience.
 
 ## Custom control type matchers
 
-For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
+Controls can automatically be inferred from arg's name with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp), but currently only for the color picker and date picker controls. If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
-| Data type |              Default regex               |                        Description                        |
+|  Control  |              Default regex               |                        Description                        |
 | :-------: | :--------------------------------------: | :-------------------------------------------------------: |
 | **color** | <code>/(background&#124;color)$/i</code> | Will display a color picker UI for the args that match it |
 | **date**  |                `/Date$/`                 | Will display a date picker UI for the args that match it  |
@@ -120,6 +120,10 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 />
 
 <!-- prettier-ignore-end -->
+
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+
+<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
 
 ## Fully custom args
 
@@ -155,6 +159,8 @@ By default, Storybook will add controls for all args that:
 
 Using `argTypes`, you can change the display and behavior of each control.
 
+</IfRenderer>
+
 ### Dealing with complex values
 
 When dealing with non-primitive values, you'll notice that you'll run into some limitations. The most obvious issue is that not every value can be represented as part of the `args` param in the URL, losing the ability to share and deeplink to such a state. Beyond that, complex values such as JSX cannot be synchronized between the manager (e.g., Controls addon) and the preview (your story).
@@ -171,6 +177,7 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
+    'svelte/component-story-custom-args-complex.ts.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
     'solid/component-story-custom-args-complex.js.mdx',
@@ -209,7 +216,7 @@ The Controls addon can be configured in two ways:
 
 ### Annotation
 
-As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/argtypes.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
+As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/arg-types.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
 
 | Data Type   | Control        | Description                                                                                                                                                                                                               |
 | ----------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -229,9 +236,11 @@ As shown above, you can configure individual controls with the “control" annot
 |             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetColors: ['red', 'green']} }}` |
 |             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                   |
 
-<div class="aside">
-💡 The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
-</div>
+<Callout variant="info" icon="💡">
+
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
@@ -248,9 +257,11 @@ As shown above, you can configure individual controls with the “control" annot
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
-</div>
+<Callout variant="info" icon="💡">
+
+Numeric data types will default to a `number` control unless additional configuration is provided.
+
+</Callout>
 
 ### Parameters
 
@@ -260,7 +271,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
-To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -339,11 +350,11 @@ The previous example also removed the prop documentation from the table. In some
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 💡 As with other Storybook properties, such as [decorators](../writing-stories/decorators.md), you can apply the same pattern at a story level for more granular cases.
 
-</div>
+</Callout>
 
 ### Conditional controls
 

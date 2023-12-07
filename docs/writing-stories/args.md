@@ -8,7 +8,7 @@ A story is a component with a set of arguments that define how the component sho
 
 When an arg’s value changes, the component re-renders, allowing you to interact with components in Storybook’s UI via addons that affect args.
 
-Learn how and why to write stories in [the introduction](./introduction.md#using-args). For details on how args work, read on.
+Learn how and why to write stories in [the introduction](./index.md#using-args). For details on how args work, read on.
 
 ## Args object
 
@@ -32,6 +32,7 @@ To define the args of a single story, use the `args` CSF story key:
     'web-components/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
+    'svelte/button-story-with-args.ts.mdx',
     'html/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
     'solid/button-story-with-args.js.mdx',
@@ -80,6 +81,7 @@ You can also define args at the component level; they will apply to all the comp
     'web-components/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.ts.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
+    'svelte/button-story-component-args-primary.ts.mdx',
     'solid/button-story-component-args-primary.js.mdx',
     'solid/button-story-component-args-primary.ts.mdx',
   ]}
@@ -104,11 +106,11 @@ You can also define args at the global level; they will apply to every component
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
+For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
 
-</div>
+</Callout>
 
 ## Args composition
 
@@ -130,11 +132,11 @@ You can separate the arguments to a story to compose in other stories. Here's ho
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you find yourself re-using the same args for most of a component's stories, you should consider using [component-level args](#component-args).
+If you find yourself re-using the same args for most of a component's stories, you should consider using [component-level args](#component-args).
 
-</div>
+</Callout>
 
 Args are useful when writing stories for composite components that are assembled from other components. Composite components often pass their arguments unchanged to their child components, and similarly, their stories can be compositions of their child components stories. With args, you can directly compose the arguments:
 
@@ -152,6 +154,7 @@ Args are useful when writing stories for composite components that are assembled
     'web-components/page-story.js.mdx',
     'web-components/page-story.ts.mdx',
     'svelte/page-story.js.mdx',
+    'svelte/page-story.ts.mdx',
     'solid/page-story.js.mdx',
     'solid/page-story.ts.mdx',
   ]}
@@ -160,6 +163,10 @@ Args are useful when writing stories for composite components that are assembled
 />
 
 <!-- prettier-ignore-end -->
+
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+
+<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
 
 ## Args can modify any aspect of your component
 
@@ -186,6 +193,8 @@ You can use args in your stories to configure the component's appearance, simila
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ## Setting args through the URL
 
@@ -274,7 +283,7 @@ If you are [writing an addon](../addons/writing-addons.md) that wants to read or
 
 In Storybook 6+, we pass the args as the first argument to the story function. The second argument is the “context”, which includes story parameters, globals, argTypes, and other information.
 
-In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -287,7 +296,9 @@ In Storybook 5 and before we passed the context as the first argument. If you’
 
 <!-- prettier-ignore-end -->
 
-  <div class="aside">
-  💡 Note that `args` is still available as a key in the context.
-  </div>
+<Callout variant="info" icon="💡">
+
+Note that `args` is still available as a key in the context.
+
+</Callout>
 </details>

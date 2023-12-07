@@ -11,17 +11,11 @@ const logger = console;
 export const sandbox: Task = {
   description: 'Create the sandbox from a template',
   dependsOn: ({ template }, { link }) => {
-    let shouldLink = link;
-
-    if (template.expected.framework === '@storybook/angular') {
-      shouldLink = false;
-    }
-
     if ('inDevelopment' in template && template.inDevelopment) {
       return ['run-registry', 'generate'];
     }
 
-    if (shouldLink) {
+    if (link) {
       return ['compile'];
     }
 
@@ -31,33 +25,22 @@ export const sandbox: Task = {
     return pathExists(sandboxDir);
   },
   async run(details, options) {
-    if (options.link) {
-      if (details.template.expected.framework === '@storybook/angular') {
-        // In Angular, tsc is spawn via Webpack and for some reason it follows the symlinks and doesn’t recognize it as node_modules. Hence, it does type checking on regular files.
-        // Angular's tsconfig compilerOptions are more strict than the ones in the mono-repo and results in many errors, therefore we use --no-link to circumvent them.
-        logger.log(
-          `Detected an Angular sandbox, which cannot be linked. Enabling --no-link mode..`
-        );
-        // eslint-disable-next-line no-param-reassign
-        options.link = false;
-      }
-
-      if (details.template.inDevelopment) {
-        logger.log(
-          `The ${options.template} has inDevelopment property enabled, therefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
-        );
-        // eslint-disable-next-line no-param-reassign
-        options.link = false;
-      }
+    if (options.link && details.template.inDevelopment) {
+      logger.log(
+        `The ${options.template} has inDevelopment property enabled, therefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
+      );
+      // eslint-disable-next-line no-param-reassign
+      options.link = false;
     }
     if (await this.ready(details)) {
       logger.info('🗑  Removing old sandbox dir');
       await remove(details.sandboxDir);
     }
 
-    const { create, install, addStories, extendMain, init, addExtraDependencies } = await import(
-      './sandbox-parts'
-    );
+    const { create, install, addStories, extendMain, init, addExtraDependencies } =
+      // @ts-expect-error esbuild for some reason exports a default object
+      // eslint-disable-next-line import/extensions
+      (await import('./sandbox-parts.ts')).default;
 
     let startTime = now();
     await create(details, options);
