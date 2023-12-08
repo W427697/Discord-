@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { within, userEvent, expect } from '@storybook/test';
 
-import Page from './page.component';
+import { PageComponent } from './page.component';
 
-const meta: Meta<Page> = {
+const meta: Meta<PageComponent> = {
   title: 'Example/Page',
-  component: Page,
+  component: PageComponent,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
@@ -13,7 +13,7 @@ const meta: Meta<Page> = {
 };
 
 export default meta;
-type Story = StoryObj<Page>;
+type Story = StoryObj<PageComponent>;
 
 export const LoggedOut: Story = {};
 

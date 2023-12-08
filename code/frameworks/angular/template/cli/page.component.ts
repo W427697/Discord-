@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import HeaderComponent from './header.component';
-import type { User } from './User';
+import { HeaderComponent } from './header.component';
+import type { User } from './user';
 
 @Component({
   selector: 'storybook-page',
@@ -65,7 +65,7 @@ import type { User } from './User';
   </article>`,
   styleUrls: ['./page.css'],
 })
-export default class PageComponent {
+export class PageComponent {
   user: User | null = null;
 
   doLogout() {

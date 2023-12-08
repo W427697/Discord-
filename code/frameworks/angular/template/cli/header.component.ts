@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import Button from './button.component';
-import type { User } from './User';
+import { ButtonComponent } from './button.component';
+import type { User } from './user';
 
 @Component({
   selector: 'storybook-header',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [CommonModule, ButtonComponent],
   template: `<header>
     <div class="storybook-header">
       <div>
@@ -64,7 +64,7 @@ import type { User } from './User';
   </header>`,
   styleUrls: ['./header.css'],
 })
-export default class HeaderComponent {
+export class HeaderComponent {
   @Input()
   user: User | null = null;
 
