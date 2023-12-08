@@ -43,7 +43,6 @@ export default {
   '@storybook/manager-api': '8.0.0-alpha.1',
   '@storybook/nextjs': '8.0.0-alpha.1',
   '@storybook/node-logger': '8.0.0-alpha.1',
-  '@storybook/postinstall': '8.0.0-alpha.1',
   '@storybook/preact': '8.0.0-alpha.1',
   '@storybook/preact-vite': '8.0.0-alpha.1',
   '@storybook/preact-webpack5': '8.0.0-alpha.1',
