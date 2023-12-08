@@ -5,10 +5,13 @@ import { readdirSync, remove } from 'fs-extra';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 
+import { telemetry } from '@storybook/telemetry';
+
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 import { logger } from '@storybook/node-logger';
 
 import type { PackageManagerName } from './js-package-manager';
+import type { CommandOptions } from './generators/types';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';
 
@@ -108,7 +111,10 @@ const buildProjectDisplayNameForPrint = ({ displayName }: SupportedProject) => {
  *
  * @param packageManager The package manager to use.
  */
-export const scaffoldNewProject = async (packageManager: PackageManagerName) => {
+export const scaffoldNewProject = async (
+  packageManager: PackageManagerName,
+  { disableTelemetry }: CommandOptions
+) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
 
   logger.plain(
@@ -135,7 +141,7 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   let projectStrategy;
 
   if (process.env.STORYBOOK_INIT_EMPTY_TYPE) {
-    projectStrategy = SUPPORTED_PROJECTS[process.env.STORYBOOK_INIT_EMPTY_TYPE];
+    projectStrategy = process.env.STORYBOOK_INIT_EMPTY_TYPE;
   }
 
   if (!projectStrategy) {
@@ -152,11 +158,12 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
       { onCancel: () => process.exit(0) }
     );
 
-    projectStrategy = SUPPORTED_PROJECTS[project];
+    projectStrategy = project;
   }
 
-  const projectDisplayName = buildProjectDisplayNameForPrint(projectStrategy);
-  const createScript = projectStrategy.createScript[packageManagerName];
+  const projectStrategyConfig = SUPPORTED_PROJECTS[projectStrategy];
+  const projectDisplayName = buildProjectDisplayNameForPrint(projectStrategyConfig);
+  const createScript = projectStrategyConfig.createScript[packageManagerName];
 
   logger.line(1);
   logger.plain(
@@ -182,7 +189,14 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
     throw new GenerateNewProjectOnInitError({
       error: e,
       packageManager: packageManagerName,
-      projectType: projectDisplayName,
+      projectType: projectStrategy,
+    });
+  }
+
+  if (!disableTelemetry) {
+    telemetry('scaffolded-empty', {
+      packageManager: packageManagerName,
+      projectType: projectStrategy,
     });
   }
 

@@ -259,7 +259,7 @@ async function doInitiate(
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
     // Prompt the user to create a new project from our list.
-    await scaffoldNewProject(packageManager.type);
+    await scaffoldNewProject(packageManager.type, options);
 
     if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
       packageManager.addPackageResolutions({
