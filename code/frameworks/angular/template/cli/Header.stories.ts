@@ -13,8 +13,7 @@ const meta: Meta<Header> = {
   render: (args) => ({ props: args }),
   decorators: [
     moduleMetadata({
-      declarations: [Button],
-      imports: [CommonModule],
+      imports: [CommonModule, Button],
     }),
   ],
   parameters: {

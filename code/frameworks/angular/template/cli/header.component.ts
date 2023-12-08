@@ -47,9 +47,8 @@ import type { User } from './User';
           ></storybook-button>
           <storybook-button
             *ngIf="!user"
-            primary
             size="small"
-            primary="true"
+            [primary]="true"
             class="margin-left"
             (onClick)="onCreateAccount.emit($event)"
             label="Sign up"

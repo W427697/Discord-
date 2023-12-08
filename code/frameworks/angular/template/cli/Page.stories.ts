@@ -16,8 +16,8 @@ const meta: Meta<Page> = {
   },
   decorators: [
     moduleMetadata({
-      declarations: [Button, Header],
-      imports: [CommonModule],
+      declarations: [Header],
+      imports: [CommonModule, Button],
     }),
   ],
 };
