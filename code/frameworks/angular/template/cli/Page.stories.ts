@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { CommonModule } from '@angular/common';
 import { within, userEvent, expect } from '@storybook/test';
 
-import Button from './button.component';
-import Header from './header.component';
 import Page from './page.component';
 
 const meta: Meta<Page> = {
@@ -14,22 +10,12 @@ const meta: Meta<Page> = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  decorators: [
-    moduleMetadata({
-      declarations: [Header],
-      imports: [CommonModule, Button],
-    }),
-  ],
 };
 
 export default meta;
 type Story = StoryObj<Page>;
 
-export const LoggedOut: Story = {
-  render: (args: Page) => ({
-    props: args,
-  }),
-};
+export const LoggedOut: Story = {};
 
 // More on interaction testing: https://storybook.js.org/docs/writing-tests/interaction-testing
 export const LoggedIn: Story = {
