@@ -4821,7 +4821,6 @@ __metadata:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/mdx2-csf": "npm:^1.0.0"
     "@storybook/node-logger": "workspace:*"
-    "@storybook/postinstall": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/react-dom-shim": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -6026,17 +6025,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/postinstall@workspace:*, @storybook/postinstall@workspace:lib/postinstall":
-  version: 0.0.0-use.local
-  resolution: "@storybook/postinstall@workspace:lib/postinstall"
-  dependencies:
-    jest: "npm:^29.7.0"
-    jest-specific-snapshot: "npm:^8.0.0"
-    jscodeshift: "npm:^0.15.1"
-    typescript: "npm:^5.3.2"
-  languageName: unknown
-  linkType: soft
-
 "@storybook/preact-vite@workspace:*, @storybook/preact-vite@workspace:frameworks/preact-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/preact-vite@workspace:frameworks/preact-vite"
@@ -6486,7 +6474,6 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/nextjs": "workspace:*"
     "@storybook/node-logger": "workspace:*"
-    "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
     "@storybook/preact-vite": "workspace:*"
     "@storybook/preact-webpack5": "workspace:*"
