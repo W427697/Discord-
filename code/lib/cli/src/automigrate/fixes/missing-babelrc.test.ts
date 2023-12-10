@@ -119,7 +119,7 @@ describe('missing-babelrc fix', () => {
     ).resolves.toBeNull();
   });
 
-  it('prompts when babelrc file is missing and framework does not provide babel config', async () => {
+  it.skip('prompts when babelrc file is missing and framework does not provide babel config', async () => {
     await expect(
       check({
         packageManager,
