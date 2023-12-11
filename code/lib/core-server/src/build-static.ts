@@ -4,15 +4,7 @@ import { dirname, isAbsolute, join, resolve } from 'path';
 import { global } from '@storybook/global';
 import { logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
-import type {
-  BuilderOptions,
-  CLIOptions,
-  CoreConfig,
-  DocsOptions,
-  LoadOptions,
-  Options,
-  StorybookConfig,
-} from '@storybook/types';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
   loadAllPresets,
   loadMainConfig,
@@ -89,7 +81,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const { renderer } = await presets.apply<CoreConfig>('core', {});
+  const { renderer } = await presets.apply('core', {});
   const build = await presets.apply('build', {});
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets, build });
 
@@ -115,13 +107,13 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
     await Promise.all([
-      presets.apply<StorybookConfig['features']>('features'),
-      presets.apply<CoreConfig>('core'),
-      presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+      presets.apply('features'),
+      presets.apply('core'),
+      presets.apply('staticDirs'),
       presets.apply('experimental_indexers', []),
       presets.apply('storyIndexers', []),
       presets.apply('stories'),
-      presets.apply<DocsOptions>('docs', {}),
+      presets.apply('docs', {}),
     ]);
 
   const fullOptions: Options = {

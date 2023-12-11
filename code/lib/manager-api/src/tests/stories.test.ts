@@ -71,7 +71,7 @@ function createMockModuleArgs({
   const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
-  return { navigate, store, provider, fullAPI };
+  return { navigate, store, provider, fullAPI: { ...fullAPI, getRefs: () => ({}) } };
 }
 
 describe('stories API', () => {
@@ -101,7 +101,7 @@ describe('stories API', () => {
       api.setIndex({ v: 4, entries: mockEntries });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(index)).toEqual([
+      expect(Object.keys(index!)).toEqual([
         'component-a',
         'component-a--docs',
         'component-a--story-1',
@@ -109,12 +109,12 @@ describe('stories API', () => {
         'component-b',
         'component-b--story-3',
       ]);
-      expect(index['component-a']).toMatchObject({
+      expect(index!['component-a']).toMatchObject({
         type: 'component',
         id: 'component-a',
         children: ['component-a--docs', 'component-a--story-1', 'component-a--story-2'],
       });
-      expect(index['component-a--docs']).toMatchObject({
+      expect(index!['component-a--docs']).toMatchObject({
         type: 'docs',
         id: 'component-a--docs',
         parent: 'component-a',
@@ -123,7 +123,7 @@ describe('stories API', () => {
         storiesImports: [],
         prepared: false,
       });
-      expect(index['component-a--story-1']).toMatchObject({
+      expect(index!['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
@@ -132,7 +132,7 @@ describe('stories API', () => {
         prepared: false,
       });
       expect(
-        (index['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
+        (index!['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
       ).toBeUndefined();
     });
     it('trims whitespace of group/component names (which originate from the kind)', () => {
@@ -153,20 +153,20 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(index)).toEqual([
+      expect(Object.keys(index!)).toEqual([
         'design-system',
         'design-system-some-component',
         'design-system-some-component--my-story',
       ]);
-      expect(index['design-system']).toMatchObject({
+      expect(index!['design-system']).toMatchObject({
         type: 'root',
         name: 'Design System', // root name originates from `kind`, so it gets trimmed
       });
-      expect(index['design-system-some-component']).toMatchObject({
+      expect(index!['design-system-some-component']).toMatchObject({
         type: 'component',
         name: 'Some Component', // component name originates from `kind`, so it gets trimmed
       });
-      expect(index['design-system-some-component--my-story']).toMatchObject({
+      expect(index!['design-system-some-component--my-story']).toMatchObject({
         type: 'story',
         title: '  Design System  /  Some Component  ', // title is kept as-is, because it may be used as identifier
         name: '  My Story  ', // story name is kept as-is, because it's set directly on the story
@@ -191,7 +191,7 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(index)).toEqual([
+      expect(Object.keys(index!)).toEqual([
         'component-a',
         'component-a--docs',
         'component-a--story-1',
@@ -202,7 +202,7 @@ describe('stories API', () => {
         'root-first',
         'root-first--story-1',
       ]);
-      expect(index.root).toMatchObject({
+      expect(index!.root).toMatchObject({
         type: 'root',
         id: 'root',
         children: ['root-first'],
@@ -227,19 +227,19 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(index)).toEqual(['a', 'a-b', 'a-b--1']);
-      expect(index.a).toMatchObject({
+      expect(Object.keys(index!)).toEqual(['a', 'a-b', 'a-b--1']);
+      expect(index!.a).toMatchObject({
         type: 'root',
         id: 'a',
         children: ['a-b'],
       });
-      expect(index['a-b']).toMatchObject({
+      expect(index!['a-b']).toMatchObject({
         type: 'component',
         id: 'a-b',
         parent: 'a',
         children: ['a-b--1'],
       });
-      expect(index['a-b--1']).toMatchObject({
+      expect(index!['a-b--1']).toMatchObject({
         type: 'story',
         id: 'a-b--1',
         parent: 'a-b',
@@ -266,13 +266,13 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(index)).toEqual(['a', 'a--1']);
-      expect(index.a).toMatchObject({
+      expect(Object.keys(index!)).toEqual(['a', 'a--1']);
+      expect(index!.a).toMatchObject({
         type: 'component',
         id: 'a',
         children: ['a--1'],
       });
-      expect(index['a--1']).toMatchObject({
+      expect(index!['a--1']).toMatchObject({
         type: 'story',
         id: 'a--1',
         parent: 'a',
@@ -297,13 +297,13 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(index)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
-      expect(index.a).toMatchObject({
+      expect(Object.keys(index!)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
+      expect(index!.a).toMatchObject({
         type: 'component',
         id: 'a',
         children: ['a--1', 'a--2'],
       });
-      expect(index.b).toMatchObject({
+      expect(index!.b).toMatchObject({
         type: 'component',
         id: 'b',
         children: ['b--1'],
@@ -329,7 +329,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      expect(index['prepared--story']).toMatchObject({
+      expect(index!['prepared--story']).toMatchObject({
         type: 'story',
         id: 'prepared--story',
         parent: 'prepared',
@@ -353,7 +353,7 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().index!['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -361,7 +361,7 @@ describe('stories API', () => {
       api.setIndex({ v: 4, entries: mockEntries });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().index!['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -377,7 +377,7 @@ describe('stories API', () => {
         api.setIndex({ v: 4, entries: docsEntries });
         const { index } = store.getState();
         // We need exact key ordering, even if in theory JS doesn't guarantee it
-        expect(Object.keys(index)).toEqual([
+        expect(Object.keys(index!)).toEqual([
           'component-a',
           'component-a--page',
           'component-a--story-2',
@@ -386,10 +386,10 @@ describe('stories API', () => {
           'component-c',
           'component-c--story-4',
         ]);
-        expect(index['component-a--page'].type).toBe('story');
-        expect(index['component-a--story-2'].type).toBe('story');
-        expect(index['component-b--docs'].type).toBe('docs');
-        expect(index['component-c--story-4'].type).toBe('story');
+        expect(index!['component-a--page'].type).toBe('story');
+        expect(index!['component-a--story-2'].type).toBe('story');
+        expect(index!['component-b--docs'].type).toBe('docs');
+        expect(index!['component-c--story-4'].type).toBe('story');
       });
       describe('when DOCS_MODE = true', () => {
         it('strips out story entries', async () => {
@@ -401,7 +401,7 @@ describe('stories API', () => {
           const { store } = moduleArgs;
           api.setIndex({ v: 4, entries: docsEntries });
           const { index } = store.getState();
-          expect(Object.keys(index)).toEqual(['component-b', 'component-b--docs']);
+          expect(Object.keys(index!)).toEqual(['component-b', 'component-b--docs']);
         });
       });
     });
@@ -451,7 +451,7 @@ describe('stories API', () => {
       const { init } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
 
-      await init();
+      await init!();
 
       const { indexError } = store.getState();
       expect(indexError).toBeDefined();
@@ -480,7 +480,7 @@ describe('stories API', () => {
       const { init } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store, provider } = moduleArgs;
 
-      await init();
+      await init!();
 
       expect(fetch).toHaveBeenCalledTimes(1);
       provider.channel.emit(STORY_INDEX_INVALIDATED);
@@ -490,7 +490,7 @@ describe('stories API', () => {
       await wait(16);
 
       const { index } = store.getState();
-      expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
+      expect(Object.keys(index!)).toEqual(['component-a', 'component-a--story-1']);
     });
     it('clears 500 errors when invalidated', async () => {
       fetch.mockReturnValueOnce(
@@ -503,7 +503,7 @@ describe('stories API', () => {
       const { init } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store, provider } = moduleArgs;
 
-      await init();
+      await init!();
 
       const { indexError } = store.getState();
       expect(indexError).toBeDefined();
@@ -535,7 +535,7 @@ describe('stories API', () => {
 
       const { index, indexError: newIndexError } = store.getState();
       expect(newIndexError).not.toBeDefined();
-      expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
+      expect(Object.keys(index!)).toEqual(['component-a', 'component-a--story-1']);
     });
   });
 
@@ -619,12 +619,12 @@ describe('stories API', () => {
 
       api.setIndex({ v: 4, entries: preparedEntries });
       const { index } = store.getState();
-      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      expect((index!['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
       provider.channel.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
       const { index: changedIndex } = store.getState();
-      expect((changedIndex['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
-      expect((changedIndex['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedIndex!['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
+      expect((changedIndex!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
       const fullAPI = { updateRef: jest.fn() };
@@ -666,8 +666,8 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
-      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      expect((index!['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
       const fullAPI = { updateRef: jest.fn() };
@@ -708,8 +708,8 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
-      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      expect((index!['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
       const fullAPI = { updateRef: jest.fn() };
@@ -780,7 +780,6 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('does nothing if you have not selected a story', () => {
-      // @ts-expect-error (storyId type is maybe wrong?)
       const initialState = { path: '/story', storyId: undefined, viewMode: 'story' };
       const moduleArgs = createMockModuleArgs({ initialState });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
@@ -800,7 +799,7 @@ describe('stories API', () => {
       const { store } = moduleArgs;
 
       api.setIndex({ v: 4, entries: navigationEntries });
-      const result = api.findSiblingStoryId('a--1', store.getState().index, 1, false);
+      const result = api.findSiblingStoryId('a--1', store.getState().index!, 1, false);
       expect(result).toBe('a--2');
     });
     it('works forward toSiblingGroup', () => {
@@ -810,7 +809,7 @@ describe('stories API', () => {
       const { store } = moduleArgs;
 
       api.setIndex({ v: 4, entries: navigationEntries });
-      const result = api.findSiblingStoryId('a--1', store.getState().index, 1, true);
+      const result = api.findSiblingStoryId('a--1', store.getState().index!, 1, true);
       expect(result).toBe('b-c--1');
     });
   });
@@ -1029,7 +1028,7 @@ describe('stories API', () => {
         args: { c: 'd' },
       });
       const { index } = store.getState();
-      expect(index['component-a--story-1']).toMatchObject({
+      expect(index!['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
@@ -1077,7 +1076,7 @@ describe('stories API', () => {
         parameters: { a: 'b' },
       });
       const { index } = store.getState();
-      expect(index['component-a--docs']).toMatchObject({
+      expect(index!['component-a--docs']).toMatchObject({
         type: 'docs',
         id: 'component-a--docs',
         parent: 'component-a',
@@ -1333,7 +1332,7 @@ describe('stories API', () => {
       // do a second update, this time with null
       await expect(
         api.experimental_updateStatus('a-addon-id', {
-          'a-story-id': null,
+          'a-story-id': null!,
           'another-story-id': { status: 'success', title: 'a addon title', description: '' },
         })
       ).resolves.not.toThrow();
@@ -1371,9 +1370,12 @@ describe('stories API', () => {
 
       // use existing state in function
       await expect(
-        api.experimental_updateStatus('a-addon-id', (current) => {
+        api.experimental_updateStatus('a-addon-id', (current: any) => {
           return Object.fromEntries(
-            Object.entries(current).map(([k, v]) => [k, { ...v['a-addon-id'], status: 'success' }])
+            Object.entries(current).map(([k, v]: any) => [
+              k,
+              { ...v['a-addon-id'], status: 'success' },
+            ])
           );
         })
       ).resolves.not.toThrow();
@@ -1434,7 +1436,7 @@ describe('stories API', () => {
       const { store } = moduleArgs;
 
       await api.setIndex({ v: 4, entries: navigationEntries });
-      await api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
+      await api.experimental_setFilter('myCustomFilter', (item: any) => item.id.startsWith('a'));
 
       const { index } = store.getState();
 
@@ -1497,9 +1499,9 @@ describe('stories API', () => {
       await api.setIndex({ v: 4, entries: navigationEntries });
       await api.experimental_setFilter(
         'myCustomFilter',
-        (item) =>
+        (item: any) =>
           item.status !== undefined &&
-          Object.values(item.status).some((v) => v.status === 'pending')
+          Object.values(item.status).some((v: any) => v.status === 'pending')
       );
 
       // empty, because there are no stories with status
@@ -1556,7 +1558,7 @@ describe('stories API', () => {
       const { store } = moduleArgs;
 
       await api.setIndex({ v: 4, entries: navigationEntries });
-      await api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
+      await api.experimental_setFilter('myCustomFilter', (item: any) => item.id.startsWith('a'));
 
       await api.setIndex({ v: 4, entries: navigationEntries });
 

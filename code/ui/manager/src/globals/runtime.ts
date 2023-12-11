@@ -4,6 +4,7 @@ import * as REACT_DOM from 'react-dom';
 import * as COMPONENTS from '@storybook/components';
 import * as CHANNELS from '@storybook/channels';
 import * as EVENTS from '@storybook/core-events';
+import * as EVENTS_MANAGER_ERRORS from '@storybook/core-events/manager-errors';
 import * as ROUTER from '@storybook/router';
 import * as ICONS from '@storybook/icons';
 import * as THEMING from '@storybook/theming';
@@ -20,6 +21,7 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
   '@storybook/components': COMPONENTS,
   '@storybook/channels': CHANNELS,
   '@storybook/core-events': EVENTS,
+  '@storybook/core-events/manager-errors': EVENTS_MANAGER_ERRORS,
   '@storybook/router': ROUTER,
   '@storybook/theming': THEMING,
   '@storybook/icons': ICONS,

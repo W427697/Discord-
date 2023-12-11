@@ -17,7 +17,7 @@ In Storybook, this familiar workflow happens in your browser. That makes it easi
 
 ## How does component testing in Storybook work?
 
-You start by writing a [**story**](../writing-stories/introduction.md) to set up the component's initial state. Then simulate user behavior using the **play** function. Finally, use the **test-runner** to confirm that the component renders correctly and that your interaction tests with the **play** function pass. Additionally, you can automate test execution via the [command line](./test-runner.md#cli-options) or in your [CI environment](./test-runner.md#set-up-ci-to-run-tests).
+You start by writing a [**story**](../writing-stories/index.md) to set up the component's initial state. Then simulate user behavior using the **play** function. Finally, use the **test-runner** to confirm that the component renders correctly and that your interaction tests with the **play** function pass. Additionally, you can automate test execution via the [command line](./test-runner.md#cli-options) or in your [CI environment](./test-runner.md#set-up-ci-to-run-tests).
 
 - The [`play`](../writing-stories/play-function.md) function is a small snippet of code that runs after a story finishes rendering. You can use this to test user workflows.
 - The test is written using Storybook-instrumented versions of [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) coming from the [`@storybook/test`](https://npmjs.com/package/@storybook/test) package.
@@ -71,6 +71,7 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'svelte/login-form-with-play-function.ts.mdx',
     'solid/login-form-with-play-function.js.mdx',
     'solid/login-form-with-play-function.ts.mdx',
   ]}

@@ -18,7 +18,7 @@ module.exports = {
         {
           name: 'Docs',
           unsupported: [],
-          path: 'writing-docs/introduction',
+          path: 'writing-docs',
         },
         {
           name: 'Viewport',

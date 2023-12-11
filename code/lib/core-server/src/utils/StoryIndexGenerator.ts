@@ -20,7 +20,7 @@ import type {
   Indexer,
   IndexerOptions,
   DeprecatedIndexer,
-  StorybookConfig,
+  StorybookConfigRaw,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -55,7 +55,7 @@ export type StoryIndexGeneratorOptions = {
   storyIndexers: StoryIndexer[];
   indexers: Indexer[];
   docs: DocsOptions;
-  build?: StorybookConfig['build'];
+  build?: StorybookConfigRaw['build'];
 };
 
 export const AUTODOCS_TAG = 'autodocs';

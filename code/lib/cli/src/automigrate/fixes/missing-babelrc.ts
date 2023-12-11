@@ -14,7 +14,6 @@ const logger = console;
 
 const frameworksThatNeedBabelConfig = [
   '@storybook/react-webpack5',
-  '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
   '@storybook/web-components-webpack5',
@@ -52,7 +51,7 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
         filename: '__fake__.js', // somehow needed to detect .babelrc.* files
       });
 
-      if (!config.config && !config.babelrc && !packageJson.babel) {
+      if (!config?.config && !config?.babelrc && !packageJson.babel) {
         return { needsBabelRc: true };
       }
     }
