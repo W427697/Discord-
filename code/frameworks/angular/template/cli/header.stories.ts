@@ -1,25 +1,22 @@
-import MyHeader from './Header.vue';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-export default {
+import { HeaderComponent } from './header.component';
+
+const meta: Meta<HeaderComponent> = {
   title: 'Example/Header',
-  component: MyHeader,
+  component: HeaderComponent,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  render: (args, { argTypes }) => ({
-    props: Object.keys(argTypes),
-    components: {
-      MyHeader,
-    },
-    template:
-      '<my-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
-  }),
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
 };
 
-export const LoggedIn = {
+export default meta;
+type Story = StoryObj<HeaderComponent>;
+
+export const LoggedIn: Story = {
   args: {
     user: {
       name: 'Jane Doe',
@@ -27,4 +24,4 @@ export const LoggedIn = {
   },
 };
 
-export const LoggedOut = {};
+export const LoggedOut: Story = {};
