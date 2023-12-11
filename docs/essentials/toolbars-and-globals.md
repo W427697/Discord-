@@ -16,7 +16,7 @@ When the globals change, the story re-renders, and the decorators rerun with the
 
 ## Global types and the toolbar annotation
 
-Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
+Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
 <!-- prettier-ignore-start -->
 
@@ -29,11 +29,11 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering).
+As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering).
 
-</div>
+</Callout>
 
 When you start your Storybook, you should see a new dropdown with the `light` and `dark` options in your toolbar.
 
@@ -43,7 +43,7 @@ We have a `global` implemented. Let's wire it up! We can consume our new `theme`
 
 <IfRenderer renderer='react'>
 
-For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -60,7 +60,7 @@ For example, suppose you are using [`styled-components`](https://styled-componen
 
 <IfRenderer renderer='vue'>
 
-For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -77,7 +77,7 @@ For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You c
 
 <IfRenderer renderer='angular'>
 
-For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) config:
+For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
 <!-- prettier-ignore-start -->
 
@@ -93,7 +93,7 @@ For example, suppose you are using [`Angular Material`](https://material.angular
 
 <IfRenderer renderer={['ember', 'html', 'preact', 'qwik', 'svelte', 'solid', 'web-components' ]}>
 
-Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering) and provide a decorator to load the theme. For example:
+Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -114,7 +114,7 @@ So far, we've managed to create and consume a global inside Storybook.
 
 Now let's take a look at a more complex example. Let's suppose we wanted to implement a new global called **locale** for internationalization, which shows a flag on the right side of the toolbar.
 
-In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering), add the following:
+In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), add the following:
 
 <!-- prettier-ignore-start -->
 
@@ -127,18 +127,18 @@ In your [`.storybook/preview.js|ts`](../configure/overview.md#configure-story-re
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡" style={{ marginBottom: '10px' }}>
 
-💡 The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
+The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
-</div>
+</Callout>
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
+The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
 `@storybook/addon-essentials`.
 
-</div>
+</Callout>
 
 By adding the configuration element `right`, the text will be displayed on the right side in the toolbar menu once you connect it to a decorator.
 
@@ -170,6 +170,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'vue/my-component-story-use-globaltype.ts.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
+    'svelte/my-component-story-use-globaltype.ts.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.ts.mdx',
     'solid/my-component-story-use-globaltype.js.mdx',
@@ -181,9 +182,9 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
+In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
 
 <!-- prettier-ignore-start -->
 
@@ -193,6 +194,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
     'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
+    'svelte/my-component-story-use-globaltype-backwards-compat.ts.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
     'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
@@ -201,7 +203,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 <!-- prettier-ignore-end -->
 
-</div>
+</Callout>
 
 ## Consuming globals from within an addon
 

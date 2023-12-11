@@ -8,7 +8,7 @@ import type {
   InlineConfig,
 } from 'vite';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
@@ -68,6 +68,10 @@ export async function commonConfig(
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
     envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
+    // Pass build.target option from user's vite config
+    build: {
+      target: buildProperty?.target,
+    },
   };
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
@@ -79,8 +83,10 @@ export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
   const build = await options.presets.apply('build');
 
-  if (build?.test?.emptyBlocks) {
-    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  const externals: Record<string, string> = globalsNameReferenceMap;
+
+  if (build?.test?.disableBlocks) {
+    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   const plugins = [
@@ -101,7 +107,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    await externalGlobalsPlugin(globals),
+    await externalGlobalsPlugin(externals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

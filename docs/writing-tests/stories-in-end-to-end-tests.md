@@ -22,6 +22,7 @@ An example of an end-to-end test with Cypress and Storybook is testing a login c
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'svelte/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
@@ -29,10 +30,11 @@ An example of an end-to-end test with Cypress and Storybook is testing a login c
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
- 💡 The play function contains small snippets of code that run after the story renders. It allows you to sequence interactions in stories.
+<Callout variant="info" icon="💡">
 
-</div>
+The play function contains small snippets of code that run after the story renders. It allows you to sequence interactions in stories.
+
+</Callout>
 
 With Cypress, you could write the following test:
 
@@ -68,6 +70,7 @@ A real-life scenario of user flow testing with Playwright would be how to test a
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'svelte/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/importing-stories-in-tests#snippet-login-form-with-play-function"
@@ -75,9 +78,11 @@ A real-life scenario of user flow testing with Playwright would be how to test a
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
- 💡 The play function contains small snippets of code that run after the story renders. It allows you to sequence interactions in stories.
-</div>
+<Callout variant="info" icon="💡">
+
+The play function contains small snippets of code that run after the story renders. It allows you to sequence interactions in stories.
+
+</Callout>
 
 With Playwright, you can write a test to check if the inputs are filled and match the story:
 

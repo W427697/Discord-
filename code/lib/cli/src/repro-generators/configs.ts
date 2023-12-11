@@ -217,16 +217,6 @@ export const web_components_lit2: Parameters = {
 
 // #region  vue
 
-export const vue: Parameters = {
-  renderer: 'vue',
-  name: 'vue',
-  version: 'latest',
-  generator: [
-    // vue2 with webpack5
-    `npx -p @vue/cli vue create {{appName}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"`,
-  ].join(' && '),
-};
-
 export const vue3: Parameters = {
   renderer: 'vue3',
   name: 'vue3',
@@ -263,14 +253,6 @@ export const preact_vite: Parameters = {
   generator: 'yarn create vite@{{version}} {{appName}} --template preact',
 };
 
-export const sfcVue: Parameters = {
-  renderer: 'vue',
-  name: 'sfcVue',
-  version: 'latest',
-  //
-  generator: fromDeps('vue@2.6', 'vue-loader@15.9', 'vue-template-compiler@2.6', 'webpack'),
-};
-
 export const svelte: Parameters = {
   renderer: 'svelte',
   name: 'svelte',
@@ -283,5 +265,5 @@ export const svelteKit: Parameters = {
   name: 'svelteKit',
   version: 'latest',
   generator:
-    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
 };

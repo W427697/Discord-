@@ -2,9 +2,7 @@
 title: 'Install Storybook'
 ---
 
-<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" />
-
-Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
+Use the Storybook CLI to install it in a single command. Run this inside your project’s root directory:
 
 <!-- prettier-ignore-start -->
 
@@ -18,27 +16,6 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-If you run into issues with the installation, check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
-
-</div>
-
-<details>
-
-<summary><code>storybook init</code> is not made for empty projects</summary>
-
-Storybook needs to be installed into a project that is already set up with a framework. It will not work on an empty project. There are many ways to bootstrap an app in a given framework, including:
-
-- 📦 [Create an Angular Workspace](https://angular.io/cli/new)
-- 📦 [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
-- 📦 [Create a Vue App](https://vuejs.org/guide/quick-start.html)
-- 📦 [Ember CLI](https://guides.emberjs.com/release/getting-started/quick-start/)
-- 📦 [Vite CLI](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
-- Or any other tooling available.
-
-</details>
-
 Storybook will look into your project's dependencies during its install process and provide you with the best configuration available.
 
 The command above will make the following changes to your local environment:
@@ -48,6 +25,8 @@ The command above will make the following changes to your local environment:
 - 🛠 Add the default Storybook configuration.
 - 📝 Add some boilerplate stories to get you started.
 - 📡 Set up telemetry to help us improve Storybook. Read more about it [here](../configure/telemetry.md).
+
+<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" style={{ marginTop: '1em' }} />
 
 <IfRenderer renderer='react'>
 
@@ -110,11 +89,11 @@ Below are some of the most common installation issues and instructions on how to
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
-</div>
+</Callout>
 
 If all else fails, try asking for [help](https://storybook.js.org/community#support)
 
