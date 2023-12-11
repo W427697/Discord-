@@ -32,6 +32,10 @@ export type Template = {
    */
   script: string;
   /**
+   * Environment variables to set when running the script.
+   */
+  env?: Record<string, unknown>;
+  /**
    * Used to assert various things about the generated template.
    * If the template is generated with a different expected framework, it will fail, detecting a possible regression.
    */
@@ -467,6 +471,27 @@ const baseTemplates = {
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
   },
+  'ember/3-js': {
+    name: 'Ember v3 (Webpack | JavaScript)',
+    script: 'npx --package ember-cli@3.28.1 ember new {{beforeDir}}',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/ember',
+      renderer: '@storybook/ember',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'ember/default-js': {
+    name: 'Ember v4 (Webpack | JavaScript)',
+    script:
+      'npx --package ember-cli@4.12.1 ember new {{beforeDir}} --yarn && cd {{beforeDir}} && yarn add --dev @storybook/ember-cli-storybook && yarn build',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/ember',
+      renderer: '@storybook/ember',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
 } satisfies Record<string, BaseTemplates>;
 
 /**
@@ -585,7 +610,9 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts-nodocs',
   'bench/react-vite-default-ts-test-build',
   'bench/react-webpack-18-ts-test-build',
+  'ember/default-js',
 ];
+
 export const merged: TemplateKey[] = [
   ...normal,
   'react-webpack/18-ts',
@@ -596,6 +623,7 @@ export const merged: TemplateKey[] = [
   'html-webpack/default',
   'html-vite/default-ts',
 ];
+
 export const daily: TemplateKey[] = [
   ...merged,
   'angular-cli/prerelease',
@@ -605,7 +633,6 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
-  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
