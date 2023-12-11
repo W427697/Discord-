@@ -717,11 +717,11 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 30
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 29
+          parallelism: 28
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -729,7 +729,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 29
+          parallelism: 28
           requires:
             - build-sandboxes
 
