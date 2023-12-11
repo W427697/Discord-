@@ -10,6 +10,7 @@
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
     - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
+    - [Removed postinstall](#removed-postinstall)
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
@@ -462,6 +463,10 @@ export default {
 ```
 
 For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
+
+#### Removed postinstall
+
+We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
 
 ### Framework-specific changes
 

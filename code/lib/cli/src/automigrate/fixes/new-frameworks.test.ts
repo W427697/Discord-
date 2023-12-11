@@ -261,7 +261,7 @@ describe('new-frameworks fix', () => {
 
     it('should update correctly when there is no builder', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/builder-webpack5': '7.0.0',
       });
 
@@ -269,13 +269,13 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: '@storybook/vue',
+            framework: '@storybook/vue3',
           },
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/builder-webpack5'],
         })
       );
@@ -283,7 +283,7 @@ describe('new-frameworks fix', () => {
 
     it('should update when there is no framework field in main', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/manager-webpack5': '7.0.0',
       });
 
@@ -294,8 +294,8 @@ describe('new-frameworks fix', () => {
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/manager-webpack5'],
           hasFrameworkInMainConfig: false,
         })
@@ -304,7 +304,7 @@ describe('new-frameworks fix', () => {
 
     it('should update when the framework field has a legacy value', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/manager-webpack5': '7.0.0',
       });
 
@@ -312,13 +312,13 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: 'vue',
+            framework: 'vue3',
           },
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/manager-webpack5'],
           hasFrameworkInMainConfig: false,
         })
