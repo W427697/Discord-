@@ -32,6 +32,10 @@ export type Template = {
    */
   script: string;
   /**
+   * Environment variables to set when running the script.
+   */
+  env?: Record<string, unknown>;
+  /**
    * Used to assert various things about the generated template.
    * If the template is generated with a different expected framework, it will fail, detecting a possible regression.
    */
@@ -586,6 +590,7 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts-test-build',
   'bench/react-webpack-18-ts-test-build',
 ];
+
 export const merged: TemplateKey[] = [
   ...normal,
   'react-webpack/18-ts',
@@ -596,6 +601,7 @@ export const merged: TemplateKey[] = [
   'html-webpack/default',
   'html-vite/default-ts',
 ];
+
 export const daily: TemplateKey[] = [
   ...merged,
   'angular-cli/prerelease',
@@ -605,7 +611,6 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
-  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
