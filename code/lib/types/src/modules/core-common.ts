@@ -170,6 +170,7 @@ export interface CLIOptions {
   enableCrashReports?: boolean;
   host?: string;
   initialPath?: string;
+  exactPort?: boolean;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead
    */
@@ -395,6 +396,11 @@ export interface StorybookConfigRaw {
      * This will make sure that your story renders the same no matter if docgen is enabled or not.
      */
     disallowImplicitActionsInRenderV8?: boolean;
+
+    /**
+     * Enable asynchronous component rendering in NextJS framework
+     */
+    experimentalNextRSC?: boolean;
   };
 
   build?: TestBuildConfig;

@@ -9,6 +9,11 @@
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
+    - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
+    - [Removed postinstall](#removed-postinstall)
+  - [Framework-specific changes](#framework-specific-changes)
+    - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
+    - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -321,6 +326,7 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+
 ## From version 7.x to 8.0.0
 
 ### Implicit actions can not be used during rendering (for example in the play function)
@@ -441,6 +447,36 @@ The `IconButton` doesn't have any deprecated props but it now uses the new `Butt
 #### Icons is deprecated
 
 In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
+
+#### React-docgen component analysis by default
+
+In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generate controls. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
+
+We feel `react-docgen` is the right tradeoff for most React projects. However, if you need the full fidelity of `react-docgen-typescript`, you can opt-in using the following setting in `.storybook/main.js`:
+
+```js
+export default {
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  }
+}
+```
+
+For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
+
+#### Removed postinstall
+
+We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+
+### Framework-specific changes
+
+#### Angular: Drop support for Angular \< 15
+
+Starting in 8.0, we drop support for Angular < 15
+
+#### Next.js: Drop support for version \< 13.5
+
+Starting in 8.0, we drop support for Next.js < 13.5.
 
 ## From version 7.5.0 to 7.6.0
 
