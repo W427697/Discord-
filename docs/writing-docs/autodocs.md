@@ -20,6 +20,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
     'vue/button-story-auto-docs.ts.mdx',
     'angular/button-story-auto-docs.ts.mdx',
     'svelte/button-story-auto-docs.js.mdx',
+    'svelte/button-story-auto-docs.ts.mdx',
     'web-components/button-story-auto-docs.js.mdx',
     'web-components/button-story-auto-docs.ts.mdx',
   ]}
@@ -29,7 +30,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
 
 ![Storybook autodocs](./autodocs.png)
 
-Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
+Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/arg-types.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
 
@@ -78,7 +79,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 1. A header with the component's metadata retrieved by the `Title`, `Subtitle`, and `Description` Doc Blocks.
 2. The first story defined in the file via the `Primary` Doc Block with a handy set of UI controls to zoom in and out of the component.
-3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/argtypes.md) defined in the story via the `Controls` Doc Block.
+3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/arg-types.md) defined in the story via the `Controls` Doc Block.
 4. A overview of the remaining stories via the `Stories` Doc Block.
 
 #### With MDX
@@ -237,7 +238,7 @@ This is not a Storybook issue but a breaking change introduced with MDX 2. For m
 
 ### The table of contents doesn't render as expected
 
-When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues. If you've run into any of the items listed below and you're interested in helping us improve the support for this feature, we encourage you to reach out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues.
 
 #### With simple documentation pages
 
@@ -283,7 +284,7 @@ Additionally, if you're developing using TypeScript, you may need to update Stor
 
 <!-- prettier-ignore-end -->
 
-If you're still encountering issues, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 
 #### Learn more about Storybook documentation
 

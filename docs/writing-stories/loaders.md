@@ -26,6 +26,7 @@ Loaders are helpful when you need to load story data externally (e.g., from a re
     'web-components/loader-story.js.mdx',
     'web-components/loader-story.ts.mdx',
     'svelte/loader-story.js.mdx',
+    'svelte/loader-story.ts.mdx',
     'solid/loader-story.js.mdx',
     'solid/loader-story.ts.mdx',
   ]}
@@ -39,7 +40,7 @@ The response obtained from the remote API call is combined into a `loaded` field
 
 ## Global loaders
 
-We can also set a loader for **all stories** via the `loaders` export of your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file (this is the file where you configure all stories):
+We can also set a loader for **all stories** via the `loaders` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
 <!-- prettier-ignore-start -->
 
