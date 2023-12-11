@@ -61,7 +61,6 @@ export type ComposedStoryFn<
   storyName: string;
   parameters: Parameters;
   argTypes: StrictArgTypes<TArgs>;
-  initialArgs: TArgs;
 };
 /**
  * Based on a module of stories, it returns all stories within it, filtering non-stories
