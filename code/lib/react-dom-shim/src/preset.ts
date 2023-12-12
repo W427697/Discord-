@@ -24,7 +24,7 @@ const getIsReactVersion18 = async (options: Options) => {
 
 export const webpackFinal = async (config: any, options: Options) => {
   const isReactVersion18 = await getIsReactVersion18(options);
-  if (!isReactVersion18) {
+  if (isReactVersion18) {
     return config;
   }
 
