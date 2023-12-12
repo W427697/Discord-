@@ -1,8 +1,13 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  const { createEventDispatcher } = require('svelte');
 
-  export let disabled: boolean;
-  export let label: string;
+  let disabled: boolean = false;
+  let label: string = '';
+
+  module.exports = {
+    disabled,
+    label
+  };
 
   const dispatch = createEventDispatcher();
 </script>
