@@ -26,6 +26,7 @@ module.exports = {
     // remove as shared eslint has jest rules removed
     'jest/no-standalone-expect': 'off',
     'jest/no-done-callback': 'off',
+    'jest/no-deprecated-functions': 'off',
 
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
