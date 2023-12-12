@@ -129,7 +129,6 @@ const baseTemplates = {
       extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
