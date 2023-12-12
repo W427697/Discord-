@@ -13,6 +13,7 @@ describe('RendererFactory', () => {
   let rendererFactory: RendererFactory;
   let rootTargetDOMNode: HTMLElement;
   let rootDocstargetDOMNode: HTMLElement;
+  let storyInDocstargetDOMNode: HTMLElement;
 
   beforeEach(async () => {
     rendererFactory = new RendererFactory();
@@ -180,6 +181,48 @@ describe('RendererFactory', () => {
     it('should get DocsRenderer instance', async () => {
       const render = await rendererFactory.getRendererInstance(rootDocstargetDOMNode);
       expect(render).toBeInstanceOf(DocsRenderer);
+    });
+
+    describe('when multiple story for the same component', () => {
+      it('should render both stories', async () => {
+        @Component({ selector: 'foo', template: '🦊' })
+        class FooComponent {}
+
+        const render = await rendererFactory.getRendererInstance(
+          global.document.getElementById('storybook-docs')
+        );
+
+        const targetDOMNode1 = global.document.createElement('div');
+        targetDOMNode1.id = 'story-1';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode1);
+        await render?.render({
+          storyFnAngular: {
+            props: {},
+          },
+          forced: false,
+          component: FooComponent,
+          targetDOMNode: targetDOMNode1,
+        });
+
+        const targetDOMNode2 = global.document.createElement('div');
+        targetDOMNode2.id = 'story-1';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode2);
+        await render?.render({
+          storyFnAngular: {
+            props: {},
+          },
+          forced: false,
+          component: FooComponent,
+          targetDOMNode: targetDOMNode2,
+        });
+
+        expect(global.document.querySelectorAll('#story-1 > story-1')[0].innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+        expect(global.document.querySelectorAll('#story-1 > story-1')[1].innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+      });
     });
 
     describe('when bootstrapping multiple stories in parallel', () => {

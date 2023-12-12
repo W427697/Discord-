@@ -1,6 +1,8 @@
 import { addons } from '@storybook/preview-api';
 import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
-import { AbstractRenderer } from './AbstractRenderer';
+
+import { getNextStoryUID } from './utils/StoryUID';
+import { AbstractRenderer, STORY_UID_ATTRIBUTE } from './AbstractRenderer';
 import { StoryFnAngularReturnType, Parameters } from '../types';
 
 export class DocsRenderer extends AbstractRenderer {
@@ -40,5 +42,14 @@ export class DocsRenderer extends AbstractRenderer {
 
   async beforeFullRender(domNode?: HTMLElement): Promise<void> {
     DocsRenderer.resetApplications(domNode);
+  }
+
+  protected override initAngularRootElement(
+    targetDOMNode: HTMLElement,
+    targetSelector: string
+  ): void {
+    super.initAngularRootElement(targetDOMNode, targetSelector);
+
+    targetDOMNode.setAttribute(STORY_UID_ATTRIBUTE, getNextStoryUID(targetDOMNode.id));
   }
 }
