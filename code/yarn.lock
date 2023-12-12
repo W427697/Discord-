@@ -8289,6 +8289,8 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/prettier": "npm:2.7.2"
     "@vue/compiler-core": "npm:^3.0.0"
+    "@vue/vue3-jest": "npm:29"
+    babel-jest: "npm:^29.7.0"
     lodash: "npm:^4.17.21"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
@@ -10599,6 +10601,29 @@ __metadata:
     "@volar/typescript": "npm:~1.10.0"
     "@vue/language-core": "npm:1.8.15"
   checksum: c68808d29da93e616cd30bd4dc84aad0bb3d245d45537adc74244cc0fe93cb797e4bbdbdf2a4841b6bce088e6ef1bc70fa279fd2e1aabb794c42d908d8e46087
+  languageName: node
+  linkType: hard
+
+"@vue/vue3-jest@npm:29":
+  version: 29.2.6
+  resolution: "@vue/vue3-jest@npm:29.2.6"
+  dependencies:
+    "@babel/plugin-transform-modules-commonjs": "npm:^7.2.0"
+    chalk: "npm:^2.1.0"
+    convert-source-map: "npm:^1.6.0"
+    css-tree: "npm:^2.0.1"
+    source-map: "npm:0.5.6"
+    tsconfig: "npm:^7.0.0"
+  peerDependencies:
+    "@babel/core": 7.x
+    babel-jest: 29.x
+    jest: 29.x
+    typescript: ">= 4.3"
+    vue: ^3.0.0-0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 9615eb5d6a7803ef7b383c7c65fdf29ea5f0329bf58c9e9a0338fd9ddd409b890db6629185bf1ad986c2ab7e29747a4b4a27df761c3d754979e3d593f825b97c
   languageName: node
   linkType: hard
 
@@ -14121,7 +14146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-tree@npm:^2.3.1":
+"css-tree@npm:^2.0.1, css-tree@npm:^2.3.1":
   version: 2.3.1
   resolution: "css-tree@npm:2.3.1"
   dependencies:
