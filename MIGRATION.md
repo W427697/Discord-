@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
     - [Storyshots has been removed](#storyshots-has-been-removed)
@@ -379,6 +380,10 @@ To summarize:
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
 ### Core changes
+
+#### Dropping support for Node.js 16
+
+In Storybook 8, we have dropped Node.js 16 support since it reached end-of-life on 2023-09-11. Storybook 8 supports Node.js 18 and above.
 
 #### Autotitle breaking fixes
 
