@@ -3,7 +3,7 @@ import { vi, describe, afterEach, it, expect } from 'vitest';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
 
-const { runCompodoc } = require('./run-compodoc');
+import { runCompodoc } from './run-compodoc';
 
 const mockRunScript = vi.fn();
 
