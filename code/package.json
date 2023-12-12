@@ -248,7 +248,7 @@
     "wait-on": "^7.0.1"
   },
   "devDependencies": {
-    "@chromaui/addon-visual-tests": "^0.0.114"
+    "@chromaui/addon-visual-tests": "^0.0.124"
   },
   "dependenciesMeta": {
     "ejs": {
