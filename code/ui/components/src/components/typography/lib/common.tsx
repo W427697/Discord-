@@ -1,5 +1,5 @@
 import { transparentize } from 'polished';
-import type { CSSObject, FunctionInterpolation, Theme } from '@storybook/theming';
+import type { CSSObject, FunctionInterpolation } from '@storybook/theming';
 
 export const headerCommon: FunctionInterpolation = ({ theme }) => ({
   margin: '20px 0 8px',
@@ -19,7 +19,7 @@ export const headerCommon: FunctionInterpolation = ({ theme }) => ({
   },
 });
 
-export const codeCommon = ({ theme }: { theme: Theme }): CSSObject => ({
+export const codeCommon: FunctionInterpolation = ({ theme }) => ({
   lineHeight: 1,
   margin: '0 2px',
   padding: '3px 5px',
