@@ -25,7 +25,7 @@ If you run `yarn start` and encounter the following error, try rerunning `yarn s
 ```sh
 >  NX   ENOENT: no such file or directory, open 'storybook/code/node_modules/nx/package.json'
 ```
-If you are a Storybook contributor and still experience issues, it is recommended that you verify your local Storybook instance for any unintentional local changes and left-overs. To do this, you can use the following command:
+If you are a Storybook contributor and still experience issues, it is recommended that you verify your local Storybook instance for any unintentional local changes. To do this, you can use the following command:
 
 ```sh
 git clean -dx --dry-run
