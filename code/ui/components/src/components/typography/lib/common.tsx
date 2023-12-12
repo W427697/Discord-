@@ -1,7 +1,7 @@
 import { transparentize } from 'polished';
-import type { CSSObject, Theme } from '@storybook/theming';
+import type { CSSObject, FunctionInterpolation, Theme } from '@storybook/theming';
 
-export const headerCommon = ({ theme }: { theme: Theme }): CSSObject => ({
+export const headerCommon: FunctionInterpolation = ({ theme }) => ({
   margin: '20px 0 8px',
   padding: 0,
   cursor: 'text',
@@ -39,7 +39,7 @@ export const codeCommon = ({ theme }: { theme: Theme }): CSSObject => ({
   backgroundColor: theme.base === 'light' ? theme.color.lighter : theme.color.border,
 });
 
-export const withReset = ({ theme }: { theme: Theme }): CSSObject => ({
+export const withReset: FunctionInterpolation = ({ theme }) => ({
   fontFamily: theme.typography.fonts.base,
   fontSize: theme.typography.size.s3,
   margin: 0,
