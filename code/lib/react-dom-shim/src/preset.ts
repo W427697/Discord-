@@ -34,7 +34,7 @@ export const webpackFinal = async (config: any, options: Options) => {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
-        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-16',
       },
     },
   };
@@ -49,11 +49,11 @@ export const viteFinal = async (config: any, options: Options) => {
   const alias = Array.isArray(config.resolve?.alias)
     ? config.resolve.alias.concat({
         find: /^@storybook\/react-dom-shim$/,
-        replacement: '@storybook/react-dom-shim/dist/react-18',
+        replacement: '@storybook/react-dom-shim/dist/react-16',
       })
     : {
         ...config.resolve?.alias,
-        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-16',
       };
 
   return {

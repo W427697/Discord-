@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import React, { Component } from 'react';
 import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
@@ -10,10 +11,11 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-class ErrorBoundary extends Component<{
-  showException: (err: Error) => void;
-  children: React.ReactNode;
-}> {
+class ErrorBoundary extends Component<
+  PropsWithChildren<{
+    showException: (err: Error) => void;
+  }>
+> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.6.0-alpha.6",
+  "version": "8.0.0-alpha.3",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
-    "@storybook/core-client": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
@@ -88,7 +87,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
