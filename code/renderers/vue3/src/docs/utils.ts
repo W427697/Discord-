@@ -26,7 +26,7 @@ const htmlEventAttributeToVueEventAttribute = (key: string) => {
 const directiveSource = (key: string, value: unknown) =>
   key.startsWith("on") || key.startsWith("On")
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
-    : `${key}="${value}"`;
+    : `${key}="${value ?? ""}"`;
 
 const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
   // convert html event key to vue event key
