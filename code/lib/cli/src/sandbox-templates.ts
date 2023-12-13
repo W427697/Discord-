@@ -416,28 +416,6 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
-  'preact-webpack5/default-js': {
-    name: 'Preact CLI Latest (Webpack | JavaScript)',
-    script:
-      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
-  'preact-webpack5/default-ts': {
-    name: 'Preact CLI Latest (Webpack | TypeScript)',
-    script:
-      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
     script: 'npm create vite --yes {{beforeDir}} -- --template preact',
@@ -470,6 +448,27 @@ const baseTemplates = {
     },
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
+  },
+  'ember/3-js': {
+    name: 'Ember v3 (Webpack | JavaScript)',
+    script: 'npx --package ember-cli@3.28.1 ember new {{beforeDir}}',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/ember',
+      renderer: '@storybook/ember',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'ember/default-js': {
+    name: 'Ember v4 (Webpack | JavaScript)',
+    script:
+      'npx --package ember-cli@4.12.1 ember new {{beforeDir}} --yarn && cd {{beforeDir}} && yarn add --dev @storybook/ember-cli-storybook && yarn build',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/ember',
+      renderer: '@storybook/ember',
+      builder: '@storybook/builder-webpack5',
+    },
   },
 } satisfies Record<string, BaseTemplates>;
 
@@ -589,6 +588,7 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts-nodocs',
   'bench/react-vite-default-ts-test-build',
   'bench/react-webpack-18-ts-test-build',
+  'ember/default-js',
 ];
 
 export const merged: TemplateKey[] = [
@@ -596,7 +596,6 @@ export const merged: TemplateKey[] = [
   'react-webpack/18-ts',
   'react-webpack/17-ts',
   'angular-cli/15-ts',
-  'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
   'html-vite/default-ts',
@@ -611,13 +610,11 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
-  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
   'nextjs/prerelease',
   'qwik-vite/default-ts',
-  'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
 ];
