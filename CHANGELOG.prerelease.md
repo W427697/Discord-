@@ -1,3 +1,75 @@
+## 8.0.0-alpha.3
+
+- Addon-docs: Fix storybook MDX check - [#24696](https://github.com/storybookjs/storybook/pull/24696), thanks [@shilman](https://github.com/shilman)!
+- Addons: Remove unused postinstall package - [#25150](https://github.com/storybookjs/storybook/pull/25150), thanks [@shilman](https://github.com/shilman)!
+- Angular: Update Angular cli templates - [#25152](https://github.com/storybookjs/storybook/pull/25152), thanks [@Marklb](https://github.com/Marklb)!
+- Blocks: Fix Subtitle block for unattached docs pages - [#25157](https://github.com/storybookjs/storybook/pull/25157), thanks [@kripod](https://github.com/kripod)!
+- Ember: Fix @storybook/ember - [#23435](https://github.com/storybookjs/storybook/pull/23435), thanks [@francois2metz](https://github.com/francois2metz)!
+- Maintenance: Set engines field to Node.js >= 18 for packages - [#25105](https://github.com/storybookjs/storybook/pull/25105), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 8.0.0-alpha.2
+
+- Core: Maintenance changes for NextJS embedding - [#25086](https://github.com/storybookjs/storybook/pull/25086), thanks [@shilman](https://github.com/shilman)!
+- Addon-docs: Fix story anchors using encodeURIComponent - [#25062](https://github.com/storybookjs/storybook/pull/25062), thanks [@xyy94813](https://github.com/xyy94813)!
+- CLI: Generate a new project on init in empty directory - [#24997](https://github.com/storybookjs/storybook/pull/24997), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Svelte: Support v5 prereleases - [#24889](https://github.com/storybookjs/storybook/pull/24889), thanks [@allozaur](https://github.com/allozaur)!
+- Vue: Remove deprecated vue packages from next - [#25108](https://github.com/storybookjs/storybook/pull/25108), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Vue: Remove unused preset-vue-webpack - [#25151](https://github.com/storybookjs/storybook/pull/25151), thanks [@shilman](https://github.com/shilman)!
+
+## 8.0.0-alpha.1
+
+- Angular: Drop v14.x support - [#25101](https://github.com/storybookjs/storybook/pull/25101), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Angular: Fix CSF Plugin - [#25098](https://github.com/storybookjs/storybook/pull/25098), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Build: Fix Angular sandbox - [#23896](https://github.com/storybookjs/storybook/pull/23896), thanks [@Marklb](https://github.com/Marklb)!
+- CLI: Improve dependency metadata detection in storybook doctor - [#25037](https://github.com/storybookjs/storybook/pull/25037), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Point the update-notice to the changelog in the suggested version - [#19911](https://github.com/storybookjs/storybook/pull/19911), thanks [@cprecioso](https://github.com/cprecioso)!
+- CLI: Typescript strict mode - [#22254](https://github.com/storybookjs/storybook/pull/22254), thanks [@0916dhkim](https://github.com/0916dhkim)!
+- CSF: Autotitle fix multiple dots and handle stories.js - [#21840](https://github.com/storybookjs/storybook/pull/21840), thanks [@agriffis](https://github.com/agriffis)!
+- Next.js: Add next/font/local declarations support - [#24983](https://github.com/storybookjs/storybook/pull/24983), thanks [@MauricioRobayo](https://github.com/MauricioRobayo)!
+- Next.js: Drop Next.js < v13.5 support - [#25104](https://github.com/storybookjs/storybook/pull/25104), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Fix AppRouterProvider usage - [#25032](https://github.com/storybookjs/storybook/pull/25032), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Fix next/font/local usage in babel mode - [#25045](https://github.com/storybookjs/storybook/pull/25045), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Update validateData function for next/font compatibility - [#25061](https://github.com/storybookjs/storybook/pull/25061), thanks [@kkirby](https://github.com/kkirby)!
+- NextJS: Add experimental RSC support - [#25091](https://github.com/storybookjs/storybook/pull/25091), thanks [@shilman](https://github.com/shilman)!
+- React-Docgen: Make error-handling more gentle - [#25055](https://github.com/storybookjs/storybook/pull/25055), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React: Change `StoryFnReactReturnType` to `JSX.Element` - [#23204](https://github.com/storybookjs/storybook/pull/23204), thanks [@chakAs3](https://github.com/chakAs3)!
+- React: Set `react-docgen` to default TS docgen - [#24165](https://github.com/storybookjs/storybook/pull/24165), thanks [@shilman](https://github.com/shilman)!
+- SvelteKit: Fix HMR not working - [#25031](https://github.com/storybookjs/storybook/pull/25031), thanks [@JReinhold](https://github.com/JReinhold)!
+- TypeScript: Migrate `@storybook/docs-tools` to strict TS - [#22567](https://github.com/storybookjs/storybook/pull/22567), thanks [@efrenaragon96](https://github.com/efrenaragon96)!
+- UI: Add stricter types to the language property of the SyntaxHighlighter - [#22790](https://github.com/storybookjs/storybook/pull/22790), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Viewport: Fix viewport dts files - [#25107](https://github.com/storybookjs/storybook/pull/25107), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Webpack: Fix exclude regex in react-docgen-loader - [#25030](https://github.com/storybookjs/storybook/pull/25030), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 8.0.0-alpha.0
+
+- Addon Viewport: Expose types for user parameter validation - [#24896](https://github.com/storybookjs/storybook/pull/24896), thanks [@piratetaco](https://github.com/piratetaco)!
+- Packages: Remove unused/deprecated packages - [#24528](https://github.com/storybookjs/storybook/pull/24528), thanks [@ndelangen](https://github.com/ndelangen)!
+- Vite: use user's `build.target` - [#23123](https://github.com/storybookjs/storybook/pull/23123), thanks [@Hoishin](https://github.com/Hoishin)!
+- CLI: Remove `sb extract` command - [#24653](https://github.com/storybookjs/storybook/pull/24653), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Improve project root detection logic - [#20791](https://github.com/storybookjs/storybook/pull/20791), thanks [@dobesv](https://github.com/dobesv)!
+- Core: Prebundling globalize the core-event sub paths - [#24976](https://github.com/storybookjs/storybook/pull/24976), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Remove `storiesOf`-API - [#24655](https://github.com/storybookjs/storybook/pull/24655), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: `StorybookConfig` `stories`-field support type async function - [#21555](https://github.com/storybookjs/storybook/pull/21555), thanks [@imccausl](https://github.com/imccausl)!
+- Dependencies: Update Typescript - [#24970](https://github.com/storybookjs/storybook/pull/24970), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Dependencies: Upgrade monorepo to TS5 - [#24440](https://github.com/storybookjs/storybook/pull/24440), thanks [@ndelangen](https://github.com/ndelangen)!
+- TypeScript: Migrate `@storybook/preset-create-react-app` to strict TS - [#22395](https://github.com/storybookjs/storybook/pull/22395), thanks [@kuriacka](https://github.com/kuriacka)!
+- Manager: Enable refs filtered via `experimental_setFilter` - [#24211](https://github.com/storybookjs/storybook/pull/24211), thanks [@ndelangen](https://github.com/ndelangen)!
+- MDX: Theme `fontCode` not applied consistently when writing MDX - [#23110](https://github.com/storybookjs/storybook/pull/23110), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- UI: Bring back role main - [#24411](https://github.com/storybookjs/storybook/pull/24411), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix `IconButton` not being aligned correctly in blocks - [#24529](https://github.com/storybookjs/storybook/pull/24529), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix button size on controls - [#24737](https://github.com/storybookjs/storybook/pull/24737), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix layout height - [#24370](https://github.com/storybookjs/storybook/pull/24370), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Fix notifications not appearing in new layout - [#24281](https://github.com/storybookjs/storybook/pull/24281), thanks [@jreinhold](https://github.com/jreinhold)!
+- UI: Fix theming not updating - [#24399](https://github.com/storybookjs/storybook/pull/24399), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Improved `Button` and `IconButton` - [#24266](https://github.com/storybookjs/storybook/pull/24266), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Keep mobile drawer open on component selection - [#24258](https://github.com/storybookjs/storybook/pull/24258), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Mobile truncate story name - [#24372](https://github.com/storybookjs/storybook/pull/24372), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: New icon library - [#24433](https://github.com/storybookjs/storybook/pull/24433), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Replace `Form.Button` with the new `Button` component - [#24360](https://github.com/storybookjs/storybook/pull/24360), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Screen reader announcing changes for expand/collapse button - [#24984](https://github.com/storybookjs/storybook/pull/24984), thanks [@wjdtjdgns](https://github.com/wjdtjdgns)!
+- UI: Upgrade manager to React v18 - [#24514](https://github.com/storybookjs/storybook/pull/24514), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: sidebar UI updates - [#24707](https://github.com/storybookjs/storybook/pull/24707), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
 ## 7.6.0-beta.2
 
 - Actions: Fix `@storybook/core-events/preview-errors` dependency missing for Yarn PnP - [#24973](https://github.com/storybookjs/storybook/pull/24973), thanks [@JReinhold](https://github.com/JReinhold)!

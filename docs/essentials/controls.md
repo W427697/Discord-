@@ -19,7 +19,7 @@ Controls do not require any modification to your components. Stories for control
 - Portable. Reuse your interactive stories in documentation, tests, and even in designs.
 - Rich. Customize the controls and interactive data to suit your exact needs.
 
-To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
+To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/arg-types.md), see below.
 
 <Callout variant="info" icon="💡">
 
@@ -70,7 +70,7 @@ By default, Storybook will render a free text input for the `variant` arg:
 
 It works as long as you type a valid string into the auto-generated text control. Still, it's not the best UI for our scenario, given that the component only accepts `primary` or `secondary` as variants. Let’s replace it with Storybook’s radio component.
 
-We can specify which controls get used by declaring a custom [argType](../api/argtypes.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
+We can specify which controls get used by declaring a custom [argType](../api/arg-types.md) for the `variant` property. ArgTypes encode basic metadata for args, such as name, description, defaultValue for an arg. These get automatically filled in by Storybook Docs.
 
 `ArgTypes` can also contain arbitrary annotations, which the user can override. Since `variant` is a property of the component, let's put that annotation on the default export.
 
@@ -121,6 +121,10 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+
+<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
+
 ## Fully custom args
 
 Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component. For example, here's how you could use a `footer` arg to populate a child component:
@@ -155,6 +159,8 @@ By default, Storybook will add controls for all args that:
 
 Using `argTypes`, you can change the display and behavior of each control.
 
+</IfRenderer>
+
 ### Dealing with complex values
 
 When dealing with non-primitive values, you'll notice that you'll run into some limitations. The most obvious issue is that not every value can be represented as part of the `args` param in the URL, losing the ability to share and deeplink to such a state. Beyond that, complex values such as JSX cannot be synchronized between the manager (e.g., Controls addon) and the preview (your story).
@@ -171,6 +177,7 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
+    'svelte/component-story-custom-args-complex.ts.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
     'solid/component-story-custom-args-complex.js.mdx',
@@ -209,7 +216,7 @@ The Controls addon can be configured in two ways:
 
 ### Annotation
 
-As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/argtypes.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
+As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/arg-types.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
 
 | Data Type   | Control        | Description                                                                                                                                                                                                               |
 | ----------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -264,7 +271,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
-To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

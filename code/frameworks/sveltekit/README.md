@@ -40,7 +40,7 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported       | They are only meant to be used in service workers                                                                                   |
 | [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported           |                                                                                                                                     |
 
-This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories/introduction), [test](https://storybook.js.org/docs/svelte/writing-tests/introduction) and [document](https://storybook.js.org/docs/svelte/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
+This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories), [test](https://storybook.js.org/docs/svelte/writing-tests) and [document](https://storybook.js.org/docs/svelte/writing-docs) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
 
 ## Requirements
 
@@ -184,16 +184,6 @@ export const MyStory = {
 > ```
 
 You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
-
-### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
-
-> Some stories don't load, instead they show the following error in the preview:
->
-> ```
-> Cannot read properties of undefined (reading 'disable_scroll_handling')
-> ```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 ## Acknowledgements
 

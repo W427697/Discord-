@@ -44,7 +44,7 @@ const hasPeerDependency = (
   return !!version;
 };
 
-type SearchTuple = [string, (version: string) => boolean | undefined];
+type SearchTuple = [string, ((version: string) => boolean) | undefined];
 
 const getFrameworkPreset = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -127,12 +127,11 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SFC_VUE:
-      return CoreBuilder.Vite;
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
     case ProjectType.NEXTJS:
+    case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations

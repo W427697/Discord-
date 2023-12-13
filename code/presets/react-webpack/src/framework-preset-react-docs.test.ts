@@ -18,11 +18,23 @@ describe('framework-preset-react-docgen', () => {
 
       const config = await preset.webpackFinal?.(webpackConfig, {
         presets: {
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: 'react-docgen',
-            } as Partial<TypescriptOptions>),
+          apply: async (name: string) => {
+            if (name === 'typescript') {
+              return {
+                check: false,
+                reactDocgen: 'react-docgen',
+              } as Partial<TypescriptOptions>;
+            }
+
+            if (name === 'babel') {
+              return {
+                plugins: [],
+                presets: [],
+              };
+            }
+
+            return undefined;
+          },
         },
         presetsList: presetsListWithDocs,
       } as any);
@@ -31,8 +43,9 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules\/.*/,
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
               test: /\.(cjs|mjs|tsx?|jsx?)$/,
             },
           ],
@@ -50,11 +63,23 @@ describe('framework-preset-react-docgen', () => {
       const config = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (not strict)
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: 'react-docgen-typescript',
-            } as Partial<TypescriptOptions>),
+          apply: async (name: string) => {
+            if (name === 'typescript') {
+              return {
+                check: false,
+                reactDocgen: 'react-docgen-typescript',
+              } as Partial<TypescriptOptions>;
+            }
+
+            if (name === 'babel') {
+              return {
+                plugins: [],
+                presets: [],
+              };
+            }
+
+            return undefined;
+          },
         },
         presetsList: presetsListWithDocs,
       });
@@ -63,8 +88,9 @@ describe('framework-preset-react-docgen', () => {
         module: {
           rules: [
             {
-              exclude: /node_modules\/.*/,
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
               loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
               test: /\.(cjs|mjs|jsx?)$/,
             },
           ],

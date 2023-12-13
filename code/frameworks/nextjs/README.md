@@ -40,6 +40,7 @@
   - [Runtime Config](#runtime-config)
   - [Custom Webpack Config](#custom-webpack-config)
   - [Typescript](#typescript)
+  - [Experimental React Server Components (RSC)](#experimental-react-server-components-rsc)
   - [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users)
   - [FAQ](#faq)
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
@@ -268,7 +269,6 @@ The following features are not supported (yet). Support for these features might
 - [Support font loaders configuration in next.config.js](https://nextjs.org/docs/basic-features/font-optimization#specifying-a-subset)
 - [fallback](https://nextjs.org/docs/api-reference/next/font#fallback) option
 - [adjustFontFallback](https://nextjs.org/docs/api-reference/next/font#adjustfontfallback) option
-- [declarations](https://nextjs.org/docs/api-reference/next/font#declarations) option
 - [preload](https://nextjs.org/docs/api-reference/next/font#preload) option gets ignored. Storybook handles Font loading its own way.
 - [display](https://nextjs.org/docs/api-reference/next/font#display) option gets ignored. All fonts are loaded with display set to "block" to make Storybook load the font properly.
 
@@ -354,7 +354,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -489,7 +489,7 @@ export const Example = {
 },
 ```
 
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
@@ -534,7 +534,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -694,7 +694,7 @@ export const parameters = {
 
 ### Sass/Scss
 
-[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering)
+[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering)
 
 ```js
 import '../styles/globals.scss';
@@ -908,6 +908,39 @@ Storybook handles most [Typescript](https://www.typescriptlang.org/) configurati
   }
 }
 ```
+
+### Experimental React Server Components (RSC)
+
+If your app uses [React Server Components (RSC)](https://nextjs.org/docs/app/building-your-application/rendering/server-components), Storybook can render them in stories in the browser.
+
+To enable this set the `experimentalNextRSC` feature flag in your `.storybook/main.js` config:
+
+```js
+// main.js
+export default {
+  features: {
+    experimentalNextRSC: true,
+  },
+};
+```
+
+Setting this flag automatically wraps your story in a [Suspense](https://react.dev/reference/react/Suspense) wrapper, which is able to render asynchronous components in NextJS's version of React.
+
+If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `nextjs.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
+
+```js
+// MyServerComponent.stories.js
+export default {
+  component: MyServerComponent,
+  parameters: { nextjs: { rsc: false } },
+};
+```
+
+Note that wrapping your server components in Suspense does not help if your server components access server-side resources like the file system or Node-specific libraries. To deal work around this, you'll need to mock out your data access layer using [Webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias) or an addon like [storybook-addon-module-mock](https://storybook.js.org/addons/storybook-addon-module-mock).
+
+If your server components access data via the network, we recommend using the [MSW Storybook Addon](https://storybook.js.org/addons/msw-storybook-addon) to mock network requests.
+
+In the future we will provide better mocking support in Storybook and support for [Server Actions](https://nextjs.org/docs/app/api-reference/functions/server-actions).
 
 ### Notes for Yarn v2 and v3 users
 
