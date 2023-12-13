@@ -235,6 +235,7 @@ export const viteFinal = async (config: any, options: Options) => {
 
   const reactAliasPlugin = {
     name: 'storybook:react-alias',
+    enforce: 'pre',
     config: () => ({
       resolve: {
         // TODO: does this work if pre-existing alias is an array?
