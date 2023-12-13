@@ -168,6 +168,7 @@ function renderSwatchSpecimen(colors: Colors) {
   const swatchElements = [];
   const labelElements = [];
 
+  // eslint-disable-next-line no-restricted-syntax, guard-for-in
   for (const colorKey in colors) {
     const colorValue = colors[colorKey];
     swatchElements.push(renderSwatch(colorValue, swatchElements.length));
@@ -176,12 +177,8 @@ function renderSwatchSpecimen(colors: Colors) {
 
   return (
     <SwatchSpecimen>
-      <SwatchColors>
-        {swatchElements}
-      </SwatchColors>
-      <SwatchLabels>
-        {labelElements}
-      </SwatchLabels>
+      <SwatchColors>{swatchElements}</SwatchColors>
+      <SwatchLabels>{labelElements}</SwatchLabels>
     </SwatchSpecimen>
   );
 }
