@@ -192,7 +192,12 @@ test.describe('addon-docs', () => {
     await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
     const root = sbPage.previewRoot();
 
-    const expectedReactVersion = templateName.includes('react16') ? /^16/ : /^18/;
+    let expectedReactVersion = /^18/;
+    if (templateName.includes('preact')) {
+      expectedReactVersion = /^17/;
+    } else if (templateName.includes('react16')) {
+      expectedReactVersion = /^16/;
+    }
 
     const mdxReactVersion = await root.getByTestId('mdx-react');
     const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
