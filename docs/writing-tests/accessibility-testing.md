@@ -70,6 +70,7 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'vue/component-story-with-accessibility.3.js.mdx',
     'vue/component-story-with-accessibility.3.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
+    'svelte/component-story-with-accessibility.ts.mdx',
     'web-components/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.ts.mdx',
   ]}
@@ -89,7 +90,7 @@ Out of the box, Storybook's accessibility addon includes a set of accessibility 
 
 #### Global a11y configuration
 
-If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/overview.md#configure-story-rendering):
+If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -134,6 +135,7 @@ Customize the a11y ruleset at the story level by updating your story to include 
     'vue/storybook-addon-a11y-story-config.js.mdx',
     'vue/storybook-addon-a11y-story-config.ts.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
+    'svelte/storybook-addon-a11y-story-config.ts.mdx',
     'web-components/storybook-addon-a11y-story-config.js.mdx',
     'web-components/storybook-addon-a11y-story-config.ts.mdx',
   ]}
@@ -157,6 +159,7 @@ Disable accessibility testing for stories or components by adding the following 
    'vue/storybook-addon-a11y-disable.js.mdx',
    'vue/storybook-addon-a11y-disable.ts.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
+   'svelte/storybook-addon-a11y-disable.ts.mdx',
    'web-components/storybook-addon-a11y-disable.js.mdx',
    'web-components/storybook-addon-a11y-disable.ts.mdx',
   ]}
