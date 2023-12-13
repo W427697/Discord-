@@ -286,6 +286,9 @@ describe('Vue3: sourceDecorator->attributeSoure()', () => {
   test('normal html attribute should not convert to vue event directive', () => {
     expect(attributeSource('on-click', () => {})).toMatchInlineSnapshot(`on-click='()=>({})'`);
   });
+  test('The value ()=>({}) must not be returned.', () => {
+    expect(attributeSource('icon', () => {})).toMatchInlineSnapshot(`icon=''`);
+  });
   test('htmlEventAttributeToVueEventAttribute  onEv => v-on:', () => {
     const htmlEventAttributeToVueEventAttribute = (attribute: string) => {
       return htmlEventToVueEvent(attribute);
