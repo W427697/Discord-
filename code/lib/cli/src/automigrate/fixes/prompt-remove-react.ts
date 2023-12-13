@@ -125,7 +125,7 @@ export const removeReactDependency: Fix<Options> = {
     }
 
     const removalSuggestion = dedent`
-      We suggest you manually remove the dependency from your project.
+      We suggest you manually remove the "react" and "react-dom" dependencies from your project's package.json.
       We cannot do this automatically, removing it might break your project, so it should be done manually with care.
     `;
     return [start, removalSuggestion].join('\n\n');
