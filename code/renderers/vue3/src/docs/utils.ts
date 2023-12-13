@@ -24,7 +24,7 @@ const htmlEventAttributeToVueEventAttribute = (key: string) => {
 };
 
 const directiveSource = (key: string, value: unknown) =>
-  key.includes('on')
+  key.startsWith("on") || key.startsWith("On")
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
     : `${key}="${value}"`;
 
