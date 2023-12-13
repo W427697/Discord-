@@ -246,7 +246,10 @@ export const viteFinal = async (config: any, options: Options) => {
     }),
   };
 
-  plugins.push(mdxPlugin(options), reactAliasPlugin);
+  // add alias plugin early to ensure any other plugins that also add the aliases will override this
+  // eg. the preact vite plugin adds its own aliases
+  plugins.unshift(reactAliasPlugin);
+  plugins.push(mdxPlugin(options));
 
   return config;
 };
