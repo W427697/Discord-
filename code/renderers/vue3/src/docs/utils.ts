@@ -23,14 +23,13 @@ const htmlEventAttributeToVueEventAttribute = (key: string) => {
   return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
 };
 
-const isEmptyObject = (value) => {
-  return String(value).replace(/(\s*)/g, "") === "()=>{}";
-}
+const isEmptyObject = (value: unknown) => 
+  String(value).replace(/(\s*)/g, '') === '()=>{}';
 
 const directiveSource = (key: string, value: unknown) =>
   key.toLowerCase().startsWith('on')
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
-    : `${key}=${isEmptyObject(value) ? '' : value}`
+    : `${key}=${isEmptyObject(value) ? '' : value}`;
 
 const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
   // convert html event key to vue event key
