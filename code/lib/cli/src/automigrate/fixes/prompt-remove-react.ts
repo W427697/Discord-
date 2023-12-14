@@ -125,8 +125,8 @@ export const removeReactDependency: Fix<Options> = {
     }
 
     const removalSuggestion = dedent`
-      We suggest you manually remove the "react" and "react-dom" dependencies from your project's package.json.
-      We cannot do this automatically, removing it might break your project, so it should be done manually with care.
+      If you know you are not using React outside of Storybook, it should be safe to remove the "react" and "react-dom" dependencies from your project's package.json.
+      Storybook cannot do this automatically as removing it might break your project, so it should be done manually with care.
     `;
     return [start, removalSuggestion].join('\n\n');
   },
