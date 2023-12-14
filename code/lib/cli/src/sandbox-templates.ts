@@ -654,6 +654,7 @@ export const daily: TemplateKey[] = [
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
+  'internal/react16-webpack',
 ];
 
 export const templatesByCadence = { normal, merged, daily };
