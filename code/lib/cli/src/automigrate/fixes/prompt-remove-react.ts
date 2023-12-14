@@ -115,6 +115,7 @@ export const removeReactDependency: Fix<Options> = {
 
       Storybook asked you to add "react" as a direct dependency in the past${addonReasonText}.
       However, since version 8.0, Storybook no longer requires you to provide "react" as a dependency.
+      Some community addons might still wrongfully list "react" and "react-dom" as required peer dependencies, but since Storybook 7.6 it should not be needed in the majority of cases.
     `;
 
     if (hasMDX) {
