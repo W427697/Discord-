@@ -6,8 +6,8 @@ import type { EnrichCsfOptions } from './enrichCsf';
 import { enrichCsf, extractSource } from './enrichCsf';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => val,
-  test: (val) => true,
+  print: (val: any) => val.replace(/\\r\\n/gm, '\\n'),
+  test: () => true,
 });
 
 const enrich = (code: string, originalCode: string, options?: EnrichCsfOptions) => {
