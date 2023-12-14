@@ -220,7 +220,7 @@ The community actively maintains the Svelte CSF addon but still lacks some featu
 
 </IfRenderer>
 
-### The installation process seems flaky and keeps failing
+#### The installation process seems flaky and keeps failing
 
 If you're still running into some issues during the installation process, we encourage you to check out the following resources:
 
