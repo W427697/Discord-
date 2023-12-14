@@ -18,7 +18,6 @@ const getIsReactVersion18 = async (options: Options) => {
   const reactDom = resolvedReact.reactDom || dirname(require.resolve('react-dom/package.json'));
 
   const { version } = JSON.parse(await readFile(join(reactDom, 'package.json'), 'utf-8'));
-
   return version.startsWith('18') || version.startsWith('0.0.0');
 };
 
@@ -42,7 +41,7 @@ export const webpackFinal = async (config: any, options: Options) => {
 
 export const viteFinal = async (config: any, options: Options) => {
   const isReactVersion18 = await getIsReactVersion18(options);
-  if (!isReactVersion18) {
+  if (isReactVersion18) {
     return config;
   }
 

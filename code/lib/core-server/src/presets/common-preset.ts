@@ -357,7 +357,6 @@ export const resolvedReact = async (existing: any) => {
       ...existing,
       react: dirname(require.resolve('react/package.json')),
       reactDom: dirname(require.resolve('react-dom/package.json')),
-      mdx: dirname(require.resolve('@mdx-js/react/package.json')),
     };
   } catch (e) {
     return existing;
