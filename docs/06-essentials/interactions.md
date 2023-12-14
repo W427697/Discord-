@@ -1,5 +1,6 @@
 ---
-title: 'Interactions'
+title: Interactions
+navOrder: 5
 ---
 
 The [`play`](../02-writing-stories/play-function.md) function in Storybook allows you to simulate user interactions to run after a story renders. With the [Interactions](https://storybook.js.org/addons/@storybook/addon-interactions/) addon, you have a way to visualize and debug these interactions.

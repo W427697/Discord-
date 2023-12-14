@@ -1,5 +1,9 @@
 ---
-title: 'viteFinal'
+title: viteFinal
+navOrder: 22
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 Parent: [main.js|ts configuration](./main-config.md)

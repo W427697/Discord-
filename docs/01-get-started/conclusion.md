@@ -1,5 +1,7 @@
 ---
-title: 'Conclusion'
+title: Conclusion
+description: Take your Storybook skills to the next level
+navOrder: 6
 hideRendererSelector: true
 ---
 

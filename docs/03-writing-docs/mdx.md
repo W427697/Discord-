@@ -1,5 +1,6 @@
 ---
-title: 'MDX'
+title: MDX
+navOrder: 2
 ---
 
 <YouTubeCallout id="YeIvFke5_5Y" title="MDX Storybook Quick Tips" />

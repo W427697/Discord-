@@ -1,5 +1,6 @@
 ---
-title: 'Actions'
+title: Actions
+navOrder: 1
 ---
 
 <YouTubeCallout id="BTIuTuoHsQc" title="STOP logging with Storybook Actions" />

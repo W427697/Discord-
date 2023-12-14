@@ -1,5 +1,7 @@
 ---
-title: 'Why Storybook?'
+title: Why Storybook?
+description: Learn why Storybook can help you build better UIs
+navOrder: 1
 ---
 
 ## The problem

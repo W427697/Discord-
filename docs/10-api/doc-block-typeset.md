@@ -1,5 +1,9 @@
 ---
-title: 'Typeset'
+title: Typeset
+navOrder: 15
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - Typeset Doc Block" params='start=73' />

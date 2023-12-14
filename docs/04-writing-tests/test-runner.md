@@ -1,5 +1,6 @@
 ---
-title: 'Test runner'
+title: Test runner
+navOrder: 1
 ---
 
 Storybook test runner turns all of your stories into executable tests. It is powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/).

@@ -1,5 +1,9 @@
 ---
-title: 'useOf'
+title: useOf
+navOrder: 17
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 The default blocks supplied by Storybook do not fit all use cases, so you might want to write your own blocks.

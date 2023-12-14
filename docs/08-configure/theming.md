@@ -1,5 +1,9 @@
 ---
-title: 'Theming'
+title: Theming
+navOrder: 2
+navGroup:
+  title: User interface
+  order: 7
 ---
 
 <YouTubeCallout id="x2nGXHAKOrE" title="Storybook Theming" />

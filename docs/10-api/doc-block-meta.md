@@ -1,5 +1,9 @@
 ---
-title: 'Meta'
+title: Meta
+navOrder: 8
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content, but serves two purposes in an MDX file:

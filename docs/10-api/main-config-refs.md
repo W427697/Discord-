@@ -1,5 +1,9 @@
 ---
-title: 'refs'
+title: refs
+navOrder: 18
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 Parent: [main.js|ts configuration](./main-config.md)

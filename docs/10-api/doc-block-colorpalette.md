@@ -1,5 +1,9 @@
 ---
-title: 'ColorPalette'
+title: ColorPalette
+navOrder: 3
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - ColorPalette Doc Block" params='start=20' />

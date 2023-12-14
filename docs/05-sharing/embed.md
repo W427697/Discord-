@@ -1,5 +1,7 @@
 ---
-title: 'Embed stories'
+title: Embed stories
+navTitle: Embed
+navOrder: 2
 ---
 
 <YouTubeCallout id="2tqRpBcV8ug" title="Your Storybook EVERYWHERE | Embeds with Chromatic" />

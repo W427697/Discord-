@@ -1,5 +1,5 @@
 ---
-title: 'Essential addons'
+title: Essential addons
 hideRendererSelector: true
 ---
 

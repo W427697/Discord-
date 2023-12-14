@@ -1,5 +1,7 @@
 ---
-title: 'Configure and communicate with an addon'
+title: Configure and communicate with an addon
+navTitle: Configure addons
+navOrder: 3
 ---
 
 The addon API is designed for customization. It offers addon authors different ways to configure and communicate with their users' Storybook. Let's look at what these are and their suggested use cases.

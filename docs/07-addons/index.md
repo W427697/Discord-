@@ -1,5 +1,5 @@
 ---
-title: 'Introduction to addons'
+title: Introduction to addons
 hideRendererSelector: true
 ---
 

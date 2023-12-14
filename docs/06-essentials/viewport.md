@@ -1,5 +1,6 @@
 ---
-title: 'Viewport'
+title: Viewport
+navOrder: 8
 ---
 
 <YouTubeCallout id="uydF1ltw7-g" title="Stop resizing your browser — Storybook viewport" />

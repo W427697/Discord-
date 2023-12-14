@@ -1,5 +1,7 @@
 ---
-title: 'Publish Storybook'
+title: Publish Storybook
+navTitle: Publish
+navOrder: 1
 ---
 
 <YouTubeCallout id="zhrboql8UuU" title="How to Test UI AUTOMATICALLY — Storybook and Chromatic" />

@@ -1,5 +1,9 @@
 ---
-title: 'Unit tests'
+title: Unit tests
+navOrder: 2
+navGroup:
+  title: Import stories in tests
+  order: 7
 ---
 
 Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests in the same way and reuse that across tools.

@@ -1,5 +1,6 @@
 ---
-title: 'Design integrations'
+title: Design integrations
+navOrder: 3
 ---
 
 Storybook integrates with design tools to speed up your development workflow. That helps you debug inconsistencies earlier in the design process, discover existing components to reuse, and compare designs to stories.

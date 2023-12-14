@@ -1,5 +1,6 @@
 ---
-title: 'ArgTypes'
+title: ArgTypes
+navOrder: 2
 ---
 
 ArgTypes specify the behavior of [args](../02-writing-stories/args.md). By specifying the type of an arg, you constrain the values that it can accept and provide information about args that are not explicitly set (i.e., [description](#description)).

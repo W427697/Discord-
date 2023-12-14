@@ -1,5 +1,6 @@
 ---
-title: 'Play function'
+title: Play function
+navOrder: 4
 ---
 
 <YouTubeCallout id="dcuzwCHI940" title="Component testing in Storybook with play functions" />

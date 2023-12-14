@@ -1,5 +1,6 @@
 ---
-title: 'Vite'
+title: Vite
+navOrder: 1
 ---
 
 Storybook Vite builder bundles your components and stories with [Vite](https://vitejs.dev/), a fast ESM bundler.

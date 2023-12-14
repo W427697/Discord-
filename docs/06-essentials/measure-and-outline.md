@@ -1,5 +1,6 @@
 ---
-title: 'Measure & outline'
+title: Measure & Outline
+navOrder: 6
 ---
 
 <YouTubeCallout id="-S7GtH0hdc4" title="Debug CSS without DevTools — Storybook" />

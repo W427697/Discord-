@@ -1,5 +1,9 @@
 ---
-title: 'framework'
+title: framework
+navOrder: 2
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 (**Required**)

@@ -1,5 +1,6 @@
 ---
-title: 'Types of addons'
+title: Types of addons
+navOrder: 6
 ---
 
 Each Storybook addon is classified into two general categories, UI-based or Presets. Each type of addons feature is documented here. Use this as a reference when creating your addon.

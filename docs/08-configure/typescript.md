@@ -1,5 +1,9 @@
 ---
-title: 'TypeScript'
+title: TypeScript
+navOrder: 4
+navGroup:
+  title: Integration
+  order: 4
 ---
 
 Storybook provides an integrated [TypeScript](https://www.typescriptlang.org/) experience, including zero-configuration setup and built-in types for APIs, addons, and stories.

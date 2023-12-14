@@ -1,5 +1,6 @@
 ---
-title: 'Highlight'
+title: Highlight
+navOrder: 4
 ---
 
 Storybook's [Highlight](https://storybook.js.org/addons/@storybook/addon-highlight/) addon is a helpful tool for visually debugging your components, allowing you to highlight specific DOM nodes within your story when used as a standalone addon or enhancing other addons such as the [Accessibility addon](https://storybook.js.org/addons/@storybook/addon-a11y/) to inform you of accessibility issues within your components.

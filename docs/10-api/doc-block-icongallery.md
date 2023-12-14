@@ -1,5 +1,9 @@
 ---
-title: 'IconGallery'
+title: IconGallery
+navOrder: 6
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - IconGallery Doc Block" params='start=131' />

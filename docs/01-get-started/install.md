@@ -1,5 +1,7 @@
 ---
-title: 'Install Storybook'
+title: Install Storybook
+description: Install the Storybook package in your project
+navOrder: 2
 ---
 
 Use the Storybook CLI to install it in a single command. Run this inside your project’s root directory:

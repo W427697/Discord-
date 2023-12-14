@@ -1,5 +1,6 @@
 ---
-title: 'Accessibility tests'
+title: Accessibility tests
+navOrder: 3
 ---
 
 <YouTubeCallout id="rNLL0SICr9w" title="STOP fighting accessibility | automate a11y checks" />

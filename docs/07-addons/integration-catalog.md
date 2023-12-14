@@ -1,5 +1,7 @@
 ---
-title: 'Add to the integration catalog'
+title: Add to the integration catalog
+navTitle: Add to catalog
+navOrder: 5
 ---
 
 Storybook has two types of integrations, addons and recipes, which are listed in the [integration catalog](https://storybook.js.org/integrations/).

@@ -1,5 +1,10 @@
 ---
-title: 'Snapshot testing with Storyshots'
+title: Snapshot testing with Storyshots
+navTitle: Storyshots
+navOrder: 1
+navGroup:
+  title: Snapshot testing
+  order: 6
 ---
 
 Snapshot tests compare the rendered markup of every story against known baselines. It’s a way to identify markup changes that trigger rendering errors and warnings.

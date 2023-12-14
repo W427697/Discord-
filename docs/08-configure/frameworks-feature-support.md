@@ -1,5 +1,9 @@
 ---
-title: 'Feature support for frameworks'
+title: Feature support for frameworks
+navOrder: 2
+navGroup:
+  title: Integration
+  order: 4
 ---
 
 Storybook integrates with many popular frontend frameworks. We do our best to keep feature parity amongst frameworks, but it’s tricky for our modest team to support every framework.

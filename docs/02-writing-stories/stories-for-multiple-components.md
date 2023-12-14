@@ -1,5 +1,6 @@
 ---
-title: 'Stories for multiple components'
+title: Stories for multiple components
+navOrder: 8
 ---
 
 It's useful to write stories that [render two or more components](../02-writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components.

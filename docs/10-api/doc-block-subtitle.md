@@ -1,5 +1,9 @@
 ---
-title: 'Subtitle'
+title: Subtitle
+navOrder: 13
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Subtitle Doc Block" params='start=98' />

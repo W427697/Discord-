@@ -1,5 +1,7 @@
 ---
 title: Addon knowledge base
+navTitle: Knowledge base
+navOrder: 7
 ---
 
 Once you understand the basics of writing addons, there are a variety of common enhancements to make your addon better. This page details additional information about addon creation. Use it as a quick reference guide when creating your own addons.

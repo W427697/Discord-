@@ -1,5 +1,6 @@
 ---
-title: 'Interaction tests'
+title: Interaction tests
+navOrder: 4
 ---
 
 As you build more complex UIs like pages, components become responsible for more than just rendering the UI. They fetch data and manage state. Interaction tests allow you to verify these functional aspects of UIs.

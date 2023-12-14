@@ -1,5 +1,6 @@
 ---
-title: 'Controls'
+title: Controls
+navOrder: 3
 ---
 
 <YouTubeCallout id="vAh0KdRcXpI" title="How to connect props with Storybook controls" />

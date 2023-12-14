@@ -1,5 +1,6 @@
 ---
-title: 'Test coverage'
+title: Test coverage
+navOrder: 5
 ---
 
 <YouTubeCallout id="wEa6W8uUGSA" title="These tests use NO CODE | component testing in Storybook" />

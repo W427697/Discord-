@@ -1,5 +1,6 @@
 ---
-title: 'Backgrounds'
+title: Backgrounds
+navOrder: 2
 ---
 
 The backgrounds toolbar addon allows you to set the background color in which the story renders in the UI:

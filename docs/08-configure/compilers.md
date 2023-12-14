@@ -1,5 +1,10 @@
 ---
-title: 'Compiler support'
+title: Compiler support
+navTitle: Compilers
+navOrder: 3
+navGroup:
+  title: Integration
+  order: 4
 ---
 
 Javascript compilers are essential in optimizing and transforming code, enhancing performance, and ensuring compatibility across different environments. Storybook provides support for the leading compilers, ensuring lightning-fast build time and execution with [SWC](https://swc.rs/) or leveraging [Babel](https://babeljs.io/) with its extensive ecosystem of plugins and presets to allow you to use the latest features of the ecosystem with minimal configuration required for your Webpack-based project.

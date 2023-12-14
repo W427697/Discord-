@@ -1,5 +1,6 @@
 ---
-title: 'Decorators'
+title: Decorators
+navOrder: 3
 ---
 
 <YouTubeCallout id="4yi_yCTkgng" title="Storybook Decorators Crash Course" />

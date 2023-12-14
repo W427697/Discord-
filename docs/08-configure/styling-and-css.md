@@ -1,5 +1,6 @@
 ---
-title: 'Styling and CSS'
+title: Styling and CSS
+navOrder: 1
 ---
 
 There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration.

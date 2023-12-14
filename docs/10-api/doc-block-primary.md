@@ -1,5 +1,9 @@
 ---
-title: 'Primary'
+title: Primary
+navOrder: 9
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Primary Doc Block" params='start=209' />

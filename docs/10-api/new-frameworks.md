@@ -1,5 +1,6 @@
 ---
-title: 'Frameworks'
+title: Frameworks
+navOrder: 5
 ---
 
 Storybook is architected to support diverse web frameworks, including React, Vue, Angular, Web Components, Svelte, and over a dozen others. This guide helps you get started on adding new framework support for Storybook.

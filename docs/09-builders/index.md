@@ -1,5 +1,5 @@
 ---
-title: 'Builders'
+title: Builders
 hideRendererSelector: true
 ---
 

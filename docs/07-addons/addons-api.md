@@ -1,5 +1,6 @@
 ---
-title: 'Addon API'
+title: Addon API
+navOrder: 8
 ---
 
 Storybook's API allows developers to interact programmatically with Storybook. With the API, developers can build and deploy custom addons and other tools that enhance Storybook's functionality.

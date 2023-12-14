@@ -1,5 +1,6 @@
 ---
-title: 'How to write stories'
+title: How to write stories
+navTitle: Stories
 ---
 
 <YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />

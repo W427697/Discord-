@@ -1,5 +1,9 @@
 ---
-title: 'stories'
+title: stories
+navOrder: 3
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 (**Required**)

@@ -1,5 +1,6 @@
 ---
-title: 'Story rendering'
+title: Story rendering
+navOrder: 5
 ---
 
 In Storybook, your stories render in a particular “preview” iframe (Canvas tab) inside the larger Storybook web application. The JavaScript build configuration of the preview is controlled by a [webpack](../09-builders/webpack.md) config, but you also may want to directly control the rendered HTML to help your stories render correctly.

@@ -1,5 +1,9 @@
 ---
-title: 'Storybook Addons'
+title: Storybook addons
+navOrder: 4
+navGroup:
+  title: User interface
+  order: 7
 ---
 
 A key strength of Storybook is its extensibility. Use addons to extend and customize Storybook to fit your team’s development workflow.

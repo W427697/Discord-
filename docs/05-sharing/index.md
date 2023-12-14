@@ -1,5 +1,5 @@
 ---
-title: 'Sharing'
+title: Sharing
 hideRendererSelector: true
 ---
 

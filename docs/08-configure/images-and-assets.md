@@ -1,5 +1,10 @@
 ---
-title: 'Images, fonts, and assets'
+title: Images, fonts, and assets
+navTitle: Images and assets
+navOrder: 5
+navGroup:
+  title: Integration
+  order: 4
 ---
 
 Components often rely on images, videos, fonts, and other assets to render as the user expects. There are many ways to use these assets in your story files.

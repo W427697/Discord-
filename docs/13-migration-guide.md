@@ -1,5 +1,6 @@
 ---
-title: 'Migration guide for Storybook 7.0'
+title: Migration guide for Storybook 7.0
+navTitle: Migrate to 7.0
 ---
 
 Storybook 7 is our first major release in over 2 years. A lot has changed during that time, so this is a big one. This guide is meant to help you **upgrade from Storybook 6.x to 7.0** successfully!

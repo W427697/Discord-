@@ -1,5 +1,9 @@
 ---
-title: 'ArgTypes'
+title: ArgTypes
+navOrder: 1
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's ArgTypes Doc Block" params='start=232' />

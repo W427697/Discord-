@@ -1,5 +1,7 @@
 ---
-title: 'Write a preset addon'
+title: Write a preset addon
+navTitle: Write a preset
+navOrder: 4
 ---
 
 Storybook presets are pre-configured settings or configurations that enable developers quickly set up and customize their environment with a specific set of features, functionalities, or integrations.

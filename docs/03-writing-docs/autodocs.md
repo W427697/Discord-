@@ -1,5 +1,7 @@
 ---
-title: 'Automatic documentation and Storybook'
+title: Automatic documentation and Storybook
+navTitle: Autodocs
+navOrder: 1
 ---
 
 <YouTubeCallout id="BLUmt0j7OLY" title="INSTANT documentation with Storybook 7 AUTODOCS" />

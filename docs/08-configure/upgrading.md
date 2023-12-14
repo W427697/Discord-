@@ -1,5 +1,7 @@
 ---
-title: 'Upgrading Storybook'
+title: Upgrading Storybook
+navTitle: Upgrading
+navOrder: 2
 ---
 
 The frontend ecosystem is a fast-moving place. Regular dependency upgrades are a way of life, whether upgrading a framework, library, tooling, or all of the above! Storybook provides a few resources to help ease the pain of upgrading.

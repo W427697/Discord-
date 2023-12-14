@@ -1,5 +1,7 @@
 ---
-title: 'Storybook Composition'
+title: Storybook Composition
+navTitle: Composition
+navOrder: 4
 ---
 
 Composition allows you to browse components from any Storybook accessible via URL inside your local Storybook. You can compose any [Storybook published online](./publish-storybook.md) or running locally no matter the view layer, tech stack, or dependencies.

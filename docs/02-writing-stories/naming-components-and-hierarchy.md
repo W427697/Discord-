@@ -1,5 +1,6 @@
 ---
-title: 'Naming components and hierarchy'
+title: Naming components and hierarchy
+navOrder: 6
 ---
 
 <YouTubeCallout id="VPfjrhDlkVc" title="How to Name Stories and Components" />

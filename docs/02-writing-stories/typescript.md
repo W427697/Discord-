@@ -1,5 +1,6 @@
 ---
-title: 'Writing stories in TypeScript'
+title: Writing stories in TypeScript
+navOrder: 9
 ---
 
 Writing your stories in [TypeScript](https://www.typescriptlang.org/) makes you more productive. You don't have to jump between files to look up component props. Your code editor will alert you about missing required props and even autocomplete prop values, just like when using your components within your app. Plus, Storybook infers those component types to auto-generate the [Controls](../10-api/doc-block-controls.md) table.

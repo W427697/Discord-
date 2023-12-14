@@ -1,5 +1,6 @@
 ---
-title: 'Loaders'
+title: Loaders
+navOrder: 5
 ---
 
 Loaders are asynchronous functions that load data for a story and its [decorators](./decorators.md). A story's loaders run before the story renders, and the loaded data injected into the story via its render context.

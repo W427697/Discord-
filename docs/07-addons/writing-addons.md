@@ -1,5 +1,7 @@
 ---
-title: 'Write an addon'
+title: Write an addon
+navTitle: Write
+navOrder: 2
 ---
 
 Storybook addons are a powerful way to extend Storybook's functionality and customize the development experience. They can be used to add new features, customize the UI, or integrate with third-party tools.

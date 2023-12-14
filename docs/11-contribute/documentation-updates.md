@@ -1,5 +1,10 @@
 ---
-title: 'Documentation updates'
+title: Documentation updates
+navTitle: Content
+navOrder: 1
+navGroup:
+  title: Documentation
+  order: 3
 ---
 
 Fix a typo or clarify a section of the docs. This page outlines how to edit the documentation.

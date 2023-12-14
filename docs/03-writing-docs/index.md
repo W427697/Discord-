@@ -1,5 +1,6 @@
 ---
-title: 'How to document components'
+title: How to document components
+navTitle: Docs
 hideRendererSelector: true
 ---
 

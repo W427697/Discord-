@@ -1,5 +1,6 @@
 ---
-title: 'Telemetry'
+title: Telemetry
+navOrder: 3
 ---
 
 Storybook collects completely anonymous data to help us improve user experience. Participation in this anonymous program is optional, and you may opt-out if you'd not like to share any information.

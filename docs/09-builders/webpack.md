@@ -1,5 +1,6 @@
 ---
-title: 'Webpack'
+title: Webpack
+navOrder: 2
 ---
 
 Storybook Webpack builder is the default builder for Storybook. This builder enables you to create a seamless development and testing experience for your components and provides an efficient way to develop UI components in isolation allowing you to leverage your existing Webpack configuration with Storybook.

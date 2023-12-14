@@ -1,5 +1,6 @@
 ---
-title: 'Story layout'
+title: Story layout
+navOrder: 6
 ---
 
 The `layout` [parameter](../02-writing-stories/parameters.md) allows you to configure how stories are positioned in Storybook's Canvas tab.

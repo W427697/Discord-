@@ -1,5 +1,10 @@
 ---
-title: 'Framework support'
+title: Framework support
+navTitle: Frameworks
+navOrder: 1
+navGroup:
+  title: Integration
+  order: 4
 ---
 
 Frameworks are packages that auto-configure Storybook to work with most common environment setups. They simplify the setup process and reduce boilerplate by mirroring your framework's conventions to create applications.

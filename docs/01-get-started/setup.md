@@ -1,5 +1,8 @@
 ---
-title: 'Setup Storybook'
+title: Set up Storybook
+navTitle: Setup
+navOrder: 5
+description: Write your first story & adjust Storybook configuration for your environment
 ---
 
 Now that you’ve learned what stories are and how to browse them, let’s demo working on one of your components.

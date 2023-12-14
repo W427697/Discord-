@@ -1,5 +1,7 @@
 ---
-title: 'Contributing a Storybook framework'
+title: Contributing a Storybook framework
+navTitle: Framework
+navOrder: 4
 ---
 
 A Storybook framework is a node package that enables out-of-the-box support for either a metaframework (Next.js, NuxtJS, SvelteKit) or a combination of [builder](../09-builders/index.md) (Webpack, Vite) plus renderer (React, Angular, Vue, web components, etc).

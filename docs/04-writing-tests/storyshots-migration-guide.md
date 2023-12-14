@@ -1,5 +1,10 @@
 ---
-title: 'Storyshots migration guide'
+title: Storyshots migration guide
+navTitle: Migration guide
+navOrder: 2
+navGroup:
+  title: Snapshot testing
+  order: 6
 ---
 
 <Callout variant="info" style={{ marginBottom: "2rem" }} >

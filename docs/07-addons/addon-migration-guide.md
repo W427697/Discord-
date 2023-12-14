@@ -1,5 +1,7 @@
 ---
 title: Addon migration guide for Storybook 7.0
+navTitle: Migrate addons to 7.0
+navOrder: 9
 ---
 
 Storybook 7 is our first major release in over two years. While Storybook’s addon API has not changed much in the past couple of years, addons require several changes for compatibility with Storybook 7. This guide will walk you through the upgrade process.

@@ -1,5 +1,9 @@
 ---
-title: 'Unstyled'
+title: Unstyled
+navOrder: 16
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 The `Unstyled` block is a special block that disables Storybook's default styling in MDX docs wherever it is added.

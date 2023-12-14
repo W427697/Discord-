@@ -1,5 +1,6 @@
 ---
-title: 'Toolbars & globals'
+title: Toolbars & globals
+navOrder: 7
 ---
 
 <YouTubeCallout id="DuJ_gmSncLM" title="Create custom toolbar items using global types" />

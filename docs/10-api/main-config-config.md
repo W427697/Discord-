@@ -1,5 +1,9 @@
 ---
-title: 'config'
+title: config
+navOrder: 24
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 (⛔️ **Deprecated**)

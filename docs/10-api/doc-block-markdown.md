@@ -1,5 +1,9 @@
 ---
-title: 'Markdown'
+title: Markdown
+navOrder: 7
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 The `Markdown` block allows you to import and include plain markdown in your MDX files.

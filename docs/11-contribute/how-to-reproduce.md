@@ -1,5 +1,7 @@
 ---
-title: 'Create a reproduction'
+title: Create a reproduction
+navTitle: Reproduce
+navOrder: 5
 ---
 
 A reproducible test case lets you isolate the cause of a problem, which is the first step towards fixing it! This page outlines how to get set up to create a reproduction.

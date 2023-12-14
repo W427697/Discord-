@@ -1,5 +1,6 @@
 ---
-title: 'Args'
+title: Args
+navOrder: 1
 ---
 
 <YouTubeCallout id="0gOfS6K0x0E" title="Build better UIs with Storybook Args" />

@@ -1,5 +1,6 @@
 ---
-title: 'Environment variables'
+title: Environment variables
+navOrder: 8
 ---
 
 You can use environment variables in Storybook to change its behavior in different “modes”.

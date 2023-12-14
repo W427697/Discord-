@@ -1,5 +1,6 @@
 ---
-title: 'Parameters'
+title: Parameters
+navOrder: 2
 ---
 
 <YouTubeCallout id="u32vmGVJY2U" title="Build Better Storybooks with Parameters" />

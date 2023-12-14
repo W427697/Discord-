@@ -1,5 +1,9 @@
 ---
-title: 'Main configuration'
+title: Main configuration
+navOrder: 1
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 The main configuration defines a Storybook project's behavior, including the location of stories, addons to use, feature flags, and other project-specific settings.

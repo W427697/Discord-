@@ -1,5 +1,7 @@
 ---
-title: 'Browse Stories'
+title: Browse stories
+description: Learn how to explore your stories within Storybook
+navOrder: 4
 hideRendererSelector: true
 ---
 

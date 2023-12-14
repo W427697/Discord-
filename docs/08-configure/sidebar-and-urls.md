@@ -1,5 +1,9 @@
 ---
-title: 'Sidebar & URLS'
+title: Sidebar & URLS
+navOrder: 3
+navGroup:
+  title: User interface
+  order: 7
 ---
 
 <YouTubeCallout id="zrdcCSTGo4A" title="How to Configure the Sidebar" />

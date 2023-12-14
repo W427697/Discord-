@@ -1,5 +1,9 @@
 ---
-title: 'End-to-end testing'
+title: End-to-end tests
+navOrder: 1
+navGroup:
+  title: Import stories in tests
+  order: 7
 ---
 
 Storybook seamlessly integrates with additional testing frameworks like [Cypress](https://www.cypress.io/) and [Playwright](https://playwright.dev/) to provide a comprehensive testing solution. By leveraging the Component Story Format (CSF), developers can write test cases that simulate user interactions and verify the behavior of individual components within the Storybook environment. This approach enables developers to thoroughly test their components' functionality, responsiveness, and visual appearance across different scenarios, resulting in more robust and reliable applications.

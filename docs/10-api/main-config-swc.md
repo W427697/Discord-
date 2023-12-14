@@ -1,5 +1,9 @@
 ---
-title: 'swc'
+title: swc
+navOrder: 20
+navGroup:
+  title: main.js|ts configuration
+  order: 1
 ---
 
 Parent: [main.js|ts configuration](./main-config.md)

@@ -1,5 +1,6 @@
 ---
-title: 'Package Composition'
+title: Package composition
+navOrder: 5
 ---
 
 Storybook is widely used by component libraries and design systems. Design system authors can automatically compose their design systems inside their consumer’s Storybooks.

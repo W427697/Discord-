@@ -1,5 +1,6 @@
 ---
-title: 'How to test UIs with Storybook'
+title: How to test UIs with Storybook
+navTitle: Testing
 hideRendererSelector: true
 ---
 

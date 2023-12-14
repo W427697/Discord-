@@ -1,5 +1,7 @@
 ---
-title: "What's a story?"
+title: What's a story?
+description: Learn how to save component examples as stories
+navOrder: 3
 ---
 
 A story captures the rendered state of a UI component. Developers write multiple stories per component that describe all the “interesting” states a component can support.

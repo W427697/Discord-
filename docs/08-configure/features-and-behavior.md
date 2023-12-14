@@ -1,5 +1,9 @@
 ---
-title: 'Features and behavior'
+title: Features and behavior
+navOrder: 1
+navGroup:
+  title: User interface
+  order: 7
 ---
 
 To control the layout of Storybook’s UI you can use `addons.setConfig` in your `.storybook/manager.js`:

@@ -1,5 +1,9 @@
 ---
-title: 'Description'
+title: Description
+navOrder: 5
+navGroup:
+  title: Doc blocks
+  order: 4
 ---
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Description Doc Block" params='start=84' />

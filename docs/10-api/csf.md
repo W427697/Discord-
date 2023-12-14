@@ -1,5 +1,6 @@
 ---
-title: 'Component Story Format (CSF)'
+title: Component Story Format (CSF)
+navOrder: 3
 ---
 
 <YouTubeCallout id="uH9_dfc-6Kc" title="Test components the EASY way | Component Story Format 3" />

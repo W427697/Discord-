@@ -1,5 +1,7 @@
 ---
-title: 'Building pages with Storybook'
+title: Building pages with Storybook
+navTitle: Build pages and screens
+navOrder: 7
 ---
 
 Storybook helps you build any component, from small “atomic” components to composed pages. But as you move up the component hierarchy toward the page level, you deal with more complexity.
