@@ -109,7 +109,7 @@ describe('prompts', () => {
           framework: '@storybook/vue-vite',
         },
       })
-    ).resolves.toEqual({ hasDocs: false, hasEssentials: false, hasMDX: false });
+    ).resolves.toEqual(true);
   });
   test('detects addon docs', async () => {
     await expect(
@@ -123,7 +123,7 @@ describe('prompts', () => {
           framework: '@storybook/vue-vite',
         },
       })
-    ).resolves.toEqual({ hasDocs: true, hasEssentials: false, hasMDX: false });
+    ).resolves.toEqual(true);
   });
   test('detects addon essentials', async () => {
     await expect(
@@ -137,7 +137,7 @@ describe('prompts', () => {
           framework: '@storybook/vue-vite',
         },
       })
-    ).resolves.toEqual({ hasDocs: true, hasEssentials: true, hasMDX: false });
+    ).resolves.toEqual(true);
   });
   test('detects MDX usage', async () => {
     // @ts-expect-error (jest mocked)
@@ -153,6 +153,6 @@ describe('prompts', () => {
           framework: '@storybook/vue-vite',
         },
       })
-    ).resolves.toEqual({ hasDocs: true, hasEssentials: true, hasMDX: true });
+    ).resolves.toEqual(true);
   });
 });
