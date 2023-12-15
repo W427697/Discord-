@@ -193,7 +193,11 @@ test.describe('addon-docs', () => {
     const root = sbPage.previewRoot();
 
     let expectedReactVersion = /^18/;
-    if (templateName.includes('preact')) {
+    if (
+      templateName.includes('preact') ||
+      templateName.includes('react-webpack/17') ||
+      templateName.includes('react-vite/17')
+    ) {
       expectedReactVersion = /^17/;
     } else if (templateName.includes('react16')) {
       expectedReactVersion = /^16/;
