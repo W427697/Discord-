@@ -401,6 +401,14 @@ export interface StorybookConfigRaw {
      * Enable asynchronous component rendering in NextJS framework
      */
     experimentalNextRSC?: boolean;
+
+    /**
+     * Legacy stories.json extraction. stories.json will be removed in v9,
+     * use `index.json` instead.
+     *
+     * @deprecated
+     */
+    buildLegacyStoriesJson?: boolean;
   };
 
   build?: TestBuildConfig;

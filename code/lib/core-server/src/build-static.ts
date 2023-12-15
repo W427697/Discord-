@@ -178,13 +178,15 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    effects.push(
-      extractStoriesJson(
-        join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
-        convertToIndexV3
-      )
-    );
+    if (features?.buildLegacyStoriesJson) {
+      effects.push(
+        extractStoriesJson(
+          join(options.outputDir, 'stories.json'),
+          initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
+          convertToIndexV3
+        )
+      );
+    }
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),

@@ -12,6 +12,7 @@
     - [Icons is deprecated](#icons-is-deprecated)
     - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
     - [Removed postinstall](#removed-postinstall)
+    - [Removed stories.json generation](#removed-storiesjson-generation)
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
@@ -472,6 +473,20 @@ For more information see: https://storybook.js.org/docs/react/api/main-config-ty
 #### Removed postinstall
 
 We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+
+#### Removed stories.json generation
+
+In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+
+In the meantime if you have code that relies on `stories.json`, you can re-enable it in your `main.js`:
+
+```js
+export default {
+  features: {
+    buildLegacyStoriesJson: true
+  }
+}
+```
 
 ### Framework-specific changes
 
