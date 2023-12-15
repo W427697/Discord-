@@ -238,7 +238,6 @@ export const viteFinal = async (config: any, options: Options) => {
     enforce: 'pre',
     config: () => ({
       resolve: {
-        // TODO: does this work if pre-existing alias is an array?
         alias: {
           react,
           'react-dom': reactDom,
