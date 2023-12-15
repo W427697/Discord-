@@ -58,7 +58,7 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
             },
           },
           loc: Object {
-            source: camel-case-string-arg="foo",
+            source: camel-case-string-arg=foo,
           },
           modifiers: Array [
             ,
@@ -114,7 +114,7 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
             },
           },
           loc: Object {
-            source: stringarg="bar",
+            source: stringarg=bar,
           },
           modifiers: Array [
             ,
@@ -198,7 +198,7 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
             },
           },
           loc: Object {
-            source: camel-case-string-arg="foo",
+            source: camel-case-string-arg=foo
           },
           modifiers: Array [
             ,
@@ -250,7 +250,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
         { camelCaseStringArg: 'foo' },
         [{ camelCaseStringArg: { type: 'string' } }] as any
       )
-    ).toMatchInlineSnapshot(`camel-case-string-arg="foo"`);
+    ).toMatchInlineSnapshot(`camel-case-string-arg=foo`);
   });
 
   test('camelCase boolean, string, and number Args', () => {
@@ -269,14 +269,14 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
         [] as any
       )
     ).toMatchInlineSnapshot(
-      `:camel-case-boolean-arg="true" camel-case-string-arg="foo" :came-case-number-arg="2023"`
+      `:camel-case-boolean-arg="true" camel-case-string-arg=foo :came-case-number-arg="2023"`
     );
   });
 });
 
 describe('Vue3: sourceDecorator->attributeSoure()', () => {
   test('camelCase boolean Arg', () => {
-    expect(attributeSource('stringArg', 'foo')).toMatchInlineSnapshot(`stringArg="foo"`);
+    expect(attributeSource('stringArg', 'foo')).toMatchInlineSnapshot(`stringArg=foo`);
   });
 
   test('html event attribute should convert to vue event directive', () => {
