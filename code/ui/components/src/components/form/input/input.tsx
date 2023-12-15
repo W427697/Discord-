@@ -208,7 +208,7 @@ type TextareaProps = Omit<
   align?: Alignments;
   valid?: ValidationStates;
   height?: number;
-};
+} & React.RefAttributes<HTMLTextAreaElement>;
 export const Textarea: FC<TextareaProps> = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
