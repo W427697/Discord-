@@ -291,7 +291,6 @@ describe('getStorySortParameter', () => {
         expect(
           getStorySortParameter(dedent`
           const config = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
@@ -309,7 +308,6 @@ describe('getStorySortParameter', () => {
         expect(
           getStorySortParameter(dedent`
           const parameters = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
