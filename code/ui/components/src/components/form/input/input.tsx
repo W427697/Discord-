@@ -1,4 +1,4 @@
-import type { HTMLProps, SelectHTMLAttributes } from 'react';
+import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
@@ -17,7 +17,7 @@ type Style = Omit<NonNullable<TextareaPropsRaw['style']>, 'maxHeight' | 'minHeig
 type TextareaHeightChangeMeta = {
   rowHeight: number;
 };
-interface TextareaAutosizeProps extends Omit<TextareaPropsRaw, 'style'> {
+export interface TextareaAutosizeProps extends Omit<TextareaPropsRaw, 'style'> {
   maxRows?: number;
   minRows?: number;
   onHeightChange?: (height: number, meta: TextareaHeightChangeMeta) => void;
@@ -209,7 +209,7 @@ type TextareaProps = Omit<
   valid?: ValidationStates;
   height?: number;
 };
-export const Textarea = Object.assign(
+export const Textarea: FC<TextareaProps> = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
       return <TextareaAutoResize {...props} ref={ref} />;
