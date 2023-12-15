@@ -287,7 +287,7 @@ describe('Vue3: sourceDecorator->attributeSoure()', () => {
     expect(attributeSource('on-click', () => {})).toMatchInlineSnapshot(`on-click='()=>({})'`);
   });
   test('The value ()=>({}) must not be returned.', () => {
-    expect(attributeSource('icon', () => {})).toMatchInlineSnapshot(`icon=`);
+    expect(attributeSource('icon', () => {})).toMatchInlineSnapshot(`icon=""`);
   });
   test('htmlEventAttributeToVueEventAttribute  onEv => v-on:', () => {
     const htmlEventAttributeToVueEventAttribute = (attribute: string) => {
