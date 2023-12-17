@@ -265,6 +265,11 @@ command('build')
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
   .option('--test', 'Build stories optimized for testing purposes.')
+  .option(
+    '--experimental-build-parameters <parameters>',
+    'Extract specific story parameters to `parameters.json`',
+    parseList
+  )
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);

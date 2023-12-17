@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
+import type { Parameters } from '@storybook/csf';
 
 import type {
   IndexEntry,
@@ -60,6 +61,7 @@ export type StoryIndexGeneratorOptions = {
   indexers: Indexer[];
   docs: DocsOptions;
   build?: StorybookConfigRaw['build'];
+  experimentalParameters?: string[];
 };
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -306,7 +308,10 @@ export class StoryIndexGenerator {
       });
     }
 
-    const indexInputs = await indexer.createIndex(absolutePath, { makeTitle: defaultMakeTitle });
+    const indexInputs = await indexer.createIndex(absolutePath, {
+      makeTitle: defaultMakeTitle,
+      experimentalParameters: this.options.experimentalParameters,
+    });
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {
@@ -316,6 +321,8 @@ export class StoryIndexGenerator {
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
         const tags = (input.tags || []).concat('story');
 
+        const parameters = input.parameters ? { parameters: input.parameters } : undefined;
+
         return {
           type: 'story',
           id,
@@ -324,6 +331,7 @@ export class StoryIndexGenerator {
           title,
           importPath,
           tags,
+          ...parameters,
         };
       });
 
@@ -629,7 +637,47 @@ export class StoryIndexGenerator {
     }, {} as StoryIndex['entries']);
   }
 
+  async getParameters() {
+    const index = await this.getFullIndex();
+
+    const result = Object.entries(index.entries).reduce((acc, [id, entry]) => {
+      const { parameters } = entry;
+      if (parameters) {
+        if (parameters instanceof Error) {
+          throw parameters;
+        } else if (Object.keys(parameters).length > 0) {
+          acc[id] = parameters;
+        }
+      }
+      return acc;
+    }, {} as Record<StoryId, Parameters>);
+
+    return {
+      v: index.v,
+      parameters: result,
+    };
+  }
+
   async getIndex() {
+    const index = await this.getFullIndex();
+
+    const entries = Object.entries(index.entries).reduce((acc, [id, fullEntry]) => {
+      let entry = fullEntry;
+      if (fullEntry.parameters) {
+        const { parameters, ...rest } = fullEntry;
+        entry = rest;
+      }
+      acc[id] = entry;
+      return acc;
+    }, {} as Record<StoryId, IndexEntry>);
+
+    return {
+      v: index.v,
+      entries,
+    };
+  }
+
+  async getFullIndex() {
     if (this.lastIndex) return this.lastIndex;
     if (this.lastError) throw this.lastError;
 

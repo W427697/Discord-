@@ -3,10 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import yaml from 'js-yaml';
+import type { CsfOptions } from './CsfFile';
 import { loadCsf } from './CsfFile';
 
+const replacer = (key: string, val: unknown) => (val instanceof Error ? val.toString() : val);
+
 expect.addSnapshotSerializer({
-  print: (val: any) => yaml.dump(val).trimEnd(),
+  print: (val: any) => yaml.dump(val, { replacer }).trimEnd(),
   test: (val) => typeof val !== 'string',
 });
 
@@ -20,6 +23,20 @@ const parse = (code: string, includeParameters?: boolean) => {
   return { meta, stories: filtered };
 };
 
+const parseStaticParameters = (code: string) => {
+  const staticParameters: CsfOptions['staticParameters'] = {
+    parameterList: ['chromatic', 'foo'],
+    resolver: (name: string, basePath: string, importPath: string) => {
+      if (!/^[./]/.test(importPath)) throw new Error(`Unexpected import path: ${importPath}`);
+      return name;
+    },
+  };
+  const { stories, meta } = loadCsf(code, {
+    makeTitle,
+    staticParameters,
+  }).parse();
+  return { meta, stories };
+};
 //
 
 describe('CsfFile', () => {
@@ -1192,6 +1209,231 @@ describe('CsfFile', () => {
       expect(() => csf.indexInputs).toThrowErrorMatchingInlineSnapshot(`
         "Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
         Either add the fileName option when creating the CsfFile instance, or create the index inputs manually."
+      `);
+    });
+  });
+
+  describe('experimental parameters', () => {
+    it('meta parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+        export default {
+          title: 'foo/bar',
+          parameters: { chromatic: { disable: true } }
+        }
+        export const A = {};
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic:
+                disable: true
+      `);
+    });
+    it('story parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          export const A = {
+            parameters: { chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic:
+                disable: true
+      `);
+    });
+    it('irrelevant story parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          export const A = {
+            parameters: { hello: 'world' }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters: {}
+      `);
+    });
+    it('non-inline parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const chromaticParameters = { chromatic: { disable: true } }
+          export const A = {
+            parameters: chromaticParameters,
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+      `);
+
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const chromatic = { disable: true };
+          export const A = {
+            parameters: { chromatic },
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic:
+                disable: true
+      `);
+    });
+
+    // This test was to show that you could also include functions like
+    // `() => 'bar'` in the inline parameters, but the YAML test serialization
+    // fails in that case. So instead I just included a more complex AST
+    // expression that can also be seralized in the test.
+    it('non-JSON parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          export const A = {
+            parameters: { foo: (() => 'bar')() }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              foo: bar
+      `);
+    });
+    it('mixed parameters', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const nonInline = 'non inline';
+          export const A = {
+            parameters: { nonInline, chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic:
+                disable: true
+      `);
+    });
+
+    it('object spread', () => {
+      expect(
+        parseStaticParameters(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const spread = { foo: 'bar' };
+          export const A = {
+            parameters: { ...spread, chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              foo: bar
+              chromatic:
+                disable: true
+      `);
+    });
+
+    it('external variable from path', () => {
+      expect(
+        parseStaticParameters(dedent`
+          import { allModes } from '../.storybook/modes';
+          export default {
+            title: 'foo/bar'
+          }
+          const spread = { foo: 'bar' };
+          export const A = {
+            parameters: {
+              chromatic: { modes: allModes }
+            }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic:
+                modes: allModes
+      `);
+    });
+
+    it('external variable from alias', () => {
+      expect(
+        parseStaticParameters(dedent`
+          import { allModes } from '@/.storybook/modes';
+          export default {
+            title: 'foo/bar'
+          }
+          const spread = { foo: 'bar' };
+          export const A = {
+            parameters: {
+              chromatic: { modes: allModes }
+            }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            parameters:
+              chromatic: 'Error: Unexpected import path: @/.storybook/modes'
       `);
     });
   });

@@ -7,6 +7,8 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
+  serverRequire,
+  getInterpretedFile,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -16,8 +18,9 @@ import type {
   PresetPropertyFn,
   PresetProperty,
 } from '@storybook/types';
+import type { CsfOptions } from '@storybook/csf-tools';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join, isAbsolute } from 'path';
+import { join, isAbsolute, resolve, dirname } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -195,9 +198,31 @@ export const features: PresetProperty<'features'> = async (existing) => ({
   disallowImplicitActionsInRenderV8: false,
 });
 
+const defaultResolver = (name: string, basePath: string, path: string) => {
+  const absolutePath = resolve(dirname(basePath), path);
+  const interpretedFile = getInterpretedFile(absolutePath);
+
+  if (!interpretedFile) throw new Error(`Unable to resolve ${path} from ${basePath}`);
+
+  const module = serverRequire(interpretedFile);
+  const resolved = module[name];
+  return resolved;
+};
+
 export const csfIndexer: Indexer = {
   test: /(stories|story)\.(m?js|ts)x?$/,
-  createIndex: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
+  createIndex: async (fileName, options) => {
+    const csfOptions = {
+      makeTitle: options.makeTitle,
+    } as CsfOptions;
+    if (options.experimentalParameters) {
+      csfOptions.staticParameters = {
+        parameterList: options.experimentalParameters,
+        resolver: defaultResolver,
+      };
+    }
+    return (await readCsf(fileName, csfOptions)).parse().indexInputs;
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -10,6 +10,7 @@ import { watchStorySpecifiers } from './watch-story-specifiers';
 import type { ServerChannel } from './get-server-channel';
 
 export const DEBOUNCE = 100;
+const logger = console;
 
 export async function extractStoriesJson(
   outputFile: string,
@@ -19,6 +20,22 @@ export async function extractStoriesJson(
   const generator = await initializedStoryIndexGenerator;
   const storyIndex = await generator.getIndex();
   await writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
+}
+
+export async function extractParameters(
+  outputFile: string,
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>
+) {
+  const generator = await initializedStoryIndexGenerator;
+  try {
+    const storyParameters = await generator.getParameters();
+    if (Object.keys(storyParameters?.parameters).length > 0) {
+      await writeJSON(outputFile, storyParameters);
+    }
+  } catch (e: any) {
+    // If ANY of the parameters fail, skip writing the file
+    logger.warn(`Failed to extract story parameters: ${e.message}`);
+  }
 }
 
 export function useStoriesJson({

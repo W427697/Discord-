@@ -32,6 +32,7 @@ export type NormalizedStoriesSpecifier = Required<StoriesSpecifier> & {
 
 export interface IndexerOptions {
   makeTitle: (userTitle?: string) => string;
+  experimentalParameters?: string[];
 }
 
 export interface IndexedStory {
@@ -88,6 +89,7 @@ export interface BaseIndexEntry {
   name: StoryName;
   title: ComponentTitle;
   tags?: Tag[];
+  parameters?: Parameters;
   importPath: Path;
 }
 export type StoryIndexEntry = BaseIndexEntry & {
@@ -121,6 +123,10 @@ export type BaseIndexInput = {
   metaId?: MetaId;
   /** Tags for filtering entries in Storybook and its tools. */
   tags?: Tag[];
+  /**
+   * Experimental statically extracted parameters for the entry.
+   */
+  parameters?: Parameters;
   /**
    * The id of the entry, auto-generated from {@link title}/{@link metaId} and {@link exportName} if unspecified.
    * If specified, the story in the CSF file _must_ have a matching id set at `parameters.__id`, to be correctly matched.

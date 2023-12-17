@@ -22,7 +22,7 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
+import { convertToIndexV3, extractParameters, extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
@@ -174,6 +174,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
+      experimentalParameters: options?.experimentalBuildParameters,
       build,
     });
 
@@ -193,6 +194,15 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
         initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
       )
     );
+    const buildParams = options?.experimentalBuildParameters;
+    if (buildParams && buildParams.length > 0) {
+      effects.push(
+        extractParameters(
+          join(options.outputDir, 'parameters.json'),
+          initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
+        )
+      );
+    }
   }
 
   if (!core?.disableProjectJson) {
