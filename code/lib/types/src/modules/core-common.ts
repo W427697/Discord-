@@ -192,7 +192,7 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
-  experimentalBuildParameters?: string[];
+  experimentalStaticParameters?: string[];
 }
 
 export interface BuilderOptions {

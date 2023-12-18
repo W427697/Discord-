@@ -266,8 +266,8 @@ command('build')
   .option('--docs', 'Build a documentation-only site using addon-docs')
   .option('--test', 'Build stories optimized for testing purposes.')
   .option(
-    '--experimental-build-parameters <parameters>',
-    'Extract specific story parameters to `parameters.json`',
+    '--experimental-static-parameters <parameters>',
+    'Statically extract specific story parameters to `parameters.json`',
     parseList
   )
   .action(async (options) => {

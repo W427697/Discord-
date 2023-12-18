@@ -173,7 +173,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       indexers,
       docs: docsOptions,
       storyStoreV7: !!features?.storyStoreV7,
-      staticParameters: options?.experimentalBuildParameters,
+      staticParameters: options?.experimentalStaticParameters,
       build,
     });
 
@@ -184,8 +184,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
         initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
       )
     );
-    const buildParams = options?.experimentalBuildParameters;
-    if (buildParams && buildParams.length > 0) {
+    const staticParameters = options?.experimentalStaticParameters;
+    if (staticParameters && staticParameters.length > 0) {
       effects.push(
         extractParameters(
           join(options.outputDir, 'parameters.json'),
