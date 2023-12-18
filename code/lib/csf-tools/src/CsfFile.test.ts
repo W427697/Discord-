@@ -1230,6 +1230,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic:
                 disable: true
       `);
@@ -1251,6 +1254,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic:
                 disable: true
       `);
@@ -1271,7 +1277,10 @@ describe('CsfFile', () => {
         stories:
           - id: foo-bar--a
             name: A
-            parameters: {}
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters: {}
       `);
     });
     it('non-inline parameters', () => {
@@ -1291,6 +1300,9 @@ describe('CsfFile', () => {
         stories:
           - id: foo-bar--a
             name: A
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
       `);
 
       expect(
@@ -1310,6 +1322,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic:
                 disable: true
       `);
@@ -1336,6 +1351,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               foo: bar
       `);
     });
@@ -1357,6 +1375,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic:
                 disable: true
       `);
@@ -1380,6 +1401,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               foo: bar
               chromatic:
                 disable: true
@@ -1407,6 +1431,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic:
                 modes: allModes
       `);
@@ -1433,6 +1460,9 @@ describe('CsfFile', () => {
           - id: foo-bar--a
             name: A
             parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+            staticParameters:
               chromatic: 'Error: Unexpected import path: @/.storybook/modes'
       `);
     });

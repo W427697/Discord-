@@ -6,6 +6,7 @@ import slash from 'slash';
 import invariant from 'tiny-invariant';
 
 import type {
+  StoryId,
   IndexEntry,
   StoryIndexEntry,
   DocsIndexEntry,
@@ -21,11 +22,12 @@ import type {
   IndexerOptions,
   DeprecatedIndexer,
   StorybookConfigRaw,
+  StaticParameters,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { deprecate, logger, once } from '@storybook/node-logger';
-import { getStorySortParameter, type StaticParameters } from '@storybook/csf-tools';
+import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
@@ -311,13 +313,16 @@ export class StoryIndexGenerator {
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {
+        console.log({ input });
         const name = input.name ?? storyNameFromExport(input.exportName);
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
         const tags = (input.tags || []).concat('story');
 
-        const parameters = input.parameters ? { parameters: input.parameters } : undefined;
+        const staticParameters = input.staticParameters
+          ? { staticParameters: input.staticParameters }
+          : undefined;
 
         return {
           type: 'story',
@@ -327,7 +332,7 @@ export class StoryIndexGenerator {
           title,
           importPath,
           tags,
-          ...parameters,
+          ...staticParameters,
         };
       });
 
@@ -637,12 +642,13 @@ export class StoryIndexGenerator {
     const index = await this.getFullIndex();
 
     const result = Object.entries(index.entries).reduce((acc, [id, entry]) => {
-      const { parameters } = entry;
-      if (parameters) {
-        if (parameters instanceof Error) {
-          throw parameters;
-        } else if (Object.keys(parameters).length > 0) {
-          acc[id] = parameters;
+      console.log({ entry });
+      const { staticParameters } = entry;
+      if (staticParameters) {
+        if (staticParameters instanceof Error) {
+          throw staticParameters;
+        } else if (Object.keys(staticParameters).length > 0) {
+          acc[id] = staticParameters;
         }
       }
       return acc;
@@ -659,8 +665,8 @@ export class StoryIndexGenerator {
 
     const entries = Object.entries(index.entries).reduce((acc, [id, fullEntry]) => {
       let entry = fullEntry;
-      if (fullEntry.parameters) {
-        const { parameters, ...rest } = fullEntry;
+      if (fullEntry.staticParameters) {
+        const { staticParameters, ...rest } = fullEntry;
         entry = rest;
       }
       acc[id] = entry;

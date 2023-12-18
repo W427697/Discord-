@@ -3,6 +3,12 @@ import type { StoryId, ComponentTitle, StoryName, Parameters, Tag, Path } from '
 type ExportName = string;
 type MetaId = string;
 
+/**
+ * StaticParameters are a subset of the parameters
+ * that have been statically analyzed.
+ */
+export type StaticParameters = Parameters;
+
 interface StoriesSpecifier {
   /**
    * When auto-titling, what to prefix all generated titles with (default: '')
@@ -40,6 +46,7 @@ export interface IndexedStory {
   name: string;
   tags?: Tag[];
   parameters?: Parameters;
+  staticParameters?: StaticParameters;
 }
 export interface IndexedCSFFile {
   meta: { id?: string; title?: string; tags?: Tag[] };
@@ -89,7 +96,7 @@ export interface BaseIndexEntry {
   name: StoryName;
   title: ComponentTitle;
   tags?: Tag[];
-  parameters?: Parameters;
+  staticParameters?: StaticParameters;
   importPath: Path;
 }
 export type StoryIndexEntry = BaseIndexEntry & {
@@ -126,7 +133,7 @@ export type BaseIndexInput = {
   /**
    * Experimental statically extracted parameters for the entry.
    */
-  parameters?: Parameters;
+  staticParameters?: Parameters;
   /**
    * The id of the entry, auto-generated from {@link title}/{@link metaId} and {@link exportName} if unspecified.
    * If specified, the story in the CSF file _must_ have a matching id set at `parameters.__id`, to be correctly matched.

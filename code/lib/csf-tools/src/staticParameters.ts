@@ -1,4 +1,4 @@
-import type { Parameters } from '@storybook/csf';
+import type { StaticParameters } from '@storybook/types';
 import * as generate from '@babel/generator';
 import type { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
@@ -12,12 +12,6 @@ export interface StaticParametersOptions {
   parameterList: string[];
   resolver: Resolver;
 }
-
-/**
- * StaticParameters are a subset of the parameters
- * that have been statically analyzed.
- */
-export type StaticParameters = Parameters;
 
 /**
  * Convert a POJO into a Babel AST. Adapted from:

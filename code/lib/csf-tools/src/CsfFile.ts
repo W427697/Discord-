@@ -11,6 +11,8 @@ import type { NodePath } from '@babel/traverse';
 import traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
+  Parameters,
+  StaticParameters,
   Tag,
   StoryAnnotations,
   ComponentAnnotations,
@@ -21,9 +23,7 @@ import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 import { parseStaticParameters, combineParameters } from './staticParameters';
-import type { StaticParametersOptions, StaticParameters } from './staticParameters';
-
-export type { StaticParameters };
+import type { StaticParametersOptions } from './staticParameters';
 
 const logger = console;
 
@@ -140,6 +140,7 @@ export interface StaticMeta
 
 export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
   id: string;
+  parameters?: Parameters;
   staticParameters?: StaticParameters;
 }
 
@@ -594,12 +595,13 @@ export class CsfFile {
   public get stories() {
     const metaParameters = this._meta?.staticParameters;
     return Object.values(this._stories).map((story) => {
-      const { staticParameters, ...rest } = story;
+      const { staticParameters: storyParameters, ...rest } = story;
       if (this._staticParametersOptions) {
-        const parameters = combineParameters(metaParameters, story.staticParameters);
+        const staticParameters = combineParameters(metaParameters, storyParameters);
+        console.log({ combined: staticParameters });
         return {
           ...rest,
-          parameters,
+          staticParameters,
         };
       }
       return rest;
@@ -617,9 +619,9 @@ export class CsfFile {
     return Object.entries(this._stories).map(([exportName, story]) => {
       // combine meta and story tags, removing any duplicates
       const tags = Array.from(new Set([...(this._meta?.tags ?? []), ...(story.tags ?? [])]));
-      let parameters;
+      let staticParameters;
       if (this._staticParametersOptions) {
-        parameters = combineParameters(metaParameters, story.staticParameters);
+        staticParameters = combineParameters(metaParameters, story.staticParameters);
       }
       return {
         type: 'story',
@@ -629,7 +631,7 @@ export class CsfFile {
         title: this.meta?.title,
         metaId: this.meta?.id,
         tags,
-        parameters,
+        staticParameters,
         __id: story.id,
       };
     });
