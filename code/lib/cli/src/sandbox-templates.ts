@@ -508,7 +508,6 @@ const internalTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
     isInternal: true,
-    inDevelopment: true,
   },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
