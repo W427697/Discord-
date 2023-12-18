@@ -4,7 +4,6 @@ import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
-import type { Parameters } from '@storybook/csf';
 
 import type {
   IndexEntry,
@@ -28,7 +27,7 @@ import type {
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { deprecate, logger, once } from '@storybook/node-logger';
-import { getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter, type StaticParameters } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
@@ -61,7 +60,7 @@ export type StoryIndexGeneratorOptions = {
   indexers: Indexer[];
   docs: DocsOptions;
   build?: StorybookConfigRaw['build'];
-  experimentalParameters?: string[];
+  staticParameters?: string[];
 };
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -310,7 +309,7 @@ export class StoryIndexGenerator {
 
     const indexInputs = await indexer.createIndex(absolutePath, {
       makeTitle: defaultMakeTitle,
-      experimentalParameters: this.options.experimentalParameters,
+      staticParameters: this.options.staticParameters,
     });
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
@@ -637,7 +636,7 @@ export class StoryIndexGenerator {
     }, {} as StoryIndex['entries']);
   }
 
-  async getParameters() {
+  async getStaticParameters() {
     const index = await this.getFullIndex();
 
     const result = Object.entries(index.entries).reduce((acc, [id, entry]) => {
@@ -650,7 +649,7 @@ export class StoryIndexGenerator {
         }
       }
       return acc;
-    }, {} as Record<StoryId, Parameters>);
+    }, {} as Record<StoryId, StaticParameters>);
 
     return {
       v: index.v,

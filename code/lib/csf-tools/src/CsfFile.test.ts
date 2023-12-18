@@ -24,7 +24,7 @@ const parse = (code: string, includeParameters?: boolean) => {
 };
 
 const parseStaticParameters = (code: string) => {
-  const staticParameters: CsfOptions['staticParameters'] = {
+  const staticParametersOptions: CsfOptions['staticParametersOptions'] = {
     parameterList: ['chromatic', 'foo'],
     resolver: (name: string, basePath: string, importPath: string) => {
       if (!/^[./]/.test(importPath)) throw new Error(`Unexpected import path: ${importPath}`);
@@ -33,7 +33,7 @@ const parseStaticParameters = (code: string) => {
   };
   const { stories, meta } = loadCsf(code, {
     makeTitle,
-    staticParameters,
+    staticParametersOptions,
   }).parse();
   return { meta, stories };
 };
@@ -1213,7 +1213,7 @@ describe('CsfFile', () => {
     });
   });
 
-  describe('experimental parameters', () => {
+  describe('static parameters', () => {
     it('meta parameters', () => {
       expect(
         parseStaticParameters(dedent`

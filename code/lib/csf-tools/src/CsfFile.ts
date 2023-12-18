@@ -16,16 +16,14 @@ import type {
   ComponentAnnotations,
   IndexedCSFFile,
   IndexInput,
-  Parameters,
 } from '@storybook/types';
 import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
-import {
-  parseStaticParameters,
-  combineParameters,
-  type StaticParametersOptions,
-} from './staticParameters';
+import { parseStaticParameters, combineParameters } from './staticParameters';
+import type { StaticParametersOptions, StaticParameters } from './staticParameters';
+
+export type { StaticParameters };
 
 const logger = console;
 
@@ -117,7 +115,7 @@ const sortExports = (exportByName: Record<string, any>, order: string[]) => {
 export interface CsfOptions {
   fileName?: string;
   makeTitle: (userTitle: string) => string;
-  staticParameters?: StaticParametersOptions;
+  staticParametersOptions?: StaticParametersOptions;
 }
 
 export class NoMetaError extends Error {
@@ -137,12 +135,12 @@ export interface StaticMeta
     'id' | 'title' | 'includeStories' | 'excludeStories' | 'tags'
   > {
   component?: string;
-  staticParameters?: Parameters;
+  staticParameters?: StaticParameters;
 }
 
 export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
   id: string;
-  staticParameters?: Parameters;
+  staticParameters?: StaticParameters;
 }
 
 export class CsfFile {
@@ -176,12 +174,12 @@ export class CsfFile {
 
   imports: string[];
 
-  constructor(ast: t.File, { fileName, makeTitle, staticParameters }: CsfOptions) {
+  constructor(ast: t.File, { fileName, makeTitle, staticParametersOptions }: CsfOptions) {
     this._ast = ast;
     this._fileName = fileName as string;
     this.imports = [];
     this._makeTitle = makeTitle;
-    this._staticParametersOptions = staticParameters;
+    this._staticParametersOptions = staticParametersOptions;
   }
 
   _parseTitle(value: t.Node) {
@@ -353,7 +351,7 @@ export class CsfFile {
                 } else {
                   storyPath = decl;
                 }
-                let staticParameters: Parameters | undefined;
+                let staticParameters: StaticParameters | undefined;
                 const parameters: { [key: string]: any } = {};
                 if (storyPath.isObjectExpression()) {
                   parameters.__isArgsStory = true; // assume default render is an args story

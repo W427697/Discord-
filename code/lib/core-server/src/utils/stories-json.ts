@@ -28,9 +28,9 @@ export async function extractParameters(
 ) {
   const generator = await initializedStoryIndexGenerator;
   try {
-    const storyParameters = await generator.getParameters();
-    if (Object.keys(storyParameters?.parameters).length > 0) {
-      await writeJSON(outputFile, storyParameters);
+    const staticParameters = await generator.getStaticParameters();
+    if (Object.keys(staticParameters?.parameters).length > 0) {
+      await writeJSON(outputFile, staticParameters);
     }
   } catch (e: any) {
     // If ANY of the parameters fail, skip writing the file

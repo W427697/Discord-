@@ -215,9 +215,9 @@ export const csfIndexer: Indexer = {
     const csfOptions = {
       makeTitle: options.makeTitle,
     } as CsfOptions;
-    if (options.experimentalParameters) {
-      csfOptions.staticParameters = {
-        parameterList: options.experimentalParameters,
+    if (options.staticParameters) {
+      csfOptions.staticParametersOptions = {
+        parameterList: options.staticParameters,
         resolver: defaultResolver,
       };
     }

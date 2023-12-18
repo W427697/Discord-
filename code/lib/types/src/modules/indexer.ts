@@ -32,7 +32,7 @@ export type NormalizedStoriesSpecifier = Required<StoriesSpecifier> & {
 
 export interface IndexerOptions {
   makeTitle: (userTitle?: string) => string;
-  experimentalParameters?: string[];
+  staticParameters?: string[];
 }
 
 export interface IndexedStory {

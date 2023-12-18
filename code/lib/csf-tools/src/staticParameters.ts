@@ -14,6 +14,12 @@ export interface StaticParametersOptions {
 }
 
 /**
+ * StaticParameters are a subset of the parameters
+ * that have been statically analyzed.
+ */
+export type StaticParameters = Parameters;
+
+/**
  * Convert a POJO into a Babel AST. Adapted from:
  *
  * https://github.com/ccpu/babel-object-to-ast/blob/master/src/index.ts
@@ -137,7 +143,7 @@ export function parseStaticParameters(
   parameters: NodePath,
   basePath: string,
   options: StaticParametersOptions
-): Parameters | undefined {
+): StaticParameters | undefined {
   // console.log('parseStaticParameters', path.node, options.parameterList);
 
   let target: NodePath = parameters;
@@ -188,7 +194,7 @@ export function parseStaticParameters(
         }
       }
       return acc;
-    }, {} as Parameters);
+    }, {} as StaticParameters);
   }
   return undefined;
 }

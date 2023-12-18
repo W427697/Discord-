@@ -174,7 +174,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
-      experimentalParameters: options?.experimentalBuildParameters,
+      staticParameters: options?.experimentalBuildParameters,
       build,
     });
 
