@@ -2,6 +2,7 @@
 import { vi, describe, afterEach, it, expect } from 'vitest';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
+import { BuilderContext } from '@angular-devkit/architect';
 
 import { runCompodoc } from './run-compodoc';
 
@@ -30,16 +31,18 @@ describe('runCompodoc', () => {
     mockRunScript.mockClear();
   });
 
+  const builderContextMock = {
+    workspaceRoot: 'path/to/project',
+    logger: builderContextLoggerMock,
+  } as BuilderContext;
+
   it('should run compodoc with tsconfig from context', async () => {
     runCompodoc(
       {
         compodocArgs: [],
         tsconfig: 'path/to/tsconfig.json',
       },
-      {
-        workspaceRoot: 'path/to/project',
-        logger: builderContextLoggerMock,
-      }
+      builderContextMock
     )
       .pipe(take(1))
       .subscribe();
@@ -58,10 +61,7 @@ describe('runCompodoc', () => {
         compodocArgs: ['-p', 'path/to/tsconfig.stories.json'],
         tsconfig: 'path/to/tsconfig.json',
       },
-      {
-        workspaceRoot: 'path/to/project',
-        logger: builderContextLoggerMock,
-      }
+      builderContextMock
     )
       .pipe(take(1))
       .subscribe();
@@ -80,10 +80,7 @@ describe('runCompodoc', () => {
         compodocArgs: [],
         tsconfig: 'path/to/tsconfig.json',
       },
-      {
-        workspaceRoot: 'path/to/project',
-        logger: builderContextLoggerMock,
-      }
+      builderContextMock
     )
       .pipe(take(1))
       .subscribe();
@@ -102,10 +99,7 @@ describe('runCompodoc', () => {
         compodocArgs: ['--output', 'path/to/customFolder'],
         tsconfig: 'path/to/tsconfig.json',
       },
-      {
-        workspaceRoot: 'path/to/project',
-        logger: builderContextLoggerMock,
-      }
+      builderContextMock
     )
       .pipe(take(1))
       .subscribe();
@@ -124,10 +118,7 @@ describe('runCompodoc', () => {
         compodocArgs: ['-d', 'path/to/customFolder'],
         tsconfig: 'path/to/tsconfig.json',
       },
-      {
-        workspaceRoot: 'path/to/project',
-        logger: builderContextLoggerMock,
-      }
+      builderContextMock
     )
       .pipe(take(1))
       .subscribe();
