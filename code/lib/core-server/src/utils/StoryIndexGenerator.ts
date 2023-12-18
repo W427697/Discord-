@@ -313,7 +313,6 @@ export class StoryIndexGenerator {
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {
-        console.log({ input });
         const name = input.name ?? storyNameFromExport(input.exportName);
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
@@ -642,7 +641,6 @@ export class StoryIndexGenerator {
     const index = await this.getFullIndex();
 
     const result = Object.entries(index.entries).reduce((acc, [id, entry]) => {
-      console.log({ entry });
       const { staticParameters } = entry;
       if (staticParameters) {
         if (staticParameters instanceof Error) {

@@ -1,4 +1,4 @@
-import type { StaticParameters } from '@storybook/types';
+import type { StaticParameters, Parameters } from '@storybook/types';
 import * as generate from '@babel/generator';
 import type { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
@@ -7,6 +7,8 @@ import * as t from '@babel/types';
  * Resolve an imported value from another module.
  */
 type Resolver = (exportName: string, basePath: string, importPath: string) => unknown;
+
+const logger = console;
 
 export interface StaticParametersOptions {
   parameterList: string[];
@@ -50,6 +52,18 @@ function astify(literal: any): t.Expression {
 }
 
 /**
+ * Detect specielal cases where we don't ened to resolve a variable.
+ */
+function isUncomputed(node: t.Expression, parent: t.Node) {
+  return (
+    // { a: 2 } = uncomputed vs { [a]: 2 } = computed
+    (t.isObjectProperty(parent) && parent.key === node && !parent.computed) ||
+    // a.b = uncomputed vs a[b] = computed
+    (t.isMemberExpression(parent) && parent.property === node && !parent.computed)
+  );
+}
+
+/**
  * Resolve a variable referendce, either in the local file
  * scope, or using the resolver if it's coming from a module import.
  */
@@ -57,10 +71,19 @@ function resolveOne(
   path: NodePath<t.Expression>,
   basePath: string,
   resolver: Resolver
-): t.Expression {
+): t.Expression | undefined {
   if (!path.isIdentifier()) throw new Error(`Unknown path type ${path.type}`);
+  const { parentPath } = path;
 
-  const target = path.scope.bindings[path.node.name].path;
+  if (isUncomputed(path.node, parentPath.node)) return undefined;
+
+  let target: NodePath;
+  try {
+    target = path.scope.bindings[path.node.name].path;
+  } catch (e) {
+    logger.warn(`Failed to resolve ${path.node.name}`);
+    return undefined;
+  }
   if (target.isImportSpecifier()) {
     const imported = target.get('imported');
     if (imported.isIdentifier()) {
@@ -76,56 +99,16 @@ function resolveOne(
   return target.node as t.Expression;
 }
 
-interface Replacement {
-  parent: any;
-  field: string;
-  index?: number;
-  replace: t.Expression;
-}
-
 /**
  * Traverse the tree and resolve all variable references.
  * Mutate the AST in place.
  */
 function resolveAll(path: NodePath, basePath: string, resolver: Resolver) {
-  const replacements: Replacement[] = [];
-
   path.traverse({
     Identifier(id) {
-      const parent = id.parentPath;
-      if (parent.isObjectProperty() && parent.get('value') === id) {
-        replacements.push({
-          parent: parent.node,
-          field: 'value',
-          replace: resolveOne(id, basePath, resolver),
-        });
-      } else if (parent.isMemberExpression() && parent.get('object') === id) {
-        replacements.push({
-          parent: parent.node,
-          field: 'object',
-          replace: resolveOne(id, basePath, resolver),
-        });
-      } else if (parent.isArrayExpression()) {
-        const index = parent.node.elements.indexOf(id.node);
-        if (index >= 0) {
-          replacements.push({
-            parent: parent.node,
-            field: 'elements',
-            index,
-            replace: resolveOne(id, basePath, resolver),
-          });
-        }
-      }
+      const resolved = resolveOne(id, basePath, resolver);
+      if (resolved && resolved !== id.node) id.replaceWith(resolved);
     },
-  });
-  replacements.forEach(({ parent, field, replace, index }) => {
-    if (field === 'elements') {
-      const { elements } = parent as t.ArrayExpression;
-      elements[index!] = replace;
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      parent[field] = replace;
-    }
   });
 
   return path;
@@ -154,8 +137,6 @@ export function parseStaticParameters(
   basePath: string,
   options: StaticParametersOptions
 ): StaticParameters | undefined {
-  // console.log('parseStaticParameters', path.node, options.parameterList);
-
   let target: NodePath = parameters;
   if (target.isIdentifier()) {
     const binding = target.scope.bindings[target.node.name].path;
