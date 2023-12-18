@@ -22,7 +22,7 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { convertToIndexV3, extractParameters, extractStoriesJson } from './utils/stories-json';
+import { extractParameters, extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
@@ -172,22 +172,12 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       storyIndexers: deprecatedStoryIndexers,
       indexers,
       docs: docsOptions,
-      storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
       staticParameters: options?.experimentalBuildParameters,
       build,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    if (features?.buildLegacyStoriesJson) {
-      effects.push(
-        extractStoriesJson(
-          join(options.outputDir, 'stories.json'),
-          initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
-          convertToIndexV3
-        )
-      );
-    }
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),
