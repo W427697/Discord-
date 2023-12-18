@@ -79,6 +79,7 @@ function resolveOne(
 interface Replacement {
   parent: any;
   field: string;
+  index?: number;
   replace: t.Expression;
 }
 
@@ -104,12 +105,27 @@ function resolveAll(path: NodePath, basePath: string, resolver: Resolver) {
           field: 'object',
           replace: resolveOne(id, basePath, resolver),
         });
+      } else if (parent.isArrayExpression()) {
+        const index = parent.node.elements.indexOf(id.node);
+        if (index >= 0) {
+          replacements.push({
+            parent: parent.node,
+            field: 'elements',
+            index,
+            replace: resolveOne(id, basePath, resolver),
+          });
+        }
       }
     },
   });
-  replacements.forEach(({ parent, field, replace }) => {
-    // eslint-disable-next-line no-param-reassign
-    parent[field] = replace;
+  replacements.forEach(({ parent, field, replace, index }) => {
+    if (field === 'elements') {
+      const { elements } = parent as t.ArrayExpression;
+      elements[index!] = replace;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      parent[field] = replace;
+    }
   });
 
   return path;
