@@ -22,6 +22,18 @@ export async function extractStoriesJson(
   await writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
 }
 
+function replacer(key: string, value: unknown) {
+  if (value instanceof Error) {
+    return {
+      type: '__ERROR__',
+      name: value.name,
+      message: value.message,
+      cause: value.cause,
+    };
+  }
+  return value;
+}
+
 export async function extractParameters(
   outputFile: string,
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>
@@ -30,7 +42,7 @@ export async function extractParameters(
   try {
     const staticParameters = await generator.getStaticParameters();
     if (Object.keys(staticParameters?.parameters).length > 0) {
-      await writeJSON(outputFile, staticParameters);
+      await writeJSON(outputFile, staticParameters, { replacer });
     }
   } catch (e: any) {
     // If ANY of the parameters fail, skip writing the file
