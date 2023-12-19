@@ -1,5 +1,4 @@
 import * as path from 'path';
-import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
   InlineConfig as ViteInlineConfig,
