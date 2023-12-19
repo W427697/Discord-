@@ -385,7 +385,7 @@ describe('storybook-metadata', () => {
       `);
     });
 
-    test.each(Object.entries(metaFrameworks))(
+    it.each(Object.entries(metaFrameworks))(
       'should detect the supported metaframework: %s',
       async (metaFramework, name) => {
         const res = await computeStorybookMetadata({

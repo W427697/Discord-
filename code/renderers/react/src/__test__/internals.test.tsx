@@ -111,7 +111,7 @@ const testCases = Object.values(composeStories(stories)).map((Story) => [
   Story.storyName!,
   Story,
 ]);
-test.each(testCases)('Renders %s story', async (_storyName, Story) => {
+it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
   const tree = await render(<Story />);
   expect(tree.baseElement).toMatchSnapshot();
