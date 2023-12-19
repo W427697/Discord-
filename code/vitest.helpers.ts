@@ -32,5 +32,6 @@ function onlyOn(platfm: NodeJS.Platform) {
   };
 }
 
+export const IS_WINDOWS = getPlatform() === WINDOWS_PLATFORM;
 export const skipWindows = skipOn(WINDOWS_PLATFORM);
 export const onlyWindows = onlyOn(WINDOWS_PLATFORM);
