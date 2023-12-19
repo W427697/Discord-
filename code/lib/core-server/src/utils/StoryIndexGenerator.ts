@@ -648,11 +648,9 @@ export class StoryIndexGenerator {
 
       const sorted = await this.sortStories(indexEntries);
 
-      const compat = sorted;
-
       this.lastIndex = {
         v: 4,
-        entries: compat,
+        entries: sorted,
       };
 
       return this.lastIndex;

@@ -21,7 +21,7 @@ import {
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
+import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
@@ -168,13 +168,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    effects.push(
-      extractStoriesJson(
-        join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
-        convertToIndexV3
-      )
-    );
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),
