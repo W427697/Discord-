@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { reactDocgen } from './react-docgen';
 
@@ -20,7 +20,7 @@ const check = async ({
 };
 
 describe('no-ops', () => {
-  test('typescript.reactDocgen is already set', async () => {
+  it('typescript.reactDocgen is already set', async () => {
     await expect(
       check({
         packageManager: {},
@@ -45,7 +45,7 @@ describe('no-ops', () => {
       })
     ).resolves.toBeFalsy();
   });
-  test('typescript.reactDocgen and typescript.reactDocgenTypescriptOptions are both unset', async () => {
+  it('typescript.reactDocgen and typescript.reactDocgenTypescriptOptions are both unset', async () => {
     await expect(
       check({
         packageManager: {},
@@ -62,7 +62,7 @@ describe('no-ops', () => {
 });
 
 describe('continue', () => {
-  test('typescript.reactDocgenTypescriptOptions is set', async () => {
+  it('typescript.reactDocgenTypescriptOptions is set', async () => {
     await expect(
       check({
         packageManager: {},

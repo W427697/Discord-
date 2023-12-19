@@ -82,6 +82,10 @@ describe('Sidebar', () => {
     cleanup();
   });
 
+  // TODO: Bring this test back whenever possible.
+  // Seems to be failing because of two reasons:
+  // - There is a warning "ReactDOM.render is no longer supported in React 18. Use createRoot instead."
+  // - There is a TypeError: Cannot read properties of undefined (reading 'size') - coming from ThemeProvider
   test.skip("should not render an extra nested 'Page'", async () => {
     const refId = 'next';
     const title = 'Getting Started/Install';

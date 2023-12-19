@@ -1,4 +1,4 @@
-import { beforeEach, expect, vi, test } from 'vitest';
+import { beforeEach, expect, vi, it } from 'vitest';
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
 import { run } from '../label-patches';
@@ -92,12 +92,14 @@ beforeEach(() => {
   ]);
 });
 
-test('it should fail early when no GH_TOKEN is set', async () => {
+it('should fail early when no GH_TOKEN is set', async () => {
   delete process.env.GH_TOKEN;
-  await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: GH_TOKEN environment variable must be set, exiting.]`);
+  await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(
+    `[Error: GH_TOKEN environment variable must be set, exiting.]`
+  );
 });
 
-test('it should label the PR associated with cherry picks in the current branch', async () => {
+it('should label the PR associated with cherry picks in the current branch', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
   const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);
@@ -150,7 +152,7 @@ test('it should label the PR associated with cherry picks in the current branch'
   `);
 });
 
-test('it should label all PRs when the --all flag is passed', async () => {
+it('should label all PRs when the --all flag is passed', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
   // clear the git log, it shouldn't depend on it in --all mode
@@ -214,7 +216,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
             .trim()
         : text
     )
-    .filter((it) => it !== '');
+    .filter((t) => t !== '');
 
   expect(stderrCalls).toMatchInlineSnapshot(`
     [

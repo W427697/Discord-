@@ -1,6 +1,5 @@
 /// <reference types="@testing-library/jest-dom" />;
 import { describe, it, expect, vi } from 'vitest';
-import { dedent } from 'ts-dedent';
 import { sep } from 'path';
 
 import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
@@ -13,22 +12,6 @@ import {
 expect.addSnapshotSerializer({
   print: (val: any) => JSON.stringify(val, null, 2),
   test: (val) => typeof val !== 'string',
-});
-
-expect.extend({
-  toMatchPaths(regex: RegExp, paths: string[]) {
-    const matched = paths.map((p) => !!p.match(regex));
-
-    const pass = matched.every(Boolean);
-    const failures = paths.filter((_, i) => (pass ? matched[i] : !matched[i]));
-    const message = () => dedent`Expected ${regex} to ${pass ? 'not ' : ''}match all strings.
-    
-    Failures:${['', ...failures].join('\n - ')}`;
-    return {
-      pass,
-      message,
-    };
-  },
 });
 
 vi.mock('fs', () => {

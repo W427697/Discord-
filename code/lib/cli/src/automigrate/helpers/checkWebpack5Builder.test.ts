@@ -1,4 +1,4 @@
-import type { SpyInstance } from 'vitest';
+import type { MockInstance } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfigRaw } from '@storybook/types';
 import { checkWebpack5Builder } from './checkWebpack5Builder';
@@ -13,8 +13,8 @@ const mockMainConfig: StorybookConfigRaw = {
 vi.mock('./mainConfigFile');
 
 describe('checkWebpack5Builder', () => {
-  let loggerWarnSpy: SpyInstance;
-  let loggerInfoSpy: SpyInstance;
+  let loggerWarnSpy: MockInstance;
+  let loggerInfoSpy: MockInstance;
 
   beforeEach(() => {
     loggerWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});

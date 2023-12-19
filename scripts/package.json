@@ -64,7 +64,6 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@actions/core": "^1.10.0",
     "@babel/core": "^7.23.2",
     "@babel/plugin-proposal-decorators": "^7.23.2",
@@ -153,7 +152,6 @@
     "memoizerific": "^1.11.3",
     "node-fetch": "^2.6.1",
     "node-gyp": "^9.3.1",
-    "npm": "^10.2.3",
     "npmlog": "^5.0.1",
     "nx": "17.0.2",
     "ora": "^5.4.1",

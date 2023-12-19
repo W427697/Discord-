@@ -3,8 +3,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import * as fsExtraImp from 'fs-extra';
-import { run as version } from '../version';
 import { execaCommand } from 'execa';
+import { run as version } from '../version';
 
 // eslint-disable-next-line jest/no-mocks-import
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
@@ -17,7 +17,6 @@ vi.mock('../../../code/lib/cli/src/versions', () => ({
 }));
 
 vi.mock('execa');
-
 
 vi.mock('../../utils/workspace', () => ({
   getWorkspaces: vi.fn().mockResolvedValue([
@@ -196,7 +195,8 @@ describe('Version', () => {
     });
 
     await expect(version({ apply: true })).rejects.toThrowErrorMatchingInlineSnapshot(
-    `[Error: The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump]`);
+      `[Error: The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump]`
+    );
 
     expect(fsExtra.writeJson).not.toHaveBeenCalled();
     expect(fsExtra.writeFile).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-import { vi, test, expect, afterEach, describe } from 'vitest';
+import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 
@@ -19,19 +19,19 @@ describe('renders', () => {
     cleanup();
   });
 
-  test('renders primary button', () => {
+  it('renders primary button', () => {
     render(<CSF3Primary>Hello world</CSF3Primary>);
     const buttonElement = screen.getByText(/Hello world/i);
     expect(buttonElement).not.toBeNull();
   });
 
-  test('reuses args from composed story', () => {
+  it('reuses args from composed story', () => {
     render(<Secondary />);
     const buttonElement = screen.getByRole('button');
     expect(buttonElement.textContent).toEqual(Secondary.args.children);
   });
 
-  test('onclick handler is called', async () => {
+  it('onclick handler is called', async () => {
     const onClickSpy = vi.fn();
     render(<Secondary onClick={onClickSpy} />);
     const buttonElement = screen.getByRole('button');
@@ -39,7 +39,7 @@ describe('renders', () => {
     expect(onClickSpy).toHaveBeenCalled();
   });
 
-  test('reuses args from composeStories', () => {
+  it('reuses args from composeStories', () => {
     const { getByText } = render(<CSF3Primary />);
     const buttonElement = getByText(/foo/i);
     expect(buttonElement).not.toBeNull();
@@ -51,14 +51,14 @@ describe('projectAnnotations', () => {
     cleanup();
   });
 
-  test('renders with default projectAnnotations', () => {
+  it('renders with default projectAnnotations', () => {
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(<WithEnglishText />);
     const buttonElement = getByText('Hello!');
     expect(buttonElement).not.toBeNull();
   });
 
-  test('renders with custom projectAnnotations via composeStory params', () => {
+  it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
       globalTypes: { locale: { defaultValue: 'pt' } } as any,
     });
@@ -67,7 +67,7 @@ describe('projectAnnotations', () => {
     expect(buttonElement).not.toBeNull();
   });
 
-  test('renders with custom projectAnnotations via setProjectAnnotations', () => {
+  it('renders with custom projectAnnotations via setProjectAnnotations', () => {
     setProjectAnnotations([{ parameters: { injected: true } }]);
     const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
     expect(Story.parameters?.injected).toBe(true);
@@ -79,7 +79,7 @@ describe('CSF3', () => {
     cleanup();
   });
 
-  test('renders with inferred globalRender', () => {
+  it('renders with inferred globalRender', () => {
     const Primary = composeStory(stories.CSF3Button, stories.default);
 
     render(<Primary>Hello world</Primary>);
@@ -87,14 +87,14 @@ describe('CSF3', () => {
     expect(buttonElement).not.toBeNull();
   });
 
-  test('renders with custom render function', () => {
+  it('renders with custom render function', () => {
     const Primary = composeStory(stories.CSF3ButtonWithRender, stories.default);
 
     render(<Primary />);
     expect(screen.getByTestId('custom-render')).not.toBeNull();
   });
 
-  test('renders with play function', async () => {
+  it('renders with play function', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
     const { container } = render(<CSF3InputFieldFilled />);
@@ -107,7 +107,9 @@ describe('CSF3', () => {
 });
 
 describe('ComposeStories types', () => {
-  test('Should support typescript operators', () => {
+  // this file tests Typescript types that's why there are no assertions
+  // eslint-disable-next-line jest/expect-expect
+  it('Should support typescript operators', () => {
     type ComposeStoriesParam = Parameters<typeof composeStories>[0];
 
     expectTypeOf({

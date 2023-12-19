@@ -208,6 +208,7 @@ module.exports = {
     },
     {
       files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      excludedFiles: ['**/*.test.*', '**/*.mockdata.*'],
       rules: {
         'local-rules/no-uncategorized-errors': 'warn',
       },

@@ -99,7 +99,6 @@ export const getAllCommitsBetween = async ({
 
 export const getRepo = async (verbose?: boolean): Promise<string> => {
   const remotes = await git.getRemotes(true);
-  console.log({ g: git.getRemotes, remotes });
   const originRemote = remotes.find((remote) => remote.name === 'origin');
   if (!originRemote) {
     console.error(

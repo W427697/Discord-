@@ -1,4 +1,4 @@
-import { expect, vi, test } from 'vitest';
+import { expect, vi, it } from 'vitest';
 
 import { join } from 'path';
 import * as fs from 'fs-extra';
@@ -45,13 +45,13 @@ vi.mock('@storybook/node-logger', () => {
 
 const pathExists = vi.mocked(fs.pathExists);
 
-test('with no staticDirs favicon should return default', async () => {
+it('with no staticDirs favicon should return default', async () => {
   const options = createOptions([]);
 
   expect(await m.favicon(undefined, options)).toBe(defaultFavicon);
 });
 
-test('with staticDirs containing a single favicon.ico should return the found favicon', async () => {
+it('with staticDirs containing a single favicon.ico should return the found favicon', async () => {
   const location = 'static';
   pathExists.mockImplementation((p: string) => {
     if (p === createPath(location)) {
@@ -67,7 +67,7 @@ test('with staticDirs containing a single favicon.ico should return the found fa
   expect(await m.favicon(undefined, options)).toBe(createPath(location, 'favicon.ico'));
 });
 
-test('with staticDirs containing a single favicon.svg should return the found favicon', async () => {
+it('with staticDirs containing a single favicon.svg should return the found favicon', async () => {
   const location = 'static';
   pathExists.mockImplementation((p: string) => {
     if (p === createPath(location)) {
@@ -83,7 +83,7 @@ test('with staticDirs containing a single favicon.svg should return the found fa
   expect(await m.favicon(undefined, options)).toBe(createPath(location, 'favicon.svg'));
 });
 
-test('with staticDirs containing a multiple favicons should return the first favicon and warn', async () => {
+it('with staticDirs containing a multiple favicons should return the first favicon and warn', async () => {
   const location = 'static';
   pathExists.mockImplementation((p: string) => {
     if (p === createPath(location)) {
@@ -104,7 +104,7 @@ test('with staticDirs containing a multiple favicons should return the first fav
   expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('multiple favicons'));
 });
 
-test('with multiple staticDirs containing a multiple favicons should return the first favicon and warn', async () => {
+it('with multiple staticDirs containing a multiple favicons should return the first favicon and warn', async () => {
   const locationA = 'static-a';
   const locationB = 'static-b';
   pathExists.mockImplementation((p: string) => {

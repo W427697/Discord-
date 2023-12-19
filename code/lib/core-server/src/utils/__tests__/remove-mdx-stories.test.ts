@@ -3,7 +3,7 @@ import { type StoriesEntry } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import { join } from 'path';
 import slash from 'slash';
-import { vi } from 'vitest';
+import { vi, it, describe } from 'vitest';
 import { removeMDXEntries } from '../remove-mdx-entries';
 
 const configDir = '/configDir/';
@@ -39,12 +39,13 @@ const createGlobMock = (input: ReturnType<typeof createList>) => {
   };
 };
 
-test('empty', async () => {
-  const list = createList([]);
-  glob.mockImplementation(createGlobMock(list));
+describe('remove-mdx-stories', () => {
+  it('empty', async () => {
+    const list = createList([]);
+    glob.mockImplementation(createGlobMock(list));
 
-  await expect(() => removeMDXEntries(Object.keys(list), { configDir })).rejects
-    .toThrowErrorMatchingInlineSnapshot(`
+    await expect(() => removeMDXEntries(Object.keys(list), { configDir })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
     [SB_CORE-COMMON_0004 (InvalidStoriesEntryError): Storybook could not index your stories.
 Your main configuration somehow does not contain a 'stories' field, or it resolved to an empty array.
 
@@ -53,18 +54,18 @@ Please check your main configuration file and make sure it exports a 'stories' f
 More info: https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories
 ]
 `);
-});
+  });
 
-test('minimal', async () => {
-  const list = createList([{ entry: '*.js', result: [] }]);
-  glob.mockImplementation(createGlobMock(list));
+  it('minimal', async () => {
+    const list = createList([{ entry: '*.js', result: [] }]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -73,21 +74,21 @@ test('minimal', async () => {
       },
     ]
   `);
-});
+  });
 
-test('multiple', async () => {
-  const list = createList([
-    { entry: '*.ts', result: [] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('multiple', async () => {
+    const list = createList([
+      { entry: '*.ts', result: [] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -101,21 +102,21 @@ test('multiple', async () => {
       },
     ]
   `);
-});
+  });
 
-test('mdx but not matching any files', async () => {
-  const list = createList([
-    { entry: '*.mdx', result: [] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('mdx but not matching any files', async () => {
+    const list = createList([
+      { entry: '*.mdx', result: [] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -129,21 +130,21 @@ test('mdx but not matching any files', async () => {
       },
     ]
   `);
-});
+  });
 
-test('removes entries that only yield mdx files', async () => {
-  const list = createList([
-    { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('removes entries that only yield mdx files', async () => {
+    const list = createList([
+      { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -152,21 +153,21 @@ test('removes entries that only yield mdx files', async () => {
       },
     ]
   `);
-});
+  });
 
-test('expands entries that only yield mixed files', async () => {
-  const list = createList([
-    { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
-    { entry: '*.js', result: [] },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('expands entries that only yield mixed files', async () => {
+    const list = createList([
+      { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
+      { entry: '*.js', result: [] },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -180,23 +181,23 @@ test('expands entries that only yield mixed files', async () => {
       },
     ]
   `);
-});
+  });
 
-test('passes titlePrefix', async () => {
-  const list = createList([
-    {
-      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-      result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
-    },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('passes titlePrefix', async () => {
+    const list = createList([
+      {
+        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+        result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
+      },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -205,28 +206,28 @@ test('passes titlePrefix', async () => {
       },
     ]
   `);
-});
+  });
 
-test('expands to multiple entries', async () => {
-  const list = createList([
-    {
-      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-      result: [
-        '/configDir/my-file.mdx',
-        '/configDir/my-file1.ts',
-        '/configDir/my-file2.ts',
-        '/configDir/my-file3.ts',
-      ],
-    },
-  ]);
-  glob.mockImplementation(createGlobMock(list));
+  it('expands to multiple entries', async () => {
+    const list = createList([
+      {
+        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+        result: [
+          '/configDir/my-file.mdx',
+          '/configDir/my-file1.ts',
+          '/configDir/my-file2.ts',
+          '/configDir/my-file3.ts',
+        ],
+      },
+    ]);
+    glob.mockImplementation(createGlobMock(list));
 
-  const result = await removeMDXEntries(
-    Object.values(list).map((e) => e.entry),
-    { configDir }
-  );
+    const result = await removeMDXEntries(
+      Object.values(list).map((e) => e.entry),
+      { configDir }
+    );
 
-  expect(result).toMatchInlineSnapshot(`
+    expect(result).toMatchInlineSnapshot(`
     [
       {
         "directory": ".",
@@ -245,4 +246,5 @@ test('expands to multiple entries', async () => {
       },
     ]
   `);
+  });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable local-rules/no-uncategorized-errors */
 import prompts from 'prompts';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { loadAllPresets, cache } from '@storybook/core-common';

@@ -1,12 +1,12 @@
-import { describe, test, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { getHighestStatus, getGroupStatus } from './status';
 import { mockDataset } from '../components/sidebar/mockdata';
 
 describe('getHighestStatus', () => {
-  test('default value', () => {
+  it('default value', () => {
     expect(getHighestStatus([])).toBe('unknown');
   });
-  test('should return the highest status', () => {
+  it('should return the highest status', () => {
     expect(getHighestStatus(['success', 'error', 'warn', 'pending'])).toBe('error');
     expect(getHighestStatus(['error', 'error', 'warn', 'pending'])).toBe('error');
     expect(getHighestStatus(['warn', 'pending'])).toBe('warn');
@@ -14,10 +14,10 @@ describe('getHighestStatus', () => {
 });
 
 describe('getGroupStatus', () => {
-  test('empty case', () => {
+  it('empty case', () => {
     expect(getGroupStatus({}, {})).toEqual({});
   });
-  test('should return a color', () => {
+  it('should return a color', () => {
     expect(
       getGroupStatus(mockDataset.withRoot, {
         'group-1--child-b1': { a: { status: 'warn', description: '', title: '' } },
@@ -31,7 +31,7 @@ describe('getGroupStatus', () => {
       }
     `);
   });
-  test('should return the highest status', () => {
+  it('should return the highest status', () => {
     expect(
       getGroupStatus(mockDataset.withRoot, {
         'group-1--child-b1': {

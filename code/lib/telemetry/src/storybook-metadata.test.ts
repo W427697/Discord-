@@ -1,5 +1,5 @@
-import type { SpyInstance } from 'vitest';
-import { describe, beforeEach, afterEach, expect, vi, test } from 'vitest';
+import type { MockInstance } from 'vitest';
+import { describe, beforeEach, afterEach, expect, vi, it } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';
@@ -26,7 +26,7 @@ vi.mock('./package-json', () => {
     Promise.all(Object.keys(packages).map(getActualPackageVersion))
   );
 
-  const getActualPackageJson = vi.fn((name) => ({
+  const getActualPackageJson = vi.fn(() => ({
     dependencies: {
       '@storybook/react': 'x.x.x',
       '@storybook/builder-vite': 'x.x.x',
@@ -59,7 +59,7 @@ vi.mock('@storybook/core-common', async (importOriginal) => {
 const originalSep = path.sep;
 
 describe('storybook-metadata', () => {
-  let cwdSpy: SpyInstance;
+  let cwdSpy: MockInstance;
   beforeEach(() => {
     // @ts-expect-error the property is read only but we can change it for testing purposes
     path.sep = originalSep;
@@ -72,7 +72,7 @@ describe('storybook-metadata', () => {
   });
 
   describe('sanitizeAddonName', () => {
-    test('special addon names', () => {
+    it('special addon names', () => {
       const addonNames = [
         '@storybook/preset-create-react-app',
         'storybook-addon-deprecated/register',
@@ -96,7 +96,7 @@ describe('storybook-metadata', () => {
       ]);
     });
 
-    test('Windows paths', () => {
+    it('Windows paths', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '\\';
       const cwdMockPath = `C:\\Users\\username\\storybook-app`;
@@ -107,7 +107,7 @@ describe('storybook-metadata', () => {
       );
     });
 
-    test('Linux paths', () => {
+    it('Linux paths', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '/';
       const cwdMockPath = `/Users/username/storybook-app`;
@@ -121,7 +121,7 @@ describe('storybook-metadata', () => {
 
   describe('computeStorybookMetadata', () => {
     describe('pnp paths', () => {
-      test('should parse pnp paths for known frameworks', async () => {
+      it('should parse pnp paths for known frameworks', async () => {
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {
@@ -159,7 +159,7 @@ describe('storybook-metadata', () => {
         });
       });
 
-      test('should parse pnp paths for unknown frameworks', async () => {
+      it('should parse pnp paths for unknown frameworks', async () => {
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {
@@ -189,7 +189,7 @@ describe('storybook-metadata', () => {
         });
       });
 
-      test('should sanitize pnp paths for local frameworks', async () => {
+      it('should sanitize pnp paths for local frameworks', async () => {
         // @ts-expect-error the property is read only but we can change it for testing purposes
         path.sep = '/';
         cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue('/Users/foo/my-projects');
@@ -227,7 +227,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should return frameworkOptions from mainjs', async () => {
+    it('should return frameworkOptions from mainjs', async () => {
       const reactResult = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {
@@ -266,7 +266,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should separate storybook packages and addons', async () => {
+    it('should separate storybook packages and addons', async () => {
       const result = await computeStorybookMetadata({
         packageJson: {
           ...packageJsonMock,
@@ -312,7 +312,7 @@ describe('storybook-metadata', () => {
       `);
     });
 
-    test('should return user specified features', async () => {
+    it('should return user specified features', async () => {
       const features = {
         storyStoreV7: true,
       };
@@ -328,7 +328,7 @@ describe('storybook-metadata', () => {
       expect(result.features).toEqual(features);
     });
 
-    test('should infer builder and renderer from framework package.json', async () => {
+    it('should infer builder and renderer from framework package.json', async () => {
       expect(
         await computeStorybookMetadata({
           packageJson: packageJsonMock,
@@ -344,7 +344,7 @@ describe('storybook-metadata', () => {
       });
     });
 
-    test('should return the number of refs', async () => {
+    it('should return the number of refs', async () => {
       const res = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {
@@ -358,7 +358,7 @@ describe('storybook-metadata', () => {
       expect(res.refCount).toEqual(2);
     });
 
-    test('only reports addon options for addon-essentials', async () => {
+    it('only reports addon options for addon-essentials', async () => {
       const res = await computeStorybookMetadata({
         packageJson: packageJsonMock,
         mainConfig: {

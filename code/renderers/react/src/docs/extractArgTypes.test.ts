@@ -66,6 +66,7 @@ describe('react component properties', () => {
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
+          // eslint-disable-next-line jest/no-disabled-tests
           it.skip(`${testEntry.name}`, () => {});
         } else {
           it(`${testEntry.name}`, () => {

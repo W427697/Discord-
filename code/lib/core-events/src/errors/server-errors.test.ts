@@ -1,4 +1,3 @@
-/* eslint-disable local-rules/no-uncategorized-errors */
 import { describe, it, expect } from 'vitest';
 import { WebpackCompilationError } from './server-errors';
 

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import store2 from 'store2';
 import flushPromises from 'flush-promises';
-//
 import Store, { STORAGE_KEY } from '../store';
 
 vi.mock('store2', () => ({

@@ -256,7 +256,6 @@ export async function copyTemplateFiles({
     if (await fse.pathExists(assetsDir)) {
       return assetsDir;
     }
-
     throw new Error(`Unsupported renderer: ${renderer} (${baseDir})`);
   };
 

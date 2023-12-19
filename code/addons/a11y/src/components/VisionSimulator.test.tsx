@@ -25,6 +25,8 @@ function ThemedVisionSimulator() {
 }
 
 describe('Vision Simulator', () => {
+  // TODO: there are issues with the ThemeProvider from lib/theming for some reason
+  // which are causing rendering issues in the component for all these tests
   it.skip('should render tool button', async () => {
     // when
     render(<ThemedVisionSimulator />);

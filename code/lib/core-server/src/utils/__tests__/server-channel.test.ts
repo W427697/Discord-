@@ -1,4 +1,4 @@
-import { describe, expect, vi, test } from 'vitest';
+import { describe, expect, vi, it } from 'vitest';
 import type { Server } from 'http';
 import { Channel } from '@storybook/channels';
 
@@ -7,13 +7,13 @@ import { stringify } from 'telejson';
 import { getServerChannel, ServerChannelTransport } from '../get-server-channel';
 
 describe('getServerChannel', () => {
-  test('should return a channel', () => {
+  it('should return a channel', () => {
     const server = { on: vi.fn() } as any as Server;
     const result = getServerChannel(server);
     expect(result).toBeInstanceOf(Channel);
   });
 
-  test('should attach to the http server', () => {
+  it('should attach to the http server', () => {
     const server = { on: vi.fn() } as any as Server;
     getServerChannel(server);
     expect(server.on).toHaveBeenCalledWith('upgrade', expect.any(Function));
@@ -21,7 +21,7 @@ describe('getServerChannel', () => {
 });
 
 describe('ServerChannelTransport', () => {
-  test('parses simple JSON', () => {
+  it('parses simple JSON', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
@@ -34,7 +34,7 @@ describe('ServerChannelTransport', () => {
 
     expect(handler).toHaveBeenCalledWith('hello');
   });
-  test('parses object JSON', () => {
+  it('parses object JSON', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
@@ -47,7 +47,7 @@ describe('ServerChannelTransport', () => {
 
     expect(handler).toHaveBeenCalledWith({ type: 'hello' });
   });
-  test('supports telejson cyclical data', () => {
+  it('supports telejson cyclical data', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
@@ -68,7 +68,7 @@ describe('ServerChannelTransport', () => {
       }
     `);
   });
-  test('skips telejson classes and functions in data', () => {
+  it('skips telejson classes and functions in data', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);

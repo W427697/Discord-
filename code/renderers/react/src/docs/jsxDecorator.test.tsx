@@ -113,38 +113,39 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
+    const MyExoticComponentRef = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
       props,
       _ref
     ) {
       return <div>{props.children}</div>;
     });
 
-    expect(renderJsx(createElement(MyExoticComponent, {}, 'I am forwardRef!'), {}))
+    expect(renderJsx(createElement(MyExoticComponentRef, {}, 'I am forwardRef!'), {}))
       .toMatchInlineSnapshot(`
-        <MyExoticComponent2>
+        <MyExoticComponent>
           I am forwardRef!
-        </MyExoticComponent2>
+        </MyExoticComponent>
       `);
   });
 
   it('memo component', () => {
-    const MyMemoComponent: FC<PropsWithChildren> = React.memo(function MyMemoComponent(props) {
+    const MyMemoComponentRef: FC<PropsWithChildren> = React.memo(function MyMemoComponent(props) {
       return <div>{props.children}</div>;
     });
 
-    expect(renderJsx(createElement(MyMemoComponent, {}, 'I am memo!'), {})).toMatchInlineSnapshot(`
-      <MyMemoComponent2>
+    expect(renderJsx(createElement(MyMemoComponentRef, {}, 'I am memo!'), {}))
+      .toMatchInlineSnapshot(`
+      <MyMemoComponent>
         I am memo!
-      </MyMemoComponent2>
+      </MyMemoComponent>
     `);
   });
 
   it('Profiler', () => {
-    function ProfilerComponent(props: any) {
+    function ProfilerComponent({ children }: any) {
       return (
         <Profiler id="profiler-test" onRender={() => {}}>
-          <div>{props.children}</div>
+          <div>{children}</div>
         </Profiler>
       );
     }
@@ -158,10 +159,10 @@ describe('renderJsx', () => {
   });
 
   it('StrictMode', () => {
-    function StrictModeComponent(props: any) {
+    function StrictModeComponent({ children }: any) {
       return (
         <StrictMode>
-          <div>{props.children}</div>
+          <div>{children}</div>
         </StrictMode>
       );
     }
@@ -175,10 +176,10 @@ describe('renderJsx', () => {
   });
 
   it('Suspense', () => {
-    function SuspenseComponent(props: any) {
+    function SuspenseComponent({ children }: any) {
       return (
         <React.Suspense fallback={null}>
-          <div>{props.children}</div>
+          <div>{children}</div>
         </React.Suspense>
       );
     }

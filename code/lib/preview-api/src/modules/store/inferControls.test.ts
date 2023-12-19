@@ -1,4 +1,4 @@
-import type { SpyInstance } from 'vitest';
+import type { MockInstance } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/client-logger';
 import type { StoryContextForEnhancers } from '@storybook/types';
@@ -27,7 +27,7 @@ const getStoryContext = (overrides: any = {}): StoryContextForEnhancers => ({
 const [inferControls] = argTypesEnhancers;
 describe('inferControls', () => {
   describe('with custom matchers', () => {
-    let warnSpy: SpyInstance;
+    let warnSpy: MockInstance;
     beforeEach(() => {
       warnSpy = vi.spyOn(logger, 'warn');
       warnSpy.mockImplementation(() => {});

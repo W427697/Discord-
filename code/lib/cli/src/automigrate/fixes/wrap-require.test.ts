@@ -1,4 +1,4 @@
-import type { SpyInstance } from 'vitest';
+import type { MockInstance } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import { wrapRequire } from './wrap-require';
 import * as detect from '../../detect';
@@ -11,7 +11,7 @@ vi.mock('../../detect', async (importOriginal) => ({
 describe('wrapRequire', () => {
   describe('check', () => {
     it('should return null if not in a monorepo and pnp is not enabled', async () => {
-      (detect.detectPnp as any as SpyInstance).mockResolvedValue(false);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(false);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -25,7 +25,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return the configuration object if in a pnp environment', async () => {
-      (detect.detectPnp as any as SpyInstance).mockResolvedValue(true);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(true);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -44,7 +44,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return the configuration object if in a monorepo environment', async () => {
-      (detect.detectPnp as any as SpyInstance).mockResolvedValue(false);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(false);
 
       const check = wrapRequire.check({
         packageManager: {
@@ -63,7 +63,7 @@ describe('wrapRequire', () => {
     });
 
     it('should return null, if all fields have the require wrapper', async () => {
-      (detect.detectPnp as any as SpyInstance).mockResolvedValue(true);
+      (detect.detectPnp as any as MockInstance).mockResolvedValue(true);
 
       const check = wrapRequire.check({
         packageManager: {

@@ -1,4 +1,4 @@
-import { describe, expect, vi, test } from 'vitest';
+import { describe, expect, vi, it } from 'vitest';
 import { getMigrationSummary } from './getMigrationSummary';
 import { FixStatus } from '../types';
 import type { InstallationMetadata } from '../../js-package-manager/types';
@@ -37,7 +37,7 @@ describe('getMigrationSummary', () => {
 
   const logFile = '/path/to/log/file';
 
-  test('renders a summary with a "no migrations" message if all migrations were unnecessary', () => {
+  it('renders a summary with a "no migrations" message if all migrations were unnecessary', () => {
     const summary = getMigrationSummary({
       fixResults: { 'foo-package': FixStatus.UNNECESSARY },
       fixSummary: {
@@ -53,7 +53,7 @@ describe('getMigrationSummary', () => {
     expect(summary).toContain('No migrations were applicable to your project');
   });
 
-  test('renders a summary with a "check failed" message if at least one migration completely failed', () => {
+  it('renders a summary with a "check failed" message if at least one migration completely failed', () => {
     const summary = getMigrationSummary({
       fixResults: {
         'foo-package': FixStatus.SUCCEEDED,
@@ -73,7 +73,7 @@ describe('getMigrationSummary', () => {
     expect(summary).toContain('Migration check ran with failures');
   });
 
-  test('renders a summary with successful, manual, failed, and skipped migrations', () => {
+  it('renders a summary with successful, manual, failed, and skipped migrations', () => {
     const summary = getMigrationSummary({
       fixResults,
       fixSummary,
@@ -114,7 +114,7 @@ describe('getMigrationSummary', () => {
     `);
   });
 
-  test('renders a summary with a warning if there are duplicated dependencies outside the allow list', () => {
+  it('renders a summary with a warning if there are duplicated dependencies outside the allow list', () => {
     const summary = getMigrationSummary({
       fixResults: {},
       fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },
@@ -162,7 +162,7 @@ describe('getMigrationSummary', () => {
     `);
   });
 
-  test('renders a basic summary if there are no duplicated dependencies or migrations', () => {
+  it('renders a basic summary if there are no duplicated dependencies or migrations', () => {
     const summary = getMigrationSummary({
       fixResults: {},
       fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },

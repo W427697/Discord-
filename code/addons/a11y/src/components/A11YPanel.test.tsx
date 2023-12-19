@@ -100,6 +100,17 @@ describe('A11YPanel', () => {
     expect(getByText(/Initializing/)).toBeTruthy();
   });
 
+  it('should set running status on event', async () => {
+    const { getByText } = render(<ThemedA11YPanel />);
+    const useChannelArgs = mockedApi.useChannel.mock.calls[0][0];
+    act(() => useChannelArgs[EVENTS.RUNNING]());
+    await waitFor(() => {
+      expect(getByText(/Please wait while the accessibility scan is running/)).toBeTruthy();
+    });
+  });
+
+  // TODO: The tests below are skipped because of unknown issues with ThemeProvider
+  // which cause errors like TypeError: Cannot read properties of undefined (reading 'defaultText')
   it.skip('should handle "manual" status', async () => {
     mockedApi.useParameter.mockReturnValue({ manual: true });
     const { getByText } = render(<ThemedA11YPanel />);
@@ -120,15 +131,6 @@ describe('A11YPanel', () => {
     await waitFor(() => {
       expect(getByText(/Please wait while the accessibility scan is running/)).toBeTruthy();
       expect(emit).toHaveBeenCalledWith(EVENTS.MANUAL, 'jest');
-    });
-  });
-
-  it('should set running status on event', async () => {
-    const { getByText } = render(<ThemedA11YPanel />);
-    const useChannelArgs = mockedApi.useChannel.mock.calls[0][0];
-    act(() => useChannelArgs[EVENTS.RUNNING]());
-    await waitFor(() => {
-      expect(getByText(/Please wait while the accessibility scan is running/)).toBeTruthy();
     });
   });
 

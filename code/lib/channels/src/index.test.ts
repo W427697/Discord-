@@ -116,8 +116,15 @@ describe('Channel', () => {
     });
 
     it('should use setImmediate if async is true', () => {
+      // @ts-expect-error no idea what's going on here!
+      global.setImmediate = vi.fn(setImmediate);
+
       channel = new Channel({ async: true, transport });
       channel.addListener('event1', vi.fn());
+
+      channel.emit('event1', 'test-data');
+
+      expect(setImmediate).toHaveBeenCalled();
     });
   });
 

@@ -51,7 +51,6 @@
     "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "yarn --cwd ../scripts task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
-    "test:cli": "npm --prefix lib/cli run test",
     "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch"
   },
   "husky": {
@@ -186,7 +185,6 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/express": "^4.17.11",
     "@types/fs-extra": "^11.0.1",
-    "@types/jest-specific-snapshot": "^0.5.6",
     "@types/lodash": "^4.14.167",
     "@types/mock-require": "^2.0.3",
     "@types/node": "^18.0.0",

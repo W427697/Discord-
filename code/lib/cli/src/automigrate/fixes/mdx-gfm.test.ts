@@ -1,4 +1,4 @@
-import { describe, expect, vi, test } from 'vitest';
+import { describe, expect, vi, it } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { mdxgfm } from './mdx-gfm';
 
@@ -25,7 +25,7 @@ const check = async ({
 };
 
 describe('no-ops', () => {
-  test('sb > 7.0', async () => {
+  it('sb > 7.0', async () => {
     await expect(
       check({
         packageManager: {},
@@ -34,7 +34,7 @@ describe('no-ops', () => {
       })
     ).resolves.toBeFalsy();
   });
-  test('legacyMdx1', async () => {
+  it('legacyMdx1', async () => {
     await expect(
       check({
         packageManager: {},
@@ -46,7 +46,7 @@ describe('no-ops', () => {
       })
     ).resolves.toBeFalsy();
   });
-  test('with addon docs setup', async () => {
+  it('with addon docs setup', async () => {
     await expect(
       check({
         packageManager: {},
@@ -73,7 +73,7 @@ describe('no-ops', () => {
       })
     ).resolves.toBeFalsy();
   });
-  test('with addon migration assistant addon added', async () => {
+  it('with addon migration assistant addon added', async () => {
     await expect(
       check({
         packageManager: {},
@@ -86,7 +86,7 @@ describe('no-ops', () => {
 });
 
 describe('continue', () => {
-  test('nothing configured at all', async () => {
+  it('nothing configured at all', async () => {
     await expect(
       check({
         packageManager: {},
@@ -96,7 +96,7 @@ describe('continue', () => {
       })
     ).resolves.toBeTruthy();
   });
-  test('unconfigured addon-docs', async () => {
+  it('unconfigured addon-docs', async () => {
     await expect(
       check({
         packageManager: {},
@@ -118,7 +118,7 @@ describe('continue', () => {
       })
     ).resolves.toBeTruthy();
   });
-  test('unconfigured addon-essentials', async () => {
+  it('unconfigured addon-essentials', async () => {
     await expect(
       check({
         packageManager: {},
@@ -129,7 +129,7 @@ describe('continue', () => {
       })
     ).resolves.toBeTruthy();
   });
-  test('stories object with directory + files', async () => {
+  it('stories object with directory + files', async () => {
     await expect(
       check({
         packageManager: {},
@@ -140,7 +140,7 @@ describe('continue', () => {
       })
     ).resolves.toBeTruthy();
   });
-  test('stories object with directory and no files', async () => {
+  it('stories object with directory and no files', async () => {
     await expect(
       check({
         packageManager: {},

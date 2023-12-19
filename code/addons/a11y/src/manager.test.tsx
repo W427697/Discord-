@@ -36,7 +36,7 @@ describe('A11yManager', () => {
     mockedApi.useAddonState.mockImplementation(() => [undefined]);
     registrationImpl(api as unknown as api.API);
     const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
-      ?.title as Function;
+      ?.title as () => void;
 
     // when / then
     expect(title()).toMatchInlineSnapshot(`
@@ -70,7 +70,7 @@ describe('A11yManager', () => {
     ]);
     registrationImpl(mockedApi);
     const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
-      ?.title as Function;
+      ?.title as () => void;
 
     // when / then
     expect(title()).toMatchInlineSnapshot(`

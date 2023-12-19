@@ -1,4 +1,4 @@
-import { describe, beforeAll, expect, vi, test } from 'vitest';
+import { describe, beforeAll, expect, vi, it } from 'vitest';
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
@@ -11,7 +11,7 @@ describe('configureMain', () => {
     vi.clearAllMocks();
   });
 
-  test('should generate main.js', async () => {
+  it('should generate main.js', async () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
       addons: [],
@@ -40,7 +40,7 @@ describe('configureMain', () => {
     `);
   });
 
-  test('should generate main.ts', async () => {
+  it('should generate main.ts', async () => {
     await configureMain({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
@@ -70,7 +70,7 @@ describe('configureMain', () => {
     `);
   });
 
-  test('should handle resolved paths in pnp', async () => {
+  it('should handle resolved paths in pnp', async () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
       prefixes: [],
@@ -113,7 +113,7 @@ describe('configureMain', () => {
 });
 
 describe('configurePreview', () => {
-  test('should generate preview.js', async () => {
+  it('should generate preview.js', async () => {
     await configurePreview({
       language: SupportedLanguage.JAVASCRIPT,
       storybookConfigFolder: '.storybook',
@@ -143,7 +143,7 @@ describe('configurePreview', () => {
     `);
   });
 
-  test('should generate preview.ts', async () => {
+  it('should generate preview.ts', async () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
@@ -174,7 +174,7 @@ describe('configurePreview', () => {
     `);
   });
 
-  test('should not do anything if the framework template already included a preview', async () => {
+  it('should not do anything if the framework template already included a preview', async () => {
     vi.mocked(fse.pathExists).mockImplementationOnce(() => Promise.resolve(true));
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
@@ -184,7 +184,7 @@ describe('configurePreview', () => {
     expect(fse.writeFile).not.toHaveBeenCalled();
   });
 
-  test('should add prefix if frameworkParts are passed', async () => {
+  it('should add prefix if frameworkParts are passed', async () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',

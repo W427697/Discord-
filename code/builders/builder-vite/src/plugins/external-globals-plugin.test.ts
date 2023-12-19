@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { it, expect } from 'vitest';
 import { rewriteImport } from './external-globals-plugin';
 
 const packageName = '@storybook/package';
@@ -37,7 +37,7 @@ const cases = [
   },
 ];
 
-test('rewriteImport', () => {
+it('rewriteImport', () => {
   cases.forEach(({ input, output, globals: caseGlobals, packageName: casePackage }) => {
     expect(rewriteImport(input, caseGlobals, casePackage)).toStrictEqual(output);
   });
