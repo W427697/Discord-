@@ -49,7 +49,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(options.outputDir, process.cwd())}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
