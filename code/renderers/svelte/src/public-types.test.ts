@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck TODO: DO NOT MERGE WITH THIS COMMENT!
 /* eslint-disable jest/expect-expect */
 import { describe, test } from 'vitest';
 import { satisfies } from '@storybook/core-common';
