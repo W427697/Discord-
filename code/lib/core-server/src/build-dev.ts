@@ -1,5 +1,6 @@
 import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
+  getProjectRoot,
   loadAllPresets,
   loadMainConfig,
   resolveAddonName,
@@ -10,9 +11,9 @@ import {
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, oneWayHash } from '@storybook/telemetry';
 
-import { join, resolve } from 'path';
+import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
 import dedent from 'ts-dedent';
 import { readFile } from 'fs-extra';
@@ -49,17 +50,27 @@ export async function buildDevStandalone(
       name: 'shouldChangePort',
       message: `Port ${options.port} is not available. Would you like to run Storybook on port ${port} instead?`,
     });
-    if (!shouldChangePort) process.exit(1);
+    if (!shouldChangePort) {
+      process.exit(1);
+    }
+  }
+
+  const rootDir = getProjectRoot();
+  const configDir = resolve(options.configDir);
+  const uniqueId = oneWayHash(relative(rootDir, configDir));
+
+  const cacheOutputDir = resolvePathInStorybookCache('public', uniqueId);
+  let outputDir = resolve(options.outputDir || cacheOutputDir);
+  if (options.smokeTest) {
+    outputDir = cacheOutputDir;
   }
 
   /* eslint-disable no-param-reassign */
   options.port = port;
   options.versionCheck = versionCheck;
   options.configType = 'DEVELOPMENT';
-  options.configDir = resolve(options.configDir);
-  options.outputDir = options.smokeTest
-    ? resolvePathInStorybookCache('public')
-    : resolve(options.outputDir || resolvePathInStorybookCache('public'));
+  options.configDir = configDir;
+  options.outputDir = outputDir;
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
