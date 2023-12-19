@@ -57,9 +57,9 @@ export async function buildDevStandalone(
 
   const rootDir = getProjectRoot();
   const configDir = resolve(options.configDir);
-  const uniqueId = oneWayHash(relative(rootDir, configDir));
+  const cacheKey = oneWayHash(relative(rootDir, configDir));
 
-  const cacheOutputDir = resolvePathInStorybookCache('public', uniqueId);
+  const cacheOutputDir = resolvePathInStorybookCache('public', cacheKey);
   let outputDir = resolve(options.outputDir || cacheOutputDir);
   if (options.smokeTest) {
     outputDir = cacheOutputDir;
@@ -70,6 +70,7 @@ export async function buildDevStandalone(
   options.versionCheck = versionCheck;
   options.configType = 'DEVELOPMENT';
   options.configDir = configDir;
+  options.cacheKey = cacheKey;
   options.outputDir = outputDir;
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
