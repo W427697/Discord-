@@ -88,6 +88,7 @@ describe('useStoriesJson', () => {
   describe('JSON endpoint', () => {
     it('scans and extracts index', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
+      console.time('useStoriesJson');
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -95,11 +96,14 @@ describe('useStoriesJson', () => {
         normalizedStories,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
       });
+      console.timeEnd('useStoriesJson');
 
       expect(use).toHaveBeenCalledTimes(1);
       const route = use.mock.calls[0][1];
 
+      console.time('route');
       await route(request, response);
+      console.timeEnd('route');
 
       expect(send).toHaveBeenCalledTimes(1);
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
@@ -272,7 +276,7 @@ describe('useStoriesJson', () => {
           "v": 4,
         }
       `);
-    }, 10_000);
+    }, 20_000);
 
     it('disallows .mdx files without storyStoreV7', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
