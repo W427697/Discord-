@@ -1,7 +1,5 @@
 /// <reference types="@testing-library/jest-dom" />;
-
 import { describe, it, expect, vi } from 'vitest';
-
 import { dedent } from 'ts-dedent';
 import { sep } from 'path';
 
@@ -18,7 +16,7 @@ expect.addSnapshotSerializer({
 });
 
 expect.extend({
-  toEqual(regex: RegExp, paths: string[]) {
+  toMatchPaths(regex: RegExp, paths: string[]) {
     const matched = paths.map((p) => !!p.match(regex));
 
     const pass = matched.every(Boolean);
@@ -71,8 +69,8 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual(['./path/to/file.stories.mdx']);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths(['./path/to/file.stories.mdx']);
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './path/to/file.stories.js',
       './file.stories.mdx',
       '../file.stories.mdx',
@@ -90,8 +88,8 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual(['./.storybook/file.stories.mdx']);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths(['./.storybook/file.stories.mdx']);
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       '.storybook/file.stories.mdx',
       './file.stories.mdx',
       '../file.stories.mdx',
@@ -109,11 +107,11 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './path/file.stories.mdx',
       './second-path/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './path/file.stories.js',
       './path/to/file.stories.mdx',
       './file.stories.mdx',
@@ -132,11 +130,11 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './path/to/file.stories.mdx',
       './second-path/to/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './file.stories.mdx',
       './path/file.stories.mdx',
       './path/to/third/file.stories.mdx',
@@ -155,13 +153,16 @@ describe('normalizeStoriesEntry', () => {
         "importPathMatcher": {}
       }
     `);
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './file.stories.mdx',
       './path/file.stories.mdx',
       './path/to/file.stories.mdx',
       './path/to/third/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual(['./file.stories.js', '../file.stories.mdx']);
+    expect(specifier.importPathMatcher).not.toMatchPaths([
+      './file.stories.js',
+      '../file.stories.mdx',
+    ]);
   });
 
   it('double stars glob', () => {
@@ -175,12 +176,12 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './foo/file.stories.mdx',
       './path/to/foo/file.stories.mdx',
       './path/to/foo/third/fourth/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './file.stories.mdx',
       './file.stories.js',
       '../file.stories.mdx',
@@ -198,11 +199,11 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './path/to/foo/file.stories.mdx',
       './foo/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './file.stories.mdx',
       './file.stories.js',
       './path/to/foo/third/fourth/file.stories.mdx',
@@ -221,8 +222,8 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual(['../src/file.stories.mdx']);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths(['../src/file.stories.mdx']);
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './src/file.stories.mdx',
       '../src/file.stories.js',
     ]);
@@ -302,11 +303,11 @@ describe('normalizeStoriesEntry', () => {
       }
     `);
 
-    expect(specifier.importPathMatcher).toEqual([
+    expect(specifier.importPathMatcher).toMatchPaths([
       './path/file.stories.mdx',
       './second-path/file.stories.mdx',
     ]);
-    expect(specifier.importPathMatcher).not.toEqual([
+    expect(specifier.importPathMatcher).not.toMatchPaths([
       './path/file.stories.js',
       './path/to/file.stories.mdx',
       './file.stories.mdx',
