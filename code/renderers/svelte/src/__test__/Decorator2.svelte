@@ -1,9 +1,5 @@
 <script lang="ts">
-  let decoratorArg2: string = ''
-
-  module.exports = {
-    decoratorArg2
-  }
+  export let decoratorArg2: string;
 </script>
 
 <div>
