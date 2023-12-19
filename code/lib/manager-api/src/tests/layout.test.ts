@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest';
 import { expect, describe, beforeEach, it, vi } from 'vitest';
 
 import { themes } from '@storybook/theming';
@@ -436,7 +437,7 @@ describe('layout API', () => {
 
   describe('setOptions', () => {
     const getLastSetStateArgs = () => {
-      const { calls } = (store.setState as jest.Mock).mock;
+      const { calls } = (store.setState as Mock).mock;
       return calls[calls.length - 1];
     };
 

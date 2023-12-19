@@ -1,3 +1,4 @@
+import { vi, describe, test, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { glob } from 'glob';
 import { removeReactDependency } from './prompt-remove-react';
@@ -27,7 +28,7 @@ const check = async ({
   });
 };
 
-jest.mock('glob', () => ({ glob: jest.fn(() => []) }));
+vi.mock('glob', () => ({ glob: vi.fn(() => []) }));
 
 describe('early exits', () => {
   test('cancel if storybookVersion < 8', async () => {
