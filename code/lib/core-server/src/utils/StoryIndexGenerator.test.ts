@@ -46,7 +46,6 @@ const options: StoryIndexGeneratorOptions = {
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
   indexers: [csfIndexer, createStoriesMdxIndexer(false)],
-  storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
