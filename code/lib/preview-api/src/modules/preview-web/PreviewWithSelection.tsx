@@ -99,7 +99,10 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
     public view: View<TRenderer['canvasElement']>
   ) {
-    super(importFn, getProjectAnnotations);
+    // We need to call initialize ourself (i.e. stop super() from doing it, with false)
+    // because otherwise this.view will not get set in time.
+    super(importFn, getProjectAnnotations, undefined, false);
+    this.initialize();
   }
 
   setupListeners() {

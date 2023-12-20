@@ -67,27 +67,36 @@ export class Preview<TRenderer extends Renderer> {
 
   protected resolveStoreInitializationPromise!: () => void;
 
+  protected rejectStoreInitializationPromise!: (err: Error) => void;
+
   constructor(
     public importFn: ModuleImportFn,
 
     public getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>,
 
-    protected channel: Channel = addons.getChannel()
+    protected channel: Channel = addons.getChannel(),
+
+    shouldInitialize = true
   ) {
-    this.storeInitializationPromise = new Promise((resolve) => {
+    this.storeInitializationPromise = new Promise((resolve, reject) => {
       this.resolveStoreInitializationPromise = resolve;
+      this.rejectStoreInitializationPromise = reject;
     });
 
     // Cannot await this in constructor, but if you want to await it, use `ready()`
-    this.initialize();
+    if (shouldInitialize) this.initialize();
   }
 
   // INITIALIZATION
-  private async initialize() {
+  protected async initialize() {
     this.setupListeners();
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
-    await this.initializeWithProjectAnnotations(projectAnnotations);
+    try {
+      const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
+      await this.initializeWithProjectAnnotations(projectAnnotations);
+    } catch (err) {
+      this.rejectStoreInitializationPromise(err as Error);
+    }
   }
 
   ready() {
