@@ -513,11 +513,12 @@ describe('PreviewWeb', () => {
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect(vi.mocked(preview.view.showErrorDisplay).mock.calls[0][0]).toMatchInlineSnapshot(`
-          [SB_PREVIEW_API_0004 (MissingRenderToCanvasError): Expected your framework's preset to export a \`renderToCanvas\` field.
+          [SB_PREVIEW_API_0005 (MissingRenderToCanvasError): Expected your framework's preset to export a \`renderToCanvas\` field.
 
           Perhaps it needs to be upgraded for Storybook 6.4?
 
-          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field]
+          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
+          ]
         `);
       });
 
@@ -920,13 +921,17 @@ describe('PreviewWeb', () => {
 
     describe('while story is still rendering', () => {
       it('runs loaders again', async () => {
-        const [gate, openGate] = createGate();
+        const [loadersRanGate, openLoadersRanGate] = createGate();
+        const [blockLoadersGate, openBlockLoadersGate] = createGate();
 
         document.location.search = '?id=component-one--a';
-        componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
+        componentOneExports.default.loaders[0].mockImplementationOnce(async () => {
+          openLoadersRanGate();
+          return blockLoadersGate;
+        });
 
         await new PreviewWeb(importFn, getProjectAnnotations).ready();
-        await waitForRenderPhase('loading');
+        await loadersRanGate;
 
         expect(componentOneExports.default.loaders[0]).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -963,7 +968,7 @@ describe('PreviewWeb', () => {
         // Now let the first loader call resolve
         mockChannel.emit.mockClear();
         projectAnnotations.renderToCanvas.mockClear();
-        openGate({ l: 8 });
+        openBlockLoadersGate({ l: 8 });
         await waitForRender();
 
         // Now the first call comes through, but picks up the new args
