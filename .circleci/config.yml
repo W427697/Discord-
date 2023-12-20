@@ -204,7 +204,7 @@ jobs:
           name: Run tests
           command: |
             cd scripts
-            yarn test --coverage --ci
+            yarn test --coverage
       - store_test_results:
           path: scripts/junit.xml
       - report-workflow-on-failure
@@ -222,7 +222,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci --maxWorkers=6
+            yarn test --coverage
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -706,22 +706,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 31
+          parallelism: 32
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 31
+          parallelism: 32
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 28
+          parallelism: 29
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 26
+          parallelism: 27
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -729,7 +729,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 26
+          parallelism: 27
           requires:
             - build-sandboxes
 
