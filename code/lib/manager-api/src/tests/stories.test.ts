@@ -1,4 +1,5 @@
-/// <reference types="@types/jest" />;
+import type { Mocked } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
@@ -25,21 +26,19 @@ import type { API, State } from '..';
 import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './mockStoriesEntries';
 import type { ModuleArgs } from '../lib/types';
 
-const mockGetEntries = jest.fn();
-const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
-const getEventMetadata = getEventMetadataOriginal as unknown as jest.Mock<
-  ReturnType<typeof getEventMetadataOriginal>
->;
+const mockGetEntries = vi.fn();
+const fetch = vi.mocked(global.fetch);
+const getEventMetadata = vi.mocked(getEventMetadataOriginal);
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-jest.mock('../lib/events', () => ({
-  getEventMetadata: jest.fn(() => ({ sourceType: 'local' })),
+vi.mock('../lib/events', () => ({
+  getEventMetadata: vi.fn(() => ({ sourceType: 'local' })),
 }));
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
-    fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
+    fetch: vi.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
     CONFIG_TYPE: 'DEVELOPMENT',
   },
 }));
@@ -47,8 +46,8 @@ jest.mock('@storybook/global', () => ({
 function createMockStore(initialState: Partial<State> = {}) {
   let state = initialState;
   return {
-    getState: jest.fn(() => state),
-    setState: jest.fn((s: typeof state) => {
+    getState: vi.fn(() => state),
+    setState: vi.fn((s: typeof state) => {
       state = { ...state, ...s };
       return Promise.resolve(state);
     }),
@@ -56,7 +55,7 @@ function createMockStore(initialState: Partial<State> = {}) {
 }
 function createMockProvider() {
   return {
-    getConfig: jest.fn().mockReturnValue({}),
+    getConfig: vi.fn().mockReturnValue({}),
     channel: new EventEmitter(),
   };
 }
@@ -64,10 +63,10 @@ function createMockModuleArgs({
   fullAPI = {},
   initialState = {},
 }: {
-  fullAPI?: Partial<jest.Mocked<API>>;
+  fullAPI?: Partial<Mocked<API>>;
   initialState?: Partial<State>;
 }) {
-  const navigate = jest.fn();
+  const navigate = vi.fn();
   const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
@@ -341,7 +340,7 @@ describe('stories API', () => {
       });
     });
     it('retains prepared-ness of stories', async () => {
-      const fullAPI = { setOptions: jest.fn() };
+      const fullAPI = { setOptions: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store, provider } = moduleArgs;
@@ -409,7 +408,7 @@ describe('stories API', () => {
 
   describe('SET_INDEX event', () => {
     it('calls setIndex w/ the data', () => {
-      const fullAPI = { setOptions: jest.fn() };
+      const fullAPI = { setOptions: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { store, provider } = moduleArgs;
@@ -424,14 +423,14 @@ describe('stories API', () => {
       );
     });
     it('calls setOptions w/ first story parameter', () => {
-      const fullAPI = { setOptions: jest.fn() };
+      const fullAPI = { setOptions: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
 
       // HACK api to effectively mock getCurrentParameter
       Object.assign(api, {
-        getCurrentParameter: jest.fn().mockReturnValue('options'),
+        getCurrentParameter: vi.fn().mockReturnValue('options'),
       });
 
       provider.channel.emit(SET_INDEX, { v: 4, entries: mockEntries });
@@ -588,7 +587,7 @@ describe('stories API', () => {
       expect(store.getState().previewInitialized).toBe(true);
     });
     it('sets a ref to previewInitialized', async () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
@@ -612,7 +611,7 @@ describe('stories API', () => {
 
   describe('args handling', () => {
     it('changes args properly, per story when receiving STORY_ARGS_UPDATED', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider, store } = moduleArgs;
@@ -627,7 +626,7 @@ describe('stories API', () => {
       expect((changedIndex!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
@@ -646,12 +645,12 @@ describe('stories API', () => {
       });
     });
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the local frame and does not change anything', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider, store } = moduleArgs;
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       provider.channel.on(UPDATE_STORY_ARGS, listener);
 
       api.setIndex({ v: 4, entries: preparedEntries });
@@ -670,12 +669,12 @@ describe('stories API', () => {
       expect((index!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       provider.channel.on(UPDATE_STORY_ARGS, listener);
 
       api.setIndex({ v: 4, entries: preparedEntries });
@@ -689,11 +688,11 @@ describe('stories API', () => {
       });
     });
     it('refId to the local frame and does not change anything', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider, store } = moduleArgs;
-      const listener = jest.fn();
+      const listener = vi.fn();
       provider.channel.on(RESET_STORY_ARGS, listener);
 
       api.setIndex({ v: 4, entries: preparedEntries });
@@ -712,12 +711,12 @@ describe('stories API', () => {
       expect((index!['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
 
-      const listener = jest.fn();
+      const listener = vi.fn();
       provider.channel.on(RESET_STORY_ARGS, listener);
 
       api.setIndex({ v: 4, entries: preparedEntries });
@@ -1014,7 +1013,7 @@ describe('stories API', () => {
   });
   describe('STORY_PREPARED', () => {
     it('prepares the story', async () => {
-      const fullAPI = { setOptions: jest.fn() };
+      const fullAPI = { setOptions: vi.fn() };
       const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };
       const moduleArgs = createMockModuleArgs({ initialState, fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
@@ -1040,7 +1039,7 @@ describe('stories API', () => {
       });
     });
     it('sets options the first time it is called', async () => {
-      const fullAPI = { setOptions: jest.fn() };
+      const fullAPI = { setOptions: vi.fn() };
       const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };
       const moduleArgs = createMockModuleArgs({ initialState, fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
@@ -1100,7 +1099,7 @@ describe('stories API', () => {
       expect(previewInitialized).toBe(true);
     });
     it('sets previewInitialized to true, ref', async () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
@@ -1129,7 +1128,7 @@ describe('stories API', () => {
       expect(previewInitialized).toBe(true);
     });
     it('sets previewInitialized to true, ref', async () => {
-      const fullAPI = { updateRef: jest.fn() };
+      const fullAPI = { updateRef: vi.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { provider } = moduleArgs;
@@ -1148,8 +1147,8 @@ describe('stories API', () => {
   describe('v2 SET_STORIES event', () => {
     it('normalizes parameters and calls setRef for external stories', () => {
       const fullAPI = {
-        findRef: jest.fn(),
-        setRef: jest.fn(),
+        findRef: vi.fn(),
+        setRef: vi.fn(),
       };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
@@ -1182,8 +1181,8 @@ describe('stories API', () => {
   describe('legacy (v1) SET_STORIES event', () => {
     it('calls setRef with stories', () => {
       const fullAPI = {
-        findRef: jest.fn(),
-        setRef: jest.fn(),
+        findRef: vi.fn(),
+        setRef: vi.fn(),
       };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       initStories(moduleArgs as unknown as ModuleArgs);
@@ -1238,9 +1237,9 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
@@ -1264,9 +1263,9 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
@@ -1293,16 +1292,16 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
             },
           },
-          "another-story-id": Object {
-            "a-addon-id": Object {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1338,9 +1337,9 @@ describe('stories API', () => {
       ).resolves.not.toThrow();
 
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "another-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1380,16 +1379,16 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "success",
               "title": "an addon title",
             },
           },
-          "another-story-id": Object {
-            "a-addon-id": Object {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1441,9 +1440,9 @@ describe('stories API', () => {
       const { index } = store.getState();
 
       expect(index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
               "a--2",
             ],
@@ -1457,7 +1456,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1472,7 +1471,7 @@ describe('stories API', () => {
             "title": "a",
             "type": "story",
           },
-          "a--2": Object {
+          "a--2": {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",
@@ -1505,7 +1504,7 @@ describe('stories API', () => {
       );
 
       // empty, because there are no stories with status
-      expect(store.getState().index).toMatchInlineSnapshot(`Object {}`);
+      expect(store.getState().index).toMatchInlineSnapshot('{}');
 
       // setting status should update the index
       await api.experimental_updateStatus('a-addon-id', {
@@ -1518,9 +1517,9 @@ describe('stories API', () => {
       });
 
       expect(store.getState().index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
             ],
             "depth": 0,
@@ -1533,7 +1532,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1565,9 +1564,9 @@ describe('stories API', () => {
       const { index } = store.getState();
 
       expect(index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
               "a--2",
             ],
@@ -1581,7 +1580,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1596,7 +1595,7 @@ describe('stories API', () => {
             "title": "a",
             "type": "story",
           },
-          "a--2": Object {
+          "a--2": {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",
