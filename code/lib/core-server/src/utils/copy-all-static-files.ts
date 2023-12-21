@@ -12,6 +12,8 @@ export async function copyAllStaticFiles(staticDirs: any[] | undefined, outputDi
         try {
           const { staticDir, staticPath, targetDir } = await parseStaticDir(dir);
           const targetPath = join(outputDir, targetDir);
+
+          // we copy prebuild static files from node_modules/@storybook/manager & preview
           if (!staticDir.includes('node_modules')) {
             logger.info(
               chalk`=> Copying static files: {cyan ${print(staticDir)}} => {cyan ${print(
@@ -62,7 +64,6 @@ export async function copyAllStaticFilesRelativeToMain(
         chalk`=> Copying static files: {cyan ${print(from)}} at {cyan ${print(targetPath)}}`
       );
     }
-    // logger.info(chalk`=> Copying static files: {cyan ${from}} at {cyan ${targetPath}}`);
     await fs.copy(from, targetPath, {
       dereference: true,
       preserveTimestamps: true,
