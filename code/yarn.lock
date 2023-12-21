@@ -4254,6 +4254,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prettier/sync@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@prettier/sync@npm:0.3.0"
+  peerDependencies:
+    prettier: ^3.0.0
+  checksum: 54f2522da9ee2192d89c7fb15e6c362adc8a4d834be1c3c38a14b5fd5a02239a74ef3adc50df9b6794d9e76b0bb66be2bcc8d30017f85232b7cdb98d5e140b1c
+  languageName: node
+  linkType: hard
+
 "@radix-ui/number@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/number@npm:1.0.1"
@@ -5440,6 +5449,7 @@ __metadata:
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
     "@popperjs/core": "npm:^2.6.0"
+    "@prettier/sync": "npm:^0.3.0"
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/client-logger": "workspace:*"

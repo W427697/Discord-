@@ -1,5 +1,5 @@
 import type { ComponentProps, FC, MouseEvent } from 'react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -209,7 +209,14 @@ export const SyntaxHighlighter = ({
     return null;
   }
 
-  const highlightableCode = formatter ? formatter(format, children) : children.trim();
+  const [highlightableCode, setFormatted] = useState(formatter ? '' : children.trim());
+  useEffect(() => {
+    if (formatter) {
+      formatter(format, children).then((formatted) => {
+        setFormatted(formatted);
+      });
+    }
+  }, [children, format, formatter]);
 
   const [copied, setCopied] = useState(false);
 
