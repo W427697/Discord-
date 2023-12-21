@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
-import { dirname, isAbsolute, join, resolve } from 'path';
+import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
@@ -35,13 +35,11 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     throw new Error("Won't remove current directory. Check your outputDir!");
   }
 
-  options.outputDir = isAbsolute(options.outputDir)
-    ? options.outputDir
-    : join(process.cwd(), options.outputDir);
+  options.outputDir = resolve(options.outputDir);
   options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
