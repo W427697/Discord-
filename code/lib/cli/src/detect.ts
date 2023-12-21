@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
@@ -131,6 +131,7 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.ANGULAR:
     case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
     case ProjectType.NEXTJS:
+    case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations

@@ -196,7 +196,6 @@ command('doctor')
 command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '--https',
@@ -223,6 +222,7 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--exact-port', 'Exit early if the desired port is not available')
   .option(
     '--initial-path [path]',
     'URL path to be appended when visiting Storybook for the first time'
@@ -250,7 +250,6 @@ command('dev')
   });
 
 command('build')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('--quiet', 'Suppress verbose build output')

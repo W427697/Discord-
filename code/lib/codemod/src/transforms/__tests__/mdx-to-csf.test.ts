@@ -1,5 +1,5 @@
+import { beforeEach, expect, vi, it } from 'vitest';
 import * as fs_ from 'node:fs';
-import { expect, test } from '@jest/globals';
 import dedent from 'ts-dedent';
 import jscodeshift, { nameToValidExport } from '../mdx-to-csf';
 
@@ -8,14 +8,14 @@ expect.addSnapshotSerializer({
   test: () => true,
 });
 
-jest.mock('node:fs');
-const fs = fs_ as jest.Mocked<typeof import('node:fs')>;
+vi.mock('node:fs');
+const fs = vi.mocked(fs_);
 
 beforeEach(() => {
   fs.existsSync.mockImplementation(() => false);
 });
 
-test('update import even when no stories can be extracted', async () => {
+it('update import even when no stories can be extracted', async () => {
   const input = dedent`
       import { Heading } from '@storybook/addon-docs';
 
@@ -32,7 +32,7 @@ test('update import even when no stories can be extracted', async () => {
   `);
 });
 
-test('drop invalid story nodes', async () => {
+it('drop invalid story nodes', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -58,7 +58,7 @@ test('drop invalid story nodes', async () => {
   `);
 });
 
-test('convert story re-definition', async () => {
+it('convert story re-definition', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Primary } from './Foobar.stories';
@@ -95,7 +95,7 @@ test('convert story re-definition', async () => {
   `);
 });
 
-test('Comment out story nodes with id', async () => {
+it('Comment out story nodes with id', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -119,7 +119,7 @@ test('Comment out story nodes with id', async () => {
   `);
 });
 
-test('convert correct story nodes', async () => {
+it('convert correct story nodes', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -153,7 +153,7 @@ test('convert correct story nodes', async () => {
   `);
 });
 
-test('convert addon-docs imports', async () => {
+it('convert addon-docs imports', async () => {
   const input = dedent`
       import { Meta } from '@storybook/addon-docs';
       import { Story } from '@storybook/addon-docs/blocks';
@@ -177,7 +177,7 @@ test('convert addon-docs imports', async () => {
   `);
 });
 
-test('convert story nodes with spaces', async () => {
+it('convert story nodes with spaces', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -211,7 +211,7 @@ test('convert story nodes with spaces', async () => {
   `);
 });
 
-test('extract esm into csf head code', async () => {
+it('extract esm into csf head code', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Button } from './Button';
@@ -288,7 +288,7 @@ test('extract esm into csf head code', async () => {
   `);
 });
 
-test('extract all meta parameters', () => {
+it('extract all meta parameters', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -326,7 +326,7 @@ test('extract all meta parameters', () => {
   `);
 });
 
-test('extract all story attributes', () => {
+it('extract all story attributes', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Button } from './Button';
@@ -388,7 +388,7 @@ test('extract all story attributes', () => {
   `);
 });
 
-test('duplicate story name', async () => {
+it('duplicate story name', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Button } from './Button';
@@ -443,7 +443,7 @@ test('duplicate story name', async () => {
   `);
 });
 
-test('kebab case file name', async () => {
+it('kebab case file name', async () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
       import { Kebab } from './my-component/some-kebab-case';
@@ -503,8 +503,8 @@ test('kebab case file name', async () => {
   `);
 });
 
-test('story child is jsx', async () => {
-  const input = dedent`async 
+it('story child is jsx', async () => {
+  const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
       import { Button } from './button';
       
@@ -536,7 +536,7 @@ test('story child is jsx', async () => {
     `);
 });
 
-test('story child is CSF3', () => {
+it('story child is CSF3', () => {
   const input = dedent`
       import { Story } from '@storybook/addon-docs';
       import { Button } from './button';
@@ -564,7 +564,7 @@ test('story child is CSF3', () => {
   `);
 });
 
-test('story child is arrow function', () => {
+it('story child is arrow function', () => {
   const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
       import { Button } from './button';
@@ -590,7 +590,7 @@ test('story child is arrow function', () => {
     `);
 });
 
-test('story child is identifier', () => {
+it('story child is identifier', () => {
   const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
       import { Button } from './button';
@@ -616,7 +616,7 @@ test('story child is identifier', () => {
     `);
 });
 
-test('nameToValidExport', () => {
+it('nameToValidExport', () => {
   expect(nameToValidExport('1 starts with digit')).toMatchInlineSnapshot(`$1StartsWithDigit`);
   expect(nameToValidExport('name')).toMatchInlineSnapshot(`Name`);
   expect(nameToValidExport('Multi words')).toMatchInlineSnapshot(`MultiWords`);

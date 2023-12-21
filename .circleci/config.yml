@@ -204,7 +204,7 @@ jobs:
           name: Run tests
           command: |
             cd scripts
-            yarn test --coverage --ci
+            yarn test --coverage
       - store_test_results:
           path: scripts/junit.xml
       - report-workflow-on-failure
@@ -222,7 +222,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci --maxWorkers=6
+            yarn test --coverage
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -472,6 +472,98 @@ jobs:
           command: yarn upload-bench $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
+  test-empty-init:
+    executor:
+      class: medium
+      name: sb_node_16_browsers
+    parameters:
+      packageManager:
+        type: string
+      template:
+        type: string
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - when:
+          condition:
+            equal: ["npm", << parameters.packageManager >>]
+          steps:
+            - run:
+                name: Storybook init from empty directory (NPM)
+                command: |
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
+                  mkdir empty-<< parameters.template >>
+                  cd empty-<< parameters.template >>
+                  npm set registry http://localhost:6001
+                  npx storybook init --yes --package-manager npm
+                  npm run storybook -- --smoke-test
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - when:
+          condition:
+            equal: ["yarn1", << parameters.packageManager >>]
+          steps:
+            - run:
+                name: Storybook init from empty directory (Yarn 1)
+                command: |
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
+                  mkdir empty-<< parameters.template >>
+                  cd empty-<< parameters.template >>
+                  npx storybook init --yes --package-manager yarn1
+                  yarn storybook --smoke-test
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - when:
+          condition:
+            equal: ["yarn2", << parameters.packageManager >>]
+          steps:
+            - run:
+                name: Storybook init from empty directory (Yarn 2)
+                command: |
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
+                  mkdir empty-<< parameters.template >>
+                  cd empty-<< parameters.template >>
+                  yarn set version berry
+                  yarn config set registry http://localhost:6001
+                  yarn dlx storybook init --yes --package-manager yarn2
+                  yarn storybook --smoke-test
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - when:
+          condition:
+            equal: ["pnpm", << parameters.packageManager >>]
+          steps:
+            - run:
+                name: Storybook init from empty directory (PNPM)
+                command: |
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
+                  mkdir empty-<< parameters.template >>
+                  cd empty-<< parameters.template >>
+                  npm i -g pnpm
+                  pnpm config set registry http://localhost:6001
+                  pnpm dlx storybook init --yes --package-manager pnpm
+                  pnpm run storybook --smoke-test
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - report-workflow-on-failure
 
 workflows:
   docs:
@@ -560,19 +652,19 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 20
+          parallelism: 19
           requires:
             - build
       - build-sandboxes:
-          parallelism: 20
+          parallelism: 19
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 17
+          parallelism: 16
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 15
+          parallelism: 14
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -580,7 +672,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 15
+          parallelism: 14
           requires:
             - build-sandboxes
       - bench:
@@ -614,22 +706,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 34
+          parallelism: 32
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 34
+          parallelism: 32
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 29
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 29
+          parallelism: 27
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -637,9 +729,29 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 29
+          parallelism: 27
           requires:
             - build-sandboxes
+
+      - test-empty-init:
+          requires:
+            - build
+          matrix:
+            parameters:
+              packageManager:
+                - "npm"
+                # TODO: reenable once we find out the source of failure
+                # - "yarn1"
+                # - "yarn2"
+                # - "pnpm"
+              template: 
+                - "react-vite-ts"
+                - "nextjs-ts"
+                - "vue-vite-ts"
+                # --smoke-test is not supported for the angular builder right now
+                # - "angular-cli"
+                - "lit-vite-ts"
+  
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4

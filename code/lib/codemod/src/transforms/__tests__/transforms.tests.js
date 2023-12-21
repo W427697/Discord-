@@ -1,9 +1,9 @@
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import fs from 'fs';
-import 'jest-specific-snapshot';
 import { applyAsyncTransform } from './applyAsyncTransform';
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const inputRegExp = /\.input\.js$/;
 
@@ -26,7 +26,7 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
             { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
           );
 
-          expect(value).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot'));
+          expect(value).toMatchFileSnapshot(inputPath.replace(inputRegExp, '.output.snapshot'));
         });
       });
   });

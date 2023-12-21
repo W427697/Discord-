@@ -1,11 +1,11 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
 import ansiRegex from 'ansi-regex';
 import _transform from '../csf-2-to-3';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => val,
+  serialize: (val: any) => (typeof val === 'string' ? val : val.toString()),
   test: () => true,
 });
 
@@ -271,7 +271,10 @@ describe('csf-2-to-3', () => {
   describe('typescript', () => {
     it('should error with namespace imports', async () => {
       await expect.addSnapshotSerializer({
-        serialize: (value) => value.replace(ansiRegex(), ''),
+        serialize: (value) => {
+          const stringVal = typeof value === 'string' ? value : value.toString();
+          return stringVal.replace(ansiRegex(), '');
+        },
         test: () => true,
       });
       await expect(() =>
@@ -284,8 +287,8 @@ describe('csf-2-to-3', () => {
 
           export const A: SB.StoryFn<CatProps> = () => <Cat />;
         `)
-      ).rejects.toThrowErrorMatchingInlineSnapshot(`
-        This codemod does not support namespace imports for a @storybook/react package.
+      ).rejects.toThrowErrorMatchingInlineSnapshot(dedent`
+        Error: This codemod does not support namespace imports for a @storybook/react package.
         Replace the namespace import with named imports and try again.
       `);
     });

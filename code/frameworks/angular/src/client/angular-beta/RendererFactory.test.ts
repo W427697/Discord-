@@ -1,3 +1,4 @@
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Component, ɵresetJitOptions } from '@angular/core';
 import { platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -6,26 +7,28 @@ import { CanvasRenderer } from './CanvasRenderer';
 import { RendererFactory } from './RendererFactory';
 import { DocsRenderer } from './DocsRenderer';
 
-jest.mock('@angular/platform-browser-dynamic');
+vi.mock('@angular/platform-browser-dynamic');
 
 declare const document: Document;
 describe('RendererFactory', () => {
   let rendererFactory: RendererFactory;
   let rootTargetDOMNode: HTMLElement;
   let rootDocstargetDOMNode: HTMLElement;
+  let storyInDocstargetDOMNode: HTMLElement;
 
   beforeEach(async () => {
     rendererFactory = new RendererFactory();
     document.body.innerHTML =
-      '<div id="storybook-root"></div><div id="root-docs"><div id="story-in-docs"></div></div>';
+      '<div id="storybook-root"></div><div id="root-docs"><div id="story-in-docs"></div></div>' +
+      '<div id="storybook-docs"></div>';
     rootTargetDOMNode = global.document.getElementById('storybook-root');
     rootDocstargetDOMNode = global.document.getElementById('root-docs');
     (platformBrowserDynamic as any).mockImplementation(platformBrowserDynamicTesting);
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // Necessary to avoid this error "Provided value for `preserveWhitespaces` can not be changed once it has been set." :
     // Source: https://github.com/angular/angular/commit/e342ffd855ffeb8af7067b42307ffa320d82177e#diff-92b125e532cc22977b46a91f068d6d7ea81fd61b772842a4a0212f1cfd875be6R28
@@ -179,6 +182,48 @@ describe('RendererFactory', () => {
     it('should get DocsRenderer instance', async () => {
       const render = await rendererFactory.getRendererInstance(rootDocstargetDOMNode);
       expect(render).toBeInstanceOf(DocsRenderer);
+    });
+
+    describe('when multiple story for the same component', () => {
+      it('should render both stories', async () => {
+        @Component({ selector: 'foo', template: '🦊' })
+        class FooComponent {}
+
+        const render = await rendererFactory.getRendererInstance(
+          global.document.getElementById('storybook-docs')
+        );
+
+        const targetDOMNode1 = global.document.createElement('div');
+        targetDOMNode1.id = 'story-1';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode1);
+        await render?.render({
+          storyFnAngular: {
+            props: {},
+          },
+          forced: false,
+          component: FooComponent,
+          targetDOMNode: targetDOMNode1,
+        });
+
+        const targetDOMNode2 = global.document.createElement('div');
+        targetDOMNode2.id = 'story-1';
+        global.document.getElementById('storybook-docs').appendChild(targetDOMNode2);
+        await render?.render({
+          storyFnAngular: {
+            props: {},
+          },
+          forced: false,
+          component: FooComponent,
+          targetDOMNode: targetDOMNode2,
+        });
+
+        expect(global.document.querySelectorAll('#story-1 > story-1')[0].innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+        expect(global.document.querySelectorAll('#story-1 > story-1')[1].innerHTML).toBe(
+          '<foo>🦊</foo><!--container-->'
+        );
+      });
     });
   });
 });

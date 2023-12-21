@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
     - [Storyshots has been removed](#storyshots-has-been-removed)
@@ -10,6 +11,8 @@
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
     - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
+    - [Removed postinstall](#removed-postinstall)
+    - [Removed stories.json](#removed-storiesjson)
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
@@ -379,6 +382,10 @@ To summarize:
 
 ### Core changes
 
+#### Dropping support for Node.js 16
+
+In Storybook 8, we have dropped Node.js 16 support since it reached end-of-life on 2023-09-11. Storybook 8 supports Node.js 18 and above.
+
 #### Autotitle breaking fixes
 
 In Storybook 7, the file name `path/to/foo.bar.stories.js` would result in the [autotitle](https://storybook.js.org/docs/react/configure/overview#configure-story-loading) `path/to/foo`. In 8.0, this has been changed to generate `path/to/foo.bar`. We consider this a bugfix but it is also a breaking change if you depended on the old behavior. To get the old titles, you can manually specify the desired title in the default export of your story file. For example:
@@ -462,6 +469,16 @@ export default {
 ```
 
 For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
+
+#### Removed postinstall
+
+We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+
+#### Removed stories.json
+
+In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+
+In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
 
 ### Framework-specific changes
 
