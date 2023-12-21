@@ -357,9 +357,8 @@ export async function baseGenerator(
 
   try {
     if (process.env.CI !== 'true') {
-      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
-        packageManager
-      );
+      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } =
+        await extractEslintInfo(packageManager);
 
       if (hasEslint && !isStorybookPluginInstalled) {
         if (skipPrompts || (await suggestESLintPlugin())) {

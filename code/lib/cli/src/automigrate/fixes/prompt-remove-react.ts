@@ -16,9 +16,9 @@ export const removeReactDependency: Fix<{}> = {
     // if the user has no dependency on react, we can skip this fix
     const packageJson = await packageManager.retrievePackageJson();
     if (
-      !packageJson?.dependencies?.['react'] &&
-      !packageJson?.peerDependencies?.['react'] &&
-      !packageJson?.devDependencies?.['react']
+      !packageJson?.dependencies?.react &&
+      !packageJson?.peerDependencies?.react &&
+      !packageJson?.devDependencies?.react
     ) {
       return null;
     }

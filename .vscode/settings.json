@@ -52,5 +52,8 @@
   },
   "prettier.ignorePath": "./code/.prettierignore",
   "typescript.tsdk": "./code/node_modules/typescript/lib",
-  "storyExplorer.storybookConfigDir": "./code/ui/.storybook"
+  "storyExplorer.storybookConfigDir": "./code/ui/.storybook",
+  "cSpell.words": [
+    "jscodeshift"
+  ]
 }

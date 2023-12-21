@@ -71,8 +71,8 @@ export type ComponentPropsAndSlots<C> = ComponentProps<C> & ExtractSlots<C>;
 type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Constructor<any>
   ? ComponentPropsAndSlots<TCmpOrArgs>
   : TCmpOrArgs extends FunctionalComponent<any>
-  ? ComponentPropsAndSlots<TCmpOrArgs>
-  : TCmpOrArgs;
+    ? ComponentPropsAndSlots<TCmpOrArgs>
+    : TCmpOrArgs;
 
 /**
  * @deprecated Use `StoryFn` instead.

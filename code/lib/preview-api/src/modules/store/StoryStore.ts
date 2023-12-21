@@ -185,10 +185,13 @@ export class StoryStore<TRenderer extends Renderer> {
     };
 
     return loadInBatches(importPaths).then((list) =>
-      list.reduce((acc, { importPath, csfFile }) => {
-        acc[importPath] = csfFile;
-        return acc;
-      }, {} as Record<Path, CSFFile<TRenderer>>)
+      list.reduce(
+        (acc, { importPath, csfFile }) => {
+          acc[importPath] = csfFile;
+          return acc;
+        },
+        {} as Record<Path, CSFFile<TRenderer>>
+      )
     );
   }
 

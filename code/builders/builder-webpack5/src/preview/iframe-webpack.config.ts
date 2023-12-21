@@ -132,9 +132,8 @@ export default async (
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
-  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } = await getVirtualModules(
-    options
-  );
+  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } =
+    await getVirtualModules(options);
 
   return {
     name: 'preview',
@@ -286,26 +285,26 @@ export default async (
                   }),
                 ]
               : builderOptions.useSWC
-              ? [
-                  new TerserWebpackPlugin<SwcOptions>({
-                    minify: TerserWebpackPlugin.swcMinify,
-                    terserOptions: {
-                      sourceMap: !options.build?.test?.disableSourcemaps,
-                      mangle: false,
-                      keep_fnames: true,
-                    },
-                  }),
-                ]
-              : [
-                  new TerserWebpackPlugin({
-                    parallel: true,
-                    terserOptions: {
-                      sourceMap: !options.build?.test?.disableSourcemaps,
-                      mangle: false,
-                      keep_fnames: true,
-                    },
-                  }),
-                ],
+                ? [
+                    new TerserWebpackPlugin<SwcOptions>({
+                      minify: TerserWebpackPlugin.swcMinify,
+                      terserOptions: {
+                        sourceMap: !options.build?.test?.disableSourcemaps,
+                        mangle: false,
+                        keep_fnames: true,
+                      },
+                    }),
+                  ]
+                : [
+                    new TerserWebpackPlugin({
+                      parallel: true,
+                      terserOptions: {
+                        sourceMap: !options.build?.test?.disableSourcemaps,
+                        mangle: false,
+                        keep_fnames: true,
+                      },
+                    }),
+                  ],
           }
         : {}),
     },
