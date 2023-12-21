@@ -85,10 +85,10 @@ it('convert story re-definition', async () => {
   const [csfFileName, csf] = fs.writeFileSync.mock.calls[0];
   expect(csfFileName).toMatchInlineSnapshot(`Foobar_.stories.js`);
   expect(csf).toMatchInlineSnapshot(`
-    import { Primary } from './Foobar.stories';
+    import { Primary } from "./Foobar.stories";
 
     export default {
-      title: "Foobar"
+      title: "Foobar",
     };
 
     export { Primary };
@@ -143,12 +143,12 @@ it('convert correct story nodes', async () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
   expect(csf).toMatchInlineSnapshot(`
     export default {
-      title: "Foobar"
+      title: "Foobar",
     };
 
     export const Primary = {
       render: () => "Story",
-      name: "Primary"
+      name: "Primary",
     };
   `);
 });
@@ -201,12 +201,12 @@ it('convert story nodes with spaces', async () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
   expect(csf).toMatchInlineSnapshot(`
     export default {
-      title: "Foobar"
+      title: "Foobar",
     };
 
     export const PrimarySpace = {
       render: () => "Story",
-      name: "Primary Space"
+      name: "Primary Space",
     };
   `);
 });
@@ -262,18 +262,18 @@ it('extract esm into csf head code', async () => {
   const [csfFileName, csf] = fs.writeFileSync.mock.calls[0];
   expect(csfFileName).toMatchInlineSnapshot(`Foobar.stories.js`);
   expect(csf).toMatchInlineSnapshot(`
-    import { Button } from './Button';
+    import { Button } from "./Button";
 
     const args = { bla: 1 };
     const Template = (args) => <Button {...args} />;
 
     export default {
-      title: "foobar"
+      title: "foobar",
     };
 
     export const Foo = {
       render: () => "bar",
-      name: "foo"
+      name: "foo",
     };
 
     export const Unchecked = {
@@ -282,8 +282,8 @@ it('extract esm into csf head code', async () => {
 
       args: {
         ...args,
-        label: "Unchecked"
-      }
+        label: "Unchecked",
+      },
     };
   `);
 });
@@ -423,22 +423,33 @@ it('duplicate story name', async () => {
 
   `);
   expect(csf).toMatchInlineSnapshot(`
-    import { Button } from './Button';
+    import { Button } from "./Button";
 
-    const Default = (args) => <Button {...args} />;
+    const args = { bla: 1 };
+    const Template = (args) => <Button {...args} />;
 
     export default {
-      title: "Button"
+      title: "foobar",
     };
 
-    export const Default_ = {
-      render: Default.bind({}),
-      name: "Default"
+    export const Foo = {
+      render: () => "bar",
+      name: "foo",
+    };
+
+    export const Unchecked = {
+      render: Template.bind({}),
+      name: "Unchecked",
+
+      args: {
+        ...args,
+        label: "Unchecked",
+      },
     };
 
     export const Second = {
-      render: Default.bind({}),
-      name: "Second"
+      render: Template.bind({}),
+      name: "Second",
     };
   `);
 });
@@ -483,22 +494,22 @@ it('kebab case file name', async () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(csf).toMatchInlineSnapshot(`
-    import { Kebab } from './my-component/some-kebab-case';
+    import { Kebab } from "./my-component/some-kebab-case";
 
     const Template = (args) => <Kebab {...args} />;
 
     export default {
-      title: "Kebab"
+      title: "Kebab",
     };
 
     export const MuchKebab = {
       render: Template.bind({}),
-      name: "Much-Kebab"
+      name: "Much-Kebab",
     };
 
     export const ReallyMuchKebab = {
       render: Template.bind({}),
-      name: "Really-Much-Kebab"
+      name: "Really-Much-Kebab",
     };
   `);
 });
@@ -520,20 +531,19 @@ it('story child is jsx', async () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(csf).toMatchInlineSnapshot(`
-      import { Button } from './button';
-      export default {};
+    import { Button } from "./button";
+    export default {};
 
-      export const Primary = {
-        render: () => (
-          <Button>
-            <div>Hello!</div>
-          </Button>
-        ),
+    export const Primary = {
+      render: () => (
+        <Button>
+          <div>Hello!</div>
+        </Button>
+      ),
 
-        name: 'Primary',
-      };
-
-    `);
+      name: "Primary",
+    };
+  `);
 });
 
 it('story child is CSF3', () => {

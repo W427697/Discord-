@@ -28,10 +28,10 @@ describe('csf-2-to-3', () => {
           export const B = (args) => <Button {...args} />;
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat' };
+        export default { title: "Cat" };
         export const A = () => <Cat />;
         export const B = {
-          render: (args) => <Button {...args} />
+          render: (args) => <Button {...args} />,
         };
       `);
     });
@@ -47,13 +47,13 @@ describe('csf-2-to-3', () => {
           A.play = () => {};
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat' };
+        export default { title: "Cat" };
 
         export const A = {
           render: () => <Cat />,
-          name: 'foo',
+          name: "foo",
           parameters: { bar: 2 },
-          play: () => {}
+          play: () => {},
         };
       `);
     });
@@ -70,10 +70,10 @@ describe('csf-2-to-3', () => {
           const C = (args) => <Cherry {...args} />;
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'components/Fruit', includeStories: ['A'] };
+        export default { title: "components/Fruit", includeStories: ["A"] };
 
         export const A = {
-          render: (args) => <Apple {...args} />
+          render: (args) => <Apple {...args} />,
         };
 
         export const B = (args) => <Banana {...args} />;
@@ -104,10 +104,10 @@ describe('csf-2-to-3', () => {
           export const B = (args) => <Banana {...args} />;
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat', component: Cat };
+        export default { title: "Cat", component: Cat };
         export const A = {};
         export const B = {
-          render: (args) => <Banana {...args} />
+          render: (args) => <Banana {...args} />,
         };
       `);
     });
@@ -122,10 +122,10 @@ describe('csf-2-to-3', () => {
           };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat', component: Cat };
+        export default { title: "Cat", component: Cat };
 
         export const A = {
-          render: (args) => <Cat {...args} />
+          render: (args) => <Cat {...args} />,
         };
       `);
     });
@@ -139,12 +139,12 @@ describe('csf-2-to-3', () => {
           A.args = { isPrimary: false };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat' };
+        export default { title: "Cat" };
         const Template = (args) => <Cat {...args} />;
 
         export const A = {
           render: Template,
-          args: { isPrimary: false }
+          args: { isPrimary: false },
         };
       `);
     });
@@ -169,27 +169,27 @@ describe('csf-2-to-3', () => {
           D.args = { bla: false };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat' };
+        export default { title: "Cat" };
         const Template = (args) => <Cat {...args} />;
 
         export const A = {
           render: Template,
-          args: { isPrimary: false }
+          args: { isPrimary: false },
         };
 
         export const B = {
           render: Template,
-          args: { isPrimary: true }
+          args: { isPrimary: true },
         };
 
         export const C = {
           render: Template,
-          args: { bla: true }
+          args: { bla: true },
         };
 
         export const D = {
           render: Template,
-          args: { bla: false }
+          args: { bla: false },
         };
       `);
     });
@@ -210,17 +210,17 @@ describe('csf-2-to-3', () => {
           B.args = { isPrimary: true };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat', component: Cat };
+        export default { title: "Cat", component: Cat };
 
         export const A = {
-          args: { isPrimary: false }
+          args: { isPrimary: false },
         };
 
         const Template2 = (args) => <Banana {...args} />;
 
         export const B = {
           render: Template2,
-          args: { isPrimary: true }
+          args: { isPrimary: true },
         };
       `);
     });
@@ -236,14 +236,14 @@ describe('csf-2-to-3', () => {
           C.parameters = { foo: 2 };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat', component: Cat };
+        export default { title: "Cat", component: Cat };
 
         export const A = {};
         export const B = () => <Cat name="frisky" />;
 
         export const C = {
           render: () => <Cat name="fluffy" />,
-          parameters: { foo: 2 }
+          parameters: { foo: 2 },
         };
       `);
     });
@@ -258,11 +258,11 @@ describe('csf-2-to-3', () => {
           };
         `)
       ).resolves.toMatchInlineSnapshot(`
-        export default { title: 'Cat' };
+        export default { title: "Cat" };
 
         export const A = {
           render: (args) => <Cat {...args} />,
-          parameters: { foo: 2 }
+          parameters: { foo: 2 },
         };
       `);
     });
