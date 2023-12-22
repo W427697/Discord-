@@ -102,7 +102,7 @@ Light mode is only supported when the `Source` block is rendered independently. 
 
 ### `excludeDecorators`
 
-Type:
+Type: `boolean`
 
 Default: `parameters.docs.source.excludeDecorators`
 
