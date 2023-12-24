@@ -1,0 +1,16 @@
+@layer sb {
+  @media (prefers-color-scheme: light) {
+    :root {
+      --sb-main-background: #f6f9fc;
+      --sb-content-background: #fff;
+      --sb-preview-background: #fff;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sb-main-background: #222425;
+      --sb-content-background: #1b1c1d;
+      --sb-preview-background: #fff;
+    }
+  }
+}

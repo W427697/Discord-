@@ -9,9 +9,9 @@ const theme: ThemeVars = {
   colorSecondary: '#029CFD', // ocean
 
   // UI
-  appBg: background.app,
-  appContentBg: color.lightest,
-  appPreviewBg: color.lightest,
+  appBg: 'var(--sb-main-background)',
+  appContentBg: 'var(--sb-content-background)',
+  appPreviewBg: 'var(--sb-preview-background)',
   appBorderColor: color.border,
   appBorderRadius: 4,
 
