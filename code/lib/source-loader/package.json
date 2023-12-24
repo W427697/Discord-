@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "8.0.0-alpha.3",
+  "version": "8.0.0-alpha.5",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -52,7 +52,6 @@
     "prettier": "^2.8.0"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^8.0.0",
     "typescript": "^5.3.2"
   },
   "publishConfig": {
