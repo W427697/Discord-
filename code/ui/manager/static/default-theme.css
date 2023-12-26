@@ -1,16 +1,82 @@
 @layer sb {
   @media (prefers-color-scheme: light) {
     :root {
-      --sb-main-background: #f6f9fc;
-      --sb-content-background: #fff;
-      --sb-preview-background: #fff;
+      /* Sidebar */
+      --sb-sidbar-background: #f6f9fc;
+      --sb-sidbar-borderRight: #d7e0e7;
+      --sb-sidbar-sectionText: #73828c;
+      --sb-sidbar-sectionArrow: #b4bbc0;
+      --sb-sidbar-sectionToggle: #b4bbc0;
+      --sb-sidbar-itemArrow: #b4bbc0;
+      --sb-sidbar-itemText: #2e3438;
+      --sb-sidbar-itemIconDoc: #ffae00;
+      --sb-sidbar-itemIconFolder: #6f2cac;
+      --sb-sidbar-itemIconComponent: #029cfd;
+      --sb-sidbar-itemIconStory: #37d5d3;
+      --sb-sidbar-itemHoverBg: #e5f2fc;
+      --sb-sidbar-itemActiveBg: #029cfd;
+      --sb-sidbar-itemActiveText: #fff;
+      --sb-sidbar-itemActiveIcon: #fff;
+      --sb-sidbar-itemActiveArrow: #fff;
+      --sb-sidbar-searchBarBackground: #f6f9fc;
+      --sb-sidbar-searchBarBorder: #d7e0e7;
+      --sb-sidbar-searchPlaceholder: #73828c;
+      --sb-sidbar-searchIcon: #73828c;
+
+      /* Canvas */
+      --sb-canvas-background: #fff;
+
+      /* Addons toolbar */
+      --sb-addonsToolbar-background: #fff;
+      --sb-addonsToolbar-borderBottom: #d7e0e7;
+
+      /* Addons panel */
+      --sb-addonsPanel-headerBackground: #ffffff;
+      --sb-addonsPanel-headerBorderTop: #d7e0e7;
+      --sb-addonsPanel-headerBorderBottom: #d7e0e7;
+      --sb-addonsPanel-headerActive: #029cfd;
+      --sb-addonsPanel-headerText: #2e3438;
+      --sb-addonsPanel-background: #ffffff;
     }
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --sb-main-background: #222425;
-      --sb-content-background: #1b1c1d;
-      --sb-preview-background: #fff;
+      /* Sidebar */
+      --sb-sidbar-background: #222425;
+      --sb-sidbar-borderRight: #323638;
+      --sb-sidbar-sectionText: #73828c;
+      --sb-sidbar-sectionArrow: #4b5359;
+      --sb-sidbar-sectionToggle: #4b5359;
+      --sb-sidbar-itemArrow: #4b5359;
+      --sb-sidbar-itemText: #ffffff;
+      --sb-sidbar-itemIconDoc: #ffae00;
+      --sb-sidbar-itemIconFolder: #6f2cac;
+      --sb-sidbar-itemIconComponent: #029cfd;
+      --sb-sidbar-itemIconStory: #37d5d3;
+      --sb-sidbar-itemHoverBg: #222c34;
+      --sb-sidbar-itemActiveBg: #029cfd;
+      --sb-sidbar-itemActiveText: #fff;
+      --sb-sidbar-itemActiveIcon: #fff;
+      --sb-sidbar-itemActiveArrow: #fff;
+      --sb-sidbar-searchBarBackground: #1b1c1d;
+      --sb-sidbar-searchBarBorder: #323638;
+      --sb-sidbar-searchPlaceholder: #73828c;
+      --sb-sidbar-searchIcon: #73828c;
+
+      /* Canvas */
+      --sb-canvas-background: #1b1c1d;
+
+      /* Addons toolbar */
+      --sb-addonsToolbar-background: #222425;
+      --sb-addonsToolbar-borderBottom: #323638;
+
+      /* Addons panel */
+      --sb-addonsPanel-headerBackground: #222425;
+      --sb-addonsPanel-headerBorderTop: #323638;
+      --sb-addonsPanel-headerBorderBottom: #323638;
+      --sb-addonsPanel-headerActive: #029cfd;
+      --sb-addonsPanel-headerText: #798186;
+      --sb-addonsPanel-background: #222425;
     }
   }
 }
