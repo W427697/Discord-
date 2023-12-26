@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "8.0.0-alpha.0",
+  "version": "8.0.0-alpha.5",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -73,7 +73,6 @@
     "@storybook/test": "workspace:*",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",
-    "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2"
   },
   "peerDependencies": {
@@ -87,7 +86,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"

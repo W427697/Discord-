@@ -17,7 +17,7 @@ import type {
   PresetProperty,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join, isAbsolute } from 'path';
+import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -55,7 +55,7 @@ export const favicon = async (
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+    : [];
 
   if (statics && statics.length > 0) {
     const lists = await Promise.all(
@@ -133,8 +133,8 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 
 export const typescript = () => ({
   check: false,
-  // 'react-docgen' faster but produces lower quality typescript results
-  reactDocgen: 'react-docgen-typescript',
+  // 'react-docgen' faster than `react-docgen-typescript` but produces lower quality results
+  reactDocgen: 'react-docgen',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,
     shouldRemoveUndefinedFromOptional: true,
@@ -343,4 +343,22 @@ export const experimental_serverChannel = async (
   });
 
   return channel;
+};
+
+/**
+ * Try to resolve react and react-dom from the root node_modules of the project
+ * addon-docs uses this to alias react and react-dom to the project's version when possible
+ * If the user doesn't have an explicit dependency on react this will return the existing values
+ * Which will be the versions shipped with addon-docs
+ */
+export const resolvedReact = async (existing: any) => {
+  try {
+    return {
+      ...existing,
+      react: dirname(require.resolve('react/package.json')),
+      reactDom: dirname(require.resolve('react-dom/package.json')),
+    };
+  } catch (e) {
+    return existing;
+  }
 };

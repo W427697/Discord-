@@ -122,9 +122,6 @@ test.describe('addon-docs', () => {
       //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
       //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
       'lit-vite',
-      // Vue doesn't update when you change args, apparently fixed by this:
-      //   https://github.com/storybookjs/storybook/pull/20995
-      'vue2-vite',
     ];
     test.skip(
       new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
@@ -188,5 +185,32 @@ test.describe('addon-docs', () => {
     await expect(stories.first()).toHaveText('Basic');
     await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
+  });
+
+  test('should resolve react to the correct version', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
+    const root = sbPage.previewRoot();
+
+    let expectedReactVersion = /^18/;
+    if (
+      templateName.includes('preact') ||
+      templateName.includes('react-webpack/17') ||
+      templateName.includes('react-vite/17')
+    ) {
+      expectedReactVersion = /^17/;
+    } else if (templateName.includes('react16')) {
+      expectedReactVersion = /^16/;
+    }
+
+    const mdxReactVersion = await root.getByTestId('mdx-react');
+    const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
+    const componentReactVersion = await root.getByTestId('component-react');
+    const componentReactDomVersion = await root.getByTestId('component-react-dom');
+
+    await expect(mdxReactVersion).toHaveText(expectedReactVersion);
+    await expect(mdxReactDomVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactDomVersion).toHaveText(expectedReactVersion);
   });
 });

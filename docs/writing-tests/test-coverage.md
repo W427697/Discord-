@@ -112,6 +112,12 @@ By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@s
 | `checkProd`            | Configures the plugin to skip instrumentation in production environments <br/>`options: { istanbul: { checkProd: true,}}`                              | Vite        |
 | `forceBuildInstrument` | Configures the plugin to add instrumentation in build mode <br/>`options: { istanbul: { forceBuildInstrument: true,}}`                                 | Vite        |
 
+<Callout variant="info">
+
+Including the `nycrcPath` option enables use of an existing `nyc` configuration file with additional options like [coverage thresholds](https://github.com/istanbuljs/nyc#coverage-thresholds). For more information, refer to the [`nyc` documentation](https://github.com/istanbuljs/nyc#common-configuration-options).
+
+</Callout>
+
 ## What about other coverage reporting tools?
 
 Out of the box, code coverage tests work seamlessly with Storybook's test-runner and the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage). However, that doesn't mean you can't use additional reporting tools (e.g., [Codecov](https://about.codecov.io/)). For instance, if you're working with [LCOV](https://wiki.documentfoundation.org/Development/Lcov), you can use the generated output (in `coverage/storybook/coverage-storybook.json`) and create your own report with:
@@ -140,6 +146,21 @@ If you intend on running coverage tests in frameworks with special files like Vu
   paths={[
     'common/storybook-coverage-report-vue.json.mdx',
     'common/storybook-coverage-report-vue.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### The coverage addon doesn't support optimized builds
+
+If you generated a production build optimized for performance with the [`--test`](../sharing/publish-storybook.md#customizing-the-build-for-performance) flag, and you're using the coverage addon to run tests against your Storybook, you may run into a situation where the coverage addon doesn't instrument your code. This is due to how the flag works, as it removes addons that have an impact on performance (e.g., [`Docs`](../writing-docs/index.md), [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverage)). To resolve this issue, you'll need to adjust your Storybook configuration file (i.e., `.storybook/main.js|ts`) and include the [`disabledAddons`](../api/main-config-build.md#testdisabledaddons) option to allow the addon to run tests at the expense of a slower build.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-coverage-addon-optimized-config.js.mdx',
+    'common/storybook-coverage-addon-optimized-config.ts.mdx',
   ]}
 />
 
