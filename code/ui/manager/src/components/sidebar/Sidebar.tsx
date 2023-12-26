@@ -23,7 +23,7 @@ import { useLastViewed } from './useLastViewed';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav(({ theme }) => ({
+const Container = styled.nav({
   position: 'absolute',
   zIndex: 1,
   left: 0,
@@ -35,7 +35,7 @@ const Container = styled.nav(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   background: 'var(--sb-sidebar-background)',
-}));
+});
 
 const Top = styled(Spaced)({
   paddingLeft: 12,

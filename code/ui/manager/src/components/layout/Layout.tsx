@@ -204,10 +204,10 @@ const LayoutContainer = styled.div<LayoutState>(
 );
 
 const SidebarContainer = styled.div(({ theme }) => ({
-  backgroundColor: theme.background.app,
+  backgroundColor: 'var(--sb-sidebar-background)',
   gridArea: 'sidebar',
   position: 'relative',
-  borderRight: `1px solid ${theme.color.border}`,
+  borderRight: `1px solid var(--sb-sidebar-borderRight)`,
 }));
 
 const ContentContainer = styled.div(({ theme }) => ({
