@@ -2,26 +2,26 @@
   @media (prefers-color-scheme: light) {
     :root {
       /* Sidebar */
-      --sb-sidbar-background: #f6f9fc;
-      --sb-sidbar-borderRight: #d7e0e7;
-      --sb-sidbar-sectionText: #73828c;
-      --sb-sidbar-sectionArrow: #b4bbc0;
-      --sb-sidbar-sectionToggle: #b4bbc0;
-      --sb-sidbar-itemArrow: #b4bbc0;
-      --sb-sidbar-itemText: #2e3438;
-      --sb-sidbar-itemIconDoc: #ffae00;
-      --sb-sidbar-itemIconFolder: #6f2cac;
-      --sb-sidbar-itemIconComponent: #029cfd;
-      --sb-sidbar-itemIconStory: #37d5d3;
-      --sb-sidbar-itemHoverBg: #e5f2fc;
-      --sb-sidbar-itemActiveBg: #029cfd;
-      --sb-sidbar-itemActiveText: #fff;
-      --sb-sidbar-itemActiveIcon: #fff;
-      --sb-sidbar-itemActiveArrow: #fff;
-      --sb-sidbar-searchBarBackground: #f6f9fc;
-      --sb-sidbar-searchBarBorder: #d7e0e7;
-      --sb-sidbar-searchPlaceholder: #73828c;
-      --sb-sidbar-searchIcon: #73828c;
+      --sb-sidebar-background: #f6f9fc;
+      --sb-sidebar-borderRight: #d7e0e7;
+      --sb-sidebar-sectionText: #73828c;
+      --sb-sidebar-sectionArrow: #b4bbc0;
+      --sb-sidebar-sectionToggle: #b4bbc0;
+      --sb-sidebar-itemArrow: #b4bbc0;
+      --sb-sidebar-itemText: #2e3438;
+      --sb-sidebar-itemIconDoc: #ffae00;
+      --sb-sidebar-itemIconFolder: #6f2cac;
+      --sb-sidebar-itemIconComponent: #029cfd;
+      --sb-sidebar-itemIconStory: #37d5d3;
+      --sb-sidebar-itemHoverBg: #e5f2fc;
+      --sb-sidebar-itemActiveBg: #029cfd;
+      --sb-sidebar-itemActiveText: #fff;
+      --sb-sidebar-itemActiveIcon: #fff;
+      --sb-sidebar-itemActiveArrow: #fff;
+      --sb-sidebar-searchBarBackground: #f6f9fc;
+      --sb-sidebar-searchBarBorder: #d7e0e7;
+      --sb-sidebar-searchPlaceholder: #73828c;
+      --sb-sidebar-searchIcon: #73828c;
 
       /* Canvas */
       --sb-canvas-background: #fff;
@@ -42,26 +42,26 @@
   @media (prefers-color-scheme: dark) {
     :root {
       /* Sidebar */
-      --sb-sidbar-background: #222425;
-      --sb-sidbar-borderRight: #323638;
-      --sb-sidbar-sectionText: #73828c;
-      --sb-sidbar-sectionArrow: #4b5359;
-      --sb-sidbar-sectionToggle: #4b5359;
-      --sb-sidbar-itemArrow: #4b5359;
-      --sb-sidbar-itemText: #ffffff;
-      --sb-sidbar-itemIconDoc: #ffae00;
-      --sb-sidbar-itemIconFolder: #6f2cac;
-      --sb-sidbar-itemIconComponent: #029cfd;
-      --sb-sidbar-itemIconStory: #37d5d3;
-      --sb-sidbar-itemHoverBg: #222c34;
-      --sb-sidbar-itemActiveBg: #029cfd;
-      --sb-sidbar-itemActiveText: #fff;
-      --sb-sidbar-itemActiveIcon: #fff;
-      --sb-sidbar-itemActiveArrow: #fff;
-      --sb-sidbar-searchBarBackground: #1b1c1d;
-      --sb-sidbar-searchBarBorder: #323638;
-      --sb-sidbar-searchPlaceholder: #73828c;
-      --sb-sidbar-searchIcon: #73828c;
+      --sb-sidebar-background: #222425;
+      --sb-sidebar-borderRight: #323638;
+      --sb-sidebar-sectionText: #73828c;
+      --sb-sidebar-sectionArrow: #4b5359;
+      --sb-sidebar-sectionToggle: #4b5359;
+      --sb-sidebar-itemArrow: #4b5359;
+      --sb-sidebar-itemText: #ffffff;
+      --sb-sidebar-itemIconDoc: #ffae00;
+      --sb-sidebar-itemIconFolder: #6f2cac;
+      --sb-sidebar-itemIconComponent: #029cfd;
+      --sb-sidebar-itemIconStory: #37d5d3;
+      --sb-sidebar-itemHoverBg: #222c34;
+      --sb-sidebar-itemActiveBg: #029cfd;
+      --sb-sidebar-itemActiveText: #fff;
+      --sb-sidebar-itemActiveIcon: #fff;
+      --sb-sidebar-itemActiveArrow: #fff;
+      --sb-sidebar-searchBarBackground: #1b1c1d;
+      --sb-sidebar-searchBarBorder: #323638;
+      --sb-sidebar-searchPlaceholder: #73828c;
+      --sb-sidebar-searchIcon: #73828c;
 
       /* Canvas */
       --sb-canvas-background: #1b1c1d;
