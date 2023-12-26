@@ -6,10 +6,10 @@ import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
+import { useStorybookApi, useParameter, useGlobals } from '@storybook/manager-api';
 import { GrowIcon, TransferIcon } from '@storybook/icons';
 import { registerShortcuts } from './shortcuts';
-import { PARAM_KEY, ADDON_ID } from './constants';
+import { PARAM_KEY } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
 import type { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
 
@@ -35,19 +35,21 @@ const responsiveViewport: ViewportItem = {
 
 const baseViewports: ViewportItem[] = [responsiveViewport];
 
-const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] => {
-  return list
-    .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
-    .map((i) => {
-      return {
-        ...i,
-        onClick: () => {
-          set({ ...state, selected: i.id });
-          close();
-        },
-      };
-    });
-});
+const toLinks = memoize(50)(
+  (list: ViewportItem[], active: LinkBase, updateGlobals, close): Link[] => {
+    return list
+      .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
+      .map((i) => {
+        return {
+          ...i,
+          onClick: () => {
+            updateGlobals({ viewport: i.id });
+            close();
+          },
+        };
+      });
+  }
+);
 
 interface LinkBase {
   id: string;
@@ -95,11 +97,6 @@ const IconButtonLabel = styled.div(({ theme }) => ({
   marginLeft: 10,
 }));
 
-interface ViewportToolState {
-  isRotated: boolean;
-  selected: string | null;
-}
-
 const getStyles = (
   prevStyles: ViewportStyles | undefined,
   styles: Styles,
@@ -115,16 +112,14 @@ const getStyles = (
 
 export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
+    const [globals, updateGlobals] = useGlobals();
+
     const {
       viewports = MINIMAL_VIEWPORTS,
       defaultOrientation = 'portrait',
-      defaultViewport = responsiveViewport.id,
+      defaultViewport = globals.viewport || responsiveViewport.id,
       disable,
     } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
-    const [state, setState] = useAddonState<ViewportToolState>(ADDON_ID, {
-      selected: defaultViewport,
-      isRotated: defaultOrientation === 'landscape',
-    });
 
     const list = toList(viewports);
     const api = useStorybookApi();
@@ -138,28 +133,29 @@ export const ViewportTool: FC = memo(
     }
 
     useEffect(() => {
-      registerShortcuts(api, setState, Object.keys(viewports));
-    }, [viewports]);
+      registerShortcuts(api, globals, updateGlobals, Object.keys(viewports));
+    }, [viewports, globals.viewport]);
 
     useEffect(() => {
-      setState({
-        selected:
+      updateGlobals({
+        viewport:
           defaultViewport ||
-          (state.selected && viewports[state.selected] ? state.selected : responsiveViewport.id),
-        isRotated: defaultOrientation === 'landscape',
+          (globals.viewport && viewports[globals.viewport]
+            ? globals.viewport
+            : responsiveViewport.id),
+        viewportRotated: defaultOrientation === 'landscape',
       });
     }, [defaultOrientation, defaultViewport]);
 
-    const { selected, isRotated } = state;
     const item =
-      list.find((i) => i.id === selected) ||
+      list.find((i) => i.id === globals.viewport) ||
       list.find((i) => i.id === defaultViewport) ||
       list.find((i) => i.default) ||
       responsiveViewport;
 
     const ref = useRef<ViewportStyles>();
 
-    const styles = getStyles(ref.current, item.styles, isRotated);
+    const styles = getStyles(ref.current, item.styles, globals.viewportRotated);
 
     useEffect(() => {
       ref.current = styles;
@@ -174,7 +170,7 @@ export const ViewportTool: FC = memo(
         <WithTooltip
           placement="top"
           tooltip={({ onHide }) => (
-            <TooltipLinkList links={toLinks(list, item, setState, state, onHide)} />
+            <TooltipLinkList links={toLinks(list, item, updateGlobals, onHide)} />
           )}
           closeOnOutsideClick
           onVisibleChange={setIsTooltipVisible}
@@ -184,13 +180,13 @@ export const ViewportTool: FC = memo(
             title="Change the size of the preview"
             active={isTooltipVisible || !!styles}
             onDoubleClick={() => {
-              setState({ ...state, selected: responsiveViewport.id });
+              updateGlobals({ viewport: responsiveViewport.id });
             }}
           >
             <GrowIcon />
             {styles ? (
               <IconButtonLabel>
-                {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
+                {globals.viewportRotated ? `${item.title} (L)` : `${item.title} (P)`}
               </IconButtonLabel>
             ) : null}
           </IconButtonWithLabel>
@@ -215,7 +211,7 @@ export const ViewportTool: FC = memo(
               key="viewport-rotate"
               title="Rotate viewport"
               onClick={() => {
-                setState({ ...state, isRotated: !isRotated });
+                updateGlobals({ viewportRotated: !globals.viewportRotated });
               }}
             >
               <TransferIcon />
