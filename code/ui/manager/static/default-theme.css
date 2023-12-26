@@ -37,6 +37,7 @@
       --sb-addonsPanel-headerActive: #029cfd;
       --sb-addonsPanel-headerText: #2e3438;
       --sb-addonsPanel-background: #ffffff;
+      --sb-addonsPanel-border: #d7e0e7;
     }
   }
   @media (prefers-color-scheme: dark) {
@@ -77,6 +78,7 @@
       --sb-addonsPanel-headerActive: #029cfd;
       --sb-addonsPanel-headerText: #798186;
       --sb-addonsPanel-background: #222425;
+      --sb-addonsPanel-border: #323638;
     }
   }
 }
