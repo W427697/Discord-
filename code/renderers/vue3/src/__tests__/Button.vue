@@ -1,16 +1,49 @@
-<script setup lang="ts">
-defineProps<{ disabled: boolean; label: string }>();
-
-const emit = defineEmits<{
-  (e: 'myChangeEvent', id: number): void;
-  (e: 'myClickEvent', id: number): void;
-}>();
-</script>
-
 <template>
-  <button :disabled="disabled" @change="emit('myChangeEvent', 0)" @click="emit('myClickEvent', 0)">
-    {{ label }}
-  </button>
+  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
 </template>
 
-<style scoped></style>
+<script lang="ts" setup>
+import './button.css';
+import { computed } from 'vue';
+
+const props = withDefaults(
+  defineProps<{
+    /**
+     * The label of the button
+     */
+    label: string;
+    /**
+     * primary or secondary button
+     */
+    primary?: boolean;
+    /**
+     * size of the button
+     */
+    size?: 'small' | 'medium' | 'large';
+    /**
+     * background color of the button
+     */
+    backgroundColor?: string;
+  }>(),
+  { primary: false }
+);
+
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
+
+const classes = computed(() => ({
+  'storybook-button': true,
+  'storybook-button--primary': props.primary,
+  'storybook-button--secondary': !props.primary,
+  [`storybook-button--${props.size || 'medium'}`]: true,
+}));
+
+const style = computed(() => ({
+  backgroundColor: props.backgroundColor,
+}));
+
+const onClick = () => {
+  emit('click', 1);
+};
+</script>
