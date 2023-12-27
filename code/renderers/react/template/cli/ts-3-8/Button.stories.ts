@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import { Button } from './Button';
 
@@ -15,6 +16,9 @@ const meta: Meta<typeof Button> = {
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
+  },
+  args: {
+    onClick: fn(),
   },
 };
 
