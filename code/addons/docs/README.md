@@ -110,20 +110,6 @@ export default {
 };
 ```
 
-If using in conjunction with the [storyshots add-on](https://github.com/storybookjs/storybook/blob/next/code/addons/storyshots-core/README.md), you will need to
-configure Jest to transform MDX stories into something Storyshots can understand:
-
-Add the following to your Jest configuration:
-
-```json
-{
-  "transform": {
-    "^.+\\.[tj]sx?$": "babel-jest",
-    "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx"
-  }
-}
-```
-
 ### Be sure to check framework specific installation needs
 
 - [React](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/react) (covered here)
