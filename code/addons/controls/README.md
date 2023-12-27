@@ -209,5 +209,3 @@ export const Template = (args) => <Button {...args} />
   {Template.bind({})}
 </Story>
 ```
-
-For more info, see a full [Controls example in MDX for Vue](https://raw.githubusercontent.com/storybookjs/storybook/next/code/examples/vue-kitchen-sink/src/stories/addon-controls.stories.mdx).
