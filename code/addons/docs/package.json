@@ -71,7 +71,6 @@
     "./angular": "./angular/index.js",
     "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
-    "./jest-transform-mdx": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -98,7 +97,8 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@jest/transform": "^29.3.1",
+    "@babel/core": "^7.12.3",
+    "@mdx-js/mdx": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@storybook/blocks": "workspace:*",
     "@storybook/client-logger": "workspace:*",
@@ -106,7 +106,6 @@
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/mdx2-csf": "^1.0.0",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react-dom-shim": "workspace:*",
@@ -134,9 +133,6 @@
       "./src/preview.ts",
       "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
-    ],
-    "externals": [
-      "@storybook/mdx1-csf"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
