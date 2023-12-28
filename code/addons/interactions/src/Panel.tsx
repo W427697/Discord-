@@ -7,7 +7,7 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
-  UNHANDLED_ERRORS_DURING_PLAYING,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
 } from '@storybook/core-events';
 import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrumenter';
 
@@ -185,7 +185,7 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
         set((s) => ({ ...s, caughtException: e }));
       },
-      [UNHANDLED_ERRORS_DURING_PLAYING]: (e) => {
+      [UNHANDLED_ERRORS_WHILE_PLAYING]: (e) => {
         set((s) => ({ ...s, unhandledErrors: e }));
       },
     },

@@ -39,7 +39,7 @@ enum events {
   // Emitted when the play function throws
   PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
   // Emitted when there were unhandled errors during playing the story
-  UNHANDLED_ERRORS_DURING_PLAYING = 'unhandledErrorsDuringPlaying',
+  UNHANDLED_ERRORS_WHILE_PLAYING = 'unhandledErrorsWhilePlaying',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
   // The values of a stories args just changed
@@ -90,7 +90,7 @@ export const {
   GLOBALS_UPDATED,
   NAVIGATE_URL,
   PLAY_FUNCTION_THREW_EXCEPTION,
-  UNHANDLED_ERRORS_DURING_PLAYING,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
   PRELOAD_ENTRIES,
   PREVIEW_BUILDER_PROGRESS,
   PREVIEW_KEYDOWN,

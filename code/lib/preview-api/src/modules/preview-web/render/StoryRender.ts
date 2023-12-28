@@ -17,7 +17,7 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
-  UNHANDLED_ERRORS_DURING_PLAYING,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
 } from '@storybook/core-events';
 import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
@@ -249,7 +249,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         }
         if (!ignoreUnhandledErrors && unhandledErrors.size > 0) {
           this.channel.emit(
-            UNHANDLED_ERRORS_DURING_PLAYING,
+            UNHANDLED_ERRORS_WHILE_PLAYING,
             Array.from(unhandledErrors).map(serializeError)
           );
         }
