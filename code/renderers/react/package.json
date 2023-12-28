@@ -69,7 +69,6 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
     "@storybook/test": "workspace:*",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",

@@ -8,7 +8,6 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
 - [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
-- [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
 - [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
@@ -96,13 +95,6 @@ npm test -- --coverage --collectCoverageFrom='["src/**/*.{js,jsx}","!src/**/stor
 If you're using [`Yarn`](https://yarnpkg.com/) as a package manager, you'll need to adjust the command accordingly.
 
 </Callout>
-
-## I see `ReferenceError: React is not defined` when using Storybook with Next.js
-
-Next automatically defines `React` for all of your files via a babel plugin. In Storybook, you can solve this either by:
-
-1.  Adding `import React from 'react'` to your component files.
-2.  Adding a `.babelrc` that includes [`babel-plugin-react-require`](https://www.npmjs.com/package/babel-plugin-react-require)
 
 ## How do I setup Storybook to share Webpack configuration with Next.js?
 

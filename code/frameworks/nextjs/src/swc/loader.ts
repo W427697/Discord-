@@ -4,9 +4,6 @@ import type { Options, Preset } from '@storybook/types';
 import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
-import semver from 'semver';
-import { NextjsSWCNotSupportedError } from '@storybook/core-events/server-errors';
-import { getNextjsVersion } from '../utils';
 
 const applyFastRefresh = async (options: Options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
@@ -21,11 +18,6 @@ export const configureSWCLoader = async (
   nextConfig: NextConfig
 ) => {
   const isDevelopment = options.configType !== 'PRODUCTION';
-  const version = getNextjsVersion();
-
-  if (semver.lt(version, '14.0.0')) {
-    throw new NextjsSWCNotSupportedError();
-  }
 
   const dir = getProjectRoot();
 

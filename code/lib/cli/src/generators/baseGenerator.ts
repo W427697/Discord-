@@ -5,12 +5,11 @@ import ora from 'ora';
 import invariant from 'tiny-invariant';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
+import { SupportedLanguage, externalFrameworks } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
-import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
 import {
@@ -29,7 +28,6 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addMainFile: true,
   addComponents: true,
-  skipBabel: false,
   useSWC: () => false,
   extraMain: undefined,
   framework: undefined,
@@ -229,16 +227,7 @@ export async function baseGenerator(
     ...options,
   };
 
-  let { skipBabel } = {
-    ...defaultOptions,
-    ...options,
-  };
-
   const swc = useSWC ? useSWC({ builder }) : false;
-
-  if (swc) {
-    skipBabel = true;
-  }
 
   const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
@@ -274,8 +263,6 @@ export async function baseGenerator(
       addonPackages.push('@storybook/test');
     }
   }
-
-  const files = await fse.readdir(process.cwd());
 
   const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
@@ -323,37 +310,6 @@ export async function baseGenerator(
   versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
-
-  // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
-  if (builder !== CoreBuilder.Vite && !skipBabel) {
-    const frameworksThatNeedBabelConfig = [
-      '@storybook/react-webpack5',
-      '@storybook/vue3-webpack5',
-      '@storybook/html-webpack5',
-      '@storybook/web-components-webpack5',
-    ];
-    const needsBabelConfig = frameworkPackages.find((pkg) =>
-      frameworksThatNeedBabelConfig.includes(pkg)
-    );
-    const hasNoBabelFile = !files.some(
-      (fname) => fname.startsWith('.babel') || fname.startsWith('babel')
-    );
-
-    if (hasNoBabelFile && needsBabelConfig) {
-      const isTypescript = language !== SupportedLanguage.JAVASCRIPT;
-      const isReact = rendererId === 'react';
-      depsToInstall.push(
-        ...getBabelPresets({
-          typescript: isTypescript,
-          jsx: isReact,
-        })
-      );
-      await writeBabelConfigFile({
-        typescript: isTypescript,
-        jsx: isReact,
-      });
-    }
-  }
 
   try {
     if (process.env.CI !== 'true') {

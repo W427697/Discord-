@@ -38,12 +38,6 @@ const core = (existing: { disableWebpackDefaults: boolean }) => ({
   disableWebpackDefaults: true,
 });
 
-// Don't use Storybook's default Babel config.
-const babelDefault = (): Record<string, (string | [string, object])[]> => ({
-  presets: [],
-  plugins: [],
-});
-
 // Update the core Webpack config.
 const webpack = async (
   webpackConfig: Configuration = {},
@@ -156,6 +150,5 @@ const webpack = async (
 // we do not care of the typings exported from this package
 const exportedCore = core as any;
 const exportedWebpack = webpack as any;
-const exportedBabelDefault = babelDefault as any;
 
-export { exportedCore as core, exportedWebpack as webpack, exportedBabelDefault as babelDefault };
+export { exportedCore as core, exportedWebpack as webpack };

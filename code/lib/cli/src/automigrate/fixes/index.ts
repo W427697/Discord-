@@ -13,7 +13,6 @@ import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { autodocsTrue } from './autodocs-true';
 import { nodeJsRequirement } from './nodejs-requirement';
-import { missingBabelRc } from './missing-babelrc';
 import { angularBuilders } from './angular-builders';
 import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
@@ -37,11 +36,10 @@ export const allFixes: Fix[] = [
   mdx1to2,
   mdxgfm,
   autodocsTrue,
-  missingBabelRc,
   angularBuildersMultiproject,
   angularBuilders,
   wrapRequire,
   reactDocgen,
 ];
 
-export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];
+export const initFixes: Fix[] = [eslintPlugin];

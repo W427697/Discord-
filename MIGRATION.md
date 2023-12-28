@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [typescript.skipBabel removed](#typescriptskipbabel-removed)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
@@ -381,6 +382,10 @@ To summarize:
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
 ### Core changes
+
+#### typescript.skipBabel removed
+
+We have removed the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescript.skipCompiler` instead.
 
 #### Dropping support for Node.js 16
 
