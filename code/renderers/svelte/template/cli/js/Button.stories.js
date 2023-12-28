@@ -13,7 +13,11 @@ export default {
       options: ['small', 'medium', 'large'],
     },
   },
-  args: { onClick: fn() },
+  render: (args) => ({
+    component: Button,
+    props: args,
+    on: { click: fn() },
+  }),
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args

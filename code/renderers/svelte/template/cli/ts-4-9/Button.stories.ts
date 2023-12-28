@@ -14,7 +14,11 @@ const meta = {
       options: ['small', 'medium', 'large'],
     },
   },
-  args: { onClick: fn() },
+  render: (args) => ({
+    component: Button,
+    props: args,
+    on: { click: fn() },
+  }),
 } satisfies Meta<Button>;
 
 export default meta;
