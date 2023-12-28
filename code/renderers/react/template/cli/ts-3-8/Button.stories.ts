@@ -17,9 +17,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-  args: {
-    onClick: fn(),
-  },
+  args: { onClick: fn() },
 };
 
 export default meta;

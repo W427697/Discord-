@@ -1,4 +1,5 @@
 import type { StoryObj, Meta } from '@storybook/html';
+import { fn } from '@storybook/test';
 import type { ButtonProps } from './Button';
 import { createButton } from './Button';
 
@@ -21,6 +22,7 @@ const meta = {
       options: ['small', 'medium', 'large'],
     },
   },
+  args: { onClick: fn() },
 } satisfies Meta<ButtonProps>;
 
 export default meta;
