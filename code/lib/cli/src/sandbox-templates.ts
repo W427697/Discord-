@@ -483,25 +483,6 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/swc-webpack': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'SWC (react-webpack/18-ts)',
-    isInternal: true,
-    inDevelopment: true,
-    modifications: {
-      mainConfig: {
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {
-            builder: {
-              useSWC: true,
-            },
-          },
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
   'internal/react16-webpack': {
     name: 'React 16 (Webpack | TypeScript)',
     script:
