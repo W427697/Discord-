@@ -191,11 +191,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const require = createRequire(import.meta.url);
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
-  const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx2-csf/loader'
-  );
-  const babelLoaderPath = require.resolve('babel-loader');
-  const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -211,48 +206,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
             loader: 'tsx',
             target: 'es2015',
           },
-        },
-        // Handle MDX files per the addon-docs presets (ish)
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: false,
-              }
-            }
-          ],
-        },
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.mdx$/],
-          exclude: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: true,
-              }
-            }
-          ],
         },
         // Ensure no other loaders from the framework apply
         ...config.module.rules.map(rule => ({

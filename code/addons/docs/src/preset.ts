@@ -23,7 +23,7 @@ const getResolvedReact = async (options: Options) => {
     // addon-docs, causing addon-docs's dependencies not to be hoisted.
     // This might also affect regular users who have a similar setup.
     // Explicitly alias @mdx-js/react to avoid this issue.
-    mdx: resolvedReact.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
+    mdx: resolvedReact.mdx ?? dirname(require.resolve('@mdx-js/react')),
   };
 };
 
@@ -56,8 +56,6 @@ async function webpack(
   });
 
   logger.info(`Addon-docs: using MDX3`);
-
-  const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
 
   // Use the resolvedReact preset to alias react and react-dom to either the users version or the version shipped with addon-docs
   const { react, reactDom, mdx } = await getResolvedReact(options);
@@ -110,7 +108,7 @@ async function webpack(
           exclude: /(stories|story)\.mdx$/,
           use: [
             {
-              loader: mdxLoader,
+              loader: require.resolve('./mdx-loader'),
               options: mdxLoaderOptions,
             },
           ],
@@ -179,7 +177,7 @@ const docsX = docs as any;
 export const resolvedReact = async (existing: any) => ({
   react: existing?.react ?? dirname(require.resolve('react/package.json')),
   reactDom: existing?.reactDom ?? dirname(require.resolve('react-dom/package.json')),
-  mdx: existing?.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
+  mdx: existing?.mdx ?? dirname(require.resolve('@mdx-js/react')),
 });
 
 const optimizeViteDeps = [
