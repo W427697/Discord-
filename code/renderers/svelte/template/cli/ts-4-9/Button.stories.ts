@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
-import { fn } from '@storybook/test';
 import Button from './Button.svelte';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -14,11 +13,6 @@ const meta = {
       options: ['small', 'medium', 'large'],
     },
   },
-  render: (args) => ({
-    Component: Button,
-    props: args,
-    on: { click: fn() },
-  }),
 } satisfies Meta<Button>;
 
 export default meta;
