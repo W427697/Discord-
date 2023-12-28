@@ -10,7 +10,6 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
 - [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
-- [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
 - [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
@@ -132,36 +131,6 @@ To fix this, you can wrap the package name inside your Storybook configuration f
 />
 
 <!-- prettier-ignore-end -->
-
-## How do I setup React Fast Refresh with Storybook?
-
-Fast refresh is an opt-in feature that can be used in Storybook React.
-There are two ways that you can enable it, go ahead and pick one:
-
-- You can set a `FAST_REFRESH` environment variable in your `.env` file:
-
-```
-FAST_REFRESH=true
-```
-
-- Or you can set the following properties in your `.storybook/main.js` files:
-
-```js
-export default {
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      fastRefresh: true,
-    },
-  },
-};
-```
-
-<Callout variant="info" icon="💡">
-
-Fast Refresh only works in development mode with React 16.10 or higher.
-
-</Callout>
 
 ## How do I setup the new React Context Root API with Storybook?
 

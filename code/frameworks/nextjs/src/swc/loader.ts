@@ -1,16 +1,9 @@
 import { getProjectRoot } from '@storybook/core-common';
 import { getVirtualModules } from '@storybook/builder-webpack5';
-import type { Options, Preset } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
-
-const applyFastRefresh = async (options: Options) => {
-  const isDevelopment = options.configType === 'DEVELOPMENT';
-  const framework = await options.presets.apply<Preset>('framework');
-  const reactOptions = typeof framework === 'object' ? framework.options : {};
-  return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
-};
 
 export const configureSWCLoader = async (
   baseConfig: any,
@@ -42,7 +35,7 @@ export const configureSWCLoader = async (
           rootDir: dir,
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
-          hasReactRefresh: await applyFastRefresh(options),
+          hasReactRefresh: false,
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,
