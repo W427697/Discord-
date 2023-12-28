@@ -41,7 +41,7 @@ export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponentTyped
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<SvelteRenderer, any>;
+  render?: ArgsStoryFn<any, any>;
   component?: ComponentType<infer Component>;
   args?: infer DefaultArgs;
 }

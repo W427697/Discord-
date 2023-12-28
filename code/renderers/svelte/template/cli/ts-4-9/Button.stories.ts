@@ -15,7 +15,7 @@ const meta = {
     },
   },
   render: (args) => ({
-    component: Button,
+    Component: Button,
     props: args,
     on: { click: fn() },
   }),
