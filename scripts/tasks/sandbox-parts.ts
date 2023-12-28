@@ -207,6 +207,16 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
             target: 'es2015',
           },
         },
+        // Handle MDX files per the addon-docs presets (ish)
+        {        
+          test: /template-stories\\/.*\\.mdx$/,
+          exclude: /\\.stories\\.mdx$/,
+          use: [
+            {
+              loader: require.resolve('@storybook/addon-docs/mdx-loader'),
+            },
+          ],
+        },
         // Ensure no other loaders from the framework apply
         ...config.module.rules.map(rule => ({
           ...rule,
