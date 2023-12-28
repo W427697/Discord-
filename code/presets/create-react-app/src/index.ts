@@ -1,10 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
 import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
-import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
-import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { mergePlugins } from './helpers/mergePlugins';
 import { getReactScriptsPath } from './helpers/getReactScriptsPath';
 import { processCraConfig } from './helpers/processCraConfig';
@@ -89,19 +87,6 @@ const webpack = async (
   logger.info(`=> Modifying Create React App rules.`);
   const craRules = await processCraConfig(craWebpackConfig, options);
 
-  // NOTE: These are set by default in Storybook 6.
-  const isStorybook6 = semver.gte(options.packageJson.version || '', '6.0.0');
-  const {
-    typescriptOptions = {
-      reactDocgen: 'react-docgen-typescript',
-      reactDocgenTypescriptOptions: {},
-    },
-  } = options;
-  const tsDocgenPlugin =
-    !isStorybook6 && typescriptOptions.reactDocgen === 'react-docgen-typescript'
-      ? [new ReactDocgenTypescriptPlugin(typescriptOptions.reactDocgenTypescriptOptions)]
-      : [];
-
   // NOTE: This is code replicated from
   //   https://github.com/storybookjs/storybook/blob/89830ad76384faeaeb0c19df3cb44232cdde261b/builders/builder-webpack5/src/preview/base-webpack.config.ts#L45-L53
   // as we are not applying SB's default webpack config here.
@@ -130,8 +115,7 @@ const webpack = async (
     // when there are duplicates between SB and CRA
     plugins: mergePlugins(
       ...((webpackConfig.plugins ?? []) as WebpackPluginInstance[]),
-      ...((craWebpackConfig.plugins ?? []) as WebpackPluginInstance[]),
-      ...tsDocgenPlugin
+      ...((craWebpackConfig.plugins ?? []) as WebpackPluginInstance[])
     ),
     resolve: {
       ...webpackConfig.resolve,
