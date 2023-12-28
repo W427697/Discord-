@@ -28,7 +28,7 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addMainFile: true,
   addComponents: true,
-  useSWC: () => false,
+  webpackCompiler: () => undefined,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -221,13 +221,13 @@ export async function baseGenerator(
     extensions,
     storybookConfigFolder,
     componentsDestinationPath,
-    useSWC,
+    webpackCompiler,
   } = {
     ...defaultOptions,
     ...options,
   };
 
-  const swc = useSWC ? useSWC({ builder }) : false;
+  const compiler = webpackCompiler ? webpackCompiler({ builder }) : undefined;
 
   const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
@@ -241,6 +241,7 @@ export async function baseGenerator(
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...stripVersions(extraAddonsToInstall || []),
   ].filter(Boolean);
 
@@ -364,15 +365,7 @@ export async function baseGenerator(
     await configureMain({
       framework: {
         name: frameworkInclude,
-        options: swc
-          ? {
-              ...(options.framework ?? {}),
-              builder: {
-                ...(options.framework?.builder ?? {}),
-                useSWC: true,
-              },
-            }
-          : options.framework || {},
+        options: options.framework || {},
       },
       prefixes,
       storybookConfigFolder,

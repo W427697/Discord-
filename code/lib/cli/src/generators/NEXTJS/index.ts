@@ -10,6 +10,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     'react',
     {
       extraAddons: ['@storybook/addon-onboarding'],
+      webpackCompiler: ({ builder }) => undefined,
     },
     'nextjs'
   );

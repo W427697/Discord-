@@ -59,7 +59,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Webpack5 },
     'react',
     {
-      useSWC: () => true,
+      webpackCompiler: () => undefined,
       extraAddons,
       extraPackages,
       staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
