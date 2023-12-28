@@ -153,12 +153,8 @@ export async function buildDevStandalone(
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: [
-      ...(previewBuilder.overridePresets || []),
-      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
-    ],
+    overridePresets: [...(previewBuilder.overridePresets || [])],
     ...options,
   });
 
