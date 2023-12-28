@@ -121,6 +121,7 @@
   },
   "devDependencies": {
     "@rollup/pluginutils": "^5.0.2",
+    "@storybook/test": "workspace:*",
     "typescript": "^5.3.2",
     "vite": "^4.0.4"
   },
