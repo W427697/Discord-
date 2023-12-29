@@ -128,7 +128,7 @@ export class SbPage {
   async selectToolbar(toolbarSelector: string, itemSelector?: string) {
     const toolbar = await this.page.locator(toolbarSelector);
     await toolbar.waitFor({ state: 'visible' });
-    toolbar.click({ delay: 500 });
+    await toolbar.click({ delay: 500 });
     if (itemSelector) {
       await this.page.locator(itemSelector).click();
     }
