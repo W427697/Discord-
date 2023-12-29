@@ -1,18 +1,10 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
-import { dirname, isAbsolute, join, resolve } from 'path';
+import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
-import type {
-  BuilderOptions,
-  CLIOptions,
-  CoreConfig,
-  DocsOptions,
-  LoadOptions,
-  Options,
-  StorybookConfig,
-} from '@storybook/types';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
   loadAllPresets,
   loadMainConfig,
@@ -20,21 +12,16 @@ import {
   normalizeStories,
   resolveAddonName,
 } from '@storybook/core-common';
-import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
-import isEqual from 'lodash/isEqual.js';
 import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
-import {
-  copyAllStaticFiles,
-  copyAllStaticFilesRelativeToMain,
-} from './utils/copy-all-static-files';
+import { copyAllStaticFilesRelativeToMain } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
+import { extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
-import { defaultStaticDirs } from './utils/constants';
+import { buildOrThrow } from './utils/build-or-throw';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -48,17 +35,11 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     throw new Error("Won't remove current directory. Check your outputDir!");
   }
 
-  if (options.staticDir?.includes('/')) {
-    throw new Error("Won't copy root directory. Check your staticDirs!");
-  }
-
-  options.outputDir = isAbsolute(options.outputDir)
-    ? options.outputDir
-    : join(process.cwd(), options.outputDir);
+  options.outputDir = resolve(options.outputDir);
   options.configDir = resolve(options.configDir);
   /* eslint-enable no-param-reassign */
 
-  logger.info(chalk`=> Cleaning outputDir: {cyan ${options.outputDir.replace(process.cwd(), '')}}`);
+  logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
@@ -72,7 +53,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
   if (frameworkName) {
     corePresets.push(join(frameworkName, 'preset'));
-  } else {
+  } else if (!options.ignorePreview) {
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
@@ -89,7 +70,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const { renderer } = await presets.apply<CoreConfig>('core', {});
+  const { renderer } = await presets.apply('core', {});
   const build = await presets.apply('build', {});
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets, build });
 
@@ -115,13 +96,13 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
     await Promise.all([
-      presets.apply<StorybookConfig['features']>('features'),
-      presets.apply<CoreConfig>('core'),
-      presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+      presets.apply('features'),
+      presets.apply('core'),
+      presets.apply('staticDirs'),
       presets.apply('experimental_indexers', []),
       presets.apply('storyIndexers', []),
       presets.apply('stories'),
-      presets.apply<DocsOptions>('docs', {}),
+      presets.apply('docs', {}),
     ]);
 
   if (features?.storyStoreV7 === false) {
@@ -138,23 +119,18 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     build,
   };
 
-  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new ConflictingStaticDirConfigError();
-  }
-
   const effects: Promise<void>[] = [];
 
   global.FEATURES = features;
 
-  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+  await buildOrThrow(async () =>
+    managerBuilder.build({ startTime: process.hrtime(), options: fullOptions })
+  );
 
   if (staticDirs) {
     effects.push(
       copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
     );
-  }
-  if (options.staticDir) {
-    effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
   }
 
   const coreServerPublicDir = join(
@@ -177,19 +153,11 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       storyIndexers: deprecatedStoryIndexers,
       indexers,
       docs: docsOptions,
-      storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
       build,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-    effects.push(
-      extractStoriesJson(
-        join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
-        convertToIndexV3
-      )
-    );
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),

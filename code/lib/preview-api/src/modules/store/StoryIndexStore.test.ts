@@ -1,9 +1,9 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect, vi } from 'vitest';
 
 import type { StoryIndex } from '@storybook/types';
 import { StoryIndexStore } from './StoryIndexStore';
 
-jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
+vi.mock('@storybook/channel-websocket', () => () => ({ on: vi.fn() }));
 
 const storyIndex: StoryIndex = {
   v: 4,

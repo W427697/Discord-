@@ -16,13 +16,11 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V3CompatIndexEntry,
-  StoryId,
   StoryName,
   Indexer,
   IndexerOptions,
   DeprecatedIndexer,
-  StorybookConfig,
+  StorybookConfigRaw,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -54,12 +52,11 @@ type SpecifierStoriesCache = Record<Path, CacheEntry>;
 export type StoryIndexGeneratorOptions = {
   workingDir: Path;
   configDir: Path;
-  storiesV2Compatibility: boolean;
   storyStoreV7: boolean;
   storyIndexers: StoryIndexer[];
   indexers: Indexer[];
   docs: DocsOptions;
-  build?: StorybookConfig['build'];
+  build?: StorybookConfigRaw['build'];
 };
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -685,35 +682,9 @@ export class StoryIndexGenerator {
 
       const sorted = await this.sortStories(indexEntries);
 
-      let compat = sorted;
-      if (this.options.storiesV2Compatibility) {
-        const titleToStoryCount = Object.values(sorted).reduce((acc, story) => {
-          acc[story.title] = (acc[story.title] || 0) + 1;
-          return acc;
-        }, {} as Record<ComponentTitle, number>);
-
-        // @ts-expect-error (Converted from ts-ignore)
-        compat = Object.entries(sorted).reduce((acc, entry) => {
-          const [id, story] = entry;
-          if (story.type === 'docs') return acc;
-
-          acc[id] = {
-            ...story,
-            kind: story.title,
-            story: story.name,
-            parameters: {
-              __id: story.id,
-              docsOnly: titleToStoryCount[story.title] === 1 && story.name === 'Page',
-              fileName: story.importPath,
-            },
-          };
-          return acc;
-        }, {} as Record<StoryId, V3CompatIndexEntry>);
-      }
-
       this.lastIndex = {
         v: 4,
-        entries: compat,
+        entries: sorted,
       };
 
       return this.lastIndex;

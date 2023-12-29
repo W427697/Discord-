@@ -1,13 +1,12 @@
-/// <reference types="@types/jest" />;
-
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
+import { describe, it, expect, vi } from 'vitest';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
 expect.addSnapshotSerializer({
   print: (val: any) => yaml.dump(val).trimEnd(),
-  test: (val) => typeof val !== 'string',
+  test: (val) => typeof val !== 'string' && !(val instanceof Error),
 });
 
 const makeTitle = (userTitle?: string) => {
@@ -587,10 +586,10 @@ describe('CsfFile', () => {
         }
       `)
       ).toMatchInlineSnapshot(`
-              meta:
-                title: Chip
-              stories: []
-            `);
+        meta:
+          title: Chip
+        stories: []
+      `);
     });
   });
 
@@ -813,7 +812,7 @@ describe('CsfFile', () => {
     });
 
     it('Object export with storyName', () => {
-      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+      const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       parse(
         dedent`
@@ -1190,8 +1189,8 @@ describe('CsfFile', () => {
       ).parse();
 
       expect(() => csf.indexInputs).toThrowErrorMatchingInlineSnapshot(`
-        "Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
-        Either add the fileName option when creating the CsfFile instance, or create the index inputs manually."
+        [Error: Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
+        Either add the fileName option when creating the CsfFile instance, or create the index inputs manually.]
       `);
     });
   });

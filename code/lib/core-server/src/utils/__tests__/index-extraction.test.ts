@@ -1,8 +1,7 @@
-/// <reference types="@types/jest" />;
-
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
+import { describe, it, expect, vi } from 'vitest';
 
 import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
@@ -11,14 +10,13 @@ import type { NormalizedStoriesSpecifier } from '@storybook/types';
 import type { StoryIndexGeneratorOptions } from '../StoryIndexGenerator';
 import { AUTODOCS_TAG, STORIES_MDX_TAG, StoryIndexGenerator } from '../StoryIndexGenerator';
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '..', '__mockdata__'),
   workingDir: path.join(__dirname, '..', '__mockdata__'),
   storyIndexers: [],
   indexers: [],
-  storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
@@ -64,29 +62,29 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": "a",
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
             "title": "A",
             "type": "story",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "some-fully-custom-id",
             "importPath": "./src/A.stories.js",
             "metaId": "custom-id",
             "name": "Another Story Name",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -122,16 +120,16 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "f--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "F",
@@ -170,16 +168,16 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
             "metaId": "a",
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -219,16 +217,16 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": "a",
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -286,42 +284,42 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
             "title": "A",
             "type": "story",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "custom-title--story-two",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Custom Name For Second Story",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
             "title": "Custom Title",
             "type": "story",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "custom-meta-id--story-three",
             "importPath": "./src/A.stories.js",
             "metaId": "custom-meta-id",
             "name": "Story Three",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -358,16 +356,16 @@ describe('story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -409,15 +407,15 @@ describe('docs entries from story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
-            "storiesImports": Array [],
-            "tags": Array [
+            "storiesImports": [],
+            "tags": [
               "story-tag-from-indexer",
               "docs",
               "autodocs",
@@ -425,13 +423,13 @@ describe('docs entries from story extraction', () => {
             "title": "A",
             "type": "docs",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "story-tag-from-indexer",
               "story",
             ],
@@ -471,15 +469,15 @@ describe('docs entries from story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
-            "storiesImports": Array [],
-            "tags": Array [
+            "storiesImports": [],
+            "tags": [
               "autodocs",
               "story-tag-from-indexer",
               "docs",
@@ -487,13 +485,13 @@ describe('docs entries from story extraction', () => {
             "title": "A",
             "type": "docs",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "autodocs",
               "story-tag-from-indexer",
               "story",
@@ -534,16 +532,16 @@ describe('docs entries from story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "autodocs",
               "story-tag-from-indexer",
               "story",
@@ -584,15 +582,15 @@ describe('docs entries from story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
-            "storiesImports": Array [],
-            "tags": Array [
+            "storiesImports": [],
+            "tags": [
               "stories-mdx",
               "story-tag-from-indexer",
               "docs",
@@ -600,13 +598,13 @@ describe('docs entries from story extraction', () => {
             "title": "A",
             "type": "docs",
           },
-          Object {
+          {
             "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
             "name": "Story One",
-            "tags": Array [
+            "tags": [
               "stories-mdx",
               "story-tag-from-indexer",
               "story",
@@ -647,15 +645,15 @@ describe('docs entries from story extraction', () => {
     const result = await generator.extractStories(specifier, absolutePath);
 
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "dependents": Array [],
-        "entries": Array [
-          Object {
+      {
+        "dependents": [],
+        "entries": [
+          {
             "id": "page--docs",
             "importPath": "./src/nested/Page.stories.mdx",
             "name": "docs",
-            "storiesImports": Array [],
-            "tags": Array [
+            "storiesImports": [],
+            "tags": [
               "stories-mdx",
               "stories-mdx-docsOnly",
               "docs",

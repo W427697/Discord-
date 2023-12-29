@@ -1,4 +1,5 @@
-import type { StorybookConfig } from '@storybook/types';
+import { describe, afterEach, it, expect, vi } from 'vitest';
+import type { StorybookConfigRaw } from '@storybook/types';
 import { makePackageManager } from '../helpers/testing-helpers';
 import type { PackageJson } from '../../js-package-manager';
 import { builderVite } from './builder-vite';
@@ -8,17 +9,19 @@ const checkBuilderVite = async ({
   main: mainConfig,
 }: {
   packageJson?: PackageJson;
-  main: Partial<StorybookConfig> & Record<string, unknown>;
+  main: Partial<StorybookConfigRaw> & Record<string, unknown>;
 }) => {
   return builderVite.check({
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     packageManager: makePackageManager(packageJson),
     storybookVersion: '7.0.0',
   });
 };
 
 describe('builder-vite fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('storybook-builder-vite', () => {
     it('using storybook-builder-vite', async () => {

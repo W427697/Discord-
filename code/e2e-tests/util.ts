@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-standalone-expect, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { toId } from '@storybook/csf';
@@ -57,6 +57,28 @@ export class SbPage {
 
     const selected = await storyLink.getAttribute('data-selected');
     await expect(selected).toBe('true');
+
+    await this.previewRoot();
+  }
+
+  async navigateToUnattachedDocs(title: string, name = 'docs') {
+    await this.openComponent(title);
+
+    const titleId = toId(title);
+    const storyId = toId(name);
+    const storyLinkId = `#${titleId}-${storyId}--docs`;
+    await this.page.waitForSelector(storyLinkId);
+    const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
+    await storyLink.click({ force: true });
+
+    await this.page.waitForURL((url) =>
+      url.search.includes(`path=/docs/${titleId}-${storyId}--docs`)
+    );
+
+    const selected = await storyLink.getAttribute('data-selected');
+    await expect(selected).toBe('true');
+
+    await this.previewRoot();
   }
 
   async waitUntilLoaded() {
@@ -65,8 +87,9 @@ export class SbPage {
       const storeState = {
         layout: {
           showToolbar: true,
-          showNav: true,
-          showPanel: true,
+          navSize: 300,
+          bottomPanelHeight: 300,
+          rightPanelWidth: 300,
         },
       };
       window.sessionStorage.setItem('@storybook/manager/store', JSON.stringify(storeState));
