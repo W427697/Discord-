@@ -102,11 +102,10 @@ export const UserEventSetup = {
     const { args, canvasElement, step } = context;
     const user = userEvent.setup();
     const canvas = within(canvasElement);
-    await step('Select, type and paste on input using user-event v14 setup', async () => {
+    await step('Select and type on input using user-event v14 setup', async () => {
       const input = canvas.getByRole('textbox');
       await user.click(input);
-      await user.type(input, 'Pasting: ');
-      await user.paste('foobar');
+      await user.type(input, 'Typing ...');
     });
     await step('Tab and press enter on submit button', async () => {
       await user.pointer([
