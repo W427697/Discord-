@@ -3,7 +3,6 @@ import { getVirtualModules } from '@storybook/builder-webpack5';
 import type { Options } from '@storybook/types';
 import type { NextConfig } from 'next';
 import path from 'path';
-import type { RuleSetRule } from 'webpack';
 
 export const configureSWCLoader = async (
   baseConfig: any,
@@ -17,12 +16,8 @@ export const configureSWCLoader = async (
   const { virtualModules } = await getVirtualModules(options);
 
   baseConfig.module.rules = [
-    // TODO: Remove filtering in Storybook 8.0
-    ...baseConfig.module.rules.filter((r: RuleSetRule) => {
-      return !r.loader?.includes('swc-loader');
-    }),
     {
-      test: /\.(m?(j|t)sx?)$/,
+      test: /\.((c|m)?(j|t)sx?)$/,
       include: [getProjectRoot()],
       exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
       enforce: 'post',

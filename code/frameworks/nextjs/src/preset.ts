@@ -4,6 +4,7 @@ import type { PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
+import fs from 'fs';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
@@ -17,6 +18,7 @@ import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
 import { configureSWCLoader } from './swc/loader';
+import { configureBabelLoader } from './babel/loader';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -78,9 +80,6 @@ export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
   return result;
 };
 
-// Not even sb init - automigrate - running dev
-// You're using a version of Nextjs prior to v10, which is unsupported by this framework.
-
 export const babel: PresetProperty<'babel'> = async (baseConfig) => {
   const configPartial = loadPartialConfig({
     ...baseConfig,
@@ -141,14 +140,19 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );
-  const { options: { nextConfigPath, builder } = {} } = frameworkOptions;
+  const { options: { nextConfigPath } = {} } = frameworkOptions;
   const nextConfig = await configureConfig({
     baseConfig,
     nextConfigPath,
     configDir: options.configDir,
   });
 
-  configureNextFont(baseConfig, builder?.useSWC);
+  const babelRCPath = join(getProjectRoot(), '.babelrc');
+  const hasBabelConfig = fs.existsSync(babelRCPath);
+
+  const useSWC = nextConfig.experimental?.forceSwcTransforms ?? hasBabelConfig;
+
+  configureNextFont(baseConfig, useSWC);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);
@@ -160,9 +164,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configureRSC(baseConfig);
   }
 
-  // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
-  if (builder?.useSWC) {
+  if (useSWC) {
     await configureSWCLoader(baseConfig, options, nextConfig);
+  } else {
+    await configureBabelLoader(baseConfig, options);
   }
 
   return baseConfig;
