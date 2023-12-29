@@ -11,6 +11,7 @@ test.describe('addon-controls', () => {
     await sbPage.waitUntilLoaded();
 
     await sbPage.navigateToStory('example/button', 'primary');
+    await sbPage.waitForStory();
     await sbPage.viewAddonPanel('Controls');
 
     // Text input: Label

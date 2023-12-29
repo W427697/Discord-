@@ -222,6 +222,7 @@ test.describe('Manager UI', () => {
       await expect(sbPage.page.url()).toContain('configure-your-project');
 
       await sbPage.navigateToStory('Example/Button', 'Secondary');
+      await sbPage.waitForStory();
 
       // navigation menu is closed
       await expect(mobileNavigationHeading).toHaveText('Example/Button/Secondary');

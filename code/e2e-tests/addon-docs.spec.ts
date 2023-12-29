@@ -27,6 +27,7 @@ test.describe('addon-docs', () => {
 
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    await sbPage.waitForStory();
     const root = sbPage.previewRoot();
 
     const basicStories = root.locator('#anchor--addons-docs-docspage-basic--basic');
@@ -49,6 +50,7 @@ test.describe('addon-docs', () => {
 
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    await sbPage.waitForStory();
     const root = sbPage.previewRoot();
 
     // Click on the third button which has the text "Show code"
@@ -179,6 +181,7 @@ test.describe('addon-docs', () => {
     // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
     // render both the "Basic" and "Another" story
     const root = sbPage.previewRoot();
+    await sbPage.waitForStory();
     const stories = root.locator('.sb-story button');
 
     await expect(await stories.count()).toBe(3);

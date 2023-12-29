@@ -18,6 +18,7 @@ test.describe('addon-actions', () => {
     sbPage.waitUntilLoaded();
 
     await sbPage.navigateToStory('example/button', 'primary');
+    await sbPage.waitForStory();
     const root = sbPage.previewRoot();
     const button = root.locator('button', { hasText: 'Button' });
     await button.click();
