@@ -25,7 +25,7 @@ Type: `TestBuildFlags`
 }
 ```
 
-Configures Storybook's production builds for performance testing purposes by disabling certain features from the build. When running ' build-storybook ', this feature is enabled by setting the `--test` [flag](./cli-options.md#build).
+Configures Storybook's production builds for performance testing purposes by disabling certain features from the build. When running `build-storybook`, this feature is enabled by setting the `--test` [flag](./cli-options.md#build).
 
 <Callout variant="info" icon="💡">
 
