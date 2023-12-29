@@ -18,6 +18,7 @@ test.describe('addon-backgrounds', () => {
     const sbPage = new SbPage(page);
 
     await sbPage.navigateToStory('example/button', 'primary');
+    await sbPage.waitForStory();
     await sbPage.selectToolbar(backgroundToolbarSelector, '#list-item-dark');
 
     await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-color', 'rgb(51, 51, 51)');
@@ -27,6 +28,7 @@ test.describe('addon-backgrounds', () => {
     const sbPage = new SbPage(page);
 
     await sbPage.navigateToStory('example/button', 'primary');
+    await sbPage.waitForStory();
     await sbPage.selectToolbar(gridToolbarSelector);
 
     await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-image', /linear-gradient/);

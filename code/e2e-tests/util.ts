@@ -120,8 +120,15 @@ export class SbPage {
     await tab.click();
   }
 
+  async waitForStory() {
+    const preview = this.previewIframe();
+    await preview.locator('.sb-show-main').waitFor({ state: 'visible' });
+  }
+
   async selectToolbar(toolbarSelector: string, itemSelector?: string) {
-    await this.page.locator(toolbarSelector).click();
+    const toolbar = await this.page.locator(toolbarSelector);
+    await toolbar.waitFor({ state: 'visible' });
+    toolbar.click();
     if (itemSelector) {
       await this.page.locator(itemSelector).click();
     }
