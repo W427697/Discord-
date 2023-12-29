@@ -5,13 +5,14 @@ import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
 import fs from 'fs';
+import semver from 'semver';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
 import { configureRSC } from './rsc/webpack';
-import { configureRuntimeNextjsVersionResolution } from './utils';
+import { configureRuntimeNextjsVersionResolution, getNextjsVersion } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
@@ -149,8 +150,11 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
 
   const babelRCPath = join(getProjectRoot(), '.babelrc');
   const hasBabelConfig = fs.existsSync(babelRCPath);
+  const nextjsVersion = getNextjsVersion();
 
-  const useSWC = nextConfig.experimental?.forceSwcTransforms ?? hasBabelConfig;
+  const isNext14orNewer = semver.gte(nextjsVersion, '14.0.0');
+  const useSWC =
+    isNext14orNewer && (nextConfig.experimental?.forceSwcTransforms ?? !hasBabelConfig);
 
   configureNextFont(baseConfig, useSWC);
   configureRuntimeNextjsVersionResolution(baseConfig);
