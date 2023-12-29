@@ -68,7 +68,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/csf": "^0.1.2",
     "@storybook/csf-tools": "workspace:*",
-    "@storybook/docs-mdx": "0.1.1--canary.13.0f9c1e4.0",
+    "@storybook/docs-mdx": "0.1.1-next.3",
     "@storybook/global": "^5.0.0",
     "@storybook/manager": "workspace:*",
     "@storybook/node-logger": "workspace:*",
