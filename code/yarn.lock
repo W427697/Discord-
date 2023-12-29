@@ -4148,7 +4148,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1":
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.11":
   version: 0.5.11
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.11"
   dependencies:
@@ -5918,6 +5918,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/runtime": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
+    "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -5932,6 +5933,7 @@ __metadata:
     "@types/babel__preset-env": "npm:^7"
     "@types/loader-utils": "npm:^2.0.5"
     "@types/node": "npm:^18.0.0"
+    "@types/react-refresh": "npm:^0"
     "@types/semver": "npm:^7.3.4"
     babel-loader: "npm:^9.1.3"
     css-loader: "npm:^6.7.3"
@@ -5944,6 +5946,7 @@ __metadata:
     pnp-webpack-plugin: "npm:^1.7.0"
     postcss: "npm:^8.4.21"
     postcss-loader: "npm:^7.0.2"
+    react-refresh: "npm:^0.14.0"
     resolve-url-loader: "npm:^5.0.0"
     sass-loader: "npm:^12.4.0"
     semver: "npm:^7.3.5"
@@ -7218,7 +7221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7, @types/babel__core@npm:^7.18.0":
+"@types/babel__core@npm:*, @types/babel__core@npm:^7, @types/babel__core@npm:^7.18.0":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
   dependencies:
@@ -7929,6 +7932,16 @@ __metadata:
   dependencies:
     "@types/react": "npm:*"
   checksum: 4f586bd00e4b15633ec6607cb3266183b81419a2c0931d40e6127427e944a986d3d9a9c8a23c86cb586b15e541a1c6682f6ab0d2561a3b81fcf857772727ff44
+  languageName: node
+  linkType: hard
+
+"@types/react-refresh@npm:^0":
+  version: 0.14.5
+  resolution: "@types/react-refresh@npm:0.14.5"
+  dependencies:
+    "@types/babel__core": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 7fc9e1a2b5bc096ba2259b5df9dc036b330d1791bb9fc27b6426db7f2c86be42449713e09f0244d82ecdf596c45bead8feccac032ef0efe4853cb2086ee1ffbe
   languageName: node
   linkType: hard
 

@@ -31,7 +31,7 @@ export const configureSWCLoader = async (
           rootDir: dir,
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
-          hasReactRefresh: false,
+          hasReactRefresh: isDevelopment,
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,

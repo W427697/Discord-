@@ -20,6 +20,7 @@ import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
 import { configureSWCLoader } from './swc/loader';
 import { configureBabelLoader } from './babel/loader';
+import { configureFastRefresh } from './fastRefresh/webpack';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -151,6 +152,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   const babelRCPath = join(getProjectRoot(), '.babelrc');
   const hasBabelConfig = fs.existsSync(babelRCPath);
   const nextjsVersion = getNextjsVersion();
+  const isDevelopment = options.configType !== 'PRODUCTION';
 
   const isNext14orNewer = semver.gte(nextjsVersion, '14.0.0');
   const useSWC =
@@ -163,6 +165,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+
+  if (isDevelopment) {
+    configureFastRefresh(baseConfig);
+  }
 
   if (options.features?.experimentalNextRSC) {
     configureRSC(baseConfig);
