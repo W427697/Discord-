@@ -1,3 +1,4 @@
+import { fn } from '@storybook/test';
 import MyButton from './Button.vue';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -9,6 +10,7 @@ export default {
     size: { control: { type: 'select' }, options: ['small', 'medium', 'large'] },
     backgroundColor: { control: 'color' },
   },
+  args: { onClick: fn() },
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
