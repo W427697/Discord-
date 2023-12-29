@@ -6,7 +6,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';
-// @ts-expect-error -- cannot find declaration file
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { readCsf, getStorySortParameter } from '@storybook/csf-tools';
