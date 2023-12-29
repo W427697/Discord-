@@ -16,6 +16,7 @@ export const configureSWCLoader = async (
   const { virtualModules } = await getVirtualModules(options);
 
   baseConfig.module.rules = [
+    ...baseConfig.module.rules,
     {
       test: /\.((c|m)?(j|t)sx?)$/,
       include: [getProjectRoot()],

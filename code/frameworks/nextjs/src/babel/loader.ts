@@ -9,6 +9,7 @@ export const configureBabelLoader = async (baseConfig: any, options: Options) =>
   const typescriptOptions = await options.presets.apply('typescript', {}, options);
 
   baseConfig.module.rules = [
+    ...baseConfig.module.rules,
     {
       test: typescriptOptions.skipCompiler ? /\.((c|m)?jsx?)$/ : /\.((c|m)?(j|t)sx?)$/,
       use: [
