@@ -25,6 +25,7 @@
   },
   "license": "MIT",
   "author": "jbaxleyiii",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

@@ -24,6 +24,7 @@
   },
   "license": "MIT",
   "author": "winkerVSbecks",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
