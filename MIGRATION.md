@@ -18,6 +18,7 @@
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
     - [Next.js Automatic SWC mode detection](#nextjs-automatic-swc-mode-detection)
+    - [Preact: No longer adds default babel plugins](#preact-no-longer-adds-default-babel-plugins)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -502,6 +503,54 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 
 - If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code. 
 - Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
+
+#### Preact: No longer adds default babel plugins
+
+Until now, Storybook added a set of default babel plugins to the babel config for Preact projects which uses Webpack.
+
+We have configured the runtime automatic import plugin to automatically import `h` from `preact` when needed. This is no longer the case in Storybook 8.0. If you want to use the runtime automatic import plugin to skip unnecessary preact imports, you will need to add it to your babel config yourself. The same applies if you want to use TypeScript with Preact.
+
+```js
+.babelrc
+
+{
+  "plugins": [
+    [
+      // Add this to automatically import `h` from `preact` when needed
+      "@babel/plugin-transform-react-jsx", {
+        "importSource": "preact",
+        "runtime": "automatic" 
+      }
+    ],
+    // Add this if you want to use TypeScript with Preact
+    "@babel/preset-typescript"
+  ],
+}
+```
+
+If you want to configure the plugins only for Storybook, you can add the same setting to your `.storybook/main.js` file.
+
+```js
+const config = {
+  ...
+  babel: async (options) => {
+    options.plugins.push(
+      [
+        "@babel/plugin-transform-react-jsx", {
+          "importSource": "preact",
+          "runtime": "automatic" 
+        }
+      ], 
+      "@babel/preset-typescript"
+    )
+    return options;
+  },
+}
+
+export default config
+```
+
+We are doing this to apply the same babel config as you have defined in your project. This streamlines the experience of using Storybook with Preact. Additionally, we are not vendor-locked to a specific Babel version anymore, which means that you can upgrade Babel without breaking your Storybook.
 
 ## From version 7.5.0 to 7.6.0
 
