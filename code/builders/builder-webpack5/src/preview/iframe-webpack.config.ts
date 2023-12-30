@@ -8,7 +8,6 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
-import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {

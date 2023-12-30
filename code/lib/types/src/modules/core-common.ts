@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
 import type { Router } from 'express';
 import type { Server } from 'http';
@@ -70,7 +69,8 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<any>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<any>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
@@ -408,7 +408,7 @@ export interface StorybookConfigRaw {
   // We cannot use a particular Babel type here because we need to support a variety of versions
   babel?: any;
 
-  swc?: SWCOptions;
+  swc?: any;
 
   env?: Record<string, string>;
 
