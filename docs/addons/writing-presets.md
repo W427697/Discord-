@@ -56,6 +56,8 @@ To customize Storybook's Babel configuration and add support for additional feat
 
 <!-- prettier-ignore-end -->
 
+Please keep in mind that the babel configurations are only applied if the users Storybook Framework uses Babel. If the framework uses another transpiler, like SWC or esbuild, the babel configuration will be ignored.
+
 ### Builders
 
 By default, Storybook provides support for the leading industry builders, including [Webpack](../builders/webpack.md) and [Vite](../builders/vite.md). If you need additional features for any of these builders, you can use APIs to extend the builder configuration based on your specific needs.
