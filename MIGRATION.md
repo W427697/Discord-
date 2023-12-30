@@ -18,6 +18,7 @@
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
     - [Next.js Automatic SWC mode detection](#nextjs-automatic-swc-mode-detection)
+    - [Preact: Dropping support for Preact \< 10](#preact-dropping-support-for-preact--10)
     - [Preact: No longer adds default babel plugins](#preact-no-longer-adds-default-babel-plugins)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
@@ -503,6 +504,10 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 
 - If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code. 
 - Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
+
+#### Preact: Dropping support for Preact \< 10
+
+Starting in 8.0, we drop support for Preact < 10.
 
 #### Preact: No longer adds default babel plugins
 
