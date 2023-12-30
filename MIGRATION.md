@@ -17,6 +17,7 @@
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
     - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
+    - [Next.js Automatic SWC mode detection](#nextjs-automatic-swc-mode-detection)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -494,6 +495,13 @@ Starting in 8.0, we drop support for Angular < 15
 #### Next.js: Drop support for version \< 13.5
 
 Starting in 8.0, we drop support for Next.js < 13.5.
+
+#### Next.js Automatic SWC mode detection
+
+Similar to how Next.js detects if SWC should be used, Storybook will follow more or less the same rules:
+
+- If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code. 
+- Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
 
 ## From version 7.5.0 to 7.6.0
 
