@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [framework.options.fastRefresh for Webpack5-based projects removed](#frameworkoptionsfastrefresh-for-webpack5-based-projects-removed)
     - [typescript.skipBabel removed](#typescriptskipbabel-removed)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
@@ -385,6 +386,67 @@ To summarize:
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
 ### Core changes
+
+#### framework.options.fastRefresh for Webpack5-based projects removed
+
+In Storybook 8.0.0, we have removed the `framework.options.fastRefresh` option.
+
+The fast-refresh implementation currently relies on the `react-refresh/babel` package. While this has served us well, integrating this dependency could pose challenges. Specifically, it would necessitate locking users into a specific Babel version. This could become a bottleneck in the future, especially when Babel 8 is released. There is uncertainty about whether react-refresh/babel will seamlessly support Babel 8, potentially hindering users from updating smoothly.
+
+Furthermore, the existing implementation does not account for cases where fast-refresh might already be configured in a user's Webpack 5 and Babel configuration. Rather than filtering out existing configurations, our current approach could lead to duplications, resulting in a less-than-optimal development experience.
+
+We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. By adding the following configuration, users can easily configure fast-refresh according to their specific needs, if it is not already configured or if your fast-refresh configuration is not automatically picked up by Storybook: 
+
+`package.json`:
+
+```diff
+{
+  "devDependencies": {
++   "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
++   "react-refresh": "^0.14.0",
+  }
+}
+```
+
+`babel.config.js` (optionally, add it to `.storybook/main.js`):
+
+```diff
++const isProdBuild = process.env.NODE_ENV === 'production';
+
+module.exports = (api) => {
+  return {
+    plugins: [
++     !isProdBuild && 'react-refresh/babel',
+    ].filter(Boolean),
+  };
+};
+```
+
+`.storybook/main.js`:
+
+```diff
++import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
++const isProdBuild = process.env.NODE_ENV === 'production';
+const config = {
+  webpackFinal: (config) => {
++   config.plugins = [
++     !isProdBuild && new ReactRefreshWebpackPlugin({
++       overlay: {
++         sockIntegration: 'whm',
++       },
++     }),
++     ...config.plugins,
++   ].filter(Boolean);
+    return config;
+  },
+};
+
+export default config;
+```
+
+This approach aligns with our philosophy of transparency and puts users in control of their Webpack and Babel configurations.
+
+We are committed to minimizing magic behind the scenes. By removing `framework.options.fastRefresh`, we are taking a step closer to a Storybook that doesn't impose unnecessary configurations on users. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
 
 #### typescript.skipBabel removed
 
