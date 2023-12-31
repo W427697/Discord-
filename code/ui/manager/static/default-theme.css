@@ -67,6 +67,7 @@
       --sb-button-solidActiveBorder: transparent;
       --sb-button-outlineActiveBorder: #d9e8f2;
       --sb-button-ghostActiveBorder: transparent;
+      --sb-button-focusBorder: #029cfd;
     }
   }
   @media (prefers-color-scheme: dark) {
