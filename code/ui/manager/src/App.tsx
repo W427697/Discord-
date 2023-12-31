@@ -6,6 +6,7 @@ import { Route } from '@storybook/router';
 import type { ThemeVars } from '@storybook/theming';
 import { Global, createGlobal } from '@storybook/theming';
 import type { Addon_PageType } from '@storybook/types';
+import { deprecate } from '@storybook/client-logger';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
 import Panel from './container/Panel';
@@ -30,7 +31,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages, theme }:
   const isUsingDarkThemeV1 = isThemeDifferentFromDefaultTheme('dark', theme);
   const isThemeV1 = isUsingLightThemeV1 || isUsingDarkThemeV1;
   if (isThemeV1)
-    console.warn('Use of deprecated theme format detected. Please migrate to the new format.');
+    deprecate('Use of deprecated theme format detected. Please migrate to the new format.');
 
   return (
     <>
