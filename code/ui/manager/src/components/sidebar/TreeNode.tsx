@@ -5,7 +5,7 @@ import { UseSymbol } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
 
 export const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
-  ({ theme, type }) => ({
+  ({ type }) => ({
     width: 14,
     height: 14,
     flex: '0 0 auto',
@@ -43,8 +43,8 @@ const BranchNode = styled.button<{
   paddingBottom: 4,
 
   '&:hover, &:focus': {
-    background: ['var(--sb-sidebar-itemHoverBackground)'],
     outline: 'none',
+    background: 'var(--sb-sidebar-itemHoverBackground)',
   },
 }));
 

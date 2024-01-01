@@ -82,7 +82,7 @@ export const Action = styled.button<{ height?: number; width?: number }>(
   })
 );
 
-const CollapseButton = styled.button(({ theme }) => ({
+const CollapseButton = styled.button({
   all: 'unset',
   display: 'flex',
   padding: '0px 8px',
@@ -95,9 +95,9 @@ const CollapseButton = styled.button(({ theme }) => ({
 
   '&:hover, &:focus': {
     outline: 'none',
-    background: transparentize(0.93, theme.color.secondary),
+    background: 'var(--sb-sidebar-itemHoverBackground)',
   },
-}));
+});
 
 export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   position: 'relative',
@@ -112,18 +112,18 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
 
   '&:hover, &:focus': {
     outline: 'none',
-    background: transparentize(0.93, theme.color.secondary),
+    background: 'var(--sb-sidebar-itemHoverBackground)',
   },
 
   '&[data-selected="true"]': {
-    color: theme.color.lightest,
-    background: theme.color.secondary,
+    color: 'var(--sb-sidebar-itemActiveText)',
+    background: 'var(--sb-sidebar-itemActiveBackground)',
     fontWeight: theme.typography.weight.bold,
 
     '&:hover, &:focus': {
-      background: theme.color.secondary,
+      background: 'var(--sb-sidebar-itemActiveBackground)',
     },
-    svg: { color: theme.color.lightest },
+    svg: { color: 'var(--sb-sidebar-itemActiveIcon)' },
   },
 
   a: { color: 'currentColor' },

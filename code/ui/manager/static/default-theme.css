@@ -9,8 +9,8 @@
       --sb-sidebar-sectionText: #73828c;
       --sb-sidebar-itemText: #2e3438;
 
-      --sb-sidebar-itemIconDoc: #ffae00;
-      --sb-sidebar-itemIconFolder: #6f2cac;
+      --sb-sidebar-itemIconDocument: #ffae00;
+      --sb-sidebar-itemIconGroup: #6f2cac;
       --sb-sidebar-itemIconComponent: #029cfd;
       --sb-sidebar-itemIconStory: #37d5d3;
 
@@ -19,7 +19,6 @@
       --sb-sidebar-itemActiveBackground: #029cfd;
       --sb-sidebar-itemActiveText: #fff;
       --sb-sidebar-itemActiveIcon: #fff;
-      --sb-sidebar-itemActiveArrow: #fff;
 
       --sb-sidebar-searchBarBackground: #f6f9fc;
       --sb-sidebar-searchBarBorder: #d7e0e7;
