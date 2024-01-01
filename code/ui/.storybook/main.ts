@@ -65,7 +65,6 @@ const config: StorybookConfig = {
   },
   core: {
     disableTelemetry: true,
-    disableWhatsNewNotifications: false,
   },
   viteFinal: (viteConfig, { configType }) =>
     mergeConfig(viteConfig, {
