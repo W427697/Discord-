@@ -4,20 +4,23 @@
       /* Sidebar */
       --sb-sidebar-background: #f6f9fc;
       --sb-sidebar-borderRight: #d7e0e7;
+      --sb-sidebar-arrow: #73828c;
+
       --sb-sidebar-sectionText: #73828c;
-      --sb-sidebar-sectionArrow: #b4bbc0;
-      --sb-sidebar-sectionToggle: #b4bbc0;
-      --sb-sidebar-itemArrow: #b4bbc0;
       --sb-sidebar-itemText: #2e3438;
+
       --sb-sidebar-itemIconDoc: #ffae00;
       --sb-sidebar-itemIconFolder: #6f2cac;
       --sb-sidebar-itemIconComponent: #029cfd;
       --sb-sidebar-itemIconStory: #37d5d3;
-      --sb-sidebar-itemHoverBg: #e5f2fc;
-      --sb-sidebar-itemActiveBg: #029cfd;
+
+      --sb-sidebar-itemHoverBackground: #e5f2fc;
+
+      --sb-sidebar-itemActiveBackground: #029cfd;
       --sb-sidebar-itemActiveText: #fff;
       --sb-sidebar-itemActiveIcon: #fff;
       --sb-sidebar-itemActiveArrow: #fff;
+
       --sb-sidebar-searchBarBackground: #f6f9fc;
       --sb-sidebar-searchBarBorder: #d7e0e7;
       --sb-sidebar-searchPlaceholder: #73828c;
@@ -41,31 +44,31 @@
 
       /* Button + IconButton */
       --sb-button-solidBackground: #029cfd;
-      --sb-button-outlineBackground: #f6f9fc;
-      --sb-button-ghostBackground: transparent;
       --sb-button-solidText: #fff;
-      --sb-button-outlineText: #2e3438;
-      --sb-button-ghostText: #73828c;
       --sb-button-solidBorder: transparent;
-      --sb-button-outlineBorder: #d9e8f2;
-      --sb-button-ghostBorder: transparent;
       --sb-button-solidHoverBackground: #0379c9;
-      --sb-button-outlineHoverBackground: #e5f2fc;
-      --sb-button-ghostHoverBackground: #e5f2fc;
       --sb-button-solidHoverText: #fff;
-      --sb-button-outlineHoverText: #2e3438;
-      --sb-button-ghostHoverText: #2e3438;
       --sb-button-solidHoverBorder: transparent;
-      --sb-button-outlineHoverBorder: #d9e8f2;
-      --sb-button-ghostHoverBorder: transparent;
       --sb-button-solidActiveBackground: #0379c9;
-      --sb-button-outlineActiveBackground: #e5f2fc;
-      --sb-button-ghostActiveBackground: #e5f2fc;
       --sb-button-solidActiveText: #fff;
-      --sb-button-outlineActiveText: #2e3438;
-      --sb-button-ghostActiveText: #2e3438;
       --sb-button-solidActiveBorder: transparent;
+      --sb-button-outlineBackground: #f6f9fc;
+      --sb-button-outlineText: #2e3438;
+      --sb-button-outlineBorder: #d9e8f2;
+      --sb-button-outlineHoverBackground: #e5f2fc;
+      --sb-button-outlineHoverText: #2e3438;
+      --sb-button-outlineHoverBorder: #d9e8f2;
+      --sb-button-outlineActiveBackground: #e5f2fc;
+      --sb-button-outlineActiveText: #2e3438;
       --sb-button-outlineActiveBorder: #d9e8f2;
+      --sb-button-ghostBackground: transparent;
+      --sb-button-ghostText: #73828c;
+      --sb-button-ghostBorder: transparent;
+      --sb-button-ghostHoverBackground: #e5f2fc;
+      --sb-button-ghostHoverText: #2e3438;
+      --sb-button-ghostHoverBorder: transparent;
+      --sb-button-ghostActiveBackground: #e5f2fc;
+      --sb-button-ghostActiveText: #2e3438;
       --sb-button-ghostActiveBorder: transparent;
       --sb-button-focusBorder: #029cfd;
     }
