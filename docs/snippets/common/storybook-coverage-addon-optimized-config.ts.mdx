@@ -7,9 +7,15 @@ import type { StorybookConfig } from '@storybook/your-framework';
 const config: StorybookConfig = {
   framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-coverage',
+  ],
   build: {
     test: {
-      disableBlocks: false,
+      disabledAddons: ['@storybook/addon-docs', '@storybook/addon-essentials/docs'],
     },
   },
 };

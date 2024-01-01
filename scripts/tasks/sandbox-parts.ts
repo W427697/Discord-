@@ -73,7 +73,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async ({ sandboxDir, key }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -91,7 +91,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
     // the top. In theory this could mask issues where different versions cause problems.
     await addPackageResolutions({ cwd, dryRun, debug });
-    await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
+    await configureYarn2ForVerdaccio({ cwd, dryRun, debug, key });
 
     // Add vite plugin workarounds for frameworks that need it
     // (to support vite 5 without peer dep errors)
