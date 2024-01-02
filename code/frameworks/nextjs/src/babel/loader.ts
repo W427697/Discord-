@@ -1,4 +1,4 @@
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot, resolvePathInStorybookCache } from '@storybook/core-common';
 import { getVirtualModules } from '@storybook/builder-webpack5';
 import type { Options } from '@storybook/types';
 
@@ -15,7 +15,10 @@ export const configureBabelLoader = async (baseConfig: any, options: Options) =>
       use: [
         {
           loader: require.resolve('babel-loader'),
-          options: babelOptions,
+          options: {
+            cacheDirectory: resolvePathInStorybookCache('babel'),
+            ...babelOptions,
+          },
         },
       ],
       include: [getProjectRoot()],

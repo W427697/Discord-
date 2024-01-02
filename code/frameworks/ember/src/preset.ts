@@ -1,7 +1,7 @@
 import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/types';
 import { getVirtualModules } from '@storybook/builder-webpack5';
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot, resolvePathInStorybookCache } from '@storybook/core-common';
 import type { StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
@@ -29,7 +29,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
           use: [
             {
               loader: require.resolve('babel-loader'),
-              options: babelOptions,
+              options: {
+                cacheDirectory: resolvePathInStorybookCache('babel'),
+                ...babelOptions,
+              },
             },
           ],
           include: [getProjectRoot()],
