@@ -12,7 +12,10 @@ const meta: Meta<typeof Button> = {
     size: { control: 'select', options: ['small', 'medium', 'large'] },
     backgroundColor: { control: 'color' },
   },
-  args: { primary: false, onClick: fn() }, // default value
+  args: {
+    primary: false,
+    onClick: fn()
+  },
 };
 
 export default meta;
