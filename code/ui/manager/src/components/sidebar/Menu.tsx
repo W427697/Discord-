@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
-import { CloseIcon, CogIcon, MenuIcon } from '@storybook/icons';
+import { CloseIcon, CogIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
