@@ -6,7 +6,6 @@ export type MdxCompileOptions = Parameters<typeof mdxCompile>[1];
 export type BabelOptions = Parameters<typeof transformAsync>[1];
 
 export interface CompileOptions {
-  skipCsf?: boolean;
   mdxCompileOptions?: MdxCompileOptions;
 }
 
@@ -30,16 +29,14 @@ async function loader(this: LoaderContext, content: string): Promise<void> {
   const callback = this.async();
   const options = { ...this.getOptions(), filepath: this.resourcePath };
 
-  let result: string;
   try {
-    result = await compile(content, options);
+    const result = await compile(content, options);
+    const code = `${DEFAULT_RENDERER}\n${result}`;
+    return callback(null, code);
   } catch (err: any) {
     console.error('Error loading:', this.resourcePath);
     return callback(err);
   }
-
-  const code = `${DEFAULT_RENDERER}\n${result}`;
-  return callback(null, code);
 }
 
 export default loader;
