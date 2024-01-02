@@ -41,9 +41,8 @@ const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
     const whatsNewNotificationsEnabled =
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
-    const items = api.getElements(types.experimental_SIDEBAR_BOTTOM);
-    const bottom = useMemo(() => Object.values(items), [items]);
-    const top = useMemo(() => Object.values(api.getElements(types.experimental_SIDEBAR_TOP)), []);
+    const bottom = Object.values(api.getElements(types.experimental_SIDEBAR_BOTTOM));
+    const top = Object.values(api.getElements(types.experimental_SIDEBAR_TOP));
 
     return {
       title: name,
