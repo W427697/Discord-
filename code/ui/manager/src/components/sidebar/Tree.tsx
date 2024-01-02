@@ -92,6 +92,7 @@ const CollapseButton = styled.button({
   alignItems: 'center',
   cursor: 'pointer',
   height: 28,
+  color: 'var(--sb-sidebar-sectionText)',
 
   '&:hover, &:focus': {
     outline: 'none',
@@ -99,13 +100,13 @@ const CollapseButton = styled.button({
   },
 });
 
-export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
+export const LeafNodeStyleWrapper = styled.div({
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   paddingRight: 20,
-  color: theme.color.defaultText,
+  color: 'var(--sb-sidebar-itemText)',
   background: 'transparent',
   minHeight: 28,
   borderRadius: 4,
@@ -118,7 +119,7 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   '&[data-selected="true"]': {
     color: 'var(--sb-sidebar-itemActiveText)',
     background: 'var(--sb-sidebar-itemActiveBackground)',
-    fontWeight: theme.typography.weight.bold,
+    fontWeight: 700,
 
     '&:hover, &:focus': {
       background: 'var(--sb-sidebar-itemActiveBackground)',
@@ -127,7 +128,7 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   },
 
   a: { color: 'currentColor' },
-}));
+});
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
   display: 'none',

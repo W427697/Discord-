@@ -33,7 +33,7 @@ const BranchNode = styled.button<{
   alignItems: 'start',
   textAlign: 'left',
   paddingLeft: `${(isExpandable ? 8 : 22) + depth * 18}px`,
-  color: 'inherit',
+  color: 'var(--sb-sidebar-itemText)',
   fontSize: `${theme.typography.size.s2}px`,
   background: 'transparent',
   minHeight: 28,
