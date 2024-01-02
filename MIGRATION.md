@@ -3,6 +3,8 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
+    - [framework.options.builder.useSWC for Webpack5-based projects removed](#frameworkoptionsbuilderuseswc-for-webpack5-based-projects-removed)
+    - [Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`](#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5)
     - [framework.options.fastRefresh for Webpack5-based projects removed](#frameworkoptionsfastrefresh-for-webpack5-based-projects-removed)
     - [typescript.skipBabel removed](#typescriptskipbabel-removed)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
@@ -387,13 +389,55 @@ To summarize:
 
 ### Core changes
 
+#### framework.options.builder.useSWC for Webpack5-based projects removed
+
+In Storybook 8.0.0, we have removed the `framework.options.builder.useSWC` option. The `@storybook/builder-webpack5` package is now compiler-agnostic and does not depend on Babel or SWC.
+
+If you want to use SWC, you can install and add the following addon to your Storybook configuration:
+
+```sh
+npm install --save-dev @storybook/addon-webpack-compiler-swc
+```
+
+`.storybook/main.js`:
+
+```js
+const config = {
+  addons: ["@storybook/addon-webpack-compiler-swc"]
+};
+
+export default config;
+```
+
+The goal is to make @storybook/builder-webpack5 more leightweight and flexible. We are not locked into a specific compiler or compiler version anymore. This allows us to support Babel 7/8, SWC and other compilers at the same time.
+
+#### Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`
+
+In Storybook 8.0.0, we have removed the `@storybook/builder-webpack5` package's dependency on Babel. This means that Babel is not preconfigured in `@storybook/builder-webpack5`. If you want to use Babel, you can install and add the following addon to your Storybook configuration:
+
+```sh
+npm install --save-dev @storybook/addon-webpack-compiler-babel
+```
+
+`.storybook/main.js`:
+
+```js
+const config = {
+  addons: ["@storybook/addon-webpack-compiler-babel"]
+};
+
+export default config;
+```
+
+We are doing this to make Storybook more flexible and to allow users to use a variety of compilers like SWC, Babel or even pure TypeScript.
+
 #### framework.options.fastRefresh for Webpack5-based projects removed
 
 In Storybook 8.0.0, we have removed the `framework.options.fastRefresh` option.
 
 The fast-refresh implementation currently relies on the `react-refresh/babel` package. While this has served us well, integrating this dependency could pose challenges. Specifically, it would necessitate locking users into a specific Babel version. This could become a bottleneck in the future, especially when Babel 8 is released. There is uncertainty about whether react-refresh/babel will seamlessly support Babel 8, potentially hindering users from updating smoothly.
 
-Furthermore, the existing implementation does not account for cases where fast-refresh might already be configured in a user's Webpack 5 and Babel configuration. Rather than filtering out existing configurations, our current approach could lead to duplications, resulting in a less-than-optimal development experience.
+Furthermore, the existing implementation does not account for cases where fast-refresh might already be configured in a user's Babel configuration. Rather than filtering out existing configurations, our current approach could lead to duplications, resulting in a less-than-optimal development experience.
 
 We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. By adding the following configuration, users can easily configure fast-refresh according to their specific needs, if it is not already configured or if your fast-refresh configuration is not automatically picked up by Storybook: 
 
@@ -447,6 +491,8 @@ export default config;
 This approach aligns with our philosophy of transparency and puts users in control of their Webpack and Babel configurations.
 
 We are committed to minimizing magic behind the scenes. By removing `framework.options.fastRefresh`, we are taking a step closer to a Storybook that doesn't impose unnecessary configurations on users. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
+
+You don't have to add fast refresh to `@storybook/nextjs`, since it is already configured there as a default to match the same experience as `next dev`.
 
 #### typescript.skipBabel removed
 
