@@ -206,13 +206,21 @@ export const doUpgrade = async ({
     await packageManager.installDependencies();
   }
 
+  const afterVersion = await getStorybookCoreVersion();
+
   let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
+    automigrationResults = await automigrate({
+      dryRun,
+      yes,
+      packageManager: pkgMgr,
+      configDir,
+      beforeVersion,
+      afterVersion,
+    });
   }
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
     const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,

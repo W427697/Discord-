@@ -62,6 +62,8 @@ export const automigrate = async ({
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
+  beforeVersion,
+  afterVersion,
 }: FixOptions = {}): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
@@ -93,6 +95,8 @@ export const automigrate = async ({
     skipInstall,
     dryRun,
     yes,
+    beforeVersion,
+    afterVersion,
   });
 
   const hasFailures = Object.values(fixResults).some(
@@ -134,6 +138,8 @@ export async function runFixes({
   userSpecifiedConfigDir,
   rendererPackage,
   skipInstall,
+  beforeVersion,
+  afterVersion,
 }: {
   fixes: Fix[];
   yes?: boolean;
@@ -143,6 +149,8 @@ export async function runFixes({
   userSpecifiedConfigDir?: string;
   rendererPackage?: string;
   skipInstall?: boolean;
+  beforeVersion?: string;
+  afterVersion?: string;
 }): Promise<{
   preCheckFailure?: PreCheckFailure;
   fixResults: Record<FixId, FixStatus>;
@@ -227,6 +235,8 @@ export async function runFixes({
         storybookVersion,
         previewConfigPath,
         mainConfigPath,
+        beforeVersion,
+        afterVersion,
       });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);

@@ -9,6 +9,8 @@ export interface CheckOptions {
   storybookVersion: string;
   previewConfigPath?: string;
   mainConfigPath?: string;
+  beforeVersion?: string;
+  afterVersion?: string;
 }
 
 export interface RunOptions<ResultType> {
@@ -47,6 +49,8 @@ export interface FixOptions {
   renderer?: string;
   skipInstall?: boolean;
   hideMigrationSummary?: boolean;
+  beforeVersion?: string;
+  afterVersion?: string;
 }
 
 export enum FixStatus {
