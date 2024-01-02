@@ -1,8 +1,8 @@
 import { compile as mdxCompile, compileSync as mdxCompileSync } from '@mdx-js/mdx';
 
-import type { CompileOptions, MdxCompileOptions, JSXOptions } from './types';
+import type { CompileOptions, MdxCompileOptions } from './types';
 
-export type { CompileOptions, MdxCompileOptions, JSXOptions };
+export type { CompileOptions, MdxCompileOptions };
 
 export const compile = async (input: string, { mdxCompileOptions = {} }: CompileOptions = {}) => {
   const options = getCompilerOptions(mdxCompileOptions);

@@ -5,7 +5,7 @@ import remarkExternalLinks from 'remark-external-links';
 import type { DocsOptions, Options, PresetProperty } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { logger } from '@storybook/node-logger';
-import type { CompileOptions, JSXOptions } from './compiler';
+import type { CompileOptions } from './compiler';
 
 /**
  * Get the resolvedReact preset, which points either to
@@ -31,7 +31,6 @@ async function webpack(
   webpackConfig: any = {},
   options: Options & {
     csfPluginOptions: CsfPluginOptions | null;
-    jsxOptions?: JSXOptions;
     mdxPluginOptions?: CompileOptions;
   } /* & Parameters<
       typeof createCompiler

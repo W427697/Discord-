@@ -392,9 +392,9 @@ Storybook now uses MDX3 under the hood. This change contains many improvements a
 
 #### Dropping support for *.stories.mdx (CSF in MDX) format
 
-_Has automigration_
-
 In Storybook 7, we deprecated the ability of using MDX both for documentation and for defining stories in the same .stories.mdx file. It is now removed, and Storybook won't support .stories.mdx files anymore. We provide migration scripts to help you onto the new format.
+
+Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
 
 [More info here](https://storybook.js.org/docs/writing-docs/mdx#automigration).
 
