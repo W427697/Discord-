@@ -88,7 +88,10 @@ export async function renderToCanvas(
     );
     // Errors thrown during playing need be shown in the interactions panel.
     if (isPlaying) {
-      throw e;
+      // Make sure that Vue won't swallow this error, by stacking it as a different event.
+      setTimeout(() => {
+        throw e;
+      }, 0);
     } else {
       showException(e as Error);
     }
