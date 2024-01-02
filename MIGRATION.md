@@ -407,22 +407,24 @@ Addon authors are advised to upgrade to react v18.
 
 #### Storyshots has been removed
 
-Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+Storyshots was an addon for Storybook which allowed users to turn their stories into automated snapshot tests.
 
-Every story would automatically be taken into account and created a snapshot-file for.
+Every story would automatically be taken into account and create a snapshot file.
 
-Snapshot-testing has since fallen out of favor and is no longer recommended.
+Snapshot testing has since fallen out of favor and is no longer recommended.
 
-In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
-JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+In addition to its limited use, and high chance of false positives, Storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore, Storyshots was always a pain to set up and maintain.
 
-The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+The Storybook team has built the test-runner as a direct replacement, which utilizes Playwright to connect to an actual browser where Storybook runs the code.
 
-In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+In addition, CSF has expanded to allow for play functions to be defined on stories, which allows for more complex testing scenarios, fully integrated within Storybook itself (and supported by the test-runner, and not Storyshots).
 
-Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+Finally, storyStoreV7: true (the default and only option in Storybook 8), was not supported by Storyshots.
 
-By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+By removing Storyshots, the Storybook team was unblocked from moving (eventually) to an ESM-only Storybook, which is a big step towards a more modern Storybook.
+
+Please check the [migration guide](https://storybook.js.org/docs/writing-tests/storyshots-migration-guide) that we prepared.
 
 #### UI layout state has changed shape
 
