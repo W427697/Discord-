@@ -6,6 +6,9 @@ export default {
   args: {
     label: 'Button',
   },
+  argTypes: {
+    onClick: { type: 'function' },
+  },
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
   },
