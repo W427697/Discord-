@@ -1,7 +1,8 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Framework specific vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)  
+  - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
+  - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
@@ -338,6 +339,14 @@
 
 
 ## From version 7.x to 8.0.0
+
+### Removal of `storiesOf`-API
+
+The `storiesOf` API has been removed in storybook 8.0.
+
+If you need to dynamically create stories, you will need to implement this via the experimental `experimental_indexers` [API](#storyindexers-is-replaced-with-experimental_indexers).
+
+For migrating to CSF, see: [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
 
 ### Framework-specific Vite plugins have to be explicitly added
 
