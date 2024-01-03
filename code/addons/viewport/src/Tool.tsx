@@ -116,8 +116,8 @@ export const ViewportTool: FC = memo(
 
     const {
       viewports = MINIMAL_VIEWPORTS,
-      defaultOrientation = 'portrait',
-      defaultViewport = globals.viewport || responsiveViewport.id,
+      defaultOrientation,
+      defaultViewport,
       disable,
     } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
 
@@ -125,7 +125,7 @@ export const ViewportTool: FC = memo(
     const api = useStorybookApi();
     const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
-    if (!list.find((i) => i.id === defaultViewport)) {
+    if (defaultViewport && !list.find((i) => i.id === defaultViewport)) {
       // eslint-disable-next-line no-console
       console.warn(
         `Cannot find "defaultViewport" of "${defaultViewport}" in addon-viewport configs, please check the "viewports" setting in the configuration.`
@@ -134,18 +134,21 @@ export const ViewportTool: FC = memo(
 
     useEffect(() => {
       registerShortcuts(api, globals, updateGlobals, Object.keys(viewports));
-    }, [viewports, globals.viewport]);
+    }, [viewports]);
 
     useEffect(() => {
-      updateGlobals({
-        viewport:
-          defaultViewport ||
-          (globals.viewport && viewports[globals.viewport]
-            ? globals.viewport
-            : responsiveViewport.id),
-        viewportRotated: defaultOrientation === 'landscape',
-      });
-    }, [defaultOrientation, defaultViewport]);
+      const defaultRotated = defaultOrientation === 'landscape';
+
+      if (
+        (defaultViewport && globals.viewport !== defaultViewport) ||
+        (defaultOrientation && globals.viewportRotated !== defaultRotated)
+      ) {
+        updateGlobals({
+          viewport: defaultViewport,
+          viewportRotated: defaultRotated,
+        });
+      }
+    }, [defaultOrientation, defaultViewport, globals, updateGlobals]);
 
     const item =
       list.find((i) => i.id === globals.viewport) ||
