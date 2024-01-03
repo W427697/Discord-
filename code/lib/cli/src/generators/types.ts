@@ -40,7 +40,6 @@ export type Generator<T = void> = (
 
 export type CommandOptions = {
   packageManager: PackageManagerName;
-  useNpm?: boolean;
   usePnp?: boolean;
   type?: ProjectType;
   force?: any;
