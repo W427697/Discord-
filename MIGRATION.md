@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Framework specific vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)  
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
