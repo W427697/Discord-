@@ -2,7 +2,6 @@ import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 
 export async function mockSveltekitStores() {
-  const { mergeConfig } = await import('vite');
   return {
     name: 'storybook:sveltekit-mock-stores',
     config: () => ({
