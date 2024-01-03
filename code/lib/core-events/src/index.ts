@@ -38,7 +38,7 @@ enum events {
   STORY_RENDER_PHASE_CHANGED = 'storyRenderPhaseChanged',
   // Emitted when the play function throws
   PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
-  // Emitted when there were unhandled errors during playing the story
+  // Emitted when there were unhandled errors while playing the story
   UNHANDLED_ERRORS_WHILE_PLAYING = 'unhandledErrorsWhilePlaying',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
