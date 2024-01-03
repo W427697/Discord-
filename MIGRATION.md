@@ -396,7 +396,7 @@ In Storybook 7, we deprecated the ability of using MDX both for documentation an
 
 Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
 
-[More info here](https://storybook.js.org/docs/writing-docs/mdx#automigration).
+[More info here](https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf).
 
 #### Dropping support for id, name and story in Story block
 
