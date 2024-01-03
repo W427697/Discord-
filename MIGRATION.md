@@ -331,6 +331,21 @@
 
 ## From version 7.x to 8.0.0
 
+### Framework specific vite plugins have to be explicitly added
+
+In Storybook 7 we would automatically add frameworks specific vite plugins, e.g. `@vitejs/plugin-react`, if they were not installed.
+In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
 ### Implicit actions can not be used during rendering (for example in the play function)
 
 In Storybook 7, we inferred if the component accepts any action props,
