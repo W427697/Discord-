@@ -5070,6 +5070,7 @@ __metadata:
     "@storybook/icons": "npm:^1.2.1"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
+    "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/color-convert": "npm:^2.0.0"
