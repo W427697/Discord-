@@ -4130,64 +4130,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@preact/preset-vite@npm:^2.0.0":
-  version: 2.7.0
-  resolution: "@preact/preset-vite@npm:2.7.0"
-  dependencies:
-    "@babel/plugin-transform-react-jsx": "npm:^7.22.15"
-    "@babel/plugin-transform-react-jsx-development": "npm:^7.22.5"
-    "@prefresh/vite": "npm:^2.4.1"
-    "@rollup/pluginutils": "npm:^4.1.1"
-    babel-plugin-transform-hook-names: "npm:^1.0.2"
-    debug: "npm:^4.3.4"
-    kolorist: "npm:^1.8.0"
-    resolve: "npm:^1.22.8"
-  peerDependencies:
-    "@babel/core": 7.x
-    vite: 2.x || 3.x || 4.x || 5.x
-  checksum: 95a5a87d804d9f33d98f7c8db93fe27de0d626b2794e745734bcad7a7d89db5a3ad37712feb188f1857d834658de33167f524b3040e8cea48ef422da6a1e74db
-  languageName: node
-  linkType: hard
-
-"@prefresh/babel-plugin@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@prefresh/babel-plugin@npm:0.5.1"
-  checksum: f9153c210427adbddb4403502f8fa845f6207516de2d162f5d550683a87173dc3eaabc6be2bb4f1206b882cdd23339f2092567be8d09794a3d06a5626942b1e4
-  languageName: node
-  linkType: hard
-
-"@prefresh/core@npm:^1.5.1":
-  version: 1.5.2
-  resolution: "@prefresh/core@npm:1.5.2"
-  peerDependencies:
-    preact: ^10.0.0
-  checksum: 53d1ce714ed098ccc11f3a8e2826ff6b90237445c24df6281eb162791b534d1d7626a43c0c1c7427139d2ade658e1ba7020963c001135bbdbeeb15073008529b
-  languageName: node
-  linkType: hard
-
-"@prefresh/utils@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@prefresh/utils@npm:1.2.0"
-  checksum: 38cdc6cbb5e18df36996161214eb1097db3361cb0b6402a8012cbe500ba8fb5bcbdc39a687d3b6d67e99f6c340ed77d59f27ab167dfc1655eb4d783740d87d52
-  languageName: node
-  linkType: hard
-
-"@prefresh/vite@npm:^2.4.1":
-  version: 2.4.4
-  resolution: "@prefresh/vite@npm:2.4.4"
-  dependencies:
-    "@babel/core": "npm:^7.22.1"
-    "@prefresh/babel-plugin": "npm:0.5.1"
-    "@prefresh/core": "npm:^1.5.1"
-    "@prefresh/utils": "npm:^1.2.0"
-    "@rollup/pluginutils": "npm:^4.2.1"
-  peerDependencies:
-    preact: ^10.4.0
-    vite: ">=2.0.0"
-  checksum: 31c3fcdcfbfd31921d41f01ca027515d4411f4169c2d3810578bf87b61609d155a1a410c977f098839982adb8da2d88674382cc4a5e55b6fe249a59be60a2483
-  languageName: node
-  linkType: hard
-
 "@radix-ui/number@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/number@npm:1.0.1"
@@ -4363,16 +4305,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 13cd0c38395c5838bc9a18238020d3bcf67fb340039e6d1cbf438be1b91d64cf6900b78121f3dc9219faeb40dcc7b523ce0f17e4a41631655690e5a30a40886a
-  languageName: node
-  linkType: hard
-
-"@rollup/pluginutils@npm:^4.1.1, @rollup/pluginutils@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "@rollup/pluginutils@npm:4.2.1"
-  dependencies:
-    estree-walker: "npm:^2.0.1"
-    picomatch: "npm:^2.2.2"
-  checksum: 3ee56b2c8f1ed8dfd0a92631da1af3a2dfdd0321948f089b3752b4de1b54dc5076701eadd0e5fc18bd191b77af594ac1db6279e83951238ba16bf8a414c64c48
   languageName: node
   linkType: hard
 
@@ -5136,14 +5068,12 @@ __metadata:
     "@storybook/manager": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@types/ejs": "npm:^3.1.1"
-    "@types/find-cache-dir": "npm:^3.2.1"
     "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
     browser-assert: "npm:^1.2.1"
     ejs: "npm:^3.1.8"
     esbuild: "npm:^0.18.0"
     esbuild-plugin-alias: "npm:^0.2.1"
     express: "npm:^4.17.3"
-    find-cache-dir: "npm:^3.0.0"
     fs-extra: "npm:^11.1.0"
     process: "npm:^0.11.10"
     slash: "npm:^5.0.0"
@@ -5174,14 +5104,13 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     glob: "npm:^10.0.0"
     magic-string: "npm:^0.30.0"
-    rollup: "npm:^3.20.1"
     slash: "npm:^5.0.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.4"
   peerDependencies:
     "@preact/preset-vite": "*"
     typescript: ">= 4.3.x"
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^4.0.0 || ^5.0.0
     vite-plugin-glimmerx: "*"
   peerDependenciesMeta:
     "@preact/preset-vite":
@@ -5943,7 +5872,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact-vite@workspace:frameworks/preact-vite"
   dependencies:
-    "@preact/preset-vite": "npm:^2.0.0"
     "@storybook/builder-vite": "workspace:*"
     "@storybook/preact": "workspace:*"
     "@types/node": "npm:^18.0.0"
@@ -5951,7 +5879,7 @@ __metadata:
     vite: "npm:^4.0.0"
   peerDependencies:
     preact: ">=10"
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6226,7 +6154,6 @@ __metadata:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/react": "workspace:*"
     "@types/node": "npm:^18.0.0"
-    "@vitejs/plugin-react": "npm:^3.0.1"
     magic-string: "npm:^0.30.0"
     react-docgen: "npm:^7.0.0"
     typescript: "npm:^5.3.2"
@@ -6234,7 +6161,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6538,7 +6465,7 @@ __metadata:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/svelte": "workspace:*"
-    "@sveltejs/vite-plugin-svelte": "npm:^2.4.2"
+    "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
     svelte: "npm:^5.0.0-next.16"
@@ -6548,8 +6475,9 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
+    "@sveltejs/vite-plugin-svelte": ^2.0.0 || ^3.0.0
     svelte: ^4.0.0 || ^5.0.0-next.16
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6725,13 +6653,12 @@ __metadata:
     "@storybook/core-server": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@types/node": "npm:^18.0.0"
-    "@vitejs/plugin-vue": "npm:^4.0.0"
     magic-string: "npm:^0.30.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
     vue-docgen-api: "npm:^4.40.0"
   peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -6766,7 +6693,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/prettier": "npm:2.7.2"
     "@vitejs/plugin-vue": "npm:^4.4.0"
-    "@vue/compiler-core": "npm:^3.3.4"
+    "@vue/compiler-core": "npm:^3.0.0"
     lodash: "npm:^4.17.21"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
@@ -6775,7 +6702,6 @@ __metadata:
     vue-component-type-helpers: "npm:latest"
     vue-tsc: "npm:latest"
   peerDependencies:
-    "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
@@ -6841,19 +6767,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte-inspector@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:1.0.4"
-  dependencies:
-    debug: "npm:^4.3.4"
-  peerDependencies:
-    "@sveltejs/vite-plugin-svelte": ^2.2.0
-    svelte: ^3.54.0 || ^4.0.0
-    vite: ^4.0.0
-  checksum: f21cb6bde0d8cce505c558dcb786d00e514c270848d9ff21dca12bc8335588e1bd05215fe3cd7478c8a6779bae7a75629b68d484fcdf309d759f25ee58ea771e
-  languageName: node
-  linkType: hard
-
 "@sveltejs/vite-plugin-svelte-inspector@npm:^2.0.0-next.0 || ^2.0.0":
   version: 2.0.0
   resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:2.0.0"
@@ -6864,24 +6777,6 @@ __metadata:
     svelte: ^4.0.0 || ^5.0.0-next.0
     vite: ^5.0.0
   checksum: 7c3b8159b819485a54de726591bf89d53e641d6b3961ea2100b1908c6e68e08d887a07890d16daee9e63b4781c629469ef72d504351bc0d125b3720faf420920
-  languageName: node
-  linkType: hard
-
-"@sveltejs/vite-plugin-svelte@npm:^2.4.2":
-  version: 2.5.3
-  resolution: "@sveltejs/vite-plugin-svelte@npm:2.5.3"
-  dependencies:
-    "@sveltejs/vite-plugin-svelte-inspector": "npm:^1.0.4"
-    debug: "npm:^4.3.4"
-    deepmerge: "npm:^4.3.1"
-    kleur: "npm:^4.1.5"
-    magic-string: "npm:^0.30.3"
-    svelte-hmr: "npm:^0.15.3"
-    vitefu: "npm:^0.2.4"
-  peerDependencies:
-    svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
-    vite: ^4.0.0
-  checksum: 613a4ad18a946ddee7b82cae0d892040a9459a5ac5137cbaa91a4b7b67d504409b5dbc02d268136a740b09e42531b7516f80a0f687ca4fe2b0d99e6e483c5d06
   languageName: node
   linkType: hard
 
@@ -8526,7 +8421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-vue@npm:^4.0.0, @vitejs/plugin-vue@npm:^4.4.0":
+"@vitejs/plugin-vue@npm:^4.4.0":
   version: 4.5.2
   resolution: "@vitejs/plugin-vue@npm:4.5.2"
   peerDependencies:
@@ -8714,7 +8609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-core@npm:3.3.11, @vue/compiler-core@npm:^3.3.4":
+"@vue/compiler-core@npm:3.3.11":
   version: 3.3.11
   resolution: "@vue/compiler-core@npm:3.3.11"
   dependencies:
@@ -8723,6 +8618,18 @@ __metadata:
     estree-walker: "npm:^2.0.2"
     source-map-js: "npm:^1.0.2"
   checksum: 576aa8075bd9f4e91e54fdc9fe2d66941a3c81e12c59e1473c2596f57eb5b8fa7327e94d557d7d5da331a8577f9347990ebd807ebd3b28b2684451c23de7f15d
+  languageName: node
+  linkType: hard
+
+"@vue/compiler-core@npm:^3.0.0":
+  version: 3.3.13
+  resolution: "@vue/compiler-core@npm:3.3.13"
+  dependencies:
+    "@babel/parser": "npm:^7.23.5"
+    "@vue/shared": "npm:3.3.13"
+    estree-walker: "npm:^2.0.2"
+    source-map-js: "npm:^1.0.2"
+  checksum: d0544ef5c12adb1f25523349dfb5468ee59928892c8476c491b66806840ab7de7a2c15b943ae3805dc8adcfd1a88435db08b97a0d23977eafe7e448a2a001754
   languageName: node
   linkType: hard
 
@@ -8927,6 +8834,13 @@ __metadata:
   version: 3.3.11
   resolution: "@vue/shared@npm:3.3.11"
   checksum: 164b904ed6c5a6e9b0d4c6ac38a214770943d5b1196e8af7193f7f9f099706ffd7627e40c95a9b4de430ff7d3523a713c9236ef6e8ca48dd6865606efb7208f5
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.3.13":
+  version: 3.3.13
+  resolution: "@vue/shared@npm:3.3.13"
+  checksum: 8f49e0ee51f7f1edce16aa7a97b5a7a36d8cf36dfd03c9dba194b6eb0e9685eb71335f0a2b17af17753b742fa2346f96ec371a3c0a56677a4e7eeb0f13426a56
   languageName: node
   linkType: hard
 
@@ -10192,15 +10106,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-transform-hook-names@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "babel-plugin-transform-hook-names@npm:1.0.2"
-  peerDependencies:
-    "@babel/core": ^7.12.10
-  checksum: 517b85fe0611d742b3fffad5d0e119fcbd29bf69f95c6970b9ede4cb66453c7106a2d3bf048b35255b78a9d6a9565ad37e73b46c0be1fe557e941c792fad79f0
-  languageName: node
-  linkType: hard
-
 "babel-preset-current-node-syntax@npm:^1.0.0":
   version: 1.0.1
   resolution: "babel-preset-current-node-syntax@npm:1.0.1"
@@ -11204,9 +11109,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001565":
-  version: 1.0.30001566
-  resolution: "caniuse-lite@npm:1.0.30001566"
-  checksum: cd163075b1a9feaf9c9f657c3551279fcdac471471d67ee57ab2286c7b5480168e6336e359741b469fa40e94716f0f95ec185d87bd57d58894d66d8c21d7db04
+  version: 1.0.30001570
+  resolution: "caniuse-lite@npm:1.0.30001570"
+  checksum: e47230d2016edea56e002fa462a5289f697b48dcfbf703fb01aecc6c98ad4ecaf945ab23c253cb7af056c2d05f266e4e4cbebf45132100e2c9367439cb95b95b
   languageName: node
   linkType: hard
 
@@ -18638,13 +18543,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kolorist@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "kolorist@npm:1.8.0"
-  checksum: 73075db44a692bf6c34a649f3b4b3aea4993b84f6b754cbf7a8577e7c7db44c0bad87752bd23b0ce533f49de2244ce2ce03b7b1b667a85ae170a94782cc50f9b
-  languageName: node
-  linkType: hard
-
 "language-subtag-registry@npm:~0.3.2":
   version: 0.3.22
   resolution: "language-subtag-registry@npm:0.3.22"
@@ -19298,7 +19196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:0.30.5, magic-string@npm:^0.30.0, magic-string@npm:^0.30.3, magic-string@npm:^0.30.4, magic-string@npm:^0.30.5":
+"magic-string@npm:0.30.5, magic-string@npm:^0.30.0, magic-string@npm:^0.30.4, magic-string@npm:^0.30.5":
   version: 0.30.5
   resolution: "magic-string@npm:0.30.5"
   dependencies:
@@ -22413,7 +22311,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.2, picomatch@npm:^2.2.3, picomatch@npm:^2.3.0, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.2.3, picomatch@npm:^2.3.0, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 26c02b8d06f03206fc2ab8d16f19960f2ff9e81a658f831ecb656d8f17d9edc799e8364b1f4a7873e89d9702dff96204be0fa26fe4181f6843f040f819dac4be
@@ -24650,7 +24548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:1.22.8, resolve@npm:^1.10.0, resolve@npm:^1.12.0, resolve@npm:^1.13.1, resolve@npm:^1.14.2, resolve@npm:^1.15.1, resolve@npm:^1.17.0, resolve@npm:^1.19.0, resolve@npm:^1.22.1, resolve@npm:^1.22.4, resolve@npm:^1.22.8, resolve@npm:^1.4.0":
+"resolve@npm:1.22.8, resolve@npm:^1.10.0, resolve@npm:^1.12.0, resolve@npm:^1.13.1, resolve@npm:^1.14.2, resolve@npm:^1.15.1, resolve@npm:^1.17.0, resolve@npm:^1.19.0, resolve@npm:^1.22.1, resolve@npm:^1.22.4, resolve@npm:^1.4.0":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
   dependencies:
@@ -24676,7 +24574,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.12.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.13.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.15.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.17.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.8#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.4.0#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.10.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.12.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.13.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.15.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.17.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.4.0#optional!builtin<compat/resolve>":
   version: 1.22.8
   resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
@@ -24829,7 +24727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.20.1, rollup@npm:^3.27.1":
+"rollup@npm:^3.27.1":
   version: 3.29.4
   resolution: "rollup@npm:3.29.4"
   dependencies:
@@ -28466,18 +28364,6 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: d666b2760d2a7ea1d0d35f67c042053e562144f80554be4e4dc58e607fd5f62193cd203d73ab2e315df66830d8b9d9a2e3509d0208bdef1b2e92e0a5c364df84
-  languageName: node
-  linkType: hard
-
-"vitefu@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "vitefu@npm:0.2.4"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0
-  peerDependenciesMeta:
-    vite:
-      optional: true
-  checksum: 78d5e7071c0c4fdfc010f15a3e5bac2d31090ddd48789446fce5b7d0f01496fc6a041b65d3add904365bb0ac6576bb93635f700971c16ffd27cd7c0bee9eb1ae
   languageName: node
   linkType: hard
 
