@@ -136,6 +136,8 @@ You can add the name of the module you want to mock to `parameters.sveltekit_exp
 | `import { navigating } from "$app/stores"`        | `parameters.sveltekit_experimental.stores.navigating`        | A Partial of the navigating store                                                                                                         |
 | `import { updated } from "$app/stores"`           | `parameters.sveltekit_experimental.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)                                          |
 | `import { goto } from "$app/navigation"`          | `parameters.sveltekit_experimental.navigation.goto`          | A callback that will be called whenever goto is called, in no function is provided an action will be logged to the Actions panel          |
+| `import { pushState } from "$app/navigation"`     | `parameters.sveltekit_experimental.navigation.pushState`     | A callback that will be called whenever pushState is called, in no function is provided an action will be logged to the Actions panel     |
+| `import { replaceState } from "$app/navigation"`  | `parameters.sveltekit_experimental.navigation.replaceState`  | A callback that will be called whenever replaceState is called, in no function is provided an action will be logged to the Actions panel  |
 | `import { invalidate } from "$app/navigation"`    | `parameters.sveltekit_experimental.navigation.invalidate`    | A callback that will be called whenever invalidate is called, in no function is provided an action will be logged to the Actions panel    |
 | `import { invalidateAll } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called, in no function is provided an action will be logged to the Actions panel |
 | `import { afterNavigate } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called                                        |
@@ -184,16 +186,6 @@ export const MyStory = {
 > ```
 
 You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
-
-### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
-
-> Some stories don't load, instead they show the following error in the preview:
->
-> ```
-> Cannot read properties of undefined (reading 'disable_scroll_handling')
-> ```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 ## Acknowledgements
 

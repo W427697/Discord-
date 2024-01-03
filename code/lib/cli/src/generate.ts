@@ -1,5 +1,4 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
@@ -8,11 +7,11 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
+import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
@@ -27,7 +26,9 @@ import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>
@@ -137,15 +138,6 @@ command('migrate [migration]')
     });
   });
 
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
@@ -204,7 +196,6 @@ command('doctor')
 command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '--https',
@@ -231,6 +222,7 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--exact-port', 'Exit early if the desired port is not available')
   .option(
     '--initial-path [path]',
     'URL path to be appended when visiting Storybook for the first time'
@@ -258,7 +250,6 @@ command('dev')
   });
 
 command('build')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('--quiet', 'Suppress verbose build output')

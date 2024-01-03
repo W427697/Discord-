@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import {
   type PropDef,
@@ -85,7 +86,7 @@ describe('enhanceTypeScriptProp', () => {
 
       const expectedSummary = "{ foo: 'foo', bar: 'bar' }";
 
-      expect(defaultValue?.summary.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
+      expect(defaultValue?.summary?.replace(/\s/g, '')).toBe(expectedSummary.replace(/\s/g, ''));
       expect(defaultValue?.detail).toBeUndefined();
     });
 

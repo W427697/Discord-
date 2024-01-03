@@ -1,12 +1,15 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import * as findUp from 'find-up';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
 import type { JsPackageManager } from '../../js-package-manager';
 
-jest.mock('find-up');
-jest.mock('../helpers/detectRenderer', () => ({
-  detectRenderer: jest.fn(jest.requireActual('../helpers/detectRenderer').detectRenderer),
+vi.mock('find-up');
+vi.mock('../helpers/detectRenderer', async (importOriginal) => ({
+  detectRenderer: vi.fn(
+    (await importOriginal<typeof import('../helpers/detectRenderer')>()).detectRenderer
+  ),
 }));
 
 const checkNewFrameworks = async ({
@@ -26,6 +29,7 @@ const checkNewFrameworks = async ({
     storybookVersion,
     rendererPackage,
     configDir: '',
+    mainConfigPath: ' ',
   });
 };
 
@@ -257,7 +261,7 @@ describe('new-frameworks fix', () => {
 
     it('should update correctly when there is no builder', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/builder-webpack5': '7.0.0',
       });
 
@@ -265,13 +269,13 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: '@storybook/vue',
+            framework: '@storybook/vue3',
           },
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/builder-webpack5'],
         })
       );
@@ -279,7 +283,7 @@ describe('new-frameworks fix', () => {
 
     it('should update when there is no framework field in main', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/manager-webpack5': '7.0.0',
       });
 
@@ -290,8 +294,8 @@ describe('new-frameworks fix', () => {
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/manager-webpack5'],
           hasFrameworkInMainConfig: false,
         })
@@ -300,7 +304,7 @@ describe('new-frameworks fix', () => {
 
     it('should update when the framework field has a legacy value', async () => {
       const packageManager = getPackageManager({
-        '@storybook/vue': '7.0.0',
+        '@storybook/vue3': '7.0.0',
         '@storybook/manager-webpack5': '7.0.0',
       });
 
@@ -308,13 +312,13 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: 'vue',
+            framework: 'vue3',
           },
         })
       ).resolves.toEqual(
         expect.objectContaining({
-          frameworkPackage: '@storybook/vue-webpack5',
-          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          frameworkPackage: '@storybook/vue3-webpack5',
+          dependenciesToAdd: ['@storybook/vue3-webpack5'],
           dependenciesToRemove: ['@storybook/manager-webpack5'],
           hasFrameworkInMainConfig: false,
         })
@@ -323,7 +327,7 @@ describe('new-frameworks fix', () => {
 
     it('should prompt when there are multiple renderer packages', async () => {
       // there should be a prompt, which we mock the response
-      const detectRendererSpy = jest.spyOn(rendererHelpers, 'detectRenderer');
+      const detectRendererSpy = vi.spyOn(rendererHelpers, 'detectRenderer');
       detectRendererSpy.mockReturnValueOnce(Promise.resolve('@storybook/react'));
 
       const packageManager = getPackageManager({
@@ -357,7 +361,7 @@ describe('new-frameworks fix', () => {
       });
 
       // project contains vite.config.js
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('vite.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('vite.config.js'));
       await expect(
         checkNewFrameworks({
           packageManager,
@@ -372,9 +376,9 @@ describe('new-frameworks fix', () => {
     });
 
     it('should migrate to @storybook/web-components-webpack5 in a monorepo that contains the vite builder, but main.js has webpack5 in builder field', async () => {
-      jest
-        .spyOn(rendererHelpers, 'detectRenderer')
-        .mockReturnValueOnce(Promise.resolve('@storybook/web-components'));
+      vi.spyOn(rendererHelpers, 'detectRenderer').mockReturnValueOnce(
+        Promise.resolve('@storybook/web-components')
+      );
 
       const packageManager = getPackageManager({
         '@storybook/addon-essentials': '7.0.0-beta.48',
@@ -430,7 +434,7 @@ describe('new-frameworks fix', () => {
     });
 
     it('skips if project already has @storybook/nextjs set up', async () => {
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
 
       const packageManager = getPackageManager({
         '@storybook/react': '7.0.0',
@@ -452,7 +456,7 @@ describe('new-frameworks fix', () => {
         next: '12.0.0',
       });
 
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
       await expect(
         checkNewFrameworks({
           packageManager,
@@ -470,7 +474,7 @@ describe('new-frameworks fix', () => {
     });
 
     it('should remove legacy addons', async () => {
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
       const packageManager = getPackageManager({
         '@storybook/react': '7.0.0-alpha.0',
         '@storybook/react-webpack5': '7.0.0-alpha.0',
@@ -500,7 +504,7 @@ describe('new-frameworks fix', () => {
     });
 
     it('should move storybook-addon-next options and reactOptions to frameworkOptions', async () => {
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
 
       const packageManager = getPackageManager({
         '@storybook/react': '7.0.0-alpha.0',
@@ -549,7 +553,7 @@ describe('new-frameworks fix', () => {
     });
 
     it('should migrate to @storybook/react-vite in Next.js project that uses vite builder', async () => {
-      jest.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
+      vi.spyOn(findUp, 'default').mockReturnValueOnce(Promise.resolve('next.config.js'));
 
       const packageManager = getPackageManager({
         '@storybook/react': '7.0.0-alpha.0',

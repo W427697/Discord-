@@ -1,5 +1,5 @@
 import { frameworkPackages } from '@storybook/core-common';
-import type { Preset, StorybookConfig } from '@storybook/types';
+import type { Preset, StorybookConfigRaw } from '@storybook/types';
 import findUp from 'find-up';
 import type { JsPackageManager } from '../../js-package-manager';
 import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
@@ -23,10 +23,6 @@ export const packagesMap: Record<string, { webpack5?: string; vite?: string }> =
   },
   '@storybook/angular': {
     webpack5: '@storybook/angular',
-  },
-  '@storybook/vue': {
-    webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -66,18 +62,18 @@ export const detectBuilderInfo = async ({
   configDir,
   packageManager,
 }: {
-  mainConfig: StorybookConfig & { builder?: string | Preset };
+  mainConfig: StorybookConfigRaw & { builder?: string | Preset };
   configDir: string;
   packageManager: JsPackageManager;
 }): Promise<{ name: BuilderType; options: any }> => {
   let builderName: BuilderType;
-  let builderOrFrameworkName;
+  let builderOrFrameworkName: string | undefined;
 
   const { core = {}, framework } = mainConfig;
   const { builder } = core;
 
   const builderPackageName = getBuilderPackageName(mainConfig);
-  const frameworkPackageName = getFrameworkPackageName(mainConfig);
+  const frameworkPackageName = getFrameworkPackageName(mainConfig) as string;
 
   let builderOptions = typeof builder !== 'string' ? builder?.options ?? {} : {};
 
@@ -133,12 +129,12 @@ export const detectBuilderInfo = async ({
 
   if (
     builderOrFrameworkName?.includes('vite') ||
-    communityFrameworks.vite.includes(builderOrFrameworkName)
+    (builderOrFrameworkName && communityFrameworks.vite.includes(builderOrFrameworkName))
   ) {
     builderName = 'vite';
   } else if (
     builderOrFrameworkName?.includes('webpack') ||
-    communityFrameworks.webpack5.includes(builderOrFrameworkName)
+    (builderOrFrameworkName && communityFrameworks.webpack5.includes(builderOrFrameworkName))
   ) {
     builderName = 'webpack5';
   } else {
@@ -154,7 +150,7 @@ export const detectBuilderInfo = async ({
   };
 };
 
-export const getNextjsAddonOptions = (addons: Preset[]) => {
+export const getNextjsAddonOptions = (addons: Preset[] | undefined) => {
   const nextjsAddon = addons?.find((addon) =>
     typeof addon === 'string'
       ? addon === 'storybook-addon-next'

@@ -1,7 +1,7 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import type { Options, PresetProperty } from '@storybook/types';
-import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
+import type { PresetProperty } from '@storybook/types';
+import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
 import { configureConfig } from './config/webpack';
@@ -9,27 +9,23 @@ import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
+import { configureRSC } from './rsc/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
-import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
-import { configureAliasing } from './dependency-map';
 import { configureSWCLoader } from './swc/loader';
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {};
 
-export const frameworkOptions = async (
-  _: never,
-  options: Options
-): Promise<StorybookConfig['framework']> => {
-  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+export const frameworkOptions: PresetProperty<'framework'> = async (_, options) => {
+  const config = await options.presets.apply('framework');
 
   if (typeof config === 'string') {
     return {
@@ -53,8 +49,8 @@ export const frameworkOptions = async (
   };
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+export const core: PresetProperty<'core'> = async (config, options) => {
+  const framework = await options.presets.apply('framework');
 
   return {
     ...config,
@@ -70,15 +66,22 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   };
 };
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
-  ...entry,
-  join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
-];
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
+  entry = [],
+  { features }
+) => {
+  const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
+  const result = [...entry, join(nextDir, 'dist/preview.mjs')];
+  if (features?.experimentalNextRSC) {
+    result.unshift(join(nextDir, 'dist/rsc/preview.mjs'));
+  }
+  return result;
+};
 
 // Not even sb init - automigrate - running dev
 // You're using a version of Nextjs prior to v10, which is unsupported by this framework.
 
-export const babel = async (baseConfig: TransformOptions): Promise<TransformOptions> => {
+export const babel: PresetProperty<'babel'> = async (baseConfig) => {
   const configPartial = loadPartialConfig({
     ...baseConfig,
     filename: `${getProjectRoot()}/__fake__.js`,
@@ -145,15 +148,17 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configDir: options.configDir,
   });
 
-  configureAliasing(baseConfig);
   configureNextFont(baseConfig, builder?.useSWC);
-  configureNextImport(baseConfig);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+
+  if (options.features?.experimentalNextRSC) {
+    configureRSC(baseConfig);
+  }
 
   // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
   if (builder?.useSWC) {

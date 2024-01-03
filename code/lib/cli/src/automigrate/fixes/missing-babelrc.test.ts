@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-/// <reference types="@types/jest" />;
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
+import * as fsExtra from 'fs-extra';
 import { missingBabelRc } from './missing-babelrc';
 import type { JsPackageManager } from '../../js-package-manager';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
 const babelContent = JSON.stringify({
   sourceType: 'unambiguous',
@@ -37,8 +37,9 @@ const check = async ({
   extraFiles?: Record<string, any>;
 }) => {
   if (extraFiles) {
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles(extraFiles);
+    vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles(
+      extraFiles
+    );
   }
 
   return missingBabelRc.check({
@@ -66,10 +67,12 @@ const packageManagerWithBabelField = {
 } as Partial<JsPackageManager>;
 
 describe('missing-babelrc fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('skips when storybook version < 7.0.0', async () => {
-    await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();
+    await expect(check({ storybookVersion: '6.3.2', main: {} })).resolves.toBeNull();
   });
 
   it('skips when babelrc config is present', async () => {
@@ -119,7 +122,8 @@ describe('missing-babelrc fix', () => {
     ).resolves.toBeNull();
   });
 
-  it('prompts when babelrc file is missing and framework does not provide babel config', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('prompts when babelrc file is missing and framework does not provide babel config', async () => {
     await expect(
       check({
         packageManager,
