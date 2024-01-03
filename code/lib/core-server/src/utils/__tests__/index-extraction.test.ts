@@ -66,6 +66,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": "a",
@@ -78,6 +79,7 @@ describe('story extraction', () => {
             "type": "story",
           },
           {
+            "componentPath": undefined,
             "id": "some-fully-custom-id",
             "importPath": "./src/A.stories.js",
             "metaId": "custom-id",
@@ -122,6 +124,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "f--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
             "metaId": undefined,
@@ -169,6 +172,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
             "metaId": "a",
@@ -217,6 +221,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": "a",
@@ -283,6 +288,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -295,6 +301,7 @@ describe('story extraction', () => {
             "type": "story",
           },
           {
+            "componentPath": undefined,
             "id": "custom-title--story-two",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -307,6 +314,7 @@ describe('story extraction', () => {
             "type": "story",
           },
           {
+            "componentPath": undefined,
             "id": "custom-meta-id--story-three",
             "importPath": "./src/A.stories.js",
             "metaId": "custom-meta-id",
@@ -352,6 +360,7 @@ describe('story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -415,6 +424,7 @@ describe('docs entries from story extraction', () => {
             "type": "docs",
           },
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -476,6 +486,7 @@ describe('docs entries from story extraction', () => {
             "type": "docs",
           },
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -525,6 +536,7 @@ describe('docs entries from story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
@@ -587,6 +599,7 @@ describe('docs entries from story extraction', () => {
             "type": "docs",
           },
           {
+            "componentPath": undefined,
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
             "metaId": undefined,
