@@ -134,7 +134,7 @@ export const ViewportTool: FC = memo(
 
     useEffect(() => {
       registerShortcuts(api, globals, updateGlobals, Object.keys(viewports));
-    }, [viewports]);
+    }, [viewports, globals.viewport]);
 
     useEffect(() => {
       const defaultRotated = defaultOrientation === 'landscape';
