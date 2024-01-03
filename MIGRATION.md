@@ -388,7 +388,7 @@ To summarize:
 
 #### MDX is upgraded to v3
 
-Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that possibly won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
+Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that probably won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
 
 #### Dropping support for *.stories.mdx (CSF in MDX) format
 
