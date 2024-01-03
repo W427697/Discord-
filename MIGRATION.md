@@ -31,6 +31,7 @@
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
     - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
+    - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -589,6 +590,20 @@ The `StorybookViteConfig` type is now removed in favor of `StorybookConfig`:
 
 ```ts
 import type { StorybookConfig } from '@storybook/react-vite';
+```
+
+#### props from WithTooltipComponent from @storybook/components
+
+The deprecated properties `tooltipShown`, `closeOnClick`, and `onVisibilityChange` of `WithTooltipComponent` from `@storybook/components` are now removed. Please replace them:
+
+```tsx
+<WithTooltip
+  closeOnClick       // becomes closeOnOutsideClick
+  tooltipShown       // becomes defaultVisible
+  onVisibilityChange // becomes onVisibleChange
+>
+  ...
+</WithTooltip>
 ```
 
 ## From version 7.5.0 to 7.6.0
