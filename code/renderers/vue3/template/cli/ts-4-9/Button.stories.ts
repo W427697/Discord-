@@ -12,7 +12,11 @@ const meta = {
     size: { control: 'select', options: ['small', 'medium', 'large'] },
     backgroundColor: { control: 'color' },
   },
-  args: { primary: false, onClick: fn() }, // default value
+  args: {
+    primary: false,
+    // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+    onClick: fn(),
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
