@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.6",
   "description": "Storybook's CLI - install, dev, build, upgrade, and more",
   "keywords": [
     "cli",
@@ -101,7 +101,6 @@
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
-    "@types/semver": "^7.3.4",
     "@types/util-deprecate": "^1.0.0",
     "boxen": "^5.1.2",
     "slash": "^5.0.0",
