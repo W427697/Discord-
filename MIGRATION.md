@@ -10,12 +10,17 @@
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
-    - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
     - [Removed postinstall](#removed-postinstall)
     - [Removed stories.json](#removed-storiesjson)
   - [Framework-specific changes](#framework-specific-changes)
-    - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
-    - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
+    - [React](#react)
+      - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
+    - [Next.js](#nextjs)
+      - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
+    - [Angular](#angular)
+      - [Require Angular 15 and up](#require-angular-15-and-up)
+    - [Svelte](#svelte)
+      - [Require Svelte 4 and up](#require-svelte-4-and-up)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -469,7 +474,21 @@ The `IconButton` doesn't have any deprecated props but it now uses the new `Butt
 
 In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
 
-#### React-docgen component analysis by default
+#### Removed postinstall
+
+We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+
+#### Removed stories.json
+
+In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+
+In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
+
+### Framework-specific changes
+
+#### React
+
+##### `react-docgen` component analysis by default
 
 In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generate controls. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
 
@@ -485,25 +504,23 @@ export default {
 
 For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
 
-#### Removed postinstall
+#### Next.js
 
-We removed the `@storybook/postinstall` package, which provided some utilities for addons to programmatically modify user configuration files on install. This package was years out of date, so this should be a non-disruptive change. If your addon used the package, you can view the old source code [here](https://github.com/storybookjs/storybook/tree/release-7-5/code/lib/postinstall) and adapt it into your addon.
+##### Require Next.js 13.5 and up
 
-#### Removed stories.json
+Starting in 8.0, Storybook requires Next.js 13.5 and up.
 
-In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
+#### Angular
 
-In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
+##### Require Angular 15 and up
 
-### Framework-specific changes
+Starting in 8.0, Storybook requires Angular 15 and up.
 
-#### Angular: Drop support for Angular \< 15
+#### Svelte
 
-Starting in 8.0, we drop support for Angular < 15
+##### Require Svelte 4 and up
 
-#### Next.js: Drop support for version \< 13.5
-
-Starting in 8.0, we drop support for Next.js < 13.5.
+Starting in 8.0, Storybook requires Svelte 4 and up.
 
 ## From version 7.5.0 to 7.6.0
 
