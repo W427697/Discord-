@@ -295,10 +295,10 @@ export async function adjustTemplate(templatePath: string, templateData: Record<
 // Given a package.json, finds any official storybook package within it
 // and if it exists, returns the version of that package from the specified package.json
 export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
-  const allDeps = { 
+  const allDeps = {
     ...packageJson.dependencies,
     ...packageJson.devDependencies,
-    ...packageJson.optionalDependencies
+    ...packageJson.optionalDependencies,
   };
   const storybookPackage = Object.keys(allDeps).find((name: string) => {
     return storybookMonorepoPackages[name as keyof typeof storybookMonorepoPackages];
