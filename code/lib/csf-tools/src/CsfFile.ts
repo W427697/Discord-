@@ -489,7 +489,7 @@ export class CsfFile {
     const entries = Object.entries(self._stories);
     self._meta.title = this._makeTitle(self._meta?.title as string);
     if (self._metaAnnotations.play) {
-      self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
+      self._meta.tags = [...(self._meta.tags || []), 'sb:play-fn'];
     }
     self._stories = entries.reduce((acc, [key, story]) => {
       if (!isExportStory(key, self._meta as StaticMeta)) {
@@ -516,7 +516,7 @@ export class CsfFile {
         acc[key].tags = parseTags(node);
       }
       if (play) {
-        acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
+        acc[key].tags = [...(acc[key].tags || []), 'sb:play-fn'];
       }
       return acc;
     }, {} as Record<string, StaticStory>);

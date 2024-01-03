@@ -21,8 +21,11 @@ import { logger } from '@storybook/client-logger';
 import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
+// this is not prefixed with sb because it is user generated
 export const AUTODOCS_TAG = 'autodocs';
-export const STORIES_MDX_TAG = 'stories-mdx';
+export const STORIES_MDX_TAG = 'sb:stories-mdx';
+export const STORY_TAG = 'sb:story';
+export const DOCS_TAG = 'sb:docs';
 
 export class StoryStoreFacade<TRenderer extends Renderer> {
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
@@ -223,7 +226,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
           ...(componentId && { componentId }),
           tags: [
             ...componentTags,
-            'docs',
+            DOCS_TAG,
             ...(autodocsOptedIn && !componentAutodocs ? [AUTODOCS_TAG] : []),
           ],
           storiesImports: [],
@@ -248,7 +251,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
           title,
           importPath: fileName,
           ...(componentId && { componentId }),
-          tags: [...(storyExport.tags || componentTags), 'story'],
+          tags: [...(storyExport.tags || componentTags), STORY_TAG],
         };
       }
     });
