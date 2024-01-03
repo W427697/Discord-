@@ -26,6 +26,7 @@
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
+    - [Web Components](#web-components)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [Next.js Automatic SWC mode detection](#nextjs-automatic-swc-mode-detection)
@@ -640,6 +641,17 @@ Starting in 8.0, Storybook requires Angular 15 and up.
 ##### Require Svelte 4 and up
 
 Starting in 8.0, Storybook requires Svelte 4 and up.
+
+#### Web Components
+
+Starting in 8.0, Storybook doesn't apply any default babel plugins to Web Components projects. Storybook will pick up the babel configuration you have in place. Before Storybook 8.0, Storybook has added the following babel presets and plugins:
+
+- `@babel/preset-env`
+
+The following list of plugins are not necessary anymore, since they are included in `@babel/preset-env`:
+
+- `@babel/plugin-syntax-dynamic-import`
+- `@babel/plugin-syntax-import-meta`
 
 ### Deprecations which are now removed
 
