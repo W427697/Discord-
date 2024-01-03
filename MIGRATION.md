@@ -3,6 +3,10 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Framework specific vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)  
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [MDX related changes](#mdx-related-changes)
+    - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
+    - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
+    - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
@@ -402,6 +406,26 @@ To summarize:
 - This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
 - This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+### MDX related changes
+
+#### MDX is upgraded to v3
+
+Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that probably won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
+
+#### Dropping support for *.stories.mdx (CSF in MDX) format and MDX1 support
+
+In Storybook 7, we deprecated the ability of using MDX both for documentation and for defining stories in the same .stories.mdx file. It is now removed, and Storybook won't support .stories.mdx files anymore. We provide migration scripts to help you onto the new format.
+
+If you were using the [legacy MDX1 format](#legacy-mdx1-support), you will have to remove the `legacyMdx1` main.js feature flag and the `@storybook/mdx1-csf` package.
+
+Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
+
+[More info here](https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf).
+
+#### Dropping support for id, name and story in Story block
+
+Referencing stories by `id`, `name` or `story` in the Story block is not possible anymore. [More info here](#story-block).
 
 ### Core changes
 
