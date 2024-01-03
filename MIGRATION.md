@@ -342,7 +342,7 @@
 
 ### Removal of `storiesOf`-API
 
-The `storiesOf` API has been removed in storybook 8.0.
+The `storiesOf` API has been removed in Storybook 8.0.
 
 If you need to dynamically create stories, you will need to implement this via the experimental `experimental_indexers` [API](#storyindexers-is-replaced-with-experimental_indexers).
 
