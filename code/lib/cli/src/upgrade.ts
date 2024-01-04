@@ -3,9 +3,13 @@ import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
+import {
+  ConflictingVersionTagsError,
+  UpgradeStorybookPackagesError,
+} from '@storybook/core-events/server-errors';
 
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
-import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory } from './js-package-manager';
 import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
@@ -117,7 +121,7 @@ export const addNxPackagesToReject = (flags: string[]) => {
     if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
       // Remove last and first slash so that I can add the parentheses
       newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
-      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
+      newFlags[index + 1] = `"/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/"`;
     } else {
       // Adding the two packages as comma-separated values
       // If the existing rejects are in regex format, they will be ignored.
@@ -135,7 +139,6 @@ export interface UpgradeOptions {
   tag: string;
   prerelease: boolean;
   skipCheck: boolean;
-  useNpm: boolean;
   packageManager: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
@@ -147,28 +150,20 @@ export const doUpgrade = async ({
   tag,
   prerelease,
   skipCheck,
-  useNpm,
   packageManager: pkgMgr,
   dryRun,
   configDir,
   yes,
   ...options
 }: UpgradeOptions) => {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const beforeVersion = await getStorybookCoreVersion();
 
-  commandLog(`Checking for latest versions of '@storybook/*' packages`);
+  commandLog(`Checking for latest versions of '@storybook/*' packages\n`);
 
   if (tag && prerelease) {
-    throw new Error(
-      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
-    );
+    throw new ConflictingVersionTagsError();
   }
 
   let target = 'latest';
@@ -187,19 +182,39 @@ export const doUpgrade = async ({
   flags.push(target);
   flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
   flags = addNxPackagesToReject(flags);
-  const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
+
+  const command = 'npx';
+  const checkArgs = ['npm-check-updates@latest', '/storybook/', ...flags];
+  const check = spawnSync(command, checkArgs, {
     stdio: 'pipe',
     shell: true,
   });
-  logger.info(check.stdout.toString());
-  logger.info(check.stderr.toString());
 
-  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+  if (check.stderr && !check.stderr.toString().includes('npm notice')) {
+    throw new UpgradeStorybookPackagesError({
+      command,
+      args: checkArgs,
+      errorMessage: check.stderr.toString(),
+    });
+  }
+
+  logger.info(check.stdout.toString());
+
+  const checkSbArgs = ['npm-check-updates@latest', 'sb', ...flags];
+  const checkSb = spawnSync(command, checkSbArgs, {
     stdio: 'pipe',
     shell: true,
   });
   logger.info(checkSb.stdout.toString());
   logger.info(checkSb.stderr.toString());
+
+  if (checkSb.stderr && !checkSb.stderr.toString().includes('npm notice')) {
+    throw new UpgradeStorybookPackagesError({
+      command,
+      args: checkSbArgs,
+      errorMessage: checkSb.stderr.toString(),
+    });
+  }
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);
