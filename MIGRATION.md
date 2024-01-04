@@ -39,6 +39,7 @@
     - [storyIndexers](#storyindexers)
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
+    - [Story Doc block properties](#story-doc-block-properties)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -676,6 +677,11 @@ More info [here](#autodocs-changes) and [here](#source-block).
 
 `children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
+#### Story Doc block properties
+
+The `story` prop is now removed in favor of the `of` property. [More info](#doc-blocks).
+
+Additionally, given that CSF in MDX is not supported anymore, the following props are also removed: `args`, `argTypes`, `decorators`, `loaders`, `name`, `parameters`, `play`, `render`, and `storyName`. [More info](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support).
 
 ## From version 7.5.0 to 7.6.0
 
