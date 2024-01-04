@@ -29,7 +29,8 @@
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
-      - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
+    - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
+    - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -574,12 +575,20 @@ Starting in 8.0, Storybook requires Svelte 4 and up.
 
 The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
 
-##### `setGlobalConfig` from `@storybook/react`
+#### `setGlobalConfig` from `@storybook/react`
 
 The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
 
 ```ts
 import { setProjectAnnotations } from `@storybook/testing-react`.
+```
+
+#### StorybookViteConfig type from @storybook/builder-vite
+
+The `StorybookViteConfig` type is now removed in favor of `StorybookConfig`:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
 ```
 
 ## From version 7.5.0 to 7.6.0
