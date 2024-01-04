@@ -38,6 +38,7 @@
     - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
     - [storyIndexers](#storyindexers)
     - [Deprecated docs parameters](#deprecated-docs-parameters)
+    - [Description Doc block properties](#description-doc-block-properties)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -670,6 +671,11 @@ parameters.docs.source.transformSource // becomes parameters.docs.source.transfo
 ```
 
 More info [here](#autodocs-changes) and [here](#source-block).
+
+#### Description Doc block properties
+
+`children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
 
 ## From version 7.5.0 to 7.6.0
 
