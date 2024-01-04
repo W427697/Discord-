@@ -87,6 +87,11 @@ export const IFrameProps: Story = {
     of: StoryParametersStories.NoParameters,
     inline: false,
   },
+  parameters: {
+    chromatic: {
+      delay: 3000,
+    },
+  },
   play: async ({ canvasElement }) => {
     // this is mostly to fix flakiness in chromatic, specifically on Safari
     // where the scrollbar appears inconsistently and causes the snapshot to be different
