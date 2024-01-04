@@ -36,6 +36,7 @@
     - [DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types](#decoratorfn-story-componentstory-componentstoryobj-componentstoryfn-and-componentmeta-typescript-types)
     - ["Framework" TypeScript types](#framework-typescript-types)
     - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
+    - [storyIndexers](#storyindexers)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -650,6 +651,10 @@ export const Component = () => {
   // ...
 }
 ```
+
+#### storyIndexers
+
+The Storybook's main.js configuration property `storyIndexers` is now removed in favor of `experimental_indexers`. [More info](#storyindexers-is-replaced-with-experimental_indexers).
 
 ## From version 7.5.0 to 7.6.0
 
