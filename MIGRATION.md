@@ -1,8 +1,13 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [MDX related changes](#mdx-related-changes)
+    - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
+    - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
+    - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
     - [framework.options.builder.useSWC for Webpack5-based projects removed](#frameworkoptionsbuilderuseswc-for-webpack5-based-projects-removed)
     - [Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`](#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5)
@@ -22,16 +27,20 @@
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
     - [Next.js](#nextjs)
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
+      - [Automatic SWC mode detection](#automatic-swc-mode-detection)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
+    - [Preact](#preact)
+      - [Require Preact 10 and up](#require-preact-10-and-up)
+      - [No longer adds default babel plugins](#no-longer-adds-default-babel-plugins)
     - [Web Components](#web-components)
+      - [Dropping default babel plugins in Webpack5-based projects](#dropping-default-babel-plugins-in-webpack5-based-projects)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
-    - [Next.js Automatic SWC mode detection](#nextjs-automatic-swc-mode-detection)
-    - [Preact: Dropping support for Preact \< 10](#preact-dropping-support-for-preact--10)
-    - [Preact: No longer adds default babel plugins](#preact-no-longer-adds-default-babel-plugins)
+    - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
+    - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -347,6 +356,21 @@
 
 ## From version 7.x to 8.0.0
 
+### Removed deprecated shim packages
+
+In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
+
+- `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/store` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/api` - this package has been replaced with `@storybook/manager-api`.
+
+This section explains the rationale, and the required changed you might have to make: [New Addons API](#new-addons-api)
+
 ### Framework-specific Vite plugins have to be explicitly added
 
 In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
@@ -410,6 +434,26 @@ To summarize:
 - This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
 - This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+### MDX related changes
+
+#### MDX is upgraded to v3
+
+Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that probably won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
+
+#### Dropping support for *.stories.mdx (CSF in MDX) format and MDX1 support
+
+In Storybook 7, we deprecated the ability of using MDX both for documentation and for defining stories in the same .stories.mdx file. It is now removed, and Storybook won't support .stories.mdx files anymore. We provide migration scripts to help you onto the new format.
+
+If you were using the [legacy MDX1 format](#legacy-mdx1-support), you will have to remove the `legacyMdx1` main.js feature flag and the `@storybook/mdx1-csf` package.
+
+Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
+
+[More info here](https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf).
+
+#### Dropping support for id, name and story in Story block
+
+Referencing stories by `id`, `name` or `story` in the Story block is not possible anymore. [More info here](#story-block).
 
 ### Core changes
 
@@ -547,22 +591,24 @@ Addon authors are advised to upgrade to react v18.
 
 #### Storyshots has been removed
 
-Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+Storyshots was an addon for Storybook which allowed users to turn their stories into automated snapshot tests.
 
-Every story would automatically be taken into account and created a snapshot-file for.
+Every story would automatically be taken into account and create a snapshot file.
 
-Snapshot-testing has since fallen out of favor and is no longer recommended.
+Snapshot testing has since fallen out of favor and is no longer recommended.
 
-In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
-JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+In addition to its limited use, and high chance of false positives, Storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore, Storyshots was always a pain to set up and maintain.
 
-The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+The Storybook team has built the test-runner as a direct replacement, which utilizes Playwright to connect to an actual browser where Storybook runs the code.
 
-In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+In addition, CSF has expanded to allow for play functions to be defined on stories, which allows for more complex testing scenarios, fully integrated within Storybook itself (and supported by the test-runner, and not Storyshots).
 
-Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+Finally, storyStoreV7: true (the default and only option in Storybook 8), was not supported by Storyshots.
 
-By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+By removing Storyshots, the Storybook team was unblocked from moving (eventually) to an ESM-only Storybook, which is a big step towards a more modern Storybook.
+
+Please check the [migration guide](https://storybook.js.org/docs/writing-tests/storyshots-migration-guide) that we prepared.
 
 #### UI layout state has changed shape
 
@@ -630,6 +676,13 @@ For more information see: https://storybook.js.org/docs/react/api/main-config-ty
 
 Starting in 8.0, Storybook requires Next.js 13.5 and up.
 
+##### Automatic SWC mode detection
+
+Similar to how Next.js detects if SWC should be used, Storybook will follow more or less the same rules:
+
+- If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code. 
+- Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
+
 #### Angular
 
 ##### Require Angular 15 and up
@@ -642,35 +695,13 @@ Starting in 8.0, Storybook requires Angular 15 and up.
 
 Starting in 8.0, Storybook requires Svelte 4 and up.
 
-#### Web Components
+#### Preact
 
-Starting in 8.0, Storybook doesn't apply any default babel plugins to Web Components projects. Storybook will pick up the babel configuration you have in place. Before Storybook 8.0, Storybook has added the following babel presets and plugins:
+##### Require Preact 10 and up
 
-- `@babel/preset-env`
+Starting in 8.0, Storybook requires Preact 10 and up.
 
-The following list of plugins are not necessary anymore, since they are included in `@babel/preset-env`:
-
-- `@babel/plugin-syntax-dynamic-import`
-- `@babel/plugin-syntax-import-meta`
-
-### Deprecations which are now removed
-
-#### --use-npm flag in storybook CLI
-
-The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
-
-#### Next.js Automatic SWC mode detection
-
-Similar to how Next.js detects if SWC should be used, Storybook will follow more or less the same rules:
-
-- If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code. 
-- Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
-
-#### Preact: Dropping support for Preact \< 10
-
-Starting in 8.0, we drop support for Preact < 10.
-
-#### Preact: No longer adds default babel plugins
+##### No longer adds default babel plugins
 
 Until now, Storybook added a set of default babel plugins to the babel config for Preact projects which uses Webpack.
 
@@ -717,6 +748,41 @@ export default config
 ```
 
 We are doing this to apply the same babel config as you have defined in your project. This streamlines the experience of using Storybook with Preact. Additionally, we are not vendor-locked to a specific Babel version anymore, which means that you can upgrade Babel without breaking your Storybook.
+
+#### Web Components
+
+##### Dropping default babel plugins in Webpack5-based projects
+
+Starting in 8.0, Storybook doesn't apply any default babel plugins to Web Components projects. Storybook will pick up the babel configuration you have in place. Before Storybook 8.0, Storybook has added the following babel presets and plugins:
+
+- `@babel/preset-env`
+
+The following list of plugins are not necessary anymore, since they are included in `@babel/preset-env`:
+
+- `@babel/plugin-syntax-dynamic-import`
+- `@babel/plugin-syntax-import-meta`
+
+### Deprecations which are now removed
+
+#### --use-npm flag in storybook CLI
+
+The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
+
+#### `setGlobalConfig` from `@storybook/react`
+
+The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
+
+```ts
+import { setProjectAnnotations } from `@storybook/testing-react`.
+```
+
+#### StorybookViteConfig type from @storybook/builder-vite
+
+The `StorybookViteConfig` type is now removed in favor of `StorybookConfig`:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+```
 
 ## From version 7.5.0 to 7.6.0
 
