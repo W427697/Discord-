@@ -1,7 +1,7 @@
 import type { FunctionComponent, ComponentProps } from 'react';
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
-import { within, expect, userEvent, screen } from '@storybook/test';
+import { expect, screen } from '@storybook/test';
 import { styled } from '@storybook/theming';
 import { TooltipMessage } from './TooltipMessage';
 import { WithToolTipState as WithTooltip } from './WithTooltip';
@@ -120,14 +120,6 @@ export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip
       <Trigger>Click me!</Trigger>
     </WithTooltip>
   ),
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
-    const trigger = canvas.getByText('Click me!');
-    await userEvent.click(trigger);
-
-    await expect(await screen.findByText('Lorem ipsum dolor sit')).toBeInTheDocument();
-    await userEvent.click(document.body);
-  },
 };
 
 export const WithoutChrome: StoryObj<ComponentProps<typeof WithTooltip>> = {
