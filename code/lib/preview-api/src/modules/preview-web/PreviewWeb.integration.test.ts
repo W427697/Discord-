@@ -95,24 +95,47 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
+      console.time('ImportDocsRenderer');
       const { DocsRenderer } = await import('@storybook/addon-docs');
+      console.timeEnd('ImportDocsRenderer');
+
+      console.time('SetDocsRenderer');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+      console.timeEnd('SetDocsRenderer');
 
+      console.time('SetDocumentLocation');
       document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = new PreviewWeb();
+      console.timeEnd('SetDocumentLocation');
 
+      console.time('NewPreviewWeb');
+      const preview = new PreviewWeb();
+      console.timeEnd('NewPreviewWeb');
+
+      console.time('CreateElement');
       const docsRoot = document.createElement('div');
+      console.timeEnd('CreateElement');
+
+      console.time('MockPrepareForDocs');
       vi.mocked(preview.view.prepareForDocs).mockReturnValue(docsRoot as any);
+      console.timeEnd('MockPrepareForDocs');
+
+      console.time('MockDocsContainer');
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );
+      console.timeEnd('MockDocsContainer');
 
+      console.time('InitializePreview');
       await preview.initialize({ importFn, getProjectAnnotations });
-      await waitForRender();
+      console.timeEnd('InitializePreview');
 
+      console.time('WaitForRender');
+      await waitForRender();
+      console.timeEnd('WaitForRender');
+
+      console.time('ExpectMatch');
       expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
-      // Extended timeout to try and avoid
-      // Error: Event was not emitted in time: storyRendered,docsRendered,storyThrewException,storyErrored,storyMissing
+      console.timeEnd('ExpectMatch');
     }, 10_000);
 
     // TODO @tmeasday please help fixing this test
