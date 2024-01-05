@@ -138,6 +138,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
     };
 
     this.rerender = async () => renderDocs();
+    console.log('what');
     this.teardownRender = async ({ viewModeChanged }: { viewModeChanged?: boolean }) => {
       if (!viewModeChanged || !canvasElement) return;
       renderer.unmount(canvasElement);
