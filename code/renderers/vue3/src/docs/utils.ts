@@ -19,12 +19,13 @@ const displayObject = (obj: any): string | boolean | number => {
   if (typeof obj === 'string') return `'${obj}'`;
   return obj?.toString();
 };
+
 const htmlEventAttributeToVueEventAttribute = (key: string) => {
-  return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
+  return  key.replace(/^on/, 'v-on:').toLowerCase();
 };
 
 const directiveSource = (key: string, value: unknown) =>
-  key.includes('on')
+  /^on[A-Za-z]/.test(key)
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
     : `${key}="${value}"`;
 
