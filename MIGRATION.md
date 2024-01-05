@@ -22,6 +22,7 @@
     - [Icons is deprecated](#icons-is-deprecated)
     - [Removed postinstall](#removed-postinstall)
     - [Removed stories.json](#removed-storiesjson)
+    - [Removed `sb babelrc` command](#removed-sb-babelrc-command)
   - [Framework-specific changes](#framework-specific-changes)
     - [React](#react)
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
@@ -651,6 +652,12 @@ We removed the `@storybook/postinstall` package, which provided some utilities f
 In addition to the built storybook, `storybook build` generates two files, `index.json` and `stories.json`, that list out the contents of the Storybook. `stories.json` is a legacy format and we included it for backwards compatibility. As of 8.0 we no longer build `stories.json` by default, and we will remove it completely in 9.0.
 
 In the meantime if you have code that relies on `stories.json`, you can find code that transforms the "v4" `index.json` to the "v3" `stories.json` format (and their respective TS types): https://github.com/storybookjs/storybook/blob/release-7-5/code/lib/core-server/src/utils/stories-json.ts#L71-L91
+
+#### Removed `sb babelrc` command
+
+The `sb babelrc` command was used to generate a `.babelrc` file for Storybook. This command is now removed.
+
+When you are using Webpack5, Storybook from 8.0 onwards is compiler-agnostic and does not depend on Babel or SWC. Creating a default babelrc file is also pretty tricky, since it depends on your project setup. We recommend that you create a `.babelrc` file yourself and configure it according to your project setup.
 
 ### Framework-specific changes
 
