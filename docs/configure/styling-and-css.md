@@ -206,7 +206,7 @@ Starting with version 14.1.8, Nx uses the Storybook builder directly, which mean
     }
 ```
 
-When Nx runs, it will load Storybook's configuration and styling based on [Storybook's `browserTarget`](https://nx.dev/storybook/extra-topics-for-angular-projects#setting-up-browsertarget).
+When Nx runs, it will load Storybook's configuration and styling based on [`storybook.browserTarget`](https://nx.dev/storybook/extra-topics-for-angular-projects#setting-up-browsertarget).
 
 </IfRenderer>
 
