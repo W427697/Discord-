@@ -28,6 +28,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
           ...(config.module?.rules ?? []),
           {
             test: /\.(cjs|mjs|tsx?|jsx?)$/,
+            enforce: 'pre',
             loader: requirer(
               require.resolve,
               '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
@@ -52,6 +53,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
         ...(config.module?.rules ?? []),
         {
           test: /\.(cjs|mjs|jsx?)$/,
+          enforce: 'pre',
           loader: requirer(
             require.resolve,
             '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
