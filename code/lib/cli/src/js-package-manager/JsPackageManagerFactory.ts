@@ -30,13 +30,7 @@ export class JsPackageManagerFactory {
       return new this.PROXY_MAP[force]({ cwd });
     }
 
-    // Option 2: If the user is running a command via npx/pnpx/yarn create/etc, we infer the package manager from the command
-    const inferredPackageManager = this.inferPackageManagerFromUserAgent();
-    if (inferredPackageManager && inferredPackageManager in this.PROXY_MAP) {
-      return new this.PROXY_MAP[inferredPackageManager]({ cwd });
-    }
-
-    // Option 3: We try to infer the package manager from the closest lockfile
+    // Option 2: We try to infer the package manager from the closest lockfile
     const yarnVersion = getYarnVersion(cwd);
 
     const closestLockfilePath = findUpSync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
@@ -55,6 +49,18 @@ export class JsPackageManagerFactory {
       return new PNPMProxy({ cwd });
     }
 
+    if (hasNPMCommand && closestLockfile === NPM_LOCKFILE) {
+      return new NPMProxy({ cwd });
+    }
+
+    // Option 3: If the user is running a command via npx/pnpx/yarn create/etc, we infer the package manager from the command
+    const inferredPackageManager = this.inferPackageManagerFromUserAgent();
+    if (inferredPackageManager && inferredPackageManager in this.PROXY_MAP) {
+      return new this.PROXY_MAP[inferredPackageManager]({ cwd });
+    }
+
+    // Default fallback, whenever users try to use something different than NPM, PNPM, Yarn,
+    // but still have NPM installed
     if (hasNPMCommand) {
       return new NPMProxy({ cwd });
     }
