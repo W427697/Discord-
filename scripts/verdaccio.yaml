@@ -112,6 +112,14 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/addon-webpack5-compiler-swc':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-webpack5-compiler-babel':
+    access: $all
+    publish: $all
+    proxy: npmjs
 
   # storybook packages are NOT proxied to global registry
   # allowing us to republish any version during tests
