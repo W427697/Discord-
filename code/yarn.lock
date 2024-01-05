@@ -5970,8 +5970,9 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
-    "@types/semver": "npm:^7.3.4"
+    "@types/semver": "npm:^7.5.6"
     pnp-webpack-plugin: "npm:^1.7.0"
+    semver: "npm:^7.5.4"
     typescript: "npm:^5.3.2"
   peerDependencies:
     react-scripts: ">=5.0.0"
@@ -7808,7 +7809,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12, @types/semver@npm:^7.3.4":
+"@types/semver@npm:^7.3.12, @types/semver@npm:^7.3.4, @types/semver@npm:^7.5.6":
   version: 7.5.6
   resolution: "@types/semver@npm:7.5.6"
   checksum: 196dc32db5f68cbcde2e6a42bb4aa5cbb100fa2b7bd9c8c82faaaf3e03fbe063e205dbb4f03c7cdf53da2edb70a0d34c9f2e601b54281b377eb8dc1743226acd
