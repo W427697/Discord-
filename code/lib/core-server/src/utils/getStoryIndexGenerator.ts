@@ -8,7 +8,6 @@ import { router } from './router';
 export async function getStoryIndexGenerator(
   features: {
     argTypeTargetsV7?: boolean;
-    warnOnLegacyHierarchySeparator?: boolean;
   },
   options: Options,
   serverChannel: ServerChannel

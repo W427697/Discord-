@@ -1,7 +1,13 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
+  - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [MDX related changes](#mdx-related-changes)
+    - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
+    - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
+    - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
@@ -21,6 +27,12 @@
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
+  - [Deprecations which are now removed](#deprecations-which-are-now-removed)
+    - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
+    - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
+    - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
+    - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
+    - [LinkTo direct import from addon-links](#linkto-direct-import-from-addon-links)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -336,6 +348,36 @@
 
 ## From version 7.x to 8.0.0
 
+### Removed deprecated shim packages
+
+In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
+
+- `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/store` - this package has been merged into `@storybook/preview-api`.
+- `@storybook/api` - this package has been replaced with `@storybook/manager-api`.
+
+This section explains the rationale, and the required changed you might have to make: [New Addons API](#new-addons-api)
+
+### Framework-specific Vite plugins have to be explicitly added
+
+In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
+In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
 ### Implicit actions can not be used during rendering (for example in the play function)
 
 In Storybook 7, we inferred if the component accepts any action props,
@@ -385,6 +427,26 @@ To summarize:
 - This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
+### MDX related changes
+
+#### MDX is upgraded to v3
+
+Storybook now uses MDX3 under the hood. This change contains many improvements and a few small breaking changes that probably won't affect you. However we recommend checking the [migration notes from MDX here](https://mdxjs.com/blog/v3/).
+
+#### Dropping support for *.stories.mdx (CSF in MDX) format and MDX1 support
+
+In Storybook 7, we deprecated the ability of using MDX both for documentation and for defining stories in the same .stories.mdx file. It is now removed, and Storybook won't support .stories.mdx files anymore. We provide migration scripts to help you onto the new format.
+
+If you were using the [legacy MDX1 format](#legacy-mdx1-support), you will have to remove the `legacyMdx1` main.js feature flag and the `@storybook/mdx1-csf` package.
+
+Alongside with this change, the `jsxOptions` configuration was removed as it is not used anymore.
+
+[More info here](https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf).
+
+#### Dropping support for id, name and story in Story block
+
+Referencing stories by `id`, `name` or `story` in the Story block is not possible anymore. [More info here](#story-block).
+
 ### Core changes
 
 #### Dropping support for Node.js 16
@@ -412,22 +474,24 @@ Addon authors are advised to upgrade to react v18.
 
 #### Storyshots has been removed
 
-Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+Storyshots was an addon for Storybook which allowed users to turn their stories into automated snapshot tests.
 
-Every story would automatically be taken into account and created a snapshot-file for.
+Every story would automatically be taken into account and create a snapshot file.
 
-Snapshot-testing has since fallen out of favor and is no longer recommended.
+Snapshot testing has since fallen out of favor and is no longer recommended.
 
-In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
-JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+In addition to its limited use, and high chance of false positives, Storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore, Storyshots was always a pain to set up and maintain.
 
-The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+The Storybook team has built the test-runner as a direct replacement, which utilizes Playwright to connect to an actual browser where Storybook runs the code.
 
-In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+In addition, CSF has expanded to allow for play functions to be defined on stories, which allows for more complex testing scenarios, fully integrated within Storybook itself (and supported by the test-runner, and not Storyshots).
 
-Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+Finally, storyStoreV7: true (the default and only option in Storybook 8), was not supported by Storyshots.
 
-By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+By removing Storyshots, the Storybook team was unblocked from moving (eventually) to an ESM-only Storybook, which is a big step towards a more modern Storybook.
+
+Please check the [migration guide](https://storybook.js.org/docs/writing-tests/storyshots-migration-guide) that we prepared.
 
 #### UI layout state has changed shape
 
@@ -506,6 +570,54 @@ Starting in 8.0, Storybook requires Angular 15 and up.
 ##### Require Svelte 4 and up
 
 Starting in 8.0, Storybook requires Svelte 4 and up.
+
+### Deprecations which are now removed
+
+#### --use-npm flag in storybook CLI
+
+The `--use-npm` is now removed. Use `--package-manager=npm` instead. [More info here](#cli-option---use-npm-deprecated).
+
+#### `setGlobalConfig` from `@storybook/react`
+
+The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
+
+```ts
+import { setProjectAnnotations } from `@storybook/testing-react`.
+```
+
+#### StorybookViteConfig type from @storybook/builder-vite
+
+The `StorybookViteConfig` type is now removed in favor of `StorybookConfig`:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+```
+
+#### props from WithTooltipComponent from @storybook/components
+
+The deprecated properties `tooltipShown`, `closeOnClick`, and `onVisibilityChange` of `WithTooltipComponent` from `@storybook/components` are now removed. Please replace them:
+
+```tsx
+<WithTooltip
+  closeOnClick       // becomes closeOnOutsideClick
+  tooltipShown       // becomes defaultVisible
+  onVisibilityChange // becomes onVisibleChange
+>
+  ...
+</WithTooltip>
+```
+
+#### LinkTo direct import from addon-links
+
+The `LinkTo` (React component) direct import from `@storybook/addon-links` is now removed. You have to import it from `@storybook/addon-links/react` instead.
+
+```ts
+// before
+import LinkTo from '@storybook/addon-links';
+
+// after
+import LinkTo from '@storybook/addon-links/react';
+```
 
 ## From version 7.5.0 to 7.6.0
 

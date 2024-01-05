@@ -172,10 +172,6 @@ export interface CLIOptions {
   host?: string;
   initialPath?: string;
   exactPort?: boolean;
-  /**
-   * @deprecated Use 'staticDirs' Storybook Configuration option instead
-   */
-  staticDir?: string[];
   configDir?: string;
   https?: boolean;
   sslCa?: string[];
@@ -358,12 +354,6 @@ export interface StorybookConfigRaw {
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
 
     /**
      * Use legacy MDX1, to help smooth migration to 7.0
