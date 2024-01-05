@@ -130,21 +130,6 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <!-- prettier-ignore-end -->
 
-### On-demand story loading
-
-As your Storybook grows, it gets challenging to load all of your stories performantly, slowing down the loading times and yielding a large bundle. Out of the box, Storybook loads your stories on demand rather than during boot-up to improve the performance of your Storybook. If you need to load all of your stories during boot-up, you can disable this feature by setting the `storyStoreV7` feature flag to `false` in your configuration as follows:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-story-store-v7.js.mdx',
-    'common/main-config-features-story-store-v7.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 #### Known limitations
 
 Because of the way stories are currently indexed in Storybook, loading stories on demand with `storyStoreV7` has a couple of minor limitations at the moment:
