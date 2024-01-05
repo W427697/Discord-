@@ -37,6 +37,7 @@
     - ["Framework" TypeScript types](#framework-typescript-types)
     - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
     - [storyIndexers](#storyindexers)
+    - [Deprecated docs parameters](#deprecated-docs-parameters)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -655,6 +656,20 @@ export const Component = () => {
 #### storyIndexers
 
 The Storybook's main.js configuration property `storyIndexers` is now removed in favor of `experimental_indexers`. [More info](#storyindexers-is-replaced-with-experimental_indexers).
+
+#### Deprecated docs parameters
+
+The following story and meta parameters are now removed:
+
+```ts
+parameters.docs.iframeHeight           // becomes docs.story.iframeHeight
+parameters.docs.inlineStories          // becomes docs.story.inline
+parameters.jsx.transformSource         // becomes parameters.docs.source.transform
+parameters.docs.transformSource        // becomes parameters.docs.source.transform
+parameters.docs.source.transformSource // becomes parameters.docs.source.transform
+```
+
+More info [here](#autodocs-changes) and [here](#source-block).
 
 ## From version 7.5.0 to 7.6.0
 
