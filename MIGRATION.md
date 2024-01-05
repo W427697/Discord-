@@ -622,7 +622,7 @@ import LinkTo from '@storybook/addon-links/react';
 
 #### Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types
 
-The `Story` type is now removed in favor of `StoryFn` and `StoryObj`. More info [here](##story-type-deprecated).
+The `Story` type is now removed in favor of `StoryFn` and `StoryObj`. More info [here](#story-type-deprecated).
 
 Additionally, for React, the `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are now removed in favor of `StoryFn`, `StoryObj` and `Meta`. More info [here](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated).
 
