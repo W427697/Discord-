@@ -36,6 +36,7 @@
     - [DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types](#decoratorfn-story-componentstory-componentstoryobj-componentstoryfn-and-componentmeta-typescript-types)
     - ["Framework" TypeScript types](#framework-typescript-types)
     - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
+    - [standalone `webpackConfig` option](#standalone-webpackconfig-option)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -650,6 +651,10 @@ export const Component = () => {
   // ...
 }
 ```
+
+#### standalone `webpackConfig` option
+
+TODO
 
 ## From version 7.5.0 to 7.6.0
 
