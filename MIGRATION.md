@@ -9,7 +9,7 @@
     - [Dropping support for \*.stories.mdx (CSF in MDX) format and MDX1 support](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
     - [Dropping support for id, name and story in Story block](#dropping-support-for-id-name-and-story-in-story-block)
   - [Core changes](#core-changes)
-    - [framework.options.builder.useSWC for Webpack5-based projects removed](#frameworkoptionsbuilderuseswc-for-webpack5-based-projects-removed)
+    - [`framework.options.builder.useSWC` for Webpack5-based projects removed](#frameworkoptionsbuilderuseswc-for-webpack5-based-projects-removed)
     - [Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`](#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5)
     - [framework.options.fastRefresh for Webpack5-based projects removed](#frameworkoptionsfastrefresh-for-webpack5-based-projects-removed)
     - [typescript.skipBabel removed](#typescriptskipbabel-removed)
@@ -460,7 +460,7 @@ Referencing stories by `id`, `name` or `story` in the Story block is not possibl
 
 ### Core changes
 
-#### framework.options.builder.useSWC for Webpack5-based projects removed
+#### `framework.options.builder.useSWC` for Webpack5-based projects removed
 
 In Storybook 8.0.0, we have removed the `framework.options.builder.useSWC` option. The `@storybook/builder-webpack5` package is now compiler-agnostic and does not depend on Babel or SWC.
 
