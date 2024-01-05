@@ -23,7 +23,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = (config) => {
   };
 };
 
-export const swc: PresetProperty<'swc'> = (config) => {
+export const swc: PresetProperty<'swc'> = (config: any): any => {
   const isDevelopment = process.env.NODE_ENV !== 'production';
 
   return {
