@@ -3,16 +3,38 @@ title: 'Styling and CSS'
 ---
 
 <!-- Not Angular -->
-<IfRenderer renderer={['react', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik', 'solid']}>
+<If notRenderer="angular">
 
 There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration.
+
 ## CSS
+
 Storybook supports importing CSS files in a few different ways. Storybook will inject these tags into the preview iframe where your components render, not the Storybook Manager UI. The best way to import CSS depends on your project's configuration and your preferences.
 
+### Import bundled CSS (Recommended)
+
+All Storybooks are pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.ts`](./overview.md#configure-story-rendering). These files will be subject to HMR, so you can see your changes without restarting your Storybook server.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-import-global-styles.js.mdx',
+    'common/storybook-preview-import-global-styles.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+If your component files import their CSS files, this will work too. However, if you're using CSS processor tools like Sass or Postcss, you may need some more configuration.
+
 ### Include static CSS
+
 If you have a global CSS file that you want to include in all your stories, you can import it in [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head).
 However, these files will not be subject to HMR, so you'll need to restart your Storybook server to see your changes.
+
 <!-- prettier-ignore-start -->
+
 <CodeSnippets
   paths={[
     'common/storybook-preview-import-global-styles.js.mdx',
@@ -21,25 +43,15 @@ However, these files will not be subject to HMR, so you'll need to restart your 
 />
 
 <!-- prettier-ignore-end -->
-### Import bundled CSS
-All Storybooks are pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.ts`](./overview.md#configure-story-rendering). These files will be subject to HMR, so you can see your changes without restarting your Storybook server.
-<!-- prettier-ignore-start -->
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-import-global-styles.js.mdx',
-    'common/storybook-preview-import-global-styles.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-If your component files import their CSS files, this will work too. However, if you're using CSS processor tools like Sass or Postcss, you may need some more configuration.
 
 ## CSS modules
 
 ### Vite
+
 Vite comes with CSS modules support out-of-the-box. If you have customized the CSS modules configuration in your `vite.config.js` this will automatically be applied to your Storybook as well. Read more about [Vite's CSS modules support](https://vitejs.dev/guide/features.html#css-modules).
 
 ### Webpack
+
 <IfRenderer renderer='react'>
 <Callout
   variant="info"
@@ -52,12 +64,16 @@ Storybook recreates your Next.js configuration, so you can use CSS modules in yo
 </Callout>
 </IfRenderer>
 
+If you're using Webpack and want to use CSS modules, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/) to help you configure these tools.
+
 ## PostCSS
 
 ### Vite
+
 Vite comes with PostCSS support out-of-the-box. If you have customized the PostCSS configuration in your `vite.config.js` this will automatically be applied to your Storybook as well. Read more about [Vite's PostCSS support](https://vitejs.dev/guide/features.html#postcss).
 
 ### Webpack
+
 <IfRenderer renderer='react'>
 <Callout
   variant="info"
@@ -66,15 +82,20 @@ Vite comes with PostCSS support out-of-the-box. If you have customized the PostC
 >
 
 Storybook recreates your Next.js configuration, so you can use PostCSS in your stories without any extra configuration.
+
 </Callout>
 </IfRenderer>
+
+If you're using Webpack and want to use PostCSS, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/) to help you configure these tools.
 
 ## CSS pre-processors
 
 ### Vite
+
 Vite comes with Sass, Less, and Stylus support out-of-the-box. Read more about [Vite's CSS Pre-processor support](https://vitejs.dev/guide/features.html#css-pre-processors).
 
 ### Webpack
+
 <IfRenderer renderer='react'>
 <Callout
   variant="info"
@@ -87,32 +108,36 @@ Storybook recreates your Next.js configuration, so you can use Sass in your stor
 </Callout>
 </IfRenderer>
 
-However, if you're using Webpack and want to use Sass or less, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#override-the-default-configuration) to include the appropriate loader(s).
+If you're using Webpack and want to use Sass or less, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#override-the-default-configuration) to include the appropriate loader(s).
 
 ## CSS-in-JS
+
 CSS-in-JS libraries are designed to use basic JavaScript, and they often work in Storybook without any extra configuration. Some libraries expect components to render in a specific rendering “context” (for example, to provide themes), which can be accomplished with `@storybook/addon-themes`'s [`withThemeFromJSXProvider` decorator](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#withthemefromjsxprovider).
 
 ## Adding webfonts
 
 ### `.storybook/preview-head.html`
+
 If you need webfonts to be available, you may need to add some code to the [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head) file. We recommend including any assets with your Storybook if possible, in which case you likely want to configure the [static file location](./images-and-assets.md#serving-static-files-via-storybook-configuration).
 
 ### `.storybook/preview.ts`
+
 If you're using something like [`fontsource`](https://fontsource.org/) for your fonts, you can import the needed css files in your [`.storybook/preview.ts`](./overview.md#configure-story-rendering) file.
 
-</IfRenderer>
+</If>
 
 <!-- Angular only -->
 <IfRenderer renderer="angular">
 
-  Storybook for Angular relies on the Angular CLI to build your stories. This means that you can use any CSS preprocessor that the Angular CLI supports. You can read more about this in the [Angular CLI documentation](https://angular.io/guide/workspace-config#style-script-config).
+Storybook for Angular relies on the Angular CLI to build your stories. This means that you can use any CSS preprocessor that the Angular CLI supports. You can read more about this in the [Angular CLI documentation](https://angular.io/guide/workspace-config#style-script-config).
 
-  ## Global styles
-  To add global styles to your Storybook, you can add them to the `styles` array in your `angular.json` file. This will add the styles to the preview iframe where your components render, not the Storybook Manager UI.
+## Global styles
 
-  Don't forget to also add your global styles to your `build-storybook` target in your `angular.json` file. This will ensure that your global styles are included in the static build of your Storybook as well.
+To add global styles to your Storybook, you can add them to the `styles` array in your `angular.json` file. This will add the styles to the preview iframe where your components render, not the Storybook Manager UI.
 
-  ```json
+Don't forget to also add your global styles to your `build-storybook` target in your `angular.json` file. This will ensure that your global styles are included in the static build of your Storybook as well.
+
+```json
   {
   "storybook": {
     "builder": "@storybook/angular:start-storybook",
