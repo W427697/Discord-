@@ -11,8 +11,8 @@
   - [Core changes](#core-changes)
     - [`framework.options.builder.useSWC` for Webpack5-based projects removed](#frameworkoptionsbuilderuseswc-for-webpack5-based-projects-removed)
     - [Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`](#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5)
-    - [framework.options.fastRefresh for Webpack5-based projects removed](#frameworkoptionsfastrefresh-for-webpack5-based-projects-removed)
-    - [typescript.skipBabel removed](#typescriptskipbabel-removed)
+    - [`framework.options.fastRefresh` for Webpack5-based projects removed](#frameworkoptionsfastrefresh-for-webpack5-based-projects-removed)
+    - [`typescript.skipBabel` removed](#typescriptskipbabel-removed)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
@@ -502,7 +502,7 @@ export default config;
 
 We are doing this to make Storybook more flexible and to allow users to use a variety of compilers like SWC, Babel or even pure TypeScript.
 
-#### framework.options.fastRefresh for Webpack5-based projects removed
+#### `framework.options.fastRefresh` for Webpack5-based projects removed
 
 In Storybook 8.0.0, we have removed the `framework.options.fastRefresh` option.
 
@@ -565,7 +565,7 @@ We are committed to minimizing magic behind the scenes. By removing `framework.o
 
 You don't have to add fast refresh to `@storybook/nextjs`, since it is already configured there as a default to match the same experience as `next dev`.
 
-#### typescript.skipBabel removed
+#### `typescript.skipBabel` removed
 
 We have removed the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescript.skipCompiler` instead.
 
