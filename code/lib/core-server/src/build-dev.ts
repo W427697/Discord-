@@ -154,7 +154,10 @@ export async function buildDevStandalone(
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
     ],
-    overridePresets: [...(previewBuilder.overridePresets || [])],
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
