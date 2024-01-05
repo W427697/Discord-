@@ -39,6 +39,7 @@
     - [storyIndexers](#storyindexers)
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
+    - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -676,6 +677,18 @@ More info [here](#autodocs-changes) and [here](#source-block).
 
 `children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
+#### Manager API expandAll and collapseAll methods
+
+The `collapseAll` and `expandAll` APIs (possibly used by addons) are now removed. Please emit events for these actions instead:
+
+```ts
+import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
+import { useStorybookApi } from '@storybook/manager-api';
+
+const api = useStorybookApi()
+api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
+api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
+```
 
 ## From version 7.5.0 to 7.6.0
 
