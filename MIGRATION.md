@@ -40,6 +40,7 @@
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
+    - [Source Doc block properties](#source-doc-block-properties)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -689,6 +690,10 @@ const api = useStorybookApi()
 api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
+
+#### Source Doc block properties
+
+`id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
 ## From version 7.5.0 to 7.6.0
 

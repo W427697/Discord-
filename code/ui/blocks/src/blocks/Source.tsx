@@ -9,16 +9,12 @@ import type {
 } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
-import { deprecate } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { UNKNOWN_ARGS_HASH, argsHash, SourceContext } from './SourceContainer';
-
-import { useStories } from './useStory';
 
 export enum SourceState {
   OPEN = 'open',
@@ -53,12 +49,6 @@ export type SourceProps = SourceParameters & {
    * ```
    */
   of?: ModuleExport;
-
-  /** @deprecated use of={storyExport} instead */
-  id?: string;
-
-  /** @deprecated use of={storyExport} instead */
-  ids?: string[];
 
   /**
    * Internal prop to control if a story re-renders on args updates
@@ -134,11 +124,7 @@ export const useSourceProps = (
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
 ): PureSourceProps & SourceStateProps => {
-  const storyIds = props.ids || (props.id ? [props.id] : []);
-  const storiesFromIds = useStories(storyIds, docsContext);
-
-  // The check didn't actually change the type.
-  let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
+  let stories: PreparedStory[] = [];
   const { of } = props;
   if ('of' in props && of === undefined) {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
@@ -147,16 +133,13 @@ export const useSourceProps = (
   if (of) {
     const resolved = docsContext.resolveOf(of, ['story']);
     stories = [resolved.story];
-  } else if (stories.length === 0) {
+  } else {
     try {
       // Always fall back to the primary story for source parameters, even if code is set.
       stories = [docsContext.storyById()];
     } catch (err) {
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
-  }
-  if (!storiesFromIds.every(Boolean)) {
-    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
   }
 
   const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
@@ -213,18 +196,6 @@ export const useSourceProps = (
  * the source for the current story if nothing is provided.
  */
 export const Source: FC<SourceProps> = (props) => {
-  if (props.id) {
-    deprecate(dedent`The \`id\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
-  if (props.ids) {
-    deprecate(dedent`The \`ids\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
   const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);
