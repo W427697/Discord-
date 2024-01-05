@@ -248,6 +248,7 @@ export async function baseGenerator(
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
+    ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...(extraAddonsToInstall || []),
   ].filter(Boolean);
 
