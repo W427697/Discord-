@@ -33,6 +33,7 @@
     - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
     - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
     - [LinkTo direct import from addon-links](#linkto-direct-import-from-addon-links)
+    - [Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types](#story-componentstory-componentstoryobj-componentstoryfn-and-componentmeta-typescript-types)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -618,6 +619,12 @@ import LinkTo from '@storybook/addon-links';
 // after
 import LinkTo from '@storybook/addon-links/react';
 ```
+
+#### Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types
+
+The `Story` type is now removed in favor of `StoryFn` and `StoryObj`. More info [here](##story-type-deprecated).
+
+Additionally, for React, the `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are now removed in favor of `StoryFn`, `StoryObj` and `Meta`. More info [here](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated).
 
 ## From version 7.5.0 to 7.6.0
 
