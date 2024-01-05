@@ -40,7 +40,7 @@ This configuration file is a [preset](../addons/addon-types.md) and, as such, ha
 | `framework`           | Configures Storybook based on a set of [framework-specific](./frameworks.md) settings <br/> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                             |
 | `core`                | Configures Storybook's [internal features](../api/main-config-core.md) <br/> `core: { disableTelemetry: true, }`                                                                                                    |
 | `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.md)<br/> `docs: { autodocs: 'tag' }`                                                                                                 |
-| `features`            | Enables Storybook's [additional features](../api/main-config-features.md)<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                  |
+| `features`            | Enables Storybook's [additional features](../api/main-config-features.md)<br/> See table below for a list of available features                                                                                     |
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                                         |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                                                                 |
 | `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                                                        |
@@ -52,10 +52,9 @@ This configuration file is a [preset](../addons/addon-types.md) and, as such, ha
 
 Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
 
-| Configuration element | Description                                                                                                                                                                                   |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up (defaults to `true` as of `v7.0`) <br/> `features: { storyStoreV7: true }`             |
-| `buildStoriesJson`    | Generates `index.json` and `stories.json` files to help story loading with the on-demand mode (defaults to `true` when `storyStoreV7` is `true`) <br/> `features: { buildStoriesJson: true }` |
+| Configuration element | Description                                                                                                                                                     |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `buildStoriesJson`    | Generates `index.json` and `stories.json` files to help story loading with the on-demand mode (defaults to `true`) <br/> `features: { buildStoriesJson: true }` |
 
 ## Configure story loading
 
@@ -132,10 +131,10 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 #### Known limitations
 
-Because of the way stories are currently indexed in Storybook, loading stories on demand with `storyStoreV7` has a couple of minor limitations at the moment:
+Because of the way stories are currently indexed in Storybook, loading stories on demand has a couple of minor limitations at the moment:
 
-- [CSF formats](../api/csf.md) from version 1 to version 3 are supported. The `storiesOf` construct is not.
-- Custom`storySort` functions are allowed based on a restricted API.
+- [CSF formats](../api/csf.md) from version 1 to version 3 are supported.
+- Custom `storySort` functions are allowed based on a restricted API.
 
 ## Configure story rendering
 
