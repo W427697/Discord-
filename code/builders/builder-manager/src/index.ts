@@ -224,6 +224,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
   yield;
 
@@ -264,6 +265,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
