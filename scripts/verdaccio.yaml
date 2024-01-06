@@ -31,11 +31,88 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/semver':
+  '@storybook/global':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/preset-*':
+  '@storybook/design-system':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/preset-ie11':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/preset-scss':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/bench':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-coverage':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-bench':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-styling':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-svelte-csf':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/create-svelte-with-args':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/react-docgen-typescript-plugin':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/testing-library':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/test-runner':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-onboarding':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/expect':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/jest':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/docs-mdx':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/babel-plugin-require-context-hook':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/semver':
+    # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/icons':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/ember-cli-storybook':
     access: $all
     publish: $all
     proxy: npmjs

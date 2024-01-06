@@ -1,27 +1,27 @@
 name: Unit tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - next
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
-    name: Core Unit Tests
-    runs-on: ubuntu-latest
+    name: Core Unit Tests, ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - uses: actions/checkout@v2
-    - name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: build-v2-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          build-v2-${{ env.cache-name }}-
-          build-v2-
-    - name: install, bootstrap
-      run: |
-        yarn bootstrap --core
-    - name: test
-      run: |
-        yarn test --core
+      - uses: actions/checkout@v3
+      - name: Set node version
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: install and compile
+        run: yarn task --task compile --start-from=auto --no-link
+      - name: test
+        run: yarn test

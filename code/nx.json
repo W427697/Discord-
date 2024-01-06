@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    }
+  },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": false
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "affected": {
+    "defaultBase": "next"
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
+    },
+    "package": {
+      "dependsOn": [
+        {
+          "target": "package",
+          "dependencies": true
+        }
+      ]
+    },
+    "prep": {
+      "dependsOn": [
+        {
+          "target": "prep",
+          "params": "forward",
+          "dependencies": true
+        }
+      ],
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true
+    }
+  },
+  "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
+  "parallel": 1
+}
