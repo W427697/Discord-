@@ -1,4 +1,13 @@
 import type { PreparedStory } from '@storybook/types';
+import { global } from '@storybook/global';
+
+const excludeTags = Object.entries(global.TAGS_OPTIONS).reduce((acc, entry) => {
+  const [tag, option] = entry;
+  if ((option as any).excludeFromAutodocs) {
+    acc[tag] = true;
+  }
+  return acc;
+}, {} as Record<string, boolean>);
 
 export const parameters: any = {
   docs: {
@@ -6,6 +15,9 @@ export const parameters: any = {
       const { DocsRenderer } = (await import('./DocsRenderer')) as any;
       return new DocsRenderer();
     },
-    autodocsFilter: (story: PreparedStory) => !story.parameters?.docs?.disable,
+    autodocsFilter: (story: PreparedStory) => {
+      const tags = story.tags || [];
+      return tags.filter((tag) => excludeTags[tag]).length === 0 && !story.parameters.docs?.disable;
+    },
   },
 };

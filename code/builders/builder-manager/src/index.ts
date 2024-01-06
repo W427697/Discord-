@@ -138,6 +138,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
 
   yield;
@@ -175,6 +176,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
