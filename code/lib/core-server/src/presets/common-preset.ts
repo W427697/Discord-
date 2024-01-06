@@ -363,13 +363,14 @@ export const resolvedReact = async (existing: any) => {
 };
 
 /**
- * Set up `docs-only` and `test-only` tags out of the box
+ * Set up `dev-only`, `docs-only`, `test-only` tags out of the box
  */
 export const tags = async (existing: any) => {
   return {
     ...existing,
-    'test-only': { excludeFromSidebar: true, excludeFromAutodocs: true },
+    'dev-only': { excludeFromAutodocs: true },
     'docs-only': { excludeFromSidebar: true },
+    'test-only': { excludeFromSidebar: true, excludeFromAutodocs: true },
   };
 };
 
