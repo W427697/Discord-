@@ -15,7 +15,6 @@ vi.mock('@storybook/node-logger');
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '..', '__mockdata__'),
   workingDir: path.join(__dirname, '..', '__mockdata__'),
-  storyIndexers: [],
   indexers: [],
   docs: { defaultName: 'docs', autodocs: false },
 };

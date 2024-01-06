@@ -7,7 +7,7 @@ import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 
-import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
+import type { StoriesEntry, Indexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -400,8 +400,6 @@ export interface StorybookConfigRaw {
 
   previewAnnotations?: Entry[];
 
-  storyIndexers?: StoryIndexer[];
-
   experimental_indexers?: Indexer[];
 
   docs?: DocsOptions;
@@ -492,12 +490,6 @@ export interface StorybookConfig {
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: PresetValue<StorybookConfigRaw['previewAnnotations']>;
-
-  /**
-   * Process CSF files for the story index.
-   * @deprecated use {@link experimental_indexers} instead
-   */
-  storyIndexers?: PresetValue<StorybookConfigRaw['storyIndexers']>;
 
   /**
    * Process CSF files for the story index.

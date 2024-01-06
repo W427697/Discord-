@@ -33,6 +33,13 @@
     - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
     - [props from WithTooltipComponent from @storybook/components](#props-from-withtooltipcomponent-from-storybookcomponents)
     - [LinkTo direct import from addon-links](#linkto-direct-import-from-addon-links)
+    - [DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types](#decoratorfn-story-componentstory-componentstoryobj-componentstoryfn-and-componentmeta-typescript-types)
+    - ["Framework" TypeScript types](#framework-typescript-types)
+    - [`navigateToSettingsPage` method from Storybook's manager-api](#navigatetosettingspage-method-from-storybooks-manager-api)
+    - [storyIndexers](#storyindexers)
+    - [Deprecated docs parameters](#deprecated-docs-parameters)
+    - [Description Doc block properties](#description-doc-block-properties)
+    - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -617,6 +624,70 @@ import LinkTo from '@storybook/addon-links';
 
 // after
 import LinkTo from '@storybook/addon-links/react';
+```
+
+#### DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta TypeScript types
+
+The `Story` type is now removed in favor of `StoryFn` and `StoryObj`. More info [here](#story-type-deprecated).
+
+The `DecoratorFn` type is now removed in favor of `Decorator`. [More info](#renamed-decoratorfn-to-decorator).
+
+For React, the `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are now removed in favor of `StoryFn`, `StoryObj` and `Meta`. [More info](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated).
+
+#### "Framework" TypeScript types
+
+The Framework types such as `ReactFramework` are now removed in favor of Renderer types such as `ReactRenderer`. This affects all frameworks. [More info](#renamed-xframework-to-xrenderer).
+
+#### `navigateToSettingsPage` method from Storybook's manager-api
+
+The `navigateToSettingsPage` method from manager-api is now removed in favor of `changeSettingsTab`.
+
+```ts
+export const Component = () => {
+  const api = useStorybookApi();
+
+  const someHandler = () => {
+    // Old method: api.navigateToSettingsPage('/settings/about');
+    api.changeSettingsTab('about'); // the /settings path is not necessary anymore
+  };
+
+  // ...
+}
+```
+
+#### storyIndexers
+
+The Storybook's main.js configuration property `storyIndexers` is now removed in favor of `experimental_indexers`. [More info](#storyindexers-is-replaced-with-experimental_indexers).
+
+#### Deprecated docs parameters
+
+The following story and meta parameters are now removed:
+
+```ts
+parameters.docs.iframeHeight           // becomes docs.story.iframeHeight
+parameters.docs.inlineStories          // becomes docs.story.inline
+parameters.jsx.transformSource         // becomes parameters.docs.source.transform
+parameters.docs.transformSource        // becomes parameters.docs.source.transform
+parameters.docs.source.transformSource // becomes parameters.docs.source.transform
+```
+
+More info [here](#autodocs-changes) and [here](#source-block).
+
+#### Description Doc block properties
+
+`children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Manager API expandAll and collapseAll methods
+
+The `collapseAll` and `expandAll` APIs (possibly used by addons) are now removed. Please emit events for these actions instead:
+
+```ts
+import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
+import { useStorybookApi } from '@storybook/manager-api';
+
+const api = useStorybookApi()
+api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
+api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
 
 ## From version 7.5.0 to 7.6.0
@@ -2214,6 +2285,8 @@ During the 7.0 dev cycle we will be preparing recommendations and utilities to m
 
 #### `Story` type deprecated
 
+_Has codemod_
+
 In 6.x you were able to do this:
 
 ```ts
@@ -2222,24 +2295,43 @@ import type { Story } from '@storybook/react';
 export const MyStory: Story = () => <div />;
 ```
 
-But this will produce a deprecation warning in 7.0 because `Story` has been deprecated.
-To fix the deprecation warning, use the `StoryFn` type:
+However with the introduction of CSF3, the `Story` type has been deprecated in favor of two other types: `StoryFn` for CSF2 and `StoryObj` for CSF3.
 
 ```ts
-import type { StoryFn } from '@storybook/react';
+import type { StoryFn, StoryObj } from '@storybook/react';
 
-export const MyStory: StoryFn = () => <div />;
+export const MyCsf2Story: StoryFn = () => <div />;
+export const MyCsf3Story: StoryObj = {
+  render: () => <div />
+};
 ```
 
 This change is part of our move to CSF3, which uses objects instead of functions to represent stories.
 You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
+We have set up a codemod that attempts to automatically migrate your code for you (update the glob to suit your needs):
+
+```
+npx storybook@next migrate upgrade-deprecated-types --glob="**/*.stories.tsx"
+```
+
 #### `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated
 
-The type of StoryObj and StoryFn have been changed in 7.0 so that both the "component" as "the props of the component" will be accepted as the generic parameter.
+_Has codemod_
+
+The type of `StoryObj` and `StoryFn` have been changed in 7.0 so that both the "component" as "the props of the component" will be accepted as the generic parameter. You can now replace the types:
+
+```
+ComponentStory -> StoryFn (CSF2) or StoryObj (CSF3)
+ComponentStoryObj -> StoryObj
+ComponentStoryFn -> StoryFn
+ComponentMeta -> Meta
+```
+
+Here are a few examples:
 
 ```ts
-import type { Story } from '@storybook/react';
+import type { StoryFn, StoryObj } from '@storybook/react';
 import { Button, ButtonProps } from './Button';
 
 // This works in 7.0, making the ComponentX types redundant.
@@ -2257,6 +2349,12 @@ export const CSF3Story: StoryObj<ButtonProps> = { args: { label: 'Label' } };
 
 export const CSF2Story: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 CSF2Story.args = { label: 'Label' };
+```
+
+We have set up a codemod that attempts to automatically migrate your code for you (update the glob to suit your needs):
+
+```
+npx storybook@next migrate upgrade-deprecated-types --glob="**/*.stories.tsx"
 ```
 
 #### Renamed `renderToDOM` to `renderToCanvas`
