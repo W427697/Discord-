@@ -13,7 +13,7 @@ import type {
   InterpolationNode,
   TemplateChildNode,
 } from '@vue/compiler-core';
-import { baseParse } from '@vue/compiler-core';
+import { parse } from  '@vue/compiler-dom';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
 import { kebabCase } from 'lodash';
@@ -173,7 +173,7 @@ function getTemplateComponents(
 }
 
 function getComponents(template: string): (TemplateChildNode | VNode)[] {
-  const ast = baseParse(template);
+  const ast = parse(template);
   const components = ast?.children;
   if (!components) return [];
   return components;
