@@ -186,7 +186,7 @@ export class Preview<TRenderer extends Renderer> {
       return;
     }
 
-    await this.storyStore.setProjectAnnotations(projectAnnotations);
+    this.storyStore.setProjectAnnotations(projectAnnotations);
     this.emitGlobals();
   }
 
@@ -204,7 +204,7 @@ export class Preview<TRenderer extends Renderer> {
 
       // This is the first time the story index worked, let's load it into the store
       if (!this.storyStore.storyIndex) {
-        await this.initializeWithStoryIndex(storyIndex);
+        this.initializeWithStoryIndex(storyIndex);
       }
 
       // Update the store with the new stories.
