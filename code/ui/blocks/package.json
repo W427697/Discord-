@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.8",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -71,6 +71,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {

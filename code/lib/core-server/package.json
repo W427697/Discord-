@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.8",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -68,7 +68,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/csf": "^0.1.2",
     "@storybook/csf-tools": "workspace:*",
-    "@storybook/docs-mdx": "^0.1.0",
+    "@storybook/docs-mdx": "3.0.0",
     "@storybook/global": "^5.0.0",
     "@storybook/manager": "workspace:*",
     "@storybook/node-logger": "workspace:*",
