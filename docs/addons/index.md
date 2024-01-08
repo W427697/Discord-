@@ -2,6 +2,7 @@
 title: 'Introduction to addons'
 sidebar:
   order: 7
+  title: Addons
 hideRendererSelector: true
 ---
 

@@ -2,6 +2,7 @@
 title: 'How to write stories'
 sidebar:
   order: 2
+  title: Stories
 ---
 
 <YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />

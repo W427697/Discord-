@@ -2,6 +2,7 @@
 title: 'How to document components'
 sidebar:
   order: 3
+  title: Docs
 hideRendererSelector: true
 ---
 
