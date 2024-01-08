@@ -19,6 +19,7 @@ import {
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
 import { detectBuilder } from '../detect';
+import { detectStorybookVersionFromNodeArgs } from '../utils/detect-args-version';
 
 const logger = console;
 
@@ -320,7 +321,19 @@ export async function baseGenerator(
   const versionedPackages = await packageManager.getVersionedPackages(packages as string[]);
   versionedPackagesSpinner.succeed();
 
-  const depsToInstall = [...versionedPackages];
+  const packageVersionsToInstall = await detectStorybookVersionFromNodeArgs(process.argv);
+
+  const depsToInstall = [...versionedPackages].map((val) => {
+    const [name] = getPackageDetails(val);
+    // @ts-expect-error (dynamic lookup)
+    if (packageVersions[name]) {
+      return `${name}@${packageVersionsToInstall}`;
+    }
+
+    return val;
+  });
+
+  // do not add storybook monorepo packages after this point
 
   // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
   if (builder !== CoreBuilder.Vite && !skipBabel) {
@@ -375,6 +388,7 @@ export async function baseGenerator(
       indent: 2,
       text: 'Installing Storybook dependencies',
     }).start();
+
     await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
     addDependenciesSpinner.succeed();
   }
