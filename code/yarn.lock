@@ -5099,7 +5099,7 @@ __metadata:
     color-convert: "npm:^2.0.1"
     dequal: "npm:^2.0.2"
     lodash: "npm:^4.17.21"
-    markdown-to-jsx: "npm:^7.1.8"
+    markdown-to-jsx: "npm:7.3.2"
     memoizerific: "npm:^1.11.3"
     polished: "npm:^4.2.2"
     react-colorful: "npm:^5.1.2"
@@ -5843,7 +5843,7 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     fuse.js: "npm:^3.6.1"
     lodash: "npm:^4.17.21"
-    markdown-to-jsx: "npm:^7.1.8"
+    markdown-to-jsx: "npm:7.3.2"
     memoizerific: "npm:^1.11.3"
     polished: "npm:^4.2.2"
     qs: "npm:^6.10.0"
@@ -19596,12 +19596,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-to-jsx@npm:^7.1.8":
-  version: 7.4.0
-  resolution: "markdown-to-jsx@npm:7.4.0"
+"markdown-to-jsx@npm:7.3.2":
+  version: 7.3.2
+  resolution: "markdown-to-jsx@npm:7.3.2"
   peerDependencies:
     react: ">= 0.14.0"
-  checksum: 78cb222bf4b848d5a2e5187a24a02fed4c3f18eb8f50c5f7e1ad67041b491bb574fb347ab2e2ad0636fb6e4e9ba1030b21d8c18e46dfa60c283557723f8fe5e5
+  checksum: 191b9a9defeed02e12dd340cebf279f577266dac7b34574fa44ce4d64ee8536f9967d455b8303c853f84413feb473118290a6160d8221eeaf3b9e4961b8980e3
   languageName: node
   linkType: hard
 
