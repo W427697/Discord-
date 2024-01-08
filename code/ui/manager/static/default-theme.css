@@ -73,6 +73,15 @@
       --sb-button-ghostActiveText: #2e3438;
       --sb-button-ghostActiveBorder: transparent;
       --sb-button-focusBorder: #029cfd;
+
+      /* ScrollArea */
+      --sb-scrollbar-background: #5c68707a;
+      --sb-scrollbar-hoverBackground: #5c6870ba;
+
+      /* Tabs */
+      --sb-tabs-background: #fff;
+      --sb-tabs-barBorderTop: #d7e0e7;
+      --sb-tabs-barBorderBottom: #d7e0e7;
     }
   }
   @media (prefers-color-scheme: dark) {
