@@ -1,5 +1,8 @@
 ---
 title: 'Storyshots migration guide'
+sidebar:
+  order: 2
+  title: Migration guide
 ---
 
 <Callout variant="info" style={{ marginBottom: "2rem" }} >
