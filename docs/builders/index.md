@@ -1,5 +1,7 @@
 ---
 title: 'Builders'
+sidebar:
+  order: 9
 hideRendererSelector: true
 ---
 

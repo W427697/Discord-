@@ -1,5 +1,7 @@
 ---
 title: 'Configure Storybook'
+sidebar:
+  order: 8
 ---
 
 Storybook is configured via a folder called `.storybook`, which contains various configuration files.

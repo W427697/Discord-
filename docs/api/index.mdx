@@ -1,5 +1,7 @@
 ---
 title: 'API references'
+sidebar:
+  order: 10
 hideRendererSelector: true
 ---
 
