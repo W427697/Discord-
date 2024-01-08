@@ -2,7 +2,12 @@ import { parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 
-export default async function loader(this: LoaderContext<any>, source: string) {
+export default async function loader(
+  this: LoaderContext<any>,
+  source: string,
+  map: any,
+  meta: any
+) {
   const callback = this.async();
 
   try {
@@ -26,9 +31,9 @@ export default async function loader(this: LoaderContext<any>, source: string) {
       )};`
     );
 
-    const map = magicString.generateMap({ hires: true });
-    return callback(null, magicString.toString(), map);
+    const generatedMap = magicString.generateMap({ hires: true });
+    return callback(null, magicString.toString(), generatedMap, meta);
   } catch (err) {
-    return callback(err as any);
+    return callback(null, source, map, meta);
   }
 }
