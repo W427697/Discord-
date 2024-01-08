@@ -1,3 +1,33 @@
+## 8.0.0-alpha.8
+
+- Addon Links: Remove LinkTo from direct import - [#25418](https://github.com/storybookjs/storybook/pull/25418), thanks [@yannbf](https://github.com/yannbf)!
+- Addon docs: Remove deprecated parameters - [#25469](https://github.com/storybookjs/storybook/pull/25469), thanks [@yannbf](https://github.com/yannbf)!
+- Builder Vite: Remove StorybookViteConfig type in favor of StorybookConfig - [#25441](https://github.com/storybookjs/storybook/pull/25441), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Error on explicit actions while rendering or playing - [#25238](https://github.com/storybookjs/storybook/pull/25238), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Core: Remove collapseAll and expandAll methods - [#25486](https://github.com/storybookjs/storybook/pull/25486), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove storyIndexers in favor of experimental_indexers - [#25468](https://github.com/storybookjs/storybook/pull/25468), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove unused staticDir type - [#25415](https://github.com/storybookjs/storybook/pull/25415), thanks [@yannbf](https://github.com/yannbf)!
+- Doc blocks: Remove deprecated props from Description block - [#25457](https://github.com/storybookjs/storybook/pull/25457), thanks [@yannbf](https://github.com/yannbf)!
+- Manager API: Remove deprecated navigateToSettingsPage method - [#25467](https://github.com/storybookjs/storybook/pull/25467), thanks [@yannbf](https://github.com/yannbf)!
+- React: Remove deprecated setGlobalConfig portable stories api - [#25442](https://github.com/storybookjs/storybook/pull/25442), thanks [@yannbf](https://github.com/yannbf)!
+- TypeScript: Remove deprecated addons module types - [#25485](https://github.com/storybookjs/storybook/pull/25485), thanks [@yannbf](https://github.com/yannbf)!
+- Types: Remove DecoratorFn, Story, ComponentStory, ComponentStoryObj, ComponentStoryFn and ComponentMeta types - [#25477](https://github.com/storybookjs/storybook/pull/25477), thanks [@yannbf](https://github.com/yannbf)!
+- Types: Remove Framework in favor of Renderer types - [#25476](https://github.com/storybookjs/storybook/pull/25476), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Remove deprecated WithTooltip props - [#25440](https://github.com/storybookjs/storybook/pull/25440), thanks [@yannbf](https://github.com/yannbf)!
+
+## 8.0.0-alpha.7
+
+- Addon-Docs: Upgrade to MDX3 - [#25303](https://github.com/storybookjs/storybook/pull/25303), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Add Storyshots migration notice - [#25327](https://github.com/storybookjs/storybook/pull/25327), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix regex used in upgrade command - [#25284](https://github.com/storybookjs/storybook/pull/25284), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Remove --use-npm flag - [#25414](https://github.com/storybookjs/storybook/pull/25414), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove unused warnOnLegacyHierarchySeparator type - [#25416](https://github.com/storybookjs/storybook/pull/25416), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Remove vite plugins and drop Vite 3 support - [#25427](https://github.com/storybookjs/storybook/pull/25427), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Maintenance: Add comment to deprecation notice in Button component - [#25411](https://github.com/storybookjs/storybook/pull/25411), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix about page layout - [#25396](https://github.com/storybookjs/storybook/pull/25396), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Viewport: Store viewport, rotation in globals - [#25423](https://github.com/storybookjs/storybook/pull/25423), thanks [@shilman](https://github.com/shilman)!
+- Vite: Fix Vite 5 CJS warnings - [#25005](https://github.com/storybookjs/storybook/pull/25005), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 8.0.0-alpha.6
 
 - NextJS: Autoconfigure public directory for new projects - [#25279](https://github.com/storybookjs/storybook/pull/25279), thanks [@shilman](https://github.com/shilman)!

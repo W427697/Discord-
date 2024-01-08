@@ -46,7 +46,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 
 export const favicon = async (
   value: string | undefined,
-  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+  options: Pick<Options, 'presets' | 'configDir'>
 ) => {
   if (value) {
     return value;
@@ -187,12 +187,11 @@ export const previewAnnotations = async (base: any, options: Options) => {
 
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
-  warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  disallowImplicitActionsInRenderV8: false,
+  disallowImplicitActionsInRenderV8: true,
 });
 
 export const csfIndexer: Indexer = {
