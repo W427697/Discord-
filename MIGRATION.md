@@ -35,7 +35,7 @@
       - [Require Svelte 4 and up](#require-svelte-4-and-up)
     - [Preact](#preact)
       - [Require Preact 10 and up](#require-preact-10-and-up)
-      - [No longer adds default babel plugins](#no-longer-adds-default-babel-plugins)
+      - [No longer adds default Babel plugins](#no-longer-adds-default-babel-plugins)
     - [Web Components](#web-components)
       - [Dropping default babel plugins in Webpack5-based projects](#dropping-default-babel-plugins-in-webpack5-based-projects)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
@@ -462,55 +462,35 @@ Referencing stories by `id`, `name` or `story` in the Story block is not possibl
 
 #### `framework.options.builder.useSWC` for Webpack5-based projects removed
 
-In Storybook 8.0.0, we have removed the `framework.options.builder.useSWC` option. The `@storybook/builder-webpack5` package is now compiler-agnostic and does not depend on Babel or SWC.
+In Storybook 8.0, we have removed the `framework.options.builder.useSWC` option. The `@storybook/builder-webpack5` package is now compiler-agnostic and does not depend on Babel or SWC.
 
-If you want to use SWC, you can install and add the following addon to your Storybook configuration:
+If you want to use SWC, you can add the necessary addon:
 
 ```sh
-npm install --save-dev @storybook/addon-webpack-compiler-swc
+npx storybook@latest add @storybook/addon-webpack-compiler-swc
 ```
 
-`.storybook/main.js`:
-
-```js
-const config = {
-  addons: ["@storybook/addon-webpack-compiler-swc"]
-};
-
-export default config;
-```
-
-The goal is to make @storybook/builder-webpack5 more leightweight and flexible. We are not locked into a specific compiler or compiler version anymore. This allows us to support Babel 7/8, SWC and other compilers at the same time.
+The goal is to make @storybook/builder-webpack5 lighter and more flexible. We are not locked into a specific compiler or compiler version anymore. This allows us to support Babel 7/8, SWC, and other compilers simultaneously.
 
 #### Removed `@babel/core` and `babel-loader` from `@storybook/builder-webpack5`
 
-In Storybook 8.0.0, we have removed the `@storybook/builder-webpack5` package's dependency on Babel. This means that Babel is not preconfigured in `@storybook/builder-webpack5`. If you want to use Babel, you can install and add the following addon to your Storybook configuration:
+In Storybook 8.0, we have removed the `@storybook/builder-webpack5` package's dependency on Babel. This means that Babel is not preconfigured in `@storybook/builder-webpack5`. If you want to use Babel, you can add the necessary addon:
 
 ```sh
-npm install --save-dev @storybook/addon-webpack-compiler-babel
-```
-
-`.storybook/main.js`:
-
-```js
-const config = {
-  addons: ["@storybook/addon-webpack-compiler-babel"]
-};
-
-export default config;
+npx storybook@latest add @storybook/addon-webpack-compiler-swc
 ```
 
 We are doing this to make Storybook more flexible and to allow users to use a variety of compilers like SWC, Babel or even pure TypeScript.
 
 #### `framework.options.fastRefresh` for Webpack5-based projects removed
 
-In Storybook 8.0.0, we have removed the `framework.options.fastRefresh` option.
+In Storybook 8.0, we have removed the `framework.options.fastRefresh` option.
 
-The fast-refresh implementation currently relies on the `react-refresh/babel` package. While this has served us well, integrating this dependency could pose challenges. Specifically, it would necessitate locking users into a specific Babel version. This could become a bottleneck in the future, especially when Babel 8 is released. There is uncertainty about whether react-refresh/babel will seamlessly support Babel 8, potentially hindering users from updating smoothly.
+The fast-refresh implementation currently relies on the `react-refresh/babel` package. While this has served us well, integrating this dependency could pose challenges. Specifically, it would necessitate locking users into a specific Babel version. This could become a bottleneck, especially when Babel 8 is released. There is uncertainty about whether react-refresh/babel will seamlessly support Babel 8, potentially hindering users from updating smoothly.
 
 Furthermore, the existing implementation does not account for cases where fast-refresh might already be configured in a user's Babel configuration. Rather than filtering out existing configurations, our current approach could lead to duplications, resulting in a less-than-optimal development experience.
 
-We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. By adding the following configuration, users can easily configure fast-refresh according to their specific needs, if it is not already configured or if your fast-refresh configuration is not automatically picked up by Storybook: 
+We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. By adding the following configuration, users can easily configure fast-refresh according to their specific needs if it is not already configured or if Storybook does not automatically pick up your fast-refresh configuration: 
 
 `package.json`:
 
@@ -561,13 +541,13 @@ export default config;
 
 This approach aligns with our philosophy of transparency and puts users in control of their Webpack and Babel configurations.
 
-We are committed to minimizing magic behind the scenes. By removing `framework.options.fastRefresh`, we are taking a step closer to a Storybook that doesn't impose unnecessary configurations on users. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
+We are committed to minimizing magic behind the scenes. By removing `framework.options.fastRefresh`, we are moving closer to a Storybook that doesn't impose unnecessary configurations on users. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
 
-You don't have to add fast refresh to `@storybook/nextjs`, since it is already configured there as a default to match the same experience as `next dev`.
+You don't have to add fast refresh to `@storybook/nextjs` since it is already configured there as a default to match the same experience as `next dev`.
 
 #### `typescript.skipBabel` removed
 
-We have removed the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescript.skipCompiler` instead.
+We have removed the `typescript.skipBabel` option in Storybook 8.0. Please use `typescript.skipCompiler` instead.
 
 #### Dropping support for Node.js 16
 
@@ -657,7 +637,9 @@ In the meantime if you have code that relies on `stories.json`, you can find cod
 
 The `sb babelrc` command was used to generate a `.babelrc` file for Storybook. This command is now removed.
 
-When you are using Webpack5, Storybook from 8.0 onwards is compiler-agnostic and does not depend on Babel or SWC. Creating a default babelrc file is also pretty tricky, since it depends on your project setup. We recommend that you create a `.babelrc` file yourself and configure it according to your project setup.
+From version 8.0 onwards, Storybook is compiler-agnostic and does not depend on Babel or SWC if you use Webpack 5. This move was made to make Storybook more flexible and allow users to configure their own Babel setup according to their project needs and setup, leading to removing the `sb babelrc` command from Storybook. However, if you need to include a custom Babel configuration, we encourage you to create a `.babelrc` file yourself and configure it according to your project setup.
+
+The reasoning behind is to condense and provide some clarity to what's happened to both the command and what's shifted with the upcoming release.
 
 ### Framework-specific changes
 
@@ -710,11 +692,9 @@ Starting in 8.0, Storybook requires Svelte 4 and up.
 
 Starting in 8.0, Storybook requires Preact 10 and up.
 
-##### No longer adds default babel plugins
+##### No longer adds default Babel plugins
 
-Until now, Storybook added a set of default babel plugins to the babel config for Preact projects which uses Webpack.
-
-We have configured the runtime automatic import plugin to automatically import `h` from `preact` when needed. This is no longer the case in Storybook 8.0. If you want to use the runtime automatic import plugin to skip unnecessary preact imports, you will need to add it to your babel config yourself. The same applies if you want to use TypeScript with Preact.
+Until now, Storybook provided a set of default Babel plugins that were applied to Preact projects using Webpack, including the runtime automatic import plugin to allow Preact's h pragma to render JSX. However, this is no longer the case in Storybook 8.0. If you want to use this plugin, or if you're going to use TypeScript with Preact, you will need to add it to your Babel config.
 
 ```js
 .babelrc
@@ -756,20 +736,13 @@ const config = {
 export default config
 ```
 
-We are doing this to apply the same babel config as you have defined in your project. This streamlines the experience of using Storybook with Preact. Additionally, we are not vendor-locked to a specific Babel version anymore, which means that you can upgrade Babel without breaking your Storybook.
+We are doing this to apply the same configuration you defined in your project. This streamlines the experience of using Storybook with Preact. Additionally, we are not vendor-locked to a specific Babel version anymore, which means that you can upgrade Babel without breaking your Storybook.
 
 #### Web Components
 
 ##### Dropping default babel plugins in Webpack5-based projects
 
-Starting in 8.0, Storybook doesn't apply any default babel plugins to Web Components projects. Storybook will pick up the babel configuration you have in place. Before Storybook 8.0, Storybook has added the following babel presets and plugins:
-
-- `@babel/preset-env`
-
-The following list of plugins are not necessary anymore, since they are included in `@babel/preset-env`:
-
-- `@babel/plugin-syntax-dynamic-import`
-- `@babel/plugin-syntax-import-meta`
+Until the 8.0 release, Storybook provided the `@babel/preset-env` preset for Web Component projects by default. This is no longer the case, as any Web Components project will use the configuration you've included. Additionally, if you're using either the `@babel/plugin-syntax-dynamic-import` or `@babel/plugin-syntax-import-meta` plugins, you no longer have to include them as they are now part of the @babel/preset-env preset.
 
 ### Deprecations which are now removed
 
@@ -878,7 +851,7 @@ To summarize:
 
 #### typescript.skipBabel deprecated
 
-We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescript.skipCompiler` instead.
+We will remove the `typescript.skipBabel` option in Storybook 8.0. Please use `typescript.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 
@@ -911,7 +884,7 @@ These changes should not be breaking for your users, unless you support Storyboo
 
 #### `storyStoreV6` and `storiesOf` is deprecated
 
-`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.
 
 If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
 In many cases you can get started with the migration by using two migration scripts:
@@ -931,7 +904,7 @@ Alternatively you can build your own `storiesOf` implementation by leveraging th
 
 #### `storyIndexers` is replaced with `experimental_indexers`
 
-Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
+Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.
 
 The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
 
@@ -995,7 +968,7 @@ addons.register('my-addon', () => {
 });
 ```
 
-The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0.0. Please use `addons.add()` instead.
+The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0. Please use `addons.add()` instead.
 
 The `render` method can now be a `React.FunctionComponent` (without the `children` prop). Storybook will now render it, rather than calling it as a function.
 
