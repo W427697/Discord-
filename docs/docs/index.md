@@ -1,5 +1,7 @@
 ---
 title: 'How to document components'
+sidebar:
+  order: 3
 hideRendererSelector: true
 ---
 

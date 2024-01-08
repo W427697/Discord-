@@ -1,5 +1,7 @@
 ---
 title: 'Sharing'
+sidebar:
+  order: 5
 hideRendererSelector: true
 ---
 
