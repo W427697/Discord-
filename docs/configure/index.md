@@ -48,14 +48,6 @@ This configuration file is a [preset](../addons/addon-types.md) and, as such, ha
 | `env`                 | Defines custom Storybook [environment variables](./environment-variables.md#using-storybook-configuration). <br/> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),`                                    |
 | `build`               | Optimizes Storybook's production [build](../api/main-config-build.md) for performance by excluding specific features from the bundle. Useful when decreased build times are a priority. <br/> `build: { test: {} }` |
 
-### Feature flags
-
-Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
-
-| Configuration element | Description                                                                                                                                                     |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `buildStoriesJson`    | Generates `index.json` and `stories.json` files to help story loading with the on-demand mode (defaults to `true`) <br/> `features: { buildStoriesJson: true }` |
-
 ## Configure story loading
 
 By default, Storybook will load stories from your project based on a glob (pattern matching string) in `.storybook/main.js|ts` that matches all files in your project with extension `.stories.*`. The intention is for you to colocate a story file along with the component it documents.
