@@ -77,7 +77,7 @@ Type: `'centered' | 'fullscreen' | 'padded'`
 
 Default: `'padded'`
 
-Specifies how the canvas should lay out the story.
+Specifies how the canvas should [lay out the story](../configure/story-layout.md).
 
 - **centered**: Center the story within the canvas
 - **padded**: (default) Add padding to the story
@@ -92,6 +92,12 @@ Type:
   storySort?: StorySortConfig | StorySortFn;
 }
 ```
+
+<Callout variant="warning">
+
+The `options` parameter can _only_ be applied at the [project level](#project-parameters).
+
+</Callout>
 
 #### `options.storySort`
 
@@ -161,7 +167,7 @@ When specifying parameters, they are merged together in order of increasing spec
 
 <div class="aside">
 
-ℹ️ Parameters are **merged**, so individual keys are always overwritten, never dropped.
+ℹ️ Parameters are **merged**, so objects are deep-merged, but arrays and other properties are overwritten.
 
 </div>
 
@@ -174,8 +180,9 @@ const preview = {
   // 👇 Project-level parameters
   parameters: {
     layout: 'centered',
-    viewport: {
-      viewports: defaultViewports,
+    demo: {
+      demoProperty: 'a',
+      demoArray: [1, 2],
     },
   },
   // ...
@@ -191,9 +198,9 @@ const meta = {
   // 👇 Meta-level parameters
   parameters: {
     layout: 'fullscreen',
-    viewport: {
-      defaultViewport: 'medium',
-      viewports: viewportsForDialog,
+    demo: {
+      demoProperty: 'b',
+      anotherDemoProperty: 'b',
     },
   },
 };
@@ -206,8 +213,8 @@ export const LargeScreen = {
   // 👇 Story-level parameters
   parameters: {
     layout: 'padded',
-    viewport: {
-      defaultViewport: 'large',
+    demo: {
+      demoArray: [3, 4],
     },
   },
 };
@@ -221,18 +228,20 @@ Will result in the following parameter values applied to each story:
 // For the Basic story:
 {
   layout: 'fullscreen',
-  viewport: {
-    defaultViewport: 'medium',
-    viewports: viewportsForDialog,
+  demo: {
+    demoProperty: 'b',
+    anotherDemoProperty: 'b',
+    demoArray: [1, 2],
   },
 }
 
 // For the LargeScreen story:
 {
   layout: 'padded',
-  viewport: {
-    defaultViewport: 'large',
-    viewports: viewportsForDialog,
+  demo: {
+    demoProperty: 'b',
+    anotherDemoProperty: 'b',
+    demoArray: [3, 4],
   },
 }
 ```
