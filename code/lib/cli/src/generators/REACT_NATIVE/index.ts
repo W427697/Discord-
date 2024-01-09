@@ -30,14 +30,14 @@ const generator = async (
     '@storybook/addon-controls@^6.5.16',
   ];
 
-  const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);
+  const versionedPackages = await packageManager.getVersionedPackages(packagesToResolve);
 
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
 
   const packages = [
     ...babelDependencies,
     ...packagesWithFixedVersion,
-    ...resolvedPackages,
+    ...versionedPackages,
     missingReactDom && reactVersion && `react-dom@${reactVersion}`,
   ].filter(Boolean);
 

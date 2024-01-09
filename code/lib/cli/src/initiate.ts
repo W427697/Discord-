@@ -9,6 +9,7 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
 import { readdirSync } from 'fs-extra';
+import { lt, prerelease } from 'semver';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -35,6 +36,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import versions from './versions';
 
 const logger = console;
 
@@ -296,15 +298,6 @@ async function doInitiate(
     cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
-  logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
-
-  // Update notify code.
-  const { default: updateNotifier } = await import('simple-update-notifier');
-  await updateNotifier({
-    pkg: pkg as any,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  });
 
   if (options.force !== true && isEmptyDir) {
     logger.log(
@@ -316,6 +309,34 @@ async function doInitiate(
     );
     throw new HandledError('Project was initialized in an empty directory.');
   }
+
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const currentVersion = versions['@storybook/cli'];
+  const isPrerelease = prerelease(currentVersion);
+  const isOutdated = lt(currentVersion, latestVersion);
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
+
+  const messages = {
+    welcome: `Adding Storybook version ${chalk.bold(currentVersion)} to your project..`,
+    notLatest: chalk.red(dedent`
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
+      You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
+      ${chalk.bold('npx storybook@latest init')}
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
+
+  logger.log(
+    boxen(
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
 
   let projectType: ProjectType;
   const projectTypeProvided = options.type;
