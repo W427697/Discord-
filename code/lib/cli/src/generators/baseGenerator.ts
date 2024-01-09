@@ -12,11 +12,7 @@ import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
-import {
-  configureEslintPlugin,
-  extractEslintInfo,
-  suggestESLintPlugin,
-} from '../automigrate/helpers/eslintPlugin';
+import { configureEslintPlugin, extractEslintInfo } from '../automigrate/helpers/eslintPlugin';
 import { detectBuilder } from '../detect';
 
 const logger = console;
@@ -173,14 +169,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  {
-    language,
-    builder,
-    pnp,
-    frameworkPreviewParts,
-    yes: skipPrompts,
-    projectType,
-  }: GeneratorOptions,
+  { language, builder, pnp, frameworkPreviewParts, projectType }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -318,10 +307,8 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        if (skipPrompts || (await suggestESLintPlugin())) {
-          depsToInstall.push('eslint-plugin-storybook');
-          await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
-        }
+        depsToInstall.push('eslint-plugin-storybook');
+        await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
       }
     }
   } catch (err) {
