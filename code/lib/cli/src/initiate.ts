@@ -8,7 +8,7 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { lt } from 'semver';
+import { lt, prerelease } from 'semver';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
@@ -244,16 +244,16 @@ async function doInitiate(
 
   const latestVersion = await packageManager.latestVersion('@storybook/cli');
   const currentVersion = versions['@storybook/cli'];
-  const isPrerelease = !!currentVersion.match(/(alpha|beta|rc|canary|future|next)/);
+  const isPrerelease = prerelease(currentVersion);
   const isOutdated = lt(currentVersion, latestVersion);
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
   const messages = {
-    welcome: `Adding storybook version ${chalk.bold(currentVersion)} to your project..`,
+    welcome: `Adding Storybook version ${chalk.bold(currentVersion)} to your project..`,
     notLatest: chalk.red(dedent`
-      Which is behind the latest release: ${chalk.bold(latestVersion)}!
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
       You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
-      npx storybook@latest init
+      ${chalk.bold('npx storybook@latest init')}
       
       You may want to CTRL+C to stop, and run with the latest version instead.
     `),

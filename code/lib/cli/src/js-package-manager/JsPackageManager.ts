@@ -344,15 +344,15 @@ export abstract class JsPackageManager {
         const latestInRange = await this.latestVersion(packageName, packageVersion);
 
         const k = packageName as keyof typeof storybookPackagesVersions;
-        const fromData = storybookPackagesVersions[k];
+        const currentVersion = storybookPackagesVersions[k];
 
-        if (fromData === latestInRange) {
+        if (currentVersion === latestInRange) {
           return `${packageName}`;
         }
-        if (fromData) {
-          return `${packageName}@${fromData}`;
+        if (currentVersion) {
+          return `${packageName}@${currentVersion}`;
         }
-        return `${packageName}@${latestInRange}`;
+        return `${packageName}@^${latestInRange}`;
       })
     );
   }
