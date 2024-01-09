@@ -44,7 +44,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
-    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
+    await exec(
+      `node --loader ${__dirname}/../node_modules/esbuild-register/loader.js -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`,
+      { cwd }
+    );
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -97,12 +100,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
-        esbuildPlugins: [
-          aliasPlugin({
-            process: path.resolve('../node_modules/process/browser.js'),
-            util: path.resolve('../node_modules/util/util.js'),
-          }),
-        ],
+        esbuildPlugins:
+          platform === 'node'
+            ? []
+            : [
+                aliasPlugin({
+                  process: path.resolve('../node_modules/process/browser.js'),
+                  util: path.resolve('../node_modules/util/util.js'),
+                }),
+              ],
         external: externals,
 
         esbuildOptions: (c) => {
@@ -134,6 +140,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
+          c.conditions = ['node', 'default', 'module'];
+
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
@@ -150,7 +158,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (post) {
     await exec(
-      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
+      `node --loader ${__dirname}/../node_modules/esbuild-register/loader.js -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
       { cwd },
       { debug: true }
     );

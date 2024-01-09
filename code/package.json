@@ -12,6 +12,7 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
+  "type": "module",
   "workspaces": {
     "packages": [
       "addons/*",

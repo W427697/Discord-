@@ -19,6 +19,7 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
+  "type": "module",
   "bin": "./index.js",
   "dependencies": {
     "@storybook/cli": "workspace:*"

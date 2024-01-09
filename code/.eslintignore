@@ -12,9 +12,9 @@ scripts/repros-generator
 *.js.map
 ember-output
 .yarn
-!.remarkrc.js
-!.babelrc.js
-!.eslintrc.js
+!.remarkrc.cjs
+!.babelrc.cjs
+!.eslintrc.cjs
 !.eslintrc-markdown.js
 !.storybook
 

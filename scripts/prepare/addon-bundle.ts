@@ -51,7 +51,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
-    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
+    await exec(
+      `node --loader ${__dirname}/../node_modules/esbuild-register/loader.js -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`,
+      { cwd }
+    );
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -71,13 +74,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     shims: false,
     watch,
     clean: false,
-    esbuildPlugins: [
-      aliasPlugin({
-        process: require.resolve('../node_modules/process/browser.js'),
-        util: require.resolve('../node_modules/util/util.js'),
-        assert: require.resolve('browser-assert'),
-      }),
-    ],
   };
 
   const commonExternals = [
@@ -99,6 +95,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...commonOptions,
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
+
         format: ['esm'],
         target: ['chrome100', 'safari15', 'firefox91'],
         platform: 'browser',
@@ -110,18 +107,25 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           Object.assign(options, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
+        esbuildPlugins: [
+          aliasPlugin({
+            process: require.resolve('../node_modules/process/browser.js'),
+            util: require.resolve('../node_modules/util/util.js'),
+            assert: require.resolve('browser-assert'),
+          }),
+        ],
       }),
       build({
         ...commonOptions,
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
-        format: ['cjs'],
+        format: ['cjs', 'esm'],
         target: 'node18',
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (options) => {
           /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
+          // options.conditions = ['module'];
           options.platform = 'node';
           Object.assign(options, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
@@ -201,7 +205,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (post) {
     await exec(
-      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
+      `node  --loader ${__dirname}/../node_modules/esbuild-register/loader.js -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
       { cwd },
       { debug: true }
     );

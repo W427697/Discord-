@@ -24,18 +24,19 @@
   },
   "license": "MIT",
   "author": "Storybook Team",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./package.json": "./package.json",
     "./bin/index": "./bin/index.js"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "getstorybook": "./bin/index.js",
@@ -111,7 +112,7 @@
     "access": "public"
   },
   "bundler": {
-    "pre": "./scripts/generate-sb-packages-versions.js",
+    "pre": "./scripts/generate-sb-packages-versions.ts",
     "entries": [
       "./src/generate.ts",
       "./src/index.ts"
