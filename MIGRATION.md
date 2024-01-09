@@ -558,7 +558,7 @@ export default config;
 
 This approach aligns with our philosophy of transparency and puts users in control of their Webpack and Babel configurations.
 
-We are committed to minimizing magic behind the scenes. By removing `framework.options.fastRefresh`, we are moving closer to a Storybook that doesn't impose unnecessary configurations on users. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
+We want to minimize magic behind the scenes. By removing `framework.options.fastRefresh`, we are reducing unnecessary configuration. Instead, we encourage users to leverage their existing Webpack and Babel setups, fostering a more transparent and customizable development environment.
 
 You don't have to add fast refresh to `@storybook/nextjs` since it is already configured there as a default to match the same experience as `next dev`.
 
