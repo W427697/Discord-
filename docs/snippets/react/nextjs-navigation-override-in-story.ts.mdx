@@ -1,0 +1,33 @@
+```ts
+// SomeComponentThatUsesTheNavigation.stories.ts
+import { Meta, StoryObj } from '@storybook/react';
+
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+const meta: Meta<typeof SomeComponentThatUsesTheNavigation> = {
+  component: SomeComponentThatUsesTheNavigation,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
+};
+export default meta;
+
+type Story = StoryObj<typeof SomeComponentThatUsesTheNavigation>;
+
+// If you have the actions addon,
+// you can interact with the links and see the route change events there
+export const Example: Story = {
+  parameters: {
+    nextjs: {
+      navigation: {
+        pathname: '/profile',
+        query: {
+          user: '1',
+        },
+      },
+    },
+  },
+};
+```

@@ -1,0 +1,16 @@
+```ts
+// SomeComponentThatUsesTheNavigation.stories.ts
+import { Meta, StoryObj } from '@storybook/react';
+
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+const meta = {
+  component: SomeComponentThatUsesTheNavigation,
+  parameters: {
+    nextjs: {
+      appDirectory: true, // 👈 Set this
+    },
+  },
+} satisfies Meta<typeof SomeComponentThatUsesTheNavigation>;
+export default meta;
+```

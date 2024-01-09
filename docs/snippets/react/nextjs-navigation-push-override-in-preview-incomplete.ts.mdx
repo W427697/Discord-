@@ -1,0 +1,20 @@
+```ts
+// .storybook/preview.ts
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  // ...
+  parameters: {
+    // ...
+    nextjs: {
+      navigation: {
+        push() {
+          // The default implementation that logs the action into the Actions panel is lost
+        },
+      },
+    },
+  },
+};
+
+export default preview;
+```

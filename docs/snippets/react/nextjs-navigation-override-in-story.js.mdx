@@ -1,0 +1,28 @@
+```js
+// SomeComponentThatUsesTheNavigation.stories.js
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+export default {
+  component: SomeComponentThatUsesTheNavigation,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
+};
+
+// If you have the actions addon,
+// you can interact with the links and see the route change events there
+export const Example = {
+  parameters: {
+    nextjs: {
+      navigation: {
+        pathname: '/profile',
+        query: {
+          user: '1',
+        },
+      },
+    },
+  },
+};
+```

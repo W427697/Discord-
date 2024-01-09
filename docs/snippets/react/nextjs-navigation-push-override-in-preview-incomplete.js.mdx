@@ -1,0 +1,17 @@
+```js
+// .storybook/preview.js
+
+export default {
+  // ...
+  parameters: {
+    // ...
+    nextjs: {
+      navigation: {
+        push() {
+          // The default implementation that logs the action into the Actions panel is lost
+        },
+      },
+    },
+  },
+};
+```

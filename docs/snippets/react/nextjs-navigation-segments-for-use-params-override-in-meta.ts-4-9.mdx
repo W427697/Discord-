@@ -1,0 +1,34 @@
+```ts
+// SomeComponentThatUsesTheNavigation.stories.ts
+import { Meta, StoryObj } from '@storybook/react';
+
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+const meta = {
+  component: SomeComponentThatUsesTheNavigation,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ],
+      },
+    },
+  },
+} satisfies Meta<typeof SomeComponentThatUsesTheNavigation>;
+export default meta;
+
+// With the above configuration, your component would receive the following values from the hooks:
+
+// SomeComponentThatUsesTheNavigation.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function SomeComponentThatUsesTheNavigation() {
+  const segment = useSelectedLayoutSegment(); // dashboard
+  const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  const params = useParams(); // {}
+  // ...
+}
+```

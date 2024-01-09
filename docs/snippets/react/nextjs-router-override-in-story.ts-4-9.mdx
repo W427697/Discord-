@@ -1,0 +1,29 @@
+```ts
+// SomeComponentThatUsesTheRouter.stories.ts
+import { Meta, StoryObj } from '@storybook/react';
+
+import SomeComponentThatUsesTheRouter from './SomeComponentThatUsesTheRouter';
+
+const meta = {
+  component: SomeComponentThatUsesTheRouter,
+} satisfies Meta<typeof SomeComponentThatUsesTheRouter>;
+export default meta;
+
+type Story = StoryObj<typeof Meta>;
+
+// If you have the actions addon,
+// you can interact with the links and see the route change events there
+export const Example: Story = {
+  parameters: {
+    nextjs: {
+      router: {
+        pathname: '/profile/[id]',
+        asPath: '/profile/1',
+        query: {
+          id: '1',
+        },
+      },
+    },
+  },
+};
+```
