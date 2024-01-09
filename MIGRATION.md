@@ -715,7 +715,7 @@ Starting in 8.0, Storybook requires Preact 10 and up.
 
 ##### No longer adds default Babel plugins
 
-Until now, Storybook provided a set of default Babel plugins that were applied to Preact projects using Webpack, including the runtime automatic import plugin to allow Preact's h pragma to render JSX. However, this is no longer the case in Storybook 8.0. If you want to use this plugin, or if you're going to use TypeScript with Preact, you will need to add it to your Babel config.
+Until now, Storybook provided a set of default Babel plugins that were applied to Preact projects using Webpack, including the runtime automatic import plugin to allow Preact's `h` pragma to render JSX. However, this is no longer the case in Storybook 8.0. If you want to use this plugin, or if you're going to use TypeScript with Preact, you will need to add it to your Babel config.
 
 ```js
 .babelrc
