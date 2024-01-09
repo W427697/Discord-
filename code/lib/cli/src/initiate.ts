@@ -8,6 +8,7 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { lt } from 'semver';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
@@ -241,15 +242,31 @@ async function doInitiate(
     force: pkgMgr,
   });
 
-  const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
-  logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
+  const latestVersion = await packageManager.getVersion('@storybook/cli');
+  const currentVersion = versions['@storybook/cli'];
+  const isPrerelease = !!currentVersion.match(/(beta|rc|canary|future|next)/);
+  const isOutdated = lt(currentVersion, latestVersion);
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
-  // Update notify code.
-  const { default: updateNotifier } = await import('simple-update-notifier');
-  await updateNotifier({
-    pkg: pkg as any,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  });
+  const welcome = `Adding storybook version ${currentVersion} to your project..`;
+  const notLatest = chalk.red(dedent`
+    Which is behind the latest release: ${latestVersion}!
+    You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
+    npx storybook@latest init
+    
+    You may want to CTRL+C to stop, and run with the latest version instead.
+  `);
+  const prelease = chalk.yellow('This is a pre-release version.');
+
+  logger.log(
+    boxen(
+      [welcome]
+        .concat(isOutdated ? [notLatest] : [])
+        .concat(isPrerelease ? [prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
 
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {

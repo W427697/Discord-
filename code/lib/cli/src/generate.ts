@@ -8,7 +8,6 @@ import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import invariant from 'tiny-invariant';
-import dedent from 'ts-dedent';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
@@ -24,7 +23,6 @@ import { parseList, getEnvConfig } from './utils';
 import versions from './versions';
 import { JsPackageManagerFactory } from './js-package-manager';
 import { doctor } from './doctor';
-import { validateCLIVersioningFromProcessArgs } from './utils/validate-cli-version';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
@@ -57,22 +55,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    const proceed = validateCLIVersioningFromProcessArgs(process.argv);
-
-    if (proceed) {
-      initiate(options, pkg).catch(() => process.exit(1));
-    } else {
-      throw new Error(dedent`
-        Sorry, but you seem to have invoked the Storybook CLI without specifying the version.
-
-        Please invoke the CLI with a version, e.g.:
-        npx storybook@latest init
-        yarn dlx storybook@latest init
-        pnpm dlx storybook@latest init
-        
-        This is to ensure that you are using the correct version of the CLI for your project.
-      `);
-    }
+    initiate(options, pkg).catch(() => process.exit(1));
   });
 
 command('add <addon>')
