@@ -498,7 +498,7 @@ The fast-refresh implementation currently relies on the `react-refresh/babel` pa
 
 Furthermore, the existing implementation does not account for cases where fast-refresh might already be configured in a user's Babel configuration. Rather than filtering out existing configurations, our current approach could lead to duplications, resulting in a sub-optimal development experience.
 
-We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. By adding the following configuration, users can easily configure fast-refresh according to their specific needs if it is not already configured or if Storybook does not automatically pick up your fast-refresh configuration: 
+We believe in empowering our users, and setting up fast-refresh manually is a straightforward process. The following configuration will configure fast-refresh if Storybook does not automatically pick up your fast-refresh configuration: 
 
 `package.json`:
 
