@@ -426,8 +426,8 @@ export class GenerateNewProjectOnInitError extends StorybookError {
   template() {
     return dedent`
       There was an error while using ${this.data.packageManager} to create a new ${
-      this.data.projectType
-    } project.
+        this.data.projectType
+      } project.
       
       ${this.data.error instanceof Error ? this.data.error.message : ''}
       `;

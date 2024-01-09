@@ -110,13 +110,16 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
       }
       throw err;
     }
-    const entries = sortedV7.reduce((acc, s) => {
-      // We use the original entry we stored in `this.stories` because it is possible that the CSF file itself
-      // exports a `parameters.fileName` which can be different and mess up our `importFn`.
-      // NOTE: this doesn't actually change the story object, just the index.
-      acc[s.id] = this.entries[s.id];
-      return acc;
-    }, {} as StoryIndex['entries']);
+    const entries = sortedV7.reduce(
+      (acc, s) => {
+        // We use the original entry we stored in `this.stories` because it is possible that the CSF file itself
+        // exports a `parameters.fileName` which can be different and mess up our `importFn`.
+        // NOTE: this doesn't actually change the story object, just the index.
+        acc[s.id] = this.entries[s.id];
+        return acc;
+      },
+      {} as StoryIndex['entries']
+    );
 
     return { v: 4, entries };
   }

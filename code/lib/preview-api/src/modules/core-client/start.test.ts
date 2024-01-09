@@ -83,7 +83,7 @@ beforeEach(() => {
 const start: typeof realStart = (...args) => {
   const result = realStart(...args);
 
-  const configure: typeof result['configure'] = (
+  const configure: (typeof result)['configure'] = (
     framework: string,
     loadable: Loadable,
     m?: NodeModule,
