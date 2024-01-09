@@ -242,27 +242,29 @@ async function doInitiate(
     force: pkgMgr,
   });
 
-  const latestVersion = await packageManager.getVersion('@storybook/cli');
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
   const currentVersion = versions['@storybook/cli'];
-  const isPrerelease = !!currentVersion.match(/(beta|rc|canary|future|next)/);
+  const isPrerelease = !!currentVersion.match(/(alpha|beta|rc|canary|future|next)/);
   const isOutdated = lt(currentVersion, latestVersion);
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
-  const welcome = `Adding storybook version ${currentVersion} to your project..`;
-  const notLatest = chalk.red(dedent`
-    Which is behind the latest release: ${latestVersion}!
-    You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
-    npx storybook@latest init
-    
-    You may want to CTRL+C to stop, and run with the latest version instead.
-  `);
-  const prelease = chalk.yellow('This is a pre-release version.');
+  const messages = {
+    welcome: `Adding storybook version ${chalk.bold(currentVersion)} to your project..`,
+    notLatest: chalk.red(dedent`
+      Which is behind the latest release: ${chalk.bold(latestVersion)}!
+      You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
+      npx storybook@latest init
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
 
   logger.log(
     boxen(
-      [welcome]
-        .concat(isOutdated ? [notLatest] : [])
-        .concat(isPrerelease ? [prelease] : [])
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
         .join('\n'),
       { borderStyle: 'round', padding: 1, borderColor }
     )

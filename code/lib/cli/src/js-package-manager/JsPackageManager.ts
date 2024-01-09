@@ -341,7 +341,7 @@ export abstract class JsPackageManager {
     return Promise.all(
       packages.map(async (pkg) => {
         const [packageName, packageVersion] = getPackageDetails(pkg);
-        const latestInRange = await this.getVersion(packageName, packageVersion);
+        const latestInRange = await this.latestVersion(packageName, packageVersion);
 
         const k = packageName as keyof typeof storybookPackagesVersions;
         const fromData = storybookPackagesVersions[k];
