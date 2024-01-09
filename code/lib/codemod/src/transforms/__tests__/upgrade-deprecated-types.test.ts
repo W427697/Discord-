@@ -18,7 +18,7 @@ const tsTransform = async (source: string) =>
 
 describe('upgrade-deprecated-types', () => {
   describe('typescript', () => {
-    it.only('upgrade regular imports', async () => {
+    it('upgrade regular imports', async () => {
       await expect(
         tsTransform(dedent`
           import { Story, ComponentMeta, Meta, ComponentStory, ComponentStoryObj, ComponentStoryFn } from '@storybook/react';
