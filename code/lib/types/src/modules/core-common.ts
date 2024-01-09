@@ -7,7 +7,7 @@ import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 
-import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
+import type { StoriesEntry, Indexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -172,10 +172,6 @@ export interface CLIOptions {
   host?: string;
   initialPath?: string;
   exactPort?: boolean;
-  /**
-   * @deprecated Use 'staticDirs' Storybook Configuration option instead
-   */
-  staticDir?: string[];
   configDir?: string;
   https?: boolean;
   sslCa?: string[];
@@ -355,31 +351,9 @@ export interface StorybookConfigRaw {
   logLevel?: string;
   features?: {
     /**
-     * Build stories.json automatically on start/build
-     */
-    buildStoriesJson?: boolean;
-
-    /**
-     * Activate on demand story store
-     */
-    storyStoreV7?: boolean;
-
-    /**
-     * Do not throw errors if using `.mdx` files in SSv7
-     * (for internal use in sandboxes)
-     */
-    storyStoreV7MdxErrors?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
 
     /**
      * Use legacy MDX1, to help smooth migration to 7.0
@@ -425,8 +399,6 @@ export interface StorybookConfigRaw {
   config?: Entry[];
 
   previewAnnotations?: Entry[];
-
-  storyIndexers?: StoryIndexer[];
 
   experimental_indexers?: Indexer[];
 
@@ -518,12 +490,6 @@ export interface StorybookConfig {
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: PresetValue<StorybookConfigRaw['previewAnnotations']>;
-
-  /**
-   * Process CSF files for the story index.
-   * @deprecated use {@link experimental_indexers} instead
-   */
-  storyIndexers?: PresetValue<StorybookConfigRaw['storyIndexers']>;
 
   /**
    * Process CSF files for the story index.

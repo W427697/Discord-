@@ -13,11 +13,7 @@ import { getPackageDetails } from '../js-package-manager';
 import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
-import {
-  configureEslintPlugin,
-  extractEslintInfo,
-  suggestESLintPlugin,
-} from '../automigrate/helpers/eslintPlugin';
+import { configureEslintPlugin, extractEslintInfo } from '../automigrate/helpers/eslintPlugin';
 import { detectBuilder } from '../detect';
 
 const logger = console;
@@ -167,9 +163,7 @@ const getFrameworkDetails = (
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
-  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html', 'solid', 'qwik'].includes(
-    rendererId
-  );
+  ['react', 'angular', 'preact', 'svelte', 'vue3', 'html', 'solid', 'qwik'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   framework ? ['angular', 'nextjs'].includes(framework) : false;
@@ -177,14 +171,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  {
-    language,
-    builder,
-    pnp,
-    frameworkPreviewParts,
-    yes: skipPrompts,
-    projectType,
-  }: GeneratorOptions,
+  { language, builder, pnp, frameworkPreviewParts, projectType }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -263,16 +250,16 @@ export async function baseGenerator(
     ...(extraAddonsToInstall || []),
   ].filter(Boolean);
 
+  // TODO: migrate template stories in solid and qwik to use @storybook/test
+  if (['solid', 'qwik'].includes(rendererId)) {
+    addonPackages.push('@storybook/testing-library');
+  } else {
+    addonPackages.push('@storybook/test');
+  }
+
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
     addonPackages.push('@storybook/addon-interactions');
-
-    // TODO: migrate template stories in solid and qwik to use @storybook/test
-    if (['solid', 'qwik'].includes(rendererId)) {
-      addonPackages.push('@storybook/testing-library');
-    } else {
-      addonPackages.push('@storybook/test');
-    }
   }
 
   const files = await fse.readdir(process.cwd());
@@ -362,10 +349,8 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        if (skipPrompts || (await suggestESLintPlugin())) {
-          depsToInstall.push('eslint-plugin-storybook');
-          await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
-        }
+        depsToInstall.push('eslint-plugin-storybook');
+        await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
       }
     }
   } catch (err) {
