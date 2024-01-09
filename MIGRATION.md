@@ -41,6 +41,7 @@
     - [Description Doc block properties](#description-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
     - [Source Doc block properties](#source-doc-block-properties)
+    - [Canvas Doc block properties](#canvas-doc-block-properties)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -694,6 +695,18 @@ api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 #### Source Doc block properties
 
 `id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Canvas Doc block properties
+
+The following properties were removed from the Canvas Doc block:
+
+- children
+- isColumn
+- columns
+- withSource
+- mdxSource
+
+[More info](#doc-blocks).
 
 ## From version 7.5.0 to 7.6.0
 
