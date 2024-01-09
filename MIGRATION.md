@@ -754,7 +754,7 @@ We are doing this to apply the same configuration you defined in your project. T
 
 ##### Dropping default babel plugins in Webpack5-based projects
 
-Until the 8.0 release, Storybook provided the `@babel/preset-env` preset for Web Component projects by default. This is no longer the case, as any Web Components project will use the configuration you've included. Additionally, if you're using either the `@babel/plugin-syntax-dynamic-import` or `@babel/plugin-syntax-import-meta` plugins, you no longer have to include them as they are now part of the @babel/preset-env preset.
+Until the 8.0 release, Storybook provided the `@babel/preset-env` preset for Web Component projects by default. This is no longer the case, as any Web Components project will use the configuration you've included. Additionally, if you're using either the `@babel/plugin-syntax-dynamic-import` or `@babel/plugin-syntax-import-meta` plugins, you no longer have to include them as they are now part of `@babel/preset-env`.
 
 ### Deprecations which are now removed
 
