@@ -6,6 +6,10 @@ import type { Options } from '@swc/core';
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
+  framework: {
+    name: '@storybook/your-framework',
+    options: {},
+  },
   swc: (config: Options, options): Options => {
     return {
       ...config,
