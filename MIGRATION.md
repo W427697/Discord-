@@ -649,7 +649,7 @@ In the meantime if you have code that relies on `stories.json`, you can find cod
 
 The `sb babelrc` command was used to generate a `.babelrc` file for Storybook. This command is now removed.
 
-From version 8.0 onwards, Storybook is compiler-agnostic and does not depend on Babel or SWC if you use Webpack 5. This move was made to make Storybook more flexible and allow users to configure their own Babel setup according to their project needs and setup, leading to removing the `sb babelrc` command from Storybook. However, if you need to include a custom Babel configuration, we encourage you to create a `.babelrc` file yourself and configure it according to your project setup.
+From version 8.0 onwards, Storybook is compiler-agnostic and does not depend on Babel or SWC if you use Webpack 5. This move was made to make Storybook more flexible and allow users to configure their own Babel setup according to their project needs and setup. If you need a custom Babel configuration, you can create a `.babelrc` file yourself and configure it according to your project setup.
 
 The reasoning behind is to condense and provide some clarity to what's happened to both the command and what's shifted with the upcoming release.
 
