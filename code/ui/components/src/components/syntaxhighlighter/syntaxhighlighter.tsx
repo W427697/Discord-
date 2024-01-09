@@ -213,7 +213,7 @@ export const SyntaxHighlighter = ({
 
   useEffect(() => {
     if (formatter) {
-      formatter(format, children).then((formatted) => setHighlightableCode(formatted));
+      formatter(format, children).then(setHighlightableCode);
     } else {
       setHighlightableCode(children.trim());
     }
