@@ -13,56 +13,56 @@ Each example component has a set of stories that show the states it supports. Yo
 Let’s start with the `Button` component. A story is a function that describes how to render the component in question. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.
 
 <CodeSnippets
-paths={[
-'react/button-story.js.mdx',
-'react/button-story.ts.mdx',
-'angular/button-story.ts.mdx',
-'vue/button-story.js.mdx',
-'vue/button-story.ts.mdx',
-'web-components/button-story.js.mdx',
-'web-components/button-story.ts.mdx',
-'svelte/button-story.js.mdx',
-'svelte/button-story.ts.mdx',
-'html/button-story.js.mdx',
-'html/button-story.ts.mdx',
-'preact/button-story.js.mdx',
-'solid/button-story.js.mdx',
-'solid/button-story.ts.mdx',
-]}
-usesCsf3
-csf2Path="get-started/whats-a-story#snippet-button-story"
+  paths={[
+    "react/button-story.js.mdx",
+    "react/button-story.ts.mdx",
+    "angular/button-story.ts.mdx",
+    "vue/button-story.js.mdx",
+    "vue/button-story.ts.mdx",
+    "web-components/button-story.js.mdx",
+    "web-components/button-story.ts.mdx",
+    "svelte/button-story.js.mdx",
+    "svelte/button-story.ts.mdx",
+    "html/button-story.js.mdx",
+    "html/button-story.ts.mdx",
+    "preact/button-story.js.mdx",
+    "solid/button-story.js.mdx",
+    "solid/button-story.ts.mdx",
+  ]}
+  usesCsf3
+  csf2Path="get-started/whats-a-story#snippet-button-story"
 />
 
-![Initial button story](./example-button-noargs.png)
+![Initial button story](./get-started/example-button-noargs.png)
 
 View the rendered `Button` by clicking on it in the Storybook sidebar.
 
 The above story definition can be further improved to take advantage of [Storybook’s “args”](../writing-stories/args.md) concept. Args describes the arguments to Button in a machine-readable way. It unlocks Storybook’s superpower of altering and composing arguments dynamically.
 
 <CodeSnippets
-paths={[
-'react/button-story-with-args.js.mdx',
-'react/button-story-with-args.ts.mdx',
-'vue/button-story-with-args.2.js.mdx',
-'vue/button-story-with-args.2.ts.mdx',
-'vue/button-story-with-args.3.js.mdx',
-'vue/button-story-with-args.3.ts.mdx',
-'angular/button-story-with-args.ts.mdx',
-'web-components/button-story-with-args.js.mdx',
-'web-components/button-story-with-args.ts.mdx',
-'svelte/button-story-with-args.js.mdx',
-'svelte/button-story-with-args.ts.mdx',
-'html/button-story-with-args.js.mdx',
-'html/button-story-with-args.ts.mdx',
-'preact/button-story-with-args.js.mdx',
-'solid/button-story-with-args.js.mdx',
-'solid/button-story-with-args.ts.mdx',
-]}
-usesCsf3
-csf2Path="get-started/whats-a-story#snippet-button-story-with-args"
+  paths={[
+    "react/button-story-with-args.js.mdx",
+    "react/button-story-with-args.ts.mdx",
+    "vue/button-story-with-args.2.js.mdx",
+    "vue/button-story-with-args.2.ts.mdx",
+    "vue/button-story-with-args.3.js.mdx",
+    "vue/button-story-with-args.3.ts.mdx",
+    "angular/button-story-with-args.ts.mdx",
+    "web-components/button-story-with-args.js.mdx",
+    "web-components/button-story-with-args.ts.mdx",
+    "svelte/button-story-with-args.js.mdx",
+    "svelte/button-story-with-args.ts.mdx",
+    "html/button-story-with-args.js.mdx",
+    "html/button-story-with-args.ts.mdx",
+    "preact/button-story-with-args.js.mdx",
+    "solid/button-story-with-args.js.mdx",
+    "solid/button-story-with-args.ts.mdx",
+  ]}
+  usesCsf3
+  csf2Path="get-started/whats-a-story#snippet-button-story-with-args"
 />
 
-![Button story with args](./example-button-args.png)
+![Button story with args](./get-started/example-button-args.png)
 
 Both story examples render the same thing because Storybook feeds the given `args` property into the story during render. But you get timesaving conveniences with args:
 
@@ -85,10 +85,7 @@ Update the `label` of the `Primary` story, then see your change in Storybook.
 Stories are also helpful for checking that UI continues to look correct as you make changes. The `Button` component has four stories that show it in different use cases. View those stories now to confirm that your change to `Primary` didn’t introduce unintentional bugs in the other stories.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="example-button-browse-stories-optimized.mp4"
-    type="video/mp4"
-  />
+  <source src="example-button-browse-stories-optimized.mp4" type="video/mp4" />
 </video>
 
 Checking component’s stories as you develop helps prevent accidental regressions. [Tools that integrate with Storybook can automate this](../writing-tests/index.md) for you.
