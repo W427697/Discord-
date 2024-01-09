@@ -450,7 +450,7 @@ it('kebab case file name', async () => {
       
     `;
 
-  const mdx = jscodeshift({ source: input, path: 'some-kebab-case.stories.mdx' });
+  const mdx = await jscodeshift({ source: input, path: 'some-kebab-case.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
@@ -599,13 +599,9 @@ it('story child is identifier', async () => {
 });
 
 it('nameToValidExport', () => {
-  expect(nameToValidExport('1 starts with digit')).toMatchInlineSnapshot(
-    `$1StartsWithDigit`,
-  );
+  expect(nameToValidExport('1 starts with digit')).toMatchInlineSnapshot(`$1StartsWithDigit`);
   expect(nameToValidExport('name')).toMatchInlineSnapshot(`Name`);
   expect(nameToValidExport('Multi words')).toMatchInlineSnapshot(`MultiWords`);
   // Unicode is valid in JS variable names
-  expect(nameToValidExport('Keep unicode 😅')).toMatchInlineSnapshot(
-    `KeepUnicode😅`,
-  );
+  expect(nameToValidExport('Keep unicode 😅')).toMatchInlineSnapshot(`KeepUnicode😅`);
 });
