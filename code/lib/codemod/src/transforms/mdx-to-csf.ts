@@ -4,6 +4,7 @@ import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
 import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';
+import type { Parent } from 'unist';
 import { SKIP, visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
 import type {
@@ -21,6 +22,7 @@ import * as path from 'node:path';
 import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
+import startCase from 'lodash/startCase';
 import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
@@ -58,6 +60,7 @@ export function transform(source: string, baseName: string): [string, string] {
     string,
     | {
         type: 'value';
+        name: string;
         attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>;
         children: (MdxJsxFlowElement | MdxJsxTextElement)['children'];
       }
@@ -109,10 +112,11 @@ export function transform(source: string, baseName: string): [string, string] {
         );
         if (typeof nameAttribute?.value === 'string') {
           let name = nameToValidExport(nameAttribute.value);
-          while (variableNameExists(name)) name += '_';
+          while (identifierExists(name)) name += '_';
 
           storiesMap.set(name, {
             type: 'value',
+            name,
             attributes: node.attributes,
             children: node.children,
           });
@@ -206,6 +210,7 @@ export function transform(source: string, baseName: string): [string, string] {
     return [mdxProcessor.stringify(root), ''];
   }
 
+  cleanUpMdx(root);
   addStoriesImport(root, baseName, storyNamespaceName);
 
   const newStatements: t.Statement[] = [
@@ -243,12 +248,19 @@ export function transform(source: string, baseName: string): [string, string] {
     return t.arrowFunctionExpression([], expression);
   }
 
-  function variableNameExists(name: string) {
+  function identifierExists(name: string) {
     let found = false;
     file.path.traverse({
       VariableDeclarator: (path) => {
         const lVal = path.node.id;
         if (t.isIdentifier(lVal) && lVal.name === name) found = true;
+      },
+      ImportDeclaration: (path) => {
+        path.node.specifiers.forEach((specifier) => {
+          if (specifier.local.name === name) {
+            found = true;
+          }
+        });
       },
     });
     return found;
@@ -268,6 +280,9 @@ export function transform(source: string, baseName: string): [string, string] {
         ...value.attributes.flatMap((attribute) => {
           if (attribute.type === 'mdxJsxAttribute') {
             if (typeof attribute.value === 'string') {
+              if (attribute.name === 'name' && attribute.value === startCase(value.name)) {
+                return [];
+              }
               return [
                 t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value)),
               ];
@@ -323,6 +338,27 @@ function getEsmAst(root: Root) {
     { code: esmSource, ast: babelParse(esmSource) }
   );
   return file;
+}
+
+function cleanUpMdx(root: Root): void {
+  visit(root, ['mdxjsEsm'], (node: MdxjsEsm, index?: number, parent?: Parent) => {
+    // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+    const file: BabelFile = new babel.File(
+      { filename: 'info.path' },
+      { code: node.value, ast: babelParse(node.value) }
+    );
+
+    file.path.traverse({
+      ExportDeclaration: (path) => path.remove(),
+    });
+    const code = recast.print(file.path.node).code.trim();
+    if (code === '') {
+      parent.children.splice(index, 1);
+      return index;
+    }
+    node.value = code;
+    return index + 1;
+  });
 }
 
 function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {

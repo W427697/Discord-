@@ -149,7 +149,6 @@ it('convert correct story nodes', () => {
 
     export const Primary = {
       render: () => 'Story',
-      name: 'Primary',
     };
 
   `);
@@ -208,7 +207,6 @@ it('convert story nodes with spaces', () => {
 
     export const PrimarySpace = {
       render: () => 'Story',
-      name: 'Primary Space',
     };
 
   `);
@@ -249,9 +247,6 @@ it('extract esm into csf head code', () => {
 
     # hello
 
-    export const args = { bla: 1 };
-    export const Template = (args) => <Button {...args} />;
-
     <Meta of={FoobarStories} />
 
     world {2 + 1}
@@ -281,7 +276,6 @@ it('extract esm into csf head code', () => {
 
     export const Unchecked = {
       render: Template.bind({}),
-      name: 'Unchecked',
 
       args: {
         ...args,
@@ -376,7 +370,6 @@ it('extract all story attributes', () => {
 
     export const Unchecked = {
       render: Template.bind({}),
-      name: 'Unchecked',
 
       args: {
         ...args,
@@ -386,7 +379,6 @@ it('extract all story attributes', () => {
 
     export const Second = {
       render: Template.bind({}),
-      name: 'Second',
     };
 
   `);
@@ -417,8 +409,6 @@ it('duplicate story name', () => {
     import { Button } from './Button';
     import * as FoobarStories from './Foobar.stories';
 
-    export const Default = (args) => <Button {...args} />;
-
     <Meta of={FoobarStories} />
 
     <Story of={FoobarStories.Default_} />
@@ -437,12 +427,84 @@ it('duplicate story name', () => {
 
     export const Default_ = {
       render: Default.bind({}),
-      name: 'Default',
     };
 
     export const Second = {
       render: Default.bind({}),
-      name: 'Second',
+    };
+
+  `);
+});
+
+test('story name equals component name', () => {
+  const input = dedent`
+      import { Meta, Story } from '@storybook/addon-docs';
+      import { Button } from './Button';
+
+      <Meta title="Button" />
+
+      <Story name="Button"><Button label='Story 1' /></Story>
+    `;
+
+  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta, Story } from '@storybook/blocks';
+    import { Button } from './Button';
+    import * as FoobarStories from './Foobar.stories';
+
+    <Meta of={FoobarStories} />
+
+    <Story of={FoobarStories.Button_} />
+
+  `);
+  expect(csf).toMatchInlineSnapshot(`
+    import { Button } from './Button';
+
+    export default {
+      title: 'Button',
+    };
+
+    export const Button_ = {
+      render: () => <Button label="Story 1" />,
+    };
+
+  `);
+});
+
+test('story name equals component name for vue', () => {
+  const input = dedent`
+      import { Meta, Story } from '@storybook/addon-docs';
+      import Button from './Button.vue';
+
+      <Meta title="Button" />
+
+      <Story name="Button"><Button label='Story 1' /></Story>
+    `;
+
+  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta, Story } from '@storybook/blocks';
+    import Button from './Button.vue';
+    import * as FoobarStories from './Foobar.stories';
+
+    <Meta of={FoobarStories} />
+
+    <Story of={FoobarStories.Button_} />
+
+  `);
+  expect(csf).toMatchInlineSnapshot(`
+    import Button from './Button.vue';
+
+    export default {
+      title: 'Button',
+    };
+
+    export const Button_ = {
+      render: () => <Button label="Story 1" />,
     };
 
   `);
@@ -471,8 +533,6 @@ it('kebab case file name', () => {
     import { Meta, Story } from '@storybook/blocks';
     import { Kebab } from './my-component/some-kebab-case';
     import * as SomeKebabCaseStories from './some-kebab-case.stories';
-
-    export const Template = (args) => <Kebab {...args} />;
 
     <Meta of={SomeKebabCaseStories} />
 
@@ -532,8 +592,6 @@ it('story child is jsx', () => {
             <div>Hello!</div>
           </Button>
         ),
-
-        name: 'Primary',
       };
 
     `);
@@ -556,7 +614,6 @@ it('story child is CSF3', () => {
     export default {};
 
     export const Primary = {
-      name: 'Primary',
       render: (args) => <Button {...args}></Button>,
 
       args: {
@@ -587,7 +644,6 @@ it('story child is arrow function', () => {
 
       export const Primary = {
         render: (args) => <Button />,
-        name: 'Primary',
       };
 
     `);
@@ -613,7 +669,6 @@ it('story child is identifier', () => {
 
       export const Primary = {
         render: Button,
-        name: 'Primary',
       };
 
     `);
