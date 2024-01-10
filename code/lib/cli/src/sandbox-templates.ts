@@ -66,7 +66,7 @@ export type Template = {
   inDevelopment?: boolean;
   /**
    * Some sandboxes might need extra modifications in the initialized Storybook,
-   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
+   * such as extend main.js, for setting specific feature flags.
    */
   modifications?: {
     skipTemplateStories?: boolean;
@@ -74,6 +74,7 @@ export type Template = {
     testBuild?: boolean;
     disableDocs?: boolean;
     extraDependencies?: string[];
+    editAddons?: (addons: string[]) => string[];
   };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
@@ -483,24 +484,24 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/swc-webpack': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'SWC (react-webpack/18-ts)',
+  'internal/react18-webpack-babel': {
+    name: 'React with Babel Latest (Webpack | TypeScript)',
+    script: 'yarn create webpack5-react {{beforeDir}}',
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    modifications: {
+      extraDependencies: ['@storybook/addon-webpack5-compiler-babel'],
+      editAddons: (addons) =>
+        [...addons, '@storybook/addon-webpack5-compiler-babel'].filter(
+          (a) => a !== '@storybook/addon-webpack5-compiler-swc'
+        ),
+    },
     isInternal: true,
     inDevelopment: true,
-    modifications: {
-      mainConfig: {
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {
-            builder: {
-              useSWC: true,
-            },
-          },
-        },
-      },
-    },
-    skipTasks: ['bench'],
+    skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'internal/react16-webpack': {
     name: 'React 16 (Webpack | TypeScript)',
@@ -635,6 +636,7 @@ export const daily: TemplateKey[] = [
   'preact-vite/default-js',
   'html-vite/default-js',
   'internal/react16-webpack',
+  'internal/react18-webpack-babel',
 ];
 
 export const templatesByCadence = { normal, merged, daily };
