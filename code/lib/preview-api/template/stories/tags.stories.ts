@@ -13,6 +13,7 @@ export default {
       });
     },
   ],
+  parameters: { chromatic: { disable: true } },
 };
 
 export const Inheritance = {
@@ -23,6 +24,7 @@ export const Inheritance = {
       tags: ['story-one', 'story-two', 'story'],
     });
   },
+  parameters: { chromatic: { disable: false } },
 };
 
 export const DocsOnly = {
