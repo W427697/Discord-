@@ -5,7 +5,7 @@ import { expect } from '@storybook/jest';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['component-one', 'component-two'],
+  tags: ['component-one', 'component-two', 'autodocs'],
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       return storyFn({
@@ -23,4 +23,16 @@ export const Inheritance = {
       tags: ['story-one', 'story-two', 'story'],
     });
   },
+};
+
+export const DocsOnly = {
+  tags: ['docs-only'],
+};
+
+export const TestOnly = {
+  tags: ['test-only'],
+};
+
+export const DevOnly = {
+  tags: ['dev-only'],
 };
