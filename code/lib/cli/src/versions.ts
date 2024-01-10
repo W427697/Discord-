@@ -53,7 +53,6 @@ export default {
   '@storybook/preset-server-webpack': '8.0.0-alpha.8',
   '@storybook/preset-svelte-webpack': '8.0.0-alpha.8',
   '@storybook/preset-vue3-webpack': '8.0.0-alpha.8',
-  '@storybook/preset-web-components-webpack': '8.0.0-alpha.8',
   '@storybook/preview': '8.0.0-alpha.8',
   '@storybook/preview-api': '8.0.0-alpha.8',
   '@storybook/react': '8.0.0-alpha.8',

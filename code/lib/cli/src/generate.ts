@@ -17,7 +17,6 @@ import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
@@ -75,10 +74,6 @@ command('remove <addon>')
     'Force package manager for installing dependencies'
   )
   .action((addonName: string, options: any) => remove(addonName, options));
-
-command('babelrc')
-  .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
 
 command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
