@@ -901,19 +901,9 @@ The available options are:
 
 #### `builder`
 
-Type:
-
-```ts
-{
-  useSWC?: boolean;
-}
-```
+Type: `Record<string, any>`
 
 Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, that builder is Webpack 5.
-
-##### `builder.useSWC`
-
-Use the SWC compiler instead of Babel. [More information is available here.](../api/main-config-framework.md#optionsbuilderuseswc)
 
 #### `image`
 
