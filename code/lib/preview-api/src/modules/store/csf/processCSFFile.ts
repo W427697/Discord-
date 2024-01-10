@@ -67,13 +67,14 @@ export function processCSFFile<TRenderer extends Renderer>(
 
   const csfFile: CSFFile<TRenderer> = { meta, stories: {}, moduleExports };
 
-  Object.keys(namedExports).forEach((key) => {
-    if (isExportStory(key, meta)) {
-      const storyMeta = normalizeStory(key, namedExports[key], meta);
-      checkDisallowedParameters(storyMeta.parameters);
-
-      csfFile.stories[storyMeta.id] = storyMeta;
+  (__namedExportsOrder as string[]).forEach((key) => {
+    if (!isExportStory(key, meta)) {
+      return;
     }
+    const storyMeta = normalizeStory(key, namedExports[key], meta);
+    checkDisallowedParameters(storyMeta.parameters);
+
+    csfFile.stories[storyMeta.id] = storyMeta;
   });
 
   return csfFile;

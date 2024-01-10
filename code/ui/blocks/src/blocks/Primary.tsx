@@ -17,9 +17,10 @@ export const Primary: FC<PrimaryProps> = (props) => {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
 
-  const story = useOf(of || 'meta', ['meta']).csfFile.stories[0];
+  const { stories } = useOf(of || 'meta', ['meta']).csfFile;
+  const primaryStory = Object.values(stories ?? {})[0];
 
-  return story ? (
-    <DocsStory of={story.moduleExport} expanded={false} __primary withToolbar />
+  return primaryStory ? (
+    <DocsStory of={primaryStory.moduleExport} expanded={false} __primary withToolbar />
   ) : null;
 };
