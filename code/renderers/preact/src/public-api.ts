@@ -2,7 +2,7 @@
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/preview-api';
 
-import { renderToCanvas } from './render';
+import { render, renderToCanvas } from './render';
 import type { PreactRenderer } from './types';
 
 export interface ClientApi extends Addon_ClientStoryApi<PreactRenderer['storyResult']> {
@@ -13,7 +13,7 @@ export interface ClientApi extends Addon_ClientStoryApi<PreactRenderer['storyRes
 }
 
 const RENDERER = 'preact';
-const api = start<PreactRenderer>(renderToCanvas);
+const api = start<PreactRenderer>(renderToCanvas, { render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

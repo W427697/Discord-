@@ -6955,15 +6955,32 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:renderers/preact"
   dependencies:
+    "@storybook/client-logger": "workspace:*"
     "@storybook/core-client": "workspace:*"
+    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
+    "@storybook/react-dom-shim": "workspace:*"
     "@storybook/types": "workspace:*"
+    "@types/escodegen": "npm:^0.0.6"
+    "@types/estree": "npm:^0.0.51"
+    "@types/node": "npm:^18.0.0"
+    acorn: "npm:^7.4.1"
+    acorn-jsx: "npm:^5.3.1"
+    acorn-walk: "npm:^7.2.0"
+    escodegen: "npm:^2.1.0"
+    html-tags: "npm:^3.1.0"
+    lodash: "npm:^4.17.21"
     preact: "npm:^10.5.13"
+    prop-types: "npm:^15.7.2"
+    react-element-to-jsx-string: "npm:^15.0.0"
     ts-dedent: "npm:^2.0.0"
+    type-fest: "npm:~2.19"
     typescript: "npm:~4.9.3"
+    util-deprecate: "npm:^1.0.2"
   peerDependencies:
     preact: ^8.0.0||^10.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
