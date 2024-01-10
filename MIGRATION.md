@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
@@ -368,6 +369,26 @@
 
 
 ## From version 7.x to 8.0.0
+
+### Manager addons are now rendered with React 18
+
+The UI added to the manager via addons is now rendered with React 18.
+
+Example:
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    // This will be called as a JSX element by react 18
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
+  });
+});
+```
+
+Previously the `key` prop was passed to the render function, that is now no longer the case.
 
 ### Removal of `storiesOf`-API
 
