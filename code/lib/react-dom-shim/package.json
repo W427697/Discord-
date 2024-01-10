@@ -36,7 +36,7 @@
     },
     "./dist/preset": {
       "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
+      "require": "./dist/preset.cjs"
     },
     "./package.json": "./package.json"
   },

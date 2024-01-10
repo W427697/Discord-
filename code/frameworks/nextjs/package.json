@@ -35,7 +35,7 @@
     },
     "./preset": {
       "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
+      "require": "./dist/preset.cjs"
     },
     "./font/webpack/loader/storybook-nextjs-font-loader": {
       "types": "./dist/font/webpack/loader/storybook-nextjs-font-loader.d.ts",
