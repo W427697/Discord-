@@ -3,7 +3,7 @@ import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {

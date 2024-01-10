@@ -1,6 +1,6 @@
 import type { OutputFile } from 'esbuild';
 import fs from 'fs-extra';
-import { join, normalize } from 'path';
+import { join, normalize } from 'node:path';
 import slash from 'slash';
 import type { Compilation } from '../types';
 

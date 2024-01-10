@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { createFilter } from '@rollup/pluginutils';
 import type { Documentation } from 'react-docgen';
 import {

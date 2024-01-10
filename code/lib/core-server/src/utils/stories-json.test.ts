@@ -2,7 +2,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
-import path from 'path';
+import path from 'node:path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { normalizeStoriesEntry } from '@storybook/core-common';

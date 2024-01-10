@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { dedent } from 'ts-dedent';
 
 import { getInterpretedFile } from './interpret-files';

@@ -13,7 +13,7 @@ import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry, oneWayHash } from '@storybook/telemetry';
 
-import { join, relative, resolve } from 'path';
+import { join, relative, resolve } from 'node:path';
 import { deprecate } from '@storybook/node-logger';
 import dedent from 'ts-dedent';
 import fse from 'fs-extra';

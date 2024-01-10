@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
 import chalk from 'chalk';

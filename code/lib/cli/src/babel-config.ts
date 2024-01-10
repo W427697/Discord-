@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
-import path from 'path';
+import path from 'node:path';
 import prompts from 'prompts';
 import { JsPackageManagerFactory } from './js-package-manager';
 

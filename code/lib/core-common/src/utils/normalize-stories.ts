@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import * as pico from 'picomatch';
 import slash from 'slash';
 

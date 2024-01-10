@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 
 export function readPackageJson(): Record<string, any> | false {

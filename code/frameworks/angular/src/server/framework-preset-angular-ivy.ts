@@ -1,5 +1,5 @@
 import { Configuration } from 'webpack';
-import * as path from 'path';
+import * as path from 'node:path';
 import { Preset } from '@storybook/types';
 import fs from 'fs';
 

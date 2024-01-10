@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import yaml from 'yaml';
 import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
 
-import { join } from 'path';
+import { join } from 'node:path';
 
 type FileContent = {
   title: ComponentTitle;

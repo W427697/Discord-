@@ -1,5 +1,5 @@
 import type { PreviewAnnotation } from '@storybook/types';
-import { resolve, isAbsolute, relative } from 'path';
+import { resolve, isAbsolute, relative } from 'node:path';
 import slash from 'slash';
 import { stripAbsNodeModulesPath } from '@storybook/core-common';
 

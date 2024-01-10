@@ -5,7 +5,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
-import { dirname, join, parse } from 'path';
+import { dirname, join, parse } from 'node:path';
 import express from 'express';
 import fs from 'fs-extra';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';

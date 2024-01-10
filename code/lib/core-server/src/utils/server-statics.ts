@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
 import fse from 'fs-extra';
-import path, { basename, isAbsolute } from 'path';
+import path, { basename, isAbsolute } from 'node:path';
 
 import { dedent } from 'ts-dedent';
 

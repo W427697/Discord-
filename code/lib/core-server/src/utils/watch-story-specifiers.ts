@@ -1,7 +1,7 @@
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 

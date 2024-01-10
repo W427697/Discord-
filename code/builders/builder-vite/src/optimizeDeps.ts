@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from 'node:path';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
 import type { Options } from '@storybook/types';
 import { listStories } from './list-stories';

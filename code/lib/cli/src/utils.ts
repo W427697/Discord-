@@ -1,6 +1,6 @@
 import type { WriteStream } from 'fs-extra';
 import fse from 'fs-extra';
-import { join } from 'path';
+import { join } from 'node:path';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';
 import type { JsPackageManager } from './js-package-manager';

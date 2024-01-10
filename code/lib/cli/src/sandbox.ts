@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import path from 'path';
+import path from 'node:path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';

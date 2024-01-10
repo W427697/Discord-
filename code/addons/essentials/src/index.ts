@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 

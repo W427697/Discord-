@@ -1,5 +1,5 @@
 import type { Options, PreviewAnnotation } from '@storybook/types';
-import { join, resolve } from 'path';
+import { join, resolve } from 'node:path';
 import {
   getBuilderOptions,
   handlebars,

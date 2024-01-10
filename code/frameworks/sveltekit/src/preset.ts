@@ -2,7 +2,7 @@
 import { viteFinal as svelteViteFinal } from '@storybook/svelte-vite/preset';
 import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import { configOverrides } from './plugins/config-overrides';
 import { mockSveltekitStores } from './plugins/mock-sveltekit-stores';
 import { type StorybookConfig } from './types';

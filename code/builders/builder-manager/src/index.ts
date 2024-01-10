@@ -1,4 +1,4 @@
-import { dirname, join, parse } from 'path';
+import { dirname, join, parse } from 'node:path';
 import fs from 'fs-extra';
 import express from 'express';
 

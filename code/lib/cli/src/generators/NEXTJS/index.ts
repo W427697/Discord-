@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { existsSync } from 'fs';
 import { CoreBuilder } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';

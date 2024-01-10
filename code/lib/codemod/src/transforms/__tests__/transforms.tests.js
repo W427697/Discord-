@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 import { applyTransform } from 'jscodeshift/dist/testUtils';
 

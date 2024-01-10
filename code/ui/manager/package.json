@@ -31,7 +31,8 @@
     },
     "./globals-module-info": {
       "types": "./dist/globals-module-info.d.ts",
-      "require": "./dist/globals-module-info.js"
+      "import": "./dist/globals-module-info.js",
+      "require": "./dist/globals-module-info.cjs"
     },
     "./globals": {
       "types": "./dist/globals.d.ts",

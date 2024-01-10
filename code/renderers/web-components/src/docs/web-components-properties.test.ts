@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { vi, describe, it, expect } from 'vitest';
 import fs from 'fs';
 import tmp from 'tmp';

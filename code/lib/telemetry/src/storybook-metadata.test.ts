@@ -2,7 +2,7 @@ import type { MockInstance } from 'vitest';
 import { describe, beforeEach, afterEach, expect, vi, it } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
-import path from 'path';
+import path from 'node:path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
 
 const packageJsonMock: PackageJson = {

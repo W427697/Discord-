@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 

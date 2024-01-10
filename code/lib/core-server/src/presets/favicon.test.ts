@@ -1,6 +1,6 @@
 import { expect, vi, it } from 'vitest';
 
-import { join } from 'path';
+import { join } from 'node:path';
 import * as fs from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import * as m from './common-preset';

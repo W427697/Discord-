@@ -3,7 +3,7 @@
 import loaderUtils from 'next/dist/compiled/loader-utils3';
 import { getProjectRoot } from '@storybook/core-common';
 import { validateLocalFontFunctionCall } from 'next/dist/compiled/@next/font/dist/local/validate-local-font-function-call';
-import path from 'path';
+import path from 'node:path';
 
 import type { LoaderOptions } from '../types';
 

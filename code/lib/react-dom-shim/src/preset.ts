@@ -1,5 +1,5 @@
 import type { Options } from '@storybook/types';
-import { join, dirname } from 'path';
+import { join, dirname } from 'node:path';
 import { readFile } from 'fs/promises';
 
 /**

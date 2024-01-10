@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import { onlyWindows, skipWindows } from '../../../../../vitest.helpers';
 import { parseStaticDir } from '../server-statics';
 

@@ -3,7 +3,7 @@ import { logger } from '@storybook/node-logger';
 import type { Stats } from '@storybook/types';
 import chalk from 'chalk';
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 
 export async function outputStats(directory: string, previewStats?: any, managerStats?: any) {
   if (previewStats) {

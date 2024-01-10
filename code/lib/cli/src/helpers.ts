@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
-import path, { join } from 'path';
+import path, { join } from 'node:path';
 import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';
 

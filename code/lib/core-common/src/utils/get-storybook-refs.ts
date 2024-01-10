@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import findUp from 'find-up';
 import fetch from 'node-fetch';
 

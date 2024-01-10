@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import injectDecorator from './inject-decorator';
 
 describe('inject-decorator', () => {

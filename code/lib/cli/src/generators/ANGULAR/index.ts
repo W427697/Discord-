@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';

@@ -4,7 +4,7 @@ import * as fs from 'fs-extra';
 import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
-import { dirname, join, parse } from 'path';
+import { dirname, join, parse } from 'node:path';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';

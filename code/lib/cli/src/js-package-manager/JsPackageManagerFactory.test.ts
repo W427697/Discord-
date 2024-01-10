@@ -1,7 +1,7 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
-import path from 'path';
+import path from 'node:path';
 import { JsPackageManagerFactory } from './JsPackageManagerFactory';
 import { NPMProxy } from './NPMProxy';
 import { PNPMProxy } from './PNPMProxy';

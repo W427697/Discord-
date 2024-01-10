@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 // @ts-expect-error (seems broken/missing)
 import requireFromString from 'require-from-string';

@@ -1,6 +1,5 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 
-// eslint-disable-next-line import/export
 export * from '@storybook/addon-docs/dist/preset';
 
 export const mdxLoaderOptions = async (config: any) => {

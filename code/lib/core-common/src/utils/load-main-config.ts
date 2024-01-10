@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import type { StorybookConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';

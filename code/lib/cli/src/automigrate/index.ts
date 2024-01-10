@@ -6,7 +6,7 @@ import fse from 'fs-extra';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
-import { join } from 'path';
+import { join } from 'node:path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
 import invariant from 'tiny-invariant';
 import { JsPackageManagerFactory } from '../js-package-manager';

@@ -11,7 +11,7 @@ import type {
   Presets,
   StorybookConfigRaw,
 } from '@storybook/types';
-import { join, parse } from 'path';
+import { join, parse } from 'node:path';
 import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';

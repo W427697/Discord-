@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';

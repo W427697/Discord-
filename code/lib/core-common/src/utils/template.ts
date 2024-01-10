@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { sync } from 'pkg-dir';
 import fs from 'fs';
 

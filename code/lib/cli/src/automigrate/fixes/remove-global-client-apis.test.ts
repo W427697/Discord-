@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 
-import path from 'path';
+import path from 'node:path';
 import * as fsExtra from 'fs-extra';
 import type { JsPackageManager } from '../../js-package-manager';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';

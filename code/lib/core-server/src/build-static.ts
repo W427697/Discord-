@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import fse from 'fs-extra';
-import { dirname, join, relative, resolve } from 'path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { global } from '@storybook/global';
 import { logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';

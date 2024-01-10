@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { join } from 'path';
+import { join } from 'node:path';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 import { MissingAngularJsonError } from '@storybook/core-events/server-errors';

@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
@@ -86,7 +86,7 @@ export async function configureMain({
   const finalPrefixes = [...prefixes];
 
   if (custom.framework?.name.includes('path.dirname(')) {
-    imports.push(`import path from 'path';`);
+    imports.push(`import path from 'node:path';`);
   }
 
   if (isTypescript) {

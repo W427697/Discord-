@@ -1,6 +1,6 @@
 import type { PresetProperty } from '@storybook/types';
 import type { PluginOption } from 'vite';
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 

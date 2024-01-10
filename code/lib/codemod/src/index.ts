@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint import/prefer-default-export: "off" */
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import { promisify } from 'util';
 import globby from 'globby';
 import { sync as spawnSync } from 'cross-spawn';

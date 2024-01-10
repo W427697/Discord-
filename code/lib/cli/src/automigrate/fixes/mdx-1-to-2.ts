@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { basename } from 'path';
+import { basename } from 'node:path';
 import fse from 'fs-extra';
 import globby from 'globby';
 import type { Fix } from '../types';

@@ -1,5 +1,5 @@
 import { checkAddonOrder, serverRequire } from '@storybook/core-common';
-import path from 'path';
+import path from 'node:path';
 
 export const checkDocsLoaded = (configDir: string) => {
   checkAddonOrder({

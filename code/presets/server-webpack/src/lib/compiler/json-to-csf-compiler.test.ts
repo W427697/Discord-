@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs-extra';
 import YAML from 'yaml';
 import { compileCsfModule } from '.';

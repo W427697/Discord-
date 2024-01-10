@@ -1,6 +1,6 @@
 import type { PluginOption } from 'vite';
 import MagicString from 'magic-string';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 import svelteDoc from 'sveltedoc-parser';
 import type { SvelteComponentDoc, SvelteParserOptions } from 'sveltedoc-parser';

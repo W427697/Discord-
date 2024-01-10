@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import semver from 'semver';
 import type { CommonOptions } from 'execa';
 import { command as execaCommand, sync as execaCommandSync } from 'execa';
-import path from 'path';
+import path from 'node:path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';

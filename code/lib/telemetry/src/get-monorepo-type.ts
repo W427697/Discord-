@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import type { PackageJson } from '@storybook/types';
 import { getProjectRoot } from '@storybook/core-common';
 

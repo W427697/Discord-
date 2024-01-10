@@ -91,7 +91,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         silent: true,
         treeshake: true,
         entry: nonPresetEntries,
-        shims: false,
+        shims: true,
         watch,
         outDir,
         sourcemap: false,
@@ -114,8 +114,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           platform === 'node'
             ? {
                 js: dedent`
-                  import { createRequire } from 'node:module';
-                  const require = createRequire(import.meta.url);
+                  import { createRequire as myCreateRequire } from 'node:module';
+                  const require = myCreateRequire(import.meta.url);
                 `,
               }
             : {},

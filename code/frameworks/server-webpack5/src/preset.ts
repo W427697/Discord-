@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { PresetProperty } from '@storybook/types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>

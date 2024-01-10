@@ -5,7 +5,7 @@
  */
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import path from 'path';
+import path from 'node:path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { readCsf, getStorySortParameter } from '@storybook/csf-tools';

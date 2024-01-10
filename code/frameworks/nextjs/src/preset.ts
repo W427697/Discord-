@@ -1,5 +1,5 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
