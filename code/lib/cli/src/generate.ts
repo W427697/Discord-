@@ -72,15 +72,13 @@ command('babelrc')
   .action(() => generateStorybookBabelConfigInCWD());
 
 command('upgrade')
-  .description('Upgrade your Storybook packages to the latest')
+  .description(`Upgrade your Storybook packages to v${versions.storybook}`)
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
-  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
-  .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));

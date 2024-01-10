@@ -1,18 +1,16 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
-import semver from 'semver';
+import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
-import {
-  ConflictingVersionTagsError,
-  UpgradeStorybookPackagesError,
-} from '@storybook/core-events/server-errors';
+import { UpgradeStorybookPackagesError } from '@storybook/core-events/server-errors';
 
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
 import { getPackageDetails, JsPackageManagerFactory } from './js-package-manager';
 import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
+import versions from './versions';
 
 type Package = {
   package: string;
@@ -136,8 +134,6 @@ export const addNxPackagesToReject = (flags: string[]) => {
 };
 
 export interface UpgradeOptions {
-  tag: string;
-  prerelease: boolean;
   skipCheck: boolean;
   packageManager: PackageManagerName;
   dryRun: boolean;
@@ -147,8 +143,6 @@ export interface UpgradeOptions {
 }
 
 export const doUpgrade = async ({
-  tag,
-  prerelease,
   skipCheck,
   packageManager: pkgMgr,
   dryRun,
@@ -158,66 +152,59 @@ export const doUpgrade = async ({
 }: UpgradeOptions) => {
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  const beforeVersion = await getStorybookCoreVersion();
-
   commandLog(`Checking for latest versions of '@storybook/*' packages\n`);
 
-  if (tag && prerelease) {
-    throw new ConflictingVersionTagsError();
+  const currentVersion = versions['@storybook/cli'];
+  const beforeVersion = await getStorybookCoreVersion();
+
+  if (lt(currentVersion, beforeVersion)) {
+    // TODO: use correct error type and improve message
+    throw new Error('you are downgrading Storybook, this is not supported');
+  }
+  if (eq(currentVersion, beforeVersion)) {
+    // TODO: use correct error type and improve message
+    throw new Error(
+      'you are upgrading to the same version that you already have. run automigrate instead.'
+    );
   }
 
-  let target = 'latest';
-  if (prerelease) {
-    // '@next' is storybook's convention for the latest prerelease tag.
-    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
-    // and random releases of other packages with storybook in their name.
-    target = '@next';
-  } else if (tag) {
-    target = `@${tag}`;
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const isOutdated = lt(currentVersion, latestVersion);
+  const isPrerelease = prerelease(currentVersion) !== null;
+
+  if (isOutdated) {
+    // TODO: warn if not upgrading to the latest version
+    console.warn('You are not upgrading to the latest version of Storybook, is this on purpose?');
   }
+  const packageJson = await packageManager.retrievePackageJson();
 
-  let flags = [];
-  if (!dryRun) flags.push('--upgrade');
-  flags.push('--target');
-  flags.push(target);
-  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
-  flags = addNxPackagesToReject(flags);
+  const toUpgradedDependencies = (dependencies: typeof packageJson['dependencies']) => {
+    const monorepoDependencies = Object.keys(dependencies || {}).filter(
+      (dependency) => dependency in versions
+    ) as Array<keyof typeof versions>;
+    return monorepoDependencies.map(
+      (dependency) =>
+        `${dependency}@${!isOutdated || isPrerelease ? '^' : ''}${versions[dependency]}`
+    );
+  };
 
-  const command = 'npx';
-  const checkArgs = ['npm-check-updates@latest', '/storybook/', ...flags];
-  const check = spawnSync(command, checkArgs, {
-    stdio: 'pipe',
-    shell: true,
-  });
-
-  if (check.stderr && !check.stderr.toString().includes('npm notice')) {
-    throw new UpgradeStorybookPackagesError({
-      command,
-      args: checkArgs,
-      errorMessage: check.stderr.toString(),
-    });
-  }
-
-  logger.info(check.stdout.toString());
-
-  const checkSbArgs = ['npm-check-updates@latest', 'sb', ...flags];
-  const checkSb = spawnSync(command, checkSbArgs, {
-    stdio: 'pipe',
-    shell: true,
-  });
-  logger.info(checkSb.stdout.toString());
-  logger.info(checkSb.stderr.toString());
-
-  if (checkSb.stderr && !checkSb.stderr.toString().includes('npm notice')) {
-    throw new UpgradeStorybookPackagesError({
-      command,
-      args: checkSbArgs,
-      errorMessage: checkSb.stderr.toString(),
-    });
-  }
+  const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);
+  const upgradedDevDependencies = toUpgradedDependencies(packageJson.devDependencies);
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);
+    if (upgradedDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: false, skipInstall: true, packageJson },
+        upgradedDependencies
+      );
+    }
+    if (upgradedDevDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: true, skipInstall: true, packageJson },
+        upgradedDevDependencies
+      );
+    }
     await packageManager.installDependencies();
   }
 
@@ -235,7 +222,6 @@ export const doUpgrade = async ({
     };
     telemetry('upgrade', {
       prerelease,
-      tag,
       beforeVersion,
       afterVersion,
       ...automigrationTelemetry,

@@ -434,16 +434,6 @@ export class GenerateNewProjectOnInitError extends StorybookError {
   }
 }
 
-export class ConflictingVersionTagsError extends StorybookError {
-  readonly category = Category.CLI_UPGRADE;
-
-  readonly code = 1;
-
-  template() {
-    return 'Cannot set both --tag and --prerelease. Use --tag=next to get the latest prerelease.';
-  }
-}
-
 export class UpgradeStorybookPackagesError extends StorybookError {
   readonly category = Category.CLI_UPGRADE;
 
