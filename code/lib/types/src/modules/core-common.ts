@@ -554,7 +554,7 @@ export interface StorybookConfig {
   managerHead?: PresetValue<StorybookConfigRaw['managerHead']>;
 
   /**
-   * Cofnigure non-standard tag behaviors
+   * Configure non-standard tag behaviors
    */
   tags?: PresetValue<StorybookConfigRaw['tags']>;
 }
