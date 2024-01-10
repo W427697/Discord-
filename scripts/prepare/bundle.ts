@@ -25,6 +25,39 @@ type PackageJsonWithBundlerConfig = PackageJson & {
 };
 type DtsConfigSection = Pick<Options, 'dts' | 'tsconfig'>;
 
+const nodeInternals = [
+  'assert',
+  'buffer',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'https',
+  'net',
+  'os',
+  'path',
+  'punycode',
+  'querystring',
+  'readline',
+  'stream',
+  'string_decoder',
+  'tls',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'zlib',
+].reduce<string[]>((acc, i) => {
+  acc.concat([i, `node:${i}`]);
+  return acc;
+}, []);
+
 /* MAIN */
 
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
@@ -81,6 +114,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
    * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
    */
   const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
+  // const nonPresetEntries = allEntries;
 
   const noExternal = [/^@vitest\/.+$/, ...extraNoExternal];
 
@@ -99,7 +133,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         target: ['chrome100', 'safari15', 'firefox91'],
         clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
-        platform: platform || 'browser',
+        platform: 'browser',
+        // minify: true,
+        // minifyWhitespace: false,
         esbuildPlugins:
           platform === 'node'
             ? []
@@ -109,14 +145,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
                   util: path.resolve('../node_modules/util/util.js'),
                 }),
               ],
-        external: externals,
+        external: platform === 'node' ? [...externals, ...nodeInternals] : externals,
         banner:
           platform === 'node'
             ? {
                 js: dedent`
-                  import { createRequire as myCreateRequire } from 'node:module';
+          import { createRequire as myCreateRequire } from 'node:module';
                   const require = myCreateRequire(import.meta.url);
-                `,
+                  `,
               }
             : {},
 
@@ -135,6 +171,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     tasks.push(
       build({
         noExternal,
+        shims: true,
         silent: true,
         entry: allEntries,
         watch,
@@ -212,6 +249,7 @@ function getESBuildOptions(optimized: boolean) {
     minifyWhitespace: optimized,
     minifyIdentifiers: false,
     minifySyntax: optimized,
+    // minifySyntax: true,
   };
 }
 
