@@ -12,4 +12,4 @@ declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
 
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
 
-declare var TAGS_OPTIONS: any;
+declare var TAGS_OPTIONS: import('@storybook/types').TagsOptions;
