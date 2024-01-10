@@ -506,6 +506,34 @@ export class ConfigFile {
     }
   }
 
+  /**
+   * Specialized helper to remove addons or other array entries
+   * that can either be strings or objects with a name property.
+   */
+  removeEntryFromArray(path: string[], value: string) {
+    const current = this.getFieldNode(path);
+    if (!current) return;
+    if (t.isArrayExpression(current)) {
+      const index = current.elements.findIndex((element) => {
+        if (t.isStringLiteral(element)) {
+          return element.value === value;
+        }
+        if (t.isObjectExpression(element)) {
+          const name = this._getPresetValue(element, 'name');
+          return name === value;
+        }
+        return false;
+      });
+      if (index >= 0) {
+        current.elements.splice(index, 1);
+      } else {
+        throw new Error(`Could not find '${value}' in array at '${path.join('.')}'`);
+      }
+    } else {
+      throw new Error(`Expected array at '${path.join('.')}', got '${current.type}'`);
+    }
+  }
+
   _inferQuotes() {
     if (!this._quotes) {
       // first 500 tokens for efficiency
