@@ -42,6 +42,9 @@
     - [Web Components](#web-components)
       - [Dropping default babel plugins in Webpack5-based projects](#dropping-default-babel-plugins-in-webpack5-based-projects)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
+    - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
+    - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
+    - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [`setGlobalConfig` from `@storybook/react`](#setglobalconfig-from-storybookreact)
     - [StorybookViteConfig type from @storybook/builder-vite](#storybookviteconfig-type-from-storybookbuilder-vite)
@@ -789,6 +792,40 @@ We are doing this to apply the same configuration you defined in your project. T
 Until the 8.0 release, Storybook provided the `@babel/preset-env` preset for Web Component projects by default. This is no longer the case, as any Web Components project will use the configuration you've included. Additionally, if you're using either the `@babel/plugin-syntax-dynamic-import` or `@babel/plugin-syntax-import-meta` plugins, you no longer have to include them as they are now part of `@babel/preset-env`.
 
 ### Deprecations which are now removed
+
+#### Methods and properties from AddonStore
+
+The following methods and properties from the class `AddonStore` in  `@storybook/manager-api` are now removed:
+
+- `serverChannel` -> Use `channel` instead
+- `getServerChannel` -> Use `getChannel` instead
+- `setServerChannel` -> Use `setChannel` instead
+- `hasServerChannel` -> Use `hasChannel` instead
+- `addPanel`
+
+The following methods and properties from the class `AddonStore` in  `@storybook/preview-api` are now removed:
+
+- `serverChannel` -> Use `channel` instead
+- `getServerChannel` -> Use `getChannel` instead
+- `setServerChannel` -> Use `setChannel` instead
+- `hasServerChannel` -> Use `hasChannel` instead
+
+#### Methods and properties from PreviewAPI
+
+The following exports from `@storybook/preview-api` are now removed:
+
+- `useSharedState`
+- `useAddonState`
+
+Please file an issue if you need these APIs.
+
+#### Removals in @storybook/types
+
+The following exports from `@storybook/types` are now removed:
+
+- `API_ADDON` -> Use `Addon_Type` instead
+- `API_COLLECTION` -> Use `Addon_Collection` instead
+- `API_Panels`
 
 #### --use-npm flag in storybook CLI
 
