@@ -1,3 +1,5 @@
+import assert from 'assert';
+// @ts-expect-error No types
 import { parse as parseCjs, init as initCjsParser } from 'cjs-module-lexer';
 import { parse as parseEs } from 'es-module-lexer';
 import MagicString from 'magic-string';
@@ -12,53 +14,44 @@ export default async function loader(
   const callback = this.async();
 
   try {
-    let isEsModule = true, esImports, moduleExports, namedExportsOrder;
-    
+    const magicString = new MagicString(source);
+
+    // Trying to parse as ES module
     try {
       // Do NOT remove await here. The types are wrong! It has to be awaited,
       // otherwise it will return a Promise<Promise<...>> when wasm isn't loaded.
       const parseResult = await parseEs(source);
-      esImports = parseResult[0] || [];
-      moduleExports = parseResult[1] || [];
+      const namedExportsOrder = (parseResult[1] || [])
+        .map((e) => source.substring(e.s, e.e))
+        .filter((e) => e !== 'default');
+
+      assert(
+        namedExportsOrder.length > 0,
+        'No named exports found. Very likely that this is not a ES module.'
+      );
+
+      magicString.append(
+        `;export const __namedExportsOrder = ${JSON.stringify(namedExportsOrder)};`
+      );
+      // Try to parse as CJS module
     } catch {
-      esImports = [];
-      moduleExports = [];
-    }
-    
-    if (!moduleExports.length && !esImports.length) {
-      isEsModule = false;
-      try {
-        await initCjsParser();
-        moduleExports = (parseCjs(source)).exports || [];
-      } catch {
-        moduleExports = [];
-      }
-      namedExportsOrder = moduleExports.filter(
-        (e) => e !== 'default' && e !== '__esModule'
+      await initCjsParser();
+      const namedExportsOrder = (parseCjs(source).exports || []).filter(
+        (e: string) => e !== 'default' && e !== '__esModule'
       );
-    } else {
-      namedExportsOrder = moduleExports.map(
-        (e) => source.substring(e.s, e.e)
-      ).filter((e) => e !== 'default');
-    }
 
-    if (namedExportsOrder.indexOf('__namedExportsOrder') >= 0) {
-      return callback(null, source, map, meta);
-    }
-
-    const magicString = new MagicString(source);
-    const namedExportsOrderString = JSON.stringify(namedExportsOrder);
-    if (isEsModule) {
-      magicString.append(
-        `;export const __namedExportsOrder = ${namedExportsOrderString};`
+      assert(
+        namedExportsOrder.length > 0,
+        'No named exports found. Very likely that this is not a CJS module.'
       );
-    } else {
+
       magicString.append(
-        `;module.exports.__namedExportsOrder = ${namedExportsOrderString};`
+        `;module.exports.__namedExportsOrder = ${JSON.stringify(namedExportsOrder)};`
       );
     }
 
     const generatedMap = magicString.generateMap({ hires: true });
+
     return callback(null, magicString.toString(), generatedMap, meta);
   } catch (err) {
     return callback(null, source, map, meta);
