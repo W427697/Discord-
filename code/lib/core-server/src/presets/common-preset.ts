@@ -368,9 +368,9 @@ export const resolvedReact = async (existing: any) => {
 export const tags = async (existing: any) => {
   return {
     ...existing,
-    'dev-only': { excludeFromAutodocs: true },
+    'dev-only': { excludeFromDocsStories: true },
     'docs-only': { excludeFromSidebar: true },
-    'test-only': { excludeFromSidebar: true, excludeFromAutodocs: true },
+    'test-only': { excludeFromSidebar: true, excludeFromDocsStories: true },
   };
 };
 

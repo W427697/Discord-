@@ -339,7 +339,7 @@ type Tag = string;
 
 export interface TagOptions {
   excludeFromSidebar: boolean;
-  excludeFromAutodocs: boolean;
+  excludeFromDocsStories: boolean;
 }
 
 export type TagsOptions = Record<Tag, Partial<TagOptions>>;
