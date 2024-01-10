@@ -53,6 +53,7 @@
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
+    - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -876,6 +877,12 @@ const api = useStorybookApi()
 api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
+
+#### `createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`
+
+The `createChannel` APIs from both `@storybook/channel-websocket` and `@storybook/postmessage` are now removed. Please use `createBrowserChannel` instead, from the `@storybook/channels` package.
+
+Additionally, the `PostmsgTransport` type is now removed in favor of `PostMessageTransport`.
 
 ## From version 7.5.0 to 7.6.0
 
