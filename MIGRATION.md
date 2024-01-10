@@ -1,7 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Manager addons are now rendered with react 18](#manager-addons-are-now-rendered-with-react-18)
+  - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
@@ -340,9 +340,9 @@
 
 ## From version 7.x to 8.0.0
 
-### Manager addons are now rendered with react 18
+### Manager addons are now rendered with React 18
 
-The UI added to the manager via addon, are now rendered with react 18.
+The UI added to the manager via addons is now rendered with React 18.
 
 Example:
 ```tsx
