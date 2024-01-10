@@ -1163,6 +1163,28 @@ describe('ConfigFile', () => {
       expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
     });
 
+    it('removes a pnp-wrapped string entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a', getAbsolutePath('b'), 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
+    it('removes a pnp-wrapped object entry', () => {
+      const source = dedent`
+        export default {
+          addons: ['a',  { name: getAbsolutePath('b'), options: {} }, 'c'],
+        }
+      `;
+      const config = loadConfig(source).parse();
+      config.removeEntryFromArray(['addons'], 'b');
+      expect(config.getFieldValue(['addons'])).toMatchInlineSnapshot(`a,c`);
+    });
+
     it('throws when entry is missing', () => {
       const source = dedent`
         export default {

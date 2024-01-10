@@ -390,6 +390,16 @@ export class ConfigFile {
     return pathNames;
   }
 
+  _getPnpWrappedValue(node: t.Node) {
+    if (t.isCallExpression(node)) {
+      const arg = node.arguments[0];
+      if (t.isStringLiteral(arg)) {
+        return arg.value;
+      }
+    }
+    return undefined;
+  }
+
   /**
    * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
    * 1. { node: 'value' }
@@ -409,6 +419,8 @@ export class ConfigFile {
         ) {
           if (t.isStringLiteral(prop.value)) {
             value = prop.value.value;
+          } else {
+            value = this._getPnpWrappedValue(prop.value);
           }
         }
 
@@ -522,7 +534,7 @@ export class ConfigFile {
           const name = this._getPresetValue(element, 'name');
           return name === value;
         }
-        return false;
+        return this._getPnpWrappedValue(element as t.Node) === value;
       });
       if (index >= 0) {
         current.elements.splice(index, 1);
