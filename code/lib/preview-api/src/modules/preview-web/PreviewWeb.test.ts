@@ -32,7 +32,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
