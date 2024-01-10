@@ -30,9 +30,9 @@ export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = 
   const { componentStories, projectAnnotations, getStoryContext } = useContext(DocsContext);
 
   let stories = componentStories();
-  const { autodocsFilter } = projectAnnotations.parameters?.docs || {};
-  if (autodocsFilter) {
-    stories = stories.filter((story) => autodocsFilter(story, getStoryContext(story)));
+  const { stories: { filter } = { filter: undefined } } = projectAnnotations.parameters?.docs || {};
+  if (filter) {
+    stories = stories.filter((story) => filter(story, getStoryContext(story)));
   }
 
   if (!includePrimary) stories = stories.slice(1);

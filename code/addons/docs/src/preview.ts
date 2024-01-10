@@ -15,9 +15,13 @@ export const parameters: any = {
       const { DocsRenderer } = (await import('./DocsRenderer')) as any;
       return new DocsRenderer();
     },
-    autodocsFilter: (story: PreparedStory) => {
-      const tags = story.tags || [];
-      return tags.filter((tag) => excludeTags[tag]).length === 0 && !story.parameters.docs?.disable;
+    stories: {
+      filter: (story: PreparedStory) => {
+        const tags = story.tags || [];
+        return (
+          tags.filter((tag) => excludeTags[tag]).length === 0 && !story.parameters.docs?.disable
+        );
+      },
     },
   },
 };
