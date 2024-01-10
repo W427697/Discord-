@@ -298,8 +298,6 @@ export async function baseGenerator(
   const versionedPackages = await packageManager.getVersionedPackages(packages as string[]);
   versionedPackagesSpinner.succeed();
 
-  const depsToInstall = [...versionedPackages];
-
   try {
     if (process.env.CI !== 'true') {
       const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
@@ -307,7 +305,7 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        depsToInstall.push('eslint-plugin-storybook');
+        versionedPackages.push('eslint-plugin-storybook');
         await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
       }
     }
@@ -315,12 +313,13 @@ export async function baseGenerator(
     // any failure regarding configuring the eslint plugin should not fail the whole generator
   }
 
-  if (depsToInstall.length > 0) {
+  if (versionedPackages.length > 0) {
     const addDependenciesSpinner = ora({
       indent: 2,
       text: 'Installing Storybook dependencies',
     }).start();
-    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, versionedPackages);
     addDependenciesSpinner.succeed();
   }
 

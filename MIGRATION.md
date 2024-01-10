@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
@@ -57,6 +58,7 @@
     - [Description Doc block properties](#description-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
+    - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -371,6 +373,26 @@
 
 
 ## From version 7.x to 8.0.0
+
+### Manager addons are now rendered with React 18
+
+The UI added to the manager via addons is now rendered with React 18.
+
+Example:
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    // This will be called as a JSX element by react 18
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
+  });
+});
+```
+
+Previously the `key` prop was passed to the render function, that is now no longer the case.
 
 ### Removal of `storiesOf`-API
 
@@ -918,6 +940,12 @@ api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 #### `Primary` Doc block properties
 
 The `name` prop is now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### `createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`
+
+The `createChannel` APIs from both `@storybook/channel-websocket` and `@storybook/postmessage` are now removed. Please use `createBrowserChannel` instead, from the `@storybook/channels` package.
+
+Additionally, the `PostmsgTransport` type is now removed in favor of `PostMessageTransport`.
 
 ## From version 7.5.0 to 7.6.0
 

@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
 import type { Of } from './useOf';
 import { useOf } from './useOf';
 import { DocsStory } from './DocsStory';
+import { DocsContext } from './DocsContext';
 
 interface PrimaryProps {
   /**
@@ -17,9 +18,12 @@ export const Primary: FC<PrimaryProps> = (props) => {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
 
-  const story = useOf(of || 'meta', ['meta']).csfFile.stories[0];
+  const { csfFile } = useOf(of || 'meta', ['meta']);
+  const context = useContext(DocsContext);
 
-  return story ? (
-    <DocsStory of={story.moduleExport} expanded={false} __primary withToolbar />
+  const primaryStory = context.componentStoriesFromCSFFile(csfFile)[0];
+
+  return primaryStory ? (
+    <DocsStory of={primaryStory.moduleExport} expanded={false} __primary withToolbar />
   ) : null;
 };
