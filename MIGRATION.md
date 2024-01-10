@@ -54,6 +54,7 @@
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
+    - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
@@ -898,6 +899,10 @@ const api = useStorybookApi()
 api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
+
+#### `Primary` Doc block properties
+
+The `name` prop is now removed in favor of the `of` property. [More info](#doc-blocks).
 
 #### `createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`
 
