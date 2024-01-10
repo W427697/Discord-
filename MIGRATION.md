@@ -778,8 +778,15 @@ The following methods and properties from the class `AddonStore` in  `@storybook
 - `serverChannel` -> Use `channel` instead
 - `getServerChannel` -> Use `getChannel` instead
 - `setServerChannel` -> Use `setChannel` instead
-- `hasServerChannel`
+- `hasServerChannel` -> Use `hasChannel` instead
 - `addPanel`
+
+The following methods and properties from the class `AddonStore` in  `@storybook/preview-api` are now removed:
+
+- `serverChannel` -> Use `channel` instead
+- `getServerChannel` -> Use `getChannel` instead
+- `setServerChannel` -> Use `setChannel` instead
+- `hasServerChannel` -> Use `hasChannel` instead
 
 #### Methods and properties from PreviewAPI
 
