@@ -1,4 +1,4 @@
-import fse, { readFile, readJson, writeJson } from 'fs-extra';
+import fse from 'fs-extra';
 
 import { dedent } from 'ts-dedent';
 import detectIndent from 'detect-indent';
@@ -54,7 +54,7 @@ export async function configureEslintPlugin(
   if (eslintFile) {
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
-      const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
+      const eslintConfig = (await fse.readJson(eslintFile)) as { extends?: string[] };
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
         : [eslintConfig.extends].filter(Boolean);
@@ -63,9 +63,9 @@ export async function configureEslintPlugin(
         'plugin:storybook/recommended',
       ] as string[];
 
-      const eslintFileContents = await readFile(eslintFile, 'utf8');
+      const eslintFileContents = await fse.readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;
-      await writeJson(eslintFile, eslintConfig, { spaces });
+      await fse.writeJson(eslintFile, eslintConfig, { spaces });
     } else {
       const eslint = await readConfig(eslintFile);
       const extendsConfig = eslint.getFieldValue(['extends']) || [];

@@ -1,5 +1,5 @@
 import path from 'path';
-import { readJSON, writeJSON, outputFile, remove } from 'fs-extra';
+import fse from 'fs-extra';
 import chalk from 'chalk';
 import { command } from 'execa';
 import type spawn from 'cross-spawn';
@@ -95,15 +95,15 @@ export const exec = async (
 const addPackageResolutions = async ({ cwd }: Options) => {
   logger.info(`🔢 Adding package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
+  const packageJson = await fse.readJSON(packageJsonPath);
   packageJson.resolutions = storybookVersions;
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  await fse.writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 const addLocalPackageResolutions = async ({ cwd }: Options) => {
   logger.info(`🔢 Adding package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
+  const packageJson = await fse.readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
   const { stdout } = await command('yarn workspaces list --json', {
     cwd: workspaceDir,
@@ -118,7 +118,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
       [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
     };
   }, {});
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  await fse.writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 const installYarn2 = async ({ cwd, pnp, name }: Options) => {
@@ -187,7 +187,7 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
 
   await Promise.all(
     (additionalFiles ?? []).map(async (file) => {
-      await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'utf-8' });
+      await fse.outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'utf-8' });
     })
   );
 };
@@ -224,8 +224,8 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
 const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   // Remove any lockfile generated without Yarn 2
   await Promise.all([
-    remove(path.join(cwd, 'package-lock.json')),
-    remove(path.join(cwd, 'yarn.lock')),
+    fse.remove(path.join(cwd, 'package-lock.json')),
+    fse.remove(path.join(cwd, 'yarn.lock')),
   ]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -259,7 +259,7 @@ const addTypescript = async ({ cwd }: Options) => {
       include: ['src/*'],
     };
     const tsConfigJsonPath = path.resolve(cwd, 'tsconfig.json');
-    await writeJSON(tsConfigJsonPath, tsConfig, { encoding: 'utf8', spaces: 2 });
+    await fse.writeJSON(tsConfigJsonPath, tsConfig, { encoding: 'utf8', spaces: 2 });
   } catch (e) {
     logger.error(`🚨 Creating tsconfig.json failed`);
     throw e;

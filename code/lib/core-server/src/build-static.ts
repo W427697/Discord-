@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { copy, emptyDir, ensureDir } from 'fs-extra';
+import fse from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
 import { logger } from '@storybook/node-logger';
@@ -42,8 +42,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   if (options.outputDir === '/') {
     throw new Error("Won't remove directory '/'. Check your outputDir!");
   }
-  await emptyDir(options.outputDir);
-  await ensureDir(options.outputDir);
+  await fse.emptyDir(options.outputDir);
+  await fse.ensureDir(options.outputDir);
 
   const config = await loadMainConfig(options);
   const { framework } = config;
@@ -127,7 +127,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     dirname(require.resolve('@storybook/core-server/package.json')),
     'public'
   );
-  effects.push(copy(coreServerPublicDir, options.outputDir));
+  effects.push(fse.copy(coreServerPublicDir, options.outputDir));
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
     Promise.resolve(undefined);

@@ -2,7 +2,7 @@ import path from 'path';
 import { DefinePlugin } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import findUp from 'find-up';
-import { pathExists } from 'fs-extra';
+import fse from 'fs-extra';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { NextConfig } from 'next';
 import { pathToFileURL } from 'node:url';
@@ -43,7 +43,7 @@ export const resolveNextConfig = async ({
 }): Promise<NextConfig> => {
   const nextConfigFile = nextConfigPath || (await findNextConfigFile(configDir));
 
-  if (!nextConfigFile || (await pathExists(nextConfigFile)) === false) {
+  if (!nextConfigFile || (await fse.pathExists(nextConfigFile)) === false) {
     return {};
   }
 

@@ -2,7 +2,7 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { createWriteStream, move, remove } from 'fs-extra';
+import fse from 'fs-extra';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
@@ -29,7 +29,7 @@ const originalStdErrWrite = process.stderr.write.bind(process.stdout);
 
 const augmentLogsToFile = () => {
   TEMP_LOG_FILE_PATH = tempy.file({ name: LOG_FILE_NAME });
-  const logStream = createWriteStream(TEMP_LOG_FILE_PATH);
+  const logStream = fse.createWriteStream(TEMP_LOG_FILE_PATH);
 
   process.stdout.write = (d: string) => {
     originalStdOutWrite(d);
@@ -99,9 +99,9 @@ export const automigrate = async ({
 
   // if migration failed, display a log file in the users cwd
   if (hasFailures) {
-    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
+    await fse.move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
   } else {
-    await remove(TEMP_LOG_FILE_PATH);
+    await fse.remove(TEMP_LOG_FILE_PATH);
   }
 
   if (!hideMigrationSummary) {

@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import findCacheDirectory from 'find-cache-dir';
 import { init, parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
-import { ensureFile, writeFile } from 'fs-extra';
+import fse from 'fs-extra';
 import type { Alias, Plugin } from 'vite';
 
 const escapeKeys = (key: string) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -57,8 +57,8 @@ export async function externalGlobalsPlugin(externals: Record<string, string>) {
         (Object.keys(externals) as Array<keyof typeof externals>).map(async (externalKey) => {
           const externalCachePath = join(cachePath, `${externalKey}.js`);
           newAlias.push({ find: new RegExp(`^${externalKey}$`), replacement: externalCachePath });
-          await ensureFile(externalCachePath);
-          await writeFile(externalCachePath, `module.exports = ${externals[externalKey]};`);
+          await fse.ensureFile(externalCachePath);
+          await fse.writeFile(externalCachePath, `module.exports = ${externals[externalKey]};`);
         })
       );
 

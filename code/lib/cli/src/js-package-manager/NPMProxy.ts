@@ -1,4 +1,3 @@
-import sort from 'semver/functions/sort';
 import { platform } from 'os';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
@@ -270,7 +269,7 @@ export class NPMProxy extends JsPackageManager {
         } else {
           acc[name] = [value];
         }
-        existingVersions[name] = sort([...(existingVersions[name] || []), value.version]);
+        existingVersions[name] = semver.sort([...(existingVersions[name] || []), value.version]);
 
         if (existingVersions[name].length > 1) {
           duplicatedDependencies[name] = existingVersions[name];

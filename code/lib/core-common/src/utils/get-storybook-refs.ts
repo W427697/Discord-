@@ -1,4 +1,4 @@
-import { readJSON } from 'fs-extra';
+import fse from 'fs-extra';
 import { dirname, join } from 'path';
 import findUp from 'find-up';
 import fetch from 'node-fetch';
@@ -14,7 +14,7 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
   }
   const directory = dirname(location);
 
-  const { dependencies = [], devDependencies = [] } = (await readJSON(location)) || {};
+  const { dependencies = [], devDependencies = [] } = (await fse.readJSON(location)) || {};
   const deps = Object.keys({ ...dependencies, ...devDependencies });
 
   const list = await Promise.all(
@@ -22,7 +22,7 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
       try {
         const l = resolveFrom(directory, join(d, 'package.json'));
 
-        const { storybook, name, version } = (await readJSON(l)) || {};
+        const { storybook, name, version } = (await fse.readJSON(l)) || {};
 
         if (storybook?.url) {
           return { id: name, ...storybook, version };

@@ -1,4 +1,4 @@
-import { writeFile, pathExists } from 'fs-extra';
+import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
@@ -56,7 +56,7 @@ export const writeBabelConfigFile = async ({
     2
   );
 
-  await writeFile(fileLocation, contents);
+  await fse.writeFile(fileLocation, contents);
 };
 
 export const generateStorybookBabelConfig = async ({ target }: { target: string }) => {
@@ -65,7 +65,7 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
   const fileName = '.babelrc.json';
   const location = path.join(target, fileName);
 
-  const exists = await pathExists(location);
+  const exists = await fse.pathExists(location);
 
   if (exists) {
     const { overwrite } = await prompts({

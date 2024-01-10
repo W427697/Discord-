@@ -1,7 +1,7 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
 import execa from 'execa';
-import { readdirSync, remove } from 'fs-extra';
+import fse from 'fs-extra';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 
@@ -176,7 +176,7 @@ export const scaffoldNewProject = async (
   try {
     // If target directory has a .cache folder, remove it
     // so that it does not block the creation of the new project
-    await remove(`${targetDir}/.cache`);
+    await fse.remove(`${targetDir}/.cache`);
 
     // Create new project in temp directory
     await execa.command(createScript, {
@@ -228,7 +228,7 @@ const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string
 
 export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
-  const cwdFolderEntries = readdirSync(process.cwd());
+  const cwdFolderEntries = fse.readdirSync(process.cwd());
 
   const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 

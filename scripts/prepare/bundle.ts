@@ -110,6 +110,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
                 }),
               ],
         external: externals,
+        banner:
+          platform === 'node'
+            ? {
+                js: dedent`
+                  import { createRequire } from 'node:module';
+                  const require = createRequire(import.meta.url);
+                `,
+              }
+            : {},
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */

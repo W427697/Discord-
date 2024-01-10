@@ -1,12 +1,12 @@
 import chalk from 'chalk';
-import { gt, satisfies } from 'semver';
+import semver from 'semver';
 import type { CommonOptions } from 'execa';
 import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';
-import { readFile, writeFile, readFileSync } from 'fs-extra';
+import fse from 'fs-extra';
 import invariant from 'tiny-invariant';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
@@ -97,7 +97,7 @@ export abstract class JsPackageManager {
         const packageJsonPath = require.resolve(`${cwd}/package.json`);
 
         // read packagejson with readFileSync
-        const packageJsonFile = readFileSync(packageJsonPath, 'utf8');
+        const packageJsonFile = fse.readFileSync(packageJsonPath, 'utf8');
         const packageJson = JSON.parse(packageJsonFile) as PackageJsonWithDepsAndDevDeps;
 
         if (packageJson.workspaces) {
@@ -156,7 +156,7 @@ export abstract class JsPackageManager {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
 
-    const jsonContent = await readFile(packageJsonPath, 'utf8');
+    const jsonContent = await fse.readFile(packageJsonPath, 'utf8');
     return JSON.parse(jsonContent);
   }
 
@@ -183,7 +183,7 @@ export abstract class JsPackageManager {
     }
 
     const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
-    await writeFile(this.packageJsonPath(), content, 'utf8');
+    await fse.writeFile(this.packageJsonPath(), content, 'utf8');
   }
 
   /**
@@ -386,7 +386,9 @@ export abstract class JsPackageManager {
     }
 
     const versionToUse =
-      current && (!constraint || satisfies(current, constraint)) && gt(current, latest)
+      current &&
+      (!constraint || semver.satisfies(current, constraint)) &&
+      semver.gt(current, latest)
         ? current
         : latest;
     return `^${versionToUse}`;
@@ -408,7 +410,7 @@ export abstract class JsPackageManager {
 
     const latestVersionSatisfyingTheConstraint = versions
       .reverse()
-      .find((version) => satisfies(version, constraint));
+      .find((version) => semver.satisfies(version, constraint));
     invariant(
       latestVersionSatisfyingTheConstraint != null,
       'No version satisfying the constraint.'

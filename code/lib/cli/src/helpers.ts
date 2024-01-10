@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
 import path, { join } from 'path';
-import { coerce, satisfies } from 'semver';
+import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
@@ -143,7 +143,7 @@ export async function getBabelDependencies(
       babelCoreVersion
     );
     // Babel 6
-    if (satisfies(latestCompatibleBabelVersion, '^6.0.0')) {
+    if (semver.satisfies(latestCompatibleBabelVersion, '^6.0.0')) {
       babelLoaderVersion = '^7.0.0';
     }
   }
@@ -312,7 +312,7 @@ export async function isNxProject() {
 }
 
 export function coerceSemver(version: string) {
-  const coercedSemver = coerce(version);
+  const coercedSemver = semver.coerce(version);
   invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
   return coercedSemver;
 }

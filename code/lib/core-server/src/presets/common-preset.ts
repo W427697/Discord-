@@ -1,4 +1,4 @@
-import fs, { pathExists, readFile } from 'fs-extra';
+import fse from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
@@ -75,14 +75,14 @@ export const favicon = async (
         if (targetEndpoint === '/') {
           const url = 'favicon.svg';
           const path = join(staticPath, url);
-          if (await pathExists(path)) {
+          if (await fse.pathExists(path)) {
             results.push(path);
           }
         }
         if (targetEndpoint === '/') {
           const url = 'favicon.ico';
           const path = join(staticPath, url);
-          if (await pathExists(path)) {
+          if (await fse.pathExists(path)) {
             results.push(path);
           }
         }
@@ -228,8 +228,8 @@ export const docs: PresetProperty<'docs'> = (docsOptions, { docs: docsMode }: CL
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
-  if (await pathExists(location)) {
-    const contents = readFile(location, 'utf-8');
+  if (await fse.pathExists(location)) {
+    const contents = fse.readFile(location, 'utf-8');
     const interpolations = options.presets.apply<Record<string, string>>('env');
 
     return interpolate(await contents, await interpolations);
@@ -310,7 +310,7 @@ export const experimental_serverChannel = async (
         invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
         const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await fs.writeFile(mainPath, printConfig(main).code);
+        await fse.writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }

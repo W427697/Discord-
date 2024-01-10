@@ -23,4 +23,4 @@ process.once('uncaughtException', (error) => {
   throw error;
 });
 
-require('../dist/generate.js');
+import('../dist/generate.js');

@@ -1,5 +1,5 @@
 import type { Router, Request, Response } from 'express';
-import { writeJSON } from 'fs-extra';
+import fse from 'fs-extra';
 
 import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
 import debounce from 'lodash/debounce.js';
@@ -18,7 +18,7 @@ export async function extractStoriesJson(
 ) {
   const generator = await initializedStoryIndexGenerator;
   const storyIndex = await generator.getIndex();
-  await writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
+  await fse.writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
 }
 
 export function useStoriesJson({

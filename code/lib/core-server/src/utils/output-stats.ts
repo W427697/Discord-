@@ -1,8 +1,8 @@
-import { stringifyStream } from '@discoveryjs/json-ext';
+import dje from '@discoveryjs/json-ext';
 import { logger } from '@storybook/node-logger';
 import type { Stats } from '@storybook/types';
 import chalk from 'chalk';
-import fs from 'fs-extra';
+import fse from 'fs-extra';
 import path from 'path';
 
 export async function outputStats(directory: string, previewStats?: any, managerStats?: any) {
@@ -20,9 +20,10 @@ export const writeStats = async (directory: string, name: string, stats: Stats) 
   const filePath = path.join(directory, `${name}-stats.json`);
   const { chunks, ...data } = stats.toJson(); // omit chunks, which is about half of the total data
   await new Promise((resolve, reject) => {
-    stringifyStream(data, null, 2)
+    dje
+      .stringifyStream(data, null, 2)
       .on('error', reject)
-      .pipe(fs.createWriteStream(filePath))
+      .pipe(fse.createWriteStream(filePath))
       .on('error', reject)
       .on('finish', resolve);
   });

@@ -1,9 +1,9 @@
-import { minVersion, validRange } from 'semver';
+import semver from 'semver';
 
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  if (validRange(versionRange)) {
-    return minVersion(versionRange)?.major === major;
+  if (semver.validRange(versionRange)) {
+    return semver.minVersion(versionRange)?.major === major;
   }
   return false;
 }

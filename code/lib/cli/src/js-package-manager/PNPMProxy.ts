@@ -1,4 +1,4 @@
-import { pathExistsSync } from 'fs-extra';
+import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import path from 'path';
@@ -39,7 +39,7 @@ export class PNPMProxy extends JsPackageManager {
     const CWD = process.cwd();
 
     const pnpmWorkspaceYaml = `${CWD}/pnpm-workspace.yaml`;
-    return pathExistsSync(pnpmWorkspaceYaml);
+    return fse.pathExistsSync(pnpmWorkspaceYaml);
   }
 
   async initPackageJson() {

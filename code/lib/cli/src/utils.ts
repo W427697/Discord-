@@ -1,5 +1,5 @@
 import type { WriteStream } from 'fs-extra';
-import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
+import fse from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';
@@ -82,15 +82,15 @@ export const createLogStream = async (
   const finalLogPath = join(process.cwd(), logFileName);
   const temporaryLogPath = tempy.file({ name: logFileName });
 
-  const logStream = createWriteStream(temporaryLogPath, { encoding: 'utf8' });
+  const logStream = fse.createWriteStream(temporaryLogPath, { encoding: 'utf8' });
 
   return new Promise((resolve, reject) => {
     logStream.once('open', () => {
-      const moveLogFile = async () => move(temporaryLogPath, finalLogPath, { overwrite: true });
-      const clearLogFile = async () => writeFile(temporaryLogPath, '');
-      const removeLogFile = async () => remove(temporaryLogPath);
+      const moveLogFile = async () => fse.move(temporaryLogPath, finalLogPath, { overwrite: true });
+      const clearLogFile = async () => fse.writeFile(temporaryLogPath, '');
+      const removeLogFile = async () => fse.remove(temporaryLogPath);
       const readLogFile = async () => {
-        return readFile(temporaryLogPath, 'utf8');
+        return fse.readFile(temporaryLogPath, 'utf8');
       };
       resolve({ logStream, moveLogFile, clearLogFile, removeLogFile, readLogFile });
     });

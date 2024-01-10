@@ -5,7 +5,7 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
-import { existsSync, readdir } from 'fs-extra';
+import fse from 'fs-extra';
 import invariant from 'tiny-invariant';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
@@ -115,7 +115,7 @@ export const sandbox = async ({
 
   let selectedDirectory = outputDirectory;
   const outputDirectoryName = outputDirectory || selectedTemplate;
-  if (selectedDirectory && existsSync(`${selectedDirectory}`)) {
+  if (selectedDirectory && fse.existsSync(`${selectedDirectory}`)) {
     logger.info(`⚠️  ${selectedDirectory} already exists! Overwriting...`);
   }
 
@@ -127,7 +127,7 @@ export const sandbox = async ({
         name: 'directory',
         initial: outputDirectoryName ?? undefined,
         validate: async (directoryName) =>
-          existsSync(directoryName)
+          fse.existsSync(directoryName)
             ? `${directoryName} already exists. Please choose another name.`
             : true,
       },
@@ -159,7 +159,7 @@ export const sandbox = async ({
         dir: templateDestination,
       });
       // throw an error if templateDestination is an empty directory using fs-extra
-      if ((await readdir(templateDestination)).length === 0) {
+      if ((await fse.readdir(templateDestination)).length === 0) {
         throw new Error(
           dedent`Template downloaded from ${chalk.blue(gitPath)} is empty.
           Are you use it exists? Or did you want to set ${chalk.yellow(
