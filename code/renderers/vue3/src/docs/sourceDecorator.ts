@@ -13,7 +13,7 @@ import type {
   InterpolationNode,
   TemplateChildNode,
 } from '@vue/compiler-core';
-import { parse } from  '@vue/compiler-dom';
+import { parse } from '@vue/compiler-dom';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
 import { kebabCase } from 'lodash';
