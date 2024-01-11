@@ -133,6 +133,8 @@ export abstract class JsPackageManager {
 
     done = commandLog('Installing dependencies');
 
+    logger.log();
+
     try {
       await this.runInstall();
       done();
