@@ -56,6 +56,7 @@
     - [storyIndexers](#storyindexers)
     - [Deprecated docs parameters](#deprecated-docs-parameters)
     - [Description Doc block properties](#description-doc-block-properties)
+    - [Story Doc block properties](#story-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
@@ -923,6 +924,12 @@ More info [here](#autodocs-changes) and [here](#source-block).
 #### Description Doc block properties
 
 `children`, `markdown` and `type` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Story Doc block properties
+
+The `story` prop is now removed in favor of the `of` property. [More info](#doc-blocks).
+
+Additionally, given that CSF in MDX is not supported anymore, the following props are also removed: `args`, `argTypes`, `decorators`, `loaders`, `name`, `parameters`, `play`, `render`, and `storyName`. [More info](#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support).
 
 #### Manager API expandAll and collapseAll methods
 

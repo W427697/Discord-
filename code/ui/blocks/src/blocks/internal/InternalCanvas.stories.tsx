@@ -109,7 +109,7 @@ export const LayoutAsChildProp: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={ButtonStories.Primary} parameters={{ layout: 'fullscreen' }} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -122,7 +122,7 @@ export const LayoutAsChildPropMultiple: Story = {
       <Canvas {...args}>
         <h1>Fullscreen</h1>
         <StoryComponent of={ButtonStories.Secondary} />
-        <StoryComponent of={ButtonStories.Large} parameters={{ layout: 'fullscreen' }} />
+        <StoryComponent of={ButtonStories.Large} />
         <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );

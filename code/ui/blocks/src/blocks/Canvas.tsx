@@ -128,13 +128,6 @@ const useDeprecatedPreviewProps = (
 
   // if the user has specified a layout prop, use that...
   let layout = layoutProp;
-  // ...otherwise, try to infer it from the children 'parameters' prop
-  Children.forEach(children, (child) => {
-    if (layout) {
-      return;
-    }
-    layout = (child as ReactElement)?.props?.parameters?.layout;
-  });
   // ...otherwise, try to infer it from the story parameters
   stories.forEach((story) => {
     if (layout || !story) {
