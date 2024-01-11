@@ -10,15 +10,12 @@ import type versions from './versions';
 vi.mock('@storybook/telemetry');
 vi.mock('./versions', async (importOriginal) => {
   const originalVersions = ((await importOriginal()) as { default: typeof versions }).default;
-  // console.dir({ originalVersions }, { depth: 10 });
-  const result = {
+  return {
     default: Object.keys(originalVersions).reduce((acc, key) => {
       acc[key] = '8.0.0';
       return acc;
     }, {} as Record<string, string>),
   };
-  // console.dir({ result }, { depth: 10 });
-  return result;
 });
 
 describe.each([
