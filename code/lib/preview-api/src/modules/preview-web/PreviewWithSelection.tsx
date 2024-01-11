@@ -116,12 +116,12 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   }
 
   async setInitialGlobals() {
-    if (!this.storyStore)
+    if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'setInitialGlobals' });
 
     const { globals } = this.selectionStore.selectionSpecifier || {};
     if (globals) {
-      this.storyStore.globals.updateFromPersisted(globals);
+      this.storyStoreValue.globals.updateFromPersisted(globals);
     }
     this.emitGlobals();
   }
@@ -135,7 +135,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
   // Use the selection specifier to choose a story, then render it
   async selectSpecifiedStory() {
-    if (!this.storyStore)
+    if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({
         methodName: 'selectSpecifiedStory',
       });
@@ -153,11 +153,11 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     }
 
     const { storySpecifier, args } = this.selectionStore.selectionSpecifier;
-    const entry = this.storyStore.storyIndex.entryFromSpecifier(storySpecifier);
+    const entry = this.storyStoreValue.storyIndex.entryFromSpecifier(storySpecifier);
 
     if (!entry) {
       if (storySpecifier === '*') {
-        this.renderStoryLoadingException(storySpecifier, new EmptyIndexError({}));
+        this.renderStoryLoadingException(storySpecifier, new EmptyIndexError());
       } else {
         this.renderStoryLoadingException(
           storySpecifier,
@@ -252,8 +252,8 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   }
 
   async onPreloadStories({ ids }: { ids: string[] }) {
-    const { storyStore } = this;
-    if (!storyStore)
+    const { storyStoreValue } = this;
+    if (!storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onPreloadStories' });
 
     /**
@@ -262,7 +262,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
      * we'll use the currently active iframe which can cause the event to be targeted
      * to the wrong iframe, causing an error if the storyId does not exists there.
      */
-    await Promise.allSettled(ids.map((id) => storyStore.loadEntry(id)));
+    await Promise.allSettled(ids.map((id) => storyStoreValue.loadEntry(id)));
   }
 
   // RENDERING
@@ -274,7 +274,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   //     in which case we render the docsPage for that story
   protected async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
     const { renderToCanvas } = this;
-    if (!this.storyStore || !renderToCanvas)
+    if (!this.storyStoreValue || !renderToCanvas)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'renderSelection' });
 
     const { selection } = this.selectionStore;
@@ -285,7 +285,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     const { storyId } = selection;
     let entry;
     try {
-      entry = await this.storyStore.storyIdToEntry(storyId);
+      entry = await this.storyStoreValue.storyIdToEntry(storyId);
     } catch (err) {
       if (this.currentRender) await this.teardownRender(this.currentRender);
       this.renderStoryLoadingException(storyId, err as Error);
@@ -316,7 +316,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     if (entry.type === 'story') {
       render = new StoryRender<TRenderer>(
         this.channel,
-        this.storyStore,
+        this.storyStoreValue,
         (...args: Parameters<typeof renderToCanvas>) => {
           // At the start of renderToCanvas we make the story visible (see note in WebView)
           this.view.showStoryDuringRender();
@@ -329,14 +329,14 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     } else if (isMdxEntry(entry)) {
       render = new MdxDocsRender<TRenderer>(
         this.channel,
-        this.storyStore,
+        this.storyStoreValue,
         entry,
         this.mainStoryCallbacks(storyId)
       );
     } else {
       render = new CsfDocsRender<TRenderer>(
         this.channel,
-        this.storyStore,
+        this.storyStoreValue,
         entry,
         this.mainStoryCallbacks(storyId)
       );
@@ -366,7 +366,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
     if (persistedArgs && isStoryRender(render)) {
       invariant(!!render.story);
-      this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
+      this.storyStoreValue.args.updateFromPersisted(render.story, persistedArgs);
     }
 
     // Don't re-render the story if nothing has changed to justify it
@@ -394,9 +394,8 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
     if (isStoryRender(render)) {
       invariant(!!render.story);
-      const { parameters, initialArgs, argTypes, unmappedArgs } = this.storyStore.getStoryContext(
-        render.story
-      );
+      const { parameters, initialArgs, argTypes, unmappedArgs } =
+        this.storyStoreValue.getStoryContext(render.story);
 
       this.channel.emit(STORY_PREPARED, {
         id: storyId,
@@ -414,11 +413,11 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
       }
     } else {
       // Default to the project parameters for MDX docs
-      let { parameters } = this.storyStore.projectAnnotations;
+      let { parameters } = this.storyStoreValue.projectAnnotations;
 
       if (isCsfDocsRender(render) || render.entry.tags?.includes(ATTACHED_MDX_TAG)) {
         if (!render.csfFiles) throw new MdxFileWithNoCsfReferencesError({ storyId });
-        ({ parameters } = this.storyStore.preparedMetaFromCSFFile({
+        ({ parameters } = this.storyStoreValue.preparedMetaFromCSFFile({
           csfFile: render.csfFiles[0],
         }));
       }

@@ -80,10 +80,6 @@ export class CalledExtractOnStoreError extends StorybookError {
 
   readonly code = 3;
 
-  constructor(public data: object) {
-    super();
-  }
-
   template() {
     return dedent`
     Cannot call \`storyStore.extract()\` without calling \`storyStore.cacheAllCsfFiles()\` first.
@@ -96,7 +92,7 @@ export class MissingRenderToCanvasError extends StorybookError {
   readonly category = Category.PREVIEW_API;
 
   readonly code = 4;
-  
+
   readonly documentation =
     'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field';
 
@@ -176,10 +172,6 @@ export class EmptyIndexError extends StorybookError {
 
   readonly code = 8;
 
-  constructor(public data: object) {
-    super();
-  }
-
   template() {
     return dedent`
       Couldn't find any stories in your Storybook.
@@ -227,5 +219,19 @@ export class MissingStoryFromCsfFileError extends StorybookError {
     - You have a custom file loader that is removing or renaming exports.
 
     Please check your browser console and terminal for errors that may explain the issue.`;
+  }
+}
+
+export class StoryStoreAccessedBeforeInitializationError extends StorybookError {
+  readonly category = Category.PREVIEW_API;
+
+  readonly code = 11;
+
+  template() {
+    return dedent`
+    Cannot access the Story Store until the index is ready.
+
+    It is not recommended to use methods directly on the Story Store anyway, in Storybook 9 we will
+    remove access to the store entirely`;
   }
 }

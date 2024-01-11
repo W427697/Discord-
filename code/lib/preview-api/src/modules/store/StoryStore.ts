@@ -255,7 +255,7 @@ export class StoryStore<TRenderer extends Renderer> {
     options: { includeDocsOnly?: boolean } = { includeDocsOnly: false }
   ): Record<StoryId, StoryContextForEnhancers<TRenderer>> {
     const { cachedCSFFiles } = this;
-    if (!cachedCSFFiles) throw new CalledExtractOnStoreError({});
+    if (!cachedCSFFiles) throw new CalledExtractOnStoreError();
 
     return Object.entries(this.storyIndex.entries).reduce(
       (acc, [storyId, { type, importPath }]) => {
