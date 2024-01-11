@@ -44,5 +44,20 @@ test.describe('tags', () => {
     // Sidebar should exclude test-only stories and their docs
     const componentEntry = await page.locator('#lib-preview-api-test-only-tag').all();
     expect(componentEntry.length).toBe(0);
+
+    // Even though test-only autodocs not sidebar, it is still in the preview
+    // Even though the test-only story is filtered out of the stories, it is still the primary story (should it be?)
+    await sbPage.deepLinkToStory(storybookUrl, 'lib/preview-api/test-only-tag', 'docs');
+    await sbPage.waitUntilLoaded();
+    let root = sbPage.previewRoot();
+    let button = await root.locator('button', { hasText: 'button' });
+    expect(button).toBeVisible();
+
+    // Even though test-only story not sidebar, it is still in the preview
+    await sbPage.deepLinkToStory(storybookUrl, 'lib/preview-api/test-only-tag', 'default');
+    await sbPage.waitUntilLoaded();
+    root = sbPage.previewRoot();
+    button = await root.locator('button', { hasText: 'button' });
+    expect(button).toBeVisible();
   });
 });
