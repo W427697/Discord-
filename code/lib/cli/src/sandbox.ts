@@ -13,7 +13,7 @@ import { allTemplates as TEMPLATES } from './sandbox-templates';
 import type { PackageJson, PackageManagerName } from './js-package-manager';
 import { JsPackageManagerFactory } from './js-package-manager';
 import versions from './versions';
-import { doInitiate, initiate } from './initiate';
+import { doInitiate } from './initiate';
 
 const logger = console;
 
@@ -29,7 +29,7 @@ type Choice = keyof typeof TEMPLATES;
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
 export const sandbox = async (
-  { output: outputDirectory, filterValue, branch, init, ...options }: SandboxOptions,
+  { output: outputDirectory, filterValue, init, ...options }: SandboxOptions,
   pkg: PackageJson
 ) => {
   // Either get a direct match when users pass a template id, or filter through all templates
@@ -42,13 +42,14 @@ export const sandbox = async (
     force: pkgMgr,
   });
   const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const nextVersion = await packageManager.latestVersion('@storybook/cli@next');
   const currentVersion = versions['@storybook/cli'];
   const isPrerelease = prerelease(currentVersion);
-  const isOutdated = lt(currentVersion, latestVersion);
+  const isOutdated = lt(currentVersion, isPrerelease ? nextVersion : latestVersion);
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
-  const downloadType =
-    !isOutdated && !isPrerelease && init ? 'after-storybook' : 'before-storybook';
+  const downloadType = !isOutdated && init ? 'after-storybook' : 'before-storybook';
+  const branch = isPrerelease ? 'next' : 'main';
 
   const messages = {
     welcome: `Creating a Storybook ${chalk.bold(currentVersion)} sandbox..`,
@@ -193,7 +194,7 @@ export const sandbox = async (
 
     logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
 
-    logger.log('📦 Downloading sandbox template...');
+    logger.log(`📦 Downloading sandbox template (${chalk.bold(downloadType)})...`);
     try {
       // Download the sandbox based on subfolder "after-storybook" and selected branch
       const gitPath = `github:storybookjs/sandboxes/${templateId}/${downloadType}#${branch}`;
