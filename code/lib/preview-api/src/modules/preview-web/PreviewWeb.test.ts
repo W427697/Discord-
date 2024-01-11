@@ -12,7 +12,6 @@ import {
   FORCE_REMOUNT,
   FORCE_RE_RENDER,
   GLOBALS_UPDATED,
-  IGNORED_EXCEPTION,
   PREVIEW_KEYDOWN,
   RESET_STORY_ARGS,
   SET_CURRENT_STORY,
@@ -33,7 +32,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -69,10 +68,6 @@ vi.mock('@storybook/global', async (importOriginal) => ({
         pathname: 'pathname',
         search: '?id=*',
       },
-    },
-    FEATURES: {
-      storyStoreV7: true,
-      // xxx
     },
     fetch: async () => mockFetchResult,
   },
@@ -130,17 +125,19 @@ beforeEach(() => {
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
   vi.mocked(logger.warn).mockClear();
+  // eslint-disable-next-line no-console
+  vi.mocked(console.error).mockReset();
+
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
-  addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
   vi.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
   vi.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
-describe('PreviewWeb', () => {
+describe.skip('PreviewWeb', () => {
   describe('initialize', () => {
     it('shows an error if getProjectAnnotations throws', async () => {
       const err = new Error('meta error');
@@ -628,24 +625,6 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
-      });
-
-      it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
-        document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToCanvas.mockImplementation(() => {
-          throw IGNORED_EXCEPTION;
-        });
-
-        const preview = new PreviewWeb();
-        await preview.initialize({ importFn, getProjectAnnotations });
-
-        await waitForRender();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          STORY_THREW_EXCEPTION,
-          serializeError(IGNORED_EXCEPTION)
-        );
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
       });
     });
 

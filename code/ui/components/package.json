@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "8.0.0-alpha.4",
+  "version": "8.0.0-alpha.9",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -63,7 +63,7 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.1",
+    "@storybook/icons": "^1.2.3",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
@@ -72,6 +72,7 @@
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
     "@radix-ui/react-scroll-area": "^1.0.5",
+    "@storybook/test": "workspace:*",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
