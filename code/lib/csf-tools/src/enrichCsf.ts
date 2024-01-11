@@ -9,16 +9,10 @@ export interface EnrichCsfOptions {
   disableDescription?: boolean;
 }
 
-export const enrichCsfStory = (
-  csf: CsfFile,
-  csfSource: CsfFile,
-  key: string,
-  options?: EnrichCsfOptions
-) => {
-  const storyExport = csfSource.getStoryExport(key);
+export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOptions) => {
+  const storyExport = csf.getStoryExport(key);
   const source = !options?.disableSource && extractSource(storyExport);
-  const description =
-    !options?.disableDescription && extractDescription(csfSource._storyStatements[key]);
+  const description = !options?.disableDescription && extractDescription(csf._storyStatements[key]);
   const parameters = [];
   const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
   parameters.push(t.spreadElement(originalParameters));
@@ -117,8 +111,8 @@ const addComponentDescription = (
   addComponentDescription(subNode, rest, value);
 };
 
-export const enrichCsfMeta = (csf: CsfFile, csfSource: CsfFile, options?: EnrichCsfOptions) => {
-  const description = !options?.disableDescription && extractDescription(csfSource._metaStatement);
+export const enrichCsfMeta = (csf: CsfFile, options?: EnrichCsfOptions) => {
+  const description = !options?.disableDescription && extractDescription(csf._metaStatement);
   // docs: { description: { component: %%description%% } },
   if (description) {
     const metaNode = csf._metaNode;
@@ -132,10 +126,10 @@ export const enrichCsfMeta = (csf: CsfFile, csfSource: CsfFile, options?: Enrich
   }
 };
 
-export const enrichCsf = (csf: CsfFile, csfSource: CsfFile, options?: EnrichCsfOptions) => {
-  enrichCsfMeta(csf, csfSource, options);
+export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
+  enrichCsfMeta(csf, options);
   Object.keys(csf._storyExports).forEach((key) => {
-    enrichCsfStory(csf, csfSource, key, options);
+    enrichCsfStory(csf, key, options);
   });
 };
 
