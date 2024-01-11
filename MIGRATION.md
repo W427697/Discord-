@@ -59,6 +59,8 @@
     - [Description Doc block properties](#description-doc-block-properties)
     - [Story Doc block properties](#story-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
+    - [Source Doc block properties](#source-doc-block-properties)
+    - [Canvas Doc block properties](#canvas-doc-block-properties)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
@@ -949,6 +951,22 @@ const api = useStorybookApi()
 api.collapseAll() // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll() // becomes api.emit(STORIES_EXPAND_ALL)
 ```
+
+#### Source Doc block properties
+
+`id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
+
+#### Canvas Doc block properties
+
+The following properties were removed from the Canvas Doc block:
+
+- children
+- isColumn
+- columns
+- withSource
+- mdxSource
+
+[More info](#doc-blocks).
 
 #### `Primary` Doc block properties
 
