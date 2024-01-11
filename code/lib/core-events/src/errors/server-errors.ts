@@ -417,28 +417,6 @@ export class GenerateNewProjectOnInitError extends StorybookError {
   }
 }
 
-export class UpgradeStorybookPackagesError extends StorybookError {
-  readonly category = Category.CLI_UPGRADE;
-
-  readonly code = 2;
-
-  constructor(public data: { command: string; args: string[]; errorMessage: string }) {
-    super();
-  }
-
-  template() {
-    return dedent`
-      There was an error while trying to upgrade your Storybook dependencies.
-
-      Command:
-      ${this.data.command} ${this.data.args.join(' ')}
-
-      Error:
-      ${this.data.errorMessage}
-    `;
-  }
-}
-
 export class UpgradeStorybookToLowerVersionError extends StorybookError {
   readonly category = Category.CLI_UPGRADE;
 
