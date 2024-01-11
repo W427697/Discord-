@@ -146,7 +146,7 @@ command('sandbox [filterValue]')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }, pkg).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
