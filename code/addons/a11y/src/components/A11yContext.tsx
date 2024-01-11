@@ -5,6 +5,7 @@ import { useChannel, useAddonState, useStorybookApi } from '@storybook/manager-a
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { ADDON_ID, EVENTS } from '../constants';
+import type { A11yParameters } from '../params';
 
 export interface Results {
   passes: Result[];
@@ -70,7 +71,7 @@ export const A11yContextProvider: React.FC<React.PropsWithChildren<A11yContextPr
     );
   }, []);
   const handleRun = (renderedStoryId: string) => {
-    emit(EVENTS.REQUEST, renderedStoryId);
+    emit(EVENTS.REQUEST, renderedStoryId, api.getParameters(renderedStoryId, 'a11y'));
   };
   const handleClearHighlights = React.useCallback(() => setHighlighted([]), []);
   const handleSetTab = React.useCallback((index: number) => {
