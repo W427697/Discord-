@@ -37,6 +37,12 @@ export interface SubAPI {
    */
   getLatestVersion: () => API_Version;
   /**
+   * Returns the URL of the Storybook documentation for the current version.
+   *
+   * @returns {string} The URL of the Storybook Manager documentation.
+   */
+  getVersionDocsBaseUrl: () => string;
+  /**
    * Checks if an update is available for the Storybook Manager.
    *
    * @returns {boolean} True if an update is available, false otherwise.
@@ -72,6 +78,25 @@ export const init: ModuleFn = ({ store }) => {
         return (latest && semver.gt(latest.version, next.version) ? latest : next) as API_Version;
       }
       return latest as API_Version;
+    },
+    getVersionDocsBaseUrl: () => {
+      const {
+        versions: { latest, current },
+      } = store.getState();
+
+      if (!current?.version || !latest?.version) {
+        return 'https://storybook.js.org/docs/';
+      }
+
+      const versionDiff = semver.diff(latest.version, current.version);
+
+      const isLatestDocs = versionDiff === 'patch' || versionDiff === null;
+
+      return isLatestDocs
+        ? 'https://storybook.js.org/docs/'
+        : `https://storybook.js.org/docs/${semver.major(current.version)}.${semver.minor(
+            current.version
+          )}/`;
     },
     versionUpdateAvailable: () => {
       const latest = api.getLatestVersion();

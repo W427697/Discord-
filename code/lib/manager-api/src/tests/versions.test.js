@@ -122,6 +122,104 @@ describe('versions API', () => {
     });
   });
 
+  describe('METHOD: getVersionDocsBaseUrl()', () => {
+    it('returns the latest url when current version is latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.1' },
+        },
+      });
+
+      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the latest url when version has patch diff with latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the versioned url when current has different docs to latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.2.5' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/7.2/');
+    });
+
+    it('returns the versioned url when current is a prerelease', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '8.0.0-beta' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/8.0/');
+    });
+  });
+
   describe('versionUpdateAvailable', () => {
     it('matching version', async () => {
       const store = createMockStore();
