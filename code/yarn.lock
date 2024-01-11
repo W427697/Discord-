@@ -2152,7 +2152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.22.15":
+"@babel/preset-react@npm:^7.22.15, @babel/preset-react@npm:^7.23.3":
   version: 7.23.3
   resolution: "@babel/preset-react@npm:7.23.3"
   dependencies:
@@ -5694,6 +5694,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/docs-tools@workspace:lib/docs-tools"
   dependencies:
+    "@babel/preset-react": "npm:^7.23.3"
     "@storybook/core-common": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
