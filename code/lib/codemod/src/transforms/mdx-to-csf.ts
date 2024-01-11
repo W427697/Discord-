@@ -304,9 +304,9 @@ export function transform(source: string, baseName: string): [string, string] {
   return [newMdx, output];
 }
 
-function getEsmAst(root: Root) {
+function getEsmAst(root: ReturnType<typeof mdxProcessor.parse>) {
   const esm: string[] = [];
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     esm.push(node.value);
   });
   const esmSource = `${esm.join('\n\n')}`;
@@ -319,9 +319,13 @@ function getEsmAst(root: Root) {
   return file;
 }
 
-function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
+function addStoriesImport(
+  root: ReturnType<typeof mdxProcessor.parse>,
+  baseName: string,
+  storyNamespaceName: string
+): void {
   let found = false;
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     if (!found) {
       node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;
       found = true;
