@@ -1,7 +1,7 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
-import semver, { coerce, eq, lt, prerelease } from 'semver';
-import { logger } from '@storybook/node-logger';
+import semver, { coerce, eq, lt } from 'semver';
+import { deprecate, logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 import {
   UpgradeStorybookToLowerVersionError,
@@ -11,8 +11,8 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { PackageManagerName } from './js-package-manager';
-import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
+import { JsPackageManagerFactory, getPackageDetails, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
@@ -91,17 +91,61 @@ export const checkVersionConsistency = () => {
   });
 };
 
-export interface UpgradeOptions {
-  skipCheck: boolean;
-  useNpm: boolean;
-  packageManager: PackageManagerName;
-  dryRun: boolean;
-  yes: boolean;
-  disableTelemetry: boolean;
-  configDir?: string;
-}
+/**
+ * DEPRECATED BEHAVIOR SECTION
+ */
 
-export const doUpgrade = async ({
+type ExtraFlags = Record<string, string[]>;
+const EXTRA_FLAGS: ExtraFlags = {
+  'react-scripts@<5': ['--reject', '/preset-create-react-app/'],
+};
+
+export const addExtraFlags = (
+  extraFlags: ExtraFlags,
+  flags: string[],
+  { dependencies, devDependencies }: PackageJsonWithMaybeDeps
+) => {
+  return Object.entries(extraFlags).reduce(
+    (acc, entry) => {
+      const [pattern, extra] = entry;
+      const [pkg, specifier] = getPackageDetails(pattern);
+      const pkgVersion = dependencies[pkg] || devDependencies[pkg];
+
+      if (pkgVersion && semver.satisfies(semver.coerce(pkgVersion), specifier)) {
+        return [...acc, ...extra];
+      }
+
+      return acc;
+    },
+    [...flags]
+  );
+};
+
+export const addNxPackagesToReject = (flags: string[]) => {
+  const newFlags = [...flags];
+  const index = flags.indexOf('--reject');
+  if (index > -1) {
+    // Try to understand if it's in the format of a regex pattern
+    if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
+      // Remove last and first slash so that I can add the parentheses
+      newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
+      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
+    } else {
+      // Adding the two packages as comma-separated values
+      // If the existing rejects are in regex format, they will be ignored.
+      // Maybe we need to find a more robust way to treat rejects?
+      newFlags[index + 1] = `${newFlags[index + 1]},@nrwl/storybook,@nx/storybook`;
+    }
+  } else {
+    newFlags.push('--reject');
+    newFlags.push('@nrwl/storybook,@nx/storybook');
+  }
+  return newFlags;
+};
+
+export const deprecatedUpgrade = async ({
+  tag,
+  prerelease,
   skipCheck,
   useNpm,
   packageManager: pkgMgr,
@@ -115,6 +159,137 @@ export const doUpgrade = async ({
     // eslint-disable-next-line no-param-reassign
     pkgMgr = 'npm';
   }
+  if (tag) {
+    deprecate(
+      'The --tag flag is deprecated. Specify the version you want to upgrade to with `npx storybook@<version> upgrade` instead'
+    );
+  } else if (prerelease) {
+    deprecate(
+      'The --prerelease flag is deprecated. Specify the version you want to upgrade to with `npx storybook@<version> upgrade` instead'
+    );
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+
+  const beforeVersion = await getStorybookCoreVersion();
+
+  commandLog(`Checking for latest versions of '@storybook/*' packages`);
+
+  if (tag && prerelease) {
+    throw new Error(
+      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
+    );
+  }
+
+  let target = 'latest';
+  if (prerelease) {
+    // '@next' is storybook's convention for the latest prerelease tag.
+    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
+    // and random releases of other packages with storybook in their name.
+    target = '@next';
+  } else if (tag) {
+    target = `@${tag}`;
+  }
+
+  let flags = [];
+  if (!dryRun) flags.push('--upgrade');
+  flags.push('--target');
+  flags.push(target);
+  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
+  flags = addNxPackagesToReject(flags);
+  const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  });
+  logger.info(check.stdout.toString());
+  logger.info(check.stderr.toString());
+
+  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  });
+  logger.info(checkSb.stdout.toString());
+  logger.info(checkSb.stderr.toString());
+
+  if (!dryRun) {
+    commandLog(`Installing upgrades`);
+    await packageManager.installDependencies();
+  }
+
+  let automigrationResults;
+  if (!skipCheck) {
+    checkVersionConsistency();
+    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
+  }
+  if (!options.disableTelemetry) {
+    const afterVersion = await getStorybookCoreVersion();
+    const { preCheckFailure, fixResults } = automigrationResults || {};
+    const automigrationTelemetry = {
+      automigrationResults: preCheckFailure ? null : fixResults,
+      automigrationPreCheckFailure: preCheckFailure || null,
+    };
+    telemetry('upgrade', {
+      prerelease,
+      tag,
+      beforeVersion,
+      afterVersion,
+      ...automigrationTelemetry,
+    });
+  }
+};
+
+/**
+ * DEPRECATED BEHAVIOR SECTION END
+ */
+
+export interface UpgradeOptions {
+  /**
+   * @deprecated
+   */
+  tag: string;
+  /**
+   * @deprecated
+   */
+  prerelease: boolean;
+  skipCheck: boolean;
+  useNpm: boolean;
+  packageManager: PackageManagerName;
+  dryRun: boolean;
+  yes: boolean;
+  disableTelemetry: boolean;
+  configDir?: string;
+}
+
+export const doUpgrade = async ({
+  tag,
+  prerelease,
+  skipCheck,
+  useNpm,
+  packageManager: pkgMgr,
+  dryRun,
+  configDir,
+  yes,
+  ...options
+}: UpgradeOptions) => {
+  if (useNpm) {
+    useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
+  }
+  if (tag || prerelease) {
+    await deprecatedUpgrade({
+      tag,
+      prerelease,
+      skipCheck,
+      useNpm,
+      packageManager: pkgMgr,
+      dryRun,
+      configDir,
+      yes,
+      ...options,
+    });
+    return;
+  }
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const currentVersion = versions['@storybook/cli'];
@@ -129,7 +304,7 @@ export const doUpgrade = async ({
 
   const latestVersion = await packageManager.latestVersion('@storybook/cli');
   const isOutdated = lt(currentVersion, latestVersion);
-  const isPrerelease = prerelease(currentVersion) !== null;
+  const isPrerelease = semver.prerelease(currentVersion) !== null;
 
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
