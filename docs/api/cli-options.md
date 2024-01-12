@@ -16,7 +16,7 @@ All of the following documentation is available in the CLI by running `storybook
 
 ### `dev`
 
-Compiles and serves a development build of your Storybook that reflects your source code changes in the browser in real time. Should be run from the root of your project.
+Compiles and serves as a development build of your Storybook that reflects your source code changes in the browser in real-time. It should be run from the root of your project.
 
 ```shell
 storybook dev [options]
@@ -52,7 +52,7 @@ With the release of Storybook 8, the `-s` CLI flag was removed. We recommend usi
 
 ### `build`
 
-Compiles your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). Should be run from the root of your project.
+Compile your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). It should be run from the root of your project.
 
 ```shell
 storybook build [options]
@@ -76,6 +76,143 @@ Options include:
 
 <Callout variant="info" icon="💡">
 
-If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, `npm run storybook build -- -o ./path/to/build`.
+The commands work slightly differently if you're using npm instead of Yarn to publish Storybook. For example, `npm run storybook build -- -o ./path/to/build`.
+
+</Callout>
+
+### `add`
+
+Installs a Storybook addon and configures your project for it. Read more in the [addon installation guide](../addons/install-addons.md).
+
+```shell
+storybook add [addon] [options]
+```
+
+Options include:
+
+| Option                     | Description                                                                                                                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--package-manager`        | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook add [addon] --package-manager pnpm` |
+| `-s`, `--skip-postinstall` | Skips post-install configuration. Used only when you need to configure the addon yourself<br/>`storybook add [addon] --skip-postinstall`                                        |
+
+### `doctor`
+
+**Added in:** Storybook 7.6
+
+Performs a health check on your Storybook project for common issues (e.g., duplicate dependencies, incompatible addons or mismatched versions) and provides suggestions on how to fix them. Applicable when [upgrading](../configure/upgrading.md#verifying-the-upgrade) Storybook versions.
+
+```shell
+storybook doctor [options]
+```
+
+Options include:
+
+| Option               | Description                                                                                                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-c`, `--config-dir` | Directory where to load Storybook configurations from<br/>`storybook doctor --config-dir .storybook`                                                                          |
+| `--package-manager`  | Sets the package manager to use when running the health check.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook doctor --package-manager pnpm` |
+
+### `upgrade`
+
+Upgrade your Storybook instance to the latest version. Read more in the [upgrade guide](../configure/upgrading.md).
+
+```shell
+storybook upgrade [options]
+```
+
+Options include:
+
+| Option               | Description                                                                                                                                                                 |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-c`, `--config-dir` | Directory where to load Storybook configurations from<br/>`storybook upgrade --config-dir .storybook`                                                                       |
+| `-n`, `--dry-run`    | Checks for version upgrades without installing them<br/>`storybook upgrade --dry-run`                                                                                       |
+| `-s`, `--skip-check` | Skips the migration check step during the upgrade process<br/> `storybook upgrade --skip-check`                                                                             |
+| `-y`, `--yes`        | Skips interactive prompts and automatically upgrades Storybook to the latest version<br/>`storybook upgrade --yes`                                                          |
+| `--package-manager`  | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook upgrade --package-manager pnpm` |
+
+### `info`
+
+Reports useful debugging information about your environment. Helpful in providing information when opening an issue or a discussion.
+
+```shell
+storybook info
+```
+
+Example output:
+
+```shell
+Storybook Environment Info:
+
+  System:
+    OS: macOS 14.2
+    CPU: (8) arm64 Apple M3
+    Shell: 5.9 - /bin/zsh
+  Binaries:
+    Node: 18.19.0 - ~/.nvm/versions/node/v18.19.0/bin/node
+    Yarn: 1.22.21 - /usr/local/bin/yarn <----- active
+    npm: 10.2.3 - ~/.nvm/versions/node/v18.19.0/bin/npm
+    pnpm: 8.12.0 - /opt/homebrew/bin/pnpm
+  Browsers:
+    Chrome: 120.0.6099.199
+    Safari: 17.2
+  npmPackages:
+    @storybook/addon-a11y: ^7.6.6 => 7.6.6
+    @storybook/addon-essentials: ^7.6.6 => 7.6.6
+    @storybook/addon-interactions: ^7.6.6 => 7.6.6
+    @storybook/addon-links: ^7.6.6 => 7.6.6
+    @storybook/addon-onboarding: ^1.0.10 => 1.0.10
+    @storybook/blocks: ^7.6.6 => 7.6.6
+    @storybook/preset-create-react-app: ^7.6.6 => 7.6.6
+    @storybook/react: ^7.6.6 => 7.6.6
+    @storybook/react-webpack5: ^7.6.6 => 7.6.6
+    @storybook/server-webpack5: ^7.6.6 => 7.6.6
+    @storybook/test: ^7.6.6 => 7.6.6
+    @storybook/test-runner: ^0.16.0 => 0.16.0
+    chromatic: ^10.2.0 => 10.2.0
+    msw-storybook-addon: ^1.10.0 => 1.10.0
+    storybook: ^7.6.6 => 7.6.6
+```
+
+### `remove`
+
+**Added in:** Storybook 8.0
+
+Deletes a Storybook addon from your project. Read more in the [addon installation guide](../addons/install-addons.md#removing-addons).
+
+```shell
+storybook remove [addon] [options]
+```
+
+Options include:
+
+| Option              | Description                                                                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--package-manager` | Sets the package manager to use when removing the addon.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook remove  [addon]--package-manager pnpm` |
+
+### `sandbox`
+
+Generates a local sandbox project for testing Storybook features based on the list of supported [frameworks](../configure/frameworks.md). Useful for reproducing bugs when opening an issue or a discussion.
+
+```shell
+storybook sandbox [framework-filter] [options]
+```
+
+<Callout variant="info">
+
+The `framework-filter` argument is optional and can filter the list of available frameworks. For example, `storybook sandbox react` will only show React-based sandboxes.
+
+</Callout>
+
+Options include:
+
+| Option                         | Description                                                                                                                                                                                                                       |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-b`, `--branch [branch name]` | Select the branch to use for the sandbox project featuring the available features present in the selected branch (`next` for the pre-release version, `main` for the latest stable release)<br/>`storybook sandbox --branch main` |
+| `-o`, `--output [dir-name]`    | Configures the location of the sandbox project<br/>`storybook sandbox --output /my-sandbox-project`                                                                                                                               |
+| `--no-init`                    | Generates a sandbox project without without initializing Storybook<br/>`storybook sandbox --no-init`                                                                                                                              |
+
+<Callout variant="info">
+
+If you're looking for a hosted version of the available sandboxes, see [storybook.new](https://new-storybook.netlify.app/).
 
 </Callout>
