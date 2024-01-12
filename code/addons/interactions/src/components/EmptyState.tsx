@@ -49,8 +49,18 @@ const Divider = styled.div(({ theme }) => ({
   backgroundColor: theme.appBorderColor,
 }));
 
+const sanitizeRendererForDocsUrl = (renderer: string) => {
+  const normalizedRenderer = renderer.toLowerCase();
+
+  if (normalizedRenderer.includes('vue')) {
+    return 'vue';
+  }
+
+  return normalizedRenderer;
+};
+
 const buildDocsUrl = (base: string, path: string, renderer: string) =>
-  `${base}${path}?renderer=${renderer}`;
+  `${base}${path}?renderer=${sanitizeRendererForDocsUrl(renderer)}`;
 
 interface EmptyProps {
   renderer: string;

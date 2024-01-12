@@ -98,7 +98,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
   }) {
     const api = useStorybookApi();
 
-    const renderer = 'react';
+    const renderer = globalThis.STORYBOOK_ENV;
     const docsUrlBase = api.getVersionDocsBaseUrl();
 
     return (

@@ -48,6 +48,16 @@ export const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
   </>
 );
 
+const sanitizeRendererForDocsUrl = (renderer: string) => {
+  const normalizedRenderer = renderer.toLowerCase();
+
+  if (normalizedRenderer.includes('vue')) {
+    return 'vue';
+  }
+
+  return normalizedRenderer;
+};
+
 export const useMenu = (
   state: State,
   api: API,
@@ -71,10 +81,13 @@ export const useMenu = (
   );
 
   const documentation = useMemo(() => {
+    const baseURL = api.getVersionDocsBaseUrl();
+    const renderer = sanitizeRendererForDocsUrl(globalThis.STORYBOOK_ENV);
+
     return {
       id: 'documentation',
       title: 'Documentation',
-      href: api.getVersionDocsBaseUrl(),
+      href: `${baseURL}?renderer=${renderer}`,
       icon: <ShareAltIcon />,
     };
   }, [api]);
