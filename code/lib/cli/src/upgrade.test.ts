@@ -9,7 +9,7 @@ jest.mock('@storybook/telemetry');
 jest.mock('./versions', () => {
   const originalVersions = jest.requireActual('./versions').default;
   return {
-    default: Object.keys(originalVersions).reduce((acc, key) => {
+    ...Object.keys(originalVersions).reduce((acc, key) => {
       acc[key] = '8.0.0';
       return acc;
     }, {} as Record<string, string>),
