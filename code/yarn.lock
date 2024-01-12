@@ -6673,9 +6673,8 @@ __metadata:
     "@testing-library/dom": "npm:^9.3.1"
     "@testing-library/jest-dom": "npm:^6.1.3"
     "@testing-library/user-event": "npm:14.3.0"
-    "@types/chai": "npm:^4"
-    "@vitest/expect": "npm:^0.34.2"
-    "@vitest/spy": "npm:^0.34.1"
+    "@vitest/expect": "npm:1.1.3"
+    "@vitest/spy": "npm:^1.1.3"
     chai: "npm:^4.3.7"
     ts-dedent: "npm:^2.2.0"
     type-fest: "npm:~2.19"
@@ -7188,13 +7187,6 @@ __metadata:
     "@types/node": "npm:*"
     "@types/responselike": "npm:^1.0.0"
   checksum: 10816a88e4e5b144d43c1d15a81003f86d649776c7f410c9b5e6579d0ad9d4ca71c541962fb403077388b446e41af7ae38d313e46692144985f006ac5e11fa03
-  languageName: node
-  linkType: hard
-
-"@types/chai@npm:^4":
-  version: 4.3.11
-  resolution: "@types/chai@npm:4.3.11"
-  checksum: 0c216ac4a19bfbf8318bb104d32e50704ee2ffc4b538b976c4326e6638fee121462402caa570662227a2a218810388aadb14bdbd3d3d474ec300b00695db448a
   languageName: node
   linkType: hard
 
@@ -8370,17 +8362,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/expect@npm:0.34.5":
-  version: 0.34.5
-  resolution: "@vitest/expect@npm:0.34.5"
-  dependencies:
-    "@vitest/spy": "npm:0.34.5"
-    "@vitest/utils": "npm:0.34.5"
-    chai: "npm:^4.3.7"
-  checksum: dc30a5e1f2732a1906df57f65381df1129dbf994496734c27e4a3f832852862501eaba1ec2987215ec12ee23a8f2ef1d8ff63c7cd5490046a7a26800da1adcb2
-  languageName: node
-  linkType: hard
-
 "@vitest/expect@npm:1.0.4":
   version: 1.0.4
   resolution: "@vitest/expect@npm:1.0.4"
@@ -8392,14 +8373,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/expect@patch:@vitest/expect@npm%3A0.34.5#./.yarn/patches/@vitest-expect-npm-0.34.5-8031508efe.patch::locator=%40storybook%2Froot%40workspace%3A.":
-  version: 0.34.5
-  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A0.34.5#./.yarn/patches/@vitest-expect-npm-0.34.5-8031508efe.patch::version=0.34.5&hash=f89b80&locator=%40storybook%2Froot%40workspace%3A."
+"@vitest/expect@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@vitest/expect@npm:1.1.3"
   dependencies:
-    "@vitest/spy": "npm:0.34.5"
-    "@vitest/utils": "npm:0.34.5"
-    chai: "npm:^4.3.7"
-  checksum: b08f0b1df6a37305f3f68feec15cfac048ca9e3924998698625394296faac4e539e23d7422eec59c0850a83b7342b574a2d2d174aaa33a7eb0004e4e366c515c
+    "@vitest/spy": "npm:1.1.3"
+    "@vitest/utils": "npm:1.1.3"
+    chai: "npm:^4.3.10"
+  checksum: fe5c9eade516a754efc26d4b6378a250f0c3b668fa15b3e6b6042190b64a65c4459b7fd67bfca72fb1fbf215feb838b68da4ab224a2a10137d8828ca6af70516
+  languageName: node
+  linkType: hard
+
+"@vitest/expect@patch:@vitest/expect@npm%3A1.1.3#~/.yarn/patches/@vitest-expect-npm-1.1.3-2062bf533f.patch":
+  version: 1.1.3
+  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A1.1.3#~/.yarn/patches/@vitest-expect-npm-1.1.3-2062bf533f.patch::version=1.1.3&hash=5d51c9"
+  dependencies:
+    "@vitest/spy": "npm:1.1.3"
+    "@vitest/utils": "npm:1.1.3"
+    chai: "npm:^4.3.10"
+  checksum: 426287f864f58b05b1c4689bc87b4ef2ca7b3316a22e8e42d94ee9c125cbc0caf294618c9a1201a8ddf8ab68ce1ab194d1e34589f7d608906a3dc679074cfe22
   languageName: node
   linkType: hard
 
@@ -8425,15 +8417,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/spy@npm:0.34.5":
-  version: 0.34.5
-  resolution: "@vitest/spy@npm:0.34.5"
-  dependencies:
-    tinyspy: "npm:^2.1.1"
-  checksum: bbee495ca6300f50dde6418d14db0d3281daf38df15abae95202ddef253d6dd8bedf9f4a79da5a2246d3758ab24aa737caccf752fabcd8ba902a4f14801c2a0c
-  languageName: node
-  linkType: hard
-
 "@vitest/spy@npm:1.0.4":
   version: 1.0.4
   resolution: "@vitest/spy@npm:1.0.4"
@@ -8443,23 +8426,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/spy@npm:^0.34.1":
-  version: 0.34.7
-  resolution: "@vitest/spy@npm:0.34.7"
+"@vitest/spy@npm:1.1.3, @vitest/spy@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@vitest/spy@npm:1.1.3"
   dependencies:
-    tinyspy: "npm:^2.1.1"
-  checksum: 1150b270eb72a5e8e7da997bcba90ebe5ed2ac50de1ea1f81738e16a19ab4bc77ca4d17639988df65695d4b325fe3647a1e4204d01024bcf5ecac8ba7764a2cc
-  languageName: node
-  linkType: hard
-
-"@vitest/utils@npm:0.34.5":
-  version: 0.34.5
-  resolution: "@vitest/utils@npm:0.34.5"
-  dependencies:
-    diff-sequences: "npm:^29.4.3"
-    loupe: "npm:^2.3.6"
-    pretty-format: "npm:^29.5.0"
-  checksum: 99cc5974ada1dab2b02220005c0fc97147baba175601a0faa1b2b6687c7f579d21a401077377d6f759b3aa8a07dcc8851cdc3e07f9a550ec289286107487ac36
+    tinyspy: "npm:^2.2.0"
+  checksum: d1692582afb7b665ec283723b15bbb7da95896cbfd7befaad9fdac6b64a8250fd918781263d43e8e10ee4874cdd18646224f6d993749c3751296dced8095a9ed
   languageName: node
   linkType: hard
 
@@ -8471,6 +8443,18 @@ __metadata:
     loupe: "npm:^2.3.7"
     pretty-format: "npm:^29.7.0"
   checksum: 4a87f98b9192f544a6d52232ed1605ac9a6d7418e35de40b4ef36d0d0f6905112a9a21f1393e16f47838e67992399958d524e6b99f6a3583c0a0527fa7557e49
+  languageName: node
+  linkType: hard
+
+"@vitest/utils@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@vitest/utils@npm:1.1.3"
+  dependencies:
+    diff-sequences: "npm:^29.6.3"
+    estree-walker: "npm:^3.0.3"
+    loupe: "npm:^2.3.7"
+    pretty-format: "npm:^29.7.0"
+  checksum: 86f48a7722927741449f40f33584dd9857629782f6661654225b5dd3c039d61cc60806c5dfe419bd793f2a231ba91fe708cbdec5d99b62a1f6f819b6f2121fc3
   languageName: node
   linkType: hard
 
@@ -26996,7 +26980,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyspy@npm:^2.1.1, tinyspy@npm:^2.2.0":
+"tinyspy@npm:^2.2.0":
   version: 2.2.0
   resolution: "tinyspy@npm:2.2.0"
   checksum: 8c7b70748dd8590e85d52741db79243746c15bc03c92d75c23160a762142db577e7f53e360ba7300e321b12bca5c42dd2522a8dbeec6ba3830302573dd8516bc
