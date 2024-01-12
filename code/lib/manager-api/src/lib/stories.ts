@@ -215,11 +215,6 @@ export const transformStoryIndexToStoriesHash = (
           startCollapsed: collapsedRoots.includes(id),
           // Note that this will later get appended to the previous list of children (see below)
           children: [childId],
-
-          // deprecated fields
-          isRoot: true,
-          isComponent: false,
-          isLeaf: false,
         });
         // Usually the last path/name pair will be displayed as a component,
         // *unless* there are other stories that are more deeply nested under it
@@ -240,10 +235,6 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: true,
-          isLeaf: false,
         });
       } else {
         acc[id] = merge<API_GroupEntry>((acc[id] || {}) as API_GroupEntry, {
@@ -256,10 +247,6 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: false,
-          isLeaf: false,
         });
       }
     });
@@ -272,12 +259,6 @@ export const transformStoryIndexToStoriesHash = (
       parent: paths[paths.length - 1],
       renderLabel,
       prepared: !!item.parameters,
-
-      // deprecated fields
-      kind: item.title,
-      isRoot: false,
-      isComponent: false,
-      isLeaf: true,
     } as API_DocsEntry | API_StoryEntry;
 
     return acc;
