@@ -1,11 +1,10 @@
-import type { FC, AnchorHTMLAttributes } from 'react';
 import React from 'react';
 
-export const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
-  href: input,
-  children,
-  ...props
-}) => {
+export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  children: React.ReactNode;
+}
+
+export const Link = ({ href: input, children, ...props }: LinkProps) => {
   const isStorybookPath = /^\//.test(input);
   const isAnchorUrl = /^#.*/.test(input);
   const href = isStorybookPath ? `./?path=${input}` : input;

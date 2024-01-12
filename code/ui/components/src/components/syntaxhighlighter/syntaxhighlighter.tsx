@@ -1,4 +1,4 @@
-import type { ComponentProps, FC, MouseEvent } from 'react';
+import type { ComponentProps, MouseEvent } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
@@ -106,7 +106,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
+const UnstyledScroller = ({ children, className }: ComponentProps<typeof ScrollArea>) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>

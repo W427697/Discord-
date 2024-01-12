@@ -1,5 +1,5 @@
 import { transparentize } from 'polished';
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled, keyframes } from '@storybook/theming';
 import { Icons } from '../icon/icon';
@@ -98,18 +98,13 @@ interface Progress {
   };
 }
 
-interface LoaderProps {
+interface LoaderProps extends ComponentProps<typeof LoaderWrapper> {
   progress?: Progress;
   error?: Error;
   size?: number;
 }
 
-export const Loader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
-  progress,
-  error,
-  size,
-  ...props
-}) => {
+export const Loader = ({ progress, error, size, ...props }: LoaderProps) => {
   if (error) {
     return (
       <ProgressWrapper aria-label={error.toString()} aria-live="polite" role="status" {...props}>

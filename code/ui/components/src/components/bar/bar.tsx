@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React, { Children } from 'react';
 import { styled } from '@storybook/theming';
 
@@ -39,11 +39,11 @@ export const Side = styled.div<SideProps>(
 );
 Side.displayName = 'Side';
 
-const UnstyledBar: FC<ComponentProps<typeof ScrollArea> & { scrollable?: boolean }> = ({
-  children,
-  className,
-  scrollable,
-}) =>
+interface UnstyledBarProps extends ComponentProps<typeof ScrollArea> {
+  scrollable?: boolean;
+}
+
+const UnstyledBar = ({ children, className, scrollable }: UnstyledBarProps) =>
   scrollable ? (
     <ScrollArea vertical={false} className={className}>
       {children}
@@ -51,7 +51,11 @@ const UnstyledBar: FC<ComponentProps<typeof ScrollArea> & { scrollable?: boolean
   ) : (
     <div className={className}>{children}</div>
   );
-export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean }>(
+
+export interface BarProps extends UnstyledBarProps {
+  border?: boolean;
+}
+export const Bar = styled(UnstyledBar)<BarProps>(
   ({ theme, scrollable = true }) => ({
     color: theme.barTextColor,
     width: '100%',
@@ -70,7 +74,10 @@ export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean 
 );
 Bar.displayName = 'Bar';
 
-const BarInner = styled.div<{ bgColor: string }>(({ bgColor }) => ({
+interface BarInnerProps {
+  bgColor?: string;
+}
+const BarInner = styled.div<BarInnerProps>(({ bgColor }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   position: 'relative',
@@ -85,7 +92,7 @@ export interface FlexBarProps extends ComponentProps<typeof Bar> {
   backgroundColor?: string;
 }
 
-export const FlexBar: FC<FlexBarProps> = ({ children, backgroundColor, ...rest }) => {
+export const FlexBar = ({ children, backgroundColor, ...rest }: FlexBarProps) => {
   const [left, right] = Children.toArray(children);
   return (
     <Bar {...rest}>

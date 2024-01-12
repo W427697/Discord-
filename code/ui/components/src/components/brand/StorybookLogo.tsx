@@ -1,9 +1,10 @@
-import type { FC } from 'react';
 import React from 'react';
 
-export const StorybookLogo: FC<{
+export interface StorybookLogoProps extends React.SVGAttributes<SVGSVGElement> {
   alt: string;
-}> = ({ alt, ...props }) => (
+}
+
+export const StorybookLogo = ({ alt, ...props }: StorybookLogoProps) => (
   <svg width="200px" height="40px" viewBox="0 0 200 40" {...props} role="img">
     {alt ? <title>{alt}</title> : null}
     <defs>
