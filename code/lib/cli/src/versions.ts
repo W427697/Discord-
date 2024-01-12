@@ -81,6 +81,7 @@ export default {
   '@storybook/svelte-webpack5': '7.6.7',
   '@storybook/sveltekit': '7.6.7',
   '@storybook/telemetry': '7.6.7',
+  '@storybook/test': '7.6.7',
   '@storybook/theming': '7.6.7',
   '@storybook/types': '7.6.7',
   '@storybook/vue': '7.6.7',

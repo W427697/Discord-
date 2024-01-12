@@ -81,6 +81,11 @@ command('upgrade')
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
+  .option(
+    '-t --tag <tag>',
+    'Upgrade to a certain npm dist-tag (e.g. next, prerelease) (deprecated)'
+  )
+  .option('-p --prerelease', 'Upgrade to the pre-release packages (deprecated)')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
