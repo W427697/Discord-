@@ -319,7 +319,7 @@ export class StoryIndexGenerator {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
-      const tags = indexInputs[0].tags || [];
+      const metaTags = indexInputs[0].metaTags || [];
       const id = toId(metaId ?? title, name);
       entries.unshift({
         id,
@@ -327,7 +327,7 @@ export class StoryIndexGenerator {
         name,
         importPath,
         type: 'docs',
-        tags: [...tags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        tags: [...metaTags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
         storiesImports: [],
       });
     }
@@ -438,6 +438,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
+        // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
         tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
