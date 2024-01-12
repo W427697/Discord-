@@ -208,7 +208,6 @@ export const doUpgrade = async ({
       automigrationPreCheckFailure: preCheckFailure || null,
     };
     telemetry('upgrade', {
-      prerelease,
       beforeVersion,
       afterVersion,
       ...automigrationTelemetry,
