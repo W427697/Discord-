@@ -353,7 +353,7 @@ export async function addExtraDependencies({
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDevDeps = [
-    '@storybook/jest@next',
+    '@storybook/test@next',
     '@storybook/testing-library@next',
     '@storybook/test-runner@next',
   ];
