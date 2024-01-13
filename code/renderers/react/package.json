@@ -29,6 +29,7 @@
     "./preset": "./preset.js",
     "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
+    "./dist/entry-preview-rsc.mjs": "./dist/entry-preview-rsc.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -99,7 +100,8 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/entry-preview.ts",
-      "./src/entry-preview-docs.ts"
+      "./src/entry-preview-docs.ts",
+      "./src/entry-preview-rsc.tsx"
     ],
     "platform": "browser"
   },
