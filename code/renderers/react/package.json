@@ -64,6 +64,7 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react-element-to-jsx-string": "^15.0.0",
+    "semver": "^7.3.7",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
     "util-deprecate": "^1.0.2"
@@ -71,6 +72,7 @@
   "devDependencies": {
     "@storybook/test": "workspace:*",
     "@types/babel-plugin-react-docgen": "^4",
+    "@types/semver": "^7.3.4",
     "@types/util-deprecate": "^1.0.0",
     "babel-plugin-react-docgen": "^4.2.1",
     "expect-type": "^0.15.0",

@@ -170,7 +170,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configureFastRefresh(baseConfig);
   }
 
-  if (options.features?.experimentalNextRSC) {
+  if (options.features?.experimentalNextRSC || options.features?.experimentalRSC) {
     configureRSC(baseConfig);
   }
 
