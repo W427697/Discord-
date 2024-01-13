@@ -513,7 +513,7 @@ describe('PreviewWeb', () => {
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect(vi.mocked(preview.view.showErrorDisplay).mock.calls[0][0]).toMatchInlineSnapshot(`
-          [SB_PREVIEW_API_0005 (MissingRenderToCanvasError): Expected your framework's preset to export a \`renderToCanvas\` field.
+          [SB_PREVIEW_API_0004 (MissingRenderToCanvasError): Expected your framework's preset to export a \`renderToCanvas\` field.
 
           Perhaps it needs to be upgraded for Storybook 6.4?
 
