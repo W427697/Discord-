@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 import type { A11yParameters } from './params';
 
-const { document, window: globalWindow } = global;
+const { document } = global;
 
 const channel = addons.getChannel();
 // Holds axe core running state
