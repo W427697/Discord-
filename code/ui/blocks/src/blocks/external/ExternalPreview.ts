@@ -36,21 +36,19 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
   private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
-    // @ts-expect-error (tom will fix this)
-    super(new Channel({}));
+    const importFn = (path: Path) => {
+      return Promise.resolve(this.moduleExportsByImportPath[path]);
+    };
+    const getProjectAnnotations = () =>
+      composeConfigs<TRenderer>([
+        { parameters: { docs: { story: { inline: true } } } },
+        this.projectAnnotations,
+      ]);
+    super(importFn, getProjectAnnotations, new Channel({}));
+  }
 
-    // @ts-expect-error (tom will fix this)
-    this.initialize({
-      getStoryIndex: () => this.storyIndex,
-      importFn: (path: Path) => {
-        return Promise.resolve(this.moduleExportsByImportPath[path]);
-      },
-      getProjectAnnotations: () =>
-        composeConfigs([
-          { parameters: { docs: { story: { inline: true } } } },
-          this.projectAnnotations,
-        ]),
-    });
+  async getStoryIndexFromServer() {
+    return this.storyIndex;
   }
 
   processMetaExports = (metaExports: MetaExports) => {
@@ -59,7 +57,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
 
     const title = metaExports.default.title || this.titles.get(metaExports);
 
-    const csfFile = this.storyStore.processCSFFileWithCache<TRenderer>(
+    const csfFile = this.storyStoreValue.processCSFFileWithCache<TRenderer>(
       metaExports,
       importPath,
       title
@@ -83,7 +81,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
   docsContext = () => {
     return new ExternalDocsContext(
       this.channel,
-      this.storyStore,
+      this.storyStoreValue,
       this.renderStoryToElement.bind(this),
       this.processMetaExports.bind(this)
     );
