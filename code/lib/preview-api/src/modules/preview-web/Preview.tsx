@@ -377,6 +377,13 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   // API
+  async loadStory({ storyId }: { storyId: StoryId }) {
+    if (!this.storyStoreValue)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'loadStory' });
+
+    return this.storyStoreValue.loadStory({ storyId });
+  }
+
   async extract(options?: { includeDocsOnly: boolean }) {
     if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'extract' });
