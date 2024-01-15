@@ -17,6 +17,7 @@ import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
 import versions from './versions';
+import { doctor } from './doctor';
 
 type Package = {
   package: string;
@@ -200,6 +201,8 @@ export const doUpgrade = async ({
     checkVersionConsistency();
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
+  doctor({ packageManager: pkgMgr, configDir });
+
   if (!options.disableTelemetry) {
     const afterVersion = await getStorybookCoreVersion();
     const { preCheckFailure, fixResults } = automigrationResults || {};
