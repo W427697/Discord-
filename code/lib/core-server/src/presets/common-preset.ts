@@ -206,6 +206,7 @@ export const frameworkOptions = async (
   options: Options
 ): Promise<Record<string, any> | null> => {
   const config = await options.presets.apply('framework');
+  console.log('LOG: this is a log message from frameworkOptions!');
 
   if (typeof config === 'string') {
     return {};
