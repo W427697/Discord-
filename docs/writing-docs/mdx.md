@@ -410,37 +410,6 @@ If you're still writing stories directly in MDX, with the `stories.mdx` format, 
 
 <!-- prettier-ignore-end -->
 
-#### MDX 1 fallback
-
-If you're still having issues with MDX documentation, you can enable MDX 1 as a fallback. To do so, you'll need to take some additional steps.
-
-Run the following command to install the required dependency.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-fallback-mdx-install.yarn.js.mdx',
-    'common/storybook-fallback-mdx-install.npm.js.mdx',
-    'common/storybook-fallback-mdx-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Update your Storybook configuration (in `.storybook/main.js|ts`), and provide the `legacyMdx1` feature flag to enable MDX 1 support.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ### The migration seems flaky and keeps failing
 
 By default, running the [migration command](#automigration) will try and migrate all existing MDX files in your project according to the MDX 2 specification. However, this might not always be possible, and you might run into issues during the migration. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
@@ -473,7 +442,7 @@ If you're still encountering issues, we recommend reaching out to the community 
 
 If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - MDX for customizing your documentation
