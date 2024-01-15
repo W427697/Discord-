@@ -11,6 +11,7 @@ import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
+import { remove } from './remove';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
@@ -66,16 +67,22 @@ command('add <addon>')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
+command('remove <addon>')
+  .description('Remove an addon from your Storybook')
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
+  .action((addonName: string, options: any) => remove(addonName, options));
+
 command('upgrade')
-  .description('Upgrade your Storybook packages to the latest')
+  .description(`Upgrade your Storybook packages to v${versions.storybook}`)
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
-  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
-  .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
@@ -134,10 +141,9 @@ command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }, pkg).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

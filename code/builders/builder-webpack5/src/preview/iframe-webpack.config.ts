@@ -82,6 +82,7 @@ export default async (
     nonNormalizedStories,
     modulesCount = 1000,
     build,
+    tagsOptions,
   ] = await Promise.all([
     presets.apply('core'),
     presets.apply('frameworkOptions'),
@@ -95,6 +96,7 @@ export default async (
     presets.apply('stories', []),
     options.cache?.get('modulesCount').catch(() => {}),
     options.presets.apply('build'),
+    presets.apply('tags', {}),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -129,9 +131,8 @@ export default async (
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
-  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } = await getVirtualModules(
-    options
-  );
+  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } =
+    await getVirtualModules(options);
 
   return {
     name: 'preview',
@@ -185,6 +186,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
+            TAGS_OPTIONS: tagsOptions,
             ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
@@ -215,6 +217,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          exclude: /node_modules/,
           enforce: 'post',
           use: [
             {
