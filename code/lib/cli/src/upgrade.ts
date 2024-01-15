@@ -1,6 +1,6 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
-import semver, { eq, lt, parse, prerelease } from 'semver';
+import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 import {
@@ -112,12 +112,7 @@ export const doUpgrade = async ({
 
   const beforeVersion = await getStorybookCoreVersion();
   const currentVersion = versions['@storybook/cli'];
-  const currentSemver = parse(currentVersion);
-  const isCanary =
-    currentSemver &&
-    currentSemver.major === 0 &&
-    currentSemver.minor === 0 &&
-    currentSemver.patch === 0;
+  const isCanary = currentVersion.startsWith('0.0.0');
 
   if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
