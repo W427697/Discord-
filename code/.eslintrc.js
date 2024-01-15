@@ -27,6 +27,7 @@ module.exports = {
     'jest/no-standalone-expect': 'off',
     'jest/no-done-callback': 'off',
     'jest/no-deprecated-functions': 'off',
+    'jest/valid-expect': 'off',
 
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
@@ -37,6 +38,18 @@ module.exports = {
       'error',
       {
         allowIndexSignaturePropertyAccess: true,
+      },
+    ],
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'vite',
+            message: 'Please dynamically import from vite instead, to force the use of ESM',
+            allowTypeImports: true,
+          },
+        ],
       },
     ],
   },

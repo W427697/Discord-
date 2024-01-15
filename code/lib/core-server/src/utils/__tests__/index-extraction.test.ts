@@ -15,9 +15,7 @@ vi.mock('@storybook/node-logger');
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '..', '__mockdata__'),
   workingDir: path.join(__dirname, '..', '__mockdata__'),
-  storyIndexers: [],
   indexers: [],
-  storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
 
@@ -407,7 +405,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "story-tag-from-indexer",
               "docs",
               "autodocs",
             ],
@@ -468,8 +465,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "autodocs",
-              "story-tag-from-indexer",
               "docs",
             ],
             "title": "A",
@@ -579,8 +574,6 @@ describe('docs entries from story extraction', () => {
             "name": "docs",
             "storiesImports": [],
             "tags": [
-              "stories-mdx",
-              "story-tag-from-indexer",
               "docs",
             ],
             "title": "A",
@@ -598,55 +591,6 @@ describe('docs entries from story extraction', () => {
             ],
             "title": "A",
             "type": "story",
-          },
-        ],
-        "type": "stories",
-      }
-    `);
-  });
-  it(`Only adds a docs entry and not a story entry when an input has the "docsOnly" tag`, async () => {
-    const relativePath = './src/nested/Page.stories.mdx';
-    const absolutePath = path.join(options.workingDir, relativePath);
-    const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(relativePath, options);
-
-    const generator = new StoryIndexGenerator([specifier], {
-      ...options,
-      docs: { defaultName: 'docs', autodocs: false },
-      indexers: [
-        {
-          test: /\.stories\.mdx?$/,
-          createIndex: async (fileName) => [
-            {
-              exportName: '__page',
-              __id: 'page--page',
-              name: 'Page',
-              title: 'Page',
-              tags: [STORIES_MDX_TAG, 'stories-mdx-docsOnly'],
-              importPath: fileName,
-              type: 'story',
-            },
-          ],
-        },
-      ],
-    });
-    const result = await generator.extractStories(specifier, absolutePath);
-
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "dependents": [],
-        "entries": [
-          {
-            "id": "page--docs",
-            "importPath": "./src/nested/Page.stories.mdx",
-            "name": "docs",
-            "storiesImports": [],
-            "tags": [
-              "stories-mdx",
-              "stories-mdx-docsOnly",
-              "docs",
-            ],
-            "title": "Page",
-            "type": "docs",
           },
         ],
         "type": "stories",

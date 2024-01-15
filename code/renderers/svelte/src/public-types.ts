@@ -36,7 +36,7 @@ export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponentTyped
   : AnnotatedStoryFn<SvelteRenderer, TCmpOrArgs>;
 
 /**
- * Story function that represents a CSFv3 component example.
+ * Story object that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
@@ -55,8 +55,8 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
       >
     : never
   : MetaOrCmpOrArgs extends SvelteComponentTyped
-  ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
-  : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
+    ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
+    : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
 
 export type { SvelteRenderer };
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<SvelteRenderer, TArgs>;

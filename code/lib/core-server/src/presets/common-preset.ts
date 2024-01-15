@@ -46,7 +46,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 
 export const favicon = async (
   value: string | undefined,
-  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+  options: Pick<Options, 'presets' | 'configDir'>
 ) => {
   if (value) {
     return value;
@@ -187,12 +187,9 @@ export const previewAnnotations = async (base: any, options: Options) => {
 
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
-  warnOnLegacyHierarchySeparator: true,
-  buildStoriesJson: false,
-  storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  disallowImplicitActionsInRenderV8: false,
+  disallowImplicitActionsInRenderV8: true,
 });
 
 export const csfIndexer: Indexer = {
@@ -361,4 +358,20 @@ export const resolvedReact = async (existing: any) => {
   } catch (e) {
     return existing;
   }
+};
+
+/**
+ * Set up `dev-only`, `docs-only`, `test-only` tags out of the box
+ */
+export const tags = async (existing: any) => {
+  return {
+    ...existing,
+    'dev-only': { excludeFromDocsStories: true },
+    'docs-only': { excludeFromSidebar: true },
+    'test-only': { excludeFromSidebar: true, excludeFromDocsStories: true },
+  };
+};
+
+export const managerEntries = async (existing: any, options: Options) => {
+  return [require.resolve('./common-manager'), ...(existing || [])];
 };

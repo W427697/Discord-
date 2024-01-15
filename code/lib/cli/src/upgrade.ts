@@ -1,14 +1,22 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
-import semver from 'semver';
+import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
+import {
+  UpgradeStorybookToLowerVersionError,
+  UpgradeStorybookToSameVersionError,
+} from '@storybook/core-events/server-errors';
 
-import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
-import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import chalk from 'chalk';
+import dedent from 'ts-dedent';
+import boxen from 'boxen';
+import type { PackageManagerName } from './js-package-manager';
+import { JsPackageManagerFactory } from './js-package-manager';
 import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 import { isCorePackage } from './utils';
+import versions from './versions';
 
 type Package = {
   package: string;
@@ -83,59 +91,8 @@ export const checkVersionConsistency = () => {
   });
 };
 
-type ExtraFlags = Record<string, string[]>;
-const EXTRA_FLAGS: ExtraFlags = {
-  'react-scripts@<5': ['--reject', '/preset-create-react-app/'],
-};
-
-export const addExtraFlags = (
-  extraFlags: ExtraFlags,
-  flags: string[],
-  { dependencies, devDependencies }: PackageJsonWithMaybeDeps
-) => {
-  return Object.entries(extraFlags).reduce(
-    (acc, entry) => {
-      const [pattern, extra] = entry;
-      const [pkg, specifier] = getPackageDetails(pattern);
-      const pkgVersion = dependencies?.[pkg] || devDependencies?.[pkg];
-
-      if (pkgVersion && specifier && semver.satisfies(coerceSemver(pkgVersion), specifier)) {
-        return [...acc, ...extra];
-      }
-
-      return acc;
-    },
-    [...flags]
-  );
-};
-
-export const addNxPackagesToReject = (flags: string[]) => {
-  const newFlags = [...flags];
-  const index = flags.indexOf('--reject');
-  if (index > -1) {
-    // Try to understand if it's in the format of a regex pattern
-    if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
-      // Remove last and first slash so that I can add the parentheses
-      newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
-      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
-    } else {
-      // Adding the two packages as comma-separated values
-      // If the existing rejects are in regex format, they will be ignored.
-      // Maybe we need to find a more robust way to treat rejects?
-      newFlags[index + 1] = `${newFlags[index + 1]},@nrwl/storybook,@nx/storybook`;
-    }
-  } else {
-    newFlags.push('--reject');
-    newFlags.push('@nrwl/storybook,@nx/storybook');
-  }
-  return newFlags;
-};
-
 export interface UpgradeOptions {
-  tag: string;
-  prerelease: boolean;
   skipCheck: boolean;
-  useNpm: boolean;
   packageManager: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
@@ -144,65 +101,97 @@ export interface UpgradeOptions {
 }
 
 export const doUpgrade = async ({
-  tag,
-  prerelease,
   skipCheck,
-  useNpm,
   packageManager: pkgMgr,
   dryRun,
   configDir,
   yes,
   ...options
 }: UpgradeOptions) => {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
+  const currentVersion = versions['@storybook/cli'];
   const beforeVersion = await getStorybookCoreVersion();
 
-  commandLog(`Checking for latest versions of '@storybook/*' packages`);
+  if (lt(currentVersion, beforeVersion)) {
+    throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
+  }
+  if (eq(currentVersion, beforeVersion)) {
+    throw new UpgradeStorybookToSameVersionError({ beforeVersion });
+  }
 
-  if (tag && prerelease) {
-    throw new Error(
-      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const isOutdated = lt(currentVersion, latestVersion);
+  const isPrerelease = prerelease(currentVersion) !== null;
+
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
+
+  const messages = {
+    welcome: `Upgrading Storybook from version ${chalk.bold(beforeVersion)} to version ${chalk.bold(
+      currentVersion
+    )}..`,
+    notLatest: chalk.red(dedent`
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
+      You likely ran the upgrade command through npx, which can use a locally cached version, to upgrade to the latest version please run:
+      ${chalk.bold('npx storybook@latest upgrade')}
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
+
+  logger.plain(
+    boxen(
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
+
+  const packageJson = await packageManager.retrievePackageJson();
+
+  const toUpgradedDependencies = (deps: Record<string, any>) => {
+    const monorepoDependencies = Object.keys(deps || {}).filter((dependency) => {
+      // don't upgrade @storybook/preset-create-react-app if react-scripts is < v5
+      if (dependency === '@storybook/preset-create-react-app') {
+        const reactScriptsVersion =
+          packageJson.dependencies['react-scripts'] ?? packageJson.devDependencies['react-scripts'];
+        if (reactScriptsVersion && lt(coerceSemver(reactScriptsVersion), '5.0.0')) {
+          return false;
+        }
+      }
+
+      // only upgrade packages that are in the monorepo
+      return dependency in versions;
+    }) as Array<keyof typeof versions>;
+    return monorepoDependencies.map(
+      (dependency) =>
+        // add ^ modifier to the version if this is the latest and stable version
+        // example output: @storybook/react@^8.0.0
+        `${dependency}@${!isOutdated || isPrerelease ? '^' : ''}${versions[dependency]}`
     );
-  }
+  };
 
-  let target = 'latest';
-  if (prerelease) {
-    // '@next' is storybook's convention for the latest prerelease tag.
-    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
-    // and random releases of other packages with storybook in their name.
-    target = '@next';
-  } else if (tag) {
-    target = `@${tag}`;
-  }
-
-  let flags = [];
-  if (!dryRun) flags.push('--upgrade');
-  flags.push('--target');
-  flags.push(target);
-  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
-  flags = addNxPackagesToReject(flags);
-  const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
-    stdio: 'pipe',
-    shell: true,
-  });
-  logger.info(check.stdout.toString());
-  logger.info(check.stderr.toString());
-
-  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
-    stdio: 'pipe',
-    shell: true,
-  });
-  logger.info(checkSb.stdout.toString());
-  logger.info(checkSb.stderr.toString());
+  const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);
+  const upgradedDevDependencies = toUpgradedDependencies(packageJson.devDependencies);
 
   if (!dryRun) {
-    commandLog(`Installing upgrades`);
+    commandLog(`Updating dependencies in ${chalk.cyan('package.json')}..`);
+    logger.plain('');
+    if (upgradedDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: false, skipInstall: true, packageJson },
+        upgradedDependencies
+      );
+    }
+    if (upgradedDevDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: true, skipInstall: true, packageJson },
+        upgradedDevDependencies
+      );
+    }
     await packageManager.installDependencies();
   }
 
@@ -219,8 +208,6 @@ export const doUpgrade = async ({
       automigrationPreCheckFailure: preCheckFailure || null,
     };
     telemetry('upgrade', {
-      prerelease,
-      tag,
       beforeVersion,
       afterVersion,
       ...automigrationTelemetry,

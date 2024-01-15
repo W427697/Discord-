@@ -18,8 +18,6 @@ import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
 
-const { FEATURES } = global;
-
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
@@ -160,9 +158,9 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
 
         const [progress, setProgress] = useState(undefined);
         useEffect(() => {
-          if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+          if (global.CONFIG_TYPE === 'DEVELOPMENT') {
             try {
-              const channel = addons.getServerChannel();
+              const channel = addons.getChannel();
 
               channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
                 setProgress(options);
@@ -238,7 +236,7 @@ function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
         const t = arrTabs.find((tab) => tab.id === panel.id);
         return t === undefined || t.id === 'canvas' || !t.hidden;
       })
-      .map((panel, index) => ({ ...panel, index } as Addon_BaseType))
+      .map((panel, index) => ({ ...panel, index }) as Addon_BaseType)
       .sort((p1, p2) => {
         /* eslint-disable @typescript-eslint/naming-convention */
         const tab_1 = arrTabs.find((tab) => tab.id === p1.id);
