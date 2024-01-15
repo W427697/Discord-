@@ -142,7 +142,7 @@ export const getStorySortParameter = (previewCode: string) => {
 
   if (t.isArrowFunctionExpression(storySort)) {
     const { code: sortCode } = generate.default(storySort, {});
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(sortCode);
   }
 
@@ -154,7 +154,7 @@ export const getStorySortParameter = (previewCode: string) => {
       ${sortCode};
       return ${functionName}(a, b)
     }`;
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(wrapper);
   }
 

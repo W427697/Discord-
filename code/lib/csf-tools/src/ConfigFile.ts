@@ -295,7 +295,6 @@ export class ConfigFile {
     if (node) {
       const { code } = generate.default(node, {});
 
-      // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
     }
