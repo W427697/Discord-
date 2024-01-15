@@ -42,7 +42,9 @@ export const sandbox = async (
     force: pkgMgr,
   });
   const latestVersion = await packageManager.latestVersion('@storybook/cli');
-  const nextVersion = await packageManager.latestVersion('@storybook/cli@next');
+  const nextVersion = await packageManager
+    .latestVersion('@storybook/cli@next')
+    .catch((e) => '0.0.0');
   const currentVersion = versions['@storybook/cli'];
   const isPrerelease = prerelease(currentVersion);
   const isOutdated = lt(currentVersion, isPrerelease ? nextVersion : latestVersion);
@@ -217,6 +219,8 @@ export const sandbox = async (
       // we warned the user about the fact they are running an old version of storybook
       // we warned the user the sandbox step would take longer
       if ((isOutdated || isPrerelease) && init) {
+        const before = process.cwd();
+        process.chdir(templateDestination);
         // we run doInitiate, instead of initiate, to avoid sending this init event to telemetry, because it's not a real world project
         await doInitiate(
           {
@@ -224,6 +228,7 @@ export const sandbox = async (
           },
           pkg
         );
+        process.chdir(before);
       }
     } catch (err) {
       logger.error(`🚨 Failed to download sandbox template: ${String(err)}`);
