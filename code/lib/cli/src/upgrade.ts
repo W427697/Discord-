@@ -175,8 +175,8 @@ export const doUpgrade = async ({
     return monorepoDependencies.map((dependency) => {
       /* add ^ modifier to the version if this is the latest stable or prerelease version
          example outputs: @storybook/react@^8.0.0 */
-      const maybeTilde = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
-      return `${dependency}@${maybeTilde}${versions[dependency]}`;
+      const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+      return `${dependency}@${maybeCaret}${versions[dependency]}`;
     });
   };
 
