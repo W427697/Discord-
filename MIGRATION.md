@@ -63,6 +63,7 @@
     - [Canvas Doc block properties](#canvas-doc-block-properties)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and  `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and--storybookchannel-websocket)
+    - [StoryStore and methods deprecated](#storystore-and-methods-deprecated)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -977,6 +978,17 @@ The `name` prop is now removed in favor of the `of` property. [More info](#doc-b
 The `createChannel` APIs from both `@storybook/channel-websocket` and `@storybook/postmessage` are now removed. Please use `createBrowserChannel` instead, from the `@storybook/channels` package.
 
 Additionally, the `PostmsgTransport` type is now removed in favor of `PostMessageTransport`.
+
+
+#### StoryStore and methods deprecated
+
+The StoryStore (`__STORYBOOK_STORY_STORE__` and `__STORYBOOK_PREVIEW__.storyStore`) are deprecated, and will no longer be accessible in Storybook 9.0.
+
+In particular, the following methods on the `StoryStore` are deprecated and will be removed in 9.0:
+  - `store.fromId()` - please use `preview.loadStory({ storyId })` instead.
+  - `store.raw()` - please use `preview.extract()` instead.
+
+Note that both these methods require initialization, so you should await `preview.ready()`.
 
 ## From version 7.5.0 to 7.6.0
 
