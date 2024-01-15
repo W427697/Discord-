@@ -12,7 +12,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <Callout variant="info">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
+Writing stories directly in MDX was removed in Storybook 8, and we're no longer supporting it. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature or [migrate](../migration-guide.md) to the new format.
 
 </Callout>
 
@@ -62,12 +62,6 @@ The first thing you'll notice is that the component documentation is divided int
 
 - **CSF** is great for succinctly defining stories (component examples). If you use TypeScript, it also provides type safety and auto-completion.
 - **MDX** is great for writing structured documentation and composing it with interactive JSX elements.
-
-<Callout variant="info" icon="💡">
-
-If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
-
-</Callout>
 
 ### Anatomy of MDX
 
@@ -210,9 +204,17 @@ The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provide
 
 To help you transition to the new version, we've created a migration helper in our CLI. We recommend using it and reaching out using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)) for problems you encounter.
 
-```shell
-npx storybook@latest automigrate mdx1to2
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-automigration-mdx-legacy.npm.mdx',
+    'common/storybook-automigration-mdx-legacy.pnpm.mdx',
+    'common/storybook-automigration-mdx-legacy.yarn.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Setup custom documentation
 
@@ -386,7 +388,7 @@ By applying this pattern with the Controls addon, all anchors will be ignored in
 
 ### The MDX documentation doesn't render in my environment
 
-As Storybook relies on MDX 2 to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
+As Storybook relies on the latest version of [MDX](https://mdxjs.com/) to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
 
 #### Storybook doesn't create documentation for my component stories
 
@@ -394,7 +396,19 @@ If you run into a situation where Storybook is not able to detect and render the
 
 #### The documentation doesn't render using `stories.mdx`
 
-Starting with Storybook 7.0, we've deprecated documenting stories with the `.stories.mdx` file extension. If you're still using the `stories.mdx` extension, we recommend [migrating](#automigration) as soon as possible to avoid any issues, as the majority of APIs and [Doc Blocks](./doc-blocks.md) used by Storybook were overhauled to support MDX 2 and the new MDX compiler (e.g., the [`Meta`](../api/doc-block-meta.md) block).
+If you're still writing stories directly in MDX, with the `stories.mdx` format, we're no longer supporting it and recommend migrating to the new format to avoid issues, as the majority of APIs and [Doc Blocks](./doc-blocks.md) used by Storybook were overhauled to support the latest MDX release (e.g., the [`Meta`](../api/doc-block-meta.md) block). To help you transition to the new format, we provide a migration helper in our CLI to automate the process.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-migration-mdx-stories.npm.mdx',
+    'common/storybook-migration-mdx-stories.pnpm.mdx',
+    'common/storybook-migration-mdx-stories.yarn.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 #### MDX 1 fallback
 
