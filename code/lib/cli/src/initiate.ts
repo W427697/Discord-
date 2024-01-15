@@ -274,7 +274,7 @@ const getEmptyDirMessage = (packageManagerType: PackageManagerName) => {
     `;
 };
 
-async function doInitiate(
+export async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
 ): Promise<
