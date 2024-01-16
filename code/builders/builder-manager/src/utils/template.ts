@@ -40,6 +40,10 @@ export const renderHTML = async (
 ) => {
   const titleRef = await title;
   const templateRef = await template;
+  const stringifiedGlobals = Object.entries(globals).reduce(
+    (transformed, [key, value]) => ({ ...transformed, [key]: JSON.stringify(value) }),
+    {}
+  );
 
   return render(templateRef, {
     title: titleRef ? `${titleRef} - Storybook` : 'Storybook',
@@ -55,7 +59,7 @@ export const renderHTML = async (
       VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
       TAGS_OPTIONS: JSON.stringify(await tagsOptions, null, 2),
-      ...globals,
+      ...stringifiedGlobals,
     },
     head: (await customHead) || '',
     ignorePreview,
