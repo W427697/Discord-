@@ -350,6 +350,3 @@ export const build: ManagerBuilder['build'] = async (options) => {
 
 export const corePresets: ManagerBuilder['corePresets'] = [];
 export const overridePresets: ManagerBuilder['overridePresets'] = [];
-function sanatize(arg0: string | undefined) {
-  throw new Error('Function not implemented.');
-}
