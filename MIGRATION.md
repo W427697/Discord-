@@ -998,9 +998,9 @@ api.expandAll(); // becomes api.emit(STORIES_EXPAND_ALL)
 
 #### `ArgsTable` Doc block removed
 
-The `ArgsTable` doc block have now been removed in favor of `ArgTypes` and `Controls`. [More info](#argstable-block).
+The `ArgsTable` doc block has been removed in favor of `ArgTypes` and `Controls`. [More info](#argstable-block).
 
-With this removal we've reintroduced `subcomponents` support to `ArgTypes`, `Controls` and in autodocs by popular demand.
+With this removal we've reintroduced `subcomponents` support to `ArgTypes`, `Controls`, and autodocs. We've also undeprecated `subcomponents`, by popular demand.
 
 #### `Source` Doc block properties
 
