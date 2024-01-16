@@ -3,7 +3,6 @@ import React from 'react';
 import { TabsState } from '@storybook/components';
 
 import type { ArgsTableProps } from './ArgsTable';
-// eslint-disable-next-line import/no-cycle
 import { ArgsTable } from './ArgsTable';
 
 type DistributiveOmit<T, K extends PropertyKey> = T extends any ? Omit<T, K> : never;
