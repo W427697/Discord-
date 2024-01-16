@@ -77,6 +77,12 @@
   ],
   "resolutions": {
     "@playwright/test": "1.36.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/instrumenter": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/test": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
