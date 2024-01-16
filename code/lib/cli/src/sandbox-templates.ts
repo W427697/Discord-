@@ -499,7 +499,6 @@ const internalTemplates = {
         ),
     },
     isInternal: true,
-    inDevelopment: true,
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'internal/react16-webpack': {
