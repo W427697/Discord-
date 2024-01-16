@@ -83,6 +83,7 @@ export default {
   '@storybook/telemetry': '7.6.8',
   '@storybook/theming': '7.6.8',
   '@storybook/types': '7.6.8',
+  '@storybook/test': '7.6.8',
   '@storybook/vue': '7.6.8',
   '@storybook/vue-vite': '7.6.8',
   '@storybook/vue-webpack5': '7.6.8',
