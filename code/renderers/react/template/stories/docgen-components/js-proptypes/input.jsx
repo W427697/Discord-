@@ -398,8 +398,6 @@ PropTypesProps.defaultProps = {
   funcWithJsDoc: (foo, bar) => {
     const yo = window.document;
 
-    const pouf = souffle;
-
     return { foo, bar };
   },
   namedDefaultFunc: concat,
