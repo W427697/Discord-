@@ -213,6 +213,6 @@ Options include:
 
 <Callout variant="info">
 
-If you're looking for a hosted version of the available sandboxes, see [storybook.new](https://new-storybook.netlify.app/).
+If you're looking for a hosted version of the available sandboxes, see [storybook.new](https://storybook.new).
 
 </Callout>
