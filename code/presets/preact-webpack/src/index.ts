@@ -69,3 +69,7 @@ export const swc: StorybookConfig['swc'] = (config) => {
     },
   };
 };
+
+export const addons: StorybookConfig['addons'] = [
+  require.resolve('@storybook/preset-preact-webpack/dist/framework-preset-preact-docs'),
+];
