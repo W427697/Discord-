@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
-import { useStorybookApi } from '@storybook/manager-api';
 import { transparentize } from 'polished';
 
 import { Subnav } from './Subnav';
@@ -9,6 +8,7 @@ import { Subnav } from './Subnav';
 import { Interaction } from './Interaction';
 import { isTestAssertionError } from '../utils';
 import { Empty } from './EmptyState';
+import { DOCUMENTATION_LINK } from '../constants';
 
 export interface Controls {
   start: (args: any) => void;
@@ -96,11 +96,6 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     onScrollToEnd,
     endRef,
   }) {
-    const api = useStorybookApi();
-
-    const renderer = globalThis.STORYBOOK_ENV;
-    const docsUrlBase = api.getVersionDocsBaseUrl();
-
     return (
       <Container>
         {(interactions.length > 0 || hasException) && (
@@ -159,9 +154,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
           </CaughtException>
         )}
         <div ref={endRef} />
-        {!isPlaying && !caughtException && interactions.length === 0 && (
-          <Empty renderer={renderer} docsUrlBase={docsUrlBase} />
-        )}
+        {!isPlaying && !caughtException && interactions.length === 0 && <Empty />}
       </Container>
     );
   }

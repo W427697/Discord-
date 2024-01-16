@@ -1,8 +1,9 @@
-import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { styled } from '@storybook/theming';
 import { Link } from '@storybook/components';
 import { DocumentIcon, VideoIcon } from '@storybook/icons';
+import { Consumer, useStorybookApi } from '@storybook/manager-api';
+import { styled } from '@storybook/theming';
+
 import { DOCUMENTATION_LINK, TUTORIAL_VIDEO_LINK } from '../constants';
 
 const Wrapper = styled.div(({ theme }) => ({
@@ -49,26 +50,14 @@ const Divider = styled.div(({ theme }) => ({
   backgroundColor: theme.appBorderColor,
 }));
 
-const sanitizeRendererForDocsUrl = (renderer: string) => {
-  const normalizedRenderer = renderer.toLowerCase();
-
-  if (normalizedRenderer.includes('vue')) {
-    return 'vue';
-  }
-
-  return normalizedRenderer;
-};
-
-const buildDocsUrl = (base: string, path: string, renderer: string) =>
-  `${base}${path}?renderer=${sanitizeRendererForDocsUrl(renderer)}`;
-
-interface EmptyProps {
-  renderer: string;
-  docsUrlBase: string;
-}
-
-export const Empty: FC<EmptyProps> = ({ renderer, docsUrlBase }) => {
+export const Empty = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const api = useStorybookApi();
+  const docsUrl = api.getDocsUrl({
+    subpath: DOCUMENTATION_LINK,
+    versioned: true,
+    renderer: true,
+  });
 
   // We are adding a small delay to avoid flickering when the story is loading.
   // It takes a bit of time for the controls to appear, so we don't want
@@ -97,13 +86,13 @@ export const Empty: FC<EmptyProps> = ({ renderer, docsUrlBase }) => {
           <VideoIcon /> Watch 8m video
         </Link>
         <Divider />
-        <Link
-          href={buildDocsUrl(docsUrlBase, DOCUMENTATION_LINK, renderer)}
-          target="_blank"
-          withArrow
-        >
-          <DocumentIcon /> Read docs
-        </Link>
+        <Consumer>
+          {({ state }) => (
+            <Link href={docsUrl} target="_blank" withArrow>
+              <DocumentIcon /> Read docs
+            </Link>
+          )}
+        </Consumer>
       </Links>
     </Wrapper>
   );

@@ -81,13 +81,12 @@ export const useMenu = (
   );
 
   const documentation = useMemo(() => {
-    const baseURL = api.getVersionDocsBaseUrl();
-    const renderer = sanitizeRendererForDocsUrl(globalThis.STORYBOOK_ENV);
+    const docsUrl = api.getDocsUrl({ versioned: true, renderer: true });
 
     return {
       id: 'documentation',
       title: 'Documentation',
-      href: `${baseURL}?renderer=${renderer}`,
+      href: docsUrl,
       icon: <ShareAltIcon />,
     };
   }, [api]);

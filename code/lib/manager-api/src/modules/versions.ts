@@ -41,7 +41,7 @@ export interface SubAPI {
    *
    * @returns {string} The URL of the Storybook Manager documentation.
    */
-  getVersionDocsBaseUrl: () => string;
+  getDocsUrl: (options: { subpath?: string; versioned?: boolean; renderer?: boolean }) => string;
   /**
    * Checks if an update is available for the Storybook Manager.
    *
@@ -79,24 +79,35 @@ export const init: ModuleFn = ({ store }) => {
       }
       return latest as API_Version;
     },
-    getVersionDocsBaseUrl: () => {
+    // TODO: Move this to it's own "info" module later
+    getDocsUrl: ({ subpath, versioned, renderer }) => {
       const {
         versions: { latest, current },
       } = store.getState();
 
-      if (!current?.version || !latest?.version) {
-        return 'https://storybook.js.org/docs/';
+      let url = 'https://storybook.js.org/docs/';
+
+      console.log('current', current);
+      console.log('latest', latest);
+
+      if (versioned && current?.version && latest?.version) {
+        const versionDiff = semver.diff(latest.version, current.version);
+        const isLatestDocs = versionDiff === 'patch' || versionDiff === null;
+
+        if (!isLatestDocs) {
+          url += `${semver.major(current.version)}.${semver.minor(current.version)}/`;
+        }
       }
 
-      const versionDiff = semver.diff(latest.version, current.version);
+      if (subpath) {
+        url += `${subpath}/`;
+      }
 
-      const isLatestDocs = versionDiff === 'patch' || versionDiff === null;
+      if (renderer && typeof global.STORYBOOK_RENDERER !== 'undefined') {
+        url += `?renderer=${global.STORYBOOK_RENDERER}`;
+      }
 
-      return isLatestDocs
-        ? 'https://storybook.js.org/docs/'
-        : `https://storybook.js.org/docs/${semver.major(current.version)}.${semver.minor(
-            current.version
-          )}/`;
+      return url;
     },
     versionUpdateAvailable: () => {
       const latest = api.getLatestVersion();

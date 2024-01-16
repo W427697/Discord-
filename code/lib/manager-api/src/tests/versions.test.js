@@ -1,4 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { global } from '@storybook/global';
+import exp from 'constants';
 import { init as initVersions } from '../modules/versions';
 
 vi.mock('../version', () => ({
@@ -122,7 +124,11 @@ describe('versions API', () => {
     });
   });
 
-  describe('METHOD: getVersionDocsBaseUrl()', () => {
+  describe('METHOD: getDocsUrl()', () => {
+    beforeEach(() => {
+      global.STORYBOOK_RENDERER = undefined;
+    });
+
     it('returns the latest url when current version is latest', async () => {
       const store = createMockStore();
       const {
@@ -144,7 +150,7 @@ describe('versions API', () => {
         },
       });
 
-      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/');
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
     });
 
     it('returns the latest url when version has patch diff with latest', async () => {
@@ -168,7 +174,7 @@ describe('versions API', () => {
         },
       });
 
-      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/');
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
     });
 
     it('returns the versioned url when current has different docs to latest', async () => {
@@ -192,7 +198,7 @@ describe('versions API', () => {
         },
       });
 
-      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/7.2/');
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/7.2/');
     });
 
     it('returns the versioned url when current is a prerelease', async () => {
@@ -216,7 +222,34 @@ describe('versions API', () => {
         },
       });
 
-      expect(api.getVersionDocsBaseUrl()).toEqual('https://storybook.js.org/docs/8.0/');
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/8.0/');
+    });
+
+    it('returns a Url with a renderer query param when "renderer" is true', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '5.2.1' },
+          latest: { version: '5.2.1' },
+        },
+      });
+
+      await init();
+
+      global.STORYBOOK_RENDERER = 'vue';
+
+      expect(api.getDocsUrl({ renderer: true })).toEqual(
+        'https://storybook.js.org/docs/?renderer=vue'
+      );
     });
   });
 
