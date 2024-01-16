@@ -3,11 +3,15 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Controls } from './Controls';
 import * as ExampleStories from '../examples/ControlsParameters.stories';
+import * as SubcomponentsExampleStories from '../examples/ControlsWithSubcomponentsParameters.stories';
 
 const meta: Meta<typeof Controls> = {
   component: Controls,
   parameters: {
-    relativeCsfPaths: ['../examples/ControlsParameters.stories'],
+    relativeCsfPaths: [
+      '../examples/ControlsParameters.stories',
+      '../examples/ControlsWithSubcomponentsParameters.stories',
+    ],
     docsStyles: true,
   },
 };
@@ -83,5 +87,32 @@ export const SortParameter: Story = {
 export const Categories: Story = {
   args: {
     of: ExampleStories.Categories,
+  },
+};
+
+export const SubcomponentsOfStory: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+  },
+};
+
+export const SubcomponentsIncludeProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    include: ['a', 'f'],
+  },
+};
+
+export const SubcomponentsExcludeProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    exclude: ['a', 'c', 'f', 'g'],
+  },
+};
+
+export const SubcomponentsSortProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    sort: 'alpha',
   },
 };
