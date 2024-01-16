@@ -79,3 +79,9 @@ export const SortParameter: Story = {
     of: ExampleStories.Sort,
   },
 };
+
+export const Categories: Story = {
+  args: {
+    of: ExampleStories.Categories,
+  },
+};
