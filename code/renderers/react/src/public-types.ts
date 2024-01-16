@@ -37,7 +37,7 @@ export type StoryFn<TCmpOrArgs = Args> = [TCmpOrArgs] extends [ComponentType<any
   : AnnotatedStoryFn<ReactRenderer, TCmpOrArgs>;
 
 /**
- * Story function that represents a CSFv3 component example.
+ * Story object that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
@@ -46,7 +46,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = [TMetaOrCmpOrArgs] extends [
     render?: ArgsStoryFn<ReactRenderer, any>;
     component?: infer Component;
     args?: infer DefaultArgs;
-  }
+  },
 ]
   ? Simplify<
       (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
@@ -59,8 +59,8 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = [TMetaOrCmpOrArgs] extends [
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
-  : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
+    ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
+    : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
 // This performs a downcast to function types that are mocks, when a mock fn is given to meta args.
 type AddMocks<TArgs, DefaultArgs> = Simplify<{

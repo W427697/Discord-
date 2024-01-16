@@ -40,7 +40,7 @@ export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
 >;
 
 /**
- * Story function that represents a CSFv3 component example.
+ * Story object that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
@@ -71,8 +71,8 @@ export type ComponentPropsAndSlots<C> = ComponentProps<C> & ExtractSlots<C>;
 type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Constructor<any>
   ? ComponentPropsAndSlots<TCmpOrArgs>
   : TCmpOrArgs extends FunctionalComponent<any>
-  ? ComponentPropsAndSlots<TCmpOrArgs>
-  : TCmpOrArgs;
+    ? ComponentPropsAndSlots<TCmpOrArgs>
+    : TCmpOrArgs;
 
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;

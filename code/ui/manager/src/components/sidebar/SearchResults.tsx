@@ -13,7 +13,7 @@ import { TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
-// eslint-disable-next-line import/no-cycle
+
 import { statusMapping } from '../../utils/status';
 import { UseSymbol } from './IconSymbols';
 
@@ -177,13 +177,8 @@ const Result: FC<
 
   const api = useStorybookApi();
   useEffect(() => {
-    if (api && props.isHighlighted && item.isComponent) {
-      api.emit(
-        PRELOAD_ENTRIES,
-        // @ts-expect-error (TODO)
-        { ids: [item.isLeaf ? item.id : item.children[0]] },
-        { options: { target: item.refId } }
-      );
+    if (api && props.isHighlighted && item.type === 'component') {
+      api.emit(PRELOAD_ENTRIES, { ids: [item.children[0]] }, { options: { target: item.refId } });
     }
   }, [props.isHighlighted, item]);
 
@@ -217,7 +212,6 @@ const Result: FC<
         </Title>
         <Path>
           {item.path.map((group, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <span key={index}>
               <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
                 {group}
@@ -275,9 +269,9 @@ export const SearchResults: FC<{
     const currentTarget = event.currentTarget as HTMLElement;
     const storyId = currentTarget.getAttribute('data-id');
     const refId = currentTarget.getAttribute('data-refid');
-    const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
+    const item = api.resolveStory(storyId, refId === 'storybook_internal' ? undefined : refId);
 
-    if (item?.isComponent) {
+    if (item?.type === 'component') {
       api.emit(PRELOAD_ENTRIES, {
         // @ts-expect-error (TODO)
         ids: [item.isLeaf ? item.id : item.children[0]],

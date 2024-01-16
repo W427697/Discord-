@@ -156,7 +156,6 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
@@ -172,7 +171,7 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
 export interface Addon_BaseAnnotations<
   TArgs,
   StoryFnReturnType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.

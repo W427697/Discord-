@@ -30,7 +30,6 @@ export function getEnvConfig(program: Record<string, any>, configEnv: Record<str
     const envVarName = configEnv[fieldName];
     const envVarValue = process.env[envVarName];
     if (envVarValue) {
-      // eslint-disable-next-line no-param-reassign
       program[fieldName] = envVarValue;
     }
   });
@@ -106,7 +105,6 @@ const PACKAGES_EXCLUDED_FROM_CORE = [
   '@storybook/addon-designs',
   '@storybook/addon-styling',
   '@storybook/addon-styling-webpack',
-  '@storybook/babel-plugin-require-context-hook',
   '@storybook/bench',
   '@storybook/builder-vite',
   '@storybook/csf',

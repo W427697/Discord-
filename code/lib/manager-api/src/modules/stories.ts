@@ -44,7 +44,6 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
-// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 
 import {
@@ -58,7 +57,7 @@ import {
 import type { ComposedRef } from '../index';
 import type { ModuleFn } from '../lib/types';
 
-const { FEATURES, fetch } = global;
+const { fetch } = global;
 const STORY_INDEX_PATH = './index.json';
 
 type Direction = -1 | 1;
@@ -488,7 +487,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         }
 
         if (lookupList[position + direction]) {
-          // eslint-disable-next-line consistent-return
           return lookupList[position + direction][0];
         }
         return;
@@ -504,7 +502,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         return;
       }
 
-      // eslint-disable-next-line consistent-return
       return lookupList[position + direction];
     },
     updateStoryArgs: (story, updatedArgs) => {
@@ -881,10 +878,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       filters: config?.sidebar?.filters || {},
     },
     init: async () => {
-      if (FEATURES?.storyStoreV7) {
-        provider.channel?.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
-        await api.fetchIndex();
-      }
+      provider.channel?.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
+      await api.fetchIndex();
     },
   };
 };

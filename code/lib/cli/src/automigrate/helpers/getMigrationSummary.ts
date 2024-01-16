@@ -88,12 +88,11 @@ export function getMigrationSummary({
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
   );
 
-  // eslint-disable-next-line no-nested-ternary
   const title = hasNoFixes
     ? 'No migrations were applicable to your project'
     : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
+      ? 'Migration check ran with failures'
+      : 'Migration check ran successfully';
 
   return boxen(messages.filter(Boolean).join(segmentDivider), {
     borderStyle: 'round',

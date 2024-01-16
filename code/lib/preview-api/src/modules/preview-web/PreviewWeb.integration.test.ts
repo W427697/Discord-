@@ -6,7 +6,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 import React from 'react';
 import { global } from '@storybook/global';
 import type { RenderContext } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import { WebView } from './WebView';
@@ -47,9 +47,6 @@ vi.mock('@storybook/global', () => ({
         search: '?id=*',
       },
     },
-    FEATURES: {
-      storyStoreV7: true,
-    },
     fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
   },
 }));
@@ -70,7 +67,6 @@ beforeEach(() => {
   // projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
-  addons.setServerChannel(createMockChannel());
 
   vi.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
   vi.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
@@ -86,7 +82,7 @@ describe('PreviewWeb', () => {
         storyFn()
       );
       document.location.search = '?id=component-one--a';
-      await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
+      await new PreviewWeb(importFn, getProjectAnnotations).ready();
 
       await waitForRender();
 
@@ -99,7 +95,7 @@ describe('PreviewWeb', () => {
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = new PreviewWeb();
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
 
       const docsRoot = document.createElement('div');
       vi.mocked(preview.view.prepareForDocs).mockReturnValue(docsRoot as any);
@@ -107,7 +103,7 @@ describe('PreviewWeb', () => {
         React.createElement('div', {}, 'INSIDE')
       );
 
-      await preview.initialize({ importFn, getProjectAnnotations });
+      await preview.ready();
       await waitForRender();
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
@@ -115,22 +111,22 @@ describe('PreviewWeb', () => {
       // Error: Event was not emitted in time: storyRendered,docsRendered,storyThrewException,storyErrored,storyMissing
     }, 10_000);
 
-    // TODO @tmeasday please help fixing this test
-    it.skip('sends docs rendering exceptions to showException', async () => {
+    it('sends docs rendering exceptions to showException', async () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = new PreviewWeb();
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
 
       const docsRoot = document.createElement('div');
       vi.mocked(preview.view.prepareForDocs).mockReturnValue(docsRoot as any);
-      componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
+      componentOneExports.default.parameters.docs.container.mockImplementation(() => {
         throw new Error('Docs rendering error');
       });
 
       vi.mocked(preview.view.showErrorDisplay).mockClear();
-      await preview.initialize({ importFn, getProjectAnnotations });
+
+      await preview.ready();
       await waitForRender();
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
@@ -153,8 +149,8 @@ describe('PreviewWeb', () => {
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--a';
-      const preview = new PreviewWeb();
-      await preview.initialize({ importFn, getProjectAnnotations });
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
+      await preview.ready();
       await waitForRender();
 
       projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>

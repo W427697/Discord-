@@ -49,7 +49,6 @@ type SpecifierStoriesCache = Record<Path, CacheEntry>;
 export type StoryIndexGeneratorOptions = {
   workingDir: Path;
   configDir: Path;
-  storyStoreV7: boolean;
   indexers: Indexer[];
   docs: DocsOptions;
   build?: StorybookConfigRaw['build'];
@@ -319,7 +318,7 @@ export class StoryIndexGenerator {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
-      const tags = indexInputs[0].tags || [];
+      const metaTags = indexInputs[0].metaTags || [];
       const id = toId(metaId ?? title, name);
       entries.unshift({
         id,
@@ -327,7 +326,7 @@ export class StoryIndexGenerator {
         name,
         importPath,
         type: 'docs',
-        tags: [...tags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        tags: [...metaTags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
         storiesImports: [],
       });
     }
@@ -346,11 +345,6 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      invariant(
-        this.options.storyStoreV7,
-        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
-      );
-
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
@@ -438,6 +432,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
+        // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
         tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
@@ -530,18 +525,17 @@ export class StoryIndexGenerator {
   async sortStories(entries: StoryIndex['entries']) {
     const sortableStories = Object.values(entries);
 
-    // Skip sorting if we're in v6 mode because we don't have
-    // all the info we need here
-    if (this.options.storyStoreV7) {
-      const storySortParameter = await this.getStorySortParameter();
-      const fileNameOrder = this.storyFileNames();
-      sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
-    }
+    const storySortParameter = await this.getStorySortParameter();
+    const fileNameOrder = this.storyFileNames();
+    sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
-    return sortableStories.reduce((acc, item) => {
-      acc[item.id] = item;
-      return acc;
-    }, {} as StoryIndex['entries']);
+    return sortableStories.reduce(
+      (acc, item) => {
+        acc[item.id] = item;
+        return acc;
+      },
+      {} as StoryIndex['entries']
+    );
   }
 
   async getIndex() {
@@ -609,7 +603,7 @@ export class StoryIndexGenerator {
         dependents.forEach((dep) => {
           if (otherCache[dep]) {
             invalidated.add(dep);
-            // eslint-disable-next-line no-param-reassign
+
             otherCache[dep] = false;
           }
         });

@@ -3,7 +3,6 @@ import { global } from '@storybook/global';
 import type { SyntheticEvent } from 'react';
 import type { HashEntry, IndexHash } from '@storybook/manager-api';
 
-// eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from '../components/sidebar/Sidebar';
 import type { Item, RefType, Dataset, SearchItem } from '../components/sidebar/types';
 
@@ -33,18 +32,20 @@ export const getParents = memoize(1000)((id: string, dataset: Dataset): Item[] =
 export const getAncestorIds = memoize(1000)((data: IndexHash, id: string): string[] =>
   getParents(id, data).map((item) => item.id)
 );
-export const getDescendantIds = memoize(1000)(
-  (data: IndexHash, id: string, skipLeafs: boolean): string[] => {
-    const entry = data[id];
-    const children = entry.type === 'story' || entry.type === 'docs' ? [] : entry.children;
-    return children.reduce((acc, childId) => {
-      const child = data[childId];
-      if (!child || (skipLeafs && (child.type === 'story' || child.type === 'docs'))) return acc;
-      acc.push(childId, ...getDescendantIds(data, childId, skipLeafs));
-      return acc;
-    }, []);
-  }
-);
+export const getDescendantIds = memoize(1000)((
+  data: IndexHash,
+  id: string,
+  skipLeafs: boolean
+): string[] => {
+  const entry = data[id];
+  const children = entry.type === 'story' || entry.type === 'docs' ? [] : entry.children;
+  return children.reduce((acc, childId) => {
+    const child = data[childId];
+    if (!child || (skipLeafs && (child.type === 'story' || child.type === 'docs'))) return acc;
+    acc.push(childId, ...getDescendantIds(data, childId, skipLeafs));
+    return acc;
+  }, []);
+});
 
 export function getPath(item: Item, ref: RefType): string[] {
   const parent = item.type !== 'root' && item.parent ? ref.index[item.parent] : null;

@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import Head from 'next/head';
 import React from 'react';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
