@@ -48,7 +48,6 @@ export abstract class AbstractRenderer {
         // platform should be set after enableProdMode()
         enableProdMode();
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.debug(e);
       }
     }
@@ -157,7 +156,6 @@ export abstract class AbstractRenderer {
    * Adds DOM element that angular will use as bootstrap component.
    */
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
-    // eslint-disable-next-line no-param-reassign
     targetDOMNode.innerHTML = '';
     targetDOMNode.appendChild(document.createElement(targetSelector));
   }
@@ -177,7 +175,7 @@ export abstract class AbstractRenderer {
 
     const currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata, { allowFunction: false }),
     };
 
     this.previousStoryRenderInfo.set(targetDOMNode, currentStoryRender);
