@@ -96,6 +96,12 @@ export const SortParameter: Story = {
   },
 };
 
+export const Categories: Story = {
+  args: {
+    of: ExampleStories.Categories,
+  },
+};
+
 export const SubcomponentsOfMeta: Story = {
   args: {
     of: SubcomponentsExampleStories.default,
