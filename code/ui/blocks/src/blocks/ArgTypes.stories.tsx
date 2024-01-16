@@ -3,12 +3,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { ArgTypes } from './ArgTypes';
 import * as ExampleStories from '../examples/ArgTypesParameters.stories';
+import * as SubcomponentsExampleStories from '../examples/ArgTypesWithSubcomponentsParameters.stories';
 
 const meta: Meta<typeof ArgTypes> = {
   title: 'Blocks/ArgTypes',
   component: ArgTypes,
   parameters: {
-    relativeCsfPaths: ['../examples/ArgTypesParameters.stories'],
+    relativeCsfPaths: [
+      '../examples/ArgTypesParameters.stories',
+      '../examples/ArgTypesWithSubcomponentsParameters.stories',
+    ],
     docsStyles: true,
   },
 };
@@ -46,7 +50,6 @@ export const OfUndefined: Story = {
   decorators: [(s) => (window?.navigator.userAgent.match(/StorybookTestRunner/) ? <div /> : s())],
 };
 
-// NOTE: this will throw with no of prop
 export const OfStoryUnattached: Story = {
   parameters: { attached: false },
   args: {
@@ -90,5 +93,38 @@ export const SortProp: Story = {
 export const SortParameter: Story = {
   args: {
     of: ExampleStories.Sort,
+  },
+};
+
+export const SubcomponentsOfMeta: Story = {
+  args: {
+    of: SubcomponentsExampleStories.default,
+  },
+};
+
+export const SubcomponentsOfStory: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+  },
+};
+
+export const SubcomponentsIncludeProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    include: ['a', 'f'],
+  },
+};
+
+export const SubcomponentsExcludeProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    exclude: ['a', 'c', 'f', 'g'],
+  },
+};
+
+export const SubcomponentsSortProp: Story = {
+  args: {
+    of: SubcomponentsExampleStories.NoParameters,
+    sort: 'alpha',
   },
 };
