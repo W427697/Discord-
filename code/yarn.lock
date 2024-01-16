@@ -2613,7 +2613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/use-insertion-effect-with-fallbacks@npm:^1.0.0, @emotion/use-insertion-effect-with-fallbacks@npm:^1.0.1":
+"@emotion/use-insertion-effect-with-fallbacks@npm:^1.0.1":
   version: 1.0.1
   resolution: "@emotion/use-insertion-effect-with-fallbacks@npm:1.0.1"
   peerDependencies:
@@ -6448,7 +6448,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/test": "npm:next"
+    "@storybook/test": "workspace:*"
     "@storybook/testing-library": "npm:next"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -6720,21 +6720,6 @@ __metadata:
     "@testing-library/user-event": "npm:^14.4.0"
     ts-dedent: "npm:^2.2.0"
   checksum: 4350e73776cba8ab5037ee9a8b07b957c73540873f64097648ed96b93f086469eab475ad19b917e5e2eee4faec67891fa443d703b9b4aa28efc9a74243970a4e
-  languageName: node
-  linkType: hard
-
-"@storybook/theming@npm:^7.0.2":
-  version: 7.5.0
-  resolution: "@storybook/theming@npm:7.5.0"
-  dependencies:
-    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.0"
-    "@storybook/client-logger": "npm:7.5.0"
-    "@storybook/global": "npm:^5.0.0"
-    memoizerific: "npm:^1.11.3"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 57da8e27c748cbec4dc1661cdd2d449949d97476d8e97933696b31d07c7361cbbcca8d7225cc00ca078daa160023b8965ddec7c23519ce0a4ef2658246b062e7
   languageName: node
   linkType: hard
 
