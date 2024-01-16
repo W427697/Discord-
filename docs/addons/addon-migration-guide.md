@@ -1,75 +1,61 @@
 ---
-title: Addon migration guide for Storybook 7.0
+title: Addon migration guide for Storybook 8.0
 ---
 
-Storybook 7 is our first major release in over two years. While Storybook’s addon API has not changed much in the past couple of years, addons require several changes for compatibility with Storybook 7. This guide will walk you through the upgrade process.
+We deeply appreciate the dedication and effort addon creators put into keeping the Storybook ecosystem vibrant and up-to-date. As Storybook evolves to version 8.0, bringing new features and improvements, this guide is here to assist you in migrating your addons from 7.x to 8.0. If you need to migrate your addon from an earlier version of Storybook, please first refer to the [Addon migration guide for Storybook 7.0](https://storybook.js.org/docs/addons/addon-migration-guide).
 
-<Callout variant="info">
+## Updating Dependencies
 
-As we gather feedback from the community, we’ll update this page. We also have a general [Storybook migration guide](../migration-guide.md) if you’re looking for that.
-
-</Callout>
-
-## Dependencies
-
-The first thing to do is upgrade any Storybook dependencies in your project. We release the next version of all our packages on the `next` npm tag, so the easiest thing is to reference that in your `package.json`:
+Begin by updating your Storybook dependencies. Use the `next` tag for pre-release versions, `latest` for the most recent stable release, or specify the version directly.
 
 ```json
 {
   "dependencies": {
-    "@storybook/client-logger": "next"
+    "@storybook/client-logger": "next" // or "latest", or "^8.0.0"
   }
 }
 ```
 
-If you'd rather depend on the latest version of Storybook, you can use the `latest` tag:
+## Key Changes for Addons
 
-```json
-{
-  "dependencies": {
-    "@storybook/client-logger": "latest"
-  }
-}
+Here are the essential changes in version 8.0 that impact addon development. Please check the [full migration note](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) for an exhaustive list of changes in 8.0.
+
+### React 18 for Manager UI
+
+UI injected into panels, tools, etc. by addons is now rendered with React 18. Also note that the `key` prop is no longer passed to the render function.
+
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    // This will be called as a JSX element by react 18
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
+  });
+});
 ```
 
-Or use a version specifier:
+### @storybook/components Deprecations
 
-```json
-{
-  "dependencies": {
-    "@storybook/client-logger": "^7.0.0"
-  }
-}
-```
+`Icons` component from `@storybook/components` is now deprecated in favor of [`@storybook/icons`](https://github.com/storybookjs/icons). Additionally, various `Button` component props are also deprecated, with alternatives provided.
 
-## Breaking changes
+### Storybook Layout State API Changes
 
-### `@storybook/addons` has been split into `@storybook/manager-api` and `@storybook/preview-api`
+If you're customizing the Storybook UI configuration with `addons.setConfig({...})`, be aware of these changes to the layout state:
 
-The default export from `@storybook/addons` can now be used via named imports from `@storybook/manager-api` and `@storybook/preview-api`, depending on which environment you need the API from. The manager is the Storybook UI and includes your addon's Addon Panel. While the preview is used to render stories and includes your addon's decorators.
+- `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
+- `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
+- `isFullscreen: boolean` is removed, but can be achieved by setting a combination of the above.
 
-You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`. These have all been consolidated into `@storybook/preview-api`. If you use any of these packages, please import what you need from `@storybook/preview-api` instead.
+### Removal of Deprecated Features
 
-### Some components were moved from `@storybook/components` to a new package `@storybook/blocks`
-
-Components like `ColorControl`, `ColorPalette`, `ArgsTable`, `ArgRow`, `TabbedArgsTable`, `SectionRow`, `Source`, AND `Code` were moved into a new package. In Storybook 7.0, they should be imported from `@storybook/blocks` instead.
-
-```js
-// import { ColorControl } from '@storybook/components';
-import { ColorControl } from '@storybook/blocks';
-```
-
-## Deprecations and detailed migrations
-
-We’ve also deprecated a few packages and APIs in 7.0. After you’ve made your addon working with 7.0, make sure to check the browser console in a Storybook running your addon. If you’re using deprecated packages, you should see warnings that link to migration instructions.
-
-There are more technical details available in the [migration notes for addon authors](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-creators).
-
-Finally, for an exhaustive list of noteworthy changes in 7.0, check [the full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700).
+Deprecated packages and APIs from 7.0 are now removed in 8.0. Consult the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecations-which-are-now-removed) for details.
 
 ## Releasing
 
-You should release a new major version of this addon that supports Storybook 7. If you want to continue making changes that support Storybook 6, you should release a minor or a patch of the previous major version.
+For Storybook 8.0 compatibility, release a new major version of your addon. If maintaining support for 7.x, consider releasing minor or patch versions.
 
 We also recommend releasing your own addon using the `next` tag to test it out in projects.
 
