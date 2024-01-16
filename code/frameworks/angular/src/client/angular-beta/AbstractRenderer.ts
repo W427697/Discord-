@@ -199,7 +199,7 @@ export abstract class AbstractRenderer {
 
     const currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata, { allowFunction: false }),
     };
 
     this.previousStoryRenderInfo.set(targetDOMNode, currentStoryRender);
