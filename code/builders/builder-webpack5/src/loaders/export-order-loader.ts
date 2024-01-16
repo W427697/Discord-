@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-expect-error No types
 import { parse as parseCjs, init as initCjsParser } from 'cjs-module-lexer';
 import { parse as parseEs } from 'es-module-lexer';
 import MagicString from 'magic-string';
