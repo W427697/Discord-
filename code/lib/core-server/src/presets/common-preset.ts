@@ -1,5 +1,5 @@
 import fs, { pathExists, readFile } from 'fs-extra';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
   findConfigFile,
