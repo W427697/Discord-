@@ -9,8 +9,10 @@ export const ServerComponentDecorator = (
 ): React.ReactNode => {
   if (!parameters?.react?.rsc) return <Story />;
 
-  if (semver.major(React.version) < 18 || semver.minor(React.version) < 3) {
-    throw new Error('React Server Components require React 18.3');
+  const major = semver.major(React.version);
+  const minor = semver.minor(React.version);
+  if (major < 18 || (major === 18 && minor < 3)) {
+    throw new Error('React Server Components require React >= 18.3');
   }
 
   return (
