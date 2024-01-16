@@ -27,7 +27,6 @@ export type BuildStaticStandaloneOptions = CLIOptions &
   BuilderOptions & { outputDir: string };
 
 export async function buildStaticStandalone(options: BuildStaticStandaloneOptions) {
-  /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
   if (options.outputDir === '') {
@@ -36,7 +35,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   options.outputDir = resolve(options.outputDir);
   options.configDir = resolve(options.configDir);
-  /* eslint-enable no-param-reassign */
 
   logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
@@ -83,7 +81,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: [
       ...(previewBuilder.overridePresets || []),

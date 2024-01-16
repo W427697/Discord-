@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-loop-func */
-/* eslint-disable no-plusplus */
-/* eslint-disable func-names */
-/* eslint-disable no-nested-ternary */
+
 /**
  * Source: https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/plugins/next-ssg-transform.ts
  */
@@ -198,10 +196,10 @@ export default function nextTransformSsg({
                       p.node.type === 'ObjectProperty'
                         ? 'value'
                         : p.node.type === 'RestElement'
-                        ? 'argument'
-                        : (function () {
-                            throw new Error('invariant');
-                          })()
+                          ? 'argument'
+                          : (function () {
+                              throw new Error('invariant');
+                            })()
                     ) as NodePath<BabelTypes.Identifier>;
                     if (isIdentifierReferenced(local)) {
                       variableState.refs.add(local);
@@ -360,10 +358,10 @@ export default function nextTransformSsg({
                       p.node.type === 'ObjectProperty'
                         ? 'value'
                         : p.node.type === 'RestElement'
-                        ? 'argument'
-                        : (function () {
-                            throw new Error('invariant');
-                          })()
+                          ? 'argument'
+                          : (function () {
+                              throw new Error('invariant');
+                            })()
                     ) as NodePath<BabelTypes.Identifier>;
 
                     if (refs.has(local) && !isIdentifierReferenced(local)) {

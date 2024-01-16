@@ -20,7 +20,7 @@ import type {
   ManagerBuilder,
   StarterFunction,
 } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
@@ -138,6 +138,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
 
   yield;
@@ -175,6 +176,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
@@ -222,6 +224,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
   yield;
 
@@ -262,6 +265,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
@@ -294,7 +298,6 @@ export const start: ManagerBuilder['start'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -306,7 +309,6 @@ export const build: ManagerBuilder['build'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 

@@ -134,7 +134,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
-      // eslint-disable-next-line no-case-declarations
       const { builder } = await prompts(
         {
           type: 'select',
@@ -185,9 +184,8 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     '@typescript-eslint/parser'
   );
 
-  const eslintPluginStorybookVersion = await packageManager.getPackageVersion(
-    'eslint-plugin-storybook'
-  );
+  const eslintPluginStorybookVersion =
+    await packageManager.getPackageVersion('eslint-plugin-storybook');
 
   if (isTypescriptDirectDependency && typescriptVersion) {
     if (

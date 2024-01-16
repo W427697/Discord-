@@ -99,7 +99,7 @@ npx storybook@latest init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@latest upgrade --prerelease
+npx storybook@latest upgrade
 ```
 
 #### Automatic migration
@@ -123,12 +123,6 @@ export default {
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
     name: '@storybook/nextjs', // Add this
-    options: {
-      builder: {
-        // Set useSWC to true if you want to try out the experimental SWC compiler in Next.js >= 14.0.0
-        useSWC: true,
-      },
-    },
   },
 };
 ```
