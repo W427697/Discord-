@@ -920,13 +920,13 @@ export default {
 
 Setting this flag automatically wraps your story in a [Suspense](https://react.dev/reference/react/Suspense) wrapper, which is able to render asynchronous components in NextJS's version of React.
 
-If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `nextjs.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
+If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `react.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
 
 ```js
 // MyServerComponent.stories.js
 export default {
   component: MyServerComponent,
-  parameters: { nextjs: { rsc: false } },
+  parameters: { react: { rsc: false } },
 };
 ```
 
