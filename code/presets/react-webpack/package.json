@@ -33,27 +33,27 @@
     },
     "./dist/framework-preset-cra": {
       "types": "./dist/framework-preset-cra.d.ts",
-      "require": "./dist/framework-preset-cra.js",
-      "import": "./dist/framework-preset-cra.mjs"
+      "require": "./dist/framework-preset-cra.cjs",
+      "import": "./dist/framework-preset-cra.js"
     },
     "./dist/framework-preset-react-docs": {
       "types": "./dist/framework-preset-react-docs.d.ts",
-      "require": "./dist/framework-preset-react-docs.js",
-      "import": "./dist/framework-preset-react-docs.mjs"
+      "require": "./dist/framework-preset-react-docs.cjs",
+      "import": "./dist/framework-preset-react-docs.js"
     },
     "./dist/framework-preset-react": {
       "types": "./dist/framework-preset-react.d.ts",
-      "require": "./dist/framework-preset-react.js",
-      "import": "./dist/framework-preset-react.mjs"
+      "require": "./dist/framework-preset-react.cjs",
+      "import": "./dist/framework-preset-react.js"
     },
     "./dist/loaders/react-docgen-loader": {
       "types": "./dist/loaders/react-docgen-loader.d.ts",
-      "require": "./dist/loaders/react-docgen-loader.js",
-      "import": "./dist/loaders/react-docgen-loader.mjs"
+      "require": "./dist/loaders/react-docgen-loader.cjs",
+      "import": "./dist/loaders/react-docgen-loader.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

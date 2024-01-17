@@ -24,13 +24,13 @@
   "exports": {
     ".": {
       "types": "./dist/react-18.d.ts",
-      "require": "./dist/react-18.js",
-      "import": "./dist/react-18.mjs"
+      "require": "./dist/react-18.cjs",
+      "import": "./dist/react-18.js"
     },
     "./dist/react-16": {
       "types": "./dist/react-16.d.ts",
-      "require": "./dist/react-16.js",
-      "import": "./dist/react-16.mjs"
+      "require": "./dist/react-16.cjs",
+      "import": "./dist/react-16.js"
     },
     "./dist/preset": {
       "types": "./dist/preset.d.ts",
@@ -38,8 +38,8 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/react-18.js",
-  "module": "dist/react-18.mjs",
+  "main": "dist/react-18.cjs",
+  "module": "dist/react-18.js",
   "types": "dist/react-18.d.ts",
   "files": [
     "dist/**/*",

@@ -34,7 +34,7 @@
     "./preview": {
       "types": "./dist/preview.d.ts",
       "require": "./dist/preview.cjs",
-      "import": "./dist/preview.mjs"
+      "import": "./dist/preview.js"
     },
     "./preset": {
       "types": "./dist/preset.d.ts",
@@ -44,12 +44,12 @@
     "./blocks": {
       "types": "./dist/blocks.d.ts",
       "require": "./dist/blocks.cjs",
-      "import": "./dist/blocks.mjs"
+      "import": "./dist/blocks.js"
     },
     "./dist/preview": {
       "types": "./dist/preview.d.ts",
       "require": "./dist/preview.cjs",
-      "import": "./dist/preview.mjs"
+      "import": "./dist/preview.js"
     },
     "./dist/preset": {
       "types": "./dist/preset.d.ts",
@@ -74,7 +74,7 @@
     "./web-components/index.js": "./web-components/index.js",
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

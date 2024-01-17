@@ -27,11 +27,11 @@
       "import": "./dist/index.js"
     },
     "./preset": "./preset.cjs",
-    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
-    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
+    "./dist/entry-preview.js": "./dist/entry-preview.js",
+    "./dist/entry-preview-docs.js": "./dist/entry-preview-docs.js",
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

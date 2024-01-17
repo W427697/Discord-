@@ -29,8 +29,8 @@
     },
     "./dist/image-context": {
       "types": "./dist/image-context.d.ts",
-      "require": "./dist/image-context.js",
-      "import": "./dist/image-context.mjs"
+      "require": "./dist/image-context.cjs",
+      "import": "./dist/image-context.js"
     },
     "./preset": {
       "types": "./dist/preset.d.ts",
@@ -38,19 +38,18 @@
     },
     "./font/webpack/loader/storybook-nextjs-font-loader": {
       "types": "./dist/font/webpack/loader/storybook-nextjs-font-loader.d.ts",
-      "require": "./dist/font/webpack/loader/storybook-nextjs-font-loader.js",
-      "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.mjs"
+      "require": "./dist/font/webpack/loader/storybook-nextjs-font-loader.cjs",
+      "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.js"
     },
-    "./dist/preview.mjs": "./dist/preview.mjs",
-    "./dist/rsc/preview.mjs": "./dist/rsc/preview.mjs",
+    "./dist/rsc/preview.js": "./dist/rsc/preview.js",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
-      "require": "./dist/next-image-loader-stub.js",
-      "import": "./dist/next-image-loader-stub.mjs"
+      "require": "./dist/next-image-loader-stub.cjs",
+      "import": "./dist/next-image-loader-stub.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "typesVersions": {
@@ -101,7 +100,6 @@
     "@types/semver": "^7.3.4",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
-    "fs-extra": "^11.1.0",
     "image-size": "^1.0.0",
     "loader-utils": "^3.2.1",
     "node-polyfill-webpack-plugin": "^2.0.1",
@@ -124,6 +122,7 @@
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
     "@types/loader-utils": "^2.0.5",
+    "fs-extra": "^11.1.0",
     "next": "^14.0.2",
     "typescript": "^5.3.2",
     "webpack": "^5.65.0"

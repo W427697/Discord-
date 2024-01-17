@@ -29,12 +29,12 @@
     },
     "./html": {
       "types": "./dist/html.d.ts",
-      "require": "./dist/html.js",
-      "import": "./dist/html.mjs"
+      "require": "./dist/html.cjs",
+      "import": "./dist/html.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "typesVersions": {

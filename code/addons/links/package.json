@@ -30,15 +30,14 @@
     },
     "./react": {
       "types": "./dist/react/index.d.ts",
-      "require": "./dist/react/index.js",
-      "import": "./dist/react/index.mjs"
+      "require": "./dist/react/index.cjs",
+      "import": "./dist/react/index.js"
     },
     "./manager": "./dist/manager.js",
     "./preview": "./dist/preview.js",
-    "./register": "./dist/manager.js",
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "typesVersions": {

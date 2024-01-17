@@ -29,12 +29,12 @@
     },
     "./utils": {
       "types": "./dist/utils.d.ts",
-      "require": "./dist/utils.js",
-      "import": "./dist/utils.mjs"
+      "require": "./dist/utils.cjs",
+      "import": "./dist/utils.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

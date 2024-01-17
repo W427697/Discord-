@@ -31,11 +31,13 @@
     },
     "./preset": "./preset.cjs",
     "./preset.cjs": "./preset.cjs",
-    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
-    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
+    "./dist/preset": "./preset.cjs",
+    "./dist/preset.cjs": "./preset.cjs",
+    "./dist/entry-preview.js": "./dist/entry-preview.js",
+    "./dist/entry-preview-docs.js": "./dist/entry-preview-docs.js",
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

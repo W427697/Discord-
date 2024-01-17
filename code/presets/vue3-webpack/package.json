@@ -33,17 +33,17 @@
     },
     "./dist/framework-preset-vue3-docs": {
       "types": "./dist/framework-preset-vue3-docs.d.ts",
-      "require": "./dist/framework-preset-vue3-docs.js",
-      "import": "./dist/framework-preset-vue3-docs.mjs"
+      "require": "./dist/framework-preset-vue3-docs.cjs",
+      "import": "./dist/framework-preset-vue3-docs.js"
     },
     "./dist/framework-preset-vue3": {
       "types": "./dist/framework-preset-vue3.d.ts",
-      "require": "./dist/framework-preset-vue3.js",
-      "import": "./dist/framework-preset-vue3.mjs"
+      "require": "./dist/framework-preset-vue3.cjs",
+      "import": "./dist/framework-preset-vue3.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
