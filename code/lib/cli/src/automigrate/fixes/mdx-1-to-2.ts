@@ -1,7 +1,8 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import { basename } from 'node:path';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import globby from 'globby';
 import type { Fix } from '../types';
 

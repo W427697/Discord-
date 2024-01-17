@@ -1,6 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
-import * as fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
@@ -33,7 +34,7 @@ function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandl
       return;
     }
 
-    const indexHtml = await fs.readFile(
+    const indexHtml = await fse.readFile(
       require.resolve('@storybook/builder-vite/input/iframe.html'),
       'utf-8'
     );
@@ -80,7 +81,7 @@ export const build: ViteBuilder['build'] = async ({ options }) => {
   const previewDirOrigin = join(previewResolvedDir, 'dist');
   const previewDirTarget = join(options.outputDir || '', `sb-preview`);
 
-  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+  const previewFiles = fse.copy(previewDirOrigin, previewDirTarget, {
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {

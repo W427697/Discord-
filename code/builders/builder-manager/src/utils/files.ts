@@ -1,5 +1,6 @@
 import type { OutputFile } from 'esbuild';
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { join, normalize } from 'node:path';
 import slash from 'slash';
 import type { Compilation } from '../types';
@@ -13,8 +14,8 @@ export async function readOrderedFiles(
       // convert deeply nested paths to a single level, also remove special characters
       const { location, url } = sanitizePath(file, addonsDir);
 
-      await fs.ensureFile(location);
-      await fs.writeFile(location, file.contents);
+      await fse.ensureFile(location);
+      await fse.writeFile(location, file.contents);
       return url;
     }) || []
   );

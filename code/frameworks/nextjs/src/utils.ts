@@ -2,7 +2,8 @@ import path from 'node:path';
 import { DefinePlugin } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import findUp from 'find-up';
-import fse from 'fs-extra';
+
+import * as fse from 'fs-extra/esm';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { NextConfig } from 'next';
 import { pathToFileURL } from 'node:url';

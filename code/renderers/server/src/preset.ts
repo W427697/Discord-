@@ -1,4 +1,5 @@
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import yaml from 'yaml';
 import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
 
@@ -18,8 +19,8 @@ export const experimental_indexers: PresetProperty<'experimental_indexers'> = (
     test: /(stories|story)\.(json|ya?ml)$/,
     createIndex: async (fileName) => {
       const content: FileContent = fileName.endsWith('.json')
-        ? await fs.readJson(fileName, 'utf-8')
-        : yaml.parse((await fs.readFile(fileName, 'utf-8')).toString());
+        ? await fse.readJson(fileName, 'utf-8')
+        : yaml.parse((await fse.readFile(fileName, 'utf-8')).toString());
 
       return content.stories.map((story) => {
         const tags = Array.from(new Set([...(content.tags ?? []), ...(story.tags ?? [])]));

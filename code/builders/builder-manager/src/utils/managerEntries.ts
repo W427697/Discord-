@@ -1,4 +1,5 @@
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { resolvePathInStorybookCache } from '@storybook/core-common';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
@@ -50,8 +51,8 @@ export async function wrapManagerEntries(entrypoints: string[], uniqueId?: strin
         sanitizeFinal(join(`${sanitizeBase(base)}-${i}`, `${sanitizeBase(name)}-bundle.js`))
       );
 
-      await fs.ensureFile(location);
-      await fs.writeFile(location, `import '${slash(entry)}';`);
+      await fse.ensureFile(location);
+      await fse.writeFile(location, `import '${slash(entry)}';`);
 
       return location;
     })

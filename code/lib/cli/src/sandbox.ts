@@ -5,7 +5,8 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import invariant from 'tiny-invariant';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';

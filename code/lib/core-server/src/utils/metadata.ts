@@ -1,4 +1,5 @@
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import type { Request, Response, Router } from 'express';
 import { getStorybookMetadata } from '@storybook/telemetry';
 

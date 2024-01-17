@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import chalk from 'chalk';
 import fs from 'fs';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import path, { join } from 'node:path';
 import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';

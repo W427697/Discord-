@@ -1,5 +1,6 @@
 import path from 'node:path';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import chalk from 'chalk';
 import { command } from 'execa';
 import type spawn from 'cross-spawn';

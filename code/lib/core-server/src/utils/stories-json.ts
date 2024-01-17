@@ -1,5 +1,6 @@
 import type { Router, Request, Response } from 'express';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 
 import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
 import debounce from 'lodash/debounce.js';

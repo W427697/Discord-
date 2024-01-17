@@ -1,4 +1,5 @@
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import path from 'node:path';
 import type { PackageJson } from '@storybook/types';
 import { getProjectRoot } from '@storybook/core-common';
@@ -20,18 +21,18 @@ export const getMonorepoType = (): MonorepoType => {
   const keys = Object.keys(monorepoConfigs) as (keyof typeof monorepoConfigs)[];
   const monorepoType: MonorepoType = keys.find((monorepo) => {
     const configFile = path.join(projectRootPath, monorepoConfigs[monorepo]);
-    return fs.existsSync(configFile);
+    return fse.existsSync(configFile);
   }) as MonorepoType;
 
   if (monorepoType) {
     return monorepoType;
   }
 
-  if (!fs.existsSync(path.join(projectRootPath, 'package.json'))) {
+  if (!fse.existsSync(path.join(projectRootPath, 'package.json'))) {
     return undefined;
   }
 
-  const packageJson = fs.readJsonSync(path.join(projectRootPath, 'package.json')) as PackageJson;
+  const packageJson = fse.readJsonSync(path.join(projectRootPath, 'package.json')) as PackageJson;
 
   if (packageJson?.workspaces) {
     return 'Workspaces';

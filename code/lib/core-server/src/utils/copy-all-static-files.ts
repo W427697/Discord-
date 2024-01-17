@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { join, relative } from 'node:path';
 import { logger } from '@storybook/node-logger';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
@@ -24,7 +25,7 @@ export async function copyAllStaticFiles(staticDirs: any[] | undefined, outputDi
 
           // Storybook's own files should not be overwritten, so we skip such files if we find them
           const skipPaths = ['index.html', 'iframe.html'].map((f) => join(targetPath, f));
-          await fs.copy(staticPath, targetPath, {
+          await fse.copy(staticPath, targetPath, {
             dereference: true,
             preserveTimestamps: true,
             filter: (_, dest) => !skipPaths.includes(dest),
@@ -64,7 +65,7 @@ export async function copyAllStaticFilesRelativeToMain(
         chalk`=> Copying static files: {cyan ${print(from)}} at {cyan ${print(targetPath)}}`
       );
     }
-    await fs.copy(from, targetPath, {
+    await fse.copy(from, targetPath, {
       dereference: true,
       preserveTimestamps: true,
       filter: (_, dest) => !skipPaths.includes(dest),

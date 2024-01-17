@@ -1,5 +1,6 @@
 import type { WriteStream } from 'fs-extra';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { join } from 'node:path';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';

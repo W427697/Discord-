@@ -39,6 +39,9 @@
       "types": "./dist/presets/common-override-preset.d.ts",
       "require": "./dist/presets/common-override-preset.cjs"
     },
+    "./dist/presets/common-override-preset.cjs": "./dist/presets/common-override-preset.cjs",
+    "./dist/presets/babel-cache-preset.cjs": "./dist/presets/babel-cache-preset.cjs",
+    "./dist/presets/common-preset.cjs": "./dist/presets/common-preset.cjs",
     "./public/favicon.svg": "./public/favicon.svg",
     "./package.json": "./package.json"
   },

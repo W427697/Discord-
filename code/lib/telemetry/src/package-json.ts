@@ -1,4 +1,5 @@
-import * as fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import path from 'node:path';
 
 import type { Dependency } from './types';
@@ -24,7 +25,7 @@ export const getActualPackageJson = async (packageName: string) => {
   const resolvedPackageJson = require.resolve(path.join(packageName, 'package.json'), {
     paths: [process.cwd()],
   });
-  const packageJson = await fs.readJson(resolvedPackageJson);
+  const packageJson = await fse.readJson(resolvedPackageJson);
   return packageJson;
 };
 

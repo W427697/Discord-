@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -604,12 +605,12 @@ export const printCsf = (csf: CsfFile, options: Options = {}) => {
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const code = (await fse.readFile(fileName, 'utf-8')).toString();
   return loadCsf(code, { ...options, fileName });
 };
 
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, printCsf(csf).code);
+  await fse.writeFile(fileName as string, printCsf(csf).code);
 };

@@ -2,7 +2,8 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import tempy from 'tempy';
 import { dedent } from 'ts-dedent';
 

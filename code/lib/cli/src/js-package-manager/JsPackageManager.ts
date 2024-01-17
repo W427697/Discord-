@@ -6,7 +6,8 @@ import path from 'node:path';
 import fs from 'fs';
 
 import { dedent } from 'ts-dedent';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import invariant from 'tiny-invariant';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
@@ -97,8 +98,12 @@ export abstract class JsPackageManager {
         const packageJsonPath = require.resolve(`${cwd}/package.json`);
 
         // read packagejson with readFileSync
-        const packageJsonFile = fse.readFileSync(packageJsonPath, 'utf8');
-        const packageJson = JSON.parse(packageJsonFile) as PackageJsonWithDepsAndDevDeps;
+        console.log({ fse });
+
+        const packageJson = fse.readJSONSync(
+          packageJsonPath,
+          'utf8'
+        ) as PackageJsonWithDepsAndDevDeps;
 
         if (packageJson.workspaces) {
           return true;
@@ -156,8 +161,7 @@ export abstract class JsPackageManager {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
 
-    const jsonContent = await fse.readFile(packageJsonPath, 'utf8');
-    return JSON.parse(jsonContent);
+    return fse.readJSON(packageJsonPath, 'utf8');
   }
 
   async writePackageJson(packageJson: PackageJson) {

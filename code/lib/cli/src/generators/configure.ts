@@ -1,4 +1,5 @@
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import path from 'node:path';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';

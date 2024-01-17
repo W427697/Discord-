@@ -1,6 +1,7 @@
 import path from 'node:path';
 import chalk from 'chalk';
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
@@ -348,7 +349,7 @@ export class StoryIndexGenerator {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
-      const content = await fs.readFile(absolutePath, 'utf8');
+      const content = await fse.readFile(absolutePath, 'utf8');
 
       const result: {
         title?: ComponentTitle;
@@ -627,10 +628,10 @@ export class StoryIndexGenerator {
   async getStorySortParameter() {
     const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
-      .find((fname) => fs.existsSync(fname));
+      .find((fname) => fse.existsSync(fname));
     let storySortParameter;
     if (previewFile) {
-      const previewCode = (await fs.readFile(previewFile, 'utf-8')).toString();
+      const previewCode = (await fse.readFile(previewFile, 'utf-8')).toString();
       storySortParameter = await getStorySortParameter(previewCode);
     }
 

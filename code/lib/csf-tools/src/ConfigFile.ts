@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -767,12 +768,12 @@ export const printConfig = (config: ConfigFile, options: Options = {}) => {
 };
 
 export const readConfig = async (fileName: string) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const code = (await fse.readFile(fileName, 'utf-8')).toString();
   return loadConfig(code, fileName).parse();
 };
 
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fs.writeFile(fname, formatConfig(config));
+  await fse.writeFile(fname, formatConfig(config));
 };

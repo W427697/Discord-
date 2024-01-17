@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import type { Fix } from '../types';
 
 export enum RemovedAPIs {

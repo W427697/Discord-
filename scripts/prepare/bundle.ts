@@ -151,6 +151,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
             ? {
                 js: dedent`
           import { createRequire as myCreateRequire } from 'node:module';
+          console.log(import.meta.url);
                   const require = myCreateRequire(import.meta.url);
                   `,
               }

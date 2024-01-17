@@ -7,7 +7,8 @@ import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'node:path';
 import express from 'express';
-import fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fse from 'fs-extra/esm';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
 import {
   WebpackCompilationError,
@@ -292,7 +293,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const previewDirOrigin = join(previewResolvedDir, 'dist');
   const previewDirTarget = join(options.outputDir || '', `sb-preview`);
 
-  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+  const previewFiles = fse.copy(previewDirOrigin, previewDirTarget, {
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
