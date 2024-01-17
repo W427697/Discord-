@@ -54,7 +54,7 @@ describe('shortcuts api', () => {
     const { api, state } = initShortcuts({ store });
     store.setState(state);
 
-    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['Control+F']);
+    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['control', 'F']);
   });
 
   it('gets defaults including addon ones', async () => {
@@ -67,7 +67,7 @@ describe('shortcuts api', () => {
     await api.setAddonShortcut(mockAddonSecondShortcut.addon, mockAddonSecondShortcut.shortcut);
     await api.setAddonShortcut(mockSecondAddonShortcut.addon, mockSecondAddonShortcut.shortcut);
 
-    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['Control+F']);
+    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['control', 'F']);
     expect(api.getDefaultShortcuts()).toHaveProperty(
       `${mockAddonShortcut.addon}-${mockAddonShortcut.shortcut.actionName}`,
       mockAddonShortcut.shortcut.defaultShortcut
@@ -148,7 +148,7 @@ describe('shortcuts api', () => {
     const { api, state } = initShortcuts({ store });
     store.setState(state);
 
-    expect(api.getShortcutKeys().fullScreen).toEqual(['Control+F']);
+    expect(api.getShortcutKeys().fullScreen).toEqual(['control', 'F']);
   });
 
   it('sets addon shortcut with default value', async () => {
@@ -161,7 +161,7 @@ describe('shortcuts api', () => {
     await api.setAddonShortcut(mockAddonSecondShortcut.addon, mockAddonSecondShortcut.shortcut);
     await api.setAddonShortcut(mockSecondAddonShortcut.addon, mockSecondAddonShortcut.shortcut);
 
-    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['Control+F']);
+    expect(api.getDefaultShortcuts()).toHaveProperty('fullScreen', ['control', 'F']);
     expect(api.getDefaultShortcuts()).toHaveProperty(
       `${mockAddonShortcut.addon}-${mockAddonShortcut.shortcut.actionName}`,
       mockAddonShortcut.shortcut.defaultShortcut
@@ -184,7 +184,7 @@ describe('shortcuts api', () => {
     store.setState(state);
 
     expect(api.getShortcutKeys().fullScreen).toEqual(['Z']);
-    expect(api.getShortcutKeys().togglePanel).toEqual(['Control+A']);
+    expect(api.getShortcutKeys().togglePanel).toEqual(['control', 'A']);
   });
 
   it('sets defaults, ignoring anything persisted that is out of date', () => {
@@ -234,8 +234,8 @@ describe('shortcuts api', () => {
     await api.setShortcut(`${addon}-${shortcut.actionName}`, ['I']);
 
     await api.restoreAllDefaultShortcuts();
-    expect(api.getShortcutKeys().fullScreen).toEqual(['F']);
-    expect(api.getShortcutKeys().togglePanel).toEqual(['Control+A']);
+    expect(api.getShortcutKeys().fullScreen).toEqual(['control', 'F']);
+    expect(api.getShortcutKeys().togglePanel).toEqual(['control', 'A']);
     expect(api.getShortcutKeys()[`${addon}-${shortcut.actionName}`]).toEqual(
       shortcut.defaultShortcut
     );
@@ -269,7 +269,7 @@ describe('shortcuts api', () => {
       `${mockAddonShortcut.addon}-${mockAddonShortcut.shortcut.actionName}`
     );
 
-    expect(api.getShortcutKeys().fullScreen).toEqual(['Control+F']);
+    expect(api.getShortcutKeys().fullScreen).toEqual(['control', 'F']);
     expect(api.getShortcutKeys().togglePanel).toEqual(['B']);
     expect(
       api.getShortcutKeys()[`${mockAddonShortcut.addon}-${mockAddonShortcut.shortcut.actionName}`]
