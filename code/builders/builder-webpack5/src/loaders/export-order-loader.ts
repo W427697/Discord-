@@ -1,8 +1,8 @@
-import assert from 'assert';
-import { parse as parseCjs, init as initCjsParser } from 'cjs-module-lexer';
-import { parse as parseEs } from 'es-module-lexer';
-import MagicString from 'magic-string';
-import type { LoaderContext } from 'webpack';
+import assert from "node:assert";
+import { parse as parseCjs, init as initCjsParser } from "cjs-module-lexer";
+import { parse as parseEs } from "es-module-lexer";
+import MagicString from "magic-string";
+import type { LoaderContext } from "webpack";
 
 export default async function loader(
   this: LoaderContext<any>,
@@ -22,30 +22,34 @@ export default async function loader(
       const parseResult = await parseEs(source);
       const namedExportsOrder = (parseResult[1] || [])
         .map((e) => source.substring(e.s, e.e))
-        .filter((e) => e !== 'default');
+        .filter((e) => e !== "default");
 
       assert(
         namedExportsOrder.length > 0,
-        'No named exports found. Very likely that this is not a ES module.'
+        "No named exports found. Very likely that this is not a ES module."
       );
 
       magicString.append(
-        `;export const __namedExportsOrder = ${JSON.stringify(namedExportsOrder)};`
+        `;export const __namedExportsOrder = ${JSON.stringify(
+          namedExportsOrder
+        )};`
       );
       // Try to parse as CJS module
     } catch {
       await initCjsParser();
       const namedExportsOrder = (parseCjs(source).exports || []).filter(
-        (e: string) => e !== 'default' && e !== '__esModule'
+        (e: string) => e !== "default" && e !== "__esModule"
       );
 
       assert(
         namedExportsOrder.length > 0,
-        'No named exports found. Very likely that this is not a CJS module.'
+        "No named exports found. Very likely that this is not a CJS module."
       );
 
       magicString.append(
-        `;module.exports.__namedExportsOrder = ${JSON.stringify(namedExportsOrder)};`
+        `;module.exports.__namedExportsOrder = ${JSON.stringify(
+          namedExportsOrder
+        )};`
       );
     }
 
