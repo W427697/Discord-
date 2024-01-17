@@ -26,9 +26,9 @@ Begin by updating your Storybook dependencies. Use the `next` tag for pre-releas
 
 Here are the essential changes in version 8.0 that impact addon development. Please check the [full migration note](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) for an exhaustive list of changes in 8.0.
 
-#### Node.js 16 is no longer supported
+### Node.js 16 Support Dropped
 
-We have dropped Node.js 16 support since it reached end-of-life on 2023-09-11. Please upgrade to Node.js 18.
+Please upgrade your addon to Node.js 18, as support for Node.js 16 has ended.
 
 ### React 18 for Manager UI
 
