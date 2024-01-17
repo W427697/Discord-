@@ -32,6 +32,16 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./dist/framework-preset-preact-docs": {
+      "types": "./dist/framework-preset-preact-docs.d.ts",
+      "require": "./dist/framework-preset-preact-docs.js",
+      "import": "./dist/framework-preset-preact-docs.mjs"
+    },
+    "./dist/loaders/react-docgen-loader": {
+      "types": "./dist/loaders/react-docgen-loader.d.ts",
+      "require": "./dist/loaders/react-docgen-loader.js",
+      "import": "./dist/loaders/react-docgen-loader.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -50,7 +60,12 @@
   },
   "dependencies": {
     "@storybook/core-webpack": "workspace:*",
-    "@types/node": "^18.0.0"
+    "@storybook/docs-tools": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
+    "@types/node": "^18.0.0",
+    "magic-string": "^0.30.5",
+    "react-docgen": "^7.0.0"
   },
   "devDependencies": {
     "preact": "^10.5.13",
@@ -67,7 +82,9 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/framework-preset-preact-docs.ts",
+      "./src/loaders/react-docgen-loader.ts"
     ],
     "platform": "node"
   },
