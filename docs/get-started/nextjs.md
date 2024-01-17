@@ -709,18 +709,20 @@ Storybook handles most [Typescript](https://www.typescriptlang.org/) configurati
 }
 ```
 
-## Experimental React Server Components (RSC)
+## React Server Components (RSC)
+
+(⚠️ **Experimental**)
 
 If your app uses [React Server Components (RSC)](https://nextjs.org/docs/app/building-your-application/rendering/server-components), Storybook can render them in stories in the browser.
 
-To enable this set the `experimentalNextRSC` feature flag in your `.storybook/main.js|ts` config:
+To enable this set the `experimentalRSC` feature flag in your `.storybook/main.js|ts` config:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/nextjs-next-rsc.js.mdx',
-    'react/nextjs-next-rsc.ts.mdx'
+    'react/rsc-feature-flag.js.mdx',
+    'react/rsc-feature-flag.ts.mdx'
   ]}
 />
 
@@ -728,14 +730,14 @@ To enable this set the `experimentalNextRSC` feature flag in your `.storybook/ma
 
 Setting this flag automatically wraps your story in a [Suspense](https://react.dev/reference/react/Suspense) wrapper, which is able to render asynchronous components in NextJS's version of React.
 
-If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `nextjs.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
+If this wrapper causes problems in any of your existing stories, you can selectively disable it using the `react.rsc` [parameter](https://storybook.js.org/docs/writing-stories/parameters) at the global/component/story level:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/nextjs-next-rsc-in-meta.js.mdx',
-    'react/nextjs-next-rsc-in-meta.ts.mdx'
+    'react/rsc-parameter-in-meta.js.mdx',
+    'react/rsc-parameter-in-meta.ts.mdx'
   ]}
 />
 
@@ -868,12 +870,6 @@ Type:
 ```
 
 The router object that is passed to the `next/router` context. See [Next.js's router docs](https://nextjs.org/docs/pages/building-your-application/routing) for more details.
-
-#### `rsc`
-
-Type: `boolean`
-
-If you opt in to the [experimental React Server Components (RSC) support](#experimental-react-server-components-rsc), you can use this parameter to opt out for specific stories for which it may cause problems.
 
 ### Options
 

@@ -4,11 +4,11 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import MyServerComponent from './MyServerComponent';
 
-const meta: Meta<typeof MyServerComponent> = {
+const meta = {
   component: MyServerComponent,
   parameters: {
-    nextjs: { rsc: false },
+    react: { rsc: false },
   },
-};
+} satisfies Meta<typeof MyServerComponent>;
 export default meta;
 ```
