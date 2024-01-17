@@ -12,7 +12,7 @@ import type {
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { StoryStore } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 

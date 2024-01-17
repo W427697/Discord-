@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { Canvas } from './Canvas';
 import SourceStoriesMeta from './Source.stories';
 import * as ButtonStories from '../examples/Button.stories';

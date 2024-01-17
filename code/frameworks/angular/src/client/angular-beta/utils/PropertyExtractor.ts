@@ -20,7 +20,7 @@ import {
   provideAnimations,
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { NgModuleMetadata } from '../../types';
 import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
 
@@ -117,7 +117,13 @@ export class PropertyExtractor implements NgModuleMetadata {
       return acc;
     }, []);
 
-    return { ...metadata, imports, providers, applicationProviders, declarations };
+    return {
+      ...metadata,
+      imports,
+      providers,
+      applicationProviders,
+      declarations,
+    };
   };
 
   static analyzeRestricted = (ngModule: NgModule): [boolean] | [boolean, Provider] => {

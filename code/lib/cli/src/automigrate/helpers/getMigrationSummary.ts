@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
 import type { InstallationMetadata } from '../../js-package-manager/types';

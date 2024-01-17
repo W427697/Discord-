@@ -5,7 +5,12 @@ import path from 'node:path';
 import { promisify } from 'util';
 import globby from 'globby';
 import { sync as spawnSync } from 'cross-spawn';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { jscodeshiftToPrettierParser } from './lib/utils';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export {
   default as updateOrganisationName,

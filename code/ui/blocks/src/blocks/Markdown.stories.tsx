@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { Markdown as MarkdownComponent } from './Markdown';
 // eslint-disable-next-line import/no-unresolved
 import mdContent from '../examples/Markdown-content.md?raw';

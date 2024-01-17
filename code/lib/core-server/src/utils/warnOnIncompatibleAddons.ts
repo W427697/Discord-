@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { getIncompatibleAddons } from '../../../cli/src/doctor/getIncompatibleAddons';
 

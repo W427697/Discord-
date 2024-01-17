@@ -2,7 +2,7 @@ import { getStorybookInfo, serverRequire } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'node:path';
 import SemVer from 'semver';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';
 import { getStorybookVersion, isCorePackage } from './utils';

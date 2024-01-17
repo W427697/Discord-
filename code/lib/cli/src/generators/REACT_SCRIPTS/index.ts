@@ -2,11 +2,16 @@ import path from 'node:path';
 import fs from 'fs';
 import semver from 'semver';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 import versions from '../../versions';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');

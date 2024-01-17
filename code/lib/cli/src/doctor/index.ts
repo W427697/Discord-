@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import boxen from 'boxen';
 import fse from 'fs-extra';
 import tempy from 'tempy';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { join } from 'node:path';
 
 import { JsPackageManagerFactory } from '../js-package-manager';

@@ -23,4 +23,5 @@ if (majorNodeVersion < 16) {
 //   throw error;
 // });
 
-import('../dist/generate.js');
+console.log('this works!');
+await import('../dist/generate.js');

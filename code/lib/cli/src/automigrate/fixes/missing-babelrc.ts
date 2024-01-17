@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { loadPartialConfigAsync } from '@babel/core';
 import type { Fix } from '../types';

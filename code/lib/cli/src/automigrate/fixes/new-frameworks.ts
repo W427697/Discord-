@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 

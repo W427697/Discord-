@@ -5,7 +5,7 @@ import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'node:path';
 import fs from 'fs';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import fse from 'fs-extra';
 import invariant from 'tiny-invariant';
 import { commandLog } from '../helpers';

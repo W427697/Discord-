@@ -10,7 +10,7 @@ import type {
 import { SourceType } from '@storybook/docs-tools';
 
 import { deprecate } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';

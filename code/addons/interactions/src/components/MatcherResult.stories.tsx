@@ -1,5 +1,5 @@
 import React from 'react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { styled } from '@storybook/theming';
 import { MatcherResult } from './MatcherResult';
 

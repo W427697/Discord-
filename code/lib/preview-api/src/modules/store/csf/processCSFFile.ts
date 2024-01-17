@@ -10,7 +10,7 @@ import type {
 import { isExportStory } from '@storybook/csf';
 import { deprecate, logger } from '@storybook/client-logger';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 

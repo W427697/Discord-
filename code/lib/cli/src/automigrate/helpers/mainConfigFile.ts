@@ -9,7 +9,7 @@ import type { StorybookConfigRaw, StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import path from 'node:path';
 import type { JsPackageManager } from '../../js-package-manager';
 import { getStorybookVersion } from '../../utils';

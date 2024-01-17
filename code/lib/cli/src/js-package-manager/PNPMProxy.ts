@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import path from 'node:path';
 import fs from 'fs';

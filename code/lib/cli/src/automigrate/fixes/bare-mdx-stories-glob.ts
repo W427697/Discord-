@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import type { StoriesEntry } from '@storybook/types';
 import { updateMainConfig } from '../helpers/mainConfigFile';

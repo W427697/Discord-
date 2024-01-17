@@ -1,6 +1,6 @@
 import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 import { ErrorFormatter } from './ErrorFormatter';
 

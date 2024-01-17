@@ -3,7 +3,7 @@ import { SourceType } from '@storybook/docs-tools';
 
 import type { StoryContext } from '@storybook/types';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { EmptyExample } from './EmptyExample';
 
 const code = `query HeroNameAndFriends($episode: Episode) {

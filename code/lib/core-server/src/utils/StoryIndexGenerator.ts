@@ -25,7 +25,7 @@ import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 

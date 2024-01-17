@@ -6,7 +6,7 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import boxen from 'boxen';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';

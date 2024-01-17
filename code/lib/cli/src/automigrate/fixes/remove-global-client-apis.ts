@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import fse from 'fs-extra';
 import type { Fix } from '../types';
 

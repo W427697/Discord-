@@ -12,7 +12,7 @@ import {
   GLOBALS_UPDATED,
 } from '@storybook/core-events';
 import { deprecate } from '@storybook/client-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type { ArgsTableProps as PureArgsTableProps, SortType } from '../components';
 import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
 

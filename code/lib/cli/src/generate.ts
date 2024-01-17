@@ -8,6 +8,8 @@ import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import invariant from 'tiny-invariant';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
@@ -25,6 +27,9 @@ import { JsPackageManagerFactory } from './js-package-manager';
 import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const readUpResult = readUpSync({ cwd: __dirname });
 invariant(readUpResult, 'Failed to find the closest package.json file.');
@@ -242,7 +247,11 @@ command('dev')
       options.port = parseInt(`${options.port}`, 10);
     }
 
-    await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
+    console.log('we are here');
+    await dev({ ...options, packageJson: pkg }).catch((e) => {
+      console.log(e?.stack || e);
+      process.exit(1);
+    });
   });
 
 command('build')

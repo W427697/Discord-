@@ -6,6 +6,12 @@ import { cache } from '@storybook/core-common';
 import type { CLIOptions } from '@storybook/types';
 import invariant from 'tiny-invariant';
 
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 function printError(error: any) {
   // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
   npmLog.heading = '';

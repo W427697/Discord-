@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { deprecate } from '@storybook/client-logger';
 import type { Of } from './useOf';
 import { useOf } from './useOf';

@@ -4,10 +4,15 @@ import chalk from 'chalk';
 import { command } from 'execa';
 import type spawn from 'cross-spawn';
 import { spawn as spawnAsync } from 'cross-spawn';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
 const logger = console;
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export interface Parameters {
   /** E2E configuration name */
