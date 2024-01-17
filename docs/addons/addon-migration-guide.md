@@ -26,6 +26,10 @@ Begin by updating your Storybook dependencies. Use the `next` tag for pre-releas
 
 Here are the essential changes in version 8.0 that impact addon development. Please check the [full migration note](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) for an exhaustive list of changes in 8.0.
 
+#### Node.js 16 is no longer supported
+
+We have dropped Node.js 16 support since it reached end-of-life on 2023-09-11. Please upgrade to Node.js 18.
+
 ### React 18 for Manager UI
 
 UI injected into panels, tools, etc. by addons is now rendered with React 18. Also note that the `key` prop is no longer passed to the render function.
@@ -57,7 +61,7 @@ If you're customizing the Storybook UI configuration with `addons.setConfig({...
 
 ### Removal of Deprecated Features
 
-Deprecated packages and APIs from 7.0 are now removed in 8.0. Consult the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecations-which-are-now-removed) for details.
+Deprecated packages and APIs from 7.0 are now removed in 8.0.Consult the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecations-which-are-now-removed) for details. Most notably, the removal of the `@storybook/addons` now necessitates a switch to `@storybook/preview-api` and `@storybook/manager-api`.
 
 ## Releasing
 
