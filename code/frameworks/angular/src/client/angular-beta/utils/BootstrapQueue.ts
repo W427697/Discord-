@@ -52,8 +52,8 @@ const processQueue = async () => {
   while (queue.length > 0) {
     const bootstrappingFn = queue.shift();
     if (bootstrappingFn) {
-      await resetCompiledComponents();
       await bootstrappingFn();
+      await resetCompiledComponents();
     }
   }
 
