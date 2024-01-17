@@ -14,9 +14,15 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 All of the following documentation is available in the CLI by running `storybook --help`.
 
+<Callout variant="info" icon="💡">
+
+The commands work slightly differently if you're using npm instead of Yarn to publish Storybook. For example, `npm run storybook build -- -o ./path/to/build`.
+
+</Callout>
+
 ### `dev`
 
-Compiles and serves as a development build of your Storybook that reflects your source code changes in the browser in real-time. It should be run from the root of your project.
+Compiles and serves a development build of your Storybook that reflects your source code changes in the browser in real-time. It should be run from the root of your project.
 
 ```shell
 storybook dev [options]
@@ -52,7 +58,7 @@ With the release of Storybook 8, the `-s` CLI flag was removed. We recommend usi
 
 ### `build`
 
-Compile your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). It should be run from the root of your project.
+Compiles your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). It should be run from the root of your project.
 
 ```shell
 storybook build [options]
@@ -73,12 +79,6 @@ Options include:
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs`                           |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                                                      |
 | `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test` |
-
-<Callout variant="info" icon="💡">
-
-The commands work slightly differently if you're using npm instead of Yarn to publish Storybook. For example, `npm run storybook build -- -o ./path/to/build`.
-
-</Callout>
 
 ### `add`
 
@@ -114,7 +114,7 @@ Options include:
 
 ### `upgrade`
 
-Upgrade your Storybook instance to the latest version. Read more in the [upgrade guide](../configure/upgrading.md).
+Upgrades your Storybook instance to the latest version. Read more in the [upgrade guide](../configure/upgrading.md).
 
 ```shell
 storybook upgrade [options]
@@ -149,14 +149,10 @@ Storybook Environment Info:
     Shell: 5.9 - /bin/zsh
   Binaries:
     Node: 18.19.0 - ~/.nvm/versions/node/v18.19.0/bin/node
-    Yarn: 1.22.21 - /usr/local/bin/yarn <----- active
     npm: 10.2.3 - ~/.nvm/versions/node/v18.19.0/bin/npm
-    pnpm: 8.12.0 - /opt/homebrew/bin/pnpm
   Browsers:
     Chrome: 120.0.6099.199
-    Safari: 17.2
   npmPackages:
-    @storybook/addon-a11y: ^7.6.6 => 7.6.6
     @storybook/addon-essentials: ^7.6.6 => 7.6.6
     @storybook/addon-interactions: ^7.6.6 => 7.6.6
     @storybook/addon-links: ^7.6.6 => 7.6.6
@@ -165,11 +161,7 @@ Storybook Environment Info:
     @storybook/preset-create-react-app: ^7.6.6 => 7.6.6
     @storybook/react: ^7.6.6 => 7.6.6
     @storybook/react-webpack5: ^7.6.6 => 7.6.6
-    @storybook/server-webpack5: ^7.6.6 => 7.6.6
     @storybook/test: ^7.6.6 => 7.6.6
-    @storybook/test-runner: ^0.16.0 => 0.16.0
-    chromatic: ^10.2.0 => 10.2.0
-    msw-storybook-addon: ^1.10.0 => 1.10.0
     storybook: ^7.6.6 => 7.6.6
 ```
 
