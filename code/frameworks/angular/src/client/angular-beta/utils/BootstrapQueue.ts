@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { ApplicationRef } from '@angular/core';
 
 const queue: Array<() => Promise<void>> = [];

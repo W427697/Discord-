@@ -1,9 +1,8 @@
 import { Subject, lastValueFrom } from 'rxjs';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import assert from 'node:assert';
 
 import { queueBootstrapping } from './BootstrapQueue';
-
-const tick = (count = 0) => new Promise((resolve) => setTimeout(resolve, count));
 
 describe('BootstrapQueue', () => {
   beforeEach(async () => {
@@ -25,7 +24,9 @@ describe('BootstrapQueue', () => {
       bootstrapAppFinished();
     });
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    });
 
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
@@ -33,7 +34,12 @@ describe('BootstrapQueue', () => {
     pendingSubject.next();
     pendingSubject.complete();
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(
+        bootstrapAppFinished.mock.calls.length === 1,
+        'bootstrapApp should have been called once'
+      );
+    });
 
     expect(bootstrapAppFinished).toHaveBeenCalled();
   });
@@ -61,7 +67,9 @@ describe('BootstrapQueue', () => {
     queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2);
     queueBootstrapping(bootstrapApp3).then(bootstrapAppFinished3);
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    });
 
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
@@ -73,7 +81,9 @@ describe('BootstrapQueue', () => {
     pendingSubject.next();
     pendingSubject.complete();
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(bootstrapApp2.mock.calls.length === 1, 'bootstrapApp2 should have been called once');
+    });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
@@ -85,7 +95,9 @@ describe('BootstrapQueue', () => {
     pendingSubject2.next();
     pendingSubject2.complete();
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(bootstrapApp3.mock.calls.length === 1, 'bootstrapApp3 should have been called once');
+    });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
@@ -97,7 +109,12 @@ describe('BootstrapQueue', () => {
     pendingSubject3.next();
     pendingSubject3.complete();
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(
+        bootstrapAppFinished3.mock.calls.length === 1,
+        'bootstrapAppFinished3 should have been called once'
+      );
+    });
 
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
@@ -125,16 +142,22 @@ describe('BootstrapQueue', () => {
     queueBootstrapping(bootstrapApp).then(bootstrapAppFinished).catch(bootstrapAppError);
     queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2).catch(bootstrapAppError2);
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(bootstrapApp.mock.calls.length === 1, 'bootstrapApp should have been called once');
+    });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
     expect(bootstrapApp2).not.toHaveBeenCalled();
-    expect(bootstrapAppFinished2).not.toHaveBeenCalled();
 
     pendingSubject.error(new Error('test error'));
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(
+        bootstrapAppError.mock.calls.length === 1,
+        'bootstrapAppError should have been called once'
+      );
+    });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
@@ -146,7 +169,12 @@ describe('BootstrapQueue', () => {
     pendingSubject2.next();
     pendingSubject2.complete();
 
-    await tick();
+    await vi.waitFor(() => {
+      assert(
+        bootstrapAppFinished2.mock.calls.length === 1,
+        'bootstrapAppFinished2 should have been called once'
+      );
+    });
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
