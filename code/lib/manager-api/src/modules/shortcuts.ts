@@ -125,11 +125,11 @@ type API_AddonShortcutLabels = Record<string, string>;
 type API_AddonShortcutDefaults = Record<string, API_KeyCollection>;
 
 export const defaultShortcuts: API_Shortcuts = Object.freeze({
-  fullScreen: [controlOrMetaKey(), 'F'],
-  togglePanel: [controlOrMetaKey(), 'A'],
-  panelPosition: [controlOrMetaKey(), 'D'],
-  toggleNav: [controlOrMetaKey(), 'S'],
-  toolbar: [controlOrMetaKey(), 'T'],
+  fullScreen: ['alt', 'F'],
+  togglePanel: ['alt', 'A'],
+  panelPosition: ['alt', 'D'],
+  toggleNav: ['alt', 'S'],
+  toolbar: ['alt', 'T'],
   search: [controlOrMetaKey(), 'K'],
   focusNav: ['1'],
   focusIframe: ['2'],

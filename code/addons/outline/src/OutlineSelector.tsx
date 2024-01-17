@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect } from 'react';
-import { controlOrMetaKey, useGlobals, useStorybookApi } from '@storybook/manager-api';
+import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 import { IconButton } from '@storybook/components';
 import { OutlineIcon } from '@storybook/icons';
 import { ADDON_ID, PARAM_KEY } from './constants';
@@ -21,7 +21,7 @@ export const OutlineSelector = memo(function OutlineSelector() {
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
       label: 'Toggle Outline',
-      defaultShortcut: [controlOrMetaKey(), 'O'],
+      defaultShortcut: ['alt', 'O'],
       actionName: 'outline',
       showInMenu: false,
       action: toggleOutline,

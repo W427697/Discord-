@@ -1,4 +1,4 @@
-import { controlOrMetaKey, type API } from '@storybook/manager-api';
+import { type API } from '@storybook/manager-api';
 import { ADDON_ID } from './constants';
 import { globals as defaultGlobals } from './preview';
 
@@ -38,7 +38,7 @@ export const registerShortcuts = async (
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Next viewport',
-    defaultShortcut: [controlOrMetaKey(), 'V'],
+    defaultShortcut: ['alt', 'V'],
     actionName: 'next',
     action: () => {
       updateGlobals({
