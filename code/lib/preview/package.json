@@ -71,9 +71,7 @@
   },
   "bundler": {
     "browserEntries": [
-      "./src/runtime.ts"
-    ],
-    "nodeEntries": [
+      "./src/runtime.ts",
       "./src/globals.ts"
     ]
   },

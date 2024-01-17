@@ -120,9 +120,7 @@
     "browserEntries": [
       "./src/index.tsx",
       "./src/runtime.ts",
-      "./src/globals-runtime.ts"
-    ],
-    "nodeEntries": [
+      "./src/globals-runtime.ts",
       "./src/globals.ts",
       "./src/globals-module-info.ts"
     ]

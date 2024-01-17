@@ -29,20 +29,14 @@
     },
     "./dist/presets/babel-cache-preset": {
       "types": "./dist/presets/babel-cache-preset.d.ts",
-      "node": "./dist/presets/babel-cache-preset.js",
-      "import": "./dist/presets/babel-cache-preset.js",
       "require": "./dist/presets/babel-cache-preset.cjs"
     },
     "./dist/presets/common-preset": {
       "types": "./dist/presets/common-preset.d.ts",
-      "node": "./dist/presets/common-preset.js",
-      "import": "./dist/presets/common-preset.js",
       "require": "./dist/presets/common-preset.cjs"
     },
     "./dist/presets/common-override-preset": {
       "types": "./dist/presets/common-override-preset.d.ts",
-      "node": "./dist/presets/common-override-preset.js",
-      "import": "./dist/presets/common-override-preset.js",
       "require": "./dist/presets/common-override-preset.cjs"
     },
     "./public/favicon.svg": "./public/favicon.svg",

@@ -63,7 +63,6 @@
     "handlebars": "^4.7.7",
     "lazy-universal-dotenv": "^4.0.0",
     "node-fetch": "^2.0.0",
-    "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
@@ -74,6 +73,7 @@
     "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
+    "picomatch": "^2.3.0",
     "slash": "^5.0.0",
     "type-fest": "~2.19",
     "typescript": "^5.3.2"
