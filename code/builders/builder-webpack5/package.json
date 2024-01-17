@@ -23,24 +23,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
     "./presets/custom-webpack-preset": {
       "types": "./dist/presets/custom-webpack-preset.d.ts",
-      "node": "./dist/presets/custom-webpack-preset.js",
-      "require": "./dist/presets/custom-webpack-preset.cjs"
+      "require": "./dist/presets/custom-webpack-preset.cjs",
+      "import": "./dist/presets/custom-webpack-preset.js"
     },
     "./presets/preview-preset": {
       "types": "./dist/presets/preview-preset.d.ts",
-      "node": "./dist/presets/preview-preset.js",
-      "require": "./dist/presets/preview-preset.cjs"
+      "require": "./dist/presets/preview-preset.cjs",
+      "import": "./dist/presets/preview-preset.js"
     },
     "./loaders/export-order-loader": {
       "types": "./dist/loaders/export-order-loader.d.ts",
-      "node": "./dist/loaders/export-order-loader.js",
-      "require": "./dist/loaders/export-order-loader.cjs"
+      "require": "./dist/loaders/export-order-loader.cjs",
+      "import": "./dist/loaders/export-order-loader.js"
     },
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./templates/preview.ejs": "./templates/preview.ejs",
@@ -84,7 +83,6 @@
     "es-module-lexer": "^1.4.1",
     "express": "^4.17.3",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "fs-extra": "^11.1.0",
     "html-webpack-plugin": "^5.5.0",
     "magic-string": "^0.30.5",
     "path-browserify": "^1.0.1",
@@ -107,6 +105,7 @@
     "@types/terser-webpack-plugin": "^5.2.0",
     "@types/webpack-hot-middleware": "^2.25.6",
     "@types/webpack-virtual-modules": "^0.1.1",
+    "fs-extra": "^11.1.0",
     "pretty-hrtime": "^1.0.3",
     "slash": "^5.0.0",
     "typescript": "^5.3.2"

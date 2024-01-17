@@ -24,25 +24,21 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
     "./preview-errors": {
       "types": "./dist/errors/preview-errors.d.ts",
-      "node": "./dist/errors/preview-errors.js",
       "require": "./dist/errors/preview-errors.cjs",
       "import": "./dist/errors/preview-errors.js"
     },
     "./manager-errors": {
       "types": "./dist/errors/manager-errors.d.ts",
-      "node": "./dist/errors/manager-errors.js",
       "require": "./dist/errors/manager-errors.cjs",
       "import": "./dist/errors/manager-errors.js"
     },
     "./server-errors": {
       "types": "./dist/errors/server-errors.d.ts",
-      "node": "./dist/errors/server-errors.js",
       "require": "./dist/errors/server-errors.cjs",
       "import": "./dist/errors/server-errors.js"
     },

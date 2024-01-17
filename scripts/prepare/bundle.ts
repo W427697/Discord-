@@ -138,7 +138,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         // minifyWhitespace: false,
         esbuildPlugins:
           platform === 'node'
-            ? []
+            ? [
+                aliasPlugin({
+                  'fs-extra/esm': require.resolve('../node_modules/fs-extra'),
+                  'fs-extra/lib/esm.mjs': require.resolve('../node_modules/fs-extra'),
+                }),
+              ]
             : [
                 aliasPlugin({
                   process: path.resolve('../node_modules/process/browser.js'),

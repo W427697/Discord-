@@ -24,7 +24,6 @@
   "type": "module",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
@@ -35,7 +34,8 @@
     "./backgrounds/manager": "./dist/backgrounds/manager.js",
     "./controls/manager": "./dist/controls/manager.js",
     "./docs/preview": "./dist/docs/preview.js",
-    "./docs/preset": "./dist/docs/preset.js",
+    "./docs/preset": "./dist/docs/preset.cjs",
+    "./docs/preset.cjs": "./dist/docs/preset.cjs",
     "./docs/mdx-react-shim": "./dist/docs/mdx-react-shim.js",
     "./highlight/preview": "./dist/highlight/preview.js",
     "./measure/preview": "./dist/measure/preview.js",

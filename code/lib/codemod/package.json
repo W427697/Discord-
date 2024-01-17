@@ -24,8 +24,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
     "./dist/transforms/csf-2-to-3.js": "./dist/transforms/csf-2-to-3.js",

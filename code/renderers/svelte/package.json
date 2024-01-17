@@ -23,11 +23,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
-    "./preset": "./preset.js",
+    "./preset": "./preset.cjs",
+    "./preset.cjs": "./preset.cjs",
     "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json",

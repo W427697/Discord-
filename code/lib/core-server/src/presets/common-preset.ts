@@ -31,6 +31,7 @@ import {
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
 import invariant from 'tiny-invariant';
+import { readFile, writeFile } from 'node:fs/promises';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -230,7 +231,7 @@ export const docs: PresetProperty<'docs'> = (docsOptions, { docs: docsMode }: CL
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
   if (await fse.pathExists(location)) {
-    const contents = fse.readFile(location, 'utf-8');
+    const contents = readFile(location, 'utf-8');
     const interpolations = options.presets.apply<Record<string, string>>('env');
 
     return interpolate(await contents, await interpolations);
@@ -311,7 +312,7 @@ export const experimental_serverChannel = async (
         invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
         const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await fse.writeFile(mainPath, printConfig(main).code);
+        await writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }

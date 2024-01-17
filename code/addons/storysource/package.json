@@ -25,11 +25,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
-    "./preset": "./dist/preset.js",
+    "./preset": "./dist/preset.cjs",
+    "./preset.cjs": "./dist/preset.cjs",
     "./manager": "./dist/manager.js",
     "./package.json": "./package.json"
   },

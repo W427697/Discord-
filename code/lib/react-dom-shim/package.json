@@ -24,13 +24,11 @@
   "exports": {
     ".": {
       "types": "./dist/react-18.d.ts",
-      "node": "./dist/react-18.js",
       "require": "./dist/react-18.js",
       "import": "./dist/react-18.mjs"
     },
     "./dist/react-16": {
       "types": "./dist/react-16.d.ts",
-      "node": "./dist/react-16.js",
       "require": "./dist/react-16.js",
       "import": "./dist/react-16.mjs"
     },

@@ -24,7 +24,6 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "node": "./dist/index.js",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
@@ -51,10 +50,10 @@
     "chalk": "^4.1.0",
     "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
-    "fs-extra": "^11.1.0",
     "read-pkg-up": "^7.0.1"
   },
   "devDependencies": {
+    "fs-extra": "^11.1.0",
     "nanoid": "^4.0.2",
     "node-fetch": "^3.3.1",
     "typescript": "^5.3.2"

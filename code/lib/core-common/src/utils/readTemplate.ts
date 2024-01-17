@@ -1,8 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import { readFile } from 'fs/promises';
 
 export async function readTemplate(filename: string) {
-  return fse.readFile(filename, {
+  return readFile(filename, {
     encoding: 'utf8',
   });
 }
