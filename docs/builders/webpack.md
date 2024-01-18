@@ -109,11 +109,11 @@ Additionally, if you're generating a [static build](../api/cli-options.md#build)
 
 ## Compiler support
 
-Out of the box, Storybook provides a compiler-agnostic approach to bundling your project, allowing you to use the same tooling you use to bundle your application (e.g., [Babel](https://babeljs.io/), [SWC](https://swc.rs/)), enabling efficient and performant component development within the ecosystem of Webpack 5-based projects.
+Storybook takes a compiler-agnostic approach to bundling. This allows you to bring your own application bundler (e.g., [Babel](https://babeljs.io/), [SWC](https://swc.rs/)) and ensures compatibility within the vast ecosystem of Webpack 5-based projects.
 
 ### SWC
 
-If you're working with a project built using [SWC](https://swc.rs/) for faster builds and improved performance, you can use the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon, allowing you the same performance benefits and compatibility with your project. Run the following command to set up the addon automatically:
+If your project is built using [SWC](https://swc.rs/), use the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon. This addon increases ecosystem compatibility with Webpack 5 projects while maintaining high performance. Run the following command to set up the addon automatically:
 
 <!-- prettier-ignore-start -->
 
@@ -133,7 +133,7 @@ Additional options can be provided to customize the SWC configuration. See the [
 
 </Callout>
 
-When enabled, the addon will adjust the Webpack configuration to use the [`swc-loader`](https://swc.rs/docs/usage/swc-loader) as the default loader for JavaScript and TypeScript files and will detect and use your project's SWC configuration.
+When enabled, this addon adjusts the Webpack configuration to use the [`swc-loader`](https://swc.rs/docs/usage/swc-loader) for JavaScript and TypeScript files. Additionally, it will detect and use your project's SWC configuration.
 
 ### Babel
 
@@ -157,7 +157,7 @@ Additional options can be provided to customize the Babel configuration. See the
 
 </Callout>
 
-When enabled, the addon will adjust the Webpack configuration to use the [`babel-loader`](https://webpack.js.org/loaders/babel-loader/) as the default loader for JavaScript and TypeScript files and will detect and use your project's Babel configuration.
+When enabled, the addon will adjust the Webpack configuration to use the [`babel-loader`](https://webpack.js.org/loaders/babel-loader/) as the default loader for JavaScript and TypeScript files. Additionally, it will detect and use your project's Babel configuration.
 
 ## Troubleshooting
 
