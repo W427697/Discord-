@@ -41,62 +41,6 @@ Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org
 
 When Storybook starts, it automatically merges the configuration into its own. However, when providing the `webpackFinal` configuration element, you're responsible for merging the configuration yourself. We recommend that you handle the changes to the `config` object responsibly, preserving both the `entry` and `output` properties.
 
-## Compiler support
-
-Out of the box, Storybook provides a compiler-agnostic approach to bundling your Storybook, allowing you to use the same tooling you use to bundle your application (e.g., [Babel](https://babeljs.io/), [SWC](https://swc.rs/)). However, if you need to use a custom compiler, you can use the `core.compiler` configuration option to provide a custom compiler. For example:
-
-### SWC
-
-If you've enabled Storybook to use SWC as your compiler, you can use the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon to provide additional configuration options. Enabling the addon will automatically configure Storybook to use SWC.
-
-Run the following command to set up the addon automatically:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-compiler-swc-auto-install.npm.js.mdx',
-    'common/storybook-addon-compiler-swc-auto-install.pnpm.js.mdx',
-    'common/storybook-addon-compiler-swc-auto-install.yarn.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info">
-
-<!-- Update this for better wording -->
-
-Additional options can be provided to customize the SWC configuration. See the [SWC API documentation](../api/main-config-swc.md) for more information.
-
-</Callout>
-
-### Babel
-
-If you're working with a project that relies on Babel's tooling to provide support for specific features, including TypeScript or other modern JavaScript features, you can use the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon to allow you to include them in your Storybook to ensure compatibility with your project. Run the following command to set up the addon automatically:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-compiler-babel-auto-install.npm.js.mdx',
-    'common/storybook-addon-compiler-babel-auto-install.pnpm.js.mdx',
-    'common/storybook-addon-compiler-babel-auto-install.yarn.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<!-- Check in with valentin to see if this is an accurate depiction of what the addon does -->
-
-When enabled, the addon will adjust the Webpack configuration to use the [`babel-loader`](https://webpack.js.org/loaders/babel-loader/) as the default loader for JavaScript and TypeScript files and will detect and use your project's Babel configuration.
-
-<Callout variant="info">
-
-Additional options can be provided to customize the Babel configuration. See the [`babel` API documentation](../api/main-config-swc.md) for more information, or if you're working on an addon, the [`babelDefault` documentation](../addons/writing-presets.md#babel) for more information.
-
-</Callout>
-
 #### Working with Webpack plugins
 
 Another way to customize your Storybook configuration is to add a custom plugin or loader to help with code optimization, asset management, or other tasks. Nevertheless, since Storybook relies on the `HtmlWebpackPlugin` to generate the preview page, we recommend that you append the changes to the `config.plugins` array rather than overwriting it. For example:
@@ -163,11 +107,57 @@ Additionally, if you're generating a [static build](../api/cli-options.md#build)
 
 <!-- prettier-ignore-end -->
 
-<!-- Turn this into a troubleshooting item and add the compiler support here -->
+## Compiler support
 
-## What about Webpack 4 support?
+Out of the box, Storybook provides a compiler-agnostic approach to bundling your project, allowing you to use the same tooling you use to bundle your application (e.g., [Babel](https://babeljs.io/), [SWC](https://swc.rs/)), enabling efficient and performant component development within the ecosystem of Webpack 5-based projects.
 
-Support for Webpack 4 has been removed and is no longer being maintained. If you're upgrading your Storybook, it will automatically use Webpack 5 and attempt to migrate your configuration. However, if you're working with a custom Webpack configuration, you may need to update it to work with Webpack 5. The migration process is necessary to ensure that your project runs smoothly with the latest version of Storybook. You can follow the instructions provided on the Webpack [website](https://webpack.js.org/migrate/5/) to update your configuration.
+### SWC
+
+If you're working with a project built using [SWC](https://swc.rs/) for faster builds and improved performance, you can use the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon, allowing you the same performance benefits and compatibility with your project. Run the following command to set up the addon automatically:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-compiler-swc-auto-install.npm.js.mdx',
+    'common/storybook-addon-compiler-swc-auto-install.pnpm.js.mdx',
+    'common/storybook-addon-compiler-swc-auto-install.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+Additional options can be provided to customize the SWC configuration. See the [SWC API documentation](../api/main-config-swc.md) for more information.
+
+</Callout>
+
+When enabled, the addon will adjust the Webpack configuration to use the [`swc-loader`](https://swc.rs/docs/usage/swc-loader) as the default loader for JavaScript and TypeScript files and will detect and use your project's SWC configuration.
+
+### Babel
+
+If you're working with a project that relies on Babel's tooling to provide support for specific features, including TypeScript or other modern JavaScript features, you can use the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon to allow you to include them in your Storybook to ensure compatibility with your project. Run the following command to set up the addon automatically:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-compiler-babel-auto-install.npm.js.mdx',
+    'common/storybook-addon-compiler-babel-auto-install.pnpm.js.mdx',
+    'common/storybook-addon-compiler-babel-auto-install.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+Additional options can be provided to customize the Babel configuration. See the [`babel` API documentation](../api/main-config-babel.md) for more information, or if you're working on an addon, the [`babelDefault` documentation](../api/main-config-babel-default.md) for more information.
+
+</Callout>
+
+When enabled, the addon will adjust the Webpack configuration to use the [`babel-loader`](https://webpack.js.org/loaders/babel-loader/) as the default loader for JavaScript and TypeScript files and will detect and use your project's Babel configuration.
 
 ## Troubleshooting
 
@@ -202,6 +192,10 @@ However, if you're working with a framework that provides a default aliasing con
 ### Pre-bundled assets do not show in the Storybook UI
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) to build its internal manager, support for bundling assets with the `managerWebpack` will no longer have an impact on the Storybook UI. We recommend removing existing `managerWebpack` configuration elements from your Storybook configuration file and bundling assets other than images or CSS into JavaScript beforehand.
+
+### Storybook doesn't run with Webpack 4
+
+Support for Webpack 4 has been removed and is no longer being maintained. If you're upgrading your Storybook, it will automatically use Webpack 5 and attempt to migrate your configuration. However, if you're working with a custom Webpack configuration, you may need to update it to work with Webpack 5. The migration process is necessary to ensure that your project runs smoothly with the latest version of Storybook. You can follow the instructions provided on the Webpack [website](https://webpack.js.org/migrate/5/) to update your configuration.
 
 #### Learn more about builders
 

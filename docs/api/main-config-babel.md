@@ -35,8 +35,6 @@ If you have an existing Babel configuration file (e.g., `.babelrc`), it will be 
 
 </Callout>
 
-<!-- See [Babel docs](https://babeljs.io/docs/options). -->
-
 ## `Options`
 
 Type: `{ configType?: 'DEVELOPMENT' | 'PRODUCTION' }`

@@ -23,8 +23,6 @@ Customize Storybook's [SWC](https://swc.rs/) setup.
 
 The options provided by [SWC](https://swc.rs/) are only applicable if you've enabled the [`@storybook/addon-webpack5-compiler-swc`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-swc) addon.
 
-<!-- See SWC's [documentation](https://swc.rs/) for more information. -->
-
 ## Options
 
 Type: `{ configType?: 'DEVELOPMENT' | 'PRODUCTION' }`
