@@ -4,6 +4,7 @@ import dedent from 'ts-dedent';
 import { build } from 'tsup';
 import slash from 'slash';
 import { exec } from '../utils/exec';
+import { writeFile } from 'node:fs/promises';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
@@ -30,7 +31,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
       await Promise.all([
         fs.ensureFile(dtsPathName).then(() =>
-          fs.writeFile(
+          writeFile(
             dtsPathName,
             dedent`
             // shim-mmode
@@ -39,7 +40,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           )
         ),
         fs.ensureFile(mjsPathName).then(() =>
-          fs.writeFile(
+          writeFile(
             mjsPathName,
             dedent`
             // shim-mmode

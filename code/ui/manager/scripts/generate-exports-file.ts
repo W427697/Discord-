@@ -3,6 +3,7 @@ import path, { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
 import { build } from '../../../../scripts/node_modules/tsup';
+import { writeFile } from 'node:fs/promises';
 
 const location = join(__dirname, '..', 'src', 'globals', 'exports.ts');
 let attempts = 0;
@@ -24,7 +25,7 @@ async function generate(text: string) {
 
   console.log('Writing...');
 
-  await fs.writeFile(location, output[0].output);
+  await writeFile(location, output[0].output);
 }
 
 const run = async () => {

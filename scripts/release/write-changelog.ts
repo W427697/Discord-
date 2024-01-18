@@ -3,9 +3,11 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile, writeJson } from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import { writeJson } from 'fs-extra/esm';
 import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
+import { readFile, writeFile } from 'node:fs/promises';
 
 program
   .name('write-changelog')

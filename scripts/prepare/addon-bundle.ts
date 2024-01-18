@@ -12,6 +12,7 @@ import { exec } from '../utils/exec';
 
 import { globalPackages as globalPreviewPackages } from '../../code/lib/preview/src/globals/globals';
 import { globalPackages as globalManagerPackages } from '../../code/ui/manager/src/globals/globals';
+import { writeFile } from 'node:fs/promises';
 
 /* TYPES */
 
@@ -251,7 +252,7 @@ async function generateDTSMapperFile(file: string) {
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
   await fs.ensureFile(pathName);
-  await fs.writeFile(
+  await writeFile(
     pathName,
     dedent`
       // dev-mode

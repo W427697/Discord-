@@ -7,6 +7,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
 import slash from 'slash';
 import { exec } from '../utils/exec';
+import { writeFile } from 'node:fs/promises';
 
 /* TYPES */
 
@@ -262,7 +263,7 @@ async function generateDTSMapperFile(file: string) {
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
   await fs.ensureFile(pathName);
-  await fs.writeFile(
+  await writeFile(
     pathName,
     dedent`
       // dev-mode

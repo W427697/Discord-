@@ -16,6 +16,7 @@ import { CODE_DIRECTORY } from '../../utils/constants';
 vi.mock('../utils/get-github-info');
 vi.mock('simple-git');
 vi.mock('fs-extra/esm', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
 vi.mock('node:fs/promises', async () => import('../../../code/__mocks__/fs-extra'));
 
 const fsExtra = fsExtraImp as unknown as typeof MockedFSExtra;
