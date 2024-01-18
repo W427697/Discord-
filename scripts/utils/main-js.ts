@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { join, resolve } from 'path';
+import { join, resolve } from 'node:path';
 
 import slash from 'slash';
 import type { ConfigFile } from '../../code/lib/csf-tools';

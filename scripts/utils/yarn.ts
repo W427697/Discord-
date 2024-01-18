@@ -1,5 +1,5 @@
 import { pathExists, readJSON, writeJSON } from '@ndelangen/fs-extra-unified';
-import path from 'path';
+import path from 'node:path';
 
 import type { TemplateKey } from 'get-template';
 import { exec } from './exec';

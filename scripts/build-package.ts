@@ -1,4 +1,4 @@
-import { resolve, posix, sep } from 'path';
+import { resolve, posix, sep } from 'node:path';
 import { readJSON } from '@ndelangen/fs-extra-unified';
 import prompts from 'prompts';
 import program from 'commander';

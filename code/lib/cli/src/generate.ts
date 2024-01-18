@@ -8,7 +8,7 @@ import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import invariant from 'tiny-invariant';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';

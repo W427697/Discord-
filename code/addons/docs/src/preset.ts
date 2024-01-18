@@ -45,16 +45,18 @@ async function webpack(
     mdxCompileOptions: {
       providerImportSource: join(
         dirname(require.resolve('@storybook/addon-docs/package.json')),
-        '/dist/shims/mdx-react-shim'
+        '/dist/shims/mdx-react-shim.js'
       ),
       ...mdxPluginOptions.mdxCompileOptions,
       rehypePlugins: [
         ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
-        rehypeSlug,
-        rehypeExternalLinks,
+        rehypeSlug.default || rehypeSlug,
+        rehypeExternalLinks.default || rehypeExternalLinks,
       ],
     },
   });
+
+  console.log({ mdxLoaderOptions });
 
   logger.info(`Addon-docs: using MDX3`);
 
@@ -109,7 +111,7 @@ async function webpack(
           exclude: /(stories|story)\.mdx$/,
           use: [
             {
-              loader: require.resolve('./mdx-loader'),
+              loader: require.resolve('./mdx-loader.cjs'),
               options: mdxLoaderOptions,
             },
           ],

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'path';
+import path from 'node:path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 import * as fsExtraOriginal from '@ndelangen/fs-extra-unified';

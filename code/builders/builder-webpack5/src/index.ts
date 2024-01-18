@@ -1,5 +1,6 @@
 import type { Stats, Configuration, StatsOptions } from 'webpack';
-import webpack, { ProgressPlugin } from 'webpack';
+import w from 'webpack';
+// import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
@@ -17,6 +18,9 @@ import {
 } from '@storybook/core-events/server-errors';
 
 import prettyTime from 'pretty-hrtime';
+
+const webpack: typeof import('webpack') = w as any as typeof import('webpack');
+const ProgressPlugin = w.ProgressPlugin as typeof import('webpack').ProgressPlugin;
 
 export * from './types';
 export * from './preview/virtual-module-mapping';
@@ -330,5 +334,10 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [join(__dirname, 'presets/preview-preset.js')];
-export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.js')];
+import { fileURLToPath } from 'url';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export const corePresets = [join(__dirname, 'presets/preview-preset.cjs')];
+export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.cjs')];

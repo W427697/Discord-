@@ -1,5 +1,5 @@
 import fs from '@ndelangen/fs-extra-unified';
-import path, { join } from 'path';
+import path, { join } from 'node:path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
 import { build } from '../../../../scripts/node_modules/tsup';

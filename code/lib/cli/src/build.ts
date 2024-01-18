@@ -3,7 +3,7 @@ import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 import invariant from 'tiny-invariant';
 
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 
 // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention

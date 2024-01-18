@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { setOutput } from '@actions/core';
-import path from 'path';
+import path from 'node:path';
 import { readJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 

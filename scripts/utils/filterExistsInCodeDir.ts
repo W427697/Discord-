@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { pathExists } from '@ndelangen/fs-extra-unified';
 import { CODE_DIRECTORY } from './constants';
 

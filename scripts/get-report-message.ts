@@ -1,5 +1,5 @@
 import { readJson } from '@ndelangen/fs-extra-unified';
-import { join } from 'path';
+import { join } from 'node:path';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
 import { CODE_DIRECTORY } from './utils/constants';

@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { BigQuery } from '@google-cloud/bigquery';
 
 import { execaCommand } from 'execa';

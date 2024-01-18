@@ -152,7 +152,7 @@ For example:
 
 ```js
 // .storybook/main.js
-import * as path from 'path';
+import * as path from 'node:path';
 
 export default {
   // ...
@@ -698,7 +698,7 @@ This will automatically include any of your [custom sass configurations](https:/
 
 ```js
 // next.config.js
-import * as path from 'path';
+import * as path from 'node:path';
 
 export default {
   // Any options here are included in Sass compilation for your stories

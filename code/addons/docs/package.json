@@ -65,7 +65,7 @@
       "require": "./dist/shims/mdx-react-shim.cjs",
       "import": "./dist/shims/mdx-react-shim.js"
     },
-    "./mdx-loader": "./dist/mdx-loader.js",
+    "./mdx-loader": "./dist/mdx-loader.cjs",
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",

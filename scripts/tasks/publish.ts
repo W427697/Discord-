@@ -1,5 +1,5 @@
 import { pathExists } from '@ndelangen/fs-extra-unified';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 import { exec } from '../utils/exec';
 import type { Task } from '../task';

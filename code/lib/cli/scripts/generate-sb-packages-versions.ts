@@ -5,7 +5,7 @@ import { readJson } from '@ndelangen/fs-extra-unified';
 import { exec } from 'child_process';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { join } from 'path';
+import { join } from 'node:path';
 import { writeFile } from 'node:fs/promises';
 
 const rootDirectory = join(__dirname, '..', '..', '..');

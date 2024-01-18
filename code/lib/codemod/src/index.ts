@@ -4,7 +4,7 @@ import path from 'node:path';
 import { promisify } from 'util';
 import globby from 'globby';
 import { sync as spawnSync } from 'cross-spawn';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import { jscodeshiftToPrettierParser } from './lib/utils';
 

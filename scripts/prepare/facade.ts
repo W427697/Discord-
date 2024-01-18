@@ -1,4 +1,4 @@
-import { join, parse } from 'path';
+import { join, parse } from 'node:path';
 import fs from '@ndelangen/fs-extra-unified';
 import dedent from 'ts-dedent';
 import { build } from 'tsup';

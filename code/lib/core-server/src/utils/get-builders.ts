@@ -20,24 +20,43 @@ export async function getPreviewBuilder(
     ? `@storybook/builder-${builderName}`
     : builderName;
 
+  const errors = [];
+
   try {
     const pkg = await readPkg({ cwd: require.resolve(full, { paths: [configDir] }) });
 
     if (pkg?.packageJson?.exports) {
       const specifier = rr.exports(pkg.packageJson, '.');
+      console.log({ specifier });
       if (!specifier) {
         throw new Error('no default specifier');
       }
       const resolved = join(pathToFileURL(full).href, specifier[0]);
-      return await import(join(resolved));
+      console.log({ resolved });
+      return await import(resolved);
     }
+  } catch (e) {
+    errors.push(e);
+  }
 
+  try {
     const resolved = await resolveESM(pathToFileURL(full).href, pathToFileURL(configDir).href);
+    console.log({ resolved2: resolved });
     return await import(resolved);
   } catch (e) {
-    // console.log('NOOOOO');
-    // console.log(e?.stack || e?.message || e);
+    errors.push(e);
+  }
+
+  try {
     return await import(pathToFileURL(full).href);
+  } catch (e) {
+    errors.push(e);
+  }
+
+  console.log('NOOOOO');
+  if (errors.length > 0) {
+    console.log('tried loading builder ' + full + ' but failed with errors:');
+    throw new Error(JSON.stringify(errors, null, 2));
   }
 }
 

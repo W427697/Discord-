@@ -25,6 +25,11 @@ import {
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 addToGlobalContext('cliVersion', versions.storybook);
 

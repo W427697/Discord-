@@ -3,7 +3,7 @@ import fs from 'fs';
 import semver from 'semver';
 
 import { dedent } from 'ts-dedent';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';

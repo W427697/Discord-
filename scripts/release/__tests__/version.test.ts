@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 
 import * as fsExtraImp from '@ndelangen/fs-extra-unified';
 import { execaCommand } from 'execa';

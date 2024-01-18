@@ -11,7 +11,7 @@ import {
   readJson,
   writeJson,
 } from '@ndelangen/fs-extra-unified';
-import { join, resolve, sep } from 'path';
+import { join, resolve, sep } from 'node:path';
 import JSON5 from 'json5';
 import { createRequire } from 'module';
 import slash from 'slash';

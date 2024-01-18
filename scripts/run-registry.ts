@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { remove, pathExists, readJSON } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import program from 'commander';
 
 import { runServer, parseConfigFile } from 'verdaccio';

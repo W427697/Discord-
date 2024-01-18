@@ -1,7 +1,7 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
 import * as fs from '@ndelangen/fs-extra-unified';
-import path, { dirname, join, relative } from 'path';
+import path, { dirname, join, relative } from 'node:path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';

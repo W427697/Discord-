@@ -1,4 +1,4 @@
-import * as webpackReal from 'webpack';
+import webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/types';
 import type { Configuration } from 'webpack';
@@ -30,5 +30,7 @@ export async function webpack(config: Configuration, options: Options) {
   return finalDefaultConfig;
 }
 
-export const webpackInstance = async () => webpackReal;
+export const webpackInstance = async () => {
+  return webpackReal;
+};
 export const webpackVersion = async () => '5';

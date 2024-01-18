@@ -1,5 +1,5 @@
 import { spawn } from 'child_process';
-import { join } from 'path';
+import { join } from 'node:path';
 import { existsSync } from 'fs';
 
 const logger = console;

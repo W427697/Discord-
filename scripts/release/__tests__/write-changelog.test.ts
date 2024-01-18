@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'path';
+import path from 'node:path';
 import dedent from 'ts-dedent';
 import { vi, expect, describe, it, beforeEach } from 'vitest';
 
