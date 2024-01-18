@@ -63,8 +63,9 @@
     - [Description Doc block properties](#description-doc-block-properties)
     - [Story Doc block properties](#story-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
-    - [Source Doc block properties](#source-doc-block-properties)
-    - [Canvas Doc block properties](#canvas-doc-block-properties)
+    - [`ArgsTable` Doc block removed](#argstable-doc-block-removed)
+    - [`Source` Doc block properties](#source-doc-block-properties)
+    - [`Canvas` Doc block properties](#canvas-doc-block-properties)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and-storybookchannel-websocket)
     - [StoryStore and methods deprecated](#storystore-and-methods-deprecated)
@@ -1007,11 +1008,17 @@ api.collapseAll(); // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll(); // becomes api.emit(STORIES_EXPAND_ALL)
 ```
 
-#### Source Doc block properties
+#### `ArgsTable` Doc block removed
+
+The `ArgsTable` doc block has been removed in favor of `ArgTypes` and `Controls`. [More info](#argstable-block).
+
+With this removal we've reintroduced `subcomponents` support to `ArgTypes`, `Controls`, and autodocs. We've also undeprecated `subcomponents`, by popular demand.
+
+#### `Source` Doc block properties
 
 `id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
-#### Canvas Doc block properties
+#### `Canvas` Doc block properties
 
 The following properties were removed from the Canvas Doc block:
 
