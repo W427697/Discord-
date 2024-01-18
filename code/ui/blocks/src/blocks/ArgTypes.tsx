@@ -7,11 +7,9 @@ import { filterArgTypes } from '@storybook/preview-api';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import React from 'react';
 
-import { mapValues } from 'lodash';
 import type { SortType } from '../components';
-import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
+import { ArgsTable as PureArgsTable, ArgsTableError } from '../components';
 import { useOf } from './useOf';
-import { getComponentName } from './utils';
 
 type ArgTypesParameters = {
   include?: PropDescriptor;
@@ -33,7 +31,7 @@ function extractComponentArgTypes(
   return extractArgTypes(component);
 }
 
-function getArgTypesFromResolved(resolved: ReturnType<typeof useOf>) {
+function getArgTypesFromResolved(resolved: ReturnType<typeof useOf>, props: ArgTypesProps) {
   if (resolved.type === 'component') {
     const {
       component,
@@ -42,23 +40,22 @@ function getArgTypesFromResolved(resolved: ReturnType<typeof useOf>) {
     return {
       argTypes: extractComponentArgTypes(component, parameters),
       parameters,
-      component,
     };
   }
 
   if (resolved.type === 'meta') {
     const {
-      preparedMeta: { argTypes, parameters, component, subcomponents },
+      preparedMeta: { argTypes, parameters },
     } = resolved;
-    return { argTypes, parameters, component, subcomponents };
+    return { argTypes, parameters };
   }
 
   // In the case of the story, the enhanceArgs argTypeEnhancer has already added the extracted
   // arg types from the component to the prepared story.
   const {
-    story: { argTypes, parameters, component, subcomponents },
+    story: { argTypes, parameters },
   } = resolved;
-  return { argTypes, parameters, component, subcomponents };
+  return { argTypes, parameters };
 }
 
 export const ArgTypes: FC<ArgTypesProps> = (props) => {
@@ -67,7 +64,7 @@ export const ArgTypes: FC<ArgTypesProps> = (props) => {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
   const resolved = useOf(of || 'meta');
-  const { argTypes, parameters, component, subcomponents } = getArgTypesFromResolved(resolved);
+  const { argTypes, parameters } = getArgTypesFromResolved(resolved, props);
   const argTypesParameters = parameters.docs?.argTypes || ({} as ArgTypesParameters);
 
   const include = props.include ?? argTypesParameters.include;
@@ -76,20 +73,5 @@ export const ArgTypes: FC<ArgTypesProps> = (props) => {
 
   const filteredArgTypes = filterArgTypes(argTypes, include, exclude);
 
-  const hasSubcomponents = Boolean(subcomponents) && Object.keys(subcomponents).length > 0;
-
-  if (!hasSubcomponents) {
-    return <PureArgsTable rows={filteredArgTypes} sort={sort} />;
-  }
-
-  const mainComponentName = getComponentName(component);
-  const subcomponentTabs = mapValues(subcomponents, (comp) => ({
-    rows: filterArgTypes(extractComponentArgTypes(comp, parameters), include, exclude),
-    sort,
-  }));
-  const tabs = {
-    [mainComponentName]: { rows: filteredArgTypes, sort },
-    ...subcomponentTabs,
-  };
-  return <TabbedArgsTable tabs={tabs} sort={sort} />;
+  return <PureArgsTable rows={filteredArgTypes} sort={sort} />;
 };

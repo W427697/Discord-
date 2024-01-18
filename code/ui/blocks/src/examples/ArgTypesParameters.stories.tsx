@@ -34,45 +34,17 @@ export const NoParameters: Story = {
   },
 };
 
-export const Include: Story = {
+export const Include = {
   ...NoParameters,
   parameters: { docs: { argTypes: { include: ['a'] } } },
 };
 
-export const Exclude: Story = {
+export const Exclude = {
   ...NoParameters,
   parameters: { docs: { argTypes: { exclude: ['a'] } } },
 };
 
-export const Sort: Story = {
+export const Sort = {
   ...NoParameters,
   parameters: { docs: { argTypes: { sort: 'alpha' } } },
-};
-
-export const Categories: Story = {
-  ...NoParameters,
-  argTypes: {
-    c: {
-      description: 'a description',
-      table: {
-        category: 'the first category',
-      },
-    },
-    d: {
-      table: {
-        category: 'the first category',
-        subcategory: 'a subcategory',
-      },
-    },
-    e: {
-      table: {
-        subcategory: 'a subcategory without a category',
-      },
-    },
-    f: {
-      table: {
-        category: 'the second category',
-      },
-    },
-  } as any,
 };
