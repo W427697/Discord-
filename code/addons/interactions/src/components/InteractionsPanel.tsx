@@ -8,7 +8,6 @@ import { Subnav } from './Subnav';
 import { Interaction } from './Interaction';
 import { isTestAssertionError } from '../utils';
 import { Empty } from './EmptyState';
-import { DOCUMENTATION_LINK } from '../constants';
 
 export interface Controls {
   start: (args: any) => void;
