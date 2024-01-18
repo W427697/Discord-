@@ -98,8 +98,6 @@ export abstract class JsPackageManager {
         const packageJsonPath = require.resolve(`${cwd}/package.json`);
 
         // read packagejson with readFileSync
-        console.log({ fse });
-
         const packageJson = fse.readJSONSync(
           packageJsonPath,
           'utf8'
