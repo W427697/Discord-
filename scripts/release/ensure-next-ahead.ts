@@ -12,7 +12,8 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readJson } from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import { readJson } from 'fs-extra/esm';
 import { esMain } from '../utils/esmain';
 import { run as bumpVersion } from './version';
 import { git } from './utils/git-client';

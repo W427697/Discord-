@@ -1,7 +1,9 @@
 import { setOutput } from '@actions/core';
-import { readFile, readJson, writeFile, writeJson } from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import { readJson, writeJson } from 'fs-extra/esm';
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
