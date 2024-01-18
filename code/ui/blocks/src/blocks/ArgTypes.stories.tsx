@@ -4,6 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ArgTypes } from './ArgTypes';
 import * as ExampleStories from '../examples/ArgTypesParameters.stories';
 import * as SubcomponentsExampleStories from '../examples/ArgTypesWithSubcomponentsParameters.stories';
+import { within } from '@storybook/test';
+import type { PlayFunctionContext } from '@storybook/csf';
 
 const meta: Meta<typeof ArgTypes> = {
   title: 'Blocks/ArgTypes',
@@ -102,13 +104,31 @@ export const Categories: Story = {
   },
 };
 
+const findSubcomponentTabs = async (
+  canvas: ReturnType<typeof within>,
+  step: PlayFunctionContext['step']
+) => {
+  let subcomponentATab: HTMLElement;
+  let subcomponentBTab: HTMLElement;
+  await step('should have tabs for the subcomponents', async () => {
+    subcomponentATab = await canvas.findByText('SubcomponentA');
+    subcomponentBTab = await canvas.findByText('SubcomponentB');
+  });
+  return { subcomponentATab, subcomponentBTab };
+};
+
 export const SubcomponentsOfMeta: Story = {
   args: {
     of: SubcomponentsExampleStories.default,
   },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    await findSubcomponentTabs(canvas, step);
+  },
 };
 
 export const SubcomponentsOfStory: Story = {
+  ...SubcomponentsOfMeta,
   args: {
     of: SubcomponentsExampleStories.NoParameters,
   },
@@ -119,9 +139,15 @@ export const SubcomponentsIncludeProp: Story = {
     of: SubcomponentsExampleStories.NoParameters,
     include: ['a', 'f'],
   },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const { subcomponentBTab } = await findSubcomponentTabs(canvas, step);
+    await subcomponentBTab.click();
+  },
 };
 
 export const SubcomponentsExcludeProp: Story = {
+  ...SubcomponentsIncludeProp,
   args: {
     of: SubcomponentsExampleStories.NoParameters,
     exclude: ['a', 'c', 'f', 'g'],
@@ -129,6 +155,7 @@ export const SubcomponentsExcludeProp: Story = {
 };
 
 export const SubcomponentsSortProp: Story = {
+  ...SubcomponentsIncludeProp,
   args: {
     of: SubcomponentsExampleStories.NoParameters,
     sort: 'alpha',
