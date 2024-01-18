@@ -33,6 +33,7 @@
     - [Next.js](#nextjs)
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
+      - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -525,7 +526,7 @@ In Storybook 8.0, we have removed the `framework.options.builder.useSWC` option.
 If you want to use SWC, you can add the necessary addon:
 
 ```sh
-npx storybook@latest add @storybook/addon-webpack-compiler-swc
+npx storybook@latest add @storybook/addon-webpack5-compiler-swc
 ```
 
 The goal is to make @storybook/builder-webpack5 lighter and more flexible. We are not locked into a specific compiler or compiler version anymore. This allows us to support Babel 7/8, SWC, and other compilers simultaneously.
@@ -535,7 +536,7 @@ The goal is to make @storybook/builder-webpack5 lighter and more flexible. We ar
 In Storybook 8.0, we have removed the `@storybook/builder-webpack5` package's dependency on Babel. This means that Babel is not preconfigured in `@storybook/builder-webpack5`. If you want to use Babel, you can add the necessary addon:
 
 ```sh
-npx storybook@latest add @storybook/addon-webpack-compiler-swc
+npx storybook@latest add @storybook/addon-webpack5-compiler-babel
 ```
 
 We are doing this to make Storybook more flexible and to allow users to use a variety of compilers like SWC, Babel or even pure TypeScript.
@@ -735,6 +736,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 
 - If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code.
 - Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
+
+##### RSC config moved to React renderer
+
+Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
+
+These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
 
 #### Angular
 
