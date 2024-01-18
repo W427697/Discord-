@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@ndelangen/fs-extra-unified": "^1.0.0",
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "@storybook/addon-designs": "^7.0.4",
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",

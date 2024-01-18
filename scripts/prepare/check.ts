@@ -1,5 +1,5 @@
 import { join } from 'path';
-import fs from 'fs-extra';
+import fs from '@ndelangen/fs-extra-unified';
 import ts from 'typescript';
 
 const run = async ({ cwd }: { cwd: string }) => {

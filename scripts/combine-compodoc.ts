@@ -3,7 +3,7 @@
 // then combine the results into one large documentation.json
 
 import { join, resolve } from 'path';
-import { realpath, readFile, writeFile, lstat } from 'fs-extra';
+import { realpath, readFile, writeFile, lstat } from '@ndelangen/fs-extra-unified';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
 import { execaCommand } from 'execa';

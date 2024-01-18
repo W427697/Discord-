@@ -1,6 +1,6 @@
 import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, readFile, pathExists } from 'fs-extra';
+import { outputFile, readFile, pathExists } from '@ndelangen/fs-extra-unified';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';

@@ -101,7 +101,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@ndelangen/fs-extra-unified": "^1.0.0",
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "@storybook/addon-docs": "workspace:*",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",

@@ -1,5 +1,5 @@
 import { join } from 'path';
-import fs, { move } from 'fs-extra';
+import fs, { move } from '@ndelangen/fs-extra-unified';
 import * as ts from 'typescript';
 import { globSync } from 'glob';
 import { exec } from '../utils/exec';

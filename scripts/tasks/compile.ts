@@ -1,4 +1,4 @@
-import { readFile } from 'fs-extra';
+import { readFile } from '@ndelangen/fs-extra-unified';
 import { resolve } from 'path';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';

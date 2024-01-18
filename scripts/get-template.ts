@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-import { pathExists, readFile } from 'fs-extra';
+import { pathExists, readFile } from '@ndelangen/fs-extra-unified';
 import { program } from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';

@@ -52,7 +52,7 @@
     "read-pkg-up": "^7.0.1"
   },
   "devDependencies": {
-    "@ndelangen/fs-extra-unified": "^1.0.0",
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "detect-package-manager": "^2.0.1",
     "fs-extra": "^11.1.0",
     "nanoid": "^4.0.2",

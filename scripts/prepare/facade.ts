@@ -1,5 +1,5 @@
 import { join, parse } from 'path';
-import fs from 'fs-extra';
+import fs from '@ndelangen/fs-extra-unified';
 import dedent from 'ts-dedent';
 import { build } from 'tsup';
 import slash from 'slash';

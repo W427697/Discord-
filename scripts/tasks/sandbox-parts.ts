@@ -10,7 +10,7 @@ import {
   readFileSync,
   readJson,
   writeJson,
-} from 'fs-extra';
+} from '@ndelangen/fs-extra-unified';
 import { join, resolve, sep } from 'path';
 import JSON5 from 'json5';
 import { createRequire } from 'module';

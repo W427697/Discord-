@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { ensureDir, writeJSON, readJSON, readdir } from 'fs-extra';
+import { ensureDir, writeJSON, readJSON, readdir } from '@ndelangen/fs-extra-unified';
 import type { Page } from 'playwright-core';
 import type { BenchResults } from './types';
 

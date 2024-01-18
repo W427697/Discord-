@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from '@ndelangen/fs-extra-unified';
 import path, { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';

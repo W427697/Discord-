@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra';
+import * as fs from '@ndelangen/fs-extra-unified';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
