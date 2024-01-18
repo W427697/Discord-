@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
 
-import * as generate from '@babel/generator';
+import babel_generate from '@babel/generator';
 import * as recast from 'recast';
 
 import babel_traverse from '@babel/traverse';
@@ -30,6 +30,13 @@ const traverse: typeof babel_traverse =
   // @ts-expect-error
   (babel_traverse.default as typeof babel_traverse) ||
   babel_traverse;
+
+const generate: typeof babel_generate =
+  merequire('@babel/generator').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_generate.default as typeof babel_generate) ||
+  babel_generate;
 
 function parseIncludeExclude(prop: t.Node) {
   if (t.isArrayExpression(prop)) {

@@ -1,13 +1,24 @@
 /* eslint-disable no-underscore-dangle */
 import * as t from '@babel/types';
 
-import * as generate from '@babel/generator';
+import babel_generate from '@babel/generator';
 import type { CsfFile } from './CsfFile';
 
 export interface EnrichCsfOptions {
   disableSource?: boolean;
   disableDescription?: boolean;
 }
+
+import { createRequire } from 'node:module';
+
+const merequire = createRequire(import.meta.url);
+
+const generate: typeof babel_generate =
+  merequire('@babel/generator').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_generate.default as typeof babel_generate) ||
+  babel_generate;
 
 export const enrichCsfStory = (
   csf: CsfFile,
@@ -141,7 +152,7 @@ export const enrichCsf = (csf: CsfFile, csfSource: CsfFile, options?: EnrichCsfO
 
 export const extractSource = (node: t.Node) => {
   const src = t.isVariableDeclarator(node) ? node.init : node;
-  const { code } = generate.default(src as t.Node, {});
+  const { code } = generate(src as t.Node, {});
   return code;
 };
 

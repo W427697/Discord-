@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 
 import babel_traverse from '@babel/traverse';
 
-import * as generate from '@babel/generator';
+import babel_generate from '@babel/generator';
 import { dedent } from 'ts-dedent';
 import { createRequire } from 'node:module';
 import { babelParse } from './babelParse';
@@ -17,6 +17,13 @@ const traverse: typeof babel_traverse =
   // @ts-expect-error
   (babel_traverse.default as typeof babel_traverse) ||
   babel_traverse;
+
+const generate: typeof babel_generate =
+  merequire('@babel/generator').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_generate.default as typeof babel_generate) ||
+  babel_generate;
 
 const getValue = (obj: t.ObjectExpression, key: string) => {
   let value: t.Expression | undefined;
@@ -153,13 +160,13 @@ export const getStorySortParameter = (previewCode: string) => {
   if (!storySort) return undefined;
 
   if (t.isArrowFunctionExpression(storySort)) {
-    const { code: sortCode } = generate.default(storySort, {});
+    const { code: sortCode } = generate(storySort, {});
 
     return (0, eval)(sortCode);
   }
 
   if (t.isFunctionExpression(storySort)) {
-    const { code: sortCode } = generate.default(storySort, {});
+    const { code: sortCode } = generate(storySort, {});
     const functionName = storySort.id?.name;
     // Wrap the function within an arrow function, call it, and return
     const wrapper = `(a, b) => {

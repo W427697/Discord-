@@ -3,9 +3,9 @@ import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
 
-import * as generate from '@babel/generator';
-
+import babel_generate from '@babel/generator';
 import babel_traverse from '@babel/traverse';
+
 import type { Options } from 'recast';
 import * as recast from 'recast';
 import { readFile, writeFile } from 'fs/promises';
@@ -21,6 +21,13 @@ const traverse: typeof babel_traverse =
   // @ts-expect-error
   (babel_traverse.default as typeof babel_traverse) ||
   babel_traverse;
+
+const generate: typeof babel_generate =
+  merequire('@babel/generator').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_generate.default as typeof babel_generate) ||
+  babel_generate;
 
 const getCsfParsingErrorMessage = ({
   expectedType,
@@ -320,7 +327,7 @@ export class ConfigFile {
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
-      const { code } = generate.default(node, {});
+      const { code } = generate(node, {});
 
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
@@ -595,7 +602,7 @@ export class ConfigFile {
     // we do this rather than t.valueToNode because apparently
     // babel only preserves quotes if they are parsed from the original code.
     if (quotes === 'single') {
-      const { code } = generate.default(t.valueToNode(value), { jsescOption: { quotes } });
+      const { code } = generate(t.valueToNode(value), { jsescOption: { quotes } });
       const program = babelParse(`const __x = ${code}`);
       traverse(program, {
         VariableDeclaration: {
