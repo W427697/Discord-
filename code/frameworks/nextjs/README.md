@@ -907,13 +907,13 @@ Storybook handles most [Typescript](https://www.typescriptlang.org/) configurati
 
 If your app uses [React Server Components (RSC)](https://nextjs.org/docs/app/building-your-application/rendering/server-components), Storybook can render them in stories in the browser.
 
-To enable this set the `experimentalNextRSC` feature flag in your `.storybook/main.js` config:
+To enable this set the `experimentalRSC` feature flag in your `.storybook/main.js` config:
 
 ```js
 // main.js
 export default {
   features: {
-    experimentalNextRSC: true,
+    experimentalRSC: true,
   },
 };
 ```

@@ -7,8 +7,8 @@ import { stringify } from 'telejson';
 import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
-import { componentNgModules } from './StorybookWrapperComponent';
 import { PropertyExtractor } from './utils/PropertyExtractor';
+import { queueBootstrapping } from './utils/BootstrapQueue';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -30,34 +30,12 @@ export abstract class AbstractRenderer {
    * Wait and destroy the platform
    */
   public static resetApplications(domNode?: HTMLElement) {
-    componentNgModules.clear();
     applicationRefs.forEach((appRef, appDOMNode) => {
       if (!appRef.destroyed && (!domNode || appDOMNode === domNode)) {
         appRef.destroy();
       }
     });
   }
-
-  /**
-   * Reset compiled components because we often want to compile the same component with
-   * more than one NgModule.
-   */
-  protected static resetCompiledComponents = async () => {
-    try {
-      // Clear global Angular component cache in order to be able to re-render the same component across multiple stories
-      //
-      // References:
-      // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
-      // https://github.com/angular/angular/blob/2ebe2bcb2fe19bf672316b05f15241fd7fd40803/packages/core/src/render3/jit/module.ts#L377-L384
-      const { ɵresetCompiledComponents } = await import('@angular/core');
-      ɵresetCompiledComponents();
-    } catch (e) {
-      /**
-       * noop catch
-       * This means angular removed or modified ɵresetCompiledComponents
-       */
-    }
-  };
 
   protected previousStoryRenderInfo = new Map<HTMLElement, StoryRenderInfo>();
 
@@ -70,15 +48,12 @@ export abstract class AbstractRenderer {
         // platform should be set after enableProdMode()
         enableProdMode();
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.debug(e);
       }
     }
   }
 
   protected abstract beforeFullRender(domNode?: HTMLElement): Promise<void>;
-
-  protected abstract afterFullRender(): Promise<void>;
 
   /**
    * Bootstrap main angular module with main component or send only new `props` with storyProps$
@@ -145,18 +120,18 @@ export abstract class AbstractRenderer {
       analyzedMetadata,
     });
 
-    const applicationRef = await bootstrapApplication(application, {
-      ...storyFnAngular.applicationConfig,
-      providers: [
-        storyPropsProvider(newStoryProps$),
-        ...analyzedMetadata.applicationProviders,
-        ...(storyFnAngular.applicationConfig?.providers ?? []),
-      ],
+    const applicationRef = await queueBootstrapping(() => {
+      return bootstrapApplication(application, {
+        ...storyFnAngular.applicationConfig,
+        providers: [
+          storyPropsProvider(newStoryProps$),
+          ...analyzedMetadata.applicationProviders,
+          ...(storyFnAngular.applicationConfig?.providers ?? []),
+        ],
+      });
     });
 
     applicationRefs.set(targetDOMNode, applicationRef);
-
-    await this.afterFullRender();
   }
 
   /**
@@ -181,7 +156,6 @@ export abstract class AbstractRenderer {
    * Adds DOM element that angular will use as bootstrap component.
    */
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
-    // eslint-disable-next-line no-param-reassign
     targetDOMNode.innerHTML = '';
     targetDOMNode.appendChild(document.createElement(targetSelector));
   }
@@ -201,7 +175,7 @@ export abstract class AbstractRenderer {
 
     const currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata, { allowFunction: false }),
     };
 
     this.previousStoryRenderInfo.set(targetDOMNode, currentStoryRender);

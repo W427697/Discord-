@@ -373,9 +373,9 @@ export interface StorybookConfigRaw {
     disallowImplicitActionsInRenderV8?: boolean;
 
     /**
-     * Enable asynchronous component rendering in NextJS framework
+     * Enable asynchronous component rendering in React renderer
      */
-    experimentalNextRSC?: boolean;
+    experimentalRSC?: boolean;
   };
 
   build?: TestBuildConfig;
@@ -397,8 +397,6 @@ export interface StorybookConfigRaw {
 
   // We cannot use a particular Babel type here because we need to support a variety of versions
   babelDefault?: any;
-
-  config?: Entry[];
 
   previewAnnotations?: Entry[];
 
@@ -482,13 +480,6 @@ export interface StorybookConfig {
    * Modify or return babel config.
    */
   babelDefault?: PresetValue<StorybookConfigRaw['babelDefault']>;
-
-  /**
-   * Add additional scripts to run in the preview a la `.storybook/preview.js`
-   *
-   * @deprecated use `previewAnnotations` or `/preview.js` file instead
-   */
-  config?: PresetValue<StorybookConfigRaw['config']>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
