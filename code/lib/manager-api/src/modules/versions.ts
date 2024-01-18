@@ -23,6 +23,14 @@ const getVersionCheckData = memoize(1)((): API_Versions => {
   }
 });
 
+const normalizeRendererName = (renderer: string) => {
+  if (renderer.includes('vue')) {
+    return 'vue';
+  }
+
+  return renderer;
+};
+
 export interface SubAPI {
   /**
    * Returns the current version of the Storybook Manager.
@@ -87,9 +95,6 @@ export const init: ModuleFn = ({ store }) => {
 
       let url = 'https://storybook.js.org/docs/';
 
-      console.log('current', current);
-      console.log('latest', latest);
-
       if (versioned && current?.version && latest?.version) {
         const versionDiff = semver.diff(latest.version, current.version);
         const isLatestDocs = versionDiff === 'patch' || versionDiff === null;
@@ -104,7 +109,11 @@ export const init: ModuleFn = ({ store }) => {
       }
 
       if (renderer && typeof global.STORYBOOK_RENDERER !== 'undefined') {
-        url += `?renderer=${global.STORYBOOK_RENDERER}`;
+        const rendererName = (global.STORYBOOK_RENDERER as string).split('/').pop()?.toLowerCase();
+
+        if (rendererName) {
+          url += `?renderer=${normalizeRendererName(rendererName)}`;
+        }
       }
 
       return url;
