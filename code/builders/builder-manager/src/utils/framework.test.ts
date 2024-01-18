@@ -24,7 +24,7 @@ describe('UTILITIES: Framework information', () => {
 
   describe('UTILITY: pluckStorybookPackageFromPath', () => {
     it('should return the package name if the path is a storybook package', () => {
-      const packagePath = path.join(process.cwd(), 'node_modules', '@storybook/foo');
+      const packagePath = path.join(process.cwd(), 'node_modules', '@storybook', 'foo');
       expect(pluckStorybookPackageFromPath(packagePath)).toBe('@storybook/foo');
     });
 

@@ -16,11 +16,14 @@ export const pluckNameFromConfigProperty = (property: Property) => {
   return typeof property === 'string' ? property : property.name;
 };
 
+// For replacing Windows backslashes with forward slashes
+const normalizePath = (packagePath: string) => packagePath.replaceAll(path.sep, '/');
+
 export const pluckStorybookPackageFromPath = (packagePath: string) =>
-  packagePath.match(/(@storybook\/.*)$/)?.[1];
+  normalizePath(packagePath).match(/(@storybook\/.*)$/)?.[1];
 
 export const pluckThirdPartyPackageFromPath = (packagePath: string) =>
-  packagePath.split(`${path.sep}node_modules${path.sep}`)[1] ?? packagePath;
+  normalizePath(packagePath).split('node_modules/')[1] ?? packagePath;
 
 export const buildFrameworkGlobalsFromOptions = async (options: Options) => {
   const globals: Record<string, any> = {};
