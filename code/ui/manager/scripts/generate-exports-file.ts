@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import { dedent } from 'ts-dedent';
@@ -42,12 +41,10 @@ const run = async () => {
     },
     external: ['qs'],
     esbuildOptions: (c) => {
-      /* eslint-disable no-param-reassign */
       c.conditions = ['node', 'default', 'module'];
       c.platform = 'node';
       c.logLevel = 'error';
       c.legalComments = 'none';
-      /* eslint-enable no-param-reassign */
     },
   });
 

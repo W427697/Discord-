@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "8.0.0-alpha.10",
+  "version": "8.0.0-alpha.11",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -41,7 +41,17 @@
       "require": "./dist/font/webpack/loader/storybook-nextjs-font-loader.cjs",
       "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.js"
     },
-    "./dist/rsc/preview.js": "./dist/rsc/preview.js",
+    "./dist/rsc/preview": {
+      "types": "./dist/rsc/preview.js",
+      "require": "./dist/rsc/preview.cjs",
+      "import": "./dist/rsc/preview.js"
+    },
+    "./dist/rsc/preview.js": {
+      "types": "./dist/rsc/preview.js",
+      "require": "./dist/rsc/preview.cjs",
+      "import": "./dist/rsc/preview.js"
+    },
+    "./dist/preview.mjs": "./dist/preview.mjs",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
       "require": "./dist/next-image-loader-stub.cjs",
@@ -163,7 +173,6 @@
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
-      "./src/rsc/preview.tsx",
       "./src/rsc/server-only.ts",
       "./src/swc/next-swc-loader-patch.ts"
     ],

@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
   findConfigFile,
@@ -175,18 +175,6 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
-
-export const previewAnnotations = async (base: any, options: Options) => {
-  const config = await options.presets.apply('config', [], options);
-
-  if (config.length > 0) {
-    deprecate(
-      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
-    );
-  }
-
-  return [...config, ...base];
-};
 
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,

@@ -22,7 +22,7 @@ import type {
   ManagerBuilder,
   StarterFunction,
 } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
@@ -300,7 +300,6 @@ export const start: ManagerBuilder['start'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -312,7 +311,6 @@ export const build: ManagerBuilder['build'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
