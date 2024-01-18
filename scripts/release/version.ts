@@ -1,6 +1,6 @@
 import { setOutput } from '@actions/core';
-// eslint-disable-next-line import/no-unresolved
-import { readJson, writeJson } from 'fs-extra/esm';
+
+import { readJson, writeJson } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
 import path from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';

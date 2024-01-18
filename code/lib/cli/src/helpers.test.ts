@@ -1,6 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-// eslint-disable-next-line import/no-unresolved
-import fse from 'fs-extra/esm';
+
+import fse from '@ndelangen/fs-extra-unified';
 
 import { sep } from 'node:path';
 import * as helpers from './helpers';
@@ -53,8 +53,8 @@ vi.mock('./dirs', () => ({
   getCliDir: () => normalizePath('@storybook/cli'),
 }));
 
-vi.mock('fs-extra/esm', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('fs-extra/esm')>();
+vi.mock('@ndelangen/fs-extra-unified', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ndelangen/fs-extra-unified')>();
   return {
     ...actual,
     ...fseMocks,

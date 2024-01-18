@@ -59,6 +59,7 @@
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "@ndelangen/fs-extra-unified": "^1.0.0",
     "fs-extra": "^11.1.0",
     "slash": "^5.0.0",
     "typescript": "^5.3.2"

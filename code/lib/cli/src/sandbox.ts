@@ -5,8 +5,7 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import invariant from 'tiny-invariant';
 import { readdir } from 'node:fs/promises';
 import { lt, prerelease } from 'semver';

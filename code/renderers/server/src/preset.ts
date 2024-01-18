@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import yaml from 'yaml';
 import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
 

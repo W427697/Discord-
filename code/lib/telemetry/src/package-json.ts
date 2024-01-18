@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import path from 'node:path';
 
 import type { Dependency } from './types';

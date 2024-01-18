@@ -1,6 +1,6 @@
 import path from 'node:path';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 

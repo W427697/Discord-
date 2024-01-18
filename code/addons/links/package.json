@@ -67,6 +67,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@ndelangen/fs-extra-unified": "^1.0.0",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/manager-api": "workspace:*",

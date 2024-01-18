@@ -141,7 +141,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           platform === 'node'
             ? [
                 aliasPlugin({
-                  'fs-extra/esm': require.resolve('../node_modules/fs-extra'),
+                  '@ndelangen/fs-extra-unified': require.resolve('../node_modules/fs-extra'),
                   'fs-extra/lib/esm.mjs': require.resolve('../node_modules/fs-extra'),
                 }),
               ]

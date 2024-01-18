@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
-// eslint-disable-next-line import/no-unresolved
-import * as fsExtraImp from 'fs-extra/esm';
+
+import * as fsExtraImp from '@ndelangen/fs-extra-unified';
 import { execaCommand } from 'execa';
 import { run as version } from '../version';
 
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
-vi.mock('fs-extra/esm', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../code/__mocks__/fs-extra'));
 vi.mock('node:fs/promises', async () => import('../../../code/__mocks__/fs-extra'));
 const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
 

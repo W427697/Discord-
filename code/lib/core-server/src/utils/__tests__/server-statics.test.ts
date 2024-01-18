@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-// eslint-disable-next-line import/no-unresolved
-import fs from 'fs-extra/esm';
+
+import fs from '@ndelangen/fs-extra-unified';
 import path from 'node:path';
 import { onlyWindows, skipWindows } from '../../../../../vitest.helpers';
 import { parseStaticDir } from '../server-statics';
 
-vi.mock('fs-extra/esm');
+vi.mock('@ndelangen/fs-extra-unified');
 const pathExistsMock = vi.mocked(fs.pathExists);
 
 describe('parseStaticDir', () => {

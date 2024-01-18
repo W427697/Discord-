@@ -1,7 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';

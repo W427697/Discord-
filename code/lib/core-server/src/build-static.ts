@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import { dirname, join, relative, resolve } from 'node:path';
 import { global } from '@storybook/global';
 import { logger } from '@storybook/node-logger';

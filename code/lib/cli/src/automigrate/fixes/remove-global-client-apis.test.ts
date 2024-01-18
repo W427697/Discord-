@@ -2,12 +2,12 @@
 import { describe, it, expect, vi } from 'vitest';
 
 import path from 'node:path';
-// eslint-disable-next-line import/no-unresolved
-import * as fsExtra from 'fs-extra/esm';
+
+import * as fsExtra from '@ndelangen/fs-extra-unified';
 import type { JsPackageManager } from '../../js-package-manager';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';
 
-vi.mock('fs-extra/esm', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../../../__mocks__/fs-extra'));
 vi.mock('fs/promises', async () => import('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ contents, previewConfigPath }: any) => {

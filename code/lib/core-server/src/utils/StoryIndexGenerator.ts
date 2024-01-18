@@ -1,7 +1,7 @@
 import path, { relative } from 'node:path';
 import chalk from 'chalk';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';

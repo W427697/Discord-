@@ -1,12 +1,11 @@
-import type { WriteStream } from 'fs-extra';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
 import { join } from 'node:path';
-import { createWriteStream } from 'node:fs';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';
 import { readFile, writeFile } from 'node:fs/promises';
 import type { JsPackageManager } from './js-package-manager';
+import { createWriteStream } from 'fs';
 
 export function parseList(str: string): string[] {
   return str
@@ -79,7 +78,7 @@ export const createLogStream = async (
   removeLogFile: () => Promise<void>;
   clearLogFile: () => Promise<void>;
   readLogFile: () => Promise<string>;
-  logStream: WriteStream;
+  logStream: ReturnType<typeof createWriteStream>;
 }> => {
   const finalLogPath = join(process.cwd(), logFileName);
   const temporaryLogPath = tempy.file({ name: logFileName });

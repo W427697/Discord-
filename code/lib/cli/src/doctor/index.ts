@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import tempy from 'tempy';
 import { dedent } from 'ts-dedent';
 import { join } from 'node:path';

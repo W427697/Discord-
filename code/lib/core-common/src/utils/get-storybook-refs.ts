@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import { dirname, join } from 'node:path';
 import findUp from 'find-up';
 import fetch from 'node-fetch';

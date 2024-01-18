@@ -7,8 +7,8 @@ import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'node:path';
 import express from 'express';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
 import {
   WebpackCompilationError,

@@ -1,6 +1,6 @@
 import type { OutputFile } from 'esbuild';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import { join, normalize } from 'node:path';
 import slash from 'slash';
 import { writeFile } from 'node:fs/promises';

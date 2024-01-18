@@ -1,6 +1,6 @@
 import { dirname, join, parse } from 'node:path';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';

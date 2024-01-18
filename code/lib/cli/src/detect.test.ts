@@ -16,7 +16,7 @@ vi.mock('fs', () => ({
   access: vi.fn(),
 }));
 
-vi.mock('fs-extra/esm', () => ({
+vi.mock('@ndelangen/fs-extra-unified', () => ({
   pathExistsSync: vi.fn(() => true),
 }));
 

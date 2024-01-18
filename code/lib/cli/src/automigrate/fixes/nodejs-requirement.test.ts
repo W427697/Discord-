@@ -2,7 +2,7 @@ import { describe, afterAll, it, expect, vi } from 'vitest';
 
 import { nodeJsRequirement } from './nodejs-requirement';
 
-vi.mock('fs-extra/esm', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../../../__mocks__/fs-extra'));
 vi.mock('fs/promises', async () => import('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ storybookVersion = '7.0.0' }) => {

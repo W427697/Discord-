@@ -3,8 +3,8 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-// eslint-disable-next-line import/no-unresolved
-import { writeJson } from 'fs-extra/esm';
+
+import { writeJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
 import { readFile, writeFile } from 'node:fs/promises';

@@ -6,8 +6,8 @@ import path from 'node:path';
 import fs from 'fs';
 
 import { dedent } from 'ts-dedent';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import invariant from 'tiny-invariant';
 import { writeFile } from 'node:fs/promises';
 import { commandLog } from '../helpers';

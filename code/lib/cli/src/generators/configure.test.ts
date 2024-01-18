@@ -1,12 +1,12 @@
 import { describe, beforeAll, expect, vi, it } from 'vitest';
-// eslint-disable-next-line import/no-unresolved
-import fse from 'fs-extra/esm';
+
+import fse from '@ndelangen/fs-extra-unified';
 import fs from 'fs/promises';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
 import { configureMain, configurePreview } from './configure';
 
-vi.mock('fs-extra/esm');
+vi.mock('@ndelangen/fs-extra-unified');
 vi.mock('fs/promises');
 
 describe('configureMain', () => {

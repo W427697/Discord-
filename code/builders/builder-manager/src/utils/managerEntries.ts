@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import * as fse from '@ndelangen/fs-extra-unified';
 import { resolvePathInStorybookCache } from '@storybook/core-common';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';

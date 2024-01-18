@@ -4,8 +4,8 @@ import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import path, { basename, isAbsolute } from 'node:path';
 
 import { dedent } from 'ts-dedent';

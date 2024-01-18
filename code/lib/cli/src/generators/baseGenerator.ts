@@ -1,6 +1,6 @@
 import path from 'node:path';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';

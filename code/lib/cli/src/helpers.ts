@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import fs from 'node:fs';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import * as fse from '@ndelangen/fs-extra-unified';
 import path, { join } from 'node:path';
 import semver from 'semver';
 import stripJsonComments from 'strip-json-comments';

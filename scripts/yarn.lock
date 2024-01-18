@@ -2097,6 +2097,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ndelangen/fs-extra-unified@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@ndelangen/fs-extra-unified@npm:1.0.1"
+  peerDependencies:
+    "@types/fs-extra": ^11.0.0
+    fs-extra: ^11.0.0
+  peerDependenciesMeta:
+    "@types/fs-extra":
+      optional: true
+  checksum: bdff7ad44f3184aa0de89c71d7c5064f44de45b6c92abe927326c3be0dd13a6052d3be049358eb3a5dfa1d46a4e002bda36b448e59a2396638797290ca7da7ac
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -2845,6 +2858,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
     "@google-cloud/bigquery": "npm:^6.2.0"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.0"
     "@nx/workspace": "npm:17.0.2"
     "@octokit/graphql": "npm:^5.0.5"
     "@octokit/request": "npm:^8.1.2"
