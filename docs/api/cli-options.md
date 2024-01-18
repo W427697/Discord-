@@ -97,8 +97,6 @@ Options include:
 
 ### `doctor`
 
-**Added in:** Storybook 7.6
-
 Performs a health check on your Storybook project for common issues (e.g., duplicate dependencies, incompatible addons or mismatched versions) and provides suggestions on how to fix them. Applicable when [upgrading](../configure/upgrading.md#verifying-the-upgrade) Storybook versions.
 
 ```shell
@@ -166,8 +164,6 @@ Storybook Environment Info:
 ```
 
 ### `remove`
-
-**Added in:** Storybook 8.0
 
 Deletes a Storybook addon from your project. Read more in the [addon installation guide](../addons/install-addons.md#removing-addons).
 
