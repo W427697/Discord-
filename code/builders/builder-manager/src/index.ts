@@ -24,7 +24,7 @@ import type {
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
-import { normalizeBuilderName, rendererPathToName } from './utils/framework';
+import { buildFrameworkGlobalsFromOptions } from './utils/framework';
 
 let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
@@ -165,19 +165,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   // Build additional global values
-  const globals: Record<string, any> = {};
-
-  const { renderer: rendererPath, builder: builderValue } = await options.presets.apply('core');
-
-  const rendererName = rendererPathToName(rendererPath);
-  if (rendererName) {
-    globals.STORYBOOK_RENDERER = rendererName;
-  }
-
-  const builderName = normalizeBuilderName(builderValue);
-  if (builderName) {
-    globals.STORYBOOK_BUILDER = builderName;
-  }
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
 
   yield;
 
@@ -270,19 +258,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   // Build additional global values
-  const globals: Record<string, any> = {};
-
-  const { renderer: rendererPath, builder: builderValue } = await options.presets.apply('core');
-
-  const rendererName = rendererPathToName(rendererPath);
-  if (rendererName) {
-    globals.STORYBOOK_RENDERER = rendererName;
-  }
-
-  const builderName = normalizeBuilderName(builderValue);
-  if (builderName) {
-    globals.STORYBOOK_BUILDER = builderName;
-  }
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
 
   yield;
 

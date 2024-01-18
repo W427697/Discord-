@@ -1,25 +1,39 @@
-import path from 'path';
+import type { Options } from '@storybook/types';
 
-export const rendererPathToName = (rendererPath?: string) => {
-  const value = rendererPath?.split(path.sep).pop()?.toLowerCase();
+interface PropertyObject {
+  name: string;
+  options?: Record<string, any>;
+}
 
-  if (!value) {
+type Property = string | PropertyObject | undefined;
+
+const pluckNameFromConfigProperty = (property: Property) => {
+  if (!property) {
     return undefined;
   }
 
-  if (value.includes('vue')) {
-    return 'vue';
-  }
-
-  return value;
+  return typeof property === 'string' ? property : property.name;
 };
 
-export const normalizeBuilderName = (builderValue?: string | { name: string }) => {
-  if (!builderValue) {
-    return undefined;
+export const buildFrameworkGlobalsFromOptions = async (options: Options) => {
+  const globals: Record<string, any> = {};
+
+  const { renderer, builder } = await options.presets.apply('core');
+
+  const rendererName = pluckNameFromConfigProperty(renderer);
+  if (rendererName) {
+    globals.STORYBOOK_RENDERER = rendererName;
   }
 
-  const name = typeof builderValue === 'string' ? builderValue : builderValue.name;
+  const builderName = pluckNameFromConfigProperty(builder);
+  if (builderName) {
+    globals.STORYBOOK_BUILDER = builderName;
+  }
 
-  return name.includes('webpack5') ? 'webpack5' : name;
+  const framework = pluckNameFromConfigProperty(await options.presets.apply('framework'));
+  if (framework) {
+    globals.STORYBOOK_FRAMEWORK = framework;
+  }
+
+  return globals;
 };
