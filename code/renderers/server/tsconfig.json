@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.json",
   "include": ["src/**/*", "template/**/*"],
   "compilerOptions": {
-    "strict": false
+    "strict": false,
+    "rootDir": ".",
+    "rootDirs": ["./src", "./template"]
+
   }
 }

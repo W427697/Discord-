@@ -4,7 +4,6 @@ import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
-import { readdir } from 'node:fs/promises';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks } from '../project_types';

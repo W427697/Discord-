@@ -19,12 +19,12 @@ export async function injectExportOrderPlugin() {
       //  instead of calling `await parse()` every time.
       const [, exports] = await parse(code);
 
-      if (exports.includes('__namedExportsOrder')) {
+      if (exports.toString().includes('__namedExportsOrder')) {
         // user has defined named exports already
         return undefined;
       }
       const s = new MagicString(code);
-      const orderedExports = exports.filter((e) => e !== 'default');
+      const orderedExports = exports.filter((e) => e.toString() !== 'default');
       s.append(`;export const __namedExportsOrder = ${JSON.stringify(orderedExports)};`);
       return {
         code: s.toString(),

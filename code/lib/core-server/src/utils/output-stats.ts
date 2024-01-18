@@ -2,8 +2,8 @@ import dje from '@discoveryjs/json-ext';
 import { logger } from '@storybook/node-logger';
 import type { Stats } from '@storybook/types';
 import chalk from 'chalk';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
+import { createWriteStream } from 'node:fs';
 import path from 'node:path';
 
 export async function outputStats(directory: string, previewStats?: any, managerStats?: any) {
@@ -24,7 +24,7 @@ export const writeStats = async (directory: string, name: string, stats: Stats) 
     dje
       .stringifyStream(data, null, 2)
       .on('error', reject)
-      .pipe(fse.createWriteStream(filePath))
+      .pipe(createWriteStream(filePath))
       .on('error', reject)
       .on('finish', resolve);
   });

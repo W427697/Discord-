@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "strict": true,
+    "rootDir": ".",
+    "rootDirs": ["./src", "./template"],
+
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowJs": true

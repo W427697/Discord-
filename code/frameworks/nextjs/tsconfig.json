@@ -3,6 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true,
+    "rootDir": ".",
+    "rootDirs": ["./src", "./template"],
     "skipLibCheck": true
   },
   "include": ["src/**/*", "template/**/*"]

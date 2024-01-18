@@ -2,6 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "strict": true,
+    "rootDir": ".",
+    "rootDirs": ["./src", "./template"],
+
     "resolveJsonModule": true
   },
   "include": ["src/**/*", "template/**/*"]

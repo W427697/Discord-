@@ -12,7 +12,8 @@ const run = async ({ cwd }: { cwd: string }) => {
 
   const tsDiagnostics = getTSDiagnostics(program, cwd, host);
   if (tsDiagnostics.length > 0) {
-    console.log(tsDiagnostics);
+    console.error('type errors found');
+    console.log(tsDiagnostics?.stack || tsDiagnostics);
     process.exit(1);
   } else {
     console.log('no type errors');
@@ -34,12 +35,18 @@ run({ cwd: process.cwd() }).catch((err: unknown) => {
   if (err instanceof Error) {
     console.error(err.message);
   }
+  console.error(err);
   process.exit(1);
 });
 
 function getTSDiagnostics(program: ts.Program, cwd: string, host: ts.CompilerHost): any {
   return ts.formatDiagnosticsWithColorAndContext(
-    ts.getPreEmitDiagnostics(program).filter((d) => d.file.fileName.startsWith(cwd)),
+    ts.getPreEmitDiagnostics(program).filter((d) => {
+      if (d.file === undefined && d.messageText) {
+        throw new Error(JSON.stringify(d.messageText, null, 2));
+      }
+      return d.file.fileName.startsWith(cwd);
+    }),
     host
   );
 }

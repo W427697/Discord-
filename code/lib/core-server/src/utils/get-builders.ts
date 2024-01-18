@@ -1,7 +1,7 @@
 import type { Builder, Options } from '@storybook/types';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { pathToFileURL } from 'node:url';
-import { resolve as resolveESM, moduleResolve } from 'import-meta-resolve';
+import { resolve as resolveESM } from 'import-meta-resolve';
 
 import readPkg from 'read-pkg-up';
 

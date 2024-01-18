@@ -5,6 +5,7 @@ import * as fse from 'fs-extra/esm';
 import tempy from 'tempy';
 import { dedent } from 'ts-dedent';
 import { join } from 'node:path';
+import { createWriteStream } from 'node:fs';
 
 import { JsPackageManagerFactory } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
@@ -25,7 +26,7 @@ const originalStdErrWrite = process.stderr.write.bind(process.stdout);
 
 const augmentLogsToFile = () => {
   TEMP_LOG_FILE_PATH = tempy.file({ name: LOG_FILE_NAME });
-  const logStream = fse.createWriteStream(TEMP_LOG_FILE_PATH);
+  const logStream = createWriteStream(TEMP_LOG_FILE_PATH);
 
   process.stdout.write = (d: string) => {
     originalStdOutWrite(d);

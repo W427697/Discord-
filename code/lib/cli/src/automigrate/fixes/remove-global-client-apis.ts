@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+
 import { readFile } from 'node:fs/promises';
 import type { Fix } from '../types';
 
