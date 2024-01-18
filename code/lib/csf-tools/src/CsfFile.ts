@@ -616,7 +616,7 @@ interface FormatOptions {
 }
 
 export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
-  const result = generate.default(csf._ast, options);
+  const result = generate(csf._ast, options);
   if (options.sourceMaps) {
     return result;
   }
