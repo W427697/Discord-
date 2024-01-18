@@ -139,7 +139,7 @@ export const defaultShortcuts: API_Shortcuts = Object.freeze({
   prevStory: ['alt', 'ArrowLeft'],
   nextStory: ['alt', 'ArrowRight'],
   shortcutsPage: [controlOrMetaKey(), 'shift', ','],
-  aboutPage: [','],
+  aboutPage: [controlOrMetaKey(), ','],
   escape: ['escape'], // This one is not customizable
   collapseAll: [controlOrMetaKey(), 'shift', 'ArrowUp'],
   expandAll: [controlOrMetaKey(), 'shift', 'ArrowDown'],

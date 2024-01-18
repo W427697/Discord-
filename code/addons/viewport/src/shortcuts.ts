@@ -27,7 +27,7 @@ export const registerShortcuts = async (
 ) => {
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Previous viewport',
-    defaultShortcut: ['shift', 'V'],
+    defaultShortcut: ['alt', 'shift', 'V'],
     actionName: 'previous',
     action: () => {
       updateGlobals({
@@ -49,7 +49,7 @@ export const registerShortcuts = async (
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Reset viewport',
-    defaultShortcut: ['alt', 'V'],
+    defaultShortcut: ['alt', 'control', 'V'],
     actionName: 'reset',
     action: () => {
       updateGlobals(defaultGlobals);
