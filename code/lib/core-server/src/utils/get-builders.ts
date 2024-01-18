@@ -27,12 +27,10 @@ export async function getPreviewBuilder(
 
     if (pkg?.packageJson?.exports) {
       const specifier = rr.exports(pkg.packageJson, '.');
-      console.log({ specifier });
       if (!specifier) {
         throw new Error('no default specifier');
       }
       const resolved = join(pathToFileURL(full).href, specifier[0]);
-      console.log({ resolved });
       return await import(resolved);
     }
   } catch (e) {
@@ -41,7 +39,6 @@ export async function getPreviewBuilder(
 
   try {
     const resolved = await resolveESM(pathToFileURL(full).href, pathToFileURL(configDir).href);
-    console.log({ resolved2: resolved });
     return await import(resolved);
   } catch (e) {
     errors.push(e);
@@ -53,7 +50,6 @@ export async function getPreviewBuilder(
     errors.push(e);
   }
 
-  console.log('NOOOOO');
   if (errors.length > 0) {
     console.log('tried loading builder ' + full + ' but failed with errors:');
     throw new Error(JSON.stringify(errors, null, 2));

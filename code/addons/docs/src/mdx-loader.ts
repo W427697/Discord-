@@ -28,7 +28,6 @@ interface LoaderContext {
 async function loader(this: LoaderContext, content: string): Promise<void> {
   const callback = this.async();
   const options = { ...this.getOptions(), filepath: this.resourcePath };
-  console.dir({ options }, { depth: 100 });
 
   try {
     const result = await compile(content, options);

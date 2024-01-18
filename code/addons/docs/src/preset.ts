@@ -50,13 +50,11 @@ async function webpack(
       ...mdxPluginOptions.mdxCompileOptions,
       rehypePlugins: [
         ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
-        rehypeSlug.default || rehypeSlug,
-        rehypeExternalLinks.default || rehypeExternalLinks,
+        (rehypeSlug as any).default || rehypeSlug,
+        (rehypeExternalLinks as any).default || rehypeExternalLinks,
       ],
     },
   });
-
-  console.log({ mdxLoaderOptions });
 
   logger.info(`Addon-docs: using MDX3`);
 
