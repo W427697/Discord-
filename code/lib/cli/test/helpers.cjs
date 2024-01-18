@@ -1,5 +1,5 @@
 const { sync: spawnSync } = require('cross-spawn');
-const path = require('path');
+const path = require('node:path');
 
 const CLI_PATH = path.join(__dirname, '..', 'bin');
 

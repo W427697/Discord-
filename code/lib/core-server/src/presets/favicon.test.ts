@@ -1,7 +1,8 @@
 import { expect, vi, it } from 'vitest';
 
 import { join } from 'node:path';
-import * as fs from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fs from 'fs-extra/esm';
 import { logger } from '@storybook/node-logger';
 import * as m from './common-preset';
 
@@ -24,7 +25,7 @@ const createOptions = (locations: string[]): Parameters<typeof m.favicon>[1] => 
   },
 });
 
-vi.mock('fs-extra', () => {
+vi.mock('fs-extra/esm', () => {
   return {
     pathExists: vi.fn((p: string) => {
       return false;

@@ -1,5 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import fse from 'fs-extra/esm';
 
 import { sep } from 'node:path';
 import * as helpers from './helpers';
@@ -12,6 +13,8 @@ const normalizePath = (path: string) => (IS_WINDOWS ? path.replace(/\//g, sep) :
 
 const fsMocks = vi.hoisted(() => ({
   existsSync: vi.fn(),
+  readFile: vi.fn(() => ''),
+  writeFile: vi.fn(),
 }));
 
 const fseMocks = vi.hoisted(() => ({
@@ -20,12 +23,21 @@ const fseMocks = vi.hoisted(() => ({
   ensureDir: vi.fn(() => {}),
   existsSync: vi.fn(),
   pathExists: vi.fn(),
-  readFile: vi.fn(() => ''),
-  writeFile: vi.fn(),
 }));
 
 vi.mock('fs', async (importOriginal) => {
   const actual = await importOriginal<typeof import('fs')>();
+  return {
+    ...actual,
+    ...fsMocks,
+    default: {
+      ...actual,
+      ...fsMocks,
+    },
+  };
+});
+vi.mock('fs/promises', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs/promises')>();
   return {
     ...actual,
     ...fsMocks,
@@ -41,8 +53,8 @@ vi.mock('./dirs', () => ({
   getCliDir: () => normalizePath('@storybook/cli'),
 }));
 
-vi.mock('fs-extra', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('fs-extra')>();
+vi.mock('fs-extra/esm', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs-extra/esm')>();
   return {
     ...actual,
     ...fseMocks,

@@ -101,11 +101,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'browser',
         external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
           options.conditions = ['module'];
           options.platform = 'browser';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
         esbuildPlugins: [
           aliasPlugin({
@@ -124,11 +122,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
           // options.conditions = ['module'];
           options.platform = 'node';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -151,11 +147,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'browser',
         external: [...commonExternals, ...globalManagerPackages],
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
           options.conditions = ['module'];
           options.platform = 'browser';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -173,11 +167,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'browser',
         external: [...commonExternals, ...globalPreviewPackages],
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
           c.platform = 'browser';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -192,10 +184,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );

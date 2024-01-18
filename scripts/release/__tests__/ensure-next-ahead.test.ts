@@ -1,14 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import * as fsExtraOriginal from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fsExtraOriginal from 'fs-extra/esm';
 import { run as ensureNextAhead } from '../ensure-next-ahead';
 import * as gitClient_ from '../utils/git-client';
 import * as bumpVersion_ from '../version';
 
 vi.mock('../utils/git-client');
 vi.mock('../version');
-vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('fs-extra/esm', async () => import('../../../code/__mocks__/fs-extra'));
 
 const fsExtra = vi.mocked<typeof import('../../../code/__mocks__/fs-extra')>(
   fsExtraOriginal as any

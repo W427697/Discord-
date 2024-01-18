@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import chalk from 'chalk';
 import semver from 'semver';
 import type { PullRequestInfo } from './get-github-info';

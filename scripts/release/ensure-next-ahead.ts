@@ -7,7 +7,6 @@
  * If this is a patch release bumping main to 7.3.1, next will not be touched because it's already ahead.
  */
 
-/* eslint-disable no-console */
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';

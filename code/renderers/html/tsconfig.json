@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "rootDir": ".",
-    "rootDirs": ["./src", "./template"],
+    "rootDirs": ["./src", "./template"]
 
   },
   "include": ["src/**/*", "template/**/*"]

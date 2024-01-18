@@ -16,7 +16,7 @@ vi.mock('fs', () => ({
   access: vi.fn(),
 }));
 
-vi.mock('fs-extra', () => ({
+vi.mock('fs-extra/esm', () => ({
   pathExistsSync: vi.fn(() => true),
 }));
 

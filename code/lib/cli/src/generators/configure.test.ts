@@ -1,10 +1,13 @@
 import { describe, beforeAll, expect, vi, it } from 'vitest';
-import fse from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import fse from 'fs-extra/esm';
+import fs from 'fs/promises';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
 import { configureMain, configurePreview } from './configure';
 
-vi.mock('fs-extra');
+vi.mock('fs-extra/esm');
+vi.mock('fs/promises');
 
 describe('configureMain', () => {
   beforeAll(() => {
@@ -22,7 +25,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
@@ -51,7 +54,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
@@ -86,7 +89,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
@@ -120,7 +123,7 @@ describe('configurePreview', () => {
       rendererId: 'react',
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
@@ -149,7 +152,7 @@ describe('configurePreview', () => {
       rendererId: 'react',
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
@@ -179,7 +182,7 @@ describe('configurePreview', () => {
       storybookConfigFolder: '.storybook',
       rendererId: 'react',
     });
-    expect(fse.writeFile).not.toHaveBeenCalled();
+    expect(fs.writeFile).not.toHaveBeenCalled();
   });
 
   it('should add prefix if frameworkParts are passed', async () => {
@@ -196,7 +199,7 @@ describe('configurePreview', () => {
       },
     });
 
-    const { calls } = vi.mocked(fse.writeFile).mock;
+    const { calls } = vi.mocked(fs.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');

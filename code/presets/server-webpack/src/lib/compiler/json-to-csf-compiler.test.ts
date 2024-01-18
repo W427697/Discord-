@@ -1,11 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import path from 'node:path';
-import fs from 'fs-extra';
+import { readdirSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+
 import YAML from 'yaml';
 import { compileCsfModule } from '.';
 
 async function generate(filePath: string) {
-  const content = await fs.readFile(filePath, 'utf8');
+  const content = await readFile(filePath, 'utf8');
   const parsed = filePath.endsWith('.json') ? JSON.parse(content) : YAML.parse(content);
   return compileCsfModule(parsed);
 }
@@ -15,7 +17,8 @@ async function generate(filePath: string) {
 
   describe(`${fileType}-to-csf-compiler`, () => {
     const transformFixturesDir = path.join(__dirname, '__testfixtures__');
-    fs.readdirSync(transformFixturesDir)
+
+    readdirSync(transformFixturesDir)
       .filter((fileName: string) => inputRegExp.test(fileName))
       .forEach((fixtureFile: string) => {
         it(`${fixtureFile}`, async () => {

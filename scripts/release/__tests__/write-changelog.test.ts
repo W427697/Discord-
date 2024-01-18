@@ -1,16 +1,15 @@
-/* eslint-disable jest/no-mocks-import */
-
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import dedent from 'ts-dedent';
 import { vi, expect, describe, it, beforeEach } from 'vitest';
-import * as fsExtraImp from 'fs-extra';
+// eslint-disable-next-line import/no-unresolved
+import * as fsExtraImp from 'fs-extra/esm';
 import { run as writeChangelog } from '../write-changelog';
 import * as changesUtils_ from '../utils/get-changes';
 
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
-vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('fs-extra/esm', async () => import('../../../code/__mocks__/fs-extra'));
 vi.mock('../utils/get-changes');
 
 const changesUtils = vi.mocked(changesUtils_);

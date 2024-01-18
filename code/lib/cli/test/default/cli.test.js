@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 
-const run = require('../helpers');
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+
+const run = require('../helpers.cjs');
 
 describe('Default behavior', () => {
   it('suggests the closest match to an unknown command', () => {

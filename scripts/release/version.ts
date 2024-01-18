@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { setOutput } from '@actions/core';
 import { readFile, readJson, writeFile, writeJson } from 'fs-extra';
 import chalk from 'chalk';

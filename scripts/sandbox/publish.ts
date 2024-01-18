@@ -6,7 +6,7 @@ import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 import { execaCommand } from 'execa';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
-// eslint-disable-next-line import/no-cycle
+
 import { commitAllToGit } from './utils/git';
 import { REPROS_DIRECTORY } from '../utils/constants';
 
@@ -32,9 +32,10 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   // otherwise old files will stick around and result inconsistent states
   logger.log(`🗑 Delete existing template dirs from clone`);
   const files = await Promise.all(
-    (
-      await readdir(REPROS_DIRECTORY)
-    ).map(async (f) => ({ path: f, stats: await stat(join(REPROS_DIRECTORY, f)) }))
+    (await readdir(REPROS_DIRECTORY)).map(async (f) => ({
+      path: f,
+      stats: await stat(join(REPROS_DIRECTORY, f)),
+    }))
   );
   await Promise.all(
     files

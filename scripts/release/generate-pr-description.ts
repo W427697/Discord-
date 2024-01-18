@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
@@ -65,7 +64,6 @@ export const mapToChangelist = ({
 }): string => {
   return changes
     .filter((change) => {
-      // eslint-disable-next-line no-restricted-syntax
       for (const titleToIgnore of CHANGE_TITLES_TO_IGNORE) {
         if (change.title?.match(titleToIgnore)) {
           return false;

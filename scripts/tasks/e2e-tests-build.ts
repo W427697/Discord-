@@ -13,7 +13,6 @@ export const e2eTestsBuild: Task & { port: number } = {
   },
   async run({ codeDir, junitFilename, key }, { dryRun, debug }) {
     if (process.env.DEBUG) {
-      // eslint-disable-next-line no-console
       console.log(dedent`
         Running e2e tests in Playwright's ui mode for chromium only (for brevity sake).
         You can change the browser by changing the --project flag in the e2e-tests task file.
