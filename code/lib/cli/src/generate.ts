@@ -248,7 +248,6 @@ command('dev')
       options.port = parseInt(`${options.port}`, 10);
     }
 
-    console.log('we are here');
     await dev({ ...options, packageJson: pkg }).catch((e) => {
       console.log(e?.stack || e);
       process.exit(1);

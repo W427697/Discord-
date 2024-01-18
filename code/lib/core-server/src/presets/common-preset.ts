@@ -32,6 +32,7 @@ import {
 } from '@storybook/core-events';
 import invariant from 'tiny-invariant';
 import { readFile, writeFile } from 'node:fs/promises';
+// import { fileURLToPath } from 'node:url';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -375,5 +376,7 @@ export const tags = async (existing: any) => {
 };
 
 export const managerEntries = async (existing: any, options: Options) => {
-  return [require.resolve('./common-manager'), ...(existing || [])];
+  // TODO re-enable
+  // const __dirname = dirname(fileURLToPath(import.meta.url));
+  // return [join(__dirname, 'common-manager.js'), ...(existing || [])];
 };
