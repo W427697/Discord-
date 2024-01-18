@@ -1,5 +1,5 @@
-import { readFile } from '@ndelangen/fs-extra-unified';
 import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 import { exec } from '../utils/exec';
