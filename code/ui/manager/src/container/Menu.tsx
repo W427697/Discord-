@@ -48,16 +48,6 @@ export const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
   </>
 );
 
-const sanitizeRendererForDocsUrl = (renderer: string) => {
-  const normalizedRenderer = renderer.toLowerCase();
-
-  if (normalizedRenderer.includes('vue')) {
-    return 'vue';
-  }
-
-  return normalizedRenderer;
-};
-
 export const useMenu = (
   state: State,
   api: API,

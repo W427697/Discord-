@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 
 import {
@@ -23,21 +24,25 @@ describe('UTILITIES: Framework information', () => {
 
   describe('UTILITY: pluckStorybookPackageFromPath', () => {
     it('should return the package name if the path is a storybook package', () => {
-      expect(pluckStorybookPackageFromPath('@storybook/foo')).toBe('@storybook/foo');
+      const packagePath = path.join(process.cwd(), 'node_modules', '@storybook/foo');
+      expect(pluckStorybookPackageFromPath(packagePath)).toBe('@storybook/foo');
     });
 
     it('should return undefined if the path is not a storybook package', () => {
-      expect(pluckStorybookPackageFromPath('foo')).toBe(undefined);
+      const packagePath = path.join(process.cwd(), 'foo');
+      expect(pluckStorybookPackageFromPath(packagePath)).toBe(undefined);
     });
   });
 
   describe('UTILITY: pluckThirdPartyPackageFromPath', () => {
     it('should return the package name if the path is a third party package', () => {
-      expect(pluckThirdPartyPackageFromPath('foo/node_modules/bar')).toBe('bar');
+      const packagePath = path.join(process.cwd(), 'node_modules', 'bar');
+      expect(pluckThirdPartyPackageFromPath(packagePath)).toBe('bar');
     });
 
     it('should return the given path if the path is not a third party package', () => {
-      expect(pluckThirdPartyPackageFromPath('foo/bar/baz')).toBe('foo/bar/baz');
+      const packagePath = path.join(process.cwd(), 'foo', 'bar', 'baz');
+      expect(pluckThirdPartyPackageFromPath(packagePath)).toBe(packagePath);
     });
   });
 });
