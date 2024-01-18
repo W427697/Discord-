@@ -1,6 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import fse from '@ndelangen/fs-extra-unified';
+import * as fse from '@ndelangen/fs-extra-unified';
 
 import { sep } from 'node:path';
 import * as helpers from './helpers';

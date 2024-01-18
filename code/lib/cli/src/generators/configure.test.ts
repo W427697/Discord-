@@ -1,6 +1,6 @@
 import { describe, beforeAll, expect, vi, it } from 'vitest';
 
-import fse from '@ndelangen/fs-extra-unified';
+import * as fse from '@ndelangen/fs-extra-unified';
 import fs from 'fs/promises';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
