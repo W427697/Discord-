@@ -7,12 +7,11 @@ import invariant from 'tiny-invariant';
 import { readdir } from 'node:fs/promises';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
+import { SupportedLanguage, externalFrameworks } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
-import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
 import { configureEslintPlugin, extractEslintInfo } from '../automigrate/helpers/eslintPlugin';
@@ -27,8 +26,7 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addMainFile: true,
   addComponents: true,
-  skipBabel: false,
-  useSWC: () => false,
+  webpackCompiler: () => undefined,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -212,22 +210,13 @@ export async function baseGenerator(
     extensions,
     storybookConfigFolder,
     componentsDestinationPath,
-    useSWC,
+    webpackCompiler,
   } = {
     ...defaultOptions,
     ...options,
   };
 
-  let { skipBabel } = {
-    ...defaultOptions,
-    ...options,
-  };
-
-  const swc = useSWC ? useSWC({ builder }) : false;
-
-  if (swc) {
-    skipBabel = true;
-  }
+  const compiler = webpackCompiler ? webpackCompiler({ builder }) : undefined;
 
   const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
@@ -241,6 +230,7 @@ export async function baseGenerator(
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...stripVersions(extraAddonsToInstall || []),
   ].filter(Boolean);
 
@@ -249,6 +239,7 @@ export async function baseGenerator(
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
+    ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...(extraAddonsToInstall || []),
   ].filter(Boolean);
 
@@ -263,8 +254,6 @@ export async function baseGenerator(
     addons.push('@storybook/addon-interactions');
     addonPackages.push('@storybook/addon-interactions');
   }
-
-  const files = await readdir(process.cwd());
 
   const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
@@ -311,47 +300,13 @@ export async function baseGenerator(
   const versionedPackages = await packageManager.getVersionedPackages(packages as string[]);
   versionedPackagesSpinner.succeed();
 
-  const depsToInstall = [...versionedPackages];
-
-  // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
-  if (builder !== CoreBuilder.Vite && !skipBabel) {
-    const frameworksThatNeedBabelConfig = [
-      '@storybook/react-webpack5',
-      '@storybook/vue3-webpack5',
-      '@storybook/html-webpack5',
-      '@storybook/web-components-webpack5',
-    ];
-    const needsBabelConfig = frameworkPackages.find((pkg) =>
-      frameworksThatNeedBabelConfig.includes(pkg)
-    );
-    const hasNoBabelFile = !files.some(
-      (fname) => fname.startsWith('.babel') || fname.startsWith('babel')
-    );
-
-    if (hasNoBabelFile && needsBabelConfig) {
-      const isTypescript = language !== SupportedLanguage.JAVASCRIPT;
-      const isReact = rendererId === 'react';
-      depsToInstall.push(
-        ...getBabelPresets({
-          typescript: isTypescript,
-          jsx: isReact,
-        })
-      );
-      await writeBabelConfigFile({
-        typescript: isTypescript,
-        jsx: isReact,
-      });
-    }
-  }
-
   try {
     if (process.env.CI !== 'true') {
-      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
-        packageManager
-      );
+      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } =
+        await extractEslintInfo(packageManager);
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        depsToInstall.push('eslint-plugin-storybook');
+        versionedPackages.push('eslint-plugin-storybook');
         await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
       }
     }
@@ -359,12 +314,13 @@ export async function baseGenerator(
     // any failure regarding configuring the eslint plugin should not fail the whole generator
   }
 
-  if (depsToInstall.length > 0) {
+  if (versionedPackages.length > 0) {
     const addDependenciesSpinner = ora({
       indent: 2,
       text: 'Installing Storybook dependencies',
     }).start();
-    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, versionedPackages);
     addDependenciesSpinner.succeed();
   }
 
@@ -395,15 +351,7 @@ export async function baseGenerator(
     await configureMain({
       framework: {
         name: frameworkInclude,
-        options: swc
-          ? {
-              ...(options.framework ?? {}),
-              builder: {
-                ...(options.framework?.builder ?? {}),
-                useSWC: true,
-              },
-            }
-          : options.framework || {},
+        options: options.framework || {},
       },
       prefixes,
       storybookConfigFolder,

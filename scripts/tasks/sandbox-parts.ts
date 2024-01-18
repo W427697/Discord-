@@ -69,7 +69,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
+      optionValues: { output: sandboxDir, init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -352,11 +352,7 @@ export async function addExtraDependencies({
   extraDeps?: string[];
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDevDeps = [
-    '@storybook/jest@next',
-    '@storybook/testing-library@next',
-    '@storybook/test-runner@next',
-  ];
+  const extraDevDeps = ['@storybook/testing-library@next', '@storybook/test-runner@next'];
   if (debug) logger.log('🎁 Adding extra dev deps', extraDevDeps);
   let packageManager: JsPackageManager;
   if (!dryRun) {
@@ -521,6 +517,11 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
     features: {
       ...templateConfig.features,
     },
+    ...(template.modifications?.editAddons
+      ? {
+          addons: template.modifications?.editAddons(mainConfig.getFieldValue(['addons']) || []),
+        }
+      : {}),
     core: {
       ...templateConfig.core,
       // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests

@@ -1,3 +1,41 @@
+## 8.0.0-alpha.10
+
+- API: Remove deprecations from manager and preview api - [#25536](https://github.com/storybookjs/storybook/pull/25536), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Addon Controls: Remove unused hideNoControlsWarning type - [#25417](https://github.com/storybookjs/storybook/pull/25417), thanks [@yannbf](https://github.com/yannbf)!
+- Addon Remark-GFM: Upgrade remark-gfm - [#25301](https://github.com/storybookjs/storybook/pull/25301), thanks [@yannbf](https://github.com/yannbf)!
+- Addon-actions: Fix module resolution for react-native - [#25296](https://github.com/storybookjs/storybook/pull/25296), thanks [@dannyhw](https://github.com/dannyhw)!
+- Angular: Remove deprecated Story type - [#25558](https://github.com/storybookjs/storybook/pull/25558), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Add addon `remove` command - [#25538](https://github.com/storybookjs/storybook/pull/25538), thanks [@shilman](https://github.com/shilman)!
+- CLI: Check optionalDependencies for storybook versions - [#25406](https://github.com/storybookjs/storybook/pull/25406), thanks [@reyronald](https://github.com/reyronald)!
+- CLI: Sandbox script should use current version to init - [#25560](https://github.com/storybookjs/storybook/pull/25560), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Versioned installation of monorepo packages - [#25517](https://github.com/storybookjs/storybook/pull/25517), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Versioned upgrade of monorepo packages - [#25553](https://github.com/storybookjs/storybook/pull/25553), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Prevent stories lookup in node_modules - [#25214](https://github.com/storybookjs/storybook/pull/25214), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Refactor preview and deprecate story store - [#24926](https://github.com/storybookjs/storybook/pull/24926), thanks [@tmeasday](https://github.com/tmeasday)!
+- Doc blocks: Remove deprecated props from Primary block - [#25461](https://github.com/storybookjs/storybook/pull/25461), thanks [@yannbf](https://github.com/yannbf)!
+- Doc blocks: Remove deprecated props from Source block - [#25459](https://github.com/storybookjs/storybook/pull/25459), thanks [@yannbf](https://github.com/yannbf)!
+- Doc blocks: Remove deprecated props from Story block - [#25460](https://github.com/storybookjs/storybook/pull/25460), thanks [@yannbf](https://github.com/yannbf)!
+- Maintenance: Pin TS to >= 4.2 as typefest 2 requires it - [#25548](https://github.com/storybookjs/storybook/pull/25548), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Maintenance: Upgrade to prettier 3 - [#25524](https://github.com/storybookjs/storybook/pull/25524), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Remove deprecated properties from manager-api - [#25578](https://github.com/storybookjs/storybook/pull/25578), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Test: Fix user event being inlined by tsup by using an interface - [#25547](https://github.com/storybookjs/storybook/pull/25547), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Test: Upgrade test package to vitest 1.1.3 - [#25576](https://github.com/storybookjs/storybook/pull/25576), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Add configurable tags-based exclusion from sidebar/autodocs - [#25328](https://github.com/storybookjs/storybook/pull/25328), thanks [@shilman](https://github.com/shilman)!
+- Webpack: Remove deprecated standalone webpackConfig option - [#25481](https://github.com/storybookjs/storybook/pull/25481), thanks [@yannbf](https://github.com/yannbf)!
+
+## 8.0.0-alpha.9
+
+- AutoTitle: Fix case-insensitive trailing duplicate - [#25452](https://github.com/storybookjs/storybook/pull/25452), thanks [@ksugawara61](https://github.com/ksugawara61)!
+- CLI: Fix using wrong package managers in existing projects - [#25474](https://github.com/storybookjs/storybook/pull/25474), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Never prompt for ESLint plugin - [#25289](https://github.com/storybookjs/storybook/pull/25289), thanks [@shilman](https://github.com/shilman)!
+- CSF-tools: Allow type checking in storySort - [#25265](https://github.com/storybookjs/storybook/pull/25265), thanks [@honzahruby](https://github.com/honzahruby)!
+- Core: Remove `storyStoreV7` feature flag - [#24658](https://github.com/storybookjs/storybook/pull/24658), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Remove deprecated createChannel APIs - [#25487](https://github.com/storybookjs/storybook/pull/25487), thanks [@yannbf](https://github.com/yannbf)!
+- Node.js: Update version requirement to >= 18.0.0 - [#25516](https://github.com/storybookjs/storybook/pull/25516), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Storysource: Fix import error - [#25391](https://github.com/storybookjs/storybook/pull/25391), thanks [@unional](https://github.com/unional)!
+- UI: Fix sidebar top and bottom addon slots - [#25426](https://github.com/storybookjs/storybook/pull/25426), thanks [@ndelangen](https://github.com/ndelangen)!
+- Webpack5: Remove babel and SWC compiler from builder - [#25379](https://github.com/storybookjs/storybook/pull/25379), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 8.0.0-alpha.8
 
 - Addon Links: Remove LinkTo from direct import - [#25418](https://github.com/storybookjs/storybook/pull/25418), thanks [@yannbf](https://github.com/yannbf)!

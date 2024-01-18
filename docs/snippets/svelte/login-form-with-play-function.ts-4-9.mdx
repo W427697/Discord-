@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/svelte';
 import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 
 import LoginForm from './LoginForm.svelte';
 
@@ -35,8 +35,8 @@ export const FilledForm: Story = {
     // 👇 Assert DOM structure
     await expect(
       canvas.getByText(
-        'Everything is perfect. Your account is ready and we should probably get you started!'
-      )
+        'Everything is perfect. Your account is ready and we should probably get you started!',
+      ),
     ).toBeInTheDocument();
   },
 };

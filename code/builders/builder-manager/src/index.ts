@@ -140,6 +140,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
 
   yield;
@@ -177,6 +178,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
@@ -224,6 +226,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
   yield;
 
@@ -264,6 +267,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     refs,
     logLevel,
     docsOptions,
+    tagsOptions,
     options
   );
 
