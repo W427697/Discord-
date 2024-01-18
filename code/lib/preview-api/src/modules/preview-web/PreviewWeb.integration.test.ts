@@ -86,8 +86,10 @@ describe('PreviewWeb', () => {
 
       await waitForRender();
 
-      expect(projectAnnotations.decorators[0]).toHaveBeenCalled();
-      expect(projectAnnotations.render).toHaveBeenCalled();
+      await vi.waitFor(() => {
+        expect(projectAnnotations.decorators[0]).toHaveBeenCalled();
+        expect(projectAnnotations.render).toHaveBeenCalled();
+      });
     });
 
     it('renders docs mode through docs page', async () => {
@@ -104,9 +106,15 @@ describe('PreviewWeb', () => {
       );
 
       await preview.ready();
-      await waitForRender();
+
+      await vi.waitFor(() => {
+        if (docsRoot.outerHTML !== '<div><div>INSIDE</div></div>') {
+          throw new Error('DocsRoot not ready yet');
+        }
+      });
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
+
       // Extended timeout to try and avoid
       // Error: Event was not emitted in time: storyRendered,docsRendered,storyThrewException,storyErrored,storyMissing
     }, 10_000);
@@ -127,9 +135,10 @@ describe('PreviewWeb', () => {
       vi.mocked(preview.view.showErrorDisplay).mockClear();
 
       await preview.ready();
-      await waitForRender();
 
-      expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+      await vi.waitFor(() => {
+        expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+      });
     });
   });
 
@@ -159,11 +168,12 @@ describe('PreviewWeb', () => {
       projectAnnotations.decorators[0].mockClear();
       mockChannel.emit.mockClear();
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
-      await waitForRender();
 
-      expect(projectAnnotations.decorators[0]).not.toHaveBeenCalled();
-      expect(newGlobalDecorator).toHaveBeenCalled();
-      expect(projectAnnotations.render).toHaveBeenCalled();
+      await vi.waitFor(() => {
+        expect(projectAnnotations.decorators[0]).not.toHaveBeenCalled();
+        expect(newGlobalDecorator).toHaveBeenCalled();
+        expect(projectAnnotations.render).toHaveBeenCalled();
+      });
     });
   });
 });
