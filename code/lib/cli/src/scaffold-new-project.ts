@@ -11,6 +11,7 @@ import { telemetry } from '@storybook/telemetry';
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 import { logger } from '@storybook/node-logger';
 
+import { readdirSync } from 'node:fs';
 import type { PackageManagerName } from './js-package-manager';
 import type { CommandOptions } from './generators/types';
 
@@ -229,7 +230,7 @@ const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string
 
 export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
-  const cwdFolderEntries = fse.readdirSync(process.cwd());
+  const cwdFolderEntries = readdirSync(process.cwd());
 
   const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 

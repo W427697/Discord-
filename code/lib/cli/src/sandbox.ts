@@ -8,6 +8,7 @@ import { downloadTemplate } from 'giget';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import invariant from 'tiny-invariant';
+import { readdir } from 'node:fs/promises';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
 
@@ -116,7 +117,7 @@ export const sandbox = async ({
 
   let selectedDirectory = outputDirectory;
   const outputDirectoryName = outputDirectory || selectedTemplate;
-  if (selectedDirectory && fse.existsSync(`${selectedDirectory}`)) {
+  if (selectedDirectory && fse.pathExistsSync(`${selectedDirectory}`)) {
     logger.info(`⚠️  ${selectedDirectory} already exists! Overwriting...`);
   }
 
@@ -128,7 +129,7 @@ export const sandbox = async ({
         name: 'directory',
         initial: outputDirectoryName ?? undefined,
         validate: async (directoryName) =>
-          fse.existsSync(directoryName)
+          fse.pathExistsSync(directoryName)
             ? `${directoryName} already exists. Please choose another name.`
             : true,
       },
@@ -160,7 +161,7 @@ export const sandbox = async ({
         dir: templateDestination,
       });
       // throw an error if templateDestination is an empty directory using fs-extra
-      if ((await fse.readdir(templateDestination)).length === 0) {
+      if ((await readdir(templateDestination)).length === 0) {
         throw new Error(
           dedent`Template downloaded from ${chalk.blue(gitPath)} is empty.
           Are you use it exists? Or did you want to set ${chalk.yellow(

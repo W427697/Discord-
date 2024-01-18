@@ -4,6 +4,7 @@ import yaml from 'yaml';
 import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
 
 import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 type FileContent = {
   title: ComponentTitle;
@@ -20,7 +21,7 @@ export const experimental_indexers: PresetProperty<'experimental_indexers'> = (
     createIndex: async (fileName) => {
       const content: FileContent = fileName.endsWith('.json')
         ? await fse.readJson(fileName, 'utf-8')
-        : yaml.parse((await fse.readFile(fileName, 'utf-8')).toString());
+        : yaml.parse((await readFile(fileName, 'utf-8')).toString());
 
       return content.stories.map((story) => {
         const tags = Array.from(new Set([...(content.tags ?? []), ...(story.tags ?? [])]));

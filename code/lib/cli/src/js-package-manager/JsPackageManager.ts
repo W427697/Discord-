@@ -9,6 +9,7 @@ import { dedent } from 'ts-dedent';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import invariant from 'tiny-invariant';
+import { writeFile } from 'node:fs/promises';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -187,7 +188,7 @@ export abstract class JsPackageManager {
     }
 
     const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
-    await fse.writeFile(this.packageJsonPath(), content, 'utf8');
+    await writeFile(this.packageJsonPath(), content, 'utf8');
   }
 
   /**

@@ -1,7 +1,6 @@
 import { logger } from '@storybook/node-logger';
 import type { Express } from 'express';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import { readFile } from 'fs/promises';
 import http from 'http';
 import https from 'https';
 
@@ -29,9 +28,9 @@ export async function getServer(
   }
 
   const sslOptions = {
-    ca: await Promise.all((options.sslCa || []).map((ca) => fse.readFile(ca, 'utf-8'))),
-    cert: await fse.readFile(options.sslCert, 'utf-8'),
-    key: await fse.readFile(options.sslKey, 'utf-8'),
+    ca: await Promise.all((options.sslCa || []).map((ca) => readFile(ca, 'utf-8'))),
+    cert: await readFile(options.sslCert, 'utf-8'),
+    key: await readFile(options.sslKey, 'utf-8'),
   };
 
   return https.createServer(sslOptions, app);

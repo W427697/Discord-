@@ -6,6 +6,7 @@ import detectIndent from 'detect-indent';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import prompts from 'prompts';
 import chalk from 'chalk';
+import { readFile } from 'node:fs/promises';
 import type { JsPackageManager } from '../../js-package-manager';
 import { paddedLog } from '../../helpers';
 
@@ -15,7 +16,7 @@ const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml'];
 export const findEslintFile = () => {
   const filePrefix = '.eslintrc';
   const unsupportedExtension = UNSUPPORTED_ESLINT_EXTENSIONS.find((ext: string) =>
-    fse.existsSync(`${filePrefix}.${ext}`)
+    fse.pathExistsSync(`${filePrefix}.${ext}`)
   );
 
   if (unsupportedExtension) {
@@ -23,7 +24,7 @@ export const findEslintFile = () => {
   }
 
   const extension = SUPPORTED_ESLINT_EXTENSIONS.find((ext: string) =>
-    fse.existsSync(`${filePrefix}.${ext}`)
+    fse.pathExistsSync(`${filePrefix}.${ext}`)
   );
   return extension ? `${filePrefix}.${extension}` : null;
 };
@@ -64,7 +65,7 @@ export async function configureEslintPlugin(
         'plugin:storybook/recommended',
       ] as string[];
 
-      const eslintFileContents = await fse.readFile(eslintFile, 'utf8');
+      const eslintFileContents = await readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;
       await fse.writeJson(eslintFile, eslintConfig, { spaces });
     } else {

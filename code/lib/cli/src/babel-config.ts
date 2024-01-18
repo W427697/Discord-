@@ -3,6 +3,7 @@ import * as fse from 'fs-extra/esm';
 import { logger } from '@storybook/node-logger';
 import path from 'node:path';
 import prompts from 'prompts';
+import { writeFile } from 'node:fs/promises';
 import { JsPackageManagerFactory } from './js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
@@ -57,7 +58,7 @@ export const writeBabelConfigFile = async ({
     2
   );
 
-  await fse.writeFile(fileLocation, contents);
+  await writeFile(fileLocation, contents);
 };
 
 export const generateStorybookBabelConfig = async ({ target }: { target: string }) => {

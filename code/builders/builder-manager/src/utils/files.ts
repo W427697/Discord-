@@ -3,6 +3,7 @@ import type { OutputFile } from 'esbuild';
 import * as fse from 'fs-extra/esm';
 import { join, normalize } from 'node:path';
 import slash from 'slash';
+import { writeFile } from 'node:fs/promises';
 import type { Compilation } from '../types';
 
 export async function readOrderedFiles(
@@ -15,7 +16,7 @@ export async function readOrderedFiles(
       const { location, url } = sanitizePath(file, addonsDir);
 
       await fse.ensureFile(location);
-      await fse.writeFile(location, file.contents);
+      await writeFile(location, file.contents);
       return url;
     }) || []
   );

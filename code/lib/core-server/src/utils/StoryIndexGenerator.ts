@@ -1,4 +1,4 @@
-import path from 'node:path';
+import path, { relative } from 'node:path';
 import chalk from 'chalk';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
@@ -27,6 +27,7 @@ import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import { dedent } from 'ts-dedent';
+import { readFile } from 'node:fs/promises';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
@@ -269,7 +270,7 @@ export class StoryIndexGenerator {
     specifier: NormalizedStoriesSpecifier,
     absolutePath: Path
   ): Promise<StoriesCacheEntry | DocsCacheEntry> {
-    const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const relativePath = relative(this.options.workingDir, absolutePath);
     const importPath = slash(normalizeStoryPath(relativePath));
     const defaultMakeTitle = (userTitle?: string) => {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
@@ -349,7 +350,7 @@ export class StoryIndexGenerator {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
-      const content = await fse.readFile(absolutePath, 'utf8');
+      const content = await readFile(absolutePath, 'utf8');
 
       const result: {
         title?: ComponentTitle;
@@ -536,8 +537,12 @@ export class StoryIndexGenerator {
   }
 
   async getIndex() {
-    if (this.lastIndex) return this.lastIndex;
-    if (this.lastError) throw this.lastError;
+    if (this.lastIndex) {
+      return this.lastIndex;
+    }
+    if (this.lastError) {
+      throw this.lastError;
+    }
 
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
@@ -546,8 +551,9 @@ export class StoryIndexGenerator {
     try {
       const errorEntries = storiesList.filter((entry) => entry.type === 'error');
 
-      if (errorEntries.length)
+      if (errorEntries.length) {
         throw new MultipleIndexingError(errorEntries.map((entry) => (entry as ErrorEntry).err));
+      }
 
       const duplicateErrors: IndexingError[] = [];
       const indexEntries: StoryIndex['entries'] = {};
@@ -563,7 +569,9 @@ export class StoryIndexGenerator {
           if (err instanceof IndexingError) duplicateErrors.push(err);
         }
       });
-      if (duplicateErrors.length) throw new MultipleIndexingError(duplicateErrors);
+      if (duplicateErrors.length) {
+        throw new MultipleIndexingError(duplicateErrors);
+      }
 
       const sorted = await this.sortStories(indexEntries);
 
@@ -628,10 +636,10 @@ export class StoryIndexGenerator {
   async getStorySortParameter() {
     const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
-      .find((fname) => fse.existsSync(fname));
+      .find((fname) => fse.pathExistsSync(fname));
     let storySortParameter;
     if (previewFile) {
-      const previewCode = (await fse.readFile(previewFile, 'utf-8')).toString();
+      const previewCode = (await readFile(previewFile, 'utf-8')).toString();
       storySortParameter = await getStorySortParameter(previewCode);
     }
 

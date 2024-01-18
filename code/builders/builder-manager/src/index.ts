@@ -11,6 +11,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import { stringifyProcessEnvs } from '@storybook/core-common';
 import { globalsModuleInfoMap } from '@storybook/manager/globals-module-info';
+import { writeFile } from 'node:fs/promises';
 import { getTemplatePath, renderHTML } from './utils/template';
 import { wrapManagerEntries } from './utils/managerEntries';
 import type {
@@ -268,7 +269,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   await Promise.all([
     //
-    fse.writeFile(join(options.outputDir, 'index.html'), html),
+    writeFile(join(options.outputDir, 'index.html'), html),
     managerFiles,
   ]);
 

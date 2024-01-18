@@ -21,14 +21,14 @@ export const getMonorepoType = (): MonorepoType => {
   const keys = Object.keys(monorepoConfigs) as (keyof typeof monorepoConfigs)[];
   const monorepoType: MonorepoType = keys.find((monorepo) => {
     const configFile = path.join(projectRootPath, monorepoConfigs[monorepo]);
-    return fse.existsSync(configFile);
+    return fse.pathExistsSync(configFile);
   }) as MonorepoType;
 
   if (monorepoType) {
     return monorepoType;
   }
 
-  if (!fse.existsSync(path.join(projectRootPath, 'package.json'))) {
+  if (!fse.pathExistsSync(path.join(projectRootPath, 'package.json'))) {
     return undefined;
   }
 

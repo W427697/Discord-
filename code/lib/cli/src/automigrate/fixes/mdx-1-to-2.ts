@@ -4,6 +4,7 @@ import { basename } from 'node:path';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import globby from 'globby';
+import { readFile, writeFile } from 'node:fs/promises';
 import type { Fix } from '../types';
 
 const MDX1_STYLE_START = /<style>{`/g;
@@ -68,14 +69,14 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
   async run({ result: { storiesMdxFiles }, dryRun }) {
     await Promise.all([
       ...storiesMdxFiles.map(async (fname) => {
-        const contents = await fse.readFile(fname, 'utf-8');
+        const contents = await readFile(fname, 'utf-8');
         const updated = fixMdxComments(fixMdxStyleTags(contents));
         if (updated === contents) {
           logger.info(`🆗 Unmodified ${basename(fname)}`);
         } else {
           logger.info(`✅ Modified ${basename(fname)}`);
           if (!dryRun) {
-            await fse.writeFile(fname, updated);
+            await writeFile(fname, updated);
           }
         }
       }),

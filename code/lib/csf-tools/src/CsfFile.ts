@@ -1,6 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -8,7 +6,7 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 import * as recast from 'recast';
 
-import * as traverse from '@babel/traverse';
+import babel_traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
   Tag,
@@ -18,10 +16,20 @@ import type {
   IndexInput,
 } from '@storybook/types';
 import type { Options } from 'recast';
+import { readFile, writeFile } from 'fs/promises';
+import { createRequire } from 'node:module';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
 const logger = console;
+
+const merequire = createRequire(import.meta.url);
+const traverse: typeof babel_traverse =
+  merequire('@babel/traverse').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_traverse.default as typeof babel_traverse) ||
+  babel_traverse;
 
 function parseIncludeExclude(prop: t.Node) {
   if (t.isArrayExpression(prop)) {
@@ -246,7 +254,13 @@ export class CsfFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse.default(this._ast, {
+
+    if (typeof traverse !== 'function') {
+      // eslint-disable-next-line @typescript-eslint/no-throw-literal
+      throw JSON.stringify({ traverse, babel_traverse }, null, 2);
+    }
+
+    traverse(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           let metaNode: t.ObjectExpression | undefined;
@@ -605,12 +619,12 @@ export const printCsf = (csf: CsfFile, options: Options = {}) => {
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
-  const code = (await fse.readFile(fileName, 'utf-8')).toString();
+  const code = (await readFile(fileName, 'utf-8')).toString();
   return loadCsf(code, { ...options, fileName });
 };
 
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fse.writeFile(fileName as string, printCsf(csf).code);
+  await writeFile(fileName as string, printCsf(csf).code);
 };

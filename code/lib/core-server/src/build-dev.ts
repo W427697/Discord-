@@ -101,7 +101,7 @@ export async function buildDevStandalone(
   let presets = await loadAllPresets({
     corePresets,
     overridePresets: [
-      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset.cjs'),
     ],
     ...options,
     isCritical: true,

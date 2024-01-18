@@ -4,6 +4,7 @@ import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
+import { readdir } from 'node:fs/promises';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
@@ -263,7 +264,7 @@ export async function baseGenerator(
     addonPackages.push('@storybook/addon-interactions');
   }
 
-  const files = await fse.readdir(process.cwd());
+  const files = await readdir(process.cwd());
 
   const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(

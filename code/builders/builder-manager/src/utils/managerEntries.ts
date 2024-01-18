@@ -3,6 +3,7 @@ import * as fse from 'fs-extra/esm';
 import { resolvePathInStorybookCache } from '@storybook/core-common';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
+import { writeFile } from 'node:fs/promises';
 
 const sanitizeBase = (path: string) => {
   return path
@@ -52,7 +53,7 @@ export async function wrapManagerEntries(entrypoints: string[], uniqueId?: strin
       );
 
       await fse.ensureFile(location);
-      await fse.writeFile(location, `import '${slash(entry)}';`);
+      await writeFile(location, `import '${slash(entry)}';`);
 
       return location;
     })

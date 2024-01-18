@@ -1,6 +1,5 @@
 import { dirname, join } from 'node:path';
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
+import { readFile } from 'node:fs/promises';
 
 import { render } from 'ejs';
 
@@ -17,7 +16,7 @@ export const getTemplatePath = async (template: string) => {
 export const readTemplate = async (template: string) => {
   const path = await getTemplatePath(template);
 
-  return fse.readFile(path, 'utf8');
+  return readFile(path, 'utf8');
 };
 
 export async function getManagerMainTemplate() {

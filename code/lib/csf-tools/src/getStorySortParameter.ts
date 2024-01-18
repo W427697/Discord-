@@ -1,13 +1,22 @@
 import * as t from '@babel/types';
 
-import * as traverse from '@babel/traverse';
+import babel_traverse from '@babel/traverse';
 
 import * as generate from '@babel/generator';
 import { dedent } from 'ts-dedent';
+import { createRequire } from 'node:module';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
 const logger = console;
+
+const merequire = createRequire(import.meta.url);
+const traverse: typeof babel_traverse =
+  merequire('@babel/traverse').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_traverse.default as typeof babel_traverse) ||
+  babel_traverse;
 
 const getValue = (obj: t.ObjectExpression, key: string) => {
   let value: t.Expression | undefined;
@@ -100,7 +109,7 @@ const parseDefault = (defaultExpr: t.Expression, program: t.Program): t.Expressi
 export const getStorySortParameter = (previewCode: string) => {
   let storySort: t.Expression | undefined;
   const ast = babelParse(previewCode);
-  traverse.default(ast, {
+  traverse(ast, {
     ExportNamedDeclaration: {
       enter({ node }) {
         if (t.isVariableDeclaration(node.declaration)) {

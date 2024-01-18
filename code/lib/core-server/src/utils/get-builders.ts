@@ -1,6 +1,12 @@
 import type { Builder, Options } from '@storybook/types';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { pathToFileURL } from 'node:url';
+import { resolve as resolveESM, moduleResolve } from 'import-meta-resolve';
+
+import readPkg from 'read-pkg-up';
+
+import * as rr from 'resolve.exports';
+import { join } from 'node:path';
 
 export async function getManagerBuilder(): Promise<Builder<unknown>> {
   return import('@storybook/builder-manager');
@@ -10,12 +16,29 @@ export async function getPreviewBuilder(
   builderName: string,
   configDir: string
 ): Promise<Builder<unknown>> {
-  const builderPackage = require.resolve(
-    ['webpack5'].includes(builderName) ? `@storybook/builder-${builderName}` : builderName,
-    { paths: [configDir] }
-  );
-  const previewBuilder = await import(pathToFileURL(builderPackage).href);
-  return previewBuilder;
+  const full = ['webpack5'].includes(builderName)
+    ? `@storybook/builder-${builderName}`
+    : builderName;
+
+  try {
+    const pkg = await readPkg({ cwd: require.resolve(full, { paths: [configDir] }) });
+
+    if (pkg?.packageJson?.exports) {
+      const specifier = rr.exports(pkg.packageJson, '.');
+      if (!specifier) {
+        throw new Error('no default specifier');
+      }
+      const resolved = join(pathToFileURL(full).href, specifier[0]);
+      return await import(join(resolved));
+    }
+
+    const resolved = await resolveESM(pathToFileURL(full).href, pathToFileURL(configDir).href);
+    return await import(resolved);
+  } catch (e) {
+    // console.log('NOOOOO');
+    // console.log(e?.stack || e?.message || e);
+    return await import(pathToFileURL(full).href);
+  }
 }
 
 export async function getBuilders({ presets, configDir }: Options): Promise<Builder<unknown>[]> {

@@ -2,8 +2,10 @@ import type { WriteStream } from 'fs-extra';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import { join } from 'node:path';
+import { createWriteStream } from 'node:fs';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';
+import { readFile, writeFile } from 'node:fs/promises';
 import type { JsPackageManager } from './js-package-manager';
 
 export function parseList(str: string): string[] {
@@ -83,15 +85,15 @@ export const createLogStream = async (
   const finalLogPath = join(process.cwd(), logFileName);
   const temporaryLogPath = tempy.file({ name: logFileName });
 
-  const logStream = fse.createWriteStream(temporaryLogPath, { encoding: 'utf8' });
+  const logStream = createWriteStream(temporaryLogPath, { encoding: 'utf8' });
 
   return new Promise((resolve, reject) => {
     logStream.once('open', () => {
       const moveLogFile = async () => fse.move(temporaryLogPath, finalLogPath, { overwrite: true });
-      const clearLogFile = async () => fse.writeFile(temporaryLogPath, '');
+      const clearLogFile = async () => writeFile(temporaryLogPath, '');
       const removeLogFile = async () => fse.remove(temporaryLogPath);
       const readLogFile = async () => {
-        return fse.readFile(temporaryLogPath, 'utf8');
+        return readFile(temporaryLogPath, 'utf8');
       };
       resolve({ logStream, moveLogFile, clearLogFile, removeLogFile, readLogFile });
     });

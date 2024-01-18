@@ -5,6 +5,7 @@ import MagicString from 'magic-string';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import type { Alias, Plugin } from 'vite';
+import { writeFile } from 'node:fs/promises';
 
 const escapeKeys = (key: string) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 const defaultImportRegExp = 'import ([^*{}]+) from';
@@ -59,7 +60,7 @@ export async function externalGlobalsPlugin(externals: Record<string, string>) {
           const externalCachePath = join(cachePath, `${externalKey}.js`);
           newAlias.push({ find: new RegExp(`^${externalKey}$`), replacement: externalCachePath });
           await fse.ensureFile(externalCachePath);
-          await fse.writeFile(externalCachePath, `module.exports = ${externals[externalKey]};`);
+          await writeFile(externalCachePath, `module.exports = ${externals[externalKey]};`);
         })
       );
 

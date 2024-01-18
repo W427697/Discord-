@@ -48,11 +48,11 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "chalk": "^4.1.0",
-    "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
     "read-pkg-up": "^7.0.1"
   },
   "devDependencies": {
+    "detect-package-manager": "^2.0.1",
     "fs-extra": "^11.1.0",
     "nanoid": "^4.0.2",
     "node-fetch": "^3.3.1",

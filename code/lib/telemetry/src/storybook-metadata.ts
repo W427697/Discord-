@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="./typings.d.ts" />
+
 import readPkgUp from 'read-pkg-up';
 import { detect, getNpmVersion } from 'detect-package-manager';
 import {

@@ -3,6 +3,7 @@ import * as fse from 'fs-extra/esm';
 import path from 'node:path';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
+import { writeFile } from 'node:fs/promises';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
@@ -114,7 +115,7 @@ export async function configureMain({
     logger.verbose(`Failed to prettify ${mainPath}`);
   }
 
-  await fse.writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
+  await writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
@@ -177,5 +178,5 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     logger.verbose(`Failed to prettify ${previewPath}`);
   }
 
-  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
+  await writeFile(previewPath, preview, { encoding: 'utf8' });
 }

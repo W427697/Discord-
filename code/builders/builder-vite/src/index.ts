@@ -7,6 +7,7 @@ import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'node:path';
 import type { Options } from '@storybook/types';
+import { readFile } from 'node:fs/promises';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
@@ -34,7 +35,7 @@ function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandl
       return;
     }
 
-    const indexHtml = await fse.readFile(
+    const indexHtml = await readFile(
       require.resolve('@storybook/builder-vite/input/iframe.html'),
       'utf-8'
     );

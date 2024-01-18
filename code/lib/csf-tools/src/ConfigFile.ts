@@ -1,18 +1,26 @@
 /* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line import/no-unresolved
-import * as fse from 'fs-extra/esm';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
 
 import * as generate from '@babel/generator';
 
-import * as traverse from '@babel/traverse';
+import babel_traverse from '@babel/traverse';
 import type { Options } from 'recast';
 import * as recast from 'recast';
+import { readFile, writeFile } from 'fs/promises';
+import { createRequire } from 'node:module';
 import { babelParse } from './babelParse';
 
 const logger = console;
+
+const merequire = createRequire(import.meta.url);
+const traverse: typeof babel_traverse =
+  merequire('@babel/traverse').default ||
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  (babel_traverse.default as typeof babel_traverse) ||
+  babel_traverse;
 
 const getCsfParsingErrorMessage = ({
   expectedType,
@@ -163,7 +171,7 @@ export class ConfigFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse.default(this._ast, {
+    traverse(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           self.hasDefaultExport = true;
@@ -532,7 +540,7 @@ export class ConfigFile {
     if (quotes === 'single') {
       const { code } = generate.default(t.valueToNode(value), { jsescOption: { quotes } });
       const program = babelParse(`const __x = ${code}`);
-      traverse.default(program, {
+      traverse(program, {
         VariableDeclaration: {
           enter({ node }) {
             if (
@@ -768,12 +776,12 @@ export const printConfig = (config: ConfigFile, options: Options = {}) => {
 };
 
 export const readConfig = async (fileName: string) => {
-  const code = (await fse.readFile(fileName, 'utf-8')).toString();
+  const code = (await readFile(fileName, 'utf-8')).toString();
   return loadConfig(code, fileName).parse();
 };
 
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fse.writeFile(fname, formatConfig(config));
+  await writeFile(fname, formatConfig(config));
 };

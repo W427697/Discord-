@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import chalk from 'chalk';
-import fs from 'fs';
+import fs from 'node:fs';
 // eslint-disable-next-line import/no-unresolved
 import * as fse from 'fs-extra/esm';
 import path, { join } from 'node:path';
@@ -9,6 +9,7 @@ import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
 import invariant from 'tiny-invariant';
+import { readFile, writeFile } from 'fs/promises';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -284,13 +285,13 @@ export async function copyTemplateFiles({
 export async function adjustTemplate(templatePath: string, templateData: Record<string, any>) {
   // for now, we're just doing a simple string replace
   // in the future we might replace this with a proper templating engine
-  let template = await fse.readFile(templatePath, 'utf8');
+  let template = await readFile(templatePath, 'utf8');
 
   Object.keys(templateData).forEach((key) => {
     template = template.replaceAll(`{{${key}}}`, `${templateData[key]}`);
   });
 
-  await fse.writeFile(templatePath, template);
+  await writeFile(templatePath, template);
 }
 
 // Given a package.json, finds any official storybook package within it
