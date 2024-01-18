@@ -26,9 +26,7 @@ To adjust your Storybook's Babel setup directly—not via an addon—use [`babel
 
 ## `Babel.Config`
 
-The options provided by [Babel](https://babeljs.io/) are only applicable if you've enabled the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon.
-
-<!-- See [Babel docs](https://babeljs.io/docs/options). -->
+The options provided by [Babel](https://babeljs.io/docs/options) are only applicable if you've enabled the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon.
 
 ## `Options`
 
