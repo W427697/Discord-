@@ -37,8 +37,8 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
           ...mdxPluginOptions?.mdxCompileOptions,
           rehypePlugins: [
             ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
-            rehypeSlug,
-            rehypeExternalLinks,
+            (rehypeSlug as any).default || rehypeSlug,
+            (rehypeExternalLinks as any).default || rehypeExternalLinks,
           ],
         },
       });
