@@ -197,7 +197,7 @@ As Storybook relies on [esbuild](https://esbuild.github.io/) to build its intern
 
 Support for Webpack 4 has been removed and is no longer being maintained. If you're upgrading your Storybook, it will automatically use Webpack 5 and attempt to migrate your configuration. However, if you're working with a custom Webpack configuration, you may need to update it to work with Webpack 5. The migration process is necessary to ensure that your project runs smoothly with the latest version of Storybook. You can follow the instructions provided on the Webpack [website](https://webpack.js.org/migrate/5/) to update your configuration.
 
-#### Learn more about builders
+**Learn more about builders**
 
 - [Vite builder](./vite.md) for bundling with Vite
 - Webpack builder for bundling with Webpack
