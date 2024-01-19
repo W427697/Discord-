@@ -3,7 +3,7 @@ import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
 import { rendererPackages } from './get-storybook-info';
-import { JsPackageManager } from '../js-package-manager';
+import type { JsPackageManager } from '../js-package-manager';
 
 export function parseList(str: string): string[] {
   return str

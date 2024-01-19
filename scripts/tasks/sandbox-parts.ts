@@ -26,7 +26,7 @@ import {
 } from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
-import storybookPackages from '../../code/lib/cli/src/versions';
+import storybookPackages from '../../code/lib/core-common/src/versions';
 import { writeConfig } from '../../code/lib/csf-tools';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
@@ -34,12 +34,12 @@ import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
 import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
+import { JsPackageManagerFactory } from '../../code/lib/core-common/src/js-package-manager/JsPackageManagerFactory';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
-import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
+import type { JsPackageManager } from '../../code/lib/core-common/src/js-package-manager';
 
 const logger = console;
 

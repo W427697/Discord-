@@ -1,6 +1,5 @@
-import { versions } from '@storybook/core-common';
+import { deprecate } from '@storybook/node-logger';
 
-export { versions };
-
-export * from '@storybook/core-common';
-export * from '@storybook/core-common/src/cli';
+deprecate(
+  'Exports from @storybook/cli are removed. Please import from @storybook/core-common instead.'
+);

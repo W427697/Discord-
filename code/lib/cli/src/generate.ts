@@ -3,11 +3,12 @@ import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
+import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
+import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@storybook/core-common';
 
-import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
@@ -19,9 +20,6 @@ import { link } from './link';
 import { automigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
-import { parseList, getEnvConfig } from '@storybook/core-common/src/cli';
-import {versions} from '@storybook/core-common';
-import { JsPackageManagerFactory } from '@storybook/core-common';
 import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
