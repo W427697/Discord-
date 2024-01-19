@@ -6,6 +6,8 @@ import { SbPage } from './util';
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('addon-docs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
