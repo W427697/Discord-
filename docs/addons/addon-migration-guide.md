@@ -48,14 +48,14 @@ Deprecated packages and APIs from 7.0 are now removed in 8.0.Consult the [full m
 
 ### Babel-loader removed from webpack
 
-Storybook 8 [removes babel-loader from the webpack5 builder](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5). If your addon's preset overrides the `babel()` method, it will break if your users are using SWC to compile their files (which is the new default in SB8).
+Storybook 8 [removes babel-loader from the webpack5 builder](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5). If your addon's preset overrides the `babel()` method, it will break if your users are using SWC to compile their files (which is the new default for Webpack 5-based Storybook projects).
 
-To solve for both Babel and SWC, the most robust approach is to create an [unplugin](https://github.com/unjs/unplugin) that will work with both Webpack and Vite builders. That will give you full control to run babel (or whatever you want) on stories and components as they are loaded.
+To solve for both Babel and SWC, the most robust approach is to create an [unplugin](https://github.com/unjs/unplugin) that will work with both Webpack and Vite builders. That will give you full control to run Babel (or whatever you want) on stories and components as they are loaded.
 
-As a workaround, your update your documentation to tell users to opt-in to Babel support. This should fix your addon in their project, at the cost of performance:
+As a workaround, update your documentation to tell users to opt-in to Babel support. This should fix your addon in their project, at the cost of performance:
 
 ```sh
-npx storybook@latest add @storybook/addon-webpack-compiler-babel
+npx storybook@latest add @storybook/addon-webpack5-compiler-babel
 ```
 
 ## Releasing
