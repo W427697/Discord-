@@ -12,7 +12,7 @@ import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@sto
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
-import { remove } from './remove';
+import { removeAddon as remove } from '@storybook/core-common';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';

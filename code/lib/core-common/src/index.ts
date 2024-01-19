@@ -26,6 +26,7 @@ export * from './utils/log-config';
 export * from './utils/normalize-stories';
 export * from './utils/paths';
 export * from './utils/readTemplate';
+export * from './utils/remove';
 export * from './utils/resolve-path-in-sb-cache';
 export * from './utils/symlinks';
 export * from './utils/template';
