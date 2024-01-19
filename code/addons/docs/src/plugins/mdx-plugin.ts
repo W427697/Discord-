@@ -37,6 +37,11 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
           ...mdxPluginOptions?.mdxCompileOptions,
           rehypePlugins: [
             ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
+            // this is really weird, but it's because this code gets transpiled to CommonJS
+            // then externalized
+            // a possible solution would be to run presets as ESM ( which we want to do anyway )
+            // if we do run it as ESM, this line would have to be changed
+            // alternatively, we could not externalize these dependencies ( bundle them in the output )
             (rehypeSlug as any).default || rehypeSlug,
             (rehypeExternalLinks as any).default || rehypeExternalLinks,
           ],
