@@ -40,7 +40,7 @@ describe('Version', () => {
     'src',
     'version.ts'
   );
-  const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts');
+  const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'core-common', 'src', 'versions.ts');
   const A11Y_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'addons', 'a11y', 'package.json');
 
   it('should throw when release type is invalid', async () => {
