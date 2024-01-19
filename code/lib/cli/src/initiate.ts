@@ -28,13 +28,13 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager } from './js-package-manager';
-import { JsPackageManagerFactory } from './js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
-import versions from './versions';
+import { versions } from '@storybook/core-common';
 
 const logger = console;
 

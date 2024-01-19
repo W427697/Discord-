@@ -11,12 +11,11 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { PackageManagerName } from './js-package-manager';
-import { JsPackageManagerFactory } from './js-package-manager';
+import type { PackageManagerName } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
-import { isCorePackage } from './utils';
-import versions from './versions';
+import { isCorePackage, versions } from '@storybook/core-common';
 
 type Package = {
   package: string;

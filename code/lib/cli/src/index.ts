@@ -1,6 +1,6 @@
-import versions from './versions';
+import { versions } from '@storybook/core-common';
 
 export { versions };
 
-export * from './js-package-manager';
-export * from './utils';
+export * from '@storybook/core-common';
+export * from '@storybook/core-common/src/cli';

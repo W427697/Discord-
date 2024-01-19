@@ -5,7 +5,7 @@ import detectIndent from 'detect-indent';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import prompts from 'prompts';
 import chalk from 'chalk';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import { paddedLog } from '../../helpers';
 
 export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs', 'json'];

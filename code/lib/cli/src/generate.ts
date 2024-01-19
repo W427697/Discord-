@@ -19,9 +19,9 @@ import { link } from './link';
 import { automigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
-import { parseList, getEnvConfig } from './utils';
-import versions from './versions';
-import { JsPackageManagerFactory } from './js-package-manager';
+import { parseList, getEnvConfig } from '@storybook/core-common/src/cli';
+import {versions} from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core-common';
 import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);

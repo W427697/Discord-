@@ -2,7 +2,7 @@ import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import dedent from 'ts-dedent';
 
-import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';
+import { JsPackageManagerFactory, type PackageManagerName } from '@storybook/core-common';
 
 const logger = console;
 

@@ -11,8 +11,7 @@ import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import path from 'path';
-import type { JsPackageManager } from '../../js-package-manager';
-import { getStorybookVersion } from '../../utils';
+import type { getStorybookVersion, JsPackageManager } from '@storybook/core-common';
 
 const logger = console;
 

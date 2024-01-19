@@ -3,6 +3,7 @@
 export * from './presets';
 
 export * from './utils/cache';
+export * from './utils/cli';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
 export * from './utils/common-glob-options';
@@ -32,5 +33,9 @@ export * from './utils/validate-config';
 export * from './utils/validate-configuration-files';
 export * from './utils/satisfies';
 export * from './utils/strip-abs-node-modules-path';
+export * from './js-package-manager';
+
+import versions from './versions';
+export { versions };
 
 export { createFileSystemCache } from './utils/file-cache';
