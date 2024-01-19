@@ -1,12 +1,12 @@
 {
   "builders": {
     "build-storybook": {
-      "implementation": "./build-storybook",
+      "implementation": "./build-storybook/index.js",
       "schema": "./build-storybook/schema.json",
       "description": "Build storybook"
     },
     "start-storybook": {
-      "implementation": "./start-storybook",
+      "implementation": "./start-storybook/index.js",
       "schema": "./start-storybook/schema.json",
       "description": "Start storybook"
     }
