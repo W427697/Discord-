@@ -107,6 +107,7 @@ This framework allows you to use Next.js's [next/image](https://nextjs.org/docs/
 [Local images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#local-images) are supported.
 
 ```jsx
+// index.js
 import Image from 'next/image';
 import profilePic from '../public/me.png';
 
@@ -133,6 +134,7 @@ function Home() {
 [Remote images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images) are also supported.
 
 ```jsx
+// index.js
 import Image from 'next/image';
 
 export default function Home() {
@@ -198,6 +200,7 @@ Occasionally fetching fonts from Google may fail as part of your Storybook build
 For example, using [GitHub Actions](https://www.chromatic.com/docs/github-actions):
 
 ```yaml
+# .github/workflows/ci.yml
 - uses: chromaui/action@v1
   env:
     #👇 the location of mocked fonts to use
@@ -238,7 +241,7 @@ module.exports = {
 
 ## Next.js Routing
 
-[Next.js's router](https://nextjs.org/docs/pages/building-your-application/routing) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions ctions panel if you have the [Storybook actions addon](../essentials/actions.md).
+[Next.js's router](https://nextjs.org/docs/pages/building-your-application/routing) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions panel if you have the [Storybook actions addon](../essentials/actions.md).
 
 <Callout>
 
@@ -272,6 +275,7 @@ These overrides can also be applied to [all stories for a component](../api/para
 The default values on the stubbed router are as follows (see [globals](../essentials/toolbars-and-globals.md#globals) for more details on how globals work).
 
 ```ts
+// Default router
 const defaultRouter = {
   push(...args) {
     action('nextRouter.push')(...args);
@@ -386,8 +390,6 @@ If your Next.js project uses the `app` directory for every page (in other words,
 
 <!-- prettier-ignore-end -->
 
-The parameter `nextjs.appDirectory` defaults to `false` if not set.
-
 ### Overriding defaults
 
 Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](../writing-stories/parameters.md). The framework will shallowly merge whatever you put here into the router.
@@ -422,6 +424,20 @@ The `useSelectedLayoutSegment`, `useSelectedLayoutSegments`, and `useParams` hoo
   ]}
 />
 
+With the above configuration, the component rendered in the stories would receive the following values from the hooks:
+
+```js
+// NavigationBasedComponent.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function NavigationBasedComponent() {
+  const segment = useSelectedLayoutSegment(); // dashboard
+  const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  const params = useParams(); // {}
+  // ...
+}
+```
+
 <!-- prettier-ignore-end -->
 
 To use `useParams`, you have to use a segments array where each element is an array containing two strings. The first string is the param key and the second string is the param value.
@@ -430,12 +446,26 @@ To use `useParams`, you have to use a segments array where each element is an ar
 
 <CodeSnippets
   paths={[
-    'react/nextjs-navigation-segments-for-use-param-override-in-meta.js.mdx',
-    'react/nextjs-navigation-segments-for-use-param-override-in-meta.ts.mdx'
+    'react/nextjs-navigation-segments-for-use-params-override-in-meta.js.mdx',
+    'react/nextjs-navigation-segments-for-use-params-override-in-meta.ts.mdx'
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+With the above configuration, the component rendered in the stories would receive the following values from the hooks:
+
+```js
+// ParamsBasedComponent.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function ParamsBasedComponent() {
+  const segment = useSelectedLayoutSegment(); // hello
+  const segments = useSelectedLayoutSegments(); // ["hello", "nextjs"]
+  const params = useParams(); // { slug: "hello", framework: "nextjs" }
+  ...
+}
+```
 
 <Callout>
 
@@ -450,6 +480,7 @@ The default value of `nextjs.navigation.segments` is `[]` if not set.
 The default values on the stubbed navigation context are as follows:
 
 ```ts
+// Default navigation context
 const defaultNavigationContext = {
   push(...args) {
     action('nextNavigation.push')(...args);
@@ -508,14 +539,14 @@ Doing this yourself looks something like this (make sure you install the `@story
 
 ## Sass/Scss
 
-[Global sass/scss stylesheets](https://nextjs.org/docs/pages/building-your-application/styling/sass) are supported without any additional configuration as well. Just import them into [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering)
+[Global Sass/Scss stylesheets](https://nextjs.org/docs/pages/building-your-application/styling/sass) are supported without any additional configuration as well. Just import them into [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering)
 
 ```js
 // .storybook/preview.js|ts
 import '../styles/globals.scss';
 ```
 
-This will automatically include any of your [custom sass configurations](https://nextjs.org/docs/pages/building-your-application/styling/sass#customizing-sass-options) in your `next.config.js` file.
+This will automatically include any of your [custom Sass configurations](https://nextjs.org/docs/pages/building-your-application/styling/sass#customizing-sass-options) in your `next.config.js` file.
 
 ```js
 // next.config.js
@@ -529,14 +560,15 @@ export default {
 };
 ```
 
-## Css/Sass/Scss Modules
+## CSS/Sass/Scss Modules
 
-[css modules](https://nextjs.org/docs/pages/building-your-application/styling/css-modules) work as expected.
+[CSS modules](https://nextjs.org/docs/pages/building-your-application/styling/css-modules) work as expected.
 
 ```jsx
+// src/components/Button.jsx
 // This import will work in Storybook
 import styles from './Button.module.css';
-// sass/scss is also supported
+// Sass/Scss is also supported
 // import styles from './Button.module.scss'
 // import styles from './Button.module.sass'
 
@@ -554,6 +586,7 @@ export function Button() {
 The built in CSS-in-JS solution for Next.js is [styled-jsx](https://nextjs.org/docs/pages/building-your-application/styling/css-in-js), and this framework supports that out of the box too, zero config.
 
 ```jsx
+// src/components/HelloWorld.jsx
 // This will work in Storybook
 function HelloWorld() {
   return (
@@ -588,7 +621,7 @@ export default HelloWorld;
 You can use your own babel config too. This is an example of how you can customize styled-jsx.
 
 ```json
-// .babelrc or whatever config file you use
+// .babelrc (or whatever config file you use)
 {
   "presets": [
     [
@@ -603,17 +636,18 @@ You can use your own babel config too. This is an example of how you can customi
 }
 ```
 
-## Postcss
+## PostCSS
 
-Next.js lets you [customize postcss config](https://nextjs.org/docs/pages/building-your-application/configuring/post-css). Thus this framework will automatically handle your postcss config for you.
+Next.js lets you [customize PostCSS config](https://nextjs.org/docs/pages/building-your-application/configuring/post-css). Thus this framework will automatically handle your PostCSS config for you.
 
-This allows for cool things like zero config tailwindcss! (See [Next.js' example](https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss))
+This allows for cool things like zero-config Tailwind! (See [Next.js' example](https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss))
 
 ## Absolute Imports
 
 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases#absolute-imports) from the root directory are supported.
 
 ```jsx
+// index.js
 // All good!
 import Button from 'components/button';
 // Also good!
@@ -665,6 +699,7 @@ module.exports = {
 Calls to `getConfig` would return the following object when called within Storybook:
 
 ```json
+// Runtime config
 {
   "serverRuntimeConfig": {},
   "publicRuntimeConfig": {
@@ -675,13 +710,13 @@ Calls to `getConfig` would return the following object when called within Storyb
 
 ## Custom Webpack Config
 
-Next.js comes with a lot of things for free out of the box like sass support, but sometimes you add [custom webpack config modifications to Next.js](https://nextjs.org/docs/pages/api-reference/next-config-js/webpack). This framework takes care of most of the webpack modifications you would want to add. If Next.js supports a feature out of the box, then that feature will work out of the box in Storybook. If Next.js doesn't support something out of the box, but makes it easy to configure, then this framework will do the same for that thing for Storybook.
+Next.js comes with a lot of things for free out of the box like Sass support, but sometimes you add [custom Webpack config modifications to Next.js](https://nextjs.org/docs/pages/api-reference/next-config-js/webpack). This framework takes care of most of the Webpack modifications you would want to add. If Next.js supports a feature out of the box, then that feature will work out of the box in Storybook. If Next.js doesn't support something out of the box, but makes it easy to configure, then this framework will do the same for that thing for Storybook.
 
-Any webpack modifications desired for Storybook should be made in [`.storybook/main.js|ts`](../builders/webpack.md#extending-storybooks-webpack-config).
+Any Webpack modifications desired for Storybook should be made in [`.storybook/main.js|ts`](../builders/webpack.md#extending-storybooks-webpack-config).
 
-Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js|ts`. It is recommended to do your research on how to properly make your modification to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
+Note: Not all Webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js|ts`. It is recommended to do your research on how to properly make your modification to Storybook's Webpack config and on how [Webpack works](https://webpack.js.org/concepts/).
 
-Below is an example of how to add svgr support to Storybook with this framework.
+Below is an example of how to add SVGR support to Storybook with this framework.
 
 <!-- prettier-ignore-start -->
 
@@ -699,6 +734,7 @@ Below is an example of how to add svgr support to Storybook with this framework.
 Storybook handles most [Typescript](https://www.typescriptlang.org/) configurations, but this framework adds additional support for Next.js's support for [Absolute Imports and Module path aliases](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases). In short, it takes into account your `tsconfig.json`'s [baseUrl](https://www.typescriptlang.org/tsconfig#baseUrl) and [paths](https://www.typescriptlang.org/tsconfig#paths). Thus, a `tsconfig.json` like the one below would work out of the box.
 
 ```json
+// tsconfig.json
 {
   "compilerOptions": {
     "baseUrl": ".",
@@ -743,7 +779,7 @@ If this wrapper causes problems in any of your existing stories, you can selecti
 
 <!-- prettier-ignore-end -->
 
-Note that wrapping your server components in Suspense does not help if your server components access server-side resources like the file system or Node-specific libraries. To deal work around this, you'll need to mock out your data access layer using [Webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias) or an addon like [storybook-addon-module-mock](https://storybook.js.org/addons/storybook-addon-module-mock).
+Note that wrapping your server components in Suspense does not help if your server components access server-side resources like the file system or Node-specific libraries. To work around this, you'll need to mock out your data access layer using [Webpack aliases](https://webpack.js.org/configuration/resolve/#resolvealias) or an addon like [storybook-addon-module-mock](https://storybook.js.org/addons/storybook-addon-module-mock).
 
 If your server components access data via the network, we recommend using the [MSW Storybook Addon](https://storybook.js.org/addons/msw-storybook-addon) to mock network requests.
 
@@ -769,7 +805,7 @@ Next.js pages can fetch data directly within server components in the `app` dire
 **Before**
 
 ```jsx
-// ./app/my-page/index.jsx
+// app/my-page/index.jsx
 async function getData() {
   const res = await fetch(...);
   // ...
@@ -786,7 +822,7 @@ export default async function Page() {
 **After**
 
 ```jsx
-// ./app/my-page/index.jsx
+// app/my-page/index.jsx
 
 // Use this component in your stories
 import MyPage from './components/MyPage';
@@ -810,6 +846,7 @@ Make sure you are treating image imports the same way you treat them when using 
 Before using this framework, image imports would import the raw path to the image (e.g. `'static/media/stories/assets/logo.svg'`). Now image imports work the "Next.js way", meaning that you now get an object when importing an image. For example:
 
 ```json
+// Image import object
 {
   "src": "static/media/stories/assets/logo.svg",
   "height": 48,
@@ -818,7 +855,7 @@ Before using this framework, image imports would import the raw path to the imag
 }
 ```
 
-Therefore, if something in storybook isn't showing the image properly, make sure you expect the object to be returned from an import instead of only the asset path.
+Therefore, if something in Storybook isn't showing the image properly, make sure you expect the object to be returned from an import instead of only the asset path.
 
 See [local images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#local-images) for more detail on how Next.js treats static image imports.
 
@@ -840,6 +877,8 @@ This framework contributes the following [parameters](../writing-stories/paramet
 
 Type: `boolean`
 
+Default: `false`
+
 If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true`. Because this is a parameter, you can apply it to a [single story](../api/parameters.md#story-parameters), [all stories for a component](../api/parameters.md#meta-parameters), or [every story in your Storybook](../api/parameters.md#project-parameters). See [Next.js Navigation](#nextjs-navigation) for more details.
 
 #### `navigation`
@@ -851,6 +890,15 @@ Type:
   asPath?: string;
   pathname?: string;
   query?: Record<string, string>;
+  segments?: (string | [string, string])[];
+}
+```
+
+Default value:
+
+```js
+{
+  segments: [];
 }
 ```
 
@@ -865,7 +913,6 @@ Type:
   asPath?: string;
   pathname?: string;
   query?: Record<string, string>;
-  segments?: (string | [string, string])[];
 }
 ```
 
@@ -912,10 +959,3 @@ Props to pass to every instance of `next/image`. See [next/image docs](https://n
 Type: `string`
 
 The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
-
-## Acknowledgements
-
-This framework borrows heavily from these Storybook addons:
-
-- [storybook-addon-next](https://github.com/RyanClementsHax/storybook-addon-next) by [RyanClementsHax](https://github.com/RyanClementsHax/)
-- [storybook-addon-next-router](https://github.com/lifeiscontent/storybook-addon-next-router) by [lifeiscontent](https://github.com/lifeiscontent)

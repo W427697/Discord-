@@ -1,15 +1,15 @@
 ```ts
-// SomeComponentThatUsesTheRouter.stories.ts
+// RouterBasedComponent.stories.ts
 import { Meta, StoryObj } from '@storybook/react';
 
-import SomeComponentThatUsesTheRouter from './SomeComponentThatUsesTheRouter';
+import RouterBasedComponent from './RouterBasedComponent';
 
-const meta: Meta<typeof SomeComponentThatUsesTheRouter> = {
-  component: SomeComponentThatUsesTheRouter,
+const meta: Meta<typeof RouterBasedComponent> = {
+  component: RouterBasedComponent,
 };
 export default meta;
 
-type Story = StoryObj<typeof SomeComponentThatUsesTheRouter>;
+type Story = StoryObj<typeof RouterBasedComponent>;
 
 // If you have the actions addon,
 // you can interact with the links and see the route change events there

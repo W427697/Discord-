@@ -1,11 +1,11 @@
 ```ts
-// SomeComponentThatUsesTheNavigation.stories.ts
+// NavigationBasedComponent.stories.ts
 import { Meta, StoryObj } from '@storybook/react';
 
-import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+import NavigationBasedComponent from './NavigationBasedComponent';
 
-const meta: Meta<typeof SomeComponentThatUsesTheNavigation> = {
-  component: SomeComponentThatUsesTheNavigation,
+const meta: Meta<typeof NavigationBasedComponent> = {
+  component: NavigationBasedComponent,
   parameters: {
     nextjs: {
       appDirectory: true,
@@ -14,7 +14,7 @@ const meta: Meta<typeof SomeComponentThatUsesTheNavigation> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof SomeComponentThatUsesTheNavigation>;
+type Story = StoryObj<typeof NavigationBasedComponent>;
 
 // If you have the actions addon,
 // you can interact with the links and see the route change events there
