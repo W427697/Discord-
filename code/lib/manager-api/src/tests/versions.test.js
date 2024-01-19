@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { global } from '@storybook/global';
-import exp from 'constants';
+
 import { init as initVersions } from '../modules/versions';
 
 vi.mock('../version', () => ({
