@@ -87,7 +87,6 @@ Options include:
 Installs Storybook into your project per specified version (e.g., `@latest`, `@next`). Read more in the [installation guide](../get-started/install.md).
 
 ```shell
-
 storybook[@version] init [options]
 ```
 
@@ -95,7 +94,7 @@ Options include:
 
 | Option                 | Description                                                                                                                                                                    |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `-b`, `--builder`      | Defines the [builder](../builders/index.md) to use for your Storybook<br/>`storybook init --builder webpack5`                                                                  |
+| `-b`, `--builder`      | Defines the [builder](../builders/index.md) to use for your Storybook instance<br/>`storybook init --builder webpack5`                                                         |
 | `-f`,`--force`         | Forcefully installs Storybook into your project, prompting you to overwrite existing files<br/>`storybook init --force`                                                        |
 | `-s`, `--skip-install` | Skips the dependency installation step. Used only when you need to configure Storybook manually<br/>`storybook init --skip-install`                                            |
 | `-t`, `--type`         | Defines the [framework](../configure/frameworks.md) to use for your Storybook instance<br/>`storybook init --type solid`                                                       |
