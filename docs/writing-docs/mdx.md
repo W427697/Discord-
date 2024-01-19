@@ -12,7 +12,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <Callout variant="info">
 
-Writing stories directly in MDX was removed in Storybook 8, and we're no longer supporting it. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature or [migrate](../migration-guide.md) to the new format.
+Writing stories directly in MDX was removed in Storybook 8, and we're no longer supporting it. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature or [migrate](../migration-guide.md#storiesmdx-to-mdxcsf) to the new format.
 
 </Callout>
 
@@ -393,22 +393,6 @@ As Storybook relies on the latest version of [MDX](https://mdxjs.com/) to render
 #### Storybook doesn't create documentation for my component stories
 
 If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
-
-#### The documentation doesn't render using `stories.mdx`
-
-If you're still writing stories directly in MDX, with the `stories.mdx` format, we're no longer supporting it and recommend migrating to the new format to avoid issues, as the majority of APIs and [Doc Blocks](./doc-blocks.md) used by Storybook were overhauled to support the latest MDX release (e.g., the [`Meta`](../api/doc-block-meta.md) block). To help you transition to the new format, we provide a migration helper in our CLI to automate the process.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-migration-mdx-stories.npm.mdx',
-    'common/storybook-migration-mdx-stories.pnpm.mdx',
-    'common/storybook-migration-mdx-stories.yarn.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
 
 ### The migration seems flaky and keeps failing
 
