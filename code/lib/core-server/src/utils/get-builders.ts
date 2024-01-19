@@ -54,6 +54,8 @@ export async function getPreviewBuilder(
     console.log('tried loading builder ' + full + ' but failed with errors:');
     throw new Error(JSON.stringify(errors, null, 2));
   }
+
+  throw new Error('no resolved builder');
 }
 
 export async function getBuilders({ presets, configDir }: Options): Promise<Builder<unknown>[]> {
