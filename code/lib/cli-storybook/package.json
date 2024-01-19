@@ -21,8 +21,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "sb": "./index.js",
-    "storybook": "./index.js"
+    "sb": "./index.js"
   },
   "dependencies": {
     "@storybook/cli": "workspace:*"

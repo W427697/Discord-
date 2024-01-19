@@ -5480,8 +5480,8 @@ __metadata:
     typescript: "npm:^5.3.2"
     util-deprecate: "npm:^1.0.2"
   bin:
-    getstorybook: ./bin/index.js
     sb: ./bin/index.js
+    storybook: ./bin/index.js
   languageName: unknown
   linkType: soft
 

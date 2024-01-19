@@ -279,6 +279,7 @@ export async function baseGenerator(
 
   const allPackages = [
     'storybook',
+    '@storybook/cli',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
