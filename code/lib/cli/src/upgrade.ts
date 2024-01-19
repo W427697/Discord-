@@ -12,10 +12,14 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
 import type { PackageManagerName } from '@storybook/core-common';
-import { JsPackageManagerFactory } from '@storybook/core-common';
-import { coerceSemver, commandLog } from './helpers';
+import {
+  JsPackageManagerFactory,
+  isCorePackage,
+  versions,
+  commandLog,
+} from '@storybook/core-common';
+import { coerceSemver } from './helpers';
 import { automigrate } from './automigrate';
-import { isCorePackage, versions } from '@storybook/core-common';
 
 type Package = {
   package: string;

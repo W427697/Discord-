@@ -13,9 +13,9 @@ import {
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { commandLog, isNxProject } from './helpers';
+import { isNxProject } from './helpers';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
-import { HandledError } from './HandledError';
+import { commandLog, HandledError } from '@storybook/core-common';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
