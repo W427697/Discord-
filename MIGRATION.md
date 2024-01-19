@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
@@ -32,6 +33,7 @@
     - [Next.js](#nextjs)
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
+      - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -42,6 +44,7 @@
     - [Web Components](#web-components)
       - [Dropping default babel plugins in Webpack5-based projects](#dropping-default-babel-plugins-in-webpack5-based-projects)
   - [Deprecations which are now removed](#deprecations-which-are-now-removed)
+    - [Removed `config` preset](#removed-config-preset)
     - [Removed `passArgsFirst` option](#removed-passargsfirst-option)
     - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
@@ -60,11 +63,14 @@
     - [Description Doc block properties](#description-doc-block-properties)
     - [Story Doc block properties](#story-doc-block-properties)
     - [Manager API expandAll and collapseAll methods](#manager-api-expandall-and-collapseall-methods)
-    - [Source Doc block properties](#source-doc-block-properties)
-    - [Canvas Doc block properties](#canvas-doc-block-properties)
+    - [`ArgsTable` Doc block removed](#argstable-doc-block-removed)
+    - [`Source` Doc block properties](#source-doc-block-properties)
+    - [`Canvas` Doc block properties](#canvas-doc-block-properties)
     - [`Primary` Doc block properties](#primary-doc-block-properties)
     - [`createChannel` from `@storybook/postmessage` and `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and-storybookchannel-websocket)
     - [StoryStore and methods deprecated](#storystore-and-methods-deprecated)
+  - [Addon author changes](#addon-author-changes)
+    - [Removed `config` preset](#removed-config-preset-1)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
   - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
   - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
@@ -380,6 +386,10 @@
 
 ## From version 7.x to 8.0.0
 
+### Default keyboard shortcuts changed
+
+The default keyboard shortcuts have changed to avoid any conflicts with the browser's default shortcuts or when you are directly typing in the Manager. If you want to get the new default shortcuts, you can reset your shortcuts in the keyboard shortcuts panel by pressing the `Restore default` button.
+
 ### Manager addons are now rendered with React 18
 
 The UI added to the manager via addons is now rendered with React 18.
@@ -517,7 +527,7 @@ In Storybook 8.0, we have removed the `framework.options.builder.useSWC` option.
 If you want to use SWC, you can add the necessary addon:
 
 ```sh
-npx storybook@latest add @storybook/addon-webpack-compiler-swc
+npx storybook@latest add @storybook/addon-webpack5-compiler-swc
 ```
 
 The goal is to make @storybook/builder-webpack5 lighter and more flexible. We are not locked into a specific compiler or compiler version anymore. This allows us to support Babel 7/8, SWC, and other compilers simultaneously.
@@ -527,7 +537,7 @@ The goal is to make @storybook/builder-webpack5 lighter and more flexible. We ar
 In Storybook 8.0, we have removed the `@storybook/builder-webpack5` package's dependency on Babel. This means that Babel is not preconfigured in `@storybook/builder-webpack5`. If you want to use Babel, you can add the necessary addon:
 
 ```sh
-npx storybook@latest add @storybook/addon-webpack-compiler-swc
+npx storybook@latest add @storybook/addon-webpack5-compiler-babel
 ```
 
 We are doing this to make Storybook more flexible and to allow users to use a variety of compilers like SWC, Babel or even pure TypeScript.
@@ -728,6 +738,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 - If you use Next.js 14 or higher and you don't have a .babelrc file, Storybook will use SWC to transpile your code.
 - Even if you have a .babelrc file, Storybook will still use SWC to transpile your code if you set the experimental `experimental.forceSwcTransforms` flag to `true` in your `next.config.js`.
 
+##### RSC config moved to React renderer
+
+Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
+
+These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
+
 #### Angular
 
 ##### Require Angular 15 and up
@@ -799,6 +815,23 @@ We are doing this to apply the same configuration you defined in your project. T
 Until the 8.0 release, Storybook provided the `@babel/preset-env` preset for Web Component projects by default. This is no longer the case, as any Web Components project will use the configuration you've included. Additionally, if you're using either the `@babel/plugin-syntax-dynamic-import` or `@babel/plugin-syntax-import-meta` plugins, you no longer have to include them as they are now part of `@babel/preset-env`.
 
 ### Deprecations which are now removed
+
+#### Removed `config` preset
+
+In Storybook 7.0 we have deprecated the preset field `config` and it has been replaced with 'previewAnnotations'. The `config` preset is now completely removed in Storybook 8.0.
+
+```diff
+// .storybook/main.js
+
+// before
+const config = {
+  framework: "@storybook/your-framework",
+- config: (entries) => [...entries, yourEntry],
++ previewAnnotations: (entries) => [...entries, yourEntry],
+};
+
+export default config;
+```
 
 #### Removed `passArgsFirst` option
 
@@ -975,11 +1008,17 @@ api.collapseAll(); // becomes api.emit(STORIES_COLLAPSE_ALL)
 api.expandAll(); // becomes api.emit(STORIES_EXPAND_ALL)
 ```
 
-#### Source Doc block properties
+#### `ArgsTable` Doc block removed
+
+The `ArgsTable` doc block has been removed in favor of `ArgTypes` and `Controls`. [More info](#argstable-block).
+
+With this removal we've reintroduced `subcomponents` support to `ArgTypes`, `Controls`, and autodocs. We've also undeprecated `subcomponents`, by popular demand.
+
+#### `Source` Doc block properties
 
 `id` and `ids` are now removed in favor of the `of` property. [More info](#doc-blocks).
 
-#### Canvas Doc block properties
+#### `Canvas` Doc block properties
 
 The following properties were removed from the Canvas Doc block:
 
@@ -1011,6 +1050,21 @@ In particular, the following methods on the `StoryStore` are deprecated and will
 - `store.raw()` - please use `preview.extract()` instead.
 
 Note that both these methods require initialization, so you should await `preview.ready()`.
+
+### Addon author changes
+
+#### Removed `config` preset
+
+In Storybook 7.0 we have deprecated the preset field `config` and it has been replaced with `previewAnnotations`. The `config` preset is now completely removed in Storybook 8.0.
+
+```diff
+// your-addon/preset.js
+
+module.exports = {
+-  config: (entries = []) => [...entries, ...yourEntry],
++  previewAnnotations: (entries = []) => [...entries, ...yourEntry],
+};
+```
 
 ## From version 7.5.0 to 7.6.0
 

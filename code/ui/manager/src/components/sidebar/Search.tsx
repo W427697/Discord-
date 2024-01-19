@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -123,7 +122,14 @@ const FocusKey = styled.code(({ theme }) => ({
   color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   userSelect: 'none',
   pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
 }));
+
+const FocusKeyCmd = styled.span({
+  fontSize: '14px',
+});
 
 const ClearIcon = styled.div(({ theme }) => ({
   position: 'absolute',
@@ -353,7 +359,17 @@ export const Search = React.memo<{
               </SearchIconWrapper>
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && !isOpen && <FocusKey>{searchShortcut}</FocusKey>}
+              {enableShortcuts && !isOpen && (
+                <FocusKey>
+                  {searchShortcut === '⌘ K' ? (
+                    <>
+                      <FocusKeyCmd>⌘</FocusKeyCmd>K
+                    </>
+                  ) : (
+                    searchShortcut
+                  )}
+                </FocusKey>
+              )}
               {isOpen && (
                 <ClearIcon onClick={() => clearSelection()}>
                   <CloseIcon />
