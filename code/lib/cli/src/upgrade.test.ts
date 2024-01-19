@@ -6,11 +6,11 @@ import {
 } from '@storybook/core-events/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
 
-import * as sbcc from '@storybook/core-common';
+import type * as sbcc from '@storybook/core-common';
 
 vi.mock('@storybook/telemetry');
 vi.mock('@storybook/core-common', async (importOriginal) => {
-  const originalModule = ((await importOriginal()) as typeof sbcc);
+  const originalModule = (await importOriginal()) as typeof sbcc;
   return {
     ...originalModule,
     versions: Object.keys(originalModule.versions).reduce(

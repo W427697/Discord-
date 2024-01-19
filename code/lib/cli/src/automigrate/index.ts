@@ -7,8 +7,12 @@ import dedent from 'ts-dedent';
 import { join } from 'path';
 import invariant from 'tiny-invariant';
 
-import { getStorybookInfo, loadMainConfig, getStorybookVersion, JsPackageManagerFactory } from '@storybook/core-common';
-import {  } from '@storybook/core-common';
+import {
+  getStorybookInfo,
+  loadMainConfig,
+  getStorybookVersion,
+  JsPackageManagerFactory,
+} from '@storybook/core-common';
 import type { PackageManagerName } from '@storybook/core-common';
 
 import type { Fix, FixId, FixOptions, FixSummary } from './fixes';

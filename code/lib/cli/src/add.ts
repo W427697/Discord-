@@ -1,4 +1,11 @@
-import { getStorybookInfo, serverRequire, getStorybookVersion, isCorePackage, JsPackageManagerFactory, type PackageManagerName } from '@storybook/core-common';
+import {
+  getStorybookInfo,
+  serverRequire,
+  getStorybookVersion,
+  isCorePackage,
+  JsPackageManagerFactory,
+  type PackageManagerName,
+} from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
