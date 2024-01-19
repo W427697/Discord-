@@ -80,6 +80,29 @@ Options include:
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                                                      |
 | `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test` |
 
+<!-- Re-read this for accuracy -->
+
+### `init`
+
+Installs Storybook into your project per specified version (e.g., `@latest`, `@next`). Read more in the [installation guide](../get-started/install.md).
+
+```shell
+
+storybook[@version] init [options]
+```
+
+Options include:
+
+| Option                 | Description                                                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `-b`, `--builder`      | Defines the [builder](../builders/index.md) to use for your Storybook<br/>`storybook init --builder webpack5`                                                                  |
+| `-f`,`--force`         | Forcefully installs Storybook into your project, prompting you to overwrite existing files<br/>`storybook init --force`                                                        |
+| `-s`, `--skip-install` | Skips the dependency installation step. Used only when you need to configure Storybook manually<br/>`storybook init --skip-install`                                            |
+| `-t`, `--type`         | Defines the [framework](../configure/frameworks.md) to use for your Storybook instance<br/>`storybook init --type solid`                                                       |
+| `-y`, `--yes`          | Skips interactive prompts and automatically installs Storybook per specified version<br/>`storybook init --yes`                                                                |
+| `--package-manager`    | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook init --package-manager pnpm`       |
+| `--use-pnp`            | Enables [Plug'n'Play](https://yarnpkg.com/features/pnp) support for Yarn. This option is only available when using Yarn as your package manager<br/>`storybook init --use-pnp` |
+
 ### `add`
 
 Installs a Storybook addon and configures your project for it. Read more in the [addon installation guide](../addons/install-addons.md).
@@ -95,20 +118,19 @@ Options include:
 | `--package-manager`        | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook add [addon] --package-manager pnpm` |
 | `-s`, `--skip-postinstall` | Skips post-install configuration. Used only when you need to configure the addon yourself<br/>`storybook add [addon] --skip-postinstall`                                        |
 
-### `doctor`
+### `remove`
 
-Performs a health check on your Storybook project for common issues (e.g., duplicate dependencies, incompatible addons or mismatched versions) and provides suggestions on how to fix them. Applicable when [upgrading](../configure/upgrading.md#verifying-the-upgrade) Storybook versions.
+Deletes a Storybook addon from your project. Read more in the [addon installation guide](../addons/install-addons.md#removing-addons).
 
 ```shell
-storybook doctor [options]
+storybook remove [addon] [options]
 ```
 
 Options include:
 
-| Option               | Description                                                                                                                                                                   |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-c`, `--config-dir` | Directory where to load Storybook configurations from<br/>`storybook doctor --config-dir .storybook`                                                                          |
-| `--package-manager`  | Sets the package manager to use when running the health check.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook doctor --package-manager pnpm` |
+| Option              | Description                                                                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--package-manager` | Sets the package manager to use when removing the addon.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook remove  [addon]--package-manager pnpm` |
 
 ### `upgrade`
 
@@ -127,6 +149,21 @@ Options include:
 | `-s`, `--skip-check` | Skips the migration check step during the upgrade process<br/> `storybook upgrade --skip-check`                                                                             |
 | `-y`, `--yes`        | Skips interactive prompts and automatically upgrades Storybook to the latest version<br/>`storybook upgrade --yes`                                                          |
 | `--package-manager`  | Sets the package manager to use when installing the addon.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook upgrade --package-manager pnpm` |
+
+### `doctor`
+
+Performs a health check on your Storybook project for common issues (e.g., duplicate dependencies, incompatible addons or mismatched versions) and provides suggestions on how to fix them. Applicable when [upgrading](../configure/upgrading.md#verifying-the-upgrade) Storybook versions.
+
+```shell
+storybook doctor [options]
+```
+
+Options include:
+
+| Option               | Description                                                                                                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-c`, `--config-dir` | Directory where to load Storybook configurations from<br/>`storybook doctor --config-dir .storybook`                                                                          |
+| `--package-manager`  | Sets the package manager to use when running the health check.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook doctor --package-manager pnpm` |
 
 ### `info`
 
@@ -147,7 +184,7 @@ Storybook Environment Info:
     Shell: 5.9 - /bin/zsh
   Binaries:
     Node: 18.19.0 - ~/.nvm/versions/node/v18.19.0/bin/node
-    npm: 10.2.3 - ~/.nvm/versions/node/v18.19.0/bin/npm
+    npm: 10.2.3 - ~/.nvm/versions/node/v18.19.0/bin/npm <----- active
   Browsers:
     Chrome: 120.0.6099.199
   npmPackages:
@@ -161,21 +198,9 @@ Storybook Environment Info:
     @storybook/react-webpack5: ^7.6.6 => 7.6.6
     @storybook/test: ^7.6.6 => 7.6.6
     storybook: ^7.6.6 => 7.6.6
+  npmGlobalPackages:
+    chromatic: ^10.2.0 => 10.2.0
 ```
-
-### `remove`
-
-Deletes a Storybook addon from your project. Read more in the [addon installation guide](../addons/install-addons.md#removing-addons).
-
-```shell
-storybook remove [addon] [options]
-```
-
-Options include:
-
-| Option              | Description                                                                                                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--package-manager` | Sets the package manager to use when removing the addon.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook remove  [addon]--package-manager pnpm` |
 
 ### `sandbox`
 
@@ -193,11 +218,10 @@ The `framework-filter` argument is optional and can filter the list of available
 
 Options include:
 
-| Option                         | Description                                                                                                                                                                                                                       |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-b`, `--branch [branch name]` | Select the branch to use for the sandbox project featuring the available features present in the selected branch (`next` for the pre-release version, `main` for the latest stable release)<br/>`storybook sandbox --branch main` |
-| `-o`, `--output [dir-name]`    | Configures the location of the sandbox project<br/>`storybook sandbox --output /my-sandbox-project`                                                                                                                               |
-| `--no-init`                    | Generates a sandbox project without without initializing Storybook<br/>`storybook sandbox --no-init`                                                                                                                              |
+| Option                      | Description                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `-o`, `--output [dir-name]` | Configures the location of the sandbox project<br/>`storybook sandbox --output /my-sandbox-project`  |
+| `--no-init`                 | Generates a sandbox project without without initializing Storybook<br/>`storybook sandbox --no-init` |
 
 <Callout variant="info">
 
