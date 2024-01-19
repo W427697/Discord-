@@ -46,6 +46,19 @@ If you're customizing the Storybook UI configuration with `addons.setConfig({...
 
 Deprecated packages and APIs from 7.0 are now removed in 8.0.Consult the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecations-which-are-now-removed) for details. Most notably for addons, the removal of the `@storybook/addons` now necessitates a switch to `@storybook/preview-api` and `@storybook/manager-api`.
 
+### Babel-loader removed from Webpack
+
+Storybook 8 [removes babel-loader from the webpack5 builder](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5). If your addon's preset overrides the `babel()` method, it will break if your users are using SWC to compile their files (which is the new default in SB8).
+
+To solve for both Babel and SWC, the most robust approach is to create an [unplugin](https://github.com/unjs/unplugin) that will work with both Webpack and Vite builders. That will give you full control to run babel (or whatever you want) on stories and components as they are loaded.
+
+As a workaround, your update your documentation to tell users to opt-in to Babel support. This should fix your addon in their project, at the cost of performance:
+
+```sh
+npx storybook@latest add @storybook/addon-webpack-compiler-babel
+```
+
+
 ## Releasing
 
 Release a new major version of your addon for Storybook 8.0. We recommend you to continue supporting 7.x with minor or patch versions. We also recommend releasing your own addon using the `next` tag to test it out in projects.
