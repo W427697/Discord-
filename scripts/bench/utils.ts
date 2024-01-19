@@ -1,5 +1,6 @@
 import { join } from 'node:path';
-import { ensureDir, writeJSON, readJSON, readdir } from '@ndelangen/fs-extra-unified';
+import { readdir } from 'node:fs/promises';
+import { ensureDir, writeJSON, readJSON } from '@ndelangen/fs-extra-unified';
 import type { Page } from 'playwright-core';
 import type { BenchResults } from './types';
 

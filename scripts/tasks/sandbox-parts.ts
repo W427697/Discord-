@@ -5,9 +5,7 @@ import {
   copy,
   ensureSymlink,
   ensureDir,
-  existsSync,
   pathExists,
-  readFileSync,
   readJson,
   writeJson,
 } from '@ndelangen/fs-extra-unified';
@@ -40,6 +38,7 @@ import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
 import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
+import { existsSync, readFileSync } from 'node:fs';
 
 const logger = console;
 
