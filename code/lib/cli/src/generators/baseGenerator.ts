@@ -278,7 +278,9 @@ export async function baseGenerator(
       : extraPackages;
 
   const allPackages = [
-    'storybook',
+    // TODO, ADD THIS BACK BEFORE MERGING THE PR,
+    // IF YOU SEE THIS COMMENT ON NEXT, WE MESSED UP!!
+    // 'storybook',
     '@storybook/cli',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,

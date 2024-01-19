@@ -26566,7 +26566,6 @@ __metadata:
     "@storybook/cli": "workspace:*"
   bin:
     sb: ./index.js
-    storybook: ./index.js
   languageName: unknown
   linkType: soft
 
