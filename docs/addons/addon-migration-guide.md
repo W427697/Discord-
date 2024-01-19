@@ -10,7 +10,7 @@ As we gather feedback from the community, we’ll update this page. We also have
 
 </Callout>
 
-## Updating Dependencies
+## Updating dependencies
 
 Begin by updating your Storybook dependencies. Use the `next` tag for pre-release versions, `latest` for the most recent stable release, or specify the version directly.
 
@@ -22,31 +22,31 @@ Begin by updating your Storybook dependencies. Use the `next` tag for pre-releas
 }
 ```
 
-## Key Changes for Addons
+## Key changes for addons
 
 Here are the essential changes in version 8.0 that impact addon development. Please check the [full migration note](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) for an exhaustive list of changes in 8.0.
 
-### Node.js 16 Support Dropped
+### Node.js 16 support dropped
 
 Please upgrade your addon to Node.js 18, as support for Node.js 16 has ended.
 
-### React 18 for Manager UI
+### React 18 for manager UI
 
 UI injected into panels, tools, etc. by addons is now rendered with React 18. Also note that the `key` prop is no longer passed to the render function.
 
-### @storybook/components Deprecations
+### @storybook/components deprecations
 
 `Icons` component from `@storybook/components` is now deprecated in favor of [`@storybook/icons`](https://github.com/storybookjs/icons). Additionally, various `Button` component props are also deprecated, with alternatives provided.
 
-### Storybook Layout State API Changes
+### Storybook layout state API changes
 
 If you're customizing the Storybook UI configuration with `addons.setConfig({...})`, be aware of [the changes to the layout state API](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#ui-layout-state-has-changed-shape).
 
-### Removal of Deprecated Features
+### Removal of deprecated features
 
 Deprecated packages and APIs from 7.0 are now removed in 8.0.Consult the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecations-which-are-now-removed) for details. Most notably for addons, the removal of the `@storybook/addons` now necessitates a switch to `@storybook/preview-api` and `@storybook/manager-api`.
 
-### Babel-loader removed from Webpack
+### Babel-loader removed from webpack
 
 Storybook 8 [removes babel-loader from the webpack5 builder](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-babelcore-and-babel-loader-from-storybookbuilder-webpack5). If your addon's preset overrides the `babel()` method, it will break if your users are using SWC to compile their files (which is the new default in SB8).
 
@@ -57,7 +57,6 @@ As a workaround, your update your documentation to tell users to opt-in to Babel
 ```sh
 npx storybook@latest add @storybook/addon-webpack-compiler-babel
 ```
-
 
 ## Releasing
 
