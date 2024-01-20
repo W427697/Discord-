@@ -6,7 +6,7 @@ import {
   loadPreviewOrConfigFile,
   normalizeStories,
   readTemplate,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import slash from 'slash';
 import { toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions } from '../types';

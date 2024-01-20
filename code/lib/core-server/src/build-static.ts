@@ -16,7 +16,7 @@ import {
   logConfig,
   normalizeStories,
   resolveAddonName,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 
 import { outputStats } from './utils/output-stats';
 import { copyAllStaticFilesRelativeToMain } from './utils/copy-all-static-files';

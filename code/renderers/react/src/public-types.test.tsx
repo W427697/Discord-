@@ -1,7 +1,7 @@
 // this file tests Typescript types that's why there are no assertions
 import { describe, it } from 'vitest';
 
-import { satisfies } from '@storybook/core-common';
+import { satisfies } from '@storybook/core/dist/modules/core-common/index';
 import type { Args, StoryAnnotations, StrictArgs } from '@storybook/core/dist/modules/types/index';
 import { expectTypeOf } from 'expect-type';
 import type { KeyboardEventHandler, ReactElement, ReactNode } from 'react';

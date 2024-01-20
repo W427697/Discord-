@@ -7,7 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import type {
   CLIOptions,
   CoreConfig,

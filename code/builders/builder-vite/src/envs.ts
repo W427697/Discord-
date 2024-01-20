@@ -1,4 +1,4 @@
-import { stringifyEnvs } from '@storybook/core-common';
+import { stringifyEnvs } from '@storybook/core/dist/modules/core-common/index';
 import type { UserConfig as ViteConfig } from 'vite';
 import type { Builder_EnvsRaw, Options } from '@storybook/core/dist/modules/types/index';
 

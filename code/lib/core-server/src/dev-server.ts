@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant';
 
 import type { Options } from '@storybook/core/dist/modules/types/index';
 
-import { logConfig } from '@storybook/core-common';
+import { logConfig } from '@storybook/core/dist/modules/core-common/index';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 import { MissingBuilderError } from '@storybook/core-events/server-errors';

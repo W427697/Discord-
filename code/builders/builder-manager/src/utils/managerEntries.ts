@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { resolvePathInStorybookCache } from '@storybook/core-common';
+import { resolvePathInStorybookCache } from '@storybook/core/dist/modules/core-common/index';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
 

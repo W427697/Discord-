@@ -5,7 +5,7 @@ import {
   getStorybookInfo,
   getStorybookConfiguration,
   getProjectRoot,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import type { StorybookConfig, PackageJson } from '@storybook/core/dist/modules/types/index';
 import { readConfig } from '@storybook/csf-tools';
 

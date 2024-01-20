@@ -1,6 +1,6 @@
 // this file tests Typescript types that's why there are no assertions
 import { describe, it } from 'vitest';
-import { satisfies } from '@storybook/core-common';
+import { satisfies } from '@storybook/core/dist/modules/core-common/index';
 import type {
   ComponentAnnotations,
   StoryAnnotations,

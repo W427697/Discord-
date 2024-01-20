@@ -12,7 +12,7 @@ import {
   resolvePathInStorybookCache,
   serverResolve,
   validateFrameworkName,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';

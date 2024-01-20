@@ -1,4 +1,4 @@
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@storybook/core/dist/modules/core-common/index';
 import { getVirtualModules } from '@storybook/builder-webpack5';
 import type { Options } from '@storybook/core/dist/modules/types/index';
 import type { NextConfig } from 'next';

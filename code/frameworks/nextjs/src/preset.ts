@@ -3,7 +3,7 @@ import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/core/dist/modules/types/index';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@storybook/core/dist/modules/core-common/index';
 import fs from 'fs';
 import semver from 'semver';
 import { configureConfig } from './config/webpack';

@@ -15,7 +15,7 @@ import {
   stringifyProcessEnvs,
   normalizeStories,
   isPreservingSymlinks,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import { type BuilderOptions } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { TypescriptOptions } from '../types';

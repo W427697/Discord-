@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
-import { serverRequire } from '@storybook/core-common';
+import { serverRequire } from '@storybook/core/dist/modules/core-common/index';
 
 interface PresetOptions {
   /**

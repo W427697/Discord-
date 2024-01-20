@@ -11,7 +11,7 @@ import {
   getFrameworkName,
   getBuilderOptions,
   resolvePathInStorybookCache,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { Options } from '@storybook/core/dist/modules/types/index';
 import {

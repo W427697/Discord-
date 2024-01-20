@@ -1,5 +1,5 @@
 import type { DocsOptions, Options } from '@storybook/core/dist/modules/types/index';
-import { normalizeStories } from '@storybook/core-common';
+import { normalizeStories } from '@storybook/core/dist/modules/core-common/index';
 import { useStoriesJson } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';

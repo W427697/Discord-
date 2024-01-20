@@ -5,7 +5,7 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { normalizeStoriesEntry } from '@storybook/core/dist/modules/core-common/index';
 
 import { useStoriesJson, DEBOUNCE } from './stories-json';
 import type { ServerChannel } from './get-server-channel';

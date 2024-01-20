@@ -3,7 +3,7 @@ import semver from 'semver';
 import { join } from 'path';
 import slash from 'slash';
 import glob from 'globby';
-import { commonGlobOptions } from '@storybook/core-common';
+import { commonGlobOptions } from '@storybook/core/dist/modules/core-common/index';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';

@@ -1,6 +1,6 @@
 import prompts from 'prompts';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { loadAllPresets, cache } from '@storybook/core-common';
+import { loadAllPresets, cache } from '@storybook/core/dist/modules/core-common/index';
 import { telemetry, oneWayHash } from '@storybook/telemetry';
 
 import { getErrorLevel, sendTelemetryError, withTelemetry } from './withTelemetry';

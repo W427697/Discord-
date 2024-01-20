@@ -4,7 +4,7 @@
 import { describe, it, expect, vi } from 'vitest';
 
 import path from 'path';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { normalizeStoriesEntry } from '@storybook/core/dist/modules/core-common/index';
 import type { NormalizedStoriesSpecifier } from '@storybook/core/dist/modules/types/index';
 
 import type { StoryIndexGeneratorOptions } from '../StoryIndexGenerator';

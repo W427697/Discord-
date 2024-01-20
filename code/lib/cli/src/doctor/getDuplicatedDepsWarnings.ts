@@ -1,5 +1,8 @@
 import chalk from 'chalk';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import {
+  frameworkPackages,
+  rendererPackages,
+} from '@storybook/core/dist/modules/core-common/index';
 import { hasMultipleVersions } from './hasMultipleVersions';
 import type { InstallationMetadata } from '../js-package-manager/types';
 

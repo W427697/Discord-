@@ -1,7 +1,10 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import {
+  frameworkPackages,
+  rendererPackages,
+} from '@storybook/core/dist/modules/core-common/index';
 
 import type { Preset } from '@storybook/core/dist/modules/types/index';
 import invariant from 'tiny-invariant';

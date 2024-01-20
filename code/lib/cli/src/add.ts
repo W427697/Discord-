@@ -1,4 +1,4 @@
-import { getStorybookInfo, serverRequire } from '@storybook/core-common';
+import { getStorybookInfo, serverRequire } from '@storybook/core/dist/modules/core-common/index';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'path';
 import SemVer from 'semver';

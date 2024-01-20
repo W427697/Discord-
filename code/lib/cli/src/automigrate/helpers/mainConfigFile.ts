@@ -4,7 +4,7 @@ import {
   rendererPackages,
   frameworkPackages,
   builderPackages,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import type { StorybookConfigRaw, StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';

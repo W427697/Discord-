@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import { join, relative } from 'path';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
-import { getDirectoryFromWorkingDir } from '@storybook/core-common';
+import { getDirectoryFromWorkingDir } from '@storybook/core/dist/modules/core-common/index';
 import { parseStaticDir } from './server-statics';
 
 export async function copyAllStaticFiles(staticDirs: any[] | undefined, outputDir: string) {

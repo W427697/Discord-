@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import semver from 'semver';
-import { frameworkPackages } from '@storybook/core-common';
+import { frameworkPackages } from '@storybook/core/dist/modules/core-common/index';
 import type { InstallationMetadata } from '../js-package-manager/types';
 import storybookCorePackages from '../versions';
 

@@ -20,7 +20,10 @@ import type {
   StorybookConfigRaw,
 } from '@storybook/core/dist/modules/types/index';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
+import {
+  commonGlobOptions,
+  normalizeStoryPath,
+} from '@storybook/core/dist/modules/core-common/index';
 import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';

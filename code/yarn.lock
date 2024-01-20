@@ -5567,7 +5567,6 @@ __metadata:
   resolution: "@storybook/core-common@workspace:deprecated/core-common"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
   languageName: unknown
   linkType: soft
 

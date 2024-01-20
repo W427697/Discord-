@@ -6,7 +6,7 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import { getStorybookInfo, loadMainConfig } from '@storybook/core/dist/modules/core-common/index';
 import invariant from 'tiny-invariant';
 import { JsPackageManagerFactory } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
