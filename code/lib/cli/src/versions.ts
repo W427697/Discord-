@@ -27,6 +27,7 @@ export default {
   '@storybook/client-logger': '8.0.0-alpha.11',
   '@storybook/codemod': '8.0.0-alpha.11',
   '@storybook/components': '8.0.0-alpha.11',
+  '@storybook/core': '8.0.0-alpha.11',
   '@storybook/core-common': '8.0.0-alpha.11',
   '@storybook/core-events': '8.0.0-alpha.11',
   '@storybook/core-server': '8.0.0-alpha.11',

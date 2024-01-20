@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { dedent } from 'ts-dedent';
-import { ESLint } from '../../../../scripts/node_modules/eslint';
+import { format } from '../../../../scripts/node_modules/prettier';
 import { globalsNameValueMap } from '../src/globals/runtime';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
@@ -16,15 +16,11 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 async function generate(text: string) {
   console.log('Linting...');
 
-  const eslint = new ESLint({
-    cwd: path.join(__dirname, '..'),
-    fix: true,
-  });
-  const output = await eslint.lintText(text, { filePath: location });
+  const output = await format(text, { parser: 'typescript', filepath: location });
 
   console.log('Writing...');
 
-  await fs.writeFile(location, output[0].output);
+  await fs.writeFile(location, output);
 }
 
 const run = async () => {

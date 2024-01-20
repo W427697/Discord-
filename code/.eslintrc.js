@@ -6,6 +6,9 @@ const scriptPath = path.join(__dirname, '..', 'scripts');
 const addonsPackages = fs
   .readdirSync(path.join(__dirname, 'addons'))
   .filter((p) => fs.statSync(path.join(__dirname, 'addons', p)).isDirectory());
+const corePackages = fs
+  .readdirSync(path.join(__dirname, 'core'))
+  .filter((p) => fs.statSync(path.join(__dirname, 'core', p)).isDirectory());
 const libPackages = fs
   .readdirSync(path.join(__dirname, 'lib'))
   .filter((p) => fs.statSync(path.join(__dirname, 'lib', p)).isDirectory());
@@ -118,6 +121,18 @@ module.exports = {
           'error',
           {
             packageDir: [__dirname, path.join(__dirname, 'addons', directory)],
+            devDependencies: true,
+          },
+        ],
+      },
+    })),
+    ...corePackages.map((directory) => ({
+      files: [path.join('**', 'core', directory, '**', '*.*')],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            packageDir: [__dirname, path.join(__dirname, 'core', directory)],
             devDependencies: true,
           },
         ],
