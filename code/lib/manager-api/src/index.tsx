@@ -37,7 +37,7 @@ import {
   SET_STORIES,
 } from '@storybook/core-events';
 import type { RouterData } from '@storybook/router';
-import type { Listener } from '@storybook/channels';
+import type { Listener } from '@storybook/core/dist/modules/channels/index';
 import { deprecate } from '@storybook/client-logger';
 
 import { createContext } from './context';

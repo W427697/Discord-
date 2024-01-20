@@ -20,7 +20,7 @@ import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,

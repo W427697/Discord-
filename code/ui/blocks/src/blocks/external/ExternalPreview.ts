@@ -7,7 +7,7 @@ import type {
   ModuleExports,
   StoryIndex,
 } from '@storybook/core/dist/modules/types/index';
-import { Channel } from '@storybook/channels';
+import { Channel } from '@storybook/core/dist/modules/channels/index';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 

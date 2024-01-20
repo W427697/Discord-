@@ -12,7 +12,7 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 import type {
   Renderer,
   Args,

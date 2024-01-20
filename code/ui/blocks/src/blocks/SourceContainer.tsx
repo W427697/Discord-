@@ -1,7 +1,7 @@
 import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';

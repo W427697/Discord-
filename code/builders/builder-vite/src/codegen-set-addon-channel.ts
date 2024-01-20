@@ -1,6 +1,6 @@
 export async function generateAddonSetupCode() {
   return `
-    import { createBrowserChannel } from '@storybook/channels';
+    import { createBrowserChannel } from '@storybook/core/dist/modules/channels/index';
     import { addons } from '@storybook/preview-api';
 
     const channel = createBrowserChannel({ page: 'preview' });

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Channel } from '@storybook/channels';
+import { Channel } from '@storybook/core/dist/modules/channels/index';
 import type { Renderer, StoryIndexEntry } from '@storybook/core/dist/modules/types/index';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';

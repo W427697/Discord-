@@ -1,4 +1,4 @@
-import type { Listener } from '@storybook/channels';
+import type { Listener } from '@storybook/core/dist/modules/channels/index';
 
 import type { API_Provider } from '@storybook/core/dist/modules/types/index';
 import type { API } from '../index';

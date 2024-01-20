@@ -11,7 +11,7 @@ import type {
   StoryRenderOptions,
   ViewMode,
 } from '@storybook/core/dist/modules/types/index';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
