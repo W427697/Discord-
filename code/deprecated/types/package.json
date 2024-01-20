@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/types",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/types",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/types"
+    "directory": "code/deprecated/types"
   },
   "funding": {
     "type": "opencollective",

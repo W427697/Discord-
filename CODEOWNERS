@@ -70,13 +70,13 @@
 /code/lib/router/         @ndelangen @JReinhold
 /code/lib/telemetry/      @shilman @yannbf @ndelangen
 /code/lib/theming/        @cdedreuille @ndelangen @JReinhold
-/code/lib/types/          @kasperpeulen @ndelangen
 
 # Deprecations
 /code/deprecated/core-events/   @ndelangen
 /code/deprecated/core-common/   @ndelangen
 /code/deprecated/channels/      @ndelangen
 /code/deprecated/client-logger/ @ndelangen
+/code/deprecated/types/         @ndelangen
 
 # Presets
 /code/presets/create-react-app/ @valentinpalkovic @ndelangen

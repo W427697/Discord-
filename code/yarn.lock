@@ -6757,9 +6757,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/types@workspace:*, @storybook/types@workspace:lib/types":
+"@storybook/types@workspace:*, @storybook/types@workspace:deprecated/types":
   version: 0.0.0-use.local
-  resolution: "@storybook/types@workspace:lib/types"
+  resolution: "@storybook/types@workspace:deprecated/types"
   dependencies:
     "@storybook/core": "workspace:*"
   languageName: unknown
