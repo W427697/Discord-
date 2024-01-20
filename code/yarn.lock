@@ -5547,12 +5547,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-events@workspace:*, @storybook/core-events@workspace:lib/core-events":
+"@storybook/core-events@workspace:*, @storybook/core-events@workspace:deprecated/core-events":
   version: 0.0.0-use.local
-  resolution: "@storybook/core-events@workspace:lib/core-events"
+  resolution: "@storybook/core-events@workspace:deprecated/core-events"
   dependencies:
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
+    "@storybook/core": "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -5633,7 +5632,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core@workspace:core/main"
   dependencies:
-    "@storybook/core-events": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/node-logger": "workspace:*"
@@ -5946,7 +5944,6 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
     "@storybook/manager-api": "workspace:*"
@@ -6267,7 +6264,6 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
     browser-dtector: "npm:^3.4.0"

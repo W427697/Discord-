@@ -11,7 +11,7 @@ export abstract class StorybookError extends Error {
 
   /**
    * A properly written error message template for this error.
-   * @see https://github.com/storybookjs/storybook/blob/next/code/lib/core-events/src/errors/README.md#how-to-write-a-proper-error-message
+   * @see https://github.com/storybookjs/storybook/blob/next/code/deprecated/core-events/src/errors/README.md#how-to-write-a-proper-error-message
    */
   abstract template(): string;
 

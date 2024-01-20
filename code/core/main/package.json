@@ -40,6 +40,25 @@
       "types": "./dist/modules/types/index.d.ts",
       "require": "./dist/modules/types/index.js",
       "module": "./dist/modules/types/index.mjs"
+    },
+    "./dist/modules/events/index": {
+      "types": "./dist/modules/events/index.d.ts",
+      "module": "./dist/modules/events/index.mjs",
+      "require": "./dist/modules/events/index.js"
+    },
+    "./dist/modules/events/errors/preview-errors": {
+      "types": "./dist/modules/events/errors/preview-errors.d.ts",
+      "module": "./dist/modules/events/errors/preview-errors.mjs",
+      "require": "./dist/modules/events/errors/preview-errors.js"
+    },
+    "./dist/modules/events/errors/manager-errors": {
+      "types": "./dist/modules/events/errors/manager-errors.d.ts",
+      "module": "./dist/modules/events/errors/manager-errors.mjs",
+      "require": "./dist/modules/events/errors/manager-errors.js"
+    },
+    "./dist/modules/events/errors/server-errors": {
+      "types": "./dist/modules/events/errors/server-errors.d.ts",
+      "require": "./dist/modules/events/errors/server-errors.js"
     }
   },
   "main": "dist/index.js",
@@ -57,7 +76,6 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/core-bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/node-logger": "workspace:*",
     "@types/express": "^4.7.0",

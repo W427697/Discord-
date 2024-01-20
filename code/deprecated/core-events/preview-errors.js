@@ -3,4 +3,4 @@
 // An error like this will occur:
 // ENOENT: no such file or directory, open '/xyz/node_modules/@storybook/core-events/preview-errors.js'
 // https://github.com/storybookjs/storybook/pull/24038#issuecomment-1704684432
-module.exports = require('./dist/errors/preview-errors');
+module.exports = require('./dist/preview-errors');

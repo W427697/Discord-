@@ -189,7 +189,7 @@ async function updatePackageJson(
       ...(pkg.exports as any),
       ...grouped,
     };
-    await writeFile(join(cwd, 'package.json'), JSON.stringify(sortPkg(pkg), null, 2));
+    await writeFile(join(cwd, 'package.json'), `${JSON.stringify(sortPkg(pkg), null, 2)}\n`);
   }
 }
 

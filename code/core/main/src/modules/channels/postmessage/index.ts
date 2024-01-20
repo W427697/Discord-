@@ -2,7 +2,7 @@
 /// <reference path="../../../typings.d.ts" />
 
 import { global } from '@storybook/global';
-import * as EVENTS from '@storybook/core-events';
+import * as EVENTS from '../../events';
 import { logger, pretty } from '../../client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';

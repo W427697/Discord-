@@ -12,7 +12,7 @@ import type {
   StorybookConfigRaw,
 } from '../types';
 import { join, parse } from 'path';
-import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
+import { CriticalPresetLoadError } from '../events/errors/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';

@@ -3,8 +3,8 @@ import * as REACT_DOM from 'react-dom';
 
 import * as COMPONENTS from '@storybook/components';
 import * as CHANNELS from '@storybook/core/dist/modules/channels/index';
-import * as EVENTS from '@storybook/core-events';
-import * as EVENTS_MANAGER_ERRORS from '@storybook/core-events/manager-errors';
+import * as EVENTS from '@storybook/core/dist/modules/events/index';
+import * as EVENTS_MANAGER_ERRORS from '@storybook/core/dist/modules/events/errors/manager-errors';
 import * as ROUTER from '@storybook/router';
 import * as ICONS from '@storybook/icons';
 import * as THEMING from '@storybook/theming';

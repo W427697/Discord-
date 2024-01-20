@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/core-events",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/core-events",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/core-events"
+    "directory": "code/deprecated/core-events"
   },
   "funding": {
     "type": "opencollective",
@@ -28,22 +28,22 @@
       "import": "./dist/index.mjs"
     },
     "./preview-errors": {
-      "types": "./dist/errors/preview-errors.d.ts",
-      "node": "./dist/errors/preview-errors.js",
-      "require": "./dist/errors/preview-errors.js",
-      "import": "./dist/errors/preview-errors.mjs"
+      "types": "./dist/preview-errors.d.ts",
+      "node": "./dist/preview-errors.js",
+      "require": "./dist/preview-errors.js",
+      "import": "./dist/preview-errors.mjs"
     },
     "./manager-errors": {
-      "types": "./dist/errors/manager-errors.d.ts",
-      "node": "./dist/errors/manager-errors.js",
-      "require": "./dist/errors/manager-errors.js",
-      "import": "./dist/errors/manager-errors.mjs"
+      "types": "./dist/manager-errors.d.ts",
+      "node": "./dist/manager-errors.js",
+      "require": "./dist/manager-errors.js",
+      "import": "./dist/manager-errors.mjs"
     },
     "./server-errors": {
-      "types": "./dist/errors/server-errors.d.ts",
-      "node": "./dist/errors/server-errors.js",
-      "require": "./dist/errors/server-errors.js",
-      "import": "./dist/errors/server-errors.mjs"
+      "types": "./dist/server-errors.d.ts",
+      "node": "./dist/server-errors.js",
+      "require": "./dist/server-errors.js",
+      "import": "./dist/server-errors.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -56,13 +56,13 @@
         "dist/index.d.ts"
       ],
       "preview-errors": [
-        "dist/errors/preview-errors.d.ts"
+        "dist/preview-errors.d.ts"
       ],
       "manager-errors": [
-        "dist/errors/manager-errors.d.ts"
+        "dist/manager-errors.d.ts"
       ],
       "server-errors": [
-        "dist/errors/server-errors.d.ts"
+        "dist/server-errors.d.ts"
       ]
     }
   },
@@ -78,10 +78,7 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "ts-dedent": "^2.0.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.3.2"
+    "@storybook/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -89,9 +86,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/errors/preview-errors.ts",
-      "./src/errors/manager-errors.ts",
-      "./src/errors/server-errors.ts"
+      "./src/preview-errors.ts",
+      "./src/manager-errors.ts",
+      "./src/server-errors.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
