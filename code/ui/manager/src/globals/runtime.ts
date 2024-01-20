@@ -2,15 +2,15 @@ import * as REACT from 'react';
 import * as REACT_DOM from 'react-dom';
 
 import * as COMPONENTS from '@storybook/components';
-import * as CHANNELS from '@storybook/channels';
+import * as CHANNELS from '@storybook/core/dist/modules/channels/index';
 import * as EVENTS from '@storybook/core-events';
 import * as EVENTS_MANAGER_ERRORS from '@storybook/core-events/manager-errors';
 import * as ROUTER from '@storybook/router';
 import * as ICONS from '@storybook/icons';
 import * as THEMING from '@storybook/theming';
 import * as MANAGER_API from '@storybook/manager-api';
-import * as TYPES from '@storybook/types';
-import * as CLIENT_LOGGER from '@storybook/client-logger';
+import * as TYPES from '@storybook/core/dist/modules/types/index';
+import * as CLIENT_LOGGER from '@storybook/core/dist/modules/client-logger/index';
 
 import type { globalsNameReferenceMap } from './globals';
 

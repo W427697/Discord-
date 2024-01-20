@@ -59,6 +59,7 @@
   "devDependencies": {
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
+    "@storybook/core": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
