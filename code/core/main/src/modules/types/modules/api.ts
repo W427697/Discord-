@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import type { ReactElement } from 'react';
-import type { RenderData } from '../../../router/src/types';
-import type { Channel } from '../../../channels/src';
-import type { ThemeVars } from '../../../theming/src/types';
+import type { RenderData } from '@storybook/router/src/types';
+import type { Channel } from '../../channels';
+import type { ThemeVars } from '@storybook/theming/src/types';
 import type { DocsOptions } from './core-common';
 import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';

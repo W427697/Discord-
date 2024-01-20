@@ -1,5 +1,5 @@
 import path from 'path';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '../../types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
 

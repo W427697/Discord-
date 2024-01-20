@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import type { RenderData as RouterData } from '../../../router/src/types';
-import type { ThemeVars } from '../../../theming/src/types';
+import type { RenderData as RouterData } from '@storybook/router/src/types';
+import type { ThemeVars } from '@storybook/theming/src/types';
 import type { API_SidebarOptions } from './api';
 import type {
   Args,

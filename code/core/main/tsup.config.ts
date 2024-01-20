@@ -18,6 +18,23 @@ export default defineConfig([
     format: ['esm', 'cjs'],
     target: ['chrome100', 'safari15', 'firefox91'],
   },
+  {
+    entry: ['./src/modules/core-common/index.ts'],
+    format: ['cjs'],
+    target: ['node18'],
+  },
+  {
+    entry: ['./src/modules/types/index.ts'],
+    format: ['cjs'],
+    target: ['node18'],
+    // dts: true,
+  },
+  {
+    entry: ['./src/modules/types/index.ts'],
+    format: ['esm'],
+    target: ['chrome100', 'safari15', 'firefox91'],
+    // dts: true,
+  },
   // {
   //   entry: ['./src/modules/channels/index.ts'],
   //   format: [],

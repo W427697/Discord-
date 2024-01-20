@@ -4,7 +4,7 @@ import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,
   CoreCommon_OptionsEntry,
-} from '@storybook/types';
+} from '../../../types';
 import { checkAddonOrder } from '../check-addon-order';
 
 const configFile = './main.js';

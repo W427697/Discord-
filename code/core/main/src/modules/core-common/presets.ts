@@ -10,7 +10,7 @@ import type {
   PresetConfig,
   Presets,
   StorybookConfigRaw,
-} from '@storybook/types';
+} from '../types';
 import { join, parse } from 'path';
 import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';

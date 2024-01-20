@@ -1,12 +1,6 @@
-export * from './modules/csf';
-export * from './modules/addons';
-export * from './modules/story';
-export * from './modules/core-common';
-export * from './modules/builder';
-export * from './modules/api';
-export * from './modules/docs';
-export * from './modules/api-stories';
+export * from '@storybook/core/dist/modules/types/index';
 
-export * from './modules/indexer';
-export * from './modules/composedStory';
-export * from './modules/channelApi';
+// TODO, find solution for agnostic logger
+// can't use deprecate here, because we'd have to choose between node-logger and client-logger
+// it's used in both places
+console.log('you imported @storybook/types directly, please import from @storybook/core');

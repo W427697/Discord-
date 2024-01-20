@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 
 import resolveFrom from 'resolve-from';
 import { logger } from '@storybook/node-logger';
-import type { Options, Ref } from '@storybook/types';
+import type { Options, Ref } from '../../types';
 
 export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>> => {
   const location = await findUp('package.json', { cwd: options.configDir });

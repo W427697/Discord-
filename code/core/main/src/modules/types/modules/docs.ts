@@ -1,4 +1,4 @@
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '../../channels';
 import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
 import type {
   ModuleExport,
