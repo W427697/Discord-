@@ -22,7 +22,7 @@ import type {
   API_StatusState,
   API_StatusUpdate,
   API_FilterFunction,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,

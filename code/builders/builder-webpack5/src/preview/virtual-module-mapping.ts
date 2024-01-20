@@ -1,4 +1,4 @@
-import type { Options, PreviewAnnotation } from '@storybook/types';
+import type { Options, PreviewAnnotation } from '@storybook/core/dist/modules/types/index';
 import { join, resolve } from 'path';
 import {
   getBuilderOptions,

@@ -5,7 +5,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import React from 'react';
 import { global } from '@storybook/global';
-import type { RenderContext } from '@storybook/types';
+import type { RenderContext } from '@storybook/core/dist/modules/types/index';
 import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';

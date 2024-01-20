@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@storybook/core/dist/modules/types/index';
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 

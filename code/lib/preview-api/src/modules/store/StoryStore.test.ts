@@ -1,5 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
-import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
+import type {
+  Renderer,
+  ProjectAnnotations,
+  StoryIndex,
+} from '@storybook/core/dist/modules/types/index';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';

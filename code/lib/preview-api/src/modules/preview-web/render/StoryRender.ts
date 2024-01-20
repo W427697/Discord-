@@ -10,7 +10,7 @@ import type {
   StoryId,
   StoryRenderOptions,
   ViewMode,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import type { Channel } from '@storybook/channels';
 import {
   STORY_RENDER_PHASE_CHANGED,

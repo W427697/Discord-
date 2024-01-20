@@ -5,7 +5,7 @@ import type {
   StoryId,
   StoryName,
   ComponentTitle,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import memoize from 'memoizerific';
 import { MissingStoryAfterHmrError } from '@storybook/core-events/preview-errors';
 

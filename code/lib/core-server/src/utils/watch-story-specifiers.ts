@@ -5,7 +5,7 @@ import path from 'path';
 import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 
-import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, Path } from '@storybook/core/dist/modules/types/index';
 import { commonGlobOptions } from '@storybook/core-common';
 
 const isDirectory = (directory: Path) => {

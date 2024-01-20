@@ -1,6 +1,6 @@
 import * as path from 'path';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import { listStories } from './list-stories';
 
 const INCLUDE_CANDIDATES = [

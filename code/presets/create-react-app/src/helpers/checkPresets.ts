@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { PluginOptions } from '../types';
 

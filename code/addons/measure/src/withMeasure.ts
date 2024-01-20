@@ -1,6 +1,10 @@
 /* eslint-env browser */
 import { useEffect } from '@storybook/preview-api';
-import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
+import type {
+  Renderer,
+  PartialStoryFn as StoryFunction,
+  StoryContext,
+} from '@storybook/core/dist/modules/types/index';
 import { drawSelectedElement } from './box-model/visualizer';
 import { init, rescale, destroy } from './box-model/canvas';
 import { deepElementFromPoint } from './util';

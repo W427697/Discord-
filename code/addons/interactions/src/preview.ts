@@ -5,7 +5,7 @@ import type {
   PlayFunction,
   PlayFunctionContext,
   StepLabel,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { instrument } from '@storybook/instrumenter';
 
 export const { step: runStep } = instrument(

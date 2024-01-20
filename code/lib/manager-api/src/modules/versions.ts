@@ -2,7 +2,11 @@ import { global } from '@storybook/global';
 import semver from 'semver';
 import memoize from 'memoizerific';
 
-import type { API_UnknownEntries, API_Version, API_Versions } from '@storybook/types';
+import type {
+  API_UnknownEntries,
+  API_Version,
+  API_Versions,
+} from '@storybook/core/dist/modules/types/index';
 import { version as currentVersion } from '../version';
 
 import type { ModuleFn } from '../lib/types';

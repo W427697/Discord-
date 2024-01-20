@@ -1,7 +1,10 @@
 // this file tests Typescript types that's why there are no assertions
 import { describe, it } from 'vitest';
 import { satisfies } from '@storybook/core-common';
-import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import type {
+  ComponentAnnotations,
+  StoryAnnotations,
+} from '@storybook/core/dist/modules/types/index';
 import { expectTypeOf } from 'expect-type';
 import type { ComponentProps, SvelteComponentTyped } from 'svelte';
 import Button from './__test__/Button.svelte';

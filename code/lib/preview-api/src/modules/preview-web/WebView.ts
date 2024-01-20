@@ -4,7 +4,7 @@ import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { PreparedStory } from '@storybook/types';
+import type { PreparedStory } from '@storybook/core/dist/modules/types/index';
 import type { View } from './View';
 
 const { document } = global;

@@ -1,4 +1,9 @@
-import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
+import type {
+  BuilderOptions,
+  CLIOptions,
+  LoadOptions,
+  Options,
+} from '@storybook/core/dist/modules/types/index';
 import {
   getProjectRoot,
   loadAllPresets,

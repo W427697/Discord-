@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { once } from '@storybook/client-logger';
-import type { SBType } from '@storybook/types';
+import type { SBType } from '@storybook/core/dist/modules/types/index';
 
 import {
   combineArgs,

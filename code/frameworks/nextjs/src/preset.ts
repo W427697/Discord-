@@ -1,6 +1,6 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import type { PresetProperty } from '@storybook/types';
+import type { PresetProperty } from '@storybook/core/dist/modules/types/index';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';

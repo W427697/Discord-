@@ -1,7 +1,11 @@
 import React from 'react';
 import { Icons } from '@storybook/components';
 import type { ReactElement } from 'react';
-import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
+import type {
+  API_HashEntry,
+  API_StatusState,
+  API_StatusValue,
+} from '@storybook/core/dist/modules/types/index';
 
 import { styled } from '@storybook/theming';
 

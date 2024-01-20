@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import type { LoaderFunction } from '@storybook/types';
+import type { LoaderFunction } from '@storybook/core/dist/modules/types/index';
 import { action } from './runtime';
 
 const attachActionsToFunctionMocks: LoaderFunction = (context) => {

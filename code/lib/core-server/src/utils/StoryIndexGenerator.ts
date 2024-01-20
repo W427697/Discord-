@@ -18,7 +18,7 @@ import type {
   StoryName,
   Indexer,
   StorybookConfigRaw,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { logger, once } from '@storybook/node-logger';

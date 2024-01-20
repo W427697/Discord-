@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import * as findUp from 'find-up';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';

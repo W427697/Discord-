@@ -1,4 +1,4 @@
-import type { PreviewAnnotation } from '@storybook/types';
+import type { PreviewAnnotation } from '@storybook/core/dist/modules/types/index';
 import { resolve, isAbsolute, relative } from 'path';
 import slash from 'slash';
 import { stripAbsNodeModulesPath } from '@storybook/core-common';

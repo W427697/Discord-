@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import { commonConfig } from './vite-config';
 
 import { sanitizeEnvVars } from './envs';

@@ -1,7 +1,12 @@
 import { global } from '@storybook/global';
 import { addons, makeDecorator } from '@storybook/preview-api';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
-import type { StoryId, StoryName, ComponentTitle, StoryKind } from '@storybook/types';
+import type {
+  StoryId,
+  StoryName,
+  ComponentTitle,
+  StoryKind,
+} from '@storybook/core/dist/modules/types/index';
 import { toId } from '@storybook/csf';
 import { PARAM_KEY } from './constants';
 

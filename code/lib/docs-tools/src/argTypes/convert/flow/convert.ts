@@ -1,4 +1,4 @@
-import type { SBType } from '@storybook/types';
+import type { SBType } from '@storybook/core/dist/modules/types/index';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
 const isLiteral = (type: FlowType): type is FlowLiteralType => type.name === 'literal';

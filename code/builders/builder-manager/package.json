@@ -60,6 +60,7 @@
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "slash": "^5.0.0",
     "typescript": "^5.3.2"
   },

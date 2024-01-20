@@ -27,7 +27,7 @@ import type {
   StoryId,
   ViewMode,
   DocsIndexEntry,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import {
   CalledPreviewMethodBeforeInitializationError,

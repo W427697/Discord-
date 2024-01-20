@@ -10,7 +10,7 @@ import type {
   Path,
   PreparedStory,
   Renderer,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { storySort } from './storySort';
 
 const sortStoriesCommon = (

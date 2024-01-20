@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import type { Fix } from '../types';

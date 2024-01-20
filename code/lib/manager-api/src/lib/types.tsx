@@ -1,4 +1,4 @@
-import type { API_ProviderData } from '@storybook/types';
+import type { API_ProviderData } from '@storybook/core/dist/modules/types/index';
 import type { RouterData } from '@storybook/router';
 
 import type { API, State } from '../index';

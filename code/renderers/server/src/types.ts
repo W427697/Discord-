@@ -1,6 +1,9 @@
-import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
+import type {
+  StoryContext as StoryContextBase,
+  WebRenderer,
+} from '@storybook/core/dist/modules/types/index';
 
-export type { RenderContext } from '@storybook/types';
+export type { RenderContext } from '@storybook/core/dist/modules/types/index';
 
 export type StoryFnServerReturnType = any;
 export type StoryContext = StoryContextBase<ServerRenderer>;

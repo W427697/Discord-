@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import type { Parameters, Renderer, StrictArgTypes } from '@storybook/csf';
-import type { ModuleExports } from '@storybook/types';
+import type { ModuleExports } from '@storybook/core/dist/modules/types/index';
 import type { FC } from 'react';
 import type { PropDescriptor } from '@storybook/preview-api';
 import { filterArgTypes } from '@storybook/preview-api';

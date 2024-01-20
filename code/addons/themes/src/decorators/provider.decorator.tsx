@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMemo } from '@storybook/preview-api';
-import type { DecoratorFunction, Renderer } from '@storybook/types';
+import type { DecoratorFunction, Renderer } from '@storybook/core/dist/modules/types/index';
 
 import { initializeThemeState, pluckThemeFromContext, useThemeParameters } from './helpers';
 

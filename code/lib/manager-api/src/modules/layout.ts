@@ -5,7 +5,11 @@ import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
 
-import type { API_Layout, API_PanelPositions, API_UI } from '@storybook/types';
+import type {
+  API_Layout,
+  API_PanelPositions,
+  API_UI,
+} from '@storybook/core/dist/modules/types/index';
 import merge from '../lib/merge';
 import type { State } from '../index';
 import type { ModuleFn } from '../lib/types';

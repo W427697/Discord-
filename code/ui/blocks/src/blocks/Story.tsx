@@ -6,7 +6,7 @@ import type {
   ModuleExports,
   PreparedStory,
   StoryId,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';

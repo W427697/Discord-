@@ -1,6 +1,6 @@
 import type { MockInstance } from 'vitest';
 import { describe, beforeEach, afterEach, expect, vi, it } from 'vitest';
-import type { PackageJson, StorybookConfig } from '@storybook/types';
+import type { PackageJson, StorybookConfig } from '@storybook/core/dist/modules/types/index';
 
 import path from 'path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';

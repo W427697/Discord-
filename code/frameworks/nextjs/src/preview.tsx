@@ -1,4 +1,4 @@
-import type { Addon_DecoratorFunction } from '@storybook/types';
+import type { Addon_DecoratorFunction } from '@storybook/core/dist/modules/types/index';
 import './config/preview';
 import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';

@@ -1,5 +1,5 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import type { StorybookConfigRaw } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/core/dist/modules/types/index';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager } from '../helpers/testing-helpers';
 import { autodocsTrue } from './autodocs-true';

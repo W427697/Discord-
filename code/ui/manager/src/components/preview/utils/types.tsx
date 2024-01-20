@@ -1,6 +1,10 @@
 import type { ReactElement } from 'react';
 import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { Addon_WrapperType, API_ViewMode, StoryId } from '@storybook/types';
+import type {
+  Addon_WrapperType,
+  API_ViewMode,
+  StoryId,
+} from '@storybook/core/dist/modules/types/index';
 
 export interface PreviewProps {
   api: API;

@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import { useEffect, makeDecorator } from '@storybook/preview-api';
-import type { PartialStoryFn, Renderer } from '@storybook/types';
+import type { PartialStoryFn, Renderer } from '@storybook/core/dist/modules/types/index';
 import { actions } from './runtime/actions';
 
 import { PARAM_KEY } from './constants';

@@ -6,7 +6,7 @@ import type {
   CSFFile,
   ModuleExports,
   NormalizedComponentAnnotations,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 

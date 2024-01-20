@@ -1,4 +1,4 @@
-import type { Builder, Options } from '@storybook/types';
+import type { Builder, Options } from '@storybook/core/dist/modules/types/index';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { pathToFileURL } from 'node:url';
 

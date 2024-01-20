@@ -4,7 +4,7 @@ import React from 'react';
 import { Route } from '@storybook/router';
 
 import { Global, createGlobal } from '@storybook/theming';
-import type { Addon_PageType } from '@storybook/types';
+import type { Addon_PageType } from '@storybook/core/dist/modules/types/index';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
 import Panel from './container/Panel';

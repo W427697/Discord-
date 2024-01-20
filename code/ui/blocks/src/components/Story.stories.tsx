@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, ReactRenderer, StoryObj } from '@storybook/react';
 import { within } from '@storybook/testing-library';
 import type { PlayFunctionContext } from '@storybook/csf';
-import type { WebRenderer, ModuleExport } from '@storybook/types';
+import type { WebRenderer, ModuleExport } from '@storybook/core/dist/modules/types/index';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';

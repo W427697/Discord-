@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import path from 'path';
 import { getFrameworkInfo } from './get-framework-info';
 import { getActualPackageJson } from './package-json';

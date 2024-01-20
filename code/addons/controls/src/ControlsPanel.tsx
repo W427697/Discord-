@@ -9,7 +9,7 @@ import {
 } from '@storybook/manager-api';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
-import type { ArgTypes } from '@storybook/types';
+import type { ArgTypes } from '@storybook/core/dist/modules/types/index';
 import { PARAM_KEY } from './constants';
 
 interface ControlsParameters {

@@ -1,5 +1,9 @@
 import { useMemo, useEffect } from '@storybook/preview-api';
-import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
+import type {
+  Renderer,
+  PartialStoryFn as StoryFunction,
+  StoryContext,
+} from '@storybook/core/dist/modules/types/index';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import {

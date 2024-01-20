@@ -1,4 +1,8 @@
-import type { StoryId, Renderer, StoryRenderOptions } from '@storybook/types';
+import type {
+  StoryId,
+  Renderer,
+  StoryRenderOptions,
+} from '@storybook/core/dist/modules/types/index';
 
 export type RenderType = 'story' | 'docs';
 

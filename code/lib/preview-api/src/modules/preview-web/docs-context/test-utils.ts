@@ -1,4 +1,4 @@
-import type { CSFFile, PreparedStory } from '@storybook/types';
+import type { CSFFile, PreparedStory } from '@storybook/core/dist/modules/types/index';
 
 export function csfFileParts() {
   // These compose the raw exports of the CSF file

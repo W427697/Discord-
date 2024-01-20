@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import qs from 'qs';
-import type { ViewMode } from '@storybook/types';
+import type { ViewMode } from '@storybook/core/dist/modules/types/index';
 
 import { parseArgsParam } from './parseArgsParam';
 import type { SelectionSpecifier, SelectionStore, Selection } from './SelectionStore';

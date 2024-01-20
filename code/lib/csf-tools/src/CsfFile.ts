@@ -15,7 +15,7 @@ import type {
   ComponentAnnotations,
   IndexedCSFFile,
   IndexInput,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';

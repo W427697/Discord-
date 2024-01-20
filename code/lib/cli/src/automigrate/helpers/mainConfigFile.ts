@@ -5,7 +5,7 @@ import {
   frameworkPackages,
   builderPackages,
 } from '@storybook/core-common';
-import type { StorybookConfigRaw, StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw, StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';

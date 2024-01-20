@@ -3,7 +3,7 @@ import { global } from '@storybook/global';
 import type { Channel } from '@storybook/channels';
 import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
-import type { Addon_Types, Addon_Config } from '@storybook/types';
+import type { Addon_Types, Addon_Config } from '@storybook/core/dist/modules/types/index';
 import { createBrowserChannel } from '@storybook/channels';
 import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';

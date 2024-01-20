@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import type { Renderer, StoryAnnotationsOrFn } from '@storybook/types';
+import type { Renderer, StoryAnnotationsOrFn } from '@storybook/core/dist/modules/types/index';
 
 import { normalizeStory } from './normalizeStory';
 

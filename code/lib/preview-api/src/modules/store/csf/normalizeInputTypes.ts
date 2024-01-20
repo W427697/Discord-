@@ -6,7 +6,7 @@ import type {
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 const normalizeType = (type: InputType['type']): StrictInputType['type'] => {
   return typeof type === 'string' ? { name: type } : type;

@@ -9,7 +9,7 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import { render } from './render';
 import type { Meta } from './public-types';

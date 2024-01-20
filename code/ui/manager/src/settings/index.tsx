@@ -6,7 +6,7 @@ import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 
-import type { Addon_PageType } from '@storybook/types';
+import type { Addon_PageType } from '@storybook/core/dist/modules/types/index';
 import { CloseIcon } from '@storybook/icons';
 import { AboutPage } from './AboutPage';
 import { ShortcutsPage } from './ShortcutsPage';

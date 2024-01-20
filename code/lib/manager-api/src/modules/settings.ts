@@ -1,4 +1,4 @@
-import type { API_Settings, StoryId } from '@storybook/types';
+import type { API_Settings, StoryId } from '@storybook/core/dist/modules/types/index';
 import type { ModuleFn } from '../lib/types';
 
 export interface SubAPI {

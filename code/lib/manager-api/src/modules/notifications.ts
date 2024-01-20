@@ -1,4 +1,4 @@
-import type { API_Notification } from '@storybook/types';
+import type { API_Notification } from '@storybook/core/dist/modules/types/index';
 import type { ModuleFn } from '../lib/types';
 
 export interface SubState {

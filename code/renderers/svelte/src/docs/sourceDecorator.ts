@@ -7,7 +7,7 @@ import type {
   ArgsStoryFn,
   DecoratorFunction,
   StoryContext,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SvelteComponentDoc } from 'sveltedoc-parser';

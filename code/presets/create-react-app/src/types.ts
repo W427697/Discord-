@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import type { PluginOptions as RDTSPluginOptions } from '@storybook/react-docgen-typescript-plugin';
 
 export interface PluginOptions extends Options {

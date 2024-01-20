@@ -1,5 +1,5 @@
 import { glob as globOriginal } from 'glob';
-import { type StoriesEntry } from '@storybook/types';
+import { type StoriesEntry } from '@storybook/core/dist/modules/types/index';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import { join } from 'path';
 import slash from 'slash';

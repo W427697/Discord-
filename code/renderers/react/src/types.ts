@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
-import type { WebRenderer } from '@storybook/types';
+import type { WebRenderer } from '@storybook/core/dist/modules/types/index';
 
-export type { RenderContext, StoryContext } from '@storybook/types';
+export type { RenderContext, StoryContext } from '@storybook/core/dist/modules/types/index';
 
 export interface ReactRenderer extends WebRenderer {
   component: ComponentType<this['T']>;

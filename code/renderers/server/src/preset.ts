@@ -1,6 +1,11 @@
 import fs from 'fs-extra';
 import yaml from 'yaml';
-import type { Tag, StoryName, ComponentTitle, PresetProperty } from '@storybook/types';
+import type {
+  Tag,
+  StoryName,
+  ComponentTitle,
+  PresetProperty,
+} from '@storybook/core/dist/modules/types/index';
 
 import { join } from 'path';
 

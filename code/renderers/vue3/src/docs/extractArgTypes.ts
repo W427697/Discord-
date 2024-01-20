@@ -1,4 +1,4 @@
-import type { StrictArgTypes } from '@storybook/types';
+import type { StrictArgTypes } from '@storybook/core/dist/modules/types/index';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools';
 

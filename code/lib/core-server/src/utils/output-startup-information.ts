@@ -4,7 +4,7 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import Table from 'cli-table3';
 import prettyTime from 'pretty-hrtime';
-import type { VersionCheck } from '@storybook/types';
+import type { VersionCheck } from '@storybook/core/dist/modules/types/index';
 import { createUpdateMessage } from './update-check';
 
 export function outputStartupInformation(options: {

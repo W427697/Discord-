@@ -6,6 +6,9 @@ const scriptPath = path.join(__dirname, '..', 'scripts');
 const addonsPackages = fs
   .readdirSync(path.join(__dirname, 'addons'))
   .filter((p) => fs.statSync(path.join(__dirname, 'addons', p)).isDirectory());
+const presetsPackages = fs
+  .readdirSync(path.join(__dirname, 'presets'))
+  .filter((p) => fs.statSync(path.join(__dirname, 'presets', p)).isDirectory());
 const deprecatedPackages = fs
   .readdirSync(path.join(__dirname, 'deprecated'))
   .filter((p) => fs.statSync(path.join(__dirname, 'deprecated', p)).isDirectory());
@@ -15,6 +18,9 @@ const corePackages = fs
 const libPackages = fs
   .readdirSync(path.join(__dirname, 'lib'))
   .filter((p) => fs.statSync(path.join(__dirname, 'lib', p)).isDirectory());
+const frameworkPackages = fs
+  .readdirSync(path.join(__dirname, 'frameworks'))
+  .filter((p) => fs.statSync(path.join(__dirname, 'frameworks', p)).isDirectory());
 const uiPackages = fs
   .readdirSync(path.join(__dirname, 'ui'))
   .filter((p) => fs.statSync(path.join(__dirname, 'ui', p)).isDirectory())
@@ -169,6 +175,30 @@ module.exports = {
           'error',
           {
             packageDir: [__dirname, path.join(__dirname, 'lib', directory)],
+            devDependencies: true,
+          },
+        ],
+      },
+    })),
+    ...presetsPackages.map((directory) => ({
+      files: [path.join('**', 'presets', directory, '**', '*.*')],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            packageDir: [__dirname, path.join(__dirname, 'presets', directory)],
+            devDependencies: true,
+          },
+        ],
+      },
+    })),
+    ...frameworkPackages.map((directory) => ({
+      files: [path.join('**', 'frameworks', directory, '**', '*.*')],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            packageDir: [__dirname, path.join(__dirname, 'frameworks', directory)],
             devDependencies: true,
           },
         ],

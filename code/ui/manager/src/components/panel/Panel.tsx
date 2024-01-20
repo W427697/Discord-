@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/core/dist/modules/types/index';
 import { styled } from '@storybook/theming';
 import { BottomBarIcon, CloseIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';

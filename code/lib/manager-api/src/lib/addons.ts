@@ -15,8 +15,8 @@ import type {
   Addon_WrapperType,
   Addon_SidebarBottomType,
   Addon_SidebarTopType,
-} from '@storybook/types';
-import { Addon_TypesEnum } from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
+import { Addon_TypesEnum } from '@storybook/core/dist/modules/types/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type { API } from '../index';
 import { mockChannel } from './storybook-channel-mock';

@@ -13,7 +13,7 @@ import {
   resolvePathInStorybookCache,
 } from '@storybook/core-common';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import {
   codeGeneratorPlugin,
   csfPlugin,

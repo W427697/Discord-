@@ -1,6 +1,14 @@
-import type { Options, StorybookConfigRaw as StorybookConfigBase } from '@storybook/types';
+import type {
+  Options,
+  StorybookConfigRaw as StorybookConfigBase,
+} from '@storybook/core/dist/modules/types/index';
 
-export type { Options, Preset, BuilderResult, TypescriptOptions } from '@storybook/types';
+export type {
+  Options,
+  Preset,
+  BuilderResult,
+  TypescriptOptions,
+} from '@storybook/core/dist/modules/types/index';
 
 export type RulesConfig = any;
 

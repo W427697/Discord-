@@ -8,10 +8,15 @@ import type {
   StoryContext as GenericStoryContext,
   StrictArgs,
   ProjectAnnotations,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import type { PreactRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type {
+  Args,
+  ArgTypes,
+  Parameters,
+  StrictArgs,
+} from '@storybook/core/dist/modules/types/index';
 export type { PreactRenderer };
 
 /**

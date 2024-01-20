@@ -2,7 +2,7 @@
 
 import type { App } from 'vue';
 import { createApp, h, isReactive, isVNode, reactive } from 'vue';
-import type { ArgsStoryFn, RenderContext } from '@storybook/types';
+import type { ArgsStoryFn, RenderContext } from '@storybook/core/dist/modules/types/index';
 import type { Args, StoryContext } from '@storybook/csf';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';

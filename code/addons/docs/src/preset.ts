@@ -2,7 +2,11 @@ import { dirname, join } from 'path';
 import rehypeSlug from 'rehype-slug';
 import rehypeExternalLinks from 'rehype-external-links';
 
-import type { DocsOptions, Options, PresetProperty } from '@storybook/types';
+import type {
+  DocsOptions,
+  Options,
+  PresetProperty,
+} from '@storybook/core/dist/modules/types/index';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { CompileOptions } from './compiler';

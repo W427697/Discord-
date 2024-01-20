@@ -1,6 +1,6 @@
 import { types } from '@storybook/manager-api';
 import type { API, State } from '@storybook/manager-api';
-import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
+import type { Addon_BaseType, Addon_Collection } from '@storybook/core/dist/modules/types/index';
 import type { PreviewProps } from './utils/types';
 
 const addonNotes: Addon_BaseType = {

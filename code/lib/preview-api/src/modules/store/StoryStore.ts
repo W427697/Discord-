@@ -20,7 +20,7 @@ import type {
   StoryContextForLoaders,
   StoryId,
   PreparedMeta,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 

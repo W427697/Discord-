@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@storybook/core/dist/modules/types/index';
 import { getProjectRoot } from '@storybook/core-common';
 
 export const monorepoConfigs = {

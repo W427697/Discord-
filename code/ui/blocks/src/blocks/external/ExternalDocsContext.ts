@@ -1,4 +1,9 @@
-import type { Renderer, CSFFile, ModuleExports, DocsContextProps } from '@storybook/types';
+import type {
+  Renderer,
+  CSFFile,
+  ModuleExports,
+  DocsContextProps,
+} from '@storybook/core/dist/modules/types/index';
 import { DocsContext } from '@storybook/preview-api';
 import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';

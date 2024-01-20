@@ -1,6 +1,6 @@
 import * as webpackReal from 'webpack';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import type { Configuration } from 'webpack';
 import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';

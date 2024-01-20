@@ -2,7 +2,7 @@
 import { describe, it } from 'vitest';
 
 import { satisfies } from '@storybook/core-common';
-import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';
+import type { Args, StoryAnnotations, StrictArgs } from '@storybook/core/dist/modules/types/index';
 import { expectTypeOf } from 'expect-type';
 import type { KeyboardEventHandler, ReactElement, ReactNode } from 'react';
 import React from 'react';

@@ -3,7 +3,7 @@ import slash from 'slash';
 import { glob } from 'glob';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
 
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 
 export async function listStories(options: Options) {
   const { normalizePath } = await import('vite');

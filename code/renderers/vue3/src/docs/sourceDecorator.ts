@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
-import type { ArgTypes, Args, StoryContext } from '@storybook/types';
+import type { ArgTypes, Args, StoryContext } from '@storybook/core/dist/modules/types/index';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 

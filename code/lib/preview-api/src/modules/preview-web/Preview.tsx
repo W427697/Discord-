@@ -26,7 +26,7 @@ import type {
   StoryId,
   StoryRenderOptions,
   SetGlobalsPayload,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import {
   CalledPreviewMethodBeforeInitializationError,
   MissingRenderToCanvasError,

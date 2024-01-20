@@ -1,7 +1,7 @@
-import type { WebRenderer } from '@storybook/types';
+import type { WebRenderer } from '@storybook/core/dist/modules/types/index';
 import type { AnyComponent } from 'preact';
 
-export type { RenderContext } from '@storybook/types';
+export type { RenderContext } from '@storybook/core/dist/modules/types/index';
 
 export type StoryFnPreactReturnType = string | Node | preact.JSX.Element;
 

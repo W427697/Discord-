@@ -17,7 +17,7 @@ import {
 } from '@storybook/manager-api';
 
 import { Location, type RenderData } from '@storybook/router';
-import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/types';
+import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/core/dist/modules/types/index';
 import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 

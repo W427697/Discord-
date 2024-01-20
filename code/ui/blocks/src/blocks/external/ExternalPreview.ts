@@ -6,7 +6,7 @@ import type {
   ProjectAnnotations,
   ModuleExports,
   StoryIndex,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';

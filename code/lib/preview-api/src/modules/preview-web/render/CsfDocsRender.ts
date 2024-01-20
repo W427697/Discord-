@@ -5,7 +5,7 @@ import type {
   PreparedStory,
   StoryId,
   RenderContextCallbacks,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../../store';

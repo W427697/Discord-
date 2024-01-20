@@ -1,4 +1,4 @@
-import type { StoryId, Args, PreparedStory } from '@storybook/types';
+import type { StoryId, Args, PreparedStory } from '@storybook/core/dist/modules/types/index';
 
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';
 

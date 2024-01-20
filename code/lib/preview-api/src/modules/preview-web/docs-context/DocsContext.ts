@@ -9,7 +9,7 @@ import type {
   StoryName,
   ResolvedModuleExportType,
   ResolvedModuleExportFromType,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import type { Channel } from '@storybook/channels';
 
 import dedent from 'ts-dedent';

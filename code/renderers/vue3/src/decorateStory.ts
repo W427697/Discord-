@@ -1,6 +1,10 @@
 import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
 import { h } from 'vue';
-import type { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/types';
+import type {
+  DecoratorFunction,
+  LegacyStoryFn,
+  StoryContext,
+} from '@storybook/core/dist/modules/types/index';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import type { VueRenderer } from './types';
 

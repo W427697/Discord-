@@ -1,4 +1,4 @@
-import type { PresetProperty } from '@storybook/types';
+import type { PresetProperty } from '@storybook/core/dist/modules/types/index';
 import type { PluginOption } from 'vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';

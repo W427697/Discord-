@@ -1,4 +1,4 @@
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@storybook/core/dist/modules/types/index';
 import { rendererPackages } from '@storybook/core-common';
 import prompts from 'prompts';
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import type { PlayFunctionContext, StepRunner } from '@storybook/types';
+import type { PlayFunctionContext, StepRunner } from '@storybook/core/dist/modules/types/index';
 import { composeStepRunners } from './stepRunners';
 
 describe('stepRunners', () => {

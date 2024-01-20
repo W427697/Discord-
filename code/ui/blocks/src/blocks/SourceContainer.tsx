@@ -5,7 +5,7 @@ import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId, Args } from '@storybook/types';
+import type { StoryId, Args } from '@storybook/core/dist/modules/types/index';
 
 import { stringify } from 'telejson';
 

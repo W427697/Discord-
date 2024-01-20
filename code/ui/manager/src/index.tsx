@@ -11,7 +11,7 @@ import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/m
 
 import { HelmetProvider } from 'react-helmet-async';
 
-import type { Addon_PageType } from '@storybook/types';
+import type { Addon_PageType } from '@storybook/core/dist/modules/types/index';
 import { App } from './App';
 
 import Provider from './provider';

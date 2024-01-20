@@ -99,6 +99,7 @@
     "webpack-virtual-modules": "^0.5.0"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "@types/pretty-hrtime": "^1.0.0",
     "@types/terser-webpack-plugin": "^5.2.0",
     "@types/webpack-hot-middleware": "^2.25.6",

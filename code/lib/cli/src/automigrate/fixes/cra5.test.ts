@@ -1,5 +1,5 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import type { StorybookConfigRaw } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/core/dist/modules/types/index';
 import type { JsPackageManager } from '../../js-package-manager';
 import { cra5 } from './cra5';
 

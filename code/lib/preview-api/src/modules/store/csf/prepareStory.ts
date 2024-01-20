@@ -19,7 +19,7 @@ import type {
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StrictArgTypes,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { includeConditionalArg } from '@storybook/csf';
 
 import { applyHooks } from '../../addons';

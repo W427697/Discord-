@@ -1,4 +1,4 @@
-import type { StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
+import type { StoryIndex, API_PreparedStoryIndex } from '@storybook/core/dist/modules/types/index';
 
 export const mockEntries: StoryIndex['entries'] = {
   'component-a--docs': {

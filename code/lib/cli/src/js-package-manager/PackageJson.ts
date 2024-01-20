@@ -1,6 +1,6 @@
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@storybook/core/dist/modules/types/index';
 
-export type { PackageJson } from '@storybook/types';
+export type { PackageJson } from '@storybook/core/dist/modules/types/index';
 export type PackageJsonWithDepsAndDevDeps = PackageJson &
   Required<Pick<PackageJson, 'dependencies' | 'devDependencies'>>;
 

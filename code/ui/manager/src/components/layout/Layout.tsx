@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import type { API_Layout, API_ViewMode } from '@storybook/types';
+import type { API_Layout, API_ViewMode } from '@storybook/core/dist/modules/types/index';
 import { useDragging } from './useDragging';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';

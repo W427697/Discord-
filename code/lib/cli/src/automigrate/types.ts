@@ -1,4 +1,4 @@
-import type { StorybookConfigRaw } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/core/dist/modules/types/index';
 import type { JsPackageManager, PackageManagerName } from '../js-package-manager';
 
 export interface CheckOptions {

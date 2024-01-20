@@ -1,4 +1,4 @@
-import type { PreparedStory } from '@storybook/types';
+import type { PreparedStory } from '@storybook/core/dist/modules/types/index';
 import { global } from '@storybook/global';
 
 const excludeTags = Object.entries(global.TAGS_OPTIONS ?? {}).reduce(

@@ -1,4 +1,4 @@
-import type { SBType } from '@storybook/types';
+import type { SBType } from '@storybook/core/dist/modules/types/index';
 import type { TSType, TSSigType } from './types';
 import { parseLiteral } from '../utils';
 

@@ -1,6 +1,6 @@
 import { getProjectRoot } from '@storybook/core-common';
 import { getVirtualModules } from '@storybook/builder-webpack5';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import type { NextConfig } from 'next';
 import path from 'path';
 import loadJsConfig from 'next/dist/build/load-jsconfig';

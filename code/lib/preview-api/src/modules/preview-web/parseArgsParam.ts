@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { dedent } from 'ts-dedent';
-import type { Args } from '@storybook/types';
+import type { Args } from '@storybook/core/dist/modules/types/index';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject.js';
 

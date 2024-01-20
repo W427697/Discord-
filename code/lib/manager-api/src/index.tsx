@@ -28,7 +28,7 @@ import type {
   API_StoryEntry,
   Parameters,
   StoryId,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import {
   STORY_CHANGED,

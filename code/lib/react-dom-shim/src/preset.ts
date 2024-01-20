@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import { join, dirname } from 'path';
 import { readFile } from 'fs/promises';
 

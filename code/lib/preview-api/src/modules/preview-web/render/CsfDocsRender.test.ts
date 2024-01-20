@@ -1,6 +1,10 @@
 import { it, expect, vi } from 'vitest';
 import { Channel } from '@storybook/channels';
-import type { Renderer, DocsIndexEntry, RenderContextCallbacks } from '@storybook/types';
+import type {
+  Renderer,
+  DocsIndexEntry,
+  RenderContextCallbacks,
+} from '@storybook/core/dist/modules/types/index';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 

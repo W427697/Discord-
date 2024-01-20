@@ -1,5 +1,5 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import type { JsPackageManager } from '../../js-package-manager';
 import { webpack5 } from './webpack5';
 

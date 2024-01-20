@@ -12,7 +12,7 @@ import type {
   Parameters,
   ComposedStoryFn,
   StrictArgTypes,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';

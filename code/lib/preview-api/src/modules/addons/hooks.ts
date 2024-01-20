@@ -8,7 +8,7 @@ import type {
   LegacyStoryFn,
   StoryContext,
   StoryId,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,

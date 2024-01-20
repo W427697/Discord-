@@ -3,7 +3,7 @@ import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
-import type { Builder, Options } from '@storybook/types';
+import type { Builder, Options } from '@storybook/core/dist/modules/types/index';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';

@@ -5,7 +5,7 @@ import type {
   PartialStoryFn,
   StoryContextUpdate,
   StoryContext,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 export function decorateStory<TRenderer extends Renderer>(
   storyFn: LegacyStoryFn<TRenderer>,

@@ -31,7 +31,11 @@ import {
   DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
-import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import type {
+  Renderer,
+  ModuleImportFn,
+  ProjectAnnotations,
+} from '@storybook/core/dist/modules/types/index';
 import { addons } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';

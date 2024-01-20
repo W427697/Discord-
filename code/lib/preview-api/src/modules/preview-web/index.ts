@@ -1,6 +1,6 @@
 // FIXME: breaks builder-vite, remove this in 7.0
 export { composeConfigs } from '../../store';
-export type { ProjectAnnotations as WebProjectAnnotations } from '@storybook/types';
+export type { ProjectAnnotations as WebProjectAnnotations } from '@storybook/core/dist/modules/types/index';
 
 export { Preview } from './Preview';
 export { PreviewWeb } from './PreviewWeb';

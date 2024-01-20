@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton, Separator } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/core/dist/modules/types/index';
 import { MenuIcon } from '@storybook/icons';
 
 const menuMapper = ({ api, state }: Combo) => ({

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
 import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';

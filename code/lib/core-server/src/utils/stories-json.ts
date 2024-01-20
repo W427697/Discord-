@@ -1,7 +1,10 @@
 import type { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
+import type {
+  NormalizedStoriesSpecifier,
+  StoryIndex,
+} from '@storybook/core/dist/modules/types/index';
 import debounce from 'lodash/debounce.js';
 
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';

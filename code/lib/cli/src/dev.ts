@@ -3,7 +3,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
-import type { CLIOptions } from '@storybook/types';
+import type { CLIOptions } from '@storybook/core/dist/modules/types/index';
 import invariant from 'tiny-invariant';
 
 function printError(error: any) {

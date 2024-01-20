@@ -1,4 +1,4 @@
-import type { Renderer } from '@storybook/types';
+import type { Renderer } from '@storybook/core/dist/modules/types/index';
 import type { StoryStore } from '@storybook/preview-api';
 
 declare global {

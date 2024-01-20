@@ -1,4 +1,4 @@
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/core/dist/modules/types/index';
 import { RESET_STORY_ARGS } from '@storybook/core-events';
 // ! DO NOT change this PreviewRender import to a relative path, it will break it.
 // ! A relative import will be compiled at build time, and Svelte will be unable to

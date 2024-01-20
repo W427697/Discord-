@@ -1,5 +1,5 @@
 // Utilities for handling parameters
-import type { Parameters } from '@storybook/types';
+import type { Parameters } from '@storybook/core/dist/modules/types/index';
 import isPlainObject from 'lodash/isPlainObject.js';
 
 /**

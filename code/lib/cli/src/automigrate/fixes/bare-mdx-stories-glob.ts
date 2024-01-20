@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import type { StoriesEntry } from '@storybook/types';
+import type { StoriesEntry } from '@storybook/core/dist/modules/types/index';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 

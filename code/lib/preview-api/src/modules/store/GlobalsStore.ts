@@ -1,4 +1,4 @@
-import type { Globals, GlobalTypes } from '@storybook/types';
+import type { Globals, GlobalTypes } from '@storybook/core/dist/modules/types/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';

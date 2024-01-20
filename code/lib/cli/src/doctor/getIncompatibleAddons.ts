@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import type { SemVer } from 'semver';
 import semver from 'semver';
 import { getAddonNames } from '../automigrate/helpers/mainConfigFile';

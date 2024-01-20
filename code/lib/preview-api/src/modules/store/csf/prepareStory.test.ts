@@ -1,6 +1,11 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
-import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
+import type {
+  Renderer,
+  ArgsEnhancer,
+  PlayFunctionContext,
+  SBScalarType,
+} from '@storybook/core/dist/modules/types/index';
 import { addons, HooksContext } from '../../addons';
 
 import { UNTARGETED } from '../args';

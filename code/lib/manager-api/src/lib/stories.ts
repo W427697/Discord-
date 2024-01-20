@@ -21,7 +21,7 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import { type API, combineParameters, type State } from '../index';
 import merge from './merge';

@@ -1,4 +1,4 @@
-import type { PackageJson, StorybookConfig } from '@storybook/types';
+import type { PackageJson, StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import path from 'path';
 import { frameworkPackages } from '@storybook/core-common';
 import { cleanPaths } from './sanitize';

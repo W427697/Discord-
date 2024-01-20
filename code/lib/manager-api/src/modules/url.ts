@@ -10,7 +10,7 @@ import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
 import { global } from '@storybook/global';
 
-import type { API_Layout, API_UI, Args } from '@storybook/types';
+import type { API_Layout, API_UI, Args } from '@storybook/core/dist/modules/types/index';
 import type { ModuleArgs, ModuleFn } from '../lib/types';
 import { defaultLayoutState } from './layout';
 

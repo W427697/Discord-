@@ -1,4 +1,4 @@
-import type { Options, StoriesEntry } from '@storybook/types';
+import type { Options, StoriesEntry } from '@storybook/core/dist/modules/types/index';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
 import { isAbsolute, join, relative } from 'path';
 import slash from 'slash';

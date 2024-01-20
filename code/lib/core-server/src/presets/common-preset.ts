@@ -15,7 +15,7 @@ import type {
   Options,
   PresetPropertyFn,
   PresetProperty,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';

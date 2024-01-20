@@ -8,7 +8,7 @@ import { render as litRender } from 'lit';
 
 import { isTemplateResult } from 'lit/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/core/dist/modules/types/index';
 import type { WebComponentsRenderer } from './types';
 
 const { Node } = global;

@@ -5,7 +5,11 @@ import type { Options } from 'react-element-to-jsx-string';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
 import { addons, useEffect } from '@storybook/preview-api';
-import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
+import type {
+  StoryContext,
+  ArgsStoryFn,
+  PartialStoryFn,
+} from '@storybook/core/dist/modules/types/index';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 

@@ -2,7 +2,7 @@ import express from 'express';
 import compression from 'compression';
 import invariant from 'tiny-invariant';
 
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 
 import { logConfig } from '@storybook/core-common';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';

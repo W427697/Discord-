@@ -1,5 +1,5 @@
 import { basename } from 'path';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/modules/types/index';
 import { getRefs } from '@storybook/core-common';
 
 import { readTemplate } from './template';

@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { CLIOptions } from '@storybook/types';
+import type { CLIOptions } from '@storybook/core/dist/modules/types/index';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';

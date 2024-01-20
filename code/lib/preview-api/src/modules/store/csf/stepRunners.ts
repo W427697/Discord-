@@ -1,4 +1,4 @@
-import type { Renderer, StepRunner } from '@storybook/types';
+import type { Renderer, StepRunner } from '@storybook/core/dist/modules/types/index';
 
 /**
  * Compose step runners to create a single step runner that applies each step runner in order.

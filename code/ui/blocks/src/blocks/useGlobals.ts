@@ -1,5 +1,5 @@
 import type { Globals } from '@storybook/csf';
-import type { DocsContextProps, PreparedStory } from '@storybook/types';
+import type { DocsContextProps, PreparedStory } from '@storybook/core/dist/modules/types/index';
 import { useEffect, useState } from 'react';
 import { GLOBALS_UPDATED } from '@storybook/core-events';
 

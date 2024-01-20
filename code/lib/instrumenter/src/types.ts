@@ -1,4 +1,4 @@
-import type { StoryId } from '@storybook/types';
+import type { StoryId } from '@storybook/core/dist/modules/types/index';
 
 export interface Call {
   id: string;

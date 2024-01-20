@@ -7,7 +7,7 @@ import type {
   StoryAnnotations,
   StoryFn,
   StoryId,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';

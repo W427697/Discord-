@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import { angularBuilders } from './angular-builders';
 import * as helpers from '../../helpers';
 import * as angularHelpers from '../../generators/ANGULAR/helpers';

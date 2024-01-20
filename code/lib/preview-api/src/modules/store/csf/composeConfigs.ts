@@ -1,4 +1,8 @@
-import type { Renderer, ModuleExports, ProjectAnnotations } from '@storybook/types';
+import type {
+  Renderer,
+  ModuleExports,
+  ProjectAnnotations,
+} from '@storybook/core/dist/modules/types/index';
 import { global } from '@storybook/global';
 
 import { combineParameters } from '../parameters';
