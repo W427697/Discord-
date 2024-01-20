@@ -16,7 +16,11 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 async function generate(text: string) {
   console.log('Linting...');
 
-  const output = await format(text, { parser: 'typescript', filepath: location });
+  const output = await format(text, {
+    parser: 'typescript',
+    filepath: location,
+    singleQuote: true,
+  });
 
   console.log('Writing...');
 
