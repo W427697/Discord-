@@ -1,6 +1,6 @@
 import type { ComponentProps, FC, MouseEvent } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 import memoize from 'memoizerific';

@@ -20,7 +20,12 @@ export default defineConfig([
   },
   {
     entry: ['./src/modules/core-common/index.ts'],
-    format: ['cjs'],
+    format: ['esm', 'cjs'],
+    target: ['node18'],
+  },
+  {
+    entry: ['./src/modules/node-logger/index.ts'],
+    format: ['esm', 'cjs'],
     target: ['node18'],
   },
   {
@@ -48,7 +53,7 @@ export default defineConfig([
   },
   {
     entry: ['./src/modules/events/errors/server-errors.ts'],
-    format: ['cjs'],
+    format: ['esm', 'cjs'],
     target: ['node18'],
   },
 ]);

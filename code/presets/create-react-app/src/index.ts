@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
 import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import { mergePlugins } from './helpers/mergePlugins';
 import { getReactScriptsPath } from './helpers/getReactScriptsPath';

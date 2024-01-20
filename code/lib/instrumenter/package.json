@@ -53,6 +53,7 @@
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "typescript": "^5.3.2"
   },
   "publishConfig": {

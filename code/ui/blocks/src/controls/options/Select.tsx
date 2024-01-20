@@ -2,7 +2,7 @@ import type { FC, ChangeEvent } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import { Icons } from '@storybook/components';
 
 import type { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';

@@ -60,6 +60,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "@types/node": "^18.0.0",
     "cross-spawn": "^7.0.3",

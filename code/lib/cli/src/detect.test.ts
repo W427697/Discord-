@@ -1,6 +1,6 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';

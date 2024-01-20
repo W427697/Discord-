@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 import { resolve } from 'path';
 import prompts from 'prompts';

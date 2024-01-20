@@ -55,6 +55,7 @@
     "@types/node": "^18.0.0"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "typescript": "^5.3.2"
   },
   "engines": {

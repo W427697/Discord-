@@ -100,6 +100,7 @@
   },
   "devDependencies": {
     "@storybook/addon-docs": "workspace:*",
+    "@storybook/core": "workspace:*",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/node-fetch": "^2.5.7",

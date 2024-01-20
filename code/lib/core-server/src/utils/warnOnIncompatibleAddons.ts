@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/types';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 

@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';

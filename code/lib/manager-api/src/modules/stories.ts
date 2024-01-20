@@ -42,7 +42,7 @@ import {
   SET_CURRENT_STORY,
   SET_CONFIG,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import { getEventMetadata } from '../lib/events';
 

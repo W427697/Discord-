@@ -30,7 +30,7 @@ import {
   UPDATE_STORY_ARGS,
   DOCS_PREPARED,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
 import { addons } from '../addons';
 

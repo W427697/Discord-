@@ -9,7 +9,7 @@ import {
 import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 const { getNameOrValue, isReactForwardRefCall } = utils;
 

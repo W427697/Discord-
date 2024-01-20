@@ -53,6 +53,7 @@
     "@storybook/svelte": "workspace:*"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "svelte": "^4.0.0",
     "svelte-loader": "^3.1.9",
     "typescript": "^5.3.2"

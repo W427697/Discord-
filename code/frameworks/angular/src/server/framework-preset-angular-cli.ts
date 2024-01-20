@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { AngularLegacyBuildOptionsError } from '@storybook/core-events/server-errors';
 import { BuilderContext, targetFromTargetString } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';

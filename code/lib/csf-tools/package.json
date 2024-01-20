@@ -53,6 +53,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "@types/fs-extra": "^11.0.1",
     "@types/js-yaml": "^4.0.5",
     "js-yaml": "^4.1.0",

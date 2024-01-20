@@ -3,7 +3,7 @@ import type { CLIOptions } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;

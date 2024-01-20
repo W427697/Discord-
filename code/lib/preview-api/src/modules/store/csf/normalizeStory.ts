@@ -10,7 +10,7 @@ import type {
 } from '@storybook/types';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import deprecate from 'util-deprecate';
 import { normalizeInputTypes } from './normalizeInputTypes';
 import { normalizeArrays } from './normalizeArrays';

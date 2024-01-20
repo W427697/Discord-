@@ -59,6 +59,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
+    "@storybook/core": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.3",
     "@storybook/manager-api": "workspace:*",

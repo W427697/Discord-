@@ -1,6 +1,6 @@
 import mapValues from 'lodash/mapValues.js';
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type { Renderer, SBType, ArgTypesEnhancer } from '@storybook/types';
 import { combineParameters } from './parameters';
 

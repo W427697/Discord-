@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
+    "@storybook/core": "workspace:*",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "@types/semver": "^7.3.4",

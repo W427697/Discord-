@@ -2,7 +2,7 @@ import { dedent } from 'ts-dedent';
 import { glob } from 'glob';
 import path from 'path';
 import slash from 'slash';
-import { once } from '@storybook/node-logger';
+import { once } from '../../node-logger';
 
 import { boost } from './interpret-files';
 

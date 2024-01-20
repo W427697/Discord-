@@ -8,7 +8,7 @@ import dedent from 'ts-dedent';
 import { telemetry } from '@storybook/telemetry';
 
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 import type { PackageManagerName } from './js-package-manager';
 import type { CommandOptions } from './generators/types';

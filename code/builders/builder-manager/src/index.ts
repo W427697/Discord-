@@ -2,7 +2,7 @@ import { dirname, join, parse } from 'path';
 import fs from 'fs-extra';
 import express from 'express';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';

@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type {
   Renderer,
   Args,

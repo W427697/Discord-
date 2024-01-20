@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import { inferArgTypes } from './inferArgTypes';
 

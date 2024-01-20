@@ -1,5 +1,5 @@
 import prettier from 'prettier';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { storyNameFromExport } from '@storybook/csf';
 import { sanitizeName, jscodeshiftToPrettierParser } from '../lib/utils';
 

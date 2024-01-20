@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
+import { logger } from '../node-logger';
 import type {
   BuilderOptions,
   CLIOptions,

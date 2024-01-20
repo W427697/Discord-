@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import path from 'path';
 import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import chalk from 'chalk';
 
 type ExecOptions = Parameters<typeof spawnAsync>[2];

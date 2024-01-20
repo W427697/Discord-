@@ -1,4 +1,4 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { Preset, StorybookConfig } from '@storybook/core-webpack';
 import { isReactScriptsInstalled } from './cra-config';
 

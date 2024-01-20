@@ -1,5 +1,5 @@
 import globby from 'globby';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 interface Options {
   hasTSDependency: boolean;

@@ -16,7 +16,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type {
   Renderer,
   Args,

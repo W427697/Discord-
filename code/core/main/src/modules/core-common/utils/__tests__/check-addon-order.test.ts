@@ -1,5 +1,5 @@
 import { afterEach, it, expect, vi, describe } from 'vitest';
-import { logger } from '@storybook/node-logger';
+import { logger } from '../../../node-logger';
 import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,

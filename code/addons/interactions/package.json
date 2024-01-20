@@ -59,6 +59,7 @@
     "@devtools-ds/object-inspector": "^1.1.2",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
+    "@storybook/core": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/instrumenter": "workspace:*",

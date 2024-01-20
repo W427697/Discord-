@@ -1,4 +1,4 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { Options } from '@storybook/types';
 import type { Configuration } from 'webpack';
 

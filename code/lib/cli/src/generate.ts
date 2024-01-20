@@ -4,7 +4,7 @@ import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import invariant from 'tiny-invariant';

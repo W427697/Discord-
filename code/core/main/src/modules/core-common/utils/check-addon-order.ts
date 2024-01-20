@@ -4,7 +4,7 @@ import type {
   CoreCommon_OptionsEntry,
 } from '../../types';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '../../node-logger';
 
 interface Options {
   before: CoreCommon_AddonInfo;

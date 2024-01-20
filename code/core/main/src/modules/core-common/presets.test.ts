@@ -1,7 +1,7 @@
 import mockRequire from 'mock-require';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import path from 'path';
-import { logger } from '@storybook/node-logger';
+import { logger } from '../node-logger';
 import { getPresets, resolveAddonName, loadPreset } from './presets';
 
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
@@ -15,7 +15,7 @@ function mockPreset(name: string, mockPresetObject: any) {
   mockRequire(name, mockPresetObject);
 }
 
-vi.mock('@storybook/node-logger', () => ({
+vi.mock('../node-logger', () => ({
   logger: {
     info: vi.fn(),
     warn: vi.fn(),

@@ -2,7 +2,7 @@ import type { Stats, Configuration, StatsOptions } from 'webpack';
 import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';

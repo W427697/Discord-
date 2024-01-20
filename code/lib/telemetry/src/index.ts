@@ -1,4 +1,4 @@
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type { EventType, Payload, Options, TelemetryData } from './types';
 import { getStorybookMetadata } from './storybook-metadata';
 import { sendTelemetry } from './telemetry';

@@ -71,6 +71,7 @@
   "devDependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
+    "@storybook/core": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",

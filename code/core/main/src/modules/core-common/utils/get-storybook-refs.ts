@@ -4,7 +4,7 @@ import findUp from 'find-up';
 import fetch from 'node-fetch';
 
 import resolveFrom from 'resolve-from';
-import { logger } from '@storybook/node-logger';
+import { logger } from '../../node-logger';
 import type { Options, Ref } from '../../types';
 
 export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>> => {

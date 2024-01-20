@@ -2,7 +2,7 @@ import { expect, vi, it } from 'vitest';
 
 import { join } from 'path';
 import * as fs from 'fs-extra';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import * as m from './common-preset';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');

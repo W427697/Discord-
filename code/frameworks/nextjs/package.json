@@ -123,6 +123,7 @@
   },
   "devDependencies": {
     "@babel/types": "^7.23.0",
+    "@storybook/core": "workspace:*",
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",

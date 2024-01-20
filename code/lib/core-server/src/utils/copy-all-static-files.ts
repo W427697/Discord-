@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import { join, relative } from 'path';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import { parseStaticDir } from './server-statics';
 

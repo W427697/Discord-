@@ -4,7 +4,7 @@ import rehypeExternalLinks from 'rehype-external-links';
 
 import type { DocsOptions, Options, PresetProperty } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import type { CompileOptions } from './compiler';
 
 /**

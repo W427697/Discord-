@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
 import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {

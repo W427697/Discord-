@@ -7,7 +7,7 @@ import reactElementToJSXString from 'react-element-to-jsx-string';
 import { addons, useEffect } from '@storybook/preview-api';
 import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import type { ReactRenderer } from '../types';
 

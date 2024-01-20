@@ -41,13 +41,8 @@
     "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
-  "devDependencies": {
-    "@types/npmlog": "^4.1.2",
-    "@types/pretty-hrtime": "^1.0.0",
-    "chalk": "^4.1.0",
-    "npmlog": "^5.0.1",
-    "pretty-hrtime": "^1.0.3",
-    "typescript": "^5.3.2"
+  "dependencies": {
+    "@storybook/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,4 @@
-import { deprecate } from '@storybook/node-logger';
+import { deprecate } from '@storybook/core/dist/modules/node-logger/index';
 
 export * from '@storybook/core/dist/modules/core-common/index';
 

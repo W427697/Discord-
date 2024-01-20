@@ -54,6 +54,7 @@
     "qs": "^6.10.0"
   },
   "devDependencies": {
+    "@storybook/core": "workspace:*",
     "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",

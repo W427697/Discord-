@@ -8,7 +8,7 @@ import type {
   NormalizedComponentAnnotations,
 } from '@storybook/types';
 import { isExportStory } from '@storybook/csf';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';

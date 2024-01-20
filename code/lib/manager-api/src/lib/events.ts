@@ -1,4 +1,4 @@
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import type { API_ComposedRef } from '@storybook/types';
 

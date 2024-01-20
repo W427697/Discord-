@@ -1,6 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import globby from 'globby';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { warn } from './warn';
 
 vi.mock('@storybook/node-logger');
