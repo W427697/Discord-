@@ -68,7 +68,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.js', '*.jsx', '*.json', '*.html', '**/.storybook/*.ts', '**/.storybook/*.tsx'],
+      files: ['*.js', '*.jsx', '*.json', '**/.storybook/*.ts', '**/.storybook/*.tsx'],
       parserOptions: {
         project: null,
       },
@@ -214,12 +214,6 @@ module.exports = {
         'vars-on-top': 'off',
         'no-var': 'off', // this is how typescript works
         'spaced-comment': 'off',
-      },
-    },
-    {
-      files: ['**/builder-vite/input/iframe.html'],
-      rules: {
-        'no-undef': 'off', // ignore "window" undef errors
       },
     },
     {
