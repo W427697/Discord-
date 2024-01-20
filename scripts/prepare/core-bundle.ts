@@ -185,6 +185,7 @@ async function updatePackageJson(
     pkg.exports === undefined
   ) {
     pkg.exports = {
+      './package.json': './package.json',
       ...(pkg.exports as any),
       ...grouped,
     };

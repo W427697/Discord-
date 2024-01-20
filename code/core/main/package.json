@@ -21,6 +21,7 @@
   "license": "MIT",
   "sideEffects": false,
   "exports": {
+    "./package.json": "./package.json",
     "./dist/modules/channels/index": {
       "types": "./dist/modules/channels/index.d.ts",
       "module": "./dist/modules/channels/index.mjs",
