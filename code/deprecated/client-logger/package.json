@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/client-logger",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/client-logger",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/client-logger"
+    "directory": "code/deprecated/client-logger"
   },
   "funding": {
     "type": "opencollective",

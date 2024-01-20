@@ -256,8 +256,8 @@
 
 ## 7.6.0-alpha.4
 
--  CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
-- Babel: Update all @babel/* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
+- Babel: Update all @babel/\* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
 - CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
 - CLI: Ignore `addon-onboarding` when checking versions - [#24634](https://github.com/storybookjs/storybook/pull/24634), thanks [@JReinhold](https://github.com/JReinhold)!
 - CLI: Use @storybook/test in template stories - [#24393](https://github.com/storybookjs/storybook/pull/24393), thanks [@yannbf](https://github.com/yannbf)!
@@ -599,7 +599,7 @@ Promote beta to rc without any changes. 🎉
 ## 7.1.0-alpha.33
 
 - Bug: Fix for angular 16.1 compatibility - [#23064](https://github.com/storybookjs/storybook/pull/23064), thanks [@ndelangen](https://github.com/ndelangen)!
-- Builder-vite: Fix lib/channels dependency - [#23049](https://github.com/storybookjs/storybook/pull/23049), thanks [@ndelangen](https://github.com/ndelangen)!
+- Builder-vite: Fix deprecated/channels dependency - [#23049](https://github.com/storybookjs/storybook/pull/23049), thanks [@ndelangen](https://github.com/ndelangen)!
 - CLI: Improve steps in storybook init - [#22502](https://github.com/storybookjs/storybook/pull/22502), thanks [@yannbf](https://github.com/yannbf)!
 - CLI: Run `storybook dev` as part of `storybook init` - [#22928](https://github.com/storybookjs/storybook/pull/22928), thanks [@yannbf](https://github.com/yannbf)!
 - Core: Merge channels into a single package - [#23032](https://github.com/storybookjs/storybook/pull/23032), thanks [@ndelangen](https://github.com/ndelangen)!

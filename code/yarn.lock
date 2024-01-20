@@ -5398,9 +5398,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/channels@workspace:*, @storybook/channels@workspace:lib/channels":
+"@storybook/channels@workspace:*, @storybook/channels@workspace:deprecated/channels":
   version: 0.0.0-use.local
-  resolution: "@storybook/channels@workspace:lib/channels"
+  resolution: "@storybook/channels@workspace:deprecated/channels"
   dependencies:
     "@storybook/core": "workspace:*"
   languageName: unknown
@@ -5460,9 +5460,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
+"@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:deprecated/client-logger":
   version: 0.0.0-use.local
-  resolution: "@storybook/client-logger@workspace:lib/client-logger"
+  resolution: "@storybook/client-logger@workspace:deprecated/client-logger"
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
@@ -5538,9 +5538,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-common@workspace:*, @storybook/core-common@workspace:lib/core-common":
+"@storybook/core-common@workspace:*, @storybook/core-common@workspace:deprecated/core-common":
   version: 0.0.0-use.local
-  resolution: "@storybook/core-common@workspace:lib/core-common"
+  resolution: "@storybook/core-common@workspace:deprecated/core-common"
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/node-logger": "workspace:*"

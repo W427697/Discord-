@@ -1,25 +1,24 @@
 {
-  "name": "@storybook/channels",
+  "name": "@storybook/core-common",
   "version": "8.0.0-alpha.11",
-  "description": "",
+  "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/channels",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/core-common",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/channels"
+    "directory": "code/deprecated/core-common"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -34,6 +33,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
@@ -44,7 +44,8 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core": "workspace:*"
+    "@storybook/core": "workspace:*",
+    "@storybook/node-logger": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -52,7 +53,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
-    ]
+    ],
+    "platform": "node"
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

@@ -52,13 +52,10 @@
 /code/frameworks/web-components-webpack5/ @kasperpeulen @JReinhold
 
 # Lib
-/code/lib/channels/       @ndelangen @kasperpeulen
 /code/lib/cli/            @yannbf @valentinpalkovic @ndelangen
 /code/lib/cli-sb/         @yannbf @valentinpalkovic @ndelangen
 /code/lib/cli-storybook/  @yannbf @valentinpalkovic @ndelangen
-/code/lib/client-logger/  @ndelangen @yannbf
 /code/lib/codemod/        @kasperpeulen @ndelangen
-/code/lib/core-common/    @ndelangen @yannbf
 /code/lib/core-events/    @ndelangen @kasperpeulen
 /code/lib/core-server/    @ndelangen @JReinhold @tmeasday @shilman
 /code/lib/core-webpack/   @valentinpalkovic @ndelangen
@@ -75,6 +72,11 @@
 /code/lib/telemetry/      @shilman @yannbf @ndelangen
 /code/lib/theming/        @cdedreuille @ndelangen @JReinhold
 /code/lib/types/          @kasperpeulen @ndelangen
+
+# Deprecations
+/code/deprecated/core-common/   @ndelangen
+/code/deprecated/channels/      @ndelangen
+/code/deprecated/client-logger/ @ndelangen @yannbf
 
 # Presets
 /code/presets/create-react-app/ @valentinpalkovic @ndelangen
