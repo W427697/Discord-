@@ -8,12 +8,12 @@ import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
-import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core/dist/modules/events/index';
 import {
   WebpackCompilationError,
   WebpackInvocationError,
   WebpackMissingStatsError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/modules/events/errors/server-errors';
 
 import prettyTime from 'pretty-hrtime';
 

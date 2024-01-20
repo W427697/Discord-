@@ -7,7 +7,7 @@ import type {
   RenderContextCallbacks,
 } from '@storybook/core/dist/modules/types/index';
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
-import { DOCS_RENDERED } from '@storybook/core-events';
+import { DOCS_RENDERED } from '@storybook/core/dist/modules/events/index';
 import type { StoryStore } from '../../../store';
 
 import type { Render, RenderType } from './Render';

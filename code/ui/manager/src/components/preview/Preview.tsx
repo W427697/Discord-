@@ -5,7 +5,10 @@ import { global } from '@storybook/global';
 
 import { type API, Consumer, type Combo, merge, addons, types } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/core/dist/modules/types/index';
-import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
+import {
+  PREVIEW_BUILDER_PROGRESS,
+  SET_CURRENT_STORY,
+} from '@storybook/core/dist/modules/events/index';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';

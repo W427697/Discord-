@@ -1,5 +1,5 @@
 import type { Builder, Options } from '@storybook/core/dist/modules/types/index';
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError } from '@storybook/core/dist/modules/events/errors/server-errors';
 import { pathToFileURL } from 'node:url';
 
 export async function getManagerBuilder(): Promise<Builder<unknown>> {

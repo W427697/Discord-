@@ -27,7 +27,7 @@ import pick from 'lodash/pick.js';
 import {
   CalledExtractOnStoreError,
   MissingStoryFromCsfFileError,
-} from '@storybook/core-events/preview-errors';
+} from '@storybook/core/dist/modules/events/errors/preview-errors';
 import { deprecate } from '@storybook/client-logger';
 import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';

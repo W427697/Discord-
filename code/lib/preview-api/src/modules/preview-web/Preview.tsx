@@ -11,7 +11,7 @@ import {
   STORY_INDEX_INVALIDATED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
 import type {
   Renderer,
@@ -32,7 +32,7 @@ import {
   MissingRenderToCanvasError,
   StoryIndexFetchError,
   StoryStoreAccessedBeforeInitializationError,
-} from '@storybook/core-events/preview-errors';
+} from '@storybook/core/dist/modules/events/errors/preview-errors';
 import { addons } from '../addons';
 import { StoryStore } from '../../store';
 

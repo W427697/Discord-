@@ -3,7 +3,7 @@ import { getStorybookCoreVersion } from '@storybook/telemetry';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/modules/events/errors/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
 import type versions from './versions';
 

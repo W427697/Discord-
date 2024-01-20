@@ -29,7 +29,7 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
   DOCS_PREPARED,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type {
   Renderer,

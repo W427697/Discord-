@@ -4,7 +4,7 @@ import { IconButton } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { FORCE_REMOUNT } from '@storybook/core-events';
+import { FORCE_REMOUNT } from '@storybook/core/dist/modules/events/index';
 import type { Addon_BaseType } from '@storybook/core/dist/modules/types/index';
 import { SyncIcon } from '@storybook/icons';
 

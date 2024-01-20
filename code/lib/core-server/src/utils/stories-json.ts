@@ -7,7 +7,7 @@ import type {
 } from '@storybook/core/dist/modules/types/index';
 import debounce from 'lodash/debounce.js';
 
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core/dist/modules/events/index';
 import type { StoryIndexGenerator } from './StoryIndexGenerator';
 import { watchStorySpecifiers } from './watch-story-specifiers';
 import type { ServerChannel } from './get-server-channel';

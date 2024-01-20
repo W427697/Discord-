@@ -7,7 +7,7 @@ import type { Options } from '@storybook/core/dist/modules/types/index';
 import { logConfig } from '@storybook/core/dist/modules/core-common/index';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError } from '@storybook/core/dist/modules/events/errors/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';

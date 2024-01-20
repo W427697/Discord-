@@ -7,7 +7,7 @@ import { Location, LocationProvider, useNavigate } from '@storybook/router';
 import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/manager-errors';
+import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core/dist/modules/events/errors/manager-errors';
 
 import { HelmetProvider } from 'react-helmet-async';
 

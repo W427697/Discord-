@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
-import { SET_CONFIG } from '@storybook/core-events';
+import { SET_CONFIG } from '@storybook/core/dist/modules/events/index';
 import type {
   Addon_Collection,
   Addon_Config,

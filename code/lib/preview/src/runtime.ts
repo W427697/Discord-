@@ -1,4 +1,4 @@
-import { TELEMETRY_ERROR } from '@storybook/core-events';
+import { TELEMETRY_ERROR } from '@storybook/core/dist/modules/events/index';
 import { global } from '@storybook/global';
 import { globalPackages, globalsNameReferenceMap } from './globals/globals';
 import { globalsNameValueMap } from './globals/runtime';

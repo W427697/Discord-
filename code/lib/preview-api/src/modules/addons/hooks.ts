@@ -15,7 +15,7 @@ import {
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import { addons } from './main';
 
 interface Hook {

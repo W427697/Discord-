@@ -4,7 +4,7 @@ import {
   SET_CURRENT_STORY,
   GLOBALS_UPDATED,
   UPDATE_QUERY_PARAMS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import type { NavigateOptions } from '@storybook/router';
 import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';

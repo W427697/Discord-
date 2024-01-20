@@ -7,7 +7,7 @@ import type {
   ComponentTitle,
 } from '@storybook/core/dist/modules/types/index';
 import memoize from 'memoizerific';
-import { MissingStoryAfterHmrError } from '@storybook/core-events/preview-errors';
+import { MissingStoryAfterHmrError } from '@storybook/core/dist/modules/events/errors/preview-errors';
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 

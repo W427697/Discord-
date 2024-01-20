@@ -3,7 +3,7 @@ import type { PreviewWeb } from '@storybook/preview-api';
 import { addons } from '@storybook/preview-api';
 import type { Renderer } from '@storybook/core/dist/modules/types/index';
 import { global } from '@storybook/global';
-import { ImplicitActionsDuringRendering } from '@storybook/core-events/preview-errors';
+import { ImplicitActionsDuringRendering } from '@storybook/core/dist/modules/events/errors/preview-errors';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';

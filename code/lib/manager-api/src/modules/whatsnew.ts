@@ -1,11 +1,11 @@
 import { global } from '@storybook/global';
-import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core/dist/modules/events/index';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import type { ModuleFn } from '../lib/types';
 
 export type SubState = {

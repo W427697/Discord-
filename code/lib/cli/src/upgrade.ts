@@ -6,7 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/modules/events/errors/server-errors';
 
 import chalk from 'chalk';
 import dedent from 'ts-dedent';

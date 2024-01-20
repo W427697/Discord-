@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
-import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
+import { NxProjectDetectedError } from '@storybook/core/dist/modules/events/errors/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';

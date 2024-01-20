@@ -4,7 +4,11 @@ import type {
   DocsContextProps,
   PreparedStory,
 } from '@storybook/core/dist/modules/types/index';
-import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
+import {
+  STORY_ARGS_UPDATED,
+  UPDATE_STORY_ARGS,
+  RESET_STORY_ARGS,
+} from '@storybook/core/dist/modules/events/index';
 
 export const useArgs = (
   story: PreparedStory,

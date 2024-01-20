@@ -5,7 +5,7 @@ import {
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import type { DecoratorFunction, StoryContext } from '@storybook/core/dist/modules/types/index';
 import {
   addons,

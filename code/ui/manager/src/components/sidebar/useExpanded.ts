@@ -1,6 +1,9 @@
 import type { StoriesHash } from '@storybook/manager-api';
 import { useStorybookApi } from '@storybook/manager-api';
-import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
+import {
+  STORIES_COLLAPSE_ALL,
+  STORIES_EXPAND_ALL,
+} from '@storybook/core/dist/modules/events/index';
 import { global } from '@storybook/global';
 import throttle from 'lodash/throttle.js';
 import type { Dispatch, MutableRefObject, Reducer } from 'react';

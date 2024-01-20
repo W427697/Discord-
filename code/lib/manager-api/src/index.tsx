@@ -35,7 +35,7 @@ import {
   SHARED_STATE_CHANGED,
   SHARED_STATE_SET,
   SET_STORIES,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/core/dist/modules/channels/index';
 import { deprecate } from '@storybook/client-logger';

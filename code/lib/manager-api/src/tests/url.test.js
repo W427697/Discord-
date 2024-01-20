@@ -1,7 +1,11 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import qs from 'qs';
 
-import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
+import {
+  SET_CURRENT_STORY,
+  GLOBALS_UPDATED,
+  UPDATE_QUERY_PARAMS,
+} from '@storybook/core/dist/modules/events/index';
 
 import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';

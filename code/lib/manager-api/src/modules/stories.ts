@@ -41,7 +41,7 @@ import {
   DOCS_PREPARED,
   SET_CURRENT_STORY,
   SET_CONFIG,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import { getEventMetadata } from '../lib/events';

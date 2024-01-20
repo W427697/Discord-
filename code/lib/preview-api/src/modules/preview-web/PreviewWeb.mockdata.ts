@@ -9,7 +9,7 @@ import {
   STORY_RENDERED,
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 
 import type {
   ModuleImportFn,

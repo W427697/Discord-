@@ -4,7 +4,7 @@ import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core/dist/modules/events/index';
 import { normalizeStoriesEntry } from '@storybook/core/dist/modules/core-common/index';
 
 import { useStoriesJson, DEBOUNCE } from './stories-json';

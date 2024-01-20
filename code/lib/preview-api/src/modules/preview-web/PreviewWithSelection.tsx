@@ -15,7 +15,7 @@ import {
   STORY_THREW_EXCEPTION,
   STORY_UNCHANGED,
   UPDATE_QUERY_PARAMS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 import type {
   Renderer,
@@ -34,7 +34,7 @@ import {
   EmptyIndexError,
   MdxFileWithNoCsfReferencesError,
   NoStoryMatchError,
-} from '@storybook/core-events/preview-errors';
+} from '@storybook/core/dist/modules/events/errors/preview-errors';
 import type { MaybePromise } from './Preview';
 import { Preview } from './Preview';
 

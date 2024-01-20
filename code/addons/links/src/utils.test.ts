@@ -1,6 +1,6 @@
 import { describe, beforeAll, beforeEach, it, expect, vi } from 'vitest';
 import { addons } from '@storybook/preview-api';
-import { SELECT_STORY } from '@storybook/core-events';
+import { SELECT_STORY } from '@storybook/core/dist/modules/events/index';
 
 import { linkTo, hrefTo } from './utils';
 

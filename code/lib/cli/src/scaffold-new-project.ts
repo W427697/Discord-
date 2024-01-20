@@ -7,7 +7,7 @@ import dedent from 'ts-dedent';
 
 import { telemetry } from '@storybook/telemetry';
 
-import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
+import { GenerateNewProjectOnInitError } from '@storybook/core/dist/modules/events/errors/server-errors';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
 import type { PackageManagerName } from './js-package-manager';

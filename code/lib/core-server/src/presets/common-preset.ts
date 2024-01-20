@@ -21,14 +21,14 @@ import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
-import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core/dist/modules/events/index';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';

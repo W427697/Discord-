@@ -8,7 +8,7 @@ import {
   FORCE_REMOUNT,
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 import { global } from '@storybook/global';
 import { processError } from '@vitest/utils/error';
 
