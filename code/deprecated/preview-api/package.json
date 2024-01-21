@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview-api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/preview-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/preview-api"
+    "directory": "code/deprecated/preview-api"
   },
   "funding": {
     "type": "opencollective",

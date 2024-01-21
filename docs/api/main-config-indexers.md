@@ -351,7 +351,7 @@ function JsonStoriesPlugin(): PluginOption {
 
 <summary>Generating stories with an alternative API</summary>
 
-You can use a custom indexer and builder plugin to create your own API for defining stories, such as imperatively defining stories similar to the legacy [`storiesOf`](https://github.com/storybookjs/storybook/blob/main/code/lib/preview-api/docs/storiesOf.md) format.
+You can use a custom indexer and builder plugin to create your own API for defining stories, such as imperatively defining stories similar to the legacy [`storiesOf`](https://github.com/storybookjs/storybook/blob/main/code/deprecated/preview-api/docs/storiesOf.md) format.
 
 The [dynamic stories proof of concept](https://stackblitz.com/edit/github-h2rgfk?file=README.md) is an elaborate, functional example of doing just that. It contains everything needed to support such a feature, including the indexer, a Vite plugin and a Webpack loader.
 
