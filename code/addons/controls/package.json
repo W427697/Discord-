@@ -56,17 +56,12 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/components": "workspace:*",
     "@storybook/core": "workspace:*",
-    "@storybook/core-common": "workspace:*",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/node-logger": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
-    "@storybook/types": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@storybook/core": "*"
   },
   "publishConfig": {
     "access": "public"

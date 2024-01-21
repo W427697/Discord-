@@ -1,7 +1,16 @@
 import React, { Fragment, useMemo } from 'react';
-import { useAddonState, useChannel, useGlobals, useParameter } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import {
+  useAddonState,
+  useChannel,
+  useGlobals,
+  useParameter,
+} from '@storybook/core/dist/modules/manager-api/index';
+import { styled } from '@storybook/core/dist/modules/theming/index';
+import {
+  IconButton,
+  WithTooltip,
+  TooltipLinkList,
+} from '@storybook/core/dist/modules/components/index';
 
 import { PaintBrushIcon } from '@storybook/icons';
 import type { ThemeAddonState, ThemeParameters } from './constants';

@@ -379,7 +379,7 @@ describe('new-frameworks fix', () => {
         '@storybook/vue': '7.0.0-beta.48',
         '@storybook/builder-vite': '7.0.0-beta.48',
         '@storybook/builder-webpack5': '7.0.0-beta.48',
-        '@storybook/core-server': '7.0.0-beta.48',
+        '@storybook/core/dist/modules/core-server/index': '7.0.0-beta.48',
         '@storybook/manager-webpack5': '6.5.15',
         '@storybook/react': '7.0.0-beta.48',
         '@storybook/web-components': '7.0.0-beta.48',

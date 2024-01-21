@@ -12,7 +12,7 @@ module.exports = {
   '@storybook/manager-api': dirname(resolve('@storybook/manager-api/package.json')),
   '@storybook/manager': dirname(resolve('@storybook/manager/package.json')),
   '@storybook/router': dirname(resolve('@storybook/router/package.json')),
-  '@storybook/theming': dirname(resolve('@storybook/theming/package.json')),
+  '@storybook/core/dist/modules/theming/index': dirname(resolve('@storybook/theming/package.json')),
   react: dirname(resolve('react/package.json')),
   'react-dom': dirname(resolve('react-dom/package.json')),
 };

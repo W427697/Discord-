@@ -2,7 +2,7 @@ import fse, { readFile, readJson, writeJson } from 'fs-extra';
 
 import { dedent } from 'ts-dedent';
 import detectIndent from 'detect-indent';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/core/dist/modules/csf-tools/index';
 import prompts from 'prompts';
 import chalk from 'chalk';
 import type { JsPackageManager } from '../../js-package-manager';

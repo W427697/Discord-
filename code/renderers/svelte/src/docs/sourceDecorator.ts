@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@storybook/core/dist/modules/client-logger/index';
 import type {
   ArgTypes,
   Args,
@@ -9,7 +9,7 @@ import type {
   StoryContext,
 } from '@storybook/core/dist/modules/types/index';
 
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SourceType, SNIPPET_RENDERED } from '@storybook/core/dist/modules/docs-tools/index';
 import type { SvelteComponentDoc } from 'sveltedoc-parser';
 import type { SvelteRenderer, SvelteStoryResult } from '../types';
 

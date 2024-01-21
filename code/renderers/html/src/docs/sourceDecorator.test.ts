@@ -1,4 +1,4 @@
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SNIPPET_RENDERED } from '@storybook/core/dist/modules/docs-tools/index';
 import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type { Mock } from 'vitest';
 import { vi, describe, beforeEach, it, expect } from 'vitest';

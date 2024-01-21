@@ -2,9 +2,13 @@ import type { FC } from 'react';
 import React, { useState, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
-import { useParameter, useGlobals } from '@storybook/manager-api';
+import { useParameter, useGlobals } from '@storybook/core/dist/modules/manager-api/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import {
+  IconButton,
+  WithTooltip,
+  TooltipLinkList,
+} from '@storybook/core/dist/modules/components/index';
 
 import { PhotoIcon } from '@storybook/icons';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';

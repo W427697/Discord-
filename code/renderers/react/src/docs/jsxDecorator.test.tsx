@@ -4,7 +4,7 @@ import type { Mock } from 'vitest';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SNIPPET_RENDERED } from '@storybook/core/dist/modules/docs-tools/index';
 import { renderJsx, jsxDecorator } from './jsxDecorator';
 
 vi.mock('@storybook/core/dist/modules/preview-api/index');

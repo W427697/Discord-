@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { GlobalsStore } from './GlobalsStore';
 
-vi.mock('@storybook/client-logger', () => ({
+vi.mock('../../../client-logger', () => ({
   logger: {
     warn: vi.fn(),
   },

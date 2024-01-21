@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import * as api from '@storybook/manager-api';
+import * as api from '@storybook/core/dist/modules/manager-api/index';
 import type { Addon_BaseType } from '@storybook/core/dist/modules/types/index';
 import { PANEL_ID } from './constants';
 import './manager';
 
-vi.mock('@storybook/manager-api');
+vi.mock('@storybook/core/dist/modules/manager-api/index');
 const mockedApi = vi.mocked<api.API>(api as any);
 mockedApi.useAddonState = vi.fn();
 const mockedAddons = vi.mocked(api.addons);

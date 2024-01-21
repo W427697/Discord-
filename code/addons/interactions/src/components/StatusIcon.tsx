@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icons, type IconsProps } from '@storybook/components';
-import { type Call, CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+import { Icons, type IconsProps } from '@storybook/core/dist/modules/components/index';
+import { type Call, CallStates } from '@storybook/core/dist/modules/instrumenter/index';
+import { styled } from '@storybook/core/dist/modules/theming/index';
 
 import { transparentize } from 'polished';
 import localTheme from '../theme';

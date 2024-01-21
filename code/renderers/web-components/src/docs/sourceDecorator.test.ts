@@ -3,7 +3,7 @@ import type { Mock } from 'vitest';
 import { describe, beforeEach, it, vi, expect } from 'vitest';
 import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SNIPPET_RENDERED } from '@storybook/core/dist/modules/docs-tools/index';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 

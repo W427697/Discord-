@@ -1,5 +1,5 @@
 import { getStorybookInfo } from '@storybook/core/dist/modules/core-common/index';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/core/dist/modules/csf-tools/index';
 import dedent from 'ts-dedent';
 
 import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';

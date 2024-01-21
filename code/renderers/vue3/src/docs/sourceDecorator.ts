@@ -2,7 +2,7 @@
 import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import type { ArgTypes, Args, StoryContext } from '@storybook/core/dist/modules/types/index';
 
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SourceType, SNIPPET_RENDERED } from '@storybook/core/dist/modules/docs-tools/index';
 
 import type {
   ElementNode,

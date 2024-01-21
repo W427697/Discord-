@@ -1,7 +1,11 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
-import { Global, styled } from '@storybook/theming';
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { Global, styled } from '@storybook/core/dist/modules/theming/index';
+import {
+  IconButton,
+  WithTooltip,
+  TooltipLinkList,
+} from '@storybook/core/dist/modules/components/index';
 
 import { AccessibilityIcon } from '@storybook/icons';
 import { Filters } from './ColorFilters';

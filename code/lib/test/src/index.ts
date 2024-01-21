@@ -1,4 +1,4 @@
-import { instrument } from '@storybook/instrumenter';
+import { instrument } from '@storybook/core/dist/modules/instrumenter/index';
 import { type LoaderFunction } from '@storybook/csf';
 import chai from 'chai';
 import { global } from '@storybook/global';

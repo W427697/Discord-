@@ -65,6 +65,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(peerDependencies || {}),
   ];
 
+  if (platform === 'node') {
+    externals.push(...nodeBuildIn);
+  }
+
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
@@ -97,12 +101,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
-        esbuildPlugins: [
-          aliasPlugin({
-            process: path.resolve('../node_modules/process/browser.js'),
-            util: path.resolve('../node_modules/util/util.js'),
-          }),
-        ],
+        esbuildPlugins:
+          platform !== 'node'
+            ? [
+                aliasPlugin({
+                  process: path.resolve('../node_modules/process/browser.js'),
+                  util: path.resolve('../node_modules/util/util.js'),
+                }),
+              ]
+            : [],
         external: externals,
 
         esbuildOptions: (c) => {
@@ -162,6 +169,36 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 };
 
 /* UTILS */
+
+const nodeBuildIn = [
+  'assert',
+  'buffer',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'https',
+  'net',
+  'os',
+  'path',
+  'punycode',
+  'querystring',
+  'readline',
+  'stream',
+  'string_decoder',
+  'tls',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'zlib',
+].flatMap((name) => [name, `node:${name}`]);
 
 async function getDTSConfigs({
   formats,

@@ -1,4 +1,4 @@
-import { type API } from '@storybook/manager-api';
+import { type API } from '@storybook/core/dist/modules/manager-api/index';
 import { ADDON_ID } from './constants';
 import { globals as defaultGlobals } from './preview';
 

@@ -1,4 +1,4 @@
-import type { PropDef } from '@storybook/docs-tools';
+import type { PropDef } from '@storybook/core/dist/modules/docs-tools/index';
 
 type Component = any;
 

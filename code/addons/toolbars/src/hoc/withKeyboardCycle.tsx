@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { useGlobals, useStorybookApi } from '@storybook/manager-api';
+import { useGlobals, useStorybookApi } from '@storybook/core/dist/modules/manager-api/index';
 import { createCycleValueArray } from '../utils/create-cycle-value-array';
 import { registerShortcuts } from '../utils/register-shortcuts';
 import type { ToolbarMenuProps } from '../types';

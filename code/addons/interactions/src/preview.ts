@@ -6,7 +6,7 @@ import type {
   PlayFunctionContext,
   StepLabel,
 } from '@storybook/core/dist/modules/types/index';
-import { instrument } from '@storybook/instrumenter';
+import { instrument } from '@storybook/core/dist/modules/instrumenter/index';
 
 export const { step: runStep } = instrument(
   {

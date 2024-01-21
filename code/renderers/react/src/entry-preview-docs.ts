@@ -1,5 +1,8 @@
 import type { ArgTypesEnhancer, DecoratorFunction } from '@storybook/core/dist/modules/types/index';
-import { extractComponentDescription, enhanceArgTypes } from '@storybook/docs-tools';
+import {
+  extractComponentDescription,
+  enhanceArgTypes,
+} from '@storybook/core/dist/modules/docs-tools/index';
 
 import { extractArgTypes } from './docs/extractArgTypes';
 import { jsxDecorator } from './docs/jsxDecorator';

@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { Link, Placeholder } from '@storybook/components';
-import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+import { Link, Placeholder } from '@storybook/core/dist/modules/components/index';
+import {
+  type Call,
+  CallStates,
+  type ControlStates,
+} from '@storybook/core/dist/modules/instrumenter/index';
+import { styled } from '@storybook/core/dist/modules/theming/index';
 import { transparentize } from 'polished';
 
 import { Subnav } from './Subnav';

@@ -123,7 +123,6 @@
     "@storybook/csf": "^0.1.2",
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
-    "@storybook/docs-tools": "workspace:*",
     "@storybook/ember": "workspace:*",
     "@storybook/eslint-config-storybook": "^4.0.0",
     "@storybook/global": "^5.0.0",

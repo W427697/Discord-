@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { Fragment } from 'react';
-import { styled, withTheme } from '@storybook/theming';
-import type { Theme } from '@storybook/theming';
+import { styled, withTheme } from '@storybook/core/dist/modules/theming/index';
+import type { Theme } from '@storybook/core/dist/modules/theming/index';
 
 import { Inspector } from 'react-inspector';
-import { ActionBar, ScrollArea } from '@storybook/components';
+import { ActionBar, ScrollArea } from '@storybook/core/dist/modules/components/index';
 
 import { Action, InspectorContainer, Counter } from './style';
 import type { ActionDisplay } from '../../models';

@@ -17,7 +17,7 @@ const buildMock = {
   withTelemetry: (name: string, options: any, fn: any) => fn(),
 };
 
-vi.doMock('@storybook/core-server', () => buildMock);
+vi.doMock('@storybook/core/dist/modules/core-server/index', () => buildMock);
 vi.doMock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({

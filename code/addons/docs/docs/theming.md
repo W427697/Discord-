@@ -16,7 +16,7 @@ Supposing you have a Storybook theme defined for the main UI in `.storybook/mana
 ```js
 import { addons } from '@storybook/manager-api';
 // or a custom theme
-import { themes } from '@storybook/theming';
+import { themes } from '@storybook/core/dist/modules/theming/index';
 
 addons.setConfig({
   theme: themes.dark,
@@ -26,7 +26,7 @@ addons.setConfig({
 Here's how you'd specify the same theme for docs in `.storybook/preview.js`:
 
 ```js
-import { themes } from '@storybook/theming';
+import { themes } from '@storybook/core/dist/modules/theming/index';
 
 // or global addParameters
 export const parameters = {

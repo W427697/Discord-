@@ -25,13 +25,13 @@ import {
 //   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-vi.mock('@storybook/channels', async (importOriginal) => {
+vi.mock('../../../channels', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('@storybook/channels')>()),
+    ...(await importOriginal<typeof import('../../../channels')>()),
     createBrowserChannel: () => mockChannel,
   };
 });
-vi.mock('@storybook/client-logger');
+vi.mock('../../../client-logger');
 
 vi.mock('./WebView');
 

@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { type Call, CallStates, type LogItem } from '@storybook/instrumenter';
+import {
+  type Call,
+  CallStates,
+  type LogItem,
+} from '@storybook/core/dist/modules/instrumenter/index';
 import { getInteractions } from './Panel';
 
 describe('Panel', () => {

@@ -1,6 +1,6 @@
 import slash from 'slash';
 import { dedent } from 'ts-dedent';
-import { once } from '@storybook/client-logger';
+import { once } from '../../../client-logger';
 import type { NormalizedStoriesSpecifier } from '../../../types';
 
 // FIXME: types duplicated type from `core-common', to be

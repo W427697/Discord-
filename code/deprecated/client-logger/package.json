@@ -50,6 +50,9 @@
     "@storybook/core": "workspace:*",
     "typescript": "^5.3.2"
   },
+  "peerDependencies": {
+    "@storybook/core": "*"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
-    "@storybook/core-common": "workspace:*",
     "@storybook/preset-vue3-webpack": "workspace:*",
     "@storybook/vue3": "workspace:*",
     "@types/node": "^18.0.0"
@@ -60,6 +59,7 @@
     "vue": "3.0.0"
   },
   "peerDependencies": {
+    "@storybook/core": "*",
     "@vue/compiler-sfc": "^3.0.0",
     "vue": "^3.0.0"
   },

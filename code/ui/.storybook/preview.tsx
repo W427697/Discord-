@@ -9,12 +9,12 @@ import {
   convert,
   styled,
   useTheme,
-} from '@storybook/theming';
+} from '@storybook/core/dist/modules/theming/index';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
 import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 
 import { DocsContext } from '@storybook/blocks';
 

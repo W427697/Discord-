@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import { deprecate, logger } from '@storybook/client-logger';
+import { deprecate, logger } from '../../../client-logger';
 import {
   CONFIG_ERROR,
   FORCE_REMOUNT,

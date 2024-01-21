@@ -10,7 +10,11 @@ import type {
   ArgsStoryFn,
   PartialStoryFn,
 } from '@storybook/core/dist/modules/types/index';
-import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
+import {
+  SourceType,
+  SNIPPET_RENDERED,
+  getDocgenSection,
+} from '@storybook/core/dist/modules/docs-tools/index';
 import { logger } from '@storybook/core/dist/modules/client-logger/index';
 
 import type { ReactRenderer } from '../types';

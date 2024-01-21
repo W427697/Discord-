@@ -6,8 +6,11 @@ import {
   builderPackages,
 } from '@storybook/core/dist/modules/core-common/index';
 import type { StorybookConfigRaw, StorybookConfig } from '@storybook/core/dist/modules/types/index';
-import type { ConfigFile } from '@storybook/csf-tools';
-import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
+import type { ConfigFile } from '@storybook/core/dist/modules/csf-tools/index';
+import {
+  readConfig,
+  writeConfig as writeConfigFile,
+} from '@storybook/core/dist/modules/csf-tools/index';
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import path from 'path';

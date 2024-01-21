@@ -10,6 +10,10 @@ declare module '@storybook/manager/paths';
 declare module 'better-opn';
 declare module 'open';
 declare module '@aw-web-design/x-default-browser';
+declare module 'react-inspector';
+declare module '*.md';
+declare module '*.mdx';
+declare module '*.png';
 
 declare var FEATURES: import('./modules/types').StorybookConfigRaw['features'];
 

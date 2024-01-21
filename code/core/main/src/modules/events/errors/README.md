@@ -80,7 +80,7 @@ export class InvalidFileExtensionError extends StorybookError {
 import {
   StorybookIndexGenerationError,
   InvalidFileExtensionError,
-} from '@storybook/core/dist/modules/events/errors/server-errors';
+} from '../../../types/modules/events/errors/server-errors';
 
 throw StorybookIndexGenerationError();
 // "SB_Generic_0001: Storybook failed when generating an index for your stories. Check the stories field in your main.js.

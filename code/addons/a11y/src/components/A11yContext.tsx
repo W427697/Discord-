@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { themes, convert } from '@storybook/theming';
+import { themes, convert } from '@storybook/core/dist/modules/theming/index';
 import type { Result } from 'axe-core';
-import { useChannel, useAddonState, useStorybookApi } from '@storybook/manager-api';
+import {
+  useChannel,
+  useAddonState,
+  useStorybookApi,
+} from '@storybook/core/dist/modules/manager-api/index';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core/dist/modules/events/index';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { ADDON_ID, EVENTS } from '../constants';

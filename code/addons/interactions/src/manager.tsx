@@ -1,8 +1,13 @@
 import React, { useCallback } from 'react';
-import type { Combo } from '@storybook/manager-api';
-import { addons, Consumer, types, useAddonState } from '@storybook/manager-api';
-import { AddonPanel, Badge, Spaced } from '@storybook/components';
-import { CallStates } from '@storybook/instrumenter';
+import type { Combo } from '@storybook/core/dist/modules/manager-api/index';
+import {
+  addons,
+  Consumer,
+  types,
+  useAddonState,
+} from '@storybook/core/dist/modules/manager-api/index';
+import { AddonPanel, Badge, Spaced } from '@storybook/core/dist/modules/components/index';
+import { CallStates } from '@storybook/core/dist/modules/instrumenter/index';
 import { ADDON_ID, PANEL_ID } from './constants';
 import { Panel } from './Panel';
 import { TabIcon } from './components/TabStatus';

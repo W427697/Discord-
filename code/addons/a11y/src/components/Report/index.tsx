@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { Placeholder } from '@storybook/components';
+import { Placeholder } from '@storybook/core/dist/modules/components/index';
 import type { Result } from 'axe-core';
 
 import { Item } from './Item';

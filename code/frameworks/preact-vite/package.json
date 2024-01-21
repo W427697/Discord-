@@ -57,6 +57,7 @@
     "vite": "^4.0.0"
   },
   "peerDependencies": {
+    "@storybook/core": "*",
     "preact": ">=10",
     "vite": "^4.0.0 || ^5.0.0"
   },

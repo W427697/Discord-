@@ -2870,27 +2870,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@figspec/components@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "@figspec/components@npm:1.0.2"
-  dependencies:
-    lit: "npm:^2.1.3"
-  checksum: 8e889140d6577f6bdf31a6b460539127f1614e42c8d08b545b8dd500dbb606edae87e7619933fc6039370fc7552a4b68458e23957e0d7c28ca90eecf7b06cdce
-  languageName: node
-  linkType: hard
-
-"@figspec/react@npm:^1.0.0":
-  version: 1.0.3
-  resolution: "@figspec/react@npm:1.0.3"
-  dependencies:
-    "@figspec/components": "npm:^1.0.1"
-    "@lit-labs/react": "npm:^1.0.2"
-  peerDependencies:
-    react: ^16.14.0 || ^17.0.0 || ^18.0.0
-  checksum: d5bbb79e106f522f5b867d0f55de01391edd1011e3f5d5a966ac07a5fca75f499d1d4d40a6186cf0afdc4fc4b49d808eb5d4fcbaf1784401a1ace2865dbc19be
-  languageName: node
-  linkType: hard
-
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -3470,7 +3449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:^29.3.1, @jest/globals@npm:^29.5.0":
+"@jest/globals@npm:^29.5.0":
   version: 29.7.0
   resolution: "@jest/globals@npm:29.7.0"
   dependencies:
@@ -3648,13 +3627,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lit-labs/react@npm:^1.0.2":
-  version: 1.2.1
-  resolution: "@lit-labs/react@npm:1.2.1"
-  checksum: c92364101348400a06c3eb45a6384ca7d47c32765fdcad892827b360d0bad6cef7916f9a17744f2f471a5da3d7d73750767b885fc1521cd5e5e724badb71f014
-  languageName: node
-  linkType: hard
-
 "@lit-labs/ssr-dom-shim@npm:^1.0.0, @lit-labs/ssr-dom-shim@npm:^1.1.0":
   version: 1.1.1
   resolution: "@lit-labs/ssr-dom-shim@npm:1.1.1"
@@ -3662,7 +3634,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lit/reactive-element@npm:^1.3.0, @lit/reactive-element@npm:^1.4.0, @lit/reactive-element@npm:^1.6.0":
+"@lit/reactive-element@npm:^1.3.0, @lit/reactive-element@npm:^1.4.0":
   version: 1.6.3
   resolution: "@lit/reactive-element@npm:1.6.3"
   dependencies:
@@ -4785,16 +4757,9 @@ __metadata:
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
     "@storybook/addon-highlight": "workspace:*"
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@testing-library/react": "npm:^14.0.0"
     axe-core: "npm:^4.2.0"
     lodash: "npm:^4.17.21"
@@ -4803,6 +4768,8 @@ __metadata:
     react-resize-detector: "npm:^7.1.2"
     resize-observer-polyfill: "npm:^1.5.1"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -4810,15 +4777,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-actions@workspace:addons/actions"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/uuid": "npm:^9.0.1"
     dequal: "npm:^2.0.2"
     polished: "npm:^4.2.2"
@@ -4828,6 +4788,8 @@ __metadata:
     telejson: "npm:^7.2.0"
     typescript: "npm:^5.3.2"
     uuid: "npm:^9.0.0"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -4835,20 +4797,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-backgrounds@workspace:addons/backgrounds"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     memoizerific: "npm:^1.11.3"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -4857,44 +4815,15 @@ __metadata:
   resolution: "@storybook/addon-controls@workspace:addons/controls"
   dependencies:
     "@storybook/blocks": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     lodash: "npm:^4.17.21"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     ts-dedent: "npm:^2.0.0"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
-
-"@storybook/addon-designs@npm:^7.0.4":
-  version: 7.0.7
-  resolution: "@storybook/addon-designs@npm:7.0.7"
-  dependencies:
-    "@figspec/react": "npm:^1.0.0"
-  peerDependencies:
-    "@storybook/addon-docs": ^7.0.0
-    "@storybook/addons": ^7.0.0
-    "@storybook/components": ^7.0.0
-    "@storybook/manager-api": ^7.0.0
-    "@storybook/preview-api": ^7.0.0
-    "@storybook/theming": ^7.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 650cb4254a2e12b5c80cc999fb9048efc6ce9bf0d9a29b78a5b5e4fc1e9a67d0b1e5f58ee3fa14780efcb3c896967017d56b11dde989ea1931db409e3ca534f1
-  languageName: node
-  linkType: hard
 
 "@storybook/addon-docs@workspace:*, @storybook/addon-docs@workspace:addons/docs":
   version: 0.0.0-use.local
@@ -4905,18 +4834,11 @@ __metadata:
     "@mdx-js/react": "npm:^3.0.0"
     "@rollup/pluginutils": "npm:^5.0.2"
     "@storybook/blocks": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
-    "@storybook/csf-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     "@storybook/react-dom-shim": "workspace:*"
     "@storybook/test": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     fs-extra: "npm:^11.1.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -4942,12 +4864,10 @@ __metadata:
     "@storybook/addon-toolbars": "workspace:*"
     "@storybook/addon-viewport": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -4956,11 +4876,11 @@ __metadata:
   resolution: "@storybook/addon-highlight@workspace:addons/highlight"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
     "@types/webpack-env": "npm:^1.16.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -4968,28 +4888,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
-    "@devtools-ds/object-inspector": "npm:^1.1.2"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
-    "@storybook/instrumenter": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/testing-library": "npm:next"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/node": "npm:^18.0.0"
-    formik: "npm:^2.2.9"
-    jest-mock: "npm:^27.0.6"
-    polished: "npm:^4.2.2"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-    ts-dedent: "npm:^2.2.0"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -4997,14 +4896,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-jest@workspace:addons/jest"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-resize-detector: "npm:^7.1.2"
@@ -5012,6 +4905,8 @@ __metadata:
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     upath: "npm:^2.0.1"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5019,19 +4914,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-links@workspace:addons/links"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/router": "workspace:*"
-    "@storybook/types": "workspace:*"
     fs-extra: "npm:^11.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     react:
@@ -5044,10 +4934,11 @@ __metadata:
   resolution: "@storybook/addon-mdx-gfm@workspace:addons/gfm"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     remark-gfm: "npm:^4.0.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5055,19 +4946,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-measure@workspace:addons/measure"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     tiny-invariant: "npm:^1.3.1"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5075,19 +4962,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-outline@workspace:addons/outline"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5095,14 +4978,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-storysource@workspace:addons/storysource"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/router": "workspace:*"
     "@storybook/source-loader": "workspace:*"
-    "@storybook/theming": "workspace:*"
     "@types/react": "npm:^18.0.37"
     "@types/react-syntax-highlighter": "npm:11.0.5"
     estraverse: "npm:^5.2.0"
@@ -5111,6 +4988,8 @@ __metadata:
     react-syntax-highlighter: "npm:^15.5.0"
     tiny-invariant: "npm:^1.3.1"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5118,17 +4997,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-themes@workspace:addons/themes"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5136,15 +5010,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5152,19 +5023,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-viewport@workspace:addons/viewport"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/theming": "workspace:*"
     memoizerific: "npm:^1.11.3"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5187,18 +5054,10 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^17.0.5"
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/cli": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/node": "npm:^18.0.0"
     "@types/react": "npm:^18.0.37"
@@ -5269,37 +5128,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/blocks@workspace:ui/blocks"
   dependencies:
-    "@storybook/addon-actions": "workspace:*"
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.2"
-    "@storybook/docs-tools": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/test": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/color-convert": "npm:^2.0.0"
-    "@types/lodash": "npm:^4.14.167"
-    color-convert: "npm:^2.0.1"
-    dequal: "npm:^2.0.2"
-    lodash: "npm:^4.17.21"
-    markdown-to-jsx: "npm:7.3.2"
-    memoizerific: "npm:^1.11.3"
-    polished: "npm:^4.2.2"
-    react-colorful: "npm:^5.1.2"
-    telejson: "npm:^7.2.0"
-    tocbot: "npm:^4.20.1"
-    ts-dedent: "npm:^2.0.0"
-    util-deprecate: "npm:^1.0.2"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -5309,9 +5138,7 @@ __metadata:
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/manager": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@types/ejs": "npm:^3.1.1"
     "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
     browser-assert: "npm:^1.2.1"
@@ -5324,6 +5151,8 @@ __metadata:
     slash: "npm:^5.0.0"
     typescript: "npm:^5.3.2"
     util: "npm:^0.12.4"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5331,15 +5160,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/preview": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/express": "npm:^4.17.13"
     "@types/find-cache-dir": "npm:^3.2.1"
     "@types/node": "npm:^18.0.0"
@@ -5355,6 +5178,7 @@ __metadata:
     vite: "npm:^4.0.4"
   peerDependencies:
     "@preact/preset-vite": "*"
+    "@storybook/core": "*"
     typescript: ">= 4.3.x"
     vite: ^4.0.0 || ^5.0.0
     vite-plugin-glimmerx: "*"
@@ -5372,15 +5196,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/preview": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@types/pretty-hrtime": "npm:^1.0.0"
     "@types/semver": "npm:^7.3.4"
@@ -5414,6 +5232,8 @@ __metadata:
     webpack-dev-middleware: "npm:^6.1.1"
     webpack-hot-middleware: "npm:^2.25.1"
     webpack-virtual-modules: "npm:^0.5.0"
+  peerDependencies:
+    "@storybook/core": "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -5436,13 +5256,7 @@ __metadata:
     "@ndelangen/get-tarball": "npm:^3.0.7"
     "@storybook/codemod": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/core-server": "workspace:*"
-    "@storybook/csf-tools": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/prompts": "npm:^2.0.9"
     "@types/semver": "npm:^7.3.4"
@@ -5477,6 +5291,8 @@ __metadata:
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     util-deprecate: "npm:^1.0.2"
+  peerDependencies:
+    "@storybook/core": "*"
   bin:
     getstorybook: ./bin/index.js
     sb: ./bin/index.js
@@ -5489,6 +5305,8 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5501,9 +5319,6 @@ __metadata:
     "@babel/types": "npm:^7.23.0"
     "@storybook/core": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
-    "@storybook/csf-tools": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/jscodeshift": "npm:^0.11.10"
     ansi-regex: "npm:^5.0.1"
@@ -5525,6 +5340,8 @@ __metadata:
     unist-util-visit: "npm:^5.0.0"
     util: "npm:^0.12.4"
     vfile: "npm:^5.3.7"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5532,33 +5349,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
-    "@popperjs/core": "npm:^2.6.0"
-    "@radix-ui/react-scroll-area": "npm:^1.0.5"
-    "@radix-ui/react-slot": "npm:^1.0.2"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/csf": "npm:^0.1.2"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
-    "@storybook/test": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/react-syntax-highlighter": "npm:11.0.5"
-    "@types/util-deprecate": "npm:^1.0.0"
-    css: "npm:^3.0.0"
-    memoizerific: "npm:^1.11.3"
-    polished: "npm:^4.2.2"
-    prettier: "npm:^3.1.1"
-    react-popper-tooltip: "npm:^4.4.2"
-    react-syntax-highlighter: "npm:^15.4.5"
-    react-textarea-autosize: "npm:^8.3.0"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
-    use-resize-observer: "npm:^9.1.0"
-    util-deprecate: "npm:^1.0.2"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -5578,62 +5369,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-server@workspace:*, @storybook/core-server@workspace:lib/core-server":
+"@storybook/core-server@workspace:*, @storybook/core-server@workspace:deprecated/core-server":
   version: 0.0.0-use.local
-  resolution: "@storybook/core-server@workspace:lib/core-server"
+  resolution: "@storybook/core-server@workspace:deprecated/core-server"
   dependencies:
-    "@aw-web-design/x-default-browser": "npm:1.4.126"
-    "@discoveryjs/json-ext": "npm:^0.5.3"
-    "@storybook/addon-docs": "workspace:*"
-    "@storybook/builder-manager": "workspace:*"
-    "@storybook/channels": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.2"
-    "@storybook/csf-tools": "workspace:*"
-    "@storybook/docs-mdx": "npm:3.0.0"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager": "workspace:*"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/telemetry": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/compression": "npm:^1.7.0"
-    "@types/detect-port": "npm:^1.3.0"
-    "@types/ip": "npm:^1.1.0"
-    "@types/node": "npm:^18.0.0"
-    "@types/node-fetch": "npm:^2.5.7"
-    "@types/pretty-hrtime": "npm:^1.0.0"
-    "@types/semver": "npm:^7.3.4"
-    "@types/ws": "npm:^8"
-    better-opn: "npm:^3.0.2"
-    boxen: "npm:^5.1.2"
-    chalk: "npm:^4.1.0"
-    cli-table3: "npm:^0.6.1"
-    compression: "npm:^1.7.4"
-    detect-port: "npm:^1.3.0"
-    express: "npm:^4.17.3"
-    fs-extra: "npm:^11.1.0"
-    globby: "npm:^11.0.2"
-    ip: "npm:^2.0.0"
-    lodash: "npm:^4.17.21"
-    node-fetch: "npm:^3.3.1"
-    open: "npm:^8.4.0"
-    pretty-hrtime: "npm:^1.0.3"
-    prompts: "npm:^2.4.0"
-    read-pkg-up: "npm:^7.0.1"
-    semver: "npm:^7.3.7"
-    slash: "npm:^5.0.0"
-    telejson: "npm:^7.2.0"
-    tiny-invariant: "npm:^1.3.1"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
-    util: "npm:^0.12.4"
-    util-deprecate: "npm:^1.0.2"
-    watchpack: "npm:^2.2.0"
-    ws: "npm:^8.2.3"
   languageName: unknown
   linkType: soft
 
@@ -5642,14 +5382,13 @@ __metadata:
   resolution: "@storybook/core-webpack@workspace:lib/core-webpack"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     slash: "npm:^5.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     webpack: "npm:5"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5657,49 +5396,138 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core@workspace:core/main"
   dependencies:
+    "@aw-web-design/x-default-browser": "npm:1.4.126"
+    "@babel/generator": "npm:^7.23.0"
+    "@babel/parser": "npm:^7.23.0"
+    "@babel/preset-react": "npm:^7.23.3"
+    "@babel/traverse": "npm:^7.23.2"
+    "@babel/types": "npm:^7.23.0"
+    "@devtools-ds/object-inspector": "npm:^1.1.2"
+    "@discoveryjs/json-ext": "npm:^0.5.3"
+    "@emotion/cache": "npm:^11.11.0"
+    "@emotion/is-prop-valid": "npm:^1.2.1"
+    "@emotion/react": "npm:^11.11.1"
+    "@emotion/styled": "npm:^11.11.0"
+    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
+    "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
     "@jest/globals": "npm:^29.5.0"
-    "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
+    "@popperjs/core": "npm:^2.6.0"
+    "@radix-ui/react-scroll-area": "npm:^1.0.5"
+    "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/csf": "npm:^0.1.2"
+    "@storybook/docs-mdx": "npm:3.0.0"
     "@storybook/global": "npm:^5.0.0"
+    "@storybook/icons": "npm:^1.2.3"
+    "@storybook/testing-library": "npm:next"
+    "@testing-library/react": "npm:^11.2.2"
+    "@types/color-convert": "npm:^2.0.0"
+    "@types/compression": "npm:^1.7.0"
+    "@types/detect-port": "npm:^1.3.0"
+    "@types/doctrine": "npm:^0.0.3"
+    "@types/ejs": "npm:^3.1.1"
     "@types/express": "npm:^4.7.0"
     "@types/find-cache-dir": "npm:^3.2.1"
     "@types/fs-extra": "npm:^11.0.1"
+    "@types/ip": "npm:^1.1.0"
+    "@types/js-yaml": "npm:^4.0.5"
+    "@types/lodash": "npm:^4.14.167"
     "@types/mock-fs": "npm:^4.13.1"
     "@types/node": "npm:^18.0.0"
-    "@types/node-fetch": "npm:^2.6.4"
+    "@types/node-fetch": "npm:^2.5.7"
     "@types/npmlog": "npm:^4.1.2"
     "@types/picomatch": "npm:^2.3.0"
     "@types/pretty-hrtime": "npm:^1.0.0"
+    "@types/qs": "npm:^6"
+    "@types/react-syntax-highlighter": "npm:11.0.5"
+    "@types/react-transition-group": "npm:^4"
+    "@types/semver": "npm:^7.3.4"
+    "@types/util-deprecate": "npm:^1.0.0"
+    "@types/ws": "npm:^8"
+    "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
     ansi-to-html: "npm:^0.6.11"
+    assert: "npm:^2.1.0"
+    babel-plugin-react-docgen: "npm:4.2.1"
+    better-opn: "npm:^3.0.2"
+    boxen: "npm:^5.1.2"
+    browser-assert: "npm:^1.2.1"
+    browser-dtector: "npm:^3.4.0"
     chalk: "npm:^4.1.0"
+    cli-table3: "npm:^0.6.1"
+    color-convert: "npm:^2.0.1"
+    compression: "npm:^1.7.4"
+    copy-to-clipboard: "npm:^3.3.1"
+    css: "npm:^3.0.0"
+    deep-object-diff: "npm:^1.1.0"
     dequal: "npm:^2.0.2"
+    detect-package-manager: "npm:^2.0.1"
+    detect-port: "npm:^1.3.0"
+    doctrine: "npm:^3.0.0"
+    downshift: "npm:^6.0.15"
+    ejs: "npm:^3.1.8"
     esbuild: "npm:^0.18.0"
+    esbuild-plugin-alias: "npm:^0.2.1"
     esbuild-register: "npm:^3.5.0"
+    express: "npm:^4.17.3"
+    fetch-retry: "npm:^5.0.2"
     file-system-cache: "npm:2.3.0"
     find-cache-dir: "npm:^3.0.0"
     find-up: "npm:^5.0.0"
+    flush-promises: "npm:^1.0.2"
+    formik: "npm:^2.2.9"
     fs-extra: "npm:^11.1.0"
+    fuse.js: "npm:^3.6.1"
     glob: "npm:^10.0.0"
+    globby: "npm:^11.0.2"
     handlebars: "npm:^4.7.7"
+    ip: "npm:^2.0.0"
+    jest-mock: "npm:^27.0.6"
+    js-yaml: "npm:^4.1.0"
     lazy-universal-dotenv: "npm:^4.0.0"
     lodash: "npm:^4.17.21"
+    markdown-to-jsx: "npm:7.3.2"
     memoizerific: "npm:^1.11.3"
     mock-fs: "npm:^5.2.0"
-    node-fetch: "npm:^2.0.0"
+    nanoid: "npm:^4.0.2"
+    node-fetch: "npm:^3.3.1"
     npmlog: "npm:^5.0.1"
+    open: "npm:^8.4.0"
     picomatch: "npm:^2.3.0"
     pkg-dir: "npm:^5.0.0"
+    polished: "npm:^4.2.2"
+    prettier: "npm:^3.1.1"
     pretty-hrtime: "npm:^1.0.3"
+    process: "npm:^0.11.10"
+    prompts: "npm:^2.4.0"
     qs: "npm:^6.10.0"
+    react: "npm:^18.2.0"
+    react-colorful: "npm:^5.1.2"
+    react-dom: "npm:^18.2.0"
+    react-draggable: "npm:^4.4.5"
+    react-helmet-async: "npm:^1.3.0"
+    react-popper-tooltip: "npm:^4.4.2"
+    react-resize-detector: "npm:^7.1.2"
+    react-router-dom: "npm:6.0.2"
+    react-syntax-highlighter: "npm:^15.4.5"
+    react-textarea-autosize: "npm:^8.3.0"
+    react-transition-group: "npm:^4.4.5"
+    read-pkg-up: "npm:^7.0.1"
+    recast: "npm:^0.23.1"
+    require-from-string: "npm:^2.0.2"
     resolve-from: "npm:^5.0.0"
+    semver: "npm:^7.3.7"
     slash: "npm:^5.0.0"
+    store2: "npm:^2.14.2"
     telejson: "npm:^7.2.0"
     tiny-invariant: "npm:^1.3.1"
+    tocbot: "npm:^4.20.1"
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
+    use-resize-observer: "npm:^9.1.0"
+    util: "npm:^0.12.4"
     util-deprecate: "npm:^1.0.2"
+    watchpack: "npm:^2.2.0"
+    ws: "npm:^8.2.3"
   languageName: unknown
   linkType: soft
 
@@ -5708,30 +5536,18 @@ __metadata:
   resolution: "@storybook/csf-plugin@workspace:lib/csf-plugin"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/csf-tools": "workspace:*"
     typescript: "npm:^5.3.2"
     unplugin: "npm:^1.3.1"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
-"@storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
+"@storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:deprecated/csf-tools":
   version: 0.0.0-use.local
-  resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
+  resolution: "@storybook/csf-tools@workspace:deprecated/csf-tools"
   dependencies:
-    "@babel/generator": "npm:^7.23.0"
-    "@babel/parser": "npm:^7.23.0"
-    "@babel/traverse": "npm:^7.23.2"
-    "@babel/types": "npm:^7.23.0"
     "@storybook/core": "workspace:*"
-    "@storybook/csf": "npm:^0.1.2"
-    "@storybook/types": "workspace:*"
-    "@types/fs-extra": "npm:^11.0.1"
-    "@types/js-yaml": "npm:^4.0.5"
-    fs-extra: "npm:^11.1.0"
-    js-yaml: "npm:^4.1.0"
-    recast: "npm:^0.23.1"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -5786,22 +5602,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-tools@workspace:*, @storybook/docs-tools@workspace:lib/docs-tools":
+"@storybook/docs-tools@workspace:lib/docs-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/docs-tools@workspace:lib/docs-tools"
   dependencies:
-    "@babel/preset-react": "npm:^7.23.3"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/doctrine": "npm:^0.0.3"
-    assert: "npm:^2.1.0"
-    babel-plugin-react-docgen: "npm:4.2.1"
-    doctrine: "npm:^3.0.0"
-    lodash: "npm:^4.17.21"
-    require-from-string: "npm:^2.0.2"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -5811,11 +5616,7 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/babel__preset-env": "npm:^7"
     babel-loader: "npm:9.1.3"
     ember-source: "npm:~3.28.1"
@@ -5824,6 +5625,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@babel/core": "*"
+    "@storybook/core": "*"
     babel-plugin-ember-modules-api-polyfill: ^3.5.0
     babel-plugin-htmlbars-inline-precompile: ^5.3.1
     ember-source: ~3.28.1 || ^4.0.0
@@ -5854,12 +5656,12 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-server": "workspace:*"
     "@storybook/html": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5869,12 +5671,13 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/html": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5883,12 +5686,11 @@ __metadata:
   resolution: "@storybook/html@workspace:renderers/html"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5902,19 +5704,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:lib/instrumenter":
+"@storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:deprecated/instrumenter":
   version: 0.0.0-use.local
-  resolution: "@storybook/instrumenter@workspace:lib/instrumenter"
+  resolution: "@storybook/instrumenter@workspace:deprecated/instrumenter"
   dependencies:
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
     "@vitest/utils": "npm:^0.34.6"
     typescript: "npm:^5.3.2"
     util: "npm:^0.12.4"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5945,35 +5745,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/manager-api@workspace:*, @storybook/manager-api@workspace:lib/manager-api":
+"@storybook/manager-api@workspace:*, @storybook/manager-api@workspace:deprecated/manager-api":
   version: 0.0.0-use.local
-  resolution: "@storybook/manager-api@workspace:lib/manager-api"
+  resolution: "@storybook/manager-api@workspace:deprecated/manager-api"
   dependencies:
-    "@jest/globals": "npm:^29.3.1"
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/csf": "npm:^0.1.2"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/router": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@types/lodash": "npm:^4.14.167"
-    "@types/qs": "npm:^6"
-    "@types/semver": "npm:^7.3.4"
-    dequal: "npm:^2.0.2"
-    flush-promises: "npm:^1.0.2"
-    lodash: "npm:^4.17.21"
-    memoizerific: "npm:^1.11.3"
-    qs: "npm:^6.10.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-    semver: "npm:^7.3.7"
-    store2: "npm:^2.14.2"
-    telejson: "npm:^7.2.0"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -5981,43 +5757,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
-    "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
-    "@storybook/addon-designs": "npm:^7.0.4"
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@storybook/icons": "npm:^1.2.3"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/router": "workspace:*"
-    "@storybook/test": "workspace:*"
-    "@storybook/theming": "workspace:*"
-    "@storybook/types": "workspace:*"
-    "@testing-library/react": "npm:^11.2.2"
-    "@types/react-transition-group": "npm:^4"
-    "@types/semver": "npm:^7.3.4"
-    browser-dtector: "npm:^3.4.0"
-    copy-to-clipboard: "npm:^3.3.1"
-    downshift: "npm:^6.0.15"
-    fs-extra: "npm:^11.1.0"
-    fuse.js: "npm:^3.6.1"
-    lodash: "npm:^4.17.21"
-    markdown-to-jsx: "npm:7.3.2"
-    memoizerific: "npm:^1.11.3"
-    polished: "npm:^4.2.2"
-    qs: "npm:^6.10.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-    react-draggable: "npm:^4.4.5"
-    react-helmet-async: "npm:^1.3.0"
-    react-resize-detector: "npm:^7.1.2"
-    react-transition-group: "npm:^4.4.5"
-    resolve-from: "npm:^5.0.0"
-    semver: "npm:^7.3.7"
-    store2: "npm:^2.14.2"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -6043,13 +5783,8 @@ __metadata:
     "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/babel__core": "npm:^7"
     "@types/babel__plugin-transform-runtime": "npm:^7"
     "@types/babel__preset-env": "npm:^7"
@@ -6112,6 +5847,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     preact: ">=10"
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
@@ -6123,13 +5859,13 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/preact": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@types/node": "npm:^18.0.0"
     preact: "npm:^10.5.13"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     preact: ">=10.0.0"
   languageName: unknown
   linkType: soft
@@ -6140,12 +5876,11 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     preact: "npm:^10.5.13"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     preact: ^8.0.0||^10.0.0
   languageName: unknown
   linkType: soft
@@ -6156,14 +5891,13 @@ __metadata:
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@storybook/core": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@types/semver": "npm:^7.5.6"
     pnp-webpack-plugin: "npm:^1.7.0"
     semver: "npm:^7.5.4"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     react-scripts: ">=5.0.0"
   languageName: unknown
   linkType: soft
@@ -6178,6 +5912,8 @@ __metadata:
     html-loader: "npm:^3.1.0"
     typescript: "npm:^5.3.2"
     webpack: "npm:5"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6191,6 +5927,7 @@ __metadata:
     preact: "npm:^10.5.13"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     preact: ^8.0.0||^10.0.0
   languageName: unknown
   linkType: soft
@@ -6201,8 +5938,6 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/react": "workspace:*"
     "@storybook/react-docgen-typescript-plugin": "npm:1.0.6--canary.9.0c3f3b7.0"
     "@types/node": "npm:^18.0.0"
@@ -6214,6 +5949,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     webpack: "npm:5"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
@@ -6227,7 +5963,6 @@ __metadata:
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/server": "workspace:*"
@@ -6238,6 +5973,8 @@ __metadata:
     typescript: "npm:^5.3.2"
     yaml: "npm:^2.3.1"
     yaml-loader: "npm:^0.8.0"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6247,13 +5984,13 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     svelte: "npm:^4.0.0"
     svelte-loader: "npm:^3.1.9"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
@@ -6265,7 +6002,6 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@vue/compiler-sfc": "npm:^3.2.33"
     ts-loader: "npm:^9.2.8"
@@ -6276,14 +6012,15 @@ __metadata:
     vue-loader: "npm:^16.0.0"
     webpack: "npm:5"
   peerDependencies:
+    "@storybook/core": "*"
     "@vue/compiler-sfc": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-api@workspace:*, @storybook/preview-api@workspace:lib/preview-api":
+"@storybook/preview-api@workspace:*, @storybook/preview-api@workspace:deprecated/preview-api":
   version: 0.0.0-use.local
-  resolution: "@storybook/preview-api@workspace:lib/preview-api"
+  resolution: "@storybook/preview-api@workspace:deprecated/preview-api"
   dependencies:
     "@storybook/core": "workspace:*"
   languageName: unknown
@@ -6293,13 +6030,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview@workspace:lib/preview"
   dependencies:
-    "@storybook/channels": "workspace:*"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
     browser-dtector: "npm:^3.4.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6326,9 +6062,9 @@ __metadata:
   resolution: "@storybook/react-dom-shim@workspace:lib/react-dom-shim"
   dependencies:
     "@storybook/core": "workspace:*"
-    "@storybook/types": "workspace:*"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
@@ -6349,6 +6085,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^4.0.0 || ^5.0.0
@@ -6377,14 +6114,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
     "@storybook/react-dom-shim": "workspace:*"
     "@storybook/test": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/babel-plugin-react-docgen": "npm:^4"
     "@types/escodegen": "npm:^0.0.6"
     "@types/estree": "npm:^0.0.51"
@@ -6407,6 +6140,7 @@ __metadata:
     type-fest: "npm:~2.19"
     util-deprecate: "npm:^1.0.2"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     typescript: ">= 4.2.x"
@@ -6457,7 +6191,6 @@ __metadata:
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-plugin": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
     "@storybook/eslint-config-storybook": "npm:^4.0.0"
     "@storybook/global": "npm:^5.0.0"
@@ -6576,22 +6309,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/router@workspace:*, @storybook/router@workspace:lib/router":
+"@storybook/router@workspace:*, @storybook/router@workspace:deprecated/router":
   version: 0.0.0-use.local
-  resolution: "@storybook/router@workspace:lib/router"
+  resolution: "@storybook/router@workspace:deprecated/router"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    dequal: "npm:^2.0.2"
-    lodash: "npm:^4.17.21"
-    memoizerific: "npm:^1.11.3"
-    qs: "npm:^6.10.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-    react-router-dom: "npm:6.0.2"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
   languageName: unknown
   linkType: soft
 
@@ -6601,11 +6323,12 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/preset-server-webpack": "workspace:*"
     "@storybook/server": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6615,15 +6338,14 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
-    "@storybook/csf-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/fs-extra": "npm:^11.0.1"
     fs-extra: "npm:^11.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     yaml: "npm:^2.3.1"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6633,11 +6355,12 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
-    "@storybook/types": "workspace:*"
     estraverse: "npm:^5.2.0"
     lodash: "npm:^4.17.21"
     prettier: "npm:^3.1.1"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6647,7 +6370,6 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/svelte": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@types/node": "npm:^18.0.0"
@@ -6659,6 +6381,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     "@sveltejs/vite-plugin-svelte": ^2.0.0 || ^3.0.0
     svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^4.0.0 || ^5.0.0
@@ -6671,13 +6394,13 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/preset-svelte-webpack": "workspace:*"
     "@storybook/svelte": "workspace:*"
     svelte: "npm:^4.0.0"
     svelte-loader: "npm:^3.1.9"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
@@ -6687,13 +6410,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte@workspace:renderers/svelte"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     expect-type: "npm:^0.15.0"
     svelte: "npm:^5.0.0-next.28"
@@ -6703,6 +6421,7 @@ __metadata:
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     svelte: ^4.0.0 || ^5.0.0-next.16
   languageName: unknown
   linkType: soft
@@ -6720,6 +6439,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
@@ -6729,18 +6449,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    "@storybook/csf-tools": "workspace:*"
-    chalk: "npm:^4.1.0"
-    detect-package-manager: "npm:^2.0.1"
-    fetch-retry: "npm:^5.0.2"
-    fs-extra: "npm:^11.1.0"
-    nanoid: "npm:^4.0.2"
-    node-fetch: "npm:^3.3.1"
-    read-pkg-up: "npm:^7.0.1"
-    typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6748,11 +6459,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/test@workspace:lib/test"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-events": "workspace:*"
-    "@storybook/instrumenter": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
     "@testing-library/dom": "npm:^9.3.1"
     "@testing-library/jest-dom": "npm:^6.1.3"
     "@testing-library/user-event": "npm:14.3.0"
@@ -6763,6 +6470,8 @@ __metadata:
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
     util: "npm:^0.12.4"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6777,29 +6486,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
+"@storybook/theming@workspace:*, @storybook/theming@workspace:deprecated/theming":
   version: 0.0.0-use.local
-  resolution: "@storybook/theming@workspace:lib/theming"
+  resolution: "@storybook/theming@workspace:deprecated/theming"
   dependencies:
-    "@emotion/cache": "npm:^11.11.0"
-    "@emotion/is-prop-valid": "npm:^1.2.1"
-    "@emotion/react": "npm:^11.11.1"
-    "@emotion/styled": "npm:^11.11.0"
-    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/global": "npm:^5.0.0"
-    "@types/fs-extra": "npm:^11.0.1"
-    "@types/node": "npm:^18.0.0"
-    deep-object-diff: "npm:^1.1.0"
-    fs-extra: "npm:^11.1.0"
-    memoizerific: "npm:^1.11.3"
-    polished: "npm:^4.2.2"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
@@ -6817,7 +6508,6 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-server": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
@@ -6825,6 +6515,7 @@ __metadata:
     vite: "npm:^4.0.0"
     vue-docgen-api: "npm:^4.40.0"
   peerDependencies:
+    "@storybook/core": "*"
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -6835,7 +6526,6 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/preset-vue3-webpack": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@types/node": "npm:^18.0.0"
@@ -6843,6 +6533,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vue: "npm:3.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     "@vue/compiler-sfc": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
@@ -6854,10 +6545,7 @@ __metadata:
   dependencies:
     "@digitak/esrun": "npm:^3.2.2"
     "@storybook/core": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/prettier": "npm:^3.0.0"
     "@vitejs/plugin-vue": "npm:^4.4.0"
     "@vue/compiler-core": "npm:^3.0.0"
@@ -6879,12 +6567,12 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-server": "workspace:*"
-    "@storybook/node-logger": "workspace:*"
     "@storybook/web-components": "workspace:*"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
     typescript: "npm:^5.3.2"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -6894,12 +6582,12 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/core-common": "workspace:*"
     "@storybook/web-components": "workspace:*"
     "@types/node": "npm:^18.0.0"
     lit: "npm:2.3.1"
     typescript: "npm:^5.3.2"
   peerDependencies:
+    "@storybook/core": "*"
     lit: ^2.0.0 || ^3.0.0
   languageName: unknown
   linkType: soft
@@ -6908,13 +6596,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:renderers/web-components"
   dependencies:
-    "@storybook/client-logger": "workspace:*"
     "@storybook/core": "workspace:*"
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/manager-api": "workspace:*"
-    "@storybook/preview-api": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/cross-spawn": "npm:^6.0.2"
     "@types/node": "npm:^18.0.0"
     cross-spawn: "npm:^7.0.3"
@@ -6924,6 +6607,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     web-component-analyzer: "npm:^1.1.6"
   peerDependencies:
+    "@storybook/core": "*"
     lit: ^2.0.0 || ^3.0.0
   languageName: unknown
   linkType: soft
@@ -7769,7 +7453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-fetch@npm:^2.5.7, @types/node-fetch@npm:^2.6.4":
+"@types/node-fetch@npm:^2.5.7":
   version: 2.6.9
   resolution: "@types/node-fetch@npm:2.6.9"
   dependencies:
@@ -19029,7 +18713,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-element@npm:^3.2.0, lit-element@npm:^3.3.0":
+"lit-element@npm:^3.2.0":
   version: 3.3.3
   resolution: "lit-element@npm:3.3.3"
   dependencies:
@@ -19057,17 +18741,6 @@ __metadata:
     lit-element: "npm:^3.2.0"
     lit-html: "npm:^2.3.0"
   checksum: 7ca5dde792bd03bf2a1f162f4d376d191913b3e8fc37c7bafb36cdde5c3b81e934a1a9a3c38efd92aacd2ca4858b40434e49c90b370da9802caaa92c05fb3b63
-  languageName: node
-  linkType: hard
-
-"lit@npm:^2.1.3":
-  version: 2.8.0
-  resolution: "lit@npm:2.8.0"
-  dependencies:
-    "@lit/reactive-element": "npm:^1.6.0"
-    lit-element: "npm:^3.3.0"
-    lit-html: "npm:^2.8.0"
-  checksum: bf33c26b1937ee204aed1adbfa4b3d43a284e85aad8ea9763c7865365917426eded4e5888158b4136095ea42054812561fe272862b61775f1198fad3588b071f
   languageName: node
   linkType: hard
 
@@ -21470,7 +21143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.0.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
+"node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:

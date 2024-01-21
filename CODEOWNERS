@@ -56,22 +56,22 @@
 /code/lib/cli-sb/         @yannbf @valentinpalkovic @ndelangen
 /code/lib/cli-storybook/  @yannbf @valentinpalkovic @ndelangen
 /code/lib/codemod/        @kasperpeulen @ndelangen
-/code/lib/core-server/    @ndelangen @JReinhold @tmeasday @shilman
 /code/lib/core-webpack/   @valentinpalkovic @ndelangen
 /code/lib/csf-plugin/     @ndelangen @valentinpalkovic
-/code/lib/csf-tools/      @kasperpeulen @shilman
 /code/lib/docs-tools/     @JReinhold @shilman
-/code/lib/instrumenter/   @yannbf @kasperpeulen
-/code/lib/manager-api/    @ndelangen @valentinpalkovic @kasperpeulen
-/code/lib/node-logger/    @yannbf @ndelangen
 /code/lib/preview/        @ndelangen @kasperpeulen
-/code/lib/preview-api/    @yannbf @ndelangen @tmeasday
 /code/lib/react-dom-shim/ @ndelangen @valentinpalkovic @tmeasday
-/code/lib/router/         @ndelangen @JReinhold
 /code/lib/telemetry/      @shilman @yannbf @ndelangen
-/code/lib/theming/        @cdedreuille @ndelangen @JReinhold
 
 # Deprecations
+/code/deprecated/manager-api/   @ndelangen
+/code/deprecated/router/        @ndelangen
+/code/deprecated/theming/       @ndelangen
+/code/deprecated/instrumenter/  @ndelangen
+/code/deprecated/core-server/   @ndelangen
+/code/deprecated/csf-tools/     @ndelangen
+/code/deprecated/preview-api/   @ndelangen
+/code/deprecated/node-logger/   @ndelangen
 /code/deprecated/core-events/   @ndelangen
 /code/deprecated/core-common/   @ndelangen
 /code/deprecated/channels/      @ndelangen

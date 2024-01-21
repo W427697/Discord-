@@ -19,21 +19,22 @@ export const allowList = [
   '@storybook/client-logger',
   '@storybook/core-client',
   '@storybook/preview-web',
-  '@storybook/core/dist/modules/preview-api/index',
+  '@storybook/preview-api',
   '@storybook/store',
 
   // see this file for more info: code/ui/manager/src/globals/types.ts
-  '@storybook/components',
-  '@storybook/router',
+  '@storybook/core/dist/modules/components/index',
+  '@storybook/core/dist/modules/router/index',
   '@storybook/theming',
   '@storybook/api',
-  '@storybook/manager-api',
+  '@storybook/core/dist/modules/manager-api/index',
 ];
 
 // These packages definitely will cause issues if they're duplicated
 export const disallowList = [
   Object.keys(rendererPackages),
   Object.keys(frameworkPackages),
+  '@storybook/core',
   '@storybook/core-events',
   '@storybook/instrumenter',
   '@storybook/core-common',

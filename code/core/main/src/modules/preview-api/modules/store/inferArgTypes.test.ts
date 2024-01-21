@@ -3,7 +3,7 @@ import { logger } from '../../../client-logger';
 
 import { inferArgTypes } from './inferArgTypes';
 
-vi.mock('@storybook/client-logger');
+vi.mock('../../../client-logger');
 
 describe('inferArgTypes', () => {
   it('infers scalar types', () => {

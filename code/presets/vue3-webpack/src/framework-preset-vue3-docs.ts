@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/core-webpack';
-import { hasDocsOrControls } from '@storybook/docs-tools';
+import { hasDocsOrControls } from '@storybook/core/dist/modules/docs-tools/index';
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = (config, options) => {
   if (!hasDocsOrControls(options)) return config;

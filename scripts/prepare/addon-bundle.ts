@@ -11,7 +11,7 @@ import slash from 'slash';
 import { exec } from '../utils/exec';
 
 import { globalPackages as globalPreviewPackages } from '../../code/lib/preview/src/globals/globals';
-import { globalPackages as globalManagerPackages } from '../../code/ui/manager/src/globals/globals';
+import { globalPackages as globalManagerPackages } from '../../code/core/main/src/modules/manager/globals/globals';
 
 /* TYPES */
 

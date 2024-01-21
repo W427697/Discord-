@@ -25,7 +25,7 @@ describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
   [
     '│ ├── @storybook/theming@6.0.0-beta.37 extraneous',
-    { package: '@storybook/theming', version: '6.0.0-beta.37' },
+    { package: '@storybook/core/dist/modules/theming/index', version: '6.0.0-beta.37' },
   ],
   [
     '├─┬ @storybook/preset-create-react-app@3.1.2',

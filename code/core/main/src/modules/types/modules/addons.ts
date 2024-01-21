@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import type { RenderData as RouterData } from '@storybook/router/src/types';
-import type { ThemeVars } from '@storybook/theming/src/types';
+import type { RenderData as RouterData } from '../../router';
+import type { ThemeVars } from '../../theming';
 import type { API_SidebarOptions } from './api';
 import type {
   Args,
@@ -393,7 +393,7 @@ export interface Addon_PageType {
    *
    * If you want to render your component only when the URL matches, use the `Route` component.
    * @example
-   * import { Route } from '@storybook/router';
+   * import { Route } from '../../../types/modules/router/index';
    *
    * render: () => {
    *   return (

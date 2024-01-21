@@ -28,7 +28,7 @@ import {
   CalledExtractOnStoreError,
   MissingStoryFromCsfFileError,
 } from '../../../events/errors/preview-errors';
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '../../../client-logger';
 import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';

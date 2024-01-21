@@ -55,7 +55,7 @@ export default {
   '@storybook/preset-svelte-webpack': '8.0.0-alpha.11',
   '@storybook/preset-vue3-webpack': '8.0.0-alpha.11',
   '@storybook/preview': '8.0.0-alpha.11',
-  '@storybook/core/dist/modules/preview-api/index': '8.0.0-alpha.11',
+  '@storybook/preview-api': '8.0.0-alpha.11',
   '@storybook/react': '8.0.0-alpha.11',
   '@storybook/react-dom-shim': '8.0.0-alpha.11',
   '@storybook/react-vite': '8.0.0-alpha.11',

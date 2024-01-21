@@ -1,6 +1,10 @@
 import type { StrictArgTypes } from '@storybook/core/dist/modules/types/index';
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
-import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools';
+import type { ArgTypesExtractor } from '@storybook/core/dist/modules/docs-tools/index';
+import {
+  hasDocgen,
+  extractComponentProps,
+  convert,
+} from '@storybook/core/dist/modules/docs-tools/index';
 
 const SECTIONS = ['props', 'events', 'slots', 'methods'];
 

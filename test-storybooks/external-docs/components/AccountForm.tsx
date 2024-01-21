@@ -1,4 +1,4 @@
-import { keyframes, styled } from '@storybook/theming';
+import { keyframes, styled } from '@storybook/core/dist/modules/theming/index';
 import {
   ErrorMessage,
   Field as FormikInput,

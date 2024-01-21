@@ -1,6 +1,6 @@
 import React from 'react';
-import { addons, types, useArgTypes } from '@storybook/manager-api';
-import { AddonPanel, Badge, Spaced } from '@storybook/components';
+import { addons, types, useArgTypes } from '@storybook/core/dist/modules/manager-api/index';
+import { AddonPanel, Badge, Spaced } from '@storybook/core/dist/modules/components/index';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
 

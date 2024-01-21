@@ -1,6 +1,6 @@
-import type { Call } from '@storybook/instrumenter';
+import type { Call } from '@storybook/core/dist/modules/instrumenter/index';
 import React from 'react';
-import { styled, typography } from '@storybook/theming';
+import { styled, typography } from '@storybook/core/dist/modules/theming/index';
 import { Node, MethodCall } from './MethodCall';
 
 const StyledWrapper = styled.div(({ theme }) => ({

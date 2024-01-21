@@ -1,5 +1,5 @@
 import type { ArgTypesEnhancer, DecoratorFunction } from '@storybook/core/dist/modules/types/index';
-import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+import { SourceType, enhanceArgTypes } from '@storybook/core/dist/modules/docs-tools/index';
 import { extractArgTypes, extractComponentDescription } from './docs/custom-elements';
 import { sourceDecorator } from './docs/sourceDecorator';
 import type { WebComponentsRenderer } from './types';

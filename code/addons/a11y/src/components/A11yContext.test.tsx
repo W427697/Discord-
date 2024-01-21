@@ -2,14 +2,15 @@ import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
 import { render, act, cleanup } from '@testing-library/react';
-import * as api from '@storybook/manager-api';
+// eslint-disable-next-line import/namespace
+import * as api from '@storybook/core/dist/modules/manager-api/index';
 import { STORY_CHANGED } from '@storybook/core/dist/modules/events/index';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-vi.mock('@storybook/manager-api');
+vi.mock('@storybook/core/dist/modules/manager-api/index');
 const mockedApi = vi.mocked(api);
 
 const storyId = 'jest';

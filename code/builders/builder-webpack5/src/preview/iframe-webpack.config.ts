@@ -31,11 +31,11 @@ const maybeGetAbsolutePath = <I extends string>(input: I): I | false => {
   }
 };
 
-const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
-const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
+const managerAPIPath = maybeGetAbsolutePath(`@storybook/core/dist/modules/manager-api/index`);
+const componentsPath = maybeGetAbsolutePath(`@storybook/core/dist/modules/components/index`);
 const globalPath = maybeGetAbsolutePath(`@storybook/global`);
-const routerPath = maybeGetAbsolutePath(`@storybook/router`);
-const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
+const routerPath = maybeGetAbsolutePath(`@storybook/core/dist/modules/router/index`);
+const themingPath = maybeGetAbsolutePath(`@storybook/core/dist/modules/theming/index`);
 
 // these packages are not pre-bundled because of react dependencies.
 // these are not dependencies of the builder anymore, thus resolving them can fail.

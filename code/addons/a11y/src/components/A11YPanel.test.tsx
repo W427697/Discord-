@@ -2,13 +2,13 @@ import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, waitFor, fireEvent, act, cleanup } from '@testing-library/react';
 
-import { ThemeProvider, themes, convert } from '@storybook/theming';
-import * as api from '@storybook/manager-api';
+import { ThemeProvider, themes, convert } from '@storybook/core/dist/modules/theming/index';
+import * as api from '@storybook/core/dist/modules/manager-api/index';
 
 import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
-vi.mock('@storybook/manager-api');
+vi.mock('@storybook/core/dist/modules/manager-api/index');
 
 global.ResizeObserver = require('resize-observer-polyfill');
 

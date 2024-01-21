@@ -1,4 +1,4 @@
-import { hasDocsOrControls } from '@storybook/docs-tools';
+import { hasDocsOrControls } from '@storybook/core/dist/modules/docs-tools/index';
 
 import type { Configuration } from 'webpack';
 import type { StorybookConfig } from './types';

@@ -1,4 +1,4 @@
-import type { PropDef, ExtractedProp } from '@storybook/docs-tools';
+import type { PropDef, ExtractedProp } from '@storybook/core/dist/modules/docs-tools/index';
 import { createDefaultValue, createDefaultValueFromRawDefaultProp } from '../lib/defaultValues';
 
 export function enhanceTypeScriptProp(extractedProp: ExtractedProp, rawDefaultProp?: any): PropDef {

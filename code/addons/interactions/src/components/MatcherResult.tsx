@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, typography } from '@storybook/theming';
+import { styled, typography } from '@storybook/core/dist/modules/theming/index';
 import { Node } from './MethodCall';
 
 const getParams = (line: string, fromIndex = 0): string => {

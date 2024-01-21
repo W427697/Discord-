@@ -1,5 +1,8 @@
 import { sync as readUpSync } from 'read-pkg-up';
-import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
+import {
+  buildStaticStandalone,
+  withTelemetry,
+} from '@storybook/core/dist/modules/core-server/index';
 import { cache } from '@storybook/core/dist/modules/core-common/index';
 import invariant from 'tiny-invariant';
 

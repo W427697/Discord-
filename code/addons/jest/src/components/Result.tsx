@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { styled, themes, convert } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { styled, themes, convert } from '@storybook/core/dist/modules/theming/index';
+import { Icons } from '@storybook/core/dist/modules/components/index';
 // eslint-disable-next-line import/no-named-as-default
 import Message from './Message';
 

@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/modules/theming/index';
 
 export const ColorIcon = styled.span(
   ({ background }: { background: string }) => ({

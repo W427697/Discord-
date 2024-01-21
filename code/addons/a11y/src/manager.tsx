@@ -1,6 +1,6 @@
 import React from 'react';
-import { addons, types, useAddonState } from '@storybook/manager-api';
-import { Badge, Spaced } from '@storybook/components';
+import { addons, types, useAddonState } from '@storybook/core/dist/modules/manager-api/index';
+import { Badge, Spaced } from '@storybook/core/dist/modules/components/index';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { VisionSimulator } from './components/VisionSimulator';
 import { A11YPanel } from './components/A11YPanel';

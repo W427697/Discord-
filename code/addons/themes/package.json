@@ -56,16 +56,12 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/components": "workspace:*",
     "@storybook/core": "workspace:*",
-    "@storybook/core-events": "workspace:*",
     "@storybook/icons": "^1.2.3",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
-    "@storybook/types": "workspace:*",
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "@storybook/core": "*"
   },
   "publishConfig": {
     "access": "public"

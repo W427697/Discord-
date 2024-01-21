@@ -1,4 +1,4 @@
-import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+import { SourceType, enhanceArgTypes } from '@storybook/core/dist/modules/docs-tools/index';
 import {
   Parameters,
   DecoratorFunction,

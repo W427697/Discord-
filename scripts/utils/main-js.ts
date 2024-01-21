@@ -2,8 +2,8 @@ import { existsSync } from 'fs';
 import { join, resolve } from 'path';
 
 import slash from 'slash';
-import type { ConfigFile } from '../../code/lib/csf-tools/src';
-import { readConfig } from '../../code/lib/csf-tools/src';
+import type { ConfigFile } from '../../code/core/main/src/modules/csf-tools';
+import { readConfig } from '../../code/core/main/src/modules/csf-tools';
 import { getInterpretedFile } from '../../code/core/main/src/modules/core-common';
 
 export async function readMainConfig({ cwd }: { cwd: string }) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
-import { CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+import { CallStates } from '@storybook/core/dist/modules/instrumenter/index';
+import { styled } from '@storybook/core/dist/modules/theming/index';
 import { userEvent, within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/test';
 import isChromatic from 'chromatic/isChromatic';

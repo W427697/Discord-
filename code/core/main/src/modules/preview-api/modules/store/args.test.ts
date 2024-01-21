@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { once } from '@storybook/client-logger';
+import { once } from '../../../client-logger';
 import type { SBType } from '../../../types';
 
 import {
@@ -18,7 +18,7 @@ const functionType: SBType = { name: 'function' };
 const numArrayType: SBType = { name: 'array', value: numberType };
 const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
-vi.mock('@storybook/client-logger');
+vi.mock('../../../client-logger');
 
 enum ArgsMapTestEnumWithoutInitializer {
   EnumValue,

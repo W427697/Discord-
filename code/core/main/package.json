@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/types",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/core/main",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -34,13 +34,13 @@
     },
     "./dist/modules/core-common/index": {
       "types": "./dist/modules/core-common/index.d.ts",
-      "module": "./dist/modules/core-common/index.mjs",
-      "require": "./dist/modules/core-common/index.js"
+      "require": "./dist/modules/core-common/index.js",
+      "module": "./dist/modules/core-common/index.mjs"
     },
     "./dist/modules/types/index": {
       "types": "./dist/modules/types/index.d.ts",
-      "require": "./dist/modules/types/index.js",
-      "module": "./dist/modules/types/index.mjs"
+      "module": "./dist/modules/types/index.mjs",
+      "require": "./dist/modules/types/index.js"
     },
     "./dist/modules/events/index": {
       "types": "./dist/modules/events/index.d.ts",
@@ -59,18 +59,111 @@
     },
     "./dist/modules/events/errors/server-errors": {
       "types": "./dist/modules/events/errors/server-errors.d.ts",
-      "module": "./dist/modules/events/errors/server-errors.mjs",
-      "require": "./dist/modules/events/errors/server-errors.js"
+      "require": "./dist/modules/events/errors/server-errors.js",
+      "module": "./dist/modules/events/errors/server-errors.mjs"
     },
     "./dist/modules/node-logger/index": {
       "types": "./dist/modules/node-logger/index.d.ts",
-      "module": "./dist/modules/node-logger/index.mjs",
-      "require": "./dist/modules/node-logger/index.js"
+      "require": "./dist/modules/node-logger/index.js",
+      "module": "./dist/modules/node-logger/index.mjs"
     },
     "./dist/modules/preview-api/index": {
       "types": "./dist/modules/preview-api/index.d.ts",
       "module": "./dist/modules/preview-api/index.mjs",
       "require": "./dist/modules/preview-api/index.js"
+    },
+    "./dist/modules/core-server/index": {
+      "types": "./dist/modules/core-server/index.d.ts",
+      "require": "./dist/modules/core-server/index.js",
+      "module": "./dist/modules/core-server/index.mjs"
+    },
+    "./dist/modules/core-server/presets/common-preset": {
+      "types": "./dist/modules/core-server/presets/common-preset.d.ts",
+      "require": "./dist/modules/core-server/presets/common-preset.js",
+      "module": "./dist/modules/core-server/presets/common-preset.mjs"
+    },
+    "./dist/modules/core-server/presets/common-manager": {
+      "types": "./dist/modules/core-server/presets/common-manager.d.ts",
+      "require": "./dist/modules/core-server/presets/common-manager.js",
+      "module": "./dist/modules/core-server/presets/common-manager.mjs"
+    },
+    "./dist/modules/core-server/presets/common-override-preset": {
+      "types": "./dist/modules/core-server/presets/common-override-preset.d.ts",
+      "require": "./dist/modules/core-server/presets/common-override-preset.js",
+      "module": "./dist/modules/core-server/presets/common-override-preset.mjs"
+    },
+    "./dist/modules/builder-manager/index": {
+      "types": "./dist/modules/builder-manager/index.d.ts",
+      "require": "./dist/modules/builder-manager/index.js",
+      "module": "./dist/modules/builder-manager/index.mjs"
+    },
+    "./dist/modules/csf-tools/index": {
+      "types": "./dist/modules/csf-tools/index.d.ts",
+      "require": "./dist/modules/csf-tools/index.js",
+      "module": "./dist/modules/csf-tools/index.mjs"
+    },
+    "./dist/modules/instrumenter/index": {
+      "types": "./dist/modules/instrumenter/index.d.ts",
+      "module": "./dist/modules/instrumenter/index.mjs",
+      "require": "./dist/modules/instrumenter/index.js"
+    },
+    "./dist/modules/theming/index": {
+      "types": "./dist/modules/theming/index.d.ts",
+      "module": "./dist/modules/theming/index.mjs"
+    },
+    "./dist/modules/theming/create": {
+      "types": "./dist/modules/theming/create.d.ts",
+      "module": "./dist/modules/theming/create.mjs"
+    },
+    "./dist/modules/router/index": {
+      "types": "./dist/modules/router/index.d.ts",
+      "module": "./dist/modules/router/index.mjs"
+    },
+    "./dist/modules/router/utils": {
+      "types": "./dist/modules/router/utils.d.ts",
+      "module": "./dist/modules/router/utils.mjs"
+    },
+    "./dist/modules/manager-api/index": {
+      "types": "./dist/modules/manager-api/index.d.ts",
+      "module": "./dist/modules/manager-api/index.mjs"
+    },
+    "./dist/modules/components/index": {
+      "types": "./dist/modules/components/index.d.ts",
+      "module": "./dist/modules/components/index.mjs",
+      "require": "./dist/modules/components/index.js"
+    },
+    "./dist/modules/blocks/index": {
+      "types": "./dist/modules/blocks/index.d.ts",
+      "module": "./dist/modules/blocks/index.mjs",
+      "require": "./dist/modules/blocks/index.js"
+    },
+    "./dist/modules/manager/globals-module-info": {
+      "types": "./dist/modules/manager/globals-module-info.d.ts",
+      "require": "./dist/modules/manager/globals-module-info.js",
+      "module": "./dist/modules/manager/globals-module-info.mjs"
+    },
+    "./dist/modules/manager/runtime": {
+      "types": "./dist/modules/manager/runtime.d.ts",
+      "module": "./dist/modules/manager/runtime.mjs"
+    },
+    "./dist/modules/manager/index": {
+      "types": "./dist/modules/manager/index.d.ts",
+      "module": "./dist/modules/manager/index.mjs"
+    },
+    "./dist/modules/manager/globals": {
+      "types": "./dist/modules/manager/globals.d.ts",
+      "require": "./dist/modules/manager/globals.js",
+      "module": "./dist/modules/manager/globals.mjs"
+    },
+    "./dist/modules/docs-tools/index": {
+      "types": "./dist/modules/docs-tools/index.d.ts",
+      "module": "./dist/modules/docs-tools/index.mjs",
+      "require": "./dist/modules/docs-tools/index.js"
+    },
+    "./dist/modules/telemetry/index": {
+      "types": "./dist/modules/telemetry/index.d.ts",
+      "module": "./dist/modules/telemetry/index.mjs",
+      "require": "./dist/modules/telemetry/index.js"
     }
   },
   "main": "dist/index.js",
@@ -87,54 +180,139 @@
     "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/core-bundle.ts"
   },
-  "dependencies": {
-    "@storybook/global": "^5.0.0",
-    "@types/express": "^4.7.0",
-    "@types/node": "^18.0.0",
-    "@types/node-fetch": "^2.6.4",
-    "@types/pretty-hrtime": "^1.0.0",
-    "chalk": "^4.1.0",
-    "dequal": "^2.0.2",
-    "esbuild": "^0.18.0",
-    "esbuild-register": "^3.5.0",
-    "glob": "^10.0.0",
-    "handlebars": "^4.7.7",
-    "lazy-universal-dotenv": "^4.0.0",
-    "lodash": "^4.17.21",
-    "memoizerific": "^1.11.3",
-    "node-fetch": "^2.0.0",
-    "picomatch": "^2.3.0",
-    "pkg-dir": "^5.0.0",
-    "pretty-hrtime": "^1.0.3",
-    "qs": "^6.10.0",
-    "resolve-from": "^5.0.0",
-    "telejson": "^7.2.0",
-    "tiny-invariant": "^1.3.1",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
-  },
   "devDependencies": {
+    "@aw-web-design/x-default-browser": "1.4.126",
+    "@babel/generator": "^7.23.0",
+    "@babel/parser": "^7.23.0",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/traverse": "^7.23.2",
+    "@babel/types": "^7.23.0",
+    "@devtools-ds/object-inspector": "^1.1.2",
+    "@discoveryjs/json-ext": "^0.5.3",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/is-prop-valid": "^1.2.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@jest/globals": "^29.5.0",
+    "@popperjs/core": "^2.6.0",
+    "@radix-ui/react-scroll-area": "^1.0.5",
+    "@radix-ui/react-slot": "^1.0.2",
     "@storybook/csf": "^0.1.2",
+    "@storybook/docs-mdx": "3.0.0",
+    "@storybook/global": "^5.0.0",
+    "@storybook/icons": "^1.2.3",
+    "@storybook/testing-library": "next",
+    "@testing-library/react": "^11.2.2",
+    "@types/color-convert": "^2.0.0",
+    "@types/compression": "^1.7.0",
+    "@types/detect-port": "^1.3.0",
+    "@types/doctrine": "^0.0.3",
+    "@types/ejs": "^3.1.1",
+    "@types/express": "^4.7.0",
     "@types/find-cache-dir": "^3.2.1",
     "@types/fs-extra": "^11.0.1",
+    "@types/ip": "^1.1.0",
+    "@types/js-yaml": "^4.0.5",
+    "@types/lodash": "^4.14.167",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^18.0.0",
+    "@types/node-fetch": "^2.5.7",
     "@types/npmlog": "^4.1.2",
     "@types/picomatch": "^2.3.0",
     "@types/pretty-hrtime": "^1.0.0",
+    "@types/qs": "^6",
+    "@types/react-syntax-highlighter": "11.0.5",
+    "@types/react-transition-group": "^4",
+    "@types/semver": "^7.3.4",
+    "@types/util-deprecate": "^1.0.0",
+    "@types/ws": "^8",
+    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
     "ansi-to-html": "^0.6.11",
+    "assert": "^2.1.0",
+    "babel-plugin-react-docgen": "4.2.1",
+    "better-opn": "^3.0.2",
+    "boxen": "^5.1.2",
+    "browser-assert": "^1.2.1",
+    "browser-dtector": "^3.4.0",
     "chalk": "^4.1.0",
+    "cli-table3": "^0.6.1",
+    "color-convert": "^2.0.1",
+    "compression": "^1.7.4",
+    "copy-to-clipboard": "^3.3.1",
+    "css": "^3.0.0",
+    "deep-object-diff": "^1.1.0",
+    "dequal": "^2.0.2",
+    "detect-package-manager": "^2.0.1",
+    "detect-port": "^1.3.0",
+    "doctrine": "^3.0.0",
+    "downshift": "^6.0.15",
+    "ejs": "^3.1.8",
+    "esbuild": "^0.18.0",
+    "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-register": "^3.5.0",
+    "express": "^4.17.3",
+    "fetch-retry": "^5.0.2",
     "file-system-cache": "2.3.0",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
+    "flush-promises": "^1.0.2",
+    "formik": "^2.2.9",
     "fs-extra": "^11.1.0",
+    "fuse.js": "^3.6.1",
+    "glob": "^10.0.0",
+    "globby": "^11.0.2",
+    "handlebars": "^4.7.7",
+    "ip": "^2.0.0",
+    "jest-mock": "^27.0.6",
+    "js-yaml": "^4.1.0",
+    "lazy-universal-dotenv": "^4.0.0",
+    "lodash": "^4.17.21",
+    "markdown-to-jsx": "7.3.2",
+    "memoizerific": "^1.11.3",
     "mock-fs": "^5.2.0",
+    "nanoid": "^4.0.2",
+    "node-fetch": "^3.3.1",
     "npmlog": "^5.0.1",
+    "open": "^8.4.0",
+    "picomatch": "^2.3.0",
+    "pkg-dir": "^5.0.0",
+    "polished": "^4.2.2",
+    "prettier": "^3.1.1",
     "pretty-hrtime": "^1.0.3",
+    "process": "^0.11.10",
+    "prompts": "^2.4.0",
+    "qs": "^6.10.0",
+    "react": "^18.2.0",
+    "react-colorful": "^5.1.2",
+    "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.5",
+    "react-helmet-async": "^1.3.0",
+    "react-popper-tooltip": "^4.4.2",
+    "react-resize-detector": "^7.1.2",
+    "react-router-dom": "6.0.2",
+    "react-syntax-highlighter": "^15.4.5",
+    "react-textarea-autosize": "^8.3.0",
+    "react-transition-group": "^4.4.5",
+    "read-pkg-up": "^7.0.1",
+    "recast": "^0.23.1",
+    "require-from-string": "^2.0.2",
+    "resolve-from": "^5.0.0",
+    "semver": "^7.3.7",
     "slash": "^5.0.0",
+    "store2": "^2.14.2",
+    "telejson": "^7.2.0",
+    "tiny-invariant": "^1.3.1",
+    "tocbot": "^4.20.1",
+    "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "use-resize-observer": "^9.1.0",
+    "util": "^0.12.4",
+    "util-deprecate": "^1.0.2",
+    "watchpack": "^2.2.0",
+    "ws": "^8.2.3"
   },
   "publishConfig": {
     "access": "public"

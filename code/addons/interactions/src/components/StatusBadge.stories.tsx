@@ -1,4 +1,4 @@
-import { CallStates } from '@storybook/instrumenter';
+import { CallStates } from '@storybook/core/dist/modules/instrumenter/index';
 import { StatusBadge } from './StatusBadge';
 
 export default {

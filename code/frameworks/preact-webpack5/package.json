@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
-    "@storybook/core-common": "workspace:*",
     "@storybook/preact": "workspace:*",
     "@storybook/preset-preact-webpack": "workspace:*",
     "@types/node": "^18.0.0"
@@ -59,6 +58,7 @@
     "typescript": "^5.3.2"
   },
   "peerDependencies": {
+    "@storybook/core": "*",
     "preact": ">=10.0.0"
   },
   "engines": {

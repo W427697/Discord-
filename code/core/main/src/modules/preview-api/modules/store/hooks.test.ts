@@ -26,7 +26,7 @@ import {
 
 import { defaultDecorateStory } from './decorators';
 
-vi.mock('@storybook/client-logger', () => ({
+vi.mock('../client-logger', () => ({
   logger: { warn: vi.fn(), log: vi.fn() },
 }));
 

@@ -1,7 +1,11 @@
 import { global } from '@storybook/global';
 import type { Dispatch, SetStateAction } from 'react';
 import React, { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react';
-import { useAddonState, useChannel, useParameter } from '@storybook/manager-api';
+import {
+  useAddonState,
+  useChannel,
+  useParameter,
+} from '@storybook/core/dist/modules/manager-api/index';
 import {
   FORCE_REMOUNT,
   STORY_RENDER_PHASE_CHANGED,
@@ -9,7 +13,12 @@ import {
   PLAY_FUNCTION_THREW_EXCEPTION,
   UNHANDLED_ERRORS_WHILE_PLAYING,
 } from '@storybook/core/dist/modules/events/index';
-import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrumenter';
+import {
+  EVENTS,
+  type Call,
+  CallStates,
+  type LogItem,
+} from '@storybook/core/dist/modules/instrumenter/index';
 
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { ADDON_ID } from './constants';

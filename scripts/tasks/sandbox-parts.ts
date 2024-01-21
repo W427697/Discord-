@@ -25,9 +25,9 @@ import {
   addWorkaroundResolutions,
 } from '../utils/yarn';
 import { exec } from '../utils/exec';
-import type { ConfigFile } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/deprecated/csf-tools/dist';
 import storybookPackages from '../../code/lib/cli/src/versions';
-import { writeConfig } from '../../code/lib/csf-tools';
+import { writeConfig } from '../../code/deprecated/csf-tools/dist';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
@@ -36,7 +36,7 @@ import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 import { workspacePath } from '../utils/workspace';
-import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
+import { babelParse } from '../../code/core/main/src/modules/csf-tools/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
 import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';

@@ -56,9 +56,6 @@
     "@babel/preset-env": "^7.23.2",
     "@babel/types": "^7.23.0",
     "@storybook/csf": "^0.1.2",
-    "@storybook/csf-tools": "workspace:*",
-    "@storybook/node-logger": "workspace:*",
-    "@storybook/types": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
@@ -83,6 +80,9 @@
     "unist-util-visit": "^5.0.0",
     "util": "^0.12.4",
     "vfile": "^5.3.7"
+  },
+  "peerDependencies": {
+    "@storybook/core": "*"
   },
   "publishConfig": {
     "access": "public"
