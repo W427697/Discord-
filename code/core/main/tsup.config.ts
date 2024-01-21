@@ -56,4 +56,9 @@ export default defineConfig([
     format: ['esm', 'cjs'],
     target: ['node18'],
   },
+  {
+    entry: ['./src/modules/preview-api/index.ts'],
+    format: ['esm', 'cjs'],
+    target: ['chrome100', 'safari15', 'firefox91'],
+  },
 ]);
