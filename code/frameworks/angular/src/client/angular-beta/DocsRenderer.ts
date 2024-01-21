@@ -1,4 +1,4 @@
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core/dist/modules/events/index';
 
 import { getNextStoryUID } from './utils/StoryUID';

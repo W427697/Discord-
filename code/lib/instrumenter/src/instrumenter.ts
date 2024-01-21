@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import type { StoryId } from '@storybook/core/dist/modules/types/index';
 import { once } from '@storybook/client-logger';
 import './typings.d.ts';

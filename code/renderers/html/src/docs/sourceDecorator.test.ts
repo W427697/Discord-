@@ -1,11 +1,11 @@
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type { Mock } from 'vitest';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { sourceDecorator } from './sourceDecorator';
 import type { StoryContext } from '../types';
 
-vi.mock('@storybook/preview-api');
+vi.mock('@storybook/core/dist/modules/preview-api/index');
 const mockedAddons = vi.mocked(addons);
 const mockedUseEffect = vi.mocked(useEffect);
 

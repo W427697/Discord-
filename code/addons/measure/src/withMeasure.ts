@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { useEffect } from '@storybook/preview-api';
+import { useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type {
   Renderer,
   PartialStoryFn as StoryFunction,

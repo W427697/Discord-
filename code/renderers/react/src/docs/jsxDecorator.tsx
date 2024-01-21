@@ -4,7 +4,7 @@ import React, { isValidElement, createElement } from 'react';
 import type { Options } from 'react-element-to-jsx-string';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type {
   StoryContext,
   ArgsStoryFn,

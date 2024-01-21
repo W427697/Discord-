@@ -74,11 +74,14 @@ describe('Yarn 2 Proxy', () => {
       const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/preview-api',
+        '@storybook/core/dist/modules/preview-api/index',
       ]);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ command: 'yarn', args: ['add', '-D', '@storybook/preview-api'] })
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['add', '-D', '@storybook/core/dist/modules/preview-api/index'],
+        })
       );
     });
   });
@@ -87,12 +90,12 @@ describe('Yarn 2 Proxy', () => {
     it('should run `yarn remove @storybook/preview-api`', async () => {
       const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      await yarn2Proxy.removeDependencies({}, ['@storybook/preview-api']);
+      await yarn2Proxy.removeDependencies({}, ['@storybook/core/dist/modules/preview-api/index']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: ['remove', '@storybook/preview-api'],
+          args: ['remove', '@storybook/core/dist/modules/preview-api/index'],
         })
       );
     });
@@ -133,12 +136,21 @@ describe('Yarn 2 Proxy', () => {
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce('{"name":"@storybook/preview-api","version":"5.3.19"}');
 
-      const version = await yarn2Proxy.latestVersion('@storybook/preview-api');
+      const version = await yarn2Proxy.latestVersion(
+        '@storybook/core/dist/modules/preview-api/index'
+      );
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: ['npm', 'info', '@storybook/preview-api', '--fields', 'version', '--json'],
+          args: [
+            'npm',
+            'info',
+            '@storybook/core/dist/modules/preview-api/index',
+            '--fields',
+            'version',
+            '--json',
+          ],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -151,12 +163,22 @@ describe('Yarn 2 Proxy', () => {
           '{"name":"@storybook/preview-api","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
         );
 
-      const version = await yarn2Proxy.latestVersion('@storybook/preview-api', '5.X');
+      const version = await yarn2Proxy.latestVersion(
+        '@storybook/core/dist/modules/preview-api/index',
+        '5.X'
+      );
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: ['npm', 'info', '@storybook/preview-api', '--fields', 'versions', '--json'],
+          args: [
+            'npm',
+            'info',
+            '@storybook/core/dist/modules/preview-api/index',
+            '--fields',
+            'versions',
+            '--json',
+          ],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -165,7 +187,9 @@ describe('Yarn 2 Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
-      await expect(yarn2Proxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
+      await expect(
+        yarn2Proxy.latestVersion('@storybook/core/dist/modules/preview-api/index')
+      ).rejects.toThrow();
     });
   });
 

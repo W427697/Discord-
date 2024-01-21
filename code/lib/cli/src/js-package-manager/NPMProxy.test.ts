@@ -121,13 +121,13 @@ describe('NPM Proxy', () => {
           .mockResolvedValueOnce('6.0.0');
 
         await npmProxy.addDependencies({ installAsDevDependencies: true }, [
-          '@storybook/preview-api',
+          '@storybook/core/dist/modules/preview-api/index',
         ]);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           expect.objectContaining({
             command: 'npm',
-            args: ['install', '-D', '@storybook/preview-api'],
+            args: ['install', '-D', '@storybook/core/dist/modules/preview-api/index'],
           })
         );
       });
@@ -139,13 +139,13 @@ describe('NPM Proxy', () => {
           .mockResolvedValueOnce('7.0.0');
 
         await npmProxy.addDependencies({ installAsDevDependencies: true }, [
-          '@storybook/preview-api',
+          '@storybook/core/dist/modules/preview-api/index',
         ]);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           expect.objectContaining({
             command: 'npm',
-            args: ['install', '-D', '@storybook/preview-api'],
+            args: ['install', '-D', '@storybook/core/dist/modules/preview-api/index'],
           })
         );
       });
@@ -159,10 +159,13 @@ describe('NPM Proxy', () => {
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('6.0.0');
 
-        npmProxy.removeDependencies({}, ['@storybook/preview-api']);
+        npmProxy.removeDependencies({}, ['@storybook/core/dist/modules/preview-api/index']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          expect.objectContaining({ command: 'npm', args: ['uninstall', '@storybook/preview-api'] })
+          expect.objectContaining({
+            command: 'npm',
+            args: ['uninstall', '@storybook/core/dist/modules/preview-api/index'],
+          })
         );
       });
     });
@@ -172,10 +175,13 @@ describe('NPM Proxy', () => {
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
 
-        await npmProxy.removeDependencies({}, ['@storybook/preview-api']);
+        await npmProxy.removeDependencies({}, ['@storybook/core/dist/modules/preview-api/index']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          expect.objectContaining({ command: 'npm', args: ['uninstall', '@storybook/preview-api'] })
+          expect.objectContaining({
+            command: 'npm',
+            args: ['uninstall', '@storybook/core/dist/modules/preview-api/index'],
+          })
         );
       });
     });
@@ -217,12 +223,14 @@ describe('NPM Proxy', () => {
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
-      const version = await npmProxy.latestVersion('@storybook/preview-api');
+      const version = await npmProxy.latestVersion(
+        '@storybook/core/dist/modules/preview-api/index'
+      );
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'npm',
-          args: ['info', '@storybook/preview-api', 'version', '--json'],
+          args: ['info', '@storybook/core/dist/modules/preview-api/index', 'version', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -233,12 +241,15 @@ describe('NPM Proxy', () => {
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
-      const version = await npmProxy.latestVersion('@storybook/preview-api', '5.X');
+      const version = await npmProxy.latestVersion(
+        '@storybook/core/dist/modules/preview-api/index',
+        '5.X'
+      );
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'npm',
-          args: ['info', '@storybook/preview-api', 'versions', '--json'],
+          args: ['info', '@storybook/core/dist/modules/preview-api/index', 'versions', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -247,7 +258,9 @@ describe('NPM Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       vi.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
-      await expect(npmProxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
+      await expect(
+        npmProxy.latestVersion('@storybook/core/dist/modules/preview-api/index')
+      ).rejects.toThrow();
     });
   });
 

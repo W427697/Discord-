@@ -1,4 +1,4 @@
-import { useEffect } from '@storybook/preview-api';
+import { useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type { DecoratorFunction, Renderer } from '@storybook/core/dist/modules/types/index';
 import { initializeThemeState, pluckThemeFromContext, useThemeParameters } from './helpers';
 

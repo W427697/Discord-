@@ -4,8 +4,8 @@ import type {
   ModuleExports,
   DocsContextProps,
 } from '@storybook/core/dist/modules/types/index';
-import { DocsContext } from '@storybook/preview-api';
-import type { StoryStore } from '@storybook/preview-api';
+import { DocsContext } from '@storybook/core/dist/modules/preview-api/index';
+import type { StoryStore } from '@storybook/core/dist/modules/preview-api/index';
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
 
 export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext<TRenderer> {

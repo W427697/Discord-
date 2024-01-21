@@ -19,7 +19,10 @@ import type {
   Indexer,
   StorybookConfigRaw,
 } from '@storybook/core/dist/modules/types/index';
-import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
+import {
+  userOrAutoTitleFromSpecifier,
+  sortStoriesV7,
+} from '@storybook/core/dist/modules/preview-api/index';
 import {
   commonGlobOptions,
   normalizeStoryPath,

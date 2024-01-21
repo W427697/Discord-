@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import { useEffect, makeDecorator } from '@storybook/preview-api';
+import { useEffect, makeDecorator } from '@storybook/core/dist/modules/preview-api/index';
 import type { PartialStoryFn, Renderer } from '@storybook/core/dist/modules/types/index';
 import { actions } from './runtime/actions';
 

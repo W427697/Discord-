@@ -5,7 +5,7 @@ import type {
   PartialStoryFn,
   StoryContext,
 } from '@storybook/core/dist/modules/types/index';
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 
 import type { WebComponentsRenderer } from '../types';

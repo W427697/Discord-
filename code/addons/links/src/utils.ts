@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import { addons, makeDecorator } from '@storybook/preview-api';
+import { addons, makeDecorator } from '@storybook/core/dist/modules/preview-api/index';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core/dist/modules/events/index';
 import type {
   StoryId,

@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from '@storybook/preview-api';
+import { useMemo, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import type {
   Renderer,
   PartialStoryFn as StoryFunction,

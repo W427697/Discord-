@@ -63,7 +63,7 @@ export async function generateModernIframeScriptCode(options: Options, projectRo
    * @todo Inline variable and remove `noinspection`
    */
   const code = `
-  import { composeConfigs, PreviewWeb, ClientApi } from '@storybook/preview-api';
+  import { composeConfigs, PreviewWeb, ClientApi } from '@storybook/core/dist/modules/preview-api/index';
   import '${virtualAddonSetupFile}';
   import { importFn } from '${virtualStoriesFile}';
   

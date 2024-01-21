@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMemo } from '@storybook/preview-api';
+import { useMemo } from '@storybook/core/dist/modules/preview-api/index';
 import type { DecoratorFunction, Renderer } from '@storybook/core/dist/modules/types/index';
 
 import { initializeThemeState, pluckThemeFromContext, useThemeParameters } from './helpers';

@@ -5,7 +5,7 @@ import type {
   LegacyStoryFn,
   StoryContext,
 } from '@storybook/core/dist/modules/types/index';
-import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
+import { sanitizeStoryContextUpdate } from '@storybook/core/dist/modules/preview-api/index';
 import type { VueRenderer } from './types';
 
 /*

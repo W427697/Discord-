@@ -7,7 +7,7 @@ import { RESET_STORY_ARGS } from '@storybook/core/dist/modules/events/index';
 // ! with the same bundle as the user's Svelte components
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import * as svelte from 'svelte';
 
 import type { SvelteRenderer } from './types';

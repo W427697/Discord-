@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, mockChannel } from '@storybook/preview-api';
+import { addons, mockChannel } from '@storybook/core/dist/modules/preview-api/index';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import {
   FORCE_REMOUNT,

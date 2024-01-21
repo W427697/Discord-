@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import { cleanup, render, screen } from '@testing-library/react';
 
 import { composeStories, composeStory } from '..';

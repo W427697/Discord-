@@ -1,6 +1,6 @@
 export const packageNames = {
   '@kadira/react-storybook-decorator-centered': '@storybook/addon-centered',
-  '@kadira/storybook-addons': '@storybook/preview-api',
+  '@kadira/storybook-addons': '@storybook/core/dist/modules/preview-api/index',
   '@kadira/storybook-addon-actions': '@storybook/addon-actions',
   '@kadira/storybook-addon-comments': '@storybook/addon-comments',
   '@kadira/storybook-addon-graphql': '@storybook/addon-graphql',

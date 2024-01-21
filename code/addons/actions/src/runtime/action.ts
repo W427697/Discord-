@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import type { PreviewWeb } from '@storybook/preview-api';
-import { addons } from '@storybook/preview-api';
+import type { PreviewWeb } from '@storybook/core/dist/modules/preview-api/index';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import type { Renderer } from '@storybook/core/dist/modules/types/index';
 import { global } from '@storybook/global';
 import { ImplicitActionsDuringRendering } from '@storybook/core/dist/modules/events/errors/preview-errors';

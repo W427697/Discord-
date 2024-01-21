@@ -8,7 +8,7 @@ import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
 } from '@storybook/core/dist/modules/events/index';
-import type { PreviewWeb } from '@storybook/preview-api';
+import type { PreviewWeb } from '@storybook/core/dist/modules/preview-api/index';
 import type { Channel } from '@storybook/core/dist/modules/channels/index';
 
 import type { StoryProps } from './Story';

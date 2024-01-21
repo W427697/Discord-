@@ -1,4 +1,4 @@
-import { Preview, composeConfigs } from '@storybook/preview-api';
+import { Preview, composeConfigs } from '@storybook/core/dist/modules/preview-api/index';
 import type {
   Renderer,
   ComponentTitle,

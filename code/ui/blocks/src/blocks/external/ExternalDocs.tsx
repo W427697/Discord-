@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import React, { useRef } from 'react';
 import type { Renderer, ProjectAnnotations } from '@storybook/core/dist/modules/types/index';
-import { composeConfigs } from '@storybook/preview-api';
+import { composeConfigs } from '@storybook/core/dist/modules/preview-api/index';
 
 import { Docs } from '../Docs';
 import { ExternalPreview } from './ExternalPreview';

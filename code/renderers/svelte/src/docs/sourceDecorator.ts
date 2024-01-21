@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons, useEffect } from '@storybook/core/dist/modules/preview-api/index';
 import { deprecate } from '@storybook/client-logger';
 import type {
   ArgTypes,

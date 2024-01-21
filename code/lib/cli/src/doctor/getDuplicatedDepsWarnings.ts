@@ -19,7 +19,7 @@ export const allowList = [
   '@storybook/client-logger',
   '@storybook/core-client',
   '@storybook/preview-web',
-  '@storybook/preview-api',
+  '@storybook/core/dist/modules/preview-api/index',
   '@storybook/store',
 
   // see this file for more info: code/ui/manager/src/globals/types.ts

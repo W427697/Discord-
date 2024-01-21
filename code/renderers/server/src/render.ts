@@ -2,7 +2,10 @@ import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/core/dist/modules/types/index';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
+import {
+  simulatePageLoad,
+  simulateDOMContentLoaded,
+} from '@storybook/core/dist/modules/preview-api/index';
 import type { StoryFn, Args, ArgTypes } from './public-types';
 import type { FetchStoryHtmlType, ServerRenderer } from './types';
 

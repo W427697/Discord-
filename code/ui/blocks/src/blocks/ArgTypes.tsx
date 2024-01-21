@@ -2,8 +2,8 @@
 import type { Parameters, Renderer, StrictArgTypes } from '@storybook/csf';
 import type { ModuleExports } from '@storybook/core/dist/modules/types/index';
 import type { FC } from 'react';
-import type { PropDescriptor } from '@storybook/preview-api';
-import { filterArgTypes } from '@storybook/preview-api';
+import type { PropDescriptor } from '@storybook/core/dist/modules/preview-api/index';
+import { filterArgTypes } from '@storybook/core/dist/modules/preview-api/index';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import React from 'react';
 
