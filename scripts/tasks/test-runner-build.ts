@@ -5,7 +5,7 @@ import { PORT } from './serve';
 export const testRunnerBuild: Task & { port: number } = {
   description: 'Run the test runner against a built sandbox',
   junit: true,
-  dependsOn: ['serve'],
+  dependsOn: ['serve', 'install-playwright'],
   port: PORT,
   async ready() {
     return false;

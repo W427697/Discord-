@@ -1,5 +1,4 @@
 import type { Task } from '../task';
-import { CODE_DIRECTORY } from '../utils/constants';
 import { exec } from '../utils/exec';
 
 export const installPlaywright: Task = {

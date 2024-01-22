@@ -348,7 +348,7 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=install-playwright --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner)
       - store_test_results:
@@ -368,7 +368,7 @@ jobs:
           at: .
       - run:
           name: Running Test Runner in Dev mode
-          command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
+          command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=install-playwright --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev)
       - store_test_results:
@@ -407,7 +407,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=install-playwright --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests)
       - store_test_results:
@@ -430,7 +430,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=install-playwright --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev)
       - store_test_results:
