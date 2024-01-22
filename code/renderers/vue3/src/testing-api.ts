@@ -15,7 +15,7 @@ import * as defaultProjectAnnotations from './render';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
 
-/** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
+/** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
  * It should be run a single time, so that your global config (e.g. decorators) is applied to your stories when using `composeStories` or `composeStory`.
  *
@@ -107,7 +107,7 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
   csfExports: TModule,
   projectAnnotations?: ProjectAnnotations<VueRenderer>
 ) {
-  // @ts-expect-error (Converted from ts-ignore)
+  // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but VueRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
