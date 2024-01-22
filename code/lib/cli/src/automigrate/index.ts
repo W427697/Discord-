@@ -1,23 +1,25 @@
-/* eslint-disable no-await-in-loop */
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
-
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
 import invariant from 'tiny-invariant';
-import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
-import type { PackageManagerName } from '../js-package-manager';
+
+import {
+  getStorybookInfo,
+  loadMainConfig,
+  getStorybookVersion,
+  JsPackageManagerFactory,
+} from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core-common';
 
 import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
 import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
-import { getStorybookVersion } from '../utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -55,7 +57,6 @@ export const automigrate = async ({
   fixes: inputFixes,
   dryRun,
   yes,
-  useNpm,
   packageManager: pkgMgr,
   list,
   configDir: userSpecifiedConfigDir,
@@ -86,7 +87,6 @@ export const automigrate = async ({
 
   const { fixResults, fixSummary, preCheckFailure } = await runFixes({
     fixes,
-    useNpm,
     pkgMgr,
     userSpecifiedConfigDir,
     rendererPackage,
@@ -129,7 +129,6 @@ export async function runFixes({
   fixes,
   dryRun,
   yes,
-  useNpm,
   pkgMgr,
   userSpecifiedConfigDir,
   rendererPackage,
@@ -138,7 +137,6 @@ export async function runFixes({
   fixes: Fix[];
   yes?: boolean;
   dryRun?: boolean;
-  useNpm?: boolean;
   pkgMgr?: PackageManagerName;
   userSpecifiedConfigDir?: string;
   rendererPackage?: string;
@@ -148,12 +146,6 @@ export async function runFixes({
   fixResults: Record<FixId, FixStatus>;
   fixSummary: FixSummary;
 }> {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
-
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const fixResults = {} as Record<FixId, FixStatus>;

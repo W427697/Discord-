@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { TooltipLinkList } from '@storybook/components';
@@ -56,6 +56,7 @@ export const Expanded: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => true,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,
@@ -99,6 +100,7 @@ export const ExpandedWithoutWhatsNew: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => false,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,

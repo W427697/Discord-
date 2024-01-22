@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { toId } from '@storybook/csf';
@@ -33,6 +32,9 @@ export class SbPage {
     const storyLinkId = `${titleId}--${storyId}`;
     const viewMode = name === 'docs' ? 'docs' : 'story';
     await this.page.goto(`${baseURL}/?path=/${viewMode}/${storyLinkId}`);
+
+    await this.page.waitForURL((url) => url.search.includes(`path=/${viewMode}/${storyLinkId}`));
+    await this.previewRoot();
   }
 
   /**

@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -15,7 +14,6 @@ test.describe('preview-web', () => {
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -34,13 +32,12 @@ test.describe('preview-web', () => {
 
     // click outside, to remove focus from the input of the story, then press S to toggle sidebar
     await sbPage.previewRoot().click();
-    await sbPage.previewRoot().press('s');
+    await sbPage.previewRoot().press('Alt+s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
   });
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -50,7 +47,7 @@ test.describe('preview-web', () => {
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
-    await sbPage.previewRoot().getByRole('button').getByText('Submit').first().press('s');
+    await sbPage.previewRoot().getByRole('button').getByText('Submit').first().press('Alt+s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
   });
 });

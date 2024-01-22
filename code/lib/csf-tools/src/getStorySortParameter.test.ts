@@ -292,7 +292,6 @@ export default {
         expect(
           getStorySortParameter(dedent`
           const config = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
@@ -310,7 +309,6 @@ export default {
         expect(
           getStorySortParameter(dedent`
           const parameters = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
@@ -450,6 +448,31 @@ export default {
             "*",
             "WIP",
           ]
+        `);
+      });
+
+      it('storysort satisfies inline', () => {
+        expect(
+          getStorySortParameter(dedent`
+          enum ComponentGroups {
+            General = 'General'
+          }
+          export default {
+            parameters: {
+              options: {
+                storySort: {
+                  order: ['General'] satisfies ComponentGroups[]
+                }
+              }
+            }
+          };
+        `)
+        ).toMatchInlineSnapshot(`
+          {
+            "order": [
+              "General",
+            ],
+          }
         `);
       });
     });

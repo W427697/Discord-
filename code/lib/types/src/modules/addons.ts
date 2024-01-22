@@ -156,7 +156,6 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
@@ -172,7 +171,7 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
 export interface Addon_BaseAnnotations<
   TArgs,
   StoryFnReturnType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
@@ -305,11 +304,6 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  /**
-   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
-   * This property will be removed in 8.0.
-   * */
-  key?: unknown;
 }
 
 export type Addon_Type =
@@ -533,9 +527,4 @@ export enum Addon_TypesEnum {
    * @unstable This will get replaced with a new API in 8.0, use at your own risk.
    */
   experimental_SIDEBAR_TOP = 'sidebar-top',
-
-  /**
-   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
-   */
-  NOTES_ELEMENT = 'notes-element',
 }

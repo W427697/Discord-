@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import { RESET_STORY_ARGS } from '@storybook/core-events';
 // ! DO NOT change this PreviewRender import to a relative path, it will break it.
@@ -22,7 +21,7 @@ function teardown(canvasElement: SvelteRenderer['canvasElement']) {
   if (!componentsByDomElement.has(canvasElement)) {
     return;
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
+
   componentsByDomElement.get(canvasElement)!.$destroy();
 
   canvasElement.innerHTML = '';
@@ -36,7 +35,7 @@ function teardown(canvasElement: SvelteRenderer['canvasElement']) {
 function createRoot(target: HTMLElement, props: any) {
   if ((svelte as any).createRoot) {
     // Svelte v5
-    return svelte.createRoot(PreviewRender, {
+    return (svelte as any).createRoot(PreviewRender, {
       target,
       props,
     });

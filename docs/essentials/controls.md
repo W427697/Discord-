@@ -407,26 +407,6 @@ Consider the following snippet to force required args first:
 
 <!-- prettier-ignore-end -->
 
-#### Hide NoControls warning
-
-If you don't plan to handle the control args inside your story, you can remove the warning with:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-   'angular/button-story-hide-nocontrols-warning.ts.mdx',
-   'web-components/button-story-hide-nocontrols-warning.js.mdx',
-   'web-components/button-story-hide-nocontrols-warning.ts.mdx',
-   'common/button-story-hide-nocontrols-warning.js.mdx',
-   'common/button-story-hide-nocontrols-warning.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/controls#snippet-button-story-hide-nocontrols-warning"
-/>
-
-<!-- prettier-ignore-end -->
-
 ### Disable controls for specific properties
 
 Aside from the features already documented here, Controls can also be disabled for individual properties.
@@ -645,3 +625,59 @@ Enabling this feature will generate a `storybook-docgen/index.json` automaticall
 </Callout>
 
 </IfRenderer>
+
+## API
+
+### Parameters
+
+This addon contributes the following [parameters](../writing-stories/parameters.md) to Storybook, under the `controls` namespace:
+
+#### `disable`
+
+Type: `boolean`
+
+Disable this addon's behavior. If you wish to disable this addon for the entire Storybook, you should do so when registering `addon-essentials`. See the [essential addon's docs](../essentials/index.md#disabling-addons) for more information.
+
+This parameter is most useful to allow overriding at more specific levels. For example, if this parameter is set to `true` at the project level, it could then be re-enabled by setting it to `false` at the meta (component) or story level.
+
+#### `exclude`
+
+Type: `string[] | RegExp`
+
+Specifies which properties to exclude from the Controls addon panel. Any properties whose names match the regex or are part of the array will be left out. See [usage example](#filtering-controls), above.
+
+#### `expanded`
+
+Type: `boolean`
+
+Show the full documentation, including description and default value, for each property in the Controls addon panel. See [usage example](#show-full-documentation-for-each-property), above.
+
+#### `hideNoControlsWarning`
+
+Type: `boolean`
+
+Hide the warning that appears when no controls are defined for a story. See [usage example](#hide-nocontrols-warning), above.
+
+#### `include`
+
+Type: `string[] | RegExp`
+
+Specifies which properties to include in the Controls addon panel. Any properties whose names don't match the regex or are not part of the array will be left out. See [usage example](#filtering-controls), above.
+
+#### `presetColors`
+
+Type: `(string | { color: string; title?: string })[]`
+
+Specify preset color swatches for the color picker control. Color value many be any valid CSS color. See [usage example](#specify-initial-preset-color-swatches), above.
+
+#### `sort`
+
+Type: `'none' | 'alpha' | 'requiredFirst'`
+
+Default: `'none'`
+
+Specifies how the controls are sorted.
+
+- **none**: Unsorted, displayed in the same order the arg types are processed in
+- **alpha**: Sorted alphabetically, by the arg type's name
+- **requiredFirst**: Same as `alpha`, with any required arg types displayed first
