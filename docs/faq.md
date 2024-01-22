@@ -373,7 +373,7 @@ Out of the box, Storybook provides syntax highlighting for a set of languages (e
 
 ## Why aren't my MDX stories working in Storybook?
 
-MDX 2 introduced some changes to how the code is rendered. For example, if you have the following code block:
+MDX can be picky about how your code is formatted with line breaks. This is especially true with code blocks. For example, this will break:
 
 ```
 <style>{`
@@ -388,7 +388,7 @@ MDX 2 introduced some changes to how the code is rendered. For example, if you h
 
 ```
 
-You'll need to update it to make it compatible with MDX 2+.
+But this will work:
 
 ```
 <style>
