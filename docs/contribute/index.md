@@ -1,5 +1,8 @@
 ---
 title: 'How to contribute'
+sidebar:
+  order: 11
+  title: Contribute
 hideRendererSelector: true
 ---
 

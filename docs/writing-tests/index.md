@@ -1,5 +1,8 @@
 ---
 title: 'How to test UIs with Storybook'
+sidebar:
+  order: 4
+  title: Testing
 hideRendererSelector: true
 ---
 

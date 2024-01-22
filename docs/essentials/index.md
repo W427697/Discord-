@@ -1,5 +1,7 @@
 ---
 title: 'Essential addons'
+sidebar:
+  order: 6
 hideRendererSelector: true
 ---
 
