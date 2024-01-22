@@ -28,6 +28,7 @@ import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
 import { bench } from './tasks/bench';
+import { installPlaywright } from './tasks/install-playwright';
 
 import {
   allTemplates as TEMPLATES,
@@ -104,6 +105,7 @@ export const tasks = {
   'smoke-test': smokeTest,
   build,
   serve,
+  'install-playwright': installPlaywright,
   'test-runner': testRunnerBuild,
   'test-runner-dev': testRunnerDev,
   chromatic,

@@ -5,7 +5,7 @@ import { PORT } from './serve';
 
 export const e2eTestsBuild: Task & { port: number } = {
   description: 'Run e2e tests against a sandbox in prod mode',
-  dependsOn: ['serve'],
+  dependsOn: ['serve', 'install-playwright'],
   junit: true,
   port: PORT,
   async ready() {

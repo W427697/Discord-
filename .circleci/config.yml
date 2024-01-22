@@ -8,7 +8,7 @@ parameters:
     default: "skipped"
 
 executors:
-  sb_node_16_classic:
+  sb_node_18_classic:
     parameters:
       class:
         description: The Resource class
@@ -21,20 +21,7 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
-  sb_node_16_browsers:
-    parameters:
-      class:
-        description: The Resource class
-        type: enum
-        enum: ["small", "medium", "medium+", "large", "xlarge"]
-        default: "small"
-    working_directory: /tmp/storybook
-    docker:
-      - image: cimg/node:18.18.0-browsers
-        environment:
-          NODE_OPTIONS: --max_old_space_size=6144
-    resource_class: <<parameters.class>>
-  sb_playwright:
+  sb_node_18_browsers:
     parameters:
       class:
         description: The Resource class
@@ -85,7 +72,7 @@ jobs:
   pretty-docs:
     executor:
       class: medium
-      name: sb_node_16_classic
+      name: sb_node_18_classic
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -111,7 +98,7 @@ jobs:
   build:
     executor:
       class: large
-      name: sb_node_16_classic
+      name: sb_node_18_classic
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -154,7 +141,7 @@ jobs:
   lint:
     executor:
       class: large
-      name: sb_node_16_classic
+      name: sb_node_18_classic
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -170,7 +157,7 @@ jobs:
   check:
     executor:
       class: xlarge
-      name: sb_node_16_classic
+      name: sb_node_18_classic
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -184,7 +171,7 @@ jobs:
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   script-checks:
-    executor: sb_node_16_browsers
+    executor: sb_node_18_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -212,7 +199,7 @@ jobs:
   unit-tests:
     executor:
       class: xlarge
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -234,7 +221,7 @@ jobs:
   coverage:
     executor:
       class: small
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -245,7 +232,7 @@ jobs:
   chromatic-internal-storybooks:
     executor:
       class: medium+
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     environment:
       NODE_OPTIONS: --max_old_space_size=6144
     steps:
@@ -269,7 +256,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -293,7 +280,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -313,7 +300,7 @@ jobs:
         type: integer
     executor:
       class: large
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -352,7 +339,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_playwright
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -372,7 +359,7 @@ jobs:
         type: integer
     executor:
       class: large
-      name: sb_playwright
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -392,7 +379,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - checkout
@@ -411,7 +398,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_playwright
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -434,7 +421,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_playwright
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -457,7 +444,7 @@ jobs:
         type: integer
     executor:
       class: medium
-      name: sb_playwright
+      name: sb_node_18_browsers
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -475,7 +462,7 @@ jobs:
   test-empty-init:
     executor:
       class: medium
-      name: sb_node_16_browsers
+      name: sb_node_18_browsers
     parameters:
       packageManager:
         type: string
