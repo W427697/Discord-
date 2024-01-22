@@ -1,4 +1,4 @@
-import { it, expect, vi } from 'vitest';
+import { it, expect, vi, describe } from 'vitest';
 import { render, screen } from '@testing-library/vue';
 import { expectTypeOf } from 'expect-type';
 import type { Meta } from '@storybook/vue3';
@@ -55,7 +55,7 @@ describe('projectAnnotations', () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  test('renders with custom projectAnnotations via setProjectAnnotations', () => {
+  it('renders with custom projectAnnotations via setProjectAnnotations', () => {
     setProjectAnnotations([{ parameters: { injected: true } }]);
     const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
     expect(Story.parameters?.injected).toBe(true);
@@ -91,7 +91,6 @@ describe('CSF3', () => {
 });
 
 describe('ComposeStories types', () => {
-  // eslint-disable-next-line jest/expect-expect
   it('Should support typescript operators', () => {
     type ComposeStoriesParam = Parameters<typeof composeStories>[0];
 

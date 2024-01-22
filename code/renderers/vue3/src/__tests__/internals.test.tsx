@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { addons } from '@storybook/preview-api';
 import { render, screen } from '@testing-library/vue';
+import { describe, it, expect } from 'vitest';
 
 import { composeStories, composeStory } from '../testing-api';
 
@@ -9,14 +9,14 @@ import * as stories from './Button.stories';
 
 const { CSF2StoryWithParamsAndDecorator } = composeStories(stories);
 
-test('returns composed args including default values from argtypes', () => {
+it('returns composed args including default values from argtypes', () => {
   expect({
     ...stories.default.args,
     ...CSF2StoryWithParamsAndDecorator.args,
   }).toEqual(expect.objectContaining(CSF2StoryWithParamsAndDecorator.args));
 });
 
-test('returns composed parameters from story', () => {
+it('returns composed parameters from story', () => {
   expect(CSF2StoryWithParamsAndDecorator.parameters).toEqual(
     expect.objectContaining({
       ...stories.CSF2StoryWithParamsAndDecorator.parameters,
@@ -25,26 +25,26 @@ test('returns composed parameters from story', () => {
 });
 
 describe('Id of the story', () => {
-  test('is exposed correctly when composeStories is used', () => {
+  it('is exposed correctly when composeStories is used', () => {
     expect(CSF2StoryWithParamsAndDecorator.id).toBe(
       'example-button--csf-2-story-with-params-and-decorator'
     );
   });
-  test('is exposed correctly when composeStory is used and exportsName is passed', () => {
+  it('is exposed correctly when composeStory is used and exportsName is passed', () => {
     const exportName = Object.entries(stories).filter(
       ([_, story]) => story === stories.CSF3Primary
     )[0][0];
     const Primary = composeStory(stories.CSF3Primary, stories.default, {}, exportName);
     expect(Primary.id).toBe('example-button--csf-3-primary');
   });
-  test("is not unique when composeStory is used and exportsName isn't passed", () => {
+  it("is not unique when composeStory is used and exportsName isn't passed", () => {
     const Primary = composeStory(stories.CSF3Primary, stories.default);
     expect(Primary.id).toContain('unknown');
   });
 });
 
 // common in addons that need to communicate between manager and preview
-test('should pass with decorators that need addons channel', () => {
+it('should pass with decorators that need addons channel', () => {
   const PrimaryWithChannels = composeStory(stories.CSF3Primary, stories.default, {
     decorators: [
       (StoryFn: any) => {
@@ -59,7 +59,7 @@ test('should pass with decorators that need addons channel', () => {
 });
 
 describe('Unsupported formats', () => {
-  test('should throw error if story is undefined', () => {
+  it('should throw error if story is undefined', () => {
     const UnsupportedStory = () => <div>hello world</div>;
     UnsupportedStory.story = { parameters: {} };
 
@@ -75,7 +75,7 @@ describe('Unsupported formats', () => {
 });
 
 describe('non-story exports', () => {
-  test('should filter non-story exports with excludeStories', () => {
+  it('should filter non-story exports with excludeStories', () => {
     const StoryModuleWithNonStoryExports = {
       default: {
         title: 'Some/Component',
@@ -89,7 +89,7 @@ describe('non-story exports', () => {
     expect(Object.keys(result)).not.toContain('mockData');
   });
 
-  test('should filter non-story exports with includeStories', () => {
+  it('should filter non-story exports with includeStories', () => {
     const StoryModuleWithNonStoryExports = {
       default: {
         title: 'Some/Component',
@@ -110,7 +110,7 @@ const testCases = Object.values(composeStories(stories)).map((Story) => [
   Story.storyName!,
   Story,
 ]);
-test.each(testCases)('Renders %s story', async (_storyName, Story) => {
+it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   if (typeof Story === 'string' || _storyName === 'CSF2StoryWithParamsAndDecorator') {
     return;
   }
