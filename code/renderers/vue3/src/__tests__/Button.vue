@@ -1,5 +1,13 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button
+    type="button"
+    :class="classes"
+    :style="style"
+    @change="emit('myChangeEvent', 0)"
+    @click="emit('myClickEvent', 0)"
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script lang="ts" setup>
@@ -12,6 +20,10 @@ const props = withDefaults(
      * The label of the button
      */
     label: string;
+    /**
+     * Whether the button is disabled
+     */
+    disabled: boolean;
     /**
      * primary or secondary button
      */
@@ -29,7 +41,8 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: 'click', id: number): void;
+  (e: 'myChangeEvent', id: number): void;
+  (e: 'myClickEvent', id: number): void;
 }>();
 
 const classes = computed(() => ({
@@ -42,8 +55,4 @@ const classes = computed(() => ({
 const style = computed(() => ({
   backgroundColor: props.backgroundColor,
 }));
-
-const onClick = () => {
-  emit('click', 1);
-};
 </script>
