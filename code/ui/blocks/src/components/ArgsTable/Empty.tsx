@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/components';
-import { VideoIcon } from '@storybook/icons';
+import { DocumentIcon, SupportIcon, VideoIcon } from '@storybook/icons';
 
 interface EmptyProps {
   inAddonPanel?: boolean;
@@ -92,21 +92,17 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
             </Link>
             <Divider />
             <Link
-              href="https://storybook.js.org/docs/react/essentials/controls"
+              href="https://storybook.js.org/docs/essentials/controls"
               target="_blank"
               withArrow
             >
-              Read docs
+              <DocumentIcon /> Read docs
             </Link>
           </>
         )}
         {!inAddonPanel && (
-          <Link
-            href="https://storybook.js.org/docs/react/essentials/controls"
-            target="_blank"
-            withArrow
-          >
-            Learn how to set that up
+          <Link href="https://storybook.js.org/docs/essentials/controls" target="_blank" withArrow>
+            <SupportIcon /> Learn how to set that up
           </Link>
         )}
       </Links>
