@@ -8,7 +8,7 @@ export const installPlaywright: Task = {
   },
   async run(details, options) {
     await exec(
-      'npx playwright install --with-deps',
+      'npx playwright@1.41.1 install --with-deps',
       { cwd: details.codeDir },
       { dryRun: options.dryRun, debug: options.debug }
     );
