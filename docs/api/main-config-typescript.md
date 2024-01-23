@@ -6,14 +6,31 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
 
+<IfRenderer renderer='react'>
+
 ```ts
 {
   check?: boolean;
   checkOptions?: CheckOptions;
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
+  skipCompiler?: boolean;
 }
 ```
+
+</IfRenderer>
+
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik','solid' ]}>
+
+```ts
+{
+  check?: boolean;
+  checkOptions?: CheckOptions;
+  skipCompiler?: boolean;
+}
+```
+
+</IfRenderer>
 
 Configures how Storybook handles [TypeScript files](../configure/typescript.md).
 
@@ -49,6 +66,8 @@ Options to pass to `fork-ts-checker-webpack-plugin`, if [enabled](#check). See [
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer='react'>
+
 ## `reactDocgen`
 
 Type: `'react-docgen' | 'react-docgen-typescript' | false`
@@ -74,7 +93,7 @@ Only available for React Storybook projects. Configure which library, if any, St
 
 Type: `ReactDocgenTypescriptOptions`
 
-Only available for React Storybook projects. Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
+Only available for React Storybook projects. Options to pass to `react-docgen-typescript-plugin` if `react-docgen-typescript` is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
 
 <!-- prettier-ignore-start -->
 
@@ -85,6 +104,8 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ## `skipCompiler`
 
