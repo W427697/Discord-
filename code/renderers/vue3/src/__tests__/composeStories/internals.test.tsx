@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { render, screen } from '@testing-library/vue';
 import { describe, it, expect } from 'vitest';
 
-import { composeStories, composeStory } from '../testing-api';
+import { composeStories, composeStory } from '../../testing-api';
 
 import * as stories from './Button.stories';
 

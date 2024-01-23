@@ -5,7 +5,7 @@ import { expectTypeOf } from 'expect-type';
 import type { Meta } from '@storybook/vue3';
 import * as stories from './Button.stories';
 import type Button from './Button.vue';
-import { composeStories, composeStory, setProjectAnnotations } from '../testing-api';
+import { composeStories, composeStory, setProjectAnnotations } from '../../testing-api';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
 const { CSF3Primary } = composeStories(stories);
@@ -25,12 +25,12 @@ it('reuses args from composed story', () => {
   expect(buttonElement.textContent).toEqual(Secondary.args.label);
 });
 
-it('onclick handler is called', async () => {
-  const onClickSpy = vi.fn();
-  render(Secondary({ onClick: onClickSpy }));
+it('myClickEvent handler is called', async () => {
+  const myClickEventSpy = vi.fn();
+  render(Secondary({ onMyClickEvent: myClickEventSpy }));
   const buttonElement = screen.getByRole('button');
   buttonElement.click();
-  expect(onClickSpy).toHaveBeenCalled();
+  expect(myClickEventSpy).toHaveBeenCalled();
 });
 
 it('reuses args from composeStories', () => {

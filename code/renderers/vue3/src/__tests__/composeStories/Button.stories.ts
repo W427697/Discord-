@@ -1,5 +1,5 @@
 import { userEvent, within } from '@storybook/testing-library';
-import type { Meta, StoryFn as CSF2Story, StoryObj } from '..';
+import type { Meta, StoryFn as CSF2Story, StoryObj } from '../..';
 
 import Button from './Button.vue';
 
@@ -53,6 +53,7 @@ const getCaptionForLocale = (locale: string) => {
 export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
   components: { Button },
   setup() {
+    console.log({ globals });
     const label = getCaptionForLocale(globals.locale);
     return { args: { ...args, label } };
   },
