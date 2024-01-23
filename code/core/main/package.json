@@ -171,6 +171,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "public/**/*",
+    "static/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
@@ -178,9 +180,11 @@
   ],
   "scripts": {
     "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
-    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/core-bundle.ts"
+    "prep": "NODE_OPTIONS=\"--max-old-space-size=8192\" node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/core-bundle.ts"
   },
   "dependencies": {
+    "esbuild": "^0.18.0",
+    "esbuild-register": "^3.5.0",
     "recast": "^0.23.1"
   },
   "devDependencies": {
@@ -252,9 +256,7 @@
     "doctrine": "^3.0.0",
     "downshift": "^6.0.15",
     "ejs": "^3.1.8",
-    "esbuild": "^0.18.0",
     "esbuild-plugin-alias": "^0.2.1",
-    "esbuild-register": "^3.5.0",
     "express": "^4.17.3",
     "fetch-retry": "^5.0.2",
     "file-system-cache": "2.3.0",

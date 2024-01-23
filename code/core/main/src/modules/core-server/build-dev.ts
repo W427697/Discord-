@@ -13,7 +13,7 @@ import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry, oneWayHash } from '../telemetry';
 
-import { join, relative, resolve } from 'path';
+import { basename, dirname, join, relative, resolve } from 'path';
 import { deprecate } from '../node-logger';
 import dedent from 'ts-dedent';
 import { readFile } from 'fs-extra';
@@ -31,17 +31,26 @@ export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
   const { packageJson, versionUpdates } = options;
+  console.log('buildDevStandalone!!!');
   invariant(
     packageJson.version !== undefined,
     `Expected package.json#version to be defined in the "${packageJson.name}" package}`
   );
   // updateInfo are cached, so this is typically pretty fast
   const [port, versionCheck] = await Promise.all([
-    getServerPort(options.port, { exactPort: options.exactPort }),
+    getServerPort(options.port, { exactPort: options.exactPort }).then((p) => {
+      console.log({ p });
+      return p;
+    }),
     versionUpdates
-      ? updateCheck(packageJson.version)
+      ? updateCheck(packageJson.version).then((c) => {
+          console.log({ c });
+          return c;
+        })
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
   ]);
+
+  console.log('AAAA');
 
   if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
     const { shouldChangePort } = await prompts({
@@ -54,6 +63,8 @@ export async function buildDevStandalone(
       process.exit(1);
     }
   }
+
+  console.log('BBBB');
 
   const rootDir = getProjectRoot();
   const configDir = resolve(options.configDir);
@@ -73,7 +84,13 @@ export async function buildDevStandalone(
   options.outputDir = outputDir;
   options.serverChannelUrl = getServerChannelUrl(port, options);
 
+  // console.log({ options });
+  console.log('CCCC');
+
   const config = await loadMainConfig(options);
+
+  console.log({ config });
+
   const { framework } = config;
   const corePresets = [];
 
@@ -87,6 +104,8 @@ export async function buildDevStandalone(
 
   frameworkName = frameworkName || 'custom';
 
+  console.log({ frameworkName });
+
   try {
     await warnOnIncompatibleAddons(config);
   } catch (e) {
@@ -99,7 +118,10 @@ export async function buildDevStandalone(
   let presets = await loadAllPresets({
     corePresets,
     overridePresets: [
-      require.resolve('../../../types/modules/core-server/dist/presets/common-override-preset'),
+      join(
+        dirname(require.resolve('@storybook/core/package.json')),
+        '/dist/modules/core-server/presets/common-override-preset'
+      ),
     ],
     ...options,
     isCritical: true,
@@ -123,6 +145,8 @@ export async function buildDevStandalone(
     getManagerBuilder(),
   ]);
 
+  console.log({ builderName, previewBuilder, managerBuilder });
+
   if (builderName.includes('builder-vite')) {
     const deprecationMessage =
       dedent(`Using CommonJS in your main configuration file is deprecated with Vite.
@@ -143,10 +167,13 @@ export async function buildDevStandalone(
 
   const resolvedRenderer = renderer && resolveAddonName(options.configDir, renderer, options);
 
-  // Load second pass: all presets are applied in order
-  presets = await loadAllPresets({
+  const loadAllPresetsConfig = {
     corePresets: [
-      require.resolve('../../../types/modules/core-server/dist/presets/common-preset'),
+      join(
+        dirname(require.resolve('@storybook/core/package.json')),
+        'dist/modules/core-server/presets/common-preset'
+      ),
+
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
@@ -154,10 +181,17 @@ export async function buildDevStandalone(
     ],
     overridePresets: [
       ...(previewBuilder.overridePresets || []),
-      require.resolve('../../../types/modules/core-server/dist/presets/common-override-preset'),
+      join(
+        dirname(require.resolve('@storybook/core/package.json')),
+        'dist/modules/core-server/presets/common-override-preset'
+      ),
     ],
     ...options,
-  });
+  };
+
+  console.log({ loadAllPresetsConfig });
+  // Load second pass: all presets are applied in order
+  presets = await loadAllPresets(loadAllPresetsConfig);
 
   const features = await presets.apply('features');
   global.FEATURES = features;

@@ -89,7 +89,7 @@ async function getBaseOptions({
 }: Flags): Promise<{ defaults: Options; overrides: Options }> {
   return {
     defaults: {
-      silent: true,
+      silent: !watch,
       treeshake: true,
       sourcemap: false,
       shims: false,
