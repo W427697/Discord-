@@ -1,4 +1,4 @@
-import { logger, instance as npmLog } from '@storybook/node-logger';
+import { logger, instance as npmLog } from '@storybook/core/dist/modules/node-logger/index';
 import { dedent } from 'ts-dedent';
 
 export const printErrorDetails = (error: any): void => {

@@ -3,7 +3,7 @@ import globby from 'globby';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 import { warn } from './warn';
 
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/modules/node-logger/index');
 vi.mock('globby');
 
 describe('warn', () => {

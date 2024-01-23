@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { sync as readUpSync } from 'read-pkg-up';
-import { logger, instance as npmLog } from '@storybook/node-logger';
+import { logger, instance as npmLog } from '@storybook/core/dist/modules/node-logger/index';
 import { buildDevStandalone, withTelemetry } from '@storybook/core/dist/modules/core-server/index';
 import { cache } from '@storybook/core/dist/modules/core-common/index';
 import type { CLIOptions } from '@storybook/core/dist/modules/types/index';

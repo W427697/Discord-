@@ -32,7 +32,6 @@
 /code/addons/viewport/             @yannbf @ndelangen
 
 # Builder
-/code/builders/builder-manager/  @ndelangen @valentinpalkovic
 /code/builders/builder-vite/     @JReinhold @valentinpalkovic @IanVS
 /code/builders/builder-webpack5/ @ndelangen @valentinpalkovic
 
@@ -62,21 +61,22 @@
 /code/lib/react-dom-shim/ @ndelangen @valentinpalkovic @tmeasday
 
 # Deprecations
-/code/deprecated/docs-tools/    @ndelangen
-/code/deprecated/telemetry/     @ndelangen
-/code/deprecated/manager-api/   @ndelangen
-/code/deprecated/router/        @ndelangen
-/code/deprecated/theming/       @ndelangen
-/code/deprecated/instrumenter/  @ndelangen
-/code/deprecated/core-server/   @ndelangen
-/code/deprecated/csf-tools/     @ndelangen
-/code/deprecated/preview-api/   @ndelangen
-/code/deprecated/node-logger/   @ndelangen
-/code/deprecated/core-events/   @ndelangen
-/code/deprecated/core-common/   @ndelangen
-/code/deprecated/channels/      @ndelangen
-/code/deprecated/client-logger/ @ndelangen
-/code/deprecated/types/         @ndelangen
+/code/deprecated/builder-manager/  @ndelangen
+/code/deprecated/docs-tools/       @ndelangen
+/code/deprecated/telemetry/        @ndelangen
+/code/deprecated/manager-api/      @ndelangen
+/code/deprecated/router/           @ndelangen
+/code/deprecated/theming/          @ndelangen
+/code/deprecated/instrumenter/     @ndelangen
+/code/deprecated/core-server/      @ndelangen
+/code/deprecated/csf-tools/        @ndelangen
+/code/deprecated/preview-api/      @ndelangen
+/code/deprecated/node-logger/      @ndelangen
+/code/deprecated/core-events/      @ndelangen
+/code/deprecated/core-common/      @ndelangen
+/code/deprecated/channels/         @ndelangen
+/code/deprecated/client-logger/    @ndelangen
+/code/deprecated/types/            @ndelangen
 
 # Presets
 /code/presets/create-react-app/ @valentinpalkovic @ndelangen

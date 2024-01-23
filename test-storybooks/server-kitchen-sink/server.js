@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const { logger } = require('@storybook/node-logger');
+const { logger } = require('@storybook/core/dist/modules/node-logger/index');
 
 const port = process.env.PORT || 8080;
 

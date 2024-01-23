@@ -25,7 +25,7 @@ vi.mock('path', () => ({
   join: vi.fn((_, p) => p),
 }));
 
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/modules/node-logger/index');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;

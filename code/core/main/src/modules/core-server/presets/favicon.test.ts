@@ -35,7 +35,7 @@ vi.mock('fs-extra', () => {
   };
 });
 
-vi.mock('@storybook/node-logger', () => {
+vi.mock('../../node-logger', () => {
   return {
     logger: {
       warn: vi.fn(() => {}),
