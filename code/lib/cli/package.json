@@ -60,7 +60,6 @@
     "@ndelangen/get-tarball": "^3.0.7",
     "@storybook/codemod": "workspace:*",
     "@storybook/core": "workspace:*",
-    "@storybook/telemetry": "workspace:*",
     "@types/semver": "^7.3.4",
     "@yarnpkg/fslib": "2.10.3",
     "@yarnpkg/libzip": "2.3.0",

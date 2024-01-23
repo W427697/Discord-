@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { getStorybookCoreVersion } from '@storybook/telemetry';
+import { getStorybookCoreVersion } from '@storybook/core/dist/modules/telemetry/index';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
@@ -7,7 +7,7 @@ import {
 import { doUpgrade, getStorybookVersion } from './upgrade';
 import type versions from './versions';
 
-vi.mock('@storybook/telemetry');
+vi.mock('@storybook/core/dist/modules/telemetry/index');
 vi.mock('./versions', async (importOriginal) => {
   const originalVersions = ((await importOriginal()) as { default: typeof versions }).default;
   return {

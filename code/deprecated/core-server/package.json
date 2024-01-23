@@ -57,6 +57,9 @@
   "devDependencies": {
     "@storybook/core": "workspace:*"
   },
+  "peerDependencies": {
+    "@storybook/core": "*"
+  },
   "publishConfig": {
     "access": "public"
   },

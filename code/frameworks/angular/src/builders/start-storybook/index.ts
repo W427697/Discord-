@@ -15,7 +15,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 
 import { CLIOptions } from '@storybook/core/dist/modules/types/index';
 import { getEnvConfig, versions } from '@storybook/cli';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext } from '@storybook/core/dist/modules/telemetry/index';
 import { buildDevStandalone, withTelemetry } from '@storybook/core/dist/modules/core-server/index';
 import {
   AssetPattern,

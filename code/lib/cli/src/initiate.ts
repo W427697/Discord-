@@ -1,7 +1,7 @@
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry } from '@storybook/core/dist/modules/telemetry/index';
 import { withTelemetry } from '@storybook/core/dist/modules/core-server/index';
 import { NxProjectDetectedError } from '@storybook/core/dist/modules/events/errors/server-errors';
 

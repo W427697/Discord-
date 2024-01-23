@@ -5,7 +5,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext } from '@storybook/core/dist/modules/telemetry/index';
 
 import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';

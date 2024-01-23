@@ -16,7 +16,7 @@ import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit
 
 import { CLIOptions } from '@storybook/core/dist/modules/types/index';
 import { getEnvConfig, versions } from '@storybook/cli';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext } from '@storybook/core/dist/modules/telemetry/index';
 
 import {
   buildStaticStandalone,

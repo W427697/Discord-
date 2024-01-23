@@ -180,6 +180,9 @@
     "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/core-bundle.ts"
   },
+  "dependencies": {
+    "recast": "^0.23.1"
+  },
   "devDependencies": {
     "@aw-web-design/x-default-browser": "1.4.126",
     "@babel/generator": "^7.23.0",
@@ -296,7 +299,6 @@
     "react-textarea-autosize": "^8.3.0",
     "react-transition-group": "^4.4.5",
     "read-pkg-up": "^7.0.1",
-    "recast": "^0.23.1",
     "require-from-string": "^2.0.2",
     "resolve-from": "^5.0.0",
     "semver": "^7.3.7",
