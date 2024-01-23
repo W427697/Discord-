@@ -58,12 +58,12 @@
 /code/lib/codemod/        @kasperpeulen @ndelangen
 /code/lib/core-webpack/   @valentinpalkovic @ndelangen
 /code/lib/csf-plugin/     @ndelangen @valentinpalkovic
-/code/lib/docs-tools/     @JReinhold @shilman
 /code/lib/preview/        @ndelangen @kasperpeulen
 /code/lib/react-dom-shim/ @ndelangen @valentinpalkovic @tmeasday
-/code/lib/telemetry/      @shilman @yannbf @ndelangen
 
 # Deprecations
+/code/deprecated/docs-tools/    @ndelangen
+/code/deprecated/telemetry/     @ndelangen
 /code/deprecated/manager-api/   @ndelangen
 /code/deprecated/router/        @ndelangen
 /code/deprecated/theming/       @ndelangen

@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/node-logger",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/node-logger",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/node-logger"
+    "directory": "code/deprecated/node-logger"
   },
   "funding": {
     "type": "opencollective",

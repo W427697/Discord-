@@ -5131,25 +5131,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:builders/builder-manager":
+"@storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:deprecated/builder-manager":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-manager@workspace:builders/builder-manager"
+  resolution: "@storybook/builder-manager@workspace:deprecated/builder-manager"
   dependencies:
-    "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
     "@storybook/core": "workspace:*"
-    "@storybook/manager": "workspace:*"
-    "@types/ejs": "npm:^3.1.1"
-    "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
-    browser-assert: "npm:^1.2.1"
-    ejs: "npm:^3.1.8"
-    esbuild: "npm:^0.18.0"
-    esbuild-plugin-alias: "npm:^0.2.1"
-    express: "npm:^4.17.3"
-    fs-extra: "npm:^11.1.0"
-    process: "npm:^0.11.10"
-    slash: "npm:^5.0.0"
-    typescript: "npm:^5.3.2"
-    util: "npm:^0.12.4"
   peerDependencies:
     "@storybook/core": "*"
   languageName: unknown
@@ -5610,9 +5596,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-tools@workspace:lib/docs-tools":
+"@storybook/docs-tools@workspace:deprecated/docs-tools":
   version: 0.0.0-use.local
-  resolution: "@storybook/docs-tools@workspace:lib/docs-tools"
+  resolution: "@storybook/docs-tools@workspace:deprecated/docs-tools"
   dependencies:
     "@storybook/core": "workspace:*"
   languageName: unknown
@@ -6461,9 +6447,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
+"@storybook/telemetry@workspace:*, @storybook/telemetry@workspace:deprecated/telemetry":
   version: 0.0.0-use.local
-  resolution: "@storybook/telemetry@workspace:lib/telemetry"
+  resolution: "@storybook/telemetry@workspace:deprecated/telemetry"
   dependencies:
     "@storybook/core": "workspace:*"
   peerDependencies:
