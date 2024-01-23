@@ -8,34 +8,6 @@ Storybook enables you to isolate a component and capture its use cases in a `*.s
 
 Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/), to save time and maintenance work.
 
-<IfRenderer renderer='vue'>
-
-## Set up the testing addon
-
-By default, Storybook provides a set of APIs that enables you to run your stories as tests with the industry-standard testing tools, simplifying the testing process by allowing you to reuse your stories inside alongside their associated mocks, dependencies, and context. However, if you haven't upgraded to the latest stable Storybook release yet, you'll need to add the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3/) addon to use these APIs.
-
-Run the following command to install the addon.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'vue/storybook-testing-library-install.yarn.js.mdx',
-    'vue/storybook-testing-library-install.npm.js.mdx',
-    'vue/storybook-testing-library-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info">
-
-If you're using Storybook 7 or higher, we only provide support for Vue 3 users either natively or via the addon. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
-
-</Callout>
-
-</IfRenderer>
-
 ## Write a test with Testing Library
 
 [Testing Library](https://testing-library.com/) is a suite of helper libraries for browser-based interaction tests. With [Component Story Format](../api/csf.md), your stories are reusable with Testing Library. Each named export (story) is renderable within your testing setup. For example, if you were working on a login component and wanted to test the invalid credentials scenario, here's how you could write your test:
