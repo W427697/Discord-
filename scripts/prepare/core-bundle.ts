@@ -43,6 +43,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     throw new Error('No tsup-configs found');
   }
 
+  // if watch, instead of using native watch, use chokidar + https://esbuild.github.io/api/#rebuild
+
   tasks.push(...configs.map((config) => build(mergeOptions({ config, overrides, defaults }))));
 
   const entries = configs.flatMap(({ entry, format: formatRaw }) => {

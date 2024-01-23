@@ -1,6 +1,8 @@
 import { type defineConfig as definer } from '../../../scripts/node_modules/tsup';
-// import { readFile } from 'node:fs/promises';
+import aliasPlugin from '../../../scripts/node_modules/esbuild-plugin-alias';
 
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 // const pkg = await readFile('./package.json', 'utf-8').then((s) => JSON.parse(s));
 
 const nodeBuildIn = [
@@ -86,6 +88,12 @@ export default defineConfig([
     format: ['esm'],
     splitting: true,
     target: ['chrome100', 'safari15', 'firefox91'],
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('process/browser.js'),
+        // util: resolve('util/util.js'),
+      }),
+    ],
   },
   {
     entry: [...common, ...node],
