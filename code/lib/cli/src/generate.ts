@@ -34,12 +34,12 @@ const command = (name: string) =>
     .command(name)
     .option(
       '--disable-telemetry',
-      'disable sending telemetry data',
+      'Disable sending telemetry data',
       // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
       process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
     )
     .option('--debug', 'Get more logs in debug mode', false)
-    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+    .option('--enable-crash-reports', 'Enable sending crash reports to telemetry data');
 
 command('init')
   .description('Initialize Storybook into your project.')
@@ -47,7 +47,7 @@ command('init')
   .option('-s --skip-install', 'Skip installing deps')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
-  .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-p --parser <babel | babylon | flow | ts | tsx>', 'Jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
