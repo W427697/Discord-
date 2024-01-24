@@ -133,7 +133,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   }
 
   const coreServerPublicDir = join(
-    dirname(require.resolve('../../../types/modules/core-server/package.json')),
+    dirname(require.resolve('@storybook/core/package.json')),
     'public'
   );
   effects.push(copy(coreServerPublicDir, options.outputDir));

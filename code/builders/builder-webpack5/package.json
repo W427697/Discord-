@@ -64,7 +64,6 @@
   },
   "dependencies": {
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/preview": "workspace:*",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.3.4",
     "browser-assert": "^1.2.1",

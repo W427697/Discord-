@@ -63,18 +63,37 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     tasks.push(...entries.map(({ file }) => generateDTSMapperFile(file)));
   }
 
+  tasks.push(
+    updatePackageJson(pkg, [
+      ...entries,
+      {
+        file: './src/prebuild/manager/runtime.ts',
+        format: 'iife',
+      },
+      {
+        file: './src/prebuild/manager/globals-runtime.ts',
+        format: 'iife',
+      },
+      {
+        file: './src/prebuild/preview/globals-runtime.ts',
+        format: 'iife',
+      },
+    ])
+  );
+
   await Promise.all(tasks);
 
   await build({
     entry: [
-      //
       './src/modules/manager/runtime.ts',
       './src/modules/manager/globals-runtime.ts',
+      './src/modules/preview/globals-runtime.ts',
     ],
     format: ['esm'],
     external: [],
+    config: false,
     clean: false,
-    outDir: join(cwd, 'dist/modules/manager'),
+    outDir: join(cwd, 'dist/prebuild'),
     outExtension: () => ({
       js: '.js',
     }),
@@ -92,13 +111,16 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     target: ['chrome100', 'safari15', 'firefox91'],
   });
 
-  await ['./src/modules/manager/runtime.ts', './src/modules/manager/globals-runtime.ts'].map(
-    async (file) => generateDTSMapperFile(file)
-  );
+  await [
+    './src/prebuild/manager/runtime.ts',
+    './src/prebuild/manager/globals-runtime.ts',
+    './src/prebuild/preview/globals-runtime.ts',
+  ].map(async (file) => generateDTSMapperFile(file));
 
   await build({
     entry: ['./src/modules/core-server/presets/common-manager.ts'],
     format: ['esm'],
+    config: false,
     external: [...globalManagerPackages],
     clean: false,
     outDir: join(cwd, 'dist/modules/core-server/presets'),
@@ -115,18 +137,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ],
     target: ['chrome100', 'safari15', 'firefox91'],
   });
-
-  await updatePackageJson(pkg, [
-    ...entries,
-    {
-      file: './src/modules/manager/runtime.ts',
-      format: 'iife',
-    },
-    {
-      file: './src/modules/manager/globals-runtime.ts',
-      format: 'iife',
-    },
-  ]);
 
   if (process.env.CI !== 'true') {
     console.log('done');
@@ -155,6 +165,7 @@ async function getBaseOptions({
 }: Flags): Promise<{ defaults: Options; overrides: Options }> {
   return {
     defaults: {
+      config: false,
       silent: !watch,
       treeshake: true,
       sourcemap: false,
@@ -170,7 +181,12 @@ async function getBaseOptions({
           minifyIdentifiers: false,
           minifySyntax: optimized,
         }),
-      target: ['chrome100', 'safari15', 'firefox91'],
+
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        'process.env.NODE_DEBUG': '""',
+        'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+      },
     },
     overrides: {
       watch: !!watch,

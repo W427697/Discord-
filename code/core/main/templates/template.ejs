@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
 
+    <link href="./sb-manager/manager/globals-runtime.js" rel="modulepreload" />
+    <link href="./sb-manager/manager/runtime.js" rel="modulepreload" />
+
     <title><%= typeof title !== 'undefined'? title : 'Storybook'%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
@@ -26,8 +29,6 @@
       crossorigin
     />
     <link rel="stylesheet" href="./sb-common-assets/fonts.css" />
-
-    <link href="./sb-manager/runtime.js" rel="modulepreload" />
 
     <% files.js.forEach(file => { %>
     <link href="<%= file %>" rel="modulepreload" />
@@ -57,17 +58,17 @@
     <% } %>
 
     <script type="module">
-      import './sb-manager/globals-runtime.js';
+      import './sb-manager/manager/globals-runtime.js';
       
       <% files.js.forEach(file => { %>
         import '<%= file %>';
       <% }); %>
       
-      import './sb-manager/runtime.js';
+      import './sb-manager/manager/runtime.js';
     </script>
 
     <% if (!ignorePreview) { %>
-    <link href="./sb-preview/runtime.js" rel="prefetch" as="script" />
+    <link href="./sb-preview/preview/globals-runtime.js" rel="prefetch" as="script" />
     <% } %>
   </body>
 </html>

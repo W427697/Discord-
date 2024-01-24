@@ -14,7 +14,7 @@ export async function build(options: Options) {
       emptyOutDir: false, // do not clean before running Vite build - Storybook has already added assets in there!
       rollupOptions: {
         // Do not try to bundle the storybook runtime, it is copied into the output dir after the build.
-        external: ['./sb-preview/runtime.js'],
+        external: ['./sb-preview/preview/globals-runtime.js'],
       },
       ...(options.test
         ? {

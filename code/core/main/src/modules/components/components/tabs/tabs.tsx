@@ -3,7 +3,7 @@ import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '../../../theming';
 import { sanitize } from '@storybook/csf';
 
-import type { Addon_RenderOptions } from '../../../types/modules/types/index';
+import type { Addon_RenderOptions } from '../../../types';
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';
 import { FlexBar } from '../bar/bar';

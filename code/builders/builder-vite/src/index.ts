@@ -16,9 +16,6 @@ export { hasVitePlugins } from './utils/has-vite-plugins';
 
 export * from './types';
 
-const getAbsolutePath = <I extends string>(input: I): I =>
-  dirname(require.resolve(join(input, 'package.json'))) as any;
-
 function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {
     if (!req.url.match(/^\/iframe\.html($|\?)/)) {
@@ -34,7 +31,7 @@ function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandl
     }
 
     const indexHtml = await fs.readFile(
-      require.resolve('@storybook/builder-vite/input/iframe.html'),
+      join(dirname(require.resolve('@storybook/builder-vite/package.json')), 'input/iframe.html'),
       'utf-8'
     );
     const generated = await transformIframeHtml(indexHtml, options);
@@ -58,8 +55,12 @@ export const start: ViteBuilder['start'] = async ({
 }) => {
   server = await createViteServer(options as Options, devServer);
 
-  const previewResolvedDir = getAbsolutePath('@storybook/preview');
-  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirOrigin = join(
+    dirname(require.resolve('@storybook/core/package.json')),
+    'dist/prebuild'
+  );
+
+  console.log({ previewDirOrigin });
 
   router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
@@ -76,8 +77,10 @@ export const start: ViteBuilder['start'] = async ({
 export const build: ViteBuilder['build'] = async ({ options }) => {
   const viteCompilation = viteBuild(options as Options);
 
-  const previewResolvedDir = getAbsolutePath('@storybook/preview');
-  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirOrigin = join(
+    dirname(require.resolve('@storybook/core/package.json')),
+    'dist/prebuild'
+  );
   const previewDirTarget = join(options.outputDir || '', `sb-preview`);
 
   const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {

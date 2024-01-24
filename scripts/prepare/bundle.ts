@@ -60,6 +60,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const outDir = join(process.cwd(), 'dist');
   const externals = [
     name,
+
     ...extraExternals,
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
@@ -113,11 +114,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         external: externals,
 
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
           c.platform = platform || 'browser';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -140,10 +139,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         external: externals,
 
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );

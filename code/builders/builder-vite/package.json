@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@storybook/csf-plugin": "workspace:*",
-    "@storybook/preview": "workspace:*",
     "@types/find-cache-dir": "^3.2.1",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",

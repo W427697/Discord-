@@ -4847,6 +4847,8 @@ __metadata:
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.4"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5091,6 +5093,7 @@ __metadata:
     "@angular/forms": ">=15.0.0 < 18.0.0"
     "@angular/platform-browser": ">=15.0.0 < 18.0.0"
     "@angular/platform-browser-dynamic": ">=15.0.0 < 18.0.0"
+    "@storybook/core": "*"
     rxjs: ^6.0.0 || ^7.4.0
     typescript: ^4.0.0 || ^5.0.0
     zone.js: ">= 0.11.1 < 1.0.0"
@@ -5130,6 +5133,8 @@ __metadata:
   resolution: "@storybook/blocks@workspace:ui/blocks"
   dependencies:
     "@storybook/core": "workspace:*"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5149,7 +5154,6 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
-    "@storybook/preview": "workspace:*"
     "@types/express": "npm:^4.17.13"
     "@types/find-cache-dir": "npm:^3.2.1"
     "@types/node": "npm:^18.0.0"
@@ -5185,7 +5189,6 @@ __metadata:
   dependencies:
     "@storybook/core": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/preview": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@types/pretty-hrtime": "npm:^1.0.0"
     "@types/semver": "npm:^7.3.4"
@@ -5338,6 +5341,8 @@ __metadata:
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
     "@storybook/core": "workspace:*"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5603,6 +5608,8 @@ __metadata:
   resolution: "@storybook/docs-tools@workspace:deprecated/docs-tools"
   dependencies:
     "@storybook/core": "workspace:*"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5756,6 +5763,8 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@storybook/core": "workspace:*"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
@@ -5814,6 +5823,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     webpack: "npm:^5.65.0"
   peerDependencies:
+    "@storybook/core": "*"
     next: ^13.5.0 || ^14.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6103,6 +6113,7 @@ __metadata:
     "@storybook/react": "workspace:*"
     "@types/node": "npm:^18.0.0"
   peerDependencies:
+    "@storybook/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     typescript: ">= 4.2.x"
@@ -6565,6 +6576,7 @@ __metadata:
     vue-component-type-helpers: "npm:latest"
     vue-tsc: "npm:latest"
   peerDependencies:
+    "@storybook/core": "*"
     vue: ^3.0.0
   languageName: unknown
   linkType: soft

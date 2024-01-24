@@ -1,4 +1,4 @@
-import type { Conditional } from '../../../types/modules/types/index';
+import type { Conditional } from '../../../types';
 
 // TODO ?
 export interface JsDocParam {

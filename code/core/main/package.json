@@ -181,18 +181,27 @@
       "require": "./dist/modules/manager/globals.js",
       "module": "./dist/modules/manager/globals.mjs"
     },
+    "./dist/modules/preview/globals": {
+      "types": "./dist/modules/preview/globals.d.ts",
+      "require": "./dist/modules/preview/globals.js",
+      "module": "./dist/modules/preview/globals.mjs"
+    },
     "./dist/modules/node-logger/index": {
       "types": "./dist/modules/node-logger/index.d.ts",
       "require": "./dist/modules/node-logger/index.js",
       "module": "./dist/modules/node-logger/index.mjs"
     },
-    "./dist/modules/manager/runtime": {
-      "types": "./dist/modules/manager/runtime.d.ts",
-      "module": "./dist/modules/manager/runtime.js"
+    "./dist/prebuild/manager/runtime": {
+      "types": "./dist/prebuild/manager/runtime.d.ts",
+      "module": "./dist/prebuild/manager/runtime.js"
     },
-    "./dist/modules/manager/globals-runtime": {
-      "types": "./dist/modules/manager/globals-runtime.d.ts",
-      "module": "./dist/modules/manager/globals-runtime.js"
+    "./dist/prebuild/manager/globals-runtime": {
+      "types": "./dist/prebuild/manager/globals-runtime.d.ts",
+      "module": "./dist/prebuild/manager/globals-runtime.js"
+    },
+    "./dist/prebuild/preview/globals-runtime": {
+      "types": "./dist/prebuild/preview/globals-runtime.d.ts",
+      "module": "./dist/prebuild/preview/globals-runtime.js"
     }
   },
   "main": "dist/index.js",

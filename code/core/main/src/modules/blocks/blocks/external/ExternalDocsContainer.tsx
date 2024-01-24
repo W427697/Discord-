@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ThemeProvider, themes, ensure } from '../../../theming';
-import type { Renderer } from '../../../types/modules/types/index';
+import type { Renderer } from '../../../types';
 
 import { DocsContext } from '../DocsContext';
 import { ExternalPreview } from './ExternalPreview';

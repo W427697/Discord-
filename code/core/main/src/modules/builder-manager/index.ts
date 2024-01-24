@@ -177,7 +177,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const coreDirOrigin = join(
     dirname(require.resolve('@storybook/core/package.json')),
-    'dist/modules/manager'
+    'dist/prebuild'
   );
 
   router.use(`/sb-addons`, express.static(addonsDir, { immutable: true, maxAge: '5m' }));
@@ -253,7 +253,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const addonsDir = config.outdir;
   const coreDirOrigin = join(
     dirname(require.resolve('@storybook/core/package.json')),
-    'dist/modules/manager'
+    'dist/prebuild'
   );
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 

@@ -31,7 +31,6 @@ export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
   const { packageJson, versionUpdates } = options;
-  console.log('buildDevStandalone!!!');
   invariant(
     packageJson.version !== undefined,
     `Expected package.json#version to be defined in the "${packageJson.name}" package}`
@@ -50,8 +49,6 @@ export async function buildDevStandalone(
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
   ]);
 
-  console.log('AAAA');
-
   if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
     const { shouldChangePort } = await prompts({
       type: 'confirm',
@@ -63,8 +60,6 @@ export async function buildDevStandalone(
       process.exit(1);
     }
   }
-
-  console.log('BBBB');
 
   const rootDir = getProjectRoot();
   const configDir = resolve(options.configDir);
@@ -84,12 +79,7 @@ export async function buildDevStandalone(
   options.outputDir = outputDir;
   options.serverChannelUrl = getServerChannelUrl(port, options);
 
-  // console.log({ options });
-  console.log('CCCC');
-
   const config = await loadMainConfig(options);
-
-  console.log({ config });
 
   const { framework } = config;
   const corePresets = [];
@@ -103,8 +93,6 @@ export async function buildDevStandalone(
   }
 
   frameworkName = frameworkName || 'custom';
-
-  console.log({ frameworkName });
 
   try {
     await warnOnIncompatibleAddons(config);

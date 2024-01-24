@@ -9,7 +9,7 @@ import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import type { Options } from '@storybook/core/dist/modules/types/index';
-import { globalsNameReferenceMap } from '@storybook/preview/globals';
+import { globalsNameReferenceMap } from '@storybook/core/dist/modules/preview/globals';
 import {
   getBuilderOptions,
   stringifyProcessEnvs,

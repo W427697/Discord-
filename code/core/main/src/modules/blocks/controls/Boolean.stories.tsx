@@ -1,8 +1,8 @@
 import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, fireEvent, waitFor } from '@storybook/testing-library';
-import { addons } from '../../../preview-api';
-import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '../../../types/modules/events/index';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
+import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '../../events';
 import { BooleanControl } from './Boolean';
 
 const meta = {

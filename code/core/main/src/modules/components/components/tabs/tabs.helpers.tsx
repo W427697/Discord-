@@ -1,7 +1,7 @@
 import { styled } from '../../../theming';
 import type { FC, PropsWithChildren, ReactChild, ReactElement, ReactNode } from 'react';
 import React, { Children } from 'react';
-import type { Addon_RenderOptions } from '../../../types/modules/types/index';
+import type { Addon_RenderOptions } from '../../../types';
 import type { TabsProps } from './tabs';
 
 export interface VisuallyHiddenProps {

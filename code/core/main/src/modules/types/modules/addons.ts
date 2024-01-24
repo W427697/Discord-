@@ -393,7 +393,7 @@ export interface Addon_PageType {
    *
    * If you want to render your component only when the URL matches, use the `Route` component.
    * @example
-   * import { Route } from '../../../types/modules/router/index';
+   * import { Route } from '@storybook/core/dist/modules/router/index';
    *
    * render: () => {
    *   return (
