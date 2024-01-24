@@ -1,5 +1,4 @@
 import { transparentize } from 'polished';
-import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled, keyframes } from '@storybook/theming';
 import { Icons } from '../icon/icon';
