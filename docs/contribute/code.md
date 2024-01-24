@@ -108,7 +108,7 @@ Adding a story or set of generic stories to our suite helps you test your work.
 
 Assuming you're working on one of the [Essential addons](../essentials/index.md), there's a chance that a complete set of stories already exists. Check the addon's `template/stories` directory that documents how it's supposed to work and add your stories there.
 
-If you're modifying something related to a specific renderer (e.g., React, Vue, etc.), it will also have a similar `template/stories` directory in which you'll need to add your stories.
+If you're modifying something related to a specific renderer (e.g., React, Vue 3, etc.), it will also have a similar `template/stories` directory in which you'll need to add your stories.
 
 ### Add tests
 
@@ -261,7 +261,7 @@ It's troublesome to know which packages you'll change ahead of time, and watchin
 
 </details>
 
-## Learn more about contributing to Storybook
+**Learn more about contributing to Storybook**
 
 - [RFC process](./RFC.md) for authoring feature requests
 - Code for features and bug fixes

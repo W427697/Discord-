@@ -230,7 +230,9 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <Callout variant="info" icon="💡">
 
-This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a detail of how MDX works. From their [migration guide](https://mdxjs.com/migrating/v2/#update-mdx-content):
+
+“We now ‘sandbox’ components, for lack of a better name. It means that when you pass a component for h1, it does get used for `# hi` but not for `<h1>hi</h1>`”
 
 </Callout>
 
@@ -290,7 +292,7 @@ If you're still encountering issues, we recommend reaching out to the community 
 
 If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

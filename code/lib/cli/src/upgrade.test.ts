@@ -5,16 +5,21 @@ import {
   UpgradeStorybookToSameVersionError,
 } from '@storybook/core-events/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
-import type versions from './versions';
+
+import type * as sbcc from '@storybook/core-common';
 
 vi.mock('@storybook/telemetry');
-vi.mock('./versions', async (importOriginal) => {
-  const originalVersions = ((await importOriginal()) as { default: typeof versions }).default;
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  const originalModule = (await importOriginal()) as typeof sbcc;
   return {
-    default: Object.keys(originalVersions).reduce((acc, key) => {
-      acc[key] = '8.0.0';
-      return acc;
-    }, {} as Record<string, string>),
+    ...originalModule,
+    versions: Object.keys(originalModule.versions).reduce(
+      (acc, key) => {
+        acc[key] = '8.0.0';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
   };
 });
 

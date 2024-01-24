@@ -11,12 +11,15 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { PackageManagerName } from './js-package-manager';
-import { JsPackageManagerFactory } from './js-package-manager';
-import { coerceSemver, commandLog } from './helpers';
+import type { PackageManagerName } from '@storybook/core-common';
+import {
+  JsPackageManagerFactory,
+  isCorePackage,
+  versions,
+  commandLog,
+} from '@storybook/core-common';
+import { coerceSemver } from './helpers';
 import { automigrate } from './automigrate';
-import { isCorePackage } from './utils';
-import versions from './versions';
 
 type Package = {
   package: string;
@@ -110,13 +113,15 @@ export const doUpgrade = async ({
 }: UpgradeOptions) => {
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
+  // If we can't determine the existing version (Yarn PnP), fallback to v0.0.0 to not block the upgrade
+  const beforeVersion = (await getStorybookCoreVersion()) ?? '0.0.0';
   const currentVersion = versions['@storybook/cli'];
-  const beforeVersion = await getStorybookCoreVersion();
+  const isCanary = currentVersion.startsWith('0.0.0');
 
-  if (lt(currentVersion, beforeVersion)) {
+  if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
   }
-  if (eq(currentVersion, beforeVersion)) {
+  if (!isCanary && eq(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
@@ -166,12 +171,12 @@ export const doUpgrade = async ({
       // only upgrade packages that are in the monorepo
       return dependency in versions;
     }) as Array<keyof typeof versions>;
-    return monorepoDependencies.map(
-      (dependency) =>
-        // add ^ modifier to the version if this is the latest and stable version
-        // example output: @storybook/react@^8.0.0
-        `${dependency}@${!isOutdated || isPrerelease ? '^' : ''}${versions[dependency]}`
-    );
+    return monorepoDependencies.map((dependency) => {
+      /* add ^ modifier to the version if this is the latest stable or prerelease version
+         example outputs: @storybook/react@^8.0.0 */
+      const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+      return `${dependency}@${maybeCaret}${versions[dependency]}`;
+    });
   };
 
   const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);

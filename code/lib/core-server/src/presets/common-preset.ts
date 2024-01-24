@@ -1,5 +1,5 @@
 import fs, { pathExists, readFile } from 'fs-extra';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
   findConfigFile,
@@ -7,6 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
+  removeAddon,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -160,6 +161,12 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverAPI = (extension: Record<string, Function>) => ({
+  ...extension,
+  removeAddon,
+});
+
 /**
  * If for some reason this config is not applied, the reason is that
  * likely there is an addon that does `export core = () => ({ someConfig })`,
@@ -172,18 +179,6 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
-
-export const previewAnnotations = async (base: any, options: Options) => {
-  const config = await options.presets.apply('config', [], options);
-
-  if (config.length > 0) {
-    deprecate(
-      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
-    );
-  }
-
-  return [...config, ...base];
-};
 
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,

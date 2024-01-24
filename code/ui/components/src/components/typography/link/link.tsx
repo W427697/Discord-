@@ -184,12 +184,13 @@ export interface LinkProps extends LinkInnerProps, LinkStylesProps, AProps {
 }
 
 export const Link = ({
-  cancel,
+  cancel = true,
   children,
-  onClick,
-  withArrow,
-  containsIcon,
-  className,
+  onClick = undefined,
+  withArrow = false,
+  containsIcon = false,
+  className = undefined,
+  style = undefined,
   ...rest
 }: LinkProps) => (
   <A
@@ -203,12 +204,3 @@ export const Link = ({
     </LinkInner>
   </A>
 );
-
-Link.defaultProps = {
-  cancel: true,
-  className: undefined,
-  style: undefined,
-  onClick: undefined,
-  withArrow: false,
-  containsIcon: false,
-};
