@@ -1,11 +1,14 @@
 import { expect, vi, it } from 'vitest';
 
-import { join } from 'path';
+import { dirname, join } from 'path';
 import * as fs from 'fs-extra';
 import { logger } from '../../node-logger';
 import * as m from './common-preset';
 
-const defaultFavicon = require.resolve('../../../types/modules/core-server/public/favicon.svg');
+const defaultFavicon = join(
+  dirname(require.resolve('@storybook/core/package.json')),
+  'public/favicon.svg'
+);
 
 const createPath = (...p: string[]) => join(process.cwd(), ...p);
 const createOptions = (locations: string[]): Parameters<typeof m.favicon>[1] => ({

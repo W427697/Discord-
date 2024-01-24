@@ -22,6 +22,11 @@
   "sideEffects": false,
   "exports": {
     "./package.json": "./package.json",
+    "./dist/modules/blocks/index": {
+      "types": "./dist/modules/blocks/index.d.ts",
+      "module": "./dist/modules/blocks/index.mjs",
+      "require": "./dist/modules/blocks/index.js"
+    },
     "./dist/modules/channels/index": {
       "types": "./dist/modules/channels/index.d.ts",
       "module": "./dist/modules/channels/index.mjs",
@@ -32,88 +37,88 @@
       "module": "./dist/modules/client-logger/index.mjs",
       "require": "./dist/modules/client-logger/index.js"
     },
-    "./dist/modules/core-common/index": {
-      "types": "./dist/modules/core-common/index.d.ts",
-      "require": "./dist/modules/core-common/index.js",
-      "module": "./dist/modules/core-common/index.mjs"
+    "./dist/modules/components/index": {
+      "types": "./dist/modules/components/index.d.ts",
+      "module": "./dist/modules/components/index.mjs",
+      "require": "./dist/modules/components/index.js"
     },
-    "./dist/modules/types/index": {
-      "types": "./dist/modules/types/index.d.ts",
-      "module": "./dist/modules/types/index.mjs",
-      "require": "./dist/modules/types/index.js"
-    },
-    "./dist/modules/events/index": {
-      "types": "./dist/modules/events/index.d.ts",
-      "module": "./dist/modules/events/index.mjs",
-      "require": "./dist/modules/events/index.js"
-    },
-    "./dist/modules/events/errors/preview-errors": {
-      "types": "./dist/modules/events/errors/preview-errors.d.ts",
-      "module": "./dist/modules/events/errors/preview-errors.mjs",
-      "require": "./dist/modules/events/errors/preview-errors.js"
+    "./dist/modules/docs-tools/index": {
+      "types": "./dist/modules/docs-tools/index.d.ts",
+      "module": "./dist/modules/docs-tools/index.mjs",
+      "require": "./dist/modules/docs-tools/index.js"
     },
     "./dist/modules/events/errors/manager-errors": {
       "types": "./dist/modules/events/errors/manager-errors.d.ts",
       "module": "./dist/modules/events/errors/manager-errors.mjs",
       "require": "./dist/modules/events/errors/manager-errors.js"
     },
-    "./dist/modules/events/errors/server-errors": {
-      "types": "./dist/modules/events/errors/server-errors.d.ts",
-      "require": "./dist/modules/events/errors/server-errors.js",
-      "module": "./dist/modules/events/errors/server-errors.mjs"
+    "./dist/modules/events/errors/preview-errors": {
+      "types": "./dist/modules/events/errors/preview-errors.d.ts",
+      "module": "./dist/modules/events/errors/preview-errors.mjs",
+      "require": "./dist/modules/events/errors/preview-errors.js"
     },
-    "./dist/modules/node-logger/index": {
-      "types": "./dist/modules/node-logger/index.d.ts",
-      "require": "./dist/modules/node-logger/index.js",
-      "module": "./dist/modules/node-logger/index.mjs"
-    },
-    "./dist/modules/preview-api/index": {
-      "types": "./dist/modules/preview-api/index.d.ts",
-      "module": "./dist/modules/preview-api/index.mjs",
-      "require": "./dist/modules/preview-api/index.js"
-    },
-    "./dist/modules/core-server/index": {
-      "types": "./dist/modules/core-server/index.d.ts",
-      "require": "./dist/modules/core-server/index.js",
-      "module": "./dist/modules/core-server/index.mjs"
-    },
-    "./dist/modules/core-server/presets/common-preset": {
-      "types": "./dist/modules/core-server/presets/common-preset.d.ts",
-      "require": "./dist/modules/core-server/presets/common-preset.js",
-      "module": "./dist/modules/core-server/presets/common-preset.mjs"
-    },
-    "./dist/modules/core-server/presets/common-manager": {
-      "types": "./dist/modules/core-server/presets/common-manager.d.ts",
-      "require": "./dist/modules/core-server/presets/common-manager.js",
-      "module": "./dist/modules/core-server/presets/common-manager.mjs"
-    },
-    "./dist/modules/core-server/presets/common-override-preset": {
-      "types": "./dist/modules/core-server/presets/common-override-preset.d.ts",
-      "require": "./dist/modules/core-server/presets/common-override-preset.js",
-      "module": "./dist/modules/core-server/presets/common-override-preset.mjs"
-    },
-    "./dist/modules/builder-manager/index": {
-      "types": "./dist/modules/builder-manager/index.d.ts",
-      "require": "./dist/modules/builder-manager/index.js",
-      "module": "./dist/modules/builder-manager/index.mjs"
-    },
-    "./dist/modules/csf-tools/index": {
-      "types": "./dist/modules/csf-tools/index.d.ts",
-      "require": "./dist/modules/csf-tools/index.js",
-      "module": "./dist/modules/csf-tools/index.mjs"
+    "./dist/modules/events/index": {
+      "types": "./dist/modules/events/index.d.ts",
+      "module": "./dist/modules/events/index.mjs",
+      "require": "./dist/modules/events/index.js"
     },
     "./dist/modules/instrumenter/index": {
       "types": "./dist/modules/instrumenter/index.d.ts",
       "module": "./dist/modules/instrumenter/index.mjs",
       "require": "./dist/modules/instrumenter/index.js"
     },
-    "./dist/modules/theming/index": {
-      "types": "./dist/modules/theming/index.d.ts",
-      "module": "./dist/modules/theming/index.mjs"
+    "./dist/modules/preview-api/index": {
+      "types": "./dist/modules/preview-api/index.d.ts",
+      "module": "./dist/modules/preview-api/index.mjs",
+      "require": "./dist/modules/preview-api/index.js"
     },
-    "./dist/modules/theming/create": {
-      "types": "./dist/modules/theming/create.d.ts",
-      "module": "./dist/modules/theming/create.mjs"
+    "./dist/modules/telemetry/index": {
+      "types": "./dist/modules/telemetry/index.d.ts",
+      "module": "./dist/modules/telemetry/index.mjs",
+      "require": "./dist/modules/telemetry/index.js"
+    },
+    "./dist/modules/types/index": {
+      "types": "./dist/modules/types/index.d.ts",
+      "module": "./dist/modules/types/index.mjs",
+      "require": "./dist/modules/types/index.js"
+    },
+    "./dist/resolve/browser-assert": {
+      "types": "./dist/resolve/browser-assert.d.ts",
+      "module": "./dist/resolve/browser-assert.mjs",
+      "require": "./dist/resolve/browser-assert.js"
+    },
+    "./dist/resolve/browser-process": {
+      "types": "./dist/resolve/browser-process.d.ts",
+      "module": "./dist/resolve/browser-process.mjs",
+      "require": "./dist/resolve/browser-process.js"
+    },
+    "./dist/resolve/browser-util": {
+      "types": "./dist/resolve/browser-util.d.ts",
+      "module": "./dist/resolve/browser-util.mjs",
+      "require": "./dist/resolve/browser-util.js"
+    },
+    "./dist/resolve/react-dom": {
+      "types": "./dist/resolve/react-dom.d.ts",
+      "module": "./dist/resolve/react-dom.mjs",
+      "require": "./dist/resolve/react-dom.js"
+    },
+    "./dist/resolve/react-runtime": {
+      "types": "./dist/resolve/react-runtime.d.ts",
+      "module": "./dist/resolve/react-runtime.mjs",
+      "require": "./dist/resolve/react-runtime.js"
+    },
+    "./dist/resolve/react": {
+      "types": "./dist/resolve/react.d.ts",
+      "module": "./dist/resolve/react.mjs",
+      "require": "./dist/resolve/react.js"
+    },
+    "./dist/modules/manager-api/index": {
+      "types": "./dist/modules/manager-api/index.d.ts",
+      "module": "./dist/modules/manager-api/index.mjs"
+    },
+    "./dist/modules/manager/index": {
+      "types": "./dist/modules/manager/index.d.ts",
+      "module": "./dist/modules/manager/index.mjs"
     },
     "./dist/modules/router/index": {
       "types": "./dist/modules/router/index.d.ts",
@@ -123,47 +128,71 @@
       "types": "./dist/modules/router/utils.d.ts",
       "module": "./dist/modules/router/utils.mjs"
     },
-    "./dist/modules/manager-api/index": {
-      "types": "./dist/modules/manager-api/index.d.ts",
-      "module": "./dist/modules/manager-api/index.mjs"
+    "./dist/modules/theming/create": {
+      "types": "./dist/modules/theming/create.d.ts",
+      "module": "./dist/modules/theming/create.mjs"
     },
-    "./dist/modules/components/index": {
-      "types": "./dist/modules/components/index.d.ts",
-      "module": "./dist/modules/components/index.mjs",
-      "require": "./dist/modules/components/index.js"
+    "./dist/modules/theming/index": {
+      "types": "./dist/modules/theming/index.d.ts",
+      "module": "./dist/modules/theming/index.mjs"
     },
-    "./dist/modules/blocks/index": {
-      "types": "./dist/modules/blocks/index.d.ts",
-      "module": "./dist/modules/blocks/index.mjs",
-      "require": "./dist/modules/blocks/index.js"
+    "./dist/modules/builder-manager/index": {
+      "types": "./dist/modules/builder-manager/index.d.ts",
+      "require": "./dist/modules/builder-manager/index.js",
+      "module": "./dist/modules/builder-manager/index.mjs"
+    },
+    "./dist/modules/core-common/index": {
+      "types": "./dist/modules/core-common/index.d.ts",
+      "require": "./dist/modules/core-common/index.js",
+      "module": "./dist/modules/core-common/index.mjs"
+    },
+    "./dist/modules/core-server/index": {
+      "types": "./dist/modules/core-server/index.d.ts",
+      "require": "./dist/modules/core-server/index.js",
+      "module": "./dist/modules/core-server/index.mjs"
+    },
+    "./dist/modules/core-server/presets/common-override-preset": {
+      "types": "./dist/modules/core-server/presets/common-override-preset.d.ts",
+      "require": "./dist/modules/core-server/presets/common-override-preset.js",
+      "module": "./dist/modules/core-server/presets/common-override-preset.mjs"
+    },
+    "./dist/modules/core-server/presets/common-preset": {
+      "types": "./dist/modules/core-server/presets/common-preset.d.ts",
+      "require": "./dist/modules/core-server/presets/common-preset.js",
+      "module": "./dist/modules/core-server/presets/common-preset.mjs"
+    },
+    "./dist/modules/csf-tools/index": {
+      "types": "./dist/modules/csf-tools/index.d.ts",
+      "require": "./dist/modules/csf-tools/index.js",
+      "module": "./dist/modules/csf-tools/index.mjs"
+    },
+    "./dist/modules/events/errors/server-errors": {
+      "types": "./dist/modules/events/errors/server-errors.d.ts",
+      "require": "./dist/modules/events/errors/server-errors.js",
+      "module": "./dist/modules/events/errors/server-errors.mjs"
     },
     "./dist/modules/manager/globals-module-info": {
       "types": "./dist/modules/manager/globals-module-info.d.ts",
       "require": "./dist/modules/manager/globals-module-info.js",
       "module": "./dist/modules/manager/globals-module-info.mjs"
     },
-    "./dist/modules/manager/runtime": {
-      "types": "./dist/modules/manager/runtime.d.ts",
-      "module": "./dist/modules/manager/runtime.mjs"
-    },
-    "./dist/modules/manager/index": {
-      "types": "./dist/modules/manager/index.d.ts",
-      "module": "./dist/modules/manager/index.mjs"
-    },
     "./dist/modules/manager/globals": {
       "types": "./dist/modules/manager/globals.d.ts",
       "require": "./dist/modules/manager/globals.js",
       "module": "./dist/modules/manager/globals.mjs"
     },
-    "./dist/modules/docs-tools/index": {
-      "types": "./dist/modules/docs-tools/index.d.ts",
-      "module": "./dist/modules/docs-tools/index.mjs",
-      "require": "./dist/modules/docs-tools/index.js"
+    "./dist/modules/node-logger/index": {
+      "types": "./dist/modules/node-logger/index.d.ts",
+      "require": "./dist/modules/node-logger/index.js",
+      "module": "./dist/modules/node-logger/index.mjs"
     },
-    "./dist/modules/telemetry/index": {
-      "types": "./dist/modules/telemetry/index.d.ts",
-      "module": "./dist/modules/telemetry/index.mjs",
-      "require": "./dist/modules/telemetry/index.js"
+    "./dist/modules/manager/runtime": {
+      "types": "./dist/modules/manager/runtime.d.ts",
+      "module": "./dist/modules/manager/runtime.js"
+    },
+    "./dist/modules/manager/globals-runtime": {
+      "types": "./dist/modules/manager/globals-runtime.d.ts",
+      "module": "./dist/modules/manager/globals-runtime.js"
     }
   },
   "main": "dist/index.js",

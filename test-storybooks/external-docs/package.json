@@ -47,7 +47,7 @@
     "@storybook/html-webpack5": "portal:../../code/frameworks/html-webpack5",
     "@storybook/instrumenter": "portal:../../code/ldeprecatedib/instrumenter",
     "@storybook/manager": "portal:../../code/ui/manager",
-    "@storybook/manager-api": "portal:../../code/lib/manager-api",
+    "@storybook/manager-api": "portal:../../code/deprecated/manager-api",
     "@storybook/nextjs": "portal:../../code/frameworks/nextjs",
     "@storybook/node-logger": "portal:../../code/deprecated/node-logger",
     "@storybook/preact": "portal:../../code/renderers/preact",

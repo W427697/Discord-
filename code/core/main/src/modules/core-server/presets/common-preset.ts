@@ -343,8 +343,11 @@ export const resolvedReact = async (existing: any) => {
   try {
     return {
       ...existing,
-      react: dirname(require.resolve('react/package.json')),
-      reactDom: dirname(require.resolve('react-dom/package.json')),
+      react: join(dirname(require.resolve('@storybook/core/package.json')), '/dist/resolve/react'),
+      reactDom: join(
+        dirname(require.resolve('@storybook/core/package.json')),
+        '/dist/resolve/react-dom'
+      ),
     };
   } catch (e) {
     return existing;

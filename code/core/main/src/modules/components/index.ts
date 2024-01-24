@@ -98,3 +98,5 @@ Object.keys(typography.components).forEach((key) => {
 });
 
 export { resetComponents };
+
+export { ArgsTable } from '../blocks/components/ArgsTable/ArgsTable';

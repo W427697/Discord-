@@ -6,6 +6,9 @@ import { readFile, writeFile } from 'fs/promises';
 import { emptyDir, ensureFile } from 'fs-extra';
 import sortPkg from 'sort-package-json';
 import type { PackageJson } from 'type-fest';
+import aliasPlugin from 'esbuild-plugin-alias';
+
+import { globalPackages as globalManagerPackages } from '../../code/core/main/src/modules/manager/globals/globals';
 
 type Flags = {
   watch: boolean;
@@ -60,9 +63,70 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     tasks.push(...entries.map(({ file }) => generateDTSMapperFile(file)));
   }
 
-  tasks.push(updatePackageJson(pkg, entries));
-
   await Promise.all(tasks);
+
+  await build({
+    entry: [
+      //
+      './src/modules/manager/runtime.ts',
+      './src/modules/manager/globals-runtime.ts',
+    ],
+    format: ['esm'],
+    external: [],
+    clean: false,
+    outDir: join(cwd, 'dist/modules/manager'),
+    outExtension: () => ({
+      js: '.js',
+    }),
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('process/browser.js'),
+        util: require.resolve('util/util.js'),
+      }),
+    ],
+    target: ['chrome100', 'safari15', 'firefox91'],
+  });
+
+  await ['./src/modules/manager/runtime.ts', './src/modules/manager/globals-runtime.ts'].map(
+    async (file) => generateDTSMapperFile(file)
+  );
+
+  await build({
+    entry: ['./src/modules/core-server/presets/common-manager.ts'],
+    format: ['esm'],
+    external: [...globalManagerPackages],
+    clean: false,
+    outDir: join(cwd, 'dist/modules/core-server/presets'),
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('process/browser.js'),
+        util: require.resolve('util/util.js'),
+      }),
+    ],
+    target: ['chrome100', 'safari15', 'firefox91'],
+  });
+
+  await updatePackageJson(pkg, [
+    ...entries,
+    {
+      file: './src/modules/manager/runtime.ts',
+      format: 'iife',
+    },
+    {
+      file: './src/modules/manager/globals-runtime.ts',
+      format: 'iife',
+    },
+  ]);
 
   if (process.env.CI !== 'true') {
     console.log('done');
@@ -110,7 +174,7 @@ async function getBaseOptions({
     },
     overrides: {
       watch: !!watch,
-      // clean: !!reset,
+      clean: false,
     },
   };
 }
@@ -154,10 +218,12 @@ const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsW
 const formatToType: Record<string, string> = {
   cjs: 'require',
   esm: 'module',
+  iife: 'module',
 };
 const formatToExt: Record<string, string> = {
   cjs: '.js',
   esm: '.mjs',
+  iife: '.js',
 };
 
 async function updatePackageJson(
@@ -188,7 +254,7 @@ async function updatePackageJson(
   ) {
     pkg.exports = {
       './package.json': './package.json',
-      ...(pkg.exports as any),
+      // ...(pkg.exports as any),
       ...grouped,
     };
     await writeFile(join(cwd, 'package.json'), `${JSON.stringify(sortPkg(pkg), null, 2)}\n`);

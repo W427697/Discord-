@@ -1,4 +1,5 @@
-import { addons } from '../../manager-api';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { addons } from '@storybook/core/dist/modules/manager-api/index';
 import { global } from '@storybook/global';
 
 const STATIC_FILTER = 'static-filter';

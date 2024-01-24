@@ -69,8 +69,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     target: ['chrome100', 'safari15', 'firefox91'],
     platform: 'browser',
     bundle: true,
-    minify: true,
-    sourcemap: false,
+    // minify: true,
+    sourcemap: true,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
@@ -83,13 +83,29 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     legalComments: 'external',
     plugins: [
       aliasPlugin({
-        process: require.resolve('process/browser.js'),
-        util: require.resolve('util/util.js'),
-        assert: require.resolve('browser-assert'),
+        process: require
+          .resolve('@storybook/core/dist/resolve/browser-process')
+          .replace('.js', '.mjs'),
+        util: require.resolve('@storybook/core/dist/resolve/browser-util').replace('.js', '.mjs'),
+        assert: require
+          .resolve('@storybook/core/dist/resolve/browser-assert')
+          .replace('.js', '.mjs'),
       }),
       globalExternals(globalsModuleInfoMap),
       pnpPlugin(),
     ],
+
+    // outExtension: () => ({
+    //   js: '.js',
+    // }),
+    // define: {
+    // },
+    // esbuildPlugins: [
+    //   aliasPlugin({
+    //     process: require.resolve('process/browser.js'),
+    //     util: require.resolve('util/util.js'),
+    //   }),
+    // ],
 
     banner: {
       js: 'try{',
@@ -99,10 +115,13 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     },
 
     define: {
-      'process.env': JSON.stringify(envs),
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+      // 'process.env': JSON.stringify(envs),
       ...stringifyProcessEnvs(envs),
-      global: 'window',
-      module: '{}',
+      // global: 'window',
+      // module: '{}',
     },
   };
 };

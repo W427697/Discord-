@@ -4889,6 +4889,8 @@ __metadata:
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
     "@storybook/core": "workspace:*"
+  peerDependencies:
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 
