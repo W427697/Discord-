@@ -4,9 +4,9 @@ title: 'Migration guide for Storybook 8.0'
 
 Storybook 8 focuses on performance and stability.
 
-- 💨 [2-4x faster test builds](https://storybook.js.org/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](https://storybook.js.org/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](https://storybook.js.org/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
+- 💨 [2-4x faster test builds](/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
 - ✨ Improved framework support: you no longer need to install React as a peer dependency when using a non-React renderer
-- 🌐 [Support for React Server Components (RSC)](https://storybook.js.org/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
+- 🌐 [Support for React Server Components (RSC)](/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
 - ➕ Much, much more
 
 This guide is meant to help you **upgrade from Storybook 7.x to 8.0** successfully!
@@ -22,7 +22,7 @@ To upgrade your project to Storybook 7, run:
 npx storybook@^7 upgrade
 ```
 
-Then reference the [Storybook 7 migration guide](https://storybook.js.org/docs/7.6/migration-guide) to ensure you address any relevant breaking changes or manual migrations.
+Then reference the [Storybook 7 migration guide](../../release-7-6/docs/migration-guide) to ensure you address any relevant breaking changes or manual migrations.
 
 </details>
 
@@ -39,7 +39,9 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [Storyshots has been removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyshots-has-been-removed)
 - [Addons API introduced in Storybook 7 is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-addons-api)
 
-If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 7.x.
+If any of these apply to your project, please read through the the linked migration notes before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 7.x.
+
+You may wish to read the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) before migrating. Or you can follow the instructions below and we’ll try to take care of everything for you!
 
 ## Automatic upgrade
 
@@ -93,30 +95,25 @@ In addition to the automated upgrades above, there are manual migrations that mi
 Storybook architecture is focused on performance and now needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
-# Convert storiesOf to CSF
+# Convert storiesOf to CSF 1
 npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
 ```
 
-Then, you can optionally convert CSF 2 to CSF 3 ([why should you do this?](https://storybook.js.org/blog/storybook-csf3-is-here/)):
-
-```sh
-# Convert CSF 2 to CSF 3
-npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
-```
+While stories written in CSF 1 are supported in Storybook 8, we recommend upgrading to CSF 3, which has [significant benefits](/blog/component-story-format-3-0/) when writing and maintaining stories. You'll need to manually [migrate your stories to CSF 2](/blog/introducing-storybook-args/), and then you can use the [codemod to automatically upgrade from CSF 2 to 3](#csf-2-to-csf-3).
 
 ### `storiesOf` to dynamically created stories
 
-If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](https://storybook.js.org/docs/api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
+If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](/docs/api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
 
 ### `*.stories.mdx` to MDX+CSF
 
-Storybook now requires that MDX pages reference stories written in CSF, rather than the previous .stories.mdx hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
+Storybook now requires that MDX pages reference stories written in CSF, rather than the previous `.stories.mdx` hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
 ```
 
-You’ll also need to update your stories glob in .storybook/main.js to include the newly created .mdx and .stories.js files if it doesn’t already.
+You’ll also need to update your stories glob in `.storybook/main.js` to include the newly created .mdx and .stories.js files if it doesn’t already.
 
 **Note:** this migration supports the Storybook 6 ["CSF stories with MDX docs"](https://github.com/storybookjs/storybook/blob/6e19f0fe426d58f0f7981a42c3d0b0384fab49b1/code/addons/docs/docs/recipes.md#csf-stories-with-mdx-docs) recipe.
 
@@ -132,8 +129,8 @@ The automatic upgrade should get your Storybook into a working state. If you enc
 
 If you prefer to debug yourself, here are a few useful things you can do to help narrow down the problem:
 
-1. Try removing all addons that are not in the `@storybook` npm namespace. Community addons that work well with 7.x might not yet be compatible with 8.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 8, please post an issue on the addon’s repository, or better yet, a PR to upgrade it!
-2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `8.0.0-beta.56`, you could set the version to `7.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (`alpha.0` should be nearly identical to `7.6.x`). If it works, you could then try `7.0.0-beta.0`, then `7.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or PR to the Storybook repo and we’ll do our best to take care of it quickly.
+1. Try removing all addons that are not in the `@storybook` npm namespace (make sure you don't remove the `storybook` package). Community addons that work well with 7.x might not yet be compatible with 8.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 8, please post an issue on the addon’s repository, or better yet, a PR to upgrade it!
+2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `8.0.0-beta.56`, you could set the version to `8.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (`alpha.0` should be nearly identical to `7.6.x`). If it works, you could then try `8.0.0-beta.0`, then `8.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or PR to the Storybook repo and we’ll do our best to take care of it quickly.
 
 ## Optional migrations
 
@@ -141,4 +138,11 @@ In addition to the automigrations and manual migrations above, there are also op
 
 These include:
 
-- TK
+### CSF 2 to CSF 3
+
+There are [many good reasons](/blog/storybook-csf3-is-here/) to convert your stories from CSF 2 to CSF 3. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
+
+```sh
+# Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
