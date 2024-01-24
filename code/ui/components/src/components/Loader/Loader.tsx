@@ -98,7 +98,7 @@ interface Progress {
   };
 }
 
-interface LoaderProps extends ComponentProps<typeof LoaderWrapper> {
+interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   progress?: Progress;
   error?: Error;
   size?: number;
