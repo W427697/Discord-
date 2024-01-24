@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import React, { Children } from 'react';
 import { styled } from '@storybook/theming';
 
+import type { ScrollAreaProps } from '../ScrollArea/ScrollArea';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 export interface SideProps {
@@ -39,7 +40,7 @@ export const Side = styled.div<SideProps>(
 );
 Side.displayName = 'Side';
 
-interface UnstyledBarProps extends ComponentProps<typeof ScrollArea> {
+interface UnstyledBarProps extends ScrollAreaProps {
   scrollable?: boolean;
 }
 
