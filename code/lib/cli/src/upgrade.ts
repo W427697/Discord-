@@ -1,5 +1,5 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
@@ -114,7 +114,10 @@ export const doUpgrade = async ({
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   // If we can't determine the existing version (Yarn PnP), fallback to v0.0.0 to not block the upgrade
-  const beforeVersion = (await getStorybookCoreVersion()) ?? '0.0.0';
+  const beforeVersion =
+    (await packageManager.findInstallations(['@storybook/cli']))?.dependencies['@storybook/cli'][0]
+      .version ?? '0.0.0';
+
   const currentVersion = versions['@storybook/cli'];
   const isCanary = currentVersion.startsWith('0.0.0');
 
@@ -206,7 +209,9 @@ export const doUpgrade = async ({
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
+    const afterVersion = (await packageManager.findInstallations(['@storybook/cli']))?.dependencies[
+      '@storybook/cli'
+    ][0].version;
     const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,
