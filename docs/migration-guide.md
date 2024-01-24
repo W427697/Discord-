@@ -110,7 +110,7 @@ If you are using `storiesOf` for its ability to dynamically create stories, you 
 
 ### `*.stories.mdx` to MDX+CSF
 
-Storybook now requires that MDX pages now reference stories written in CSF, rather than the previous .stories.mdx hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
+Storybook now requires that MDX pages reference stories written in CSF, rather than the previous .stories.mdx hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
@@ -118,7 +118,7 @@ npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
 
 You’ll also need to update your stories glob in .storybook/main.js to include the newly created .mdx and .stories.js files if it doesn’t already.
 
-**Note:** this migration supports the Storybook 6 [“CSF stories with MDX docs”](https://github.com/storybookjs/storybook/blob/6e19f0fe426d58f0f7981a42c3d0b0384fab49b1/code/addons/docs/docs/recipes.md#csf-stories-with-mdx-docs) recipe.
+**Note:** this migration supports the Storybook 6 ["CSF stories with MDX docs"](https://github.com/storybookjs/storybook/blob/6e19f0fe426d58f0f7981a42c3d0b0384fab49b1/code/addons/docs/docs/recipes.md#csf-stories-with-mdx-docs) recipe.
 
 ## Troubleshooting
 
