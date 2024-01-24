@@ -6,8 +6,8 @@ export default {
   parameters: {
     // ...
     nextjs: {
-      router: {
-        navigation(...args) {
+      navigation: {
+        push(...args) {
           // Custom logic can go here
           // This logs to the Actions panel
           action('nextNavigation.push')(...args);

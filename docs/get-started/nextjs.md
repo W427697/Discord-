@@ -98,11 +98,11 @@ Finally, if you were using Storybook plugins to integrate with Next.js, those ar
 
 <!-- prettier-ignore-end -->
 
-## Next.js's Image Component
+## Next.js's Image component
 
 This framework allows you to use Next.js's [next/image](https://nextjs.org/docs/pages/api-reference/components/image) with no configuration.
 
-### Local Images
+### Local images
 
 [Local images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#local-images) are supported.
 
@@ -129,7 +129,7 @@ function Home() {
 }
 ```
 
-### Remote Images
+### Remote images
 
 [Remote images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images) are also supported.
 
@@ -148,15 +148,15 @@ export default function Home() {
 }
 ```
 
-## Next.js Font Optimization
+## Next.js font optimization
 
 [next/font](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) is partially supported in Storybook. The packages `next/font/google` and `next/font/local` are supported.
 
-### next/font/google
+### `next/font/google`
 
 You don't have to do anything. `next/font/google` is supported out of the box.
 
-### next/font/local
+### `next/font/local`
 
 For local fonts you have to define the [src](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts#local-fonts) property.
 The path is relative to the directory where the font loader function is called.
@@ -183,7 +183,7 @@ You have to tell Storybook where the `fonts` directory is located, via the [`sta
 
 <!-- prettier-ignore-end -->
 
-### Not supported features of next/font
+### Not supported features of `next/font`
 
 The following features are not supported (yet). Support for these features might be planned for the future:
 
@@ -239,7 +239,7 @@ module.exports = {
 };
 ```
 
-## Next.js Routing
+## Next.js routing
 
 [Next.js's router](https://nextjs.org/docs/pages/building-your-application/routing) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions panel if you have the [Storybook actions addon](../essentials/actions.md).
 
@@ -270,7 +270,7 @@ These overrides can also be applied to [all stories for a component](../api/para
 
 </Callout>
 
-### Default Router
+### Default router
 
 The default values on the stubbed router are as follows (see [globals](../essentials/toolbars-and-globals.md#globals) for more details on how globals work).
 
@@ -326,22 +326,9 @@ const defaultRouter = {
 };
 ```
 
-### Actions Integration Caveats
+### Actions integration caveats
 
-If you override a function, you lose the automatic actions integration and have to build it out yourself.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/nextjs-router-push-override-in-preview-incomplete.js.mdx',
-    'react/nextjs-router-push-override-in-preview-incomplete.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Doing this yourself looks something like this (make sure you install the `@storybook/addon-actions` package):
+If you override a function, you lose the automatic action tab integration and have to build it out yourself, which looks something like this (make sure you install the `@storybook/addon-actions` package):
 
 <!-- prettier-ignore-start -->
 
@@ -354,11 +341,11 @@ Doing this yourself looks something like this (make sure you install the `@story
 
 <!-- prettier-ignore-end -->
 
-## Next.js Navigation
+## Next.js navigation
 
 <Callout>
 
-Please note that [next/navigation](https://nextjs.org/docs/app/building-your-application/routing) can only be used in components/pages in the `app` directory.
+Please note that [`next/navigation`](https://nextjs.org/docs/app/building-your-application/routing) can only be used in components/pages in the `app` directory.
 
 </Callout>
 
@@ -475,7 +462,7 @@ These overrides can also be applied to [a single story](../api/parameters.md#sto
 
 The default value of `nextjs.navigation.segments` is `[]` if not set.
 
-### Default Navigation Context
+### Default navigation context
 
 The default values on the stubbed navigation context are as follows:
 
@@ -505,22 +492,9 @@ const defaultNavigationContext = {
 };
 ```
 
-### Actions Integration Caveats
+### Actions integration caveats
 
-If you override a function, you lose the automatic action tab integration and have to build it out yourself.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/nextjs-navigation-push-override-in-preview-incomplete.js.mdx',
-    'react/nextjs-navigation-push-override-in-preview-incomplete.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Doing this yourself looks something like this (make sure you install the `@storybook/addon-actions` package):
+If you override a function, you lose the automatic action tab integration and have to build it out yourself, which looks something like this (make sure you install the `@storybook/addon-actions` package):
 
 <!-- prettier-ignore-start -->
 
@@ -535,7 +509,7 @@ Doing this yourself looks something like this (make sure you install the `@story
 
 ## Next.js Head
 
-[next/head](https://nextjs.org/docs/pages/api-reference/components/head) is supported out of the box. You can use it in your stories like you would in your Next.js application. Please keep in mind, that the Head children are placed into the head element of the iframe that Storybook uses to render your stories.
+[`next/head`](https://nextjs.org/docs/pages/api-reference/components/head) is supported out of the box. You can use it in your stories like you would in your Next.js application. Please keep in mind, that the Head `children` are placed into the head element of the iframe that Storybook uses to render your stories.
 
 ## Sass/Scss
 
@@ -642,7 +616,7 @@ Next.js lets you [customize PostCSS config](https://nextjs.org/docs/pages/buildi
 
 This allows for cool things like zero-config Tailwind! (See [Next.js' example](https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss))
 
-## Absolute Imports
+## Absolute imports
 
 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases#absolute-imports) from the root directory are supported.
 
@@ -673,7 +647,7 @@ import 'styles/globals.scss';
 // ...
 ```
 
-## Runtime Config
+## Runtime config
 
 Next.js allows for [Runtime Configuration](https://nextjs.org/docs/pages/api-reference/next-config-js/runtime-configuration) which lets you import a handy `getConfig` function to get certain configuration defined in your `next.config.js` file at runtime.
 
@@ -708,7 +682,7 @@ Calls to `getConfig` would return the following object when called within Storyb
 }
 ```
 
-## Custom Webpack Config
+## Custom Webpack config
 
 Next.js comes with a lot of things for free out of the box like Sass support, but sometimes you add [custom Webpack config modifications to Next.js](https://nextjs.org/docs/pages/api-reference/next-config-js/webpack). This framework takes care of most of the Webpack modifications you would want to add. If Next.js supports a feature out of the box, then that feature will work out of the box in Storybook. If Next.js doesn't support something out of the box, but makes it easy to configure, then this framework will do the same for that thing for Storybook.
 
