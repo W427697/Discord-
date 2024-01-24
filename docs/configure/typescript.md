@@ -95,3 +95,11 @@ Out of the box, Storybook supports the `satisfies` operator for almost every fra
 ### The TypeScript auto-completion is not working on my editor
 
 If you're using Vue single file components and TypeScript, you can add both [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and the [TypeScript Vue Plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) for editor support, additional type safety and auto-completion. Nevertheless, if you're working with Svelte, you can add the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) for similar benefits.
+
+<IfRenderer renderer='react'>
+
+###
+
+via `react-docgen`, you may run into a situation where specific properties may not work as expected
+
+</IfRenderer>

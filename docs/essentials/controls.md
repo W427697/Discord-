@@ -654,12 +654,6 @@ Type: `boolean`
 
 Show the full documentation, including description and default value, for each property in the Controls addon panel. See [usage example](#show-full-documentation-for-each-property), above.
 
-#### `hideNoControlsWarning`
-
-Type: `boolean`
-
-Hide the warning that appears when no controls are defined for a story. See [usage example](#hide-nocontrols-warning), above.
-
 #### `include`
 
 Type: `string[] | RegExp`
