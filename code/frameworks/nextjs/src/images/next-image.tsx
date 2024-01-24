@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore import is aliased in webpack config
 import OriginalNextImage from 'sb-original/next/image';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore import is aliased in webpack config
+import { getImageProps as originalGetImageProps } from 'sb-original/next/image';
 import type * as _NextImage from 'next/image';
 import React from 'react';
 
@@ -31,3 +34,10 @@ const MockedNextImage = React.forwardRef<HTMLImageElement, _NextImage.ImageProps
 MockedNextImage.displayName = 'NextImage';
 
 export default MockedNextImage;
+
+export const getImageProps = (props: _NextImage.ImageProps) => {
+  return originalGetImageProps({
+    loader: defaultLoader,
+    ...props,
+  });
+};
