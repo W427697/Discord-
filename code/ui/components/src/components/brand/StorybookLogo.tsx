@@ -1,8 +1,8 @@
 import React from 'react';
 
-export interface StorybookLogoProps extends React.SVGAttributes<SVGSVGElement> {
+type StorybookLogoProps = {
   alt: string;
-}
+} & React.SVGAttributes<SVGSVGElement>;
 
 export const StorybookLogo = ({ alt, ...props }: StorybookLogoProps) => (
   <svg width="200px" height="40px" viewBox="0 0 200 40" {...props} role="img">
