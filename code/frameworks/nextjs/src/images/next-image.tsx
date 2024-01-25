@@ -12,8 +12,8 @@ import { ImageContext as ImageContextValue } from '@storybook/nextjs/dist/image-
 import { type ImageContext as ImageContextType } from '../image-context';
 import { defaultLoader } from './next-image-default-loader';
 
-const OriginalNextImage = NextImageNamespace.default
-const { getImageProps: originalGetImageProps } = NextImageNamespace
+const OriginalNextImage = NextImageNamespace.default;
+const { getImageProps: originalGetImageProps } = NextImageNamespace;
 const ImageContext = ImageContextValue as typeof ImageContextType;
 
 const MockedNextImage = React.forwardRef<HTMLImageElement, _NextImage.ImageProps>(
@@ -33,6 +33,7 @@ const MockedNextImage = React.forwardRef<HTMLImageElement, _NextImage.ImageProps
 
 MockedNextImage.displayName = 'NextImage';
 
-export const getImageProps = (props: _NextImage.ImageProps) => originalGetImageProps?.({ loader: defaultLoader, ...props})
+export const getImageProps = (props: _NextImage.ImageProps) =>
+  originalGetImageProps?.({ loader: defaultLoader, ...props})
 
 export default MockedNextImage;
