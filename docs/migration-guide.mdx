@@ -25,7 +25,6 @@ If any of these apply to your project, please read through the [full migration n
 
 To upgrade your Storybook:
 
-<!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
@@ -47,7 +46,6 @@ This will:
 
 To add Storybook to a project that isn’t currently using Storybook:
 
-<!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
@@ -57,7 +55,6 @@ To add Storybook to a project that isn’t currently using Storybook:
   ]}
 />
 
-<!-- prettier-ignore-end -->
 
 This will:
 
@@ -195,7 +192,6 @@ module.exports = {
 
 Your MDX files should be updated to reference the CSF story export, which is safer and cleaner than referencing the string ID:
 
-<!-- prettier-ignore-start -->
 ```mdx
 {/* Button.mdx */}
 
@@ -207,7 +203,6 @@ import * as ButtonStories from './Button.stories';
 
 <Story of={ButtonStories.Basic} />
 ```
-<!-- prettier-ignore-end -->
 
 You should also remove the MDX imports from your story files:
 
