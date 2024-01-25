@@ -18,9 +18,17 @@ We recommend first upgrading to Storybook 7, then upgrading to Storybook 8.
 
 To upgrade your project to Storybook 7, run:
 
-```sh
-npx storybook@^7 upgrade
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-upgrade-to-prior-major.npm.js.mdx',
+    'common/storybook-upgrade-to-prior-major.pnpm.js.mdx',
+    'common/storybook-upgrade-to-prior-major.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Then reference the [Storybook 7 migration guide](../../release-7-6/docs/migration-guide) to ensure you address any relevant breaking changes or manual migrations.
 
@@ -94,10 +102,17 @@ In addition to the automated upgrades above, there are manual migrations that mi
 
 Storybook architecture is focused on performance and now needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
-```sh
-# Convert storiesOf to CSF 1
-npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-migrate-stories-of-to-csf.npm.js.mdx',
+    'common/storybook-migrate-stories-of-to-csf.pnpm.js.mdx',
+    'common/storybook-migrate-stories-of-to-csf.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 While stories written in CSF 1 are supported in Storybook 8, we recommend upgrading to CSF 3, which has [significant benefits](/blog/component-story-format-3-0/) when writing and maintaining stories. You'll need to manually [migrate your stories to CSF 2](/blog/introducing-storybook-args/), and then you can use the [codemod to automatically upgrade from CSF 2 to 3](#csf-2-to-csf-3).
 
@@ -109,9 +124,17 @@ If you are using `storiesOf` for its ability to dynamically create stories, you 
 
 Storybook now requires that MDX pages reference stories written in CSF, rather than the previous `.stories.mdx` hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
-```sh
-npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-migrate-mdx-to-csf.npm.js.mdx',
+    'common/storybook-migrate-mdx-to-csf.pnpm.js.mdx',
+    'common/storybook-migrate-mdx-to-csf.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 You’ll also need to update your stories glob in `.storybook/main.js` to include the newly created .mdx and .stories.js files if it doesn’t already.
 
@@ -142,7 +165,14 @@ These include:
 
 There are [many good reasons](/blog/storybook-csf3-is-here/) to convert your stories from CSF 2 to CSF 3. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
-```sh
-# Convert CSF 2 to CSF 3
-npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-migrate-csf-2-to-3.npm.js.mdx',
+    'common/storybook-migrate-csf-2-to-3.pnpm.js.mdx',
+    'common/storybook-migrate-csf-2-to-3.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
