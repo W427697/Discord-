@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceType } from '../../docs-tools';
+import { SourceType } from '@storybook/core/dist/modules/docs-tools/index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import dedent from 'ts-dedent';

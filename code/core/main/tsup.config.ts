@@ -1,49 +1,12 @@
 import { type defineConfig as definer } from '../../../scripts/node_modules/tsup';
-// @ts-expect-error (whatever)
-import aliasPlugin from '../../../scripts/node_modules/esbuild-plugin-alias';
-
-// @ts-expect-error (whatever)
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-// const pkg = await readFile('./package.json', 'utf-8').then((s) => JSON.parse(s));
-
-const nodeBuildIn = [
-  'assert',
-  'buffer',
-  'child_process',
-  'cluster',
-  'crypto',
-  'dgram',
-  'dns',
-  'domain',
-  'events',
-  'fs',
-  'http',
-  'https',
-  'net',
-  'os',
-  'path',
-  'punycode',
-  'querystring',
-  'readline',
-  'stream',
-  'string_decoder',
-  'tls',
-  'tty',
-  'url',
-  'util',
-  'v8',
-  'vm',
-  'zlib',
-].flatMap((name) => [name, `node:${name}`]);
 
 const defineConfig: typeof definer = (config) => config;
 
 const common = [
-  './src/modules/blocks/index.ts',
+  // './src/modules/blocks/index.ts',
+  // './src/modules/components/index.ts',
   './src/modules/channels/index.ts',
   './src/modules/client-logger/index.ts',
-  './src/modules/components/index.ts',
   './src/modules/docs-tools/index.ts',
   './src/modules/events/errors/manager-errors.ts',
   './src/modules/events/errors/preview-errors.ts',
@@ -86,21 +49,17 @@ const node = [
 export default defineConfig([
   {
     entry: [...common, ...browser],
-    format: ['esm'],
-    splitting: true,
+    format: 'esm',
     target: ['chrome100', 'safari15', 'firefox91'],
-    esbuildPlugins: [
-      aliasPlugin({
-        process: require.resolve('process/browser.js'),
-        util: require.resolve('util/util.js'),
-      }),
-    ],
   },
   {
     entry: [...common, ...node],
-    format: ['cjs', 'esm'],
-    splitting: true,
+    format: 'esm',
     target: ['node18'],
-    external: nodeBuildIn,
+  },
+  {
+    entry: [...common, ...node],
+    format: 'cjs',
+    target: ['node18'],
   },
 ]);

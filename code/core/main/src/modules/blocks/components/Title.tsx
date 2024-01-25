@@ -1,5 +1,5 @@
-import { styled } from '../../../theming';
-import { withReset } from '../../../components';
+import { styled } from '../../theming';
+import { withReset } from '../../components';
 
 const breakpoint = 600;
 

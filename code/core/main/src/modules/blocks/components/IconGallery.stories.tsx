@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icons as ExampleIcon } from '../../../components';
+import { Icons as ExampleIcon } from '../../components';
 import { IconItem, IconGallery } from './IconGallery';
 
 export default {

@@ -7,7 +7,7 @@ import type {
   Args,
   StoryContextForLoaders,
 } from '../../types';
-import { SourceType } from '../../docs-tools';
+import { SourceType } from '@storybook/core/dist/modules/docs-tools/index';
 
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';

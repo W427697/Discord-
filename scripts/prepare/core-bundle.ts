@@ -8,7 +8,8 @@ import sortPkg from 'sort-package-json';
 import type { PackageJson } from 'type-fest';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { globalPackages as globalManagerPackages } from '../../code/core/main/src/modules/manager/globals/globals';
+import { globalPackages as globalManagerPackages } from '../../code/core/main/src/modules/manager/globals';
+import { globalPackages as globalPreviewPackages } from '../../code/core/main/src/modules/preview/globals';
 
 type Flags = {
   watch: boolean;
@@ -38,7 +39,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await emptyDir(join(process.cwd(), 'dist'));
   }
 
-  const [configs, { defaults, overrides }, pkg] = await utils;
+  const [configs, getter, pkg] = await utils;
 
   const tasks = [];
 
@@ -48,7 +49,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   // if watch, instead of using native watch, use chokidar + https://esbuild.github.io/api/#rebuild
 
-  tasks.push(...configs.map((config) => build(mergeOptions({ config, overrides, defaults }))));
+  tasks.push(
+    ...configs.map((config) => {
+      const format = config.format;
+      if (Array.isArray(format)) {
+        throw new Error('format must be a string');
+      }
+      return build(mergeOptions({ config, ...getter(format) }));
+    })
+  );
 
   const entries = configs.flatMap(({ entry, format: formatRaw }) => {
     if (!entry) {
@@ -67,6 +76,22 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     updatePackageJson(pkg, [
       ...entries,
       {
+        file: './src/modules/blocks/index.ts',
+        format: 'esm',
+      },
+      {
+        file: './src/modules/components/index.ts',
+        format: 'esm',
+      },
+      {
+        file: './src/modules/blocks/index.ts',
+        format: 'cjs',
+      },
+      {
+        file: './src/modules/components/index.ts',
+        format: 'cjs',
+      },
+      {
         file: './src/prebuild/manager/runtime.ts',
         format: 'iife',
       },
@@ -79,6 +104,16 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         format: 'iife',
       },
     ])
+  );
+
+  tasks.push(
+    ...[
+      './src/modules/blocks/index.ts',
+      './src/modules/components/index.ts',
+      './src/prebuild/manager/runtime.ts',
+      './src/prebuild/manager/globals-runtime.ts',
+      './src/prebuild/preview/globals-runtime.ts',
+    ].map(async (file) => generateDTSMapperFile(file))
   );
 
   await Promise.all(tasks);
@@ -106,16 +141,103 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       aliasPlugin({
         process: require.resolve('process/browser.js'),
         util: require.resolve('util/util.js'),
+        assert: require.resolve('browser-assert'),
       }),
     ],
     target: ['chrome100', 'safari15', 'firefox91'],
   });
 
-  await [
-    './src/prebuild/manager/runtime.ts',
-    './src/prebuild/manager/globals-runtime.ts',
-    './src/prebuild/preview/globals-runtime.ts',
-  ].map(async (file) => generateDTSMapperFile(file));
+  await build({
+    entry: [
+      //
+      './src/modules/blocks/index.ts',
+      // './src/modules/components/index.ts',
+    ],
+    format: ['esm'],
+    external: ['react', 'react-dom', '@storybook/core', ...globalPreviewPackages],
+    config: false,
+    clean: false,
+    outDir: join(cwd, 'dist/modules/blocks'),
+
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('process/browser.js'),
+        util: require.resolve('util/util.js'),
+        assert: require.resolve('browser-assert'),
+      }),
+    ],
+    target: ['chrome100', 'safari15', 'firefox91'],
+  });
+  await build({
+    entry: [
+      //
+      './src/modules/blocks/index.ts',
+      // './src/modules/components/index.ts',
+    ],
+    format: ['cjs'],
+    external: ['react', 'react-dom', '@storybook/core', ...nodeBuildIn, ...globalPreviewPackages],
+    config: false,
+    clean: false,
+    outDir: join(cwd, 'dist/modules/blocks'),
+
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+
+    target: ['node18'],
+  });
+
+  await build({
+    entry: [
+      //
+      './src/modules/components/index.ts',
+    ],
+    format: ['esm'],
+    external: ['react', 'react-dom', '@storybook/core', ...globalManagerPackages],
+    config: false,
+    clean: false,
+    outDir: join(cwd, 'dist/modules/components'),
+
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('process/browser.js'),
+        util: require.resolve('util/util.js'),
+        assert: require.resolve('browser-assert'),
+      }),
+    ],
+    target: ['chrome100', 'safari15', 'firefox91'],
+  });
+  await build({
+    entry: [
+      //
+      './src/modules/components/index.ts',
+    ],
+    format: ['cjs'],
+    external: ['react', 'react-dom', '@storybook/core', ...nodeBuildIn, ...globalManagerPackages],
+    config: false,
+    clean: false,
+    outDir: join(cwd, 'dist/modules/components'),
+
+    define: {
+      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_DEBUG': '""',
+      'process.env.FORCE_SIMILAR_INSTEAD_OF_MAP': '"false"',
+    },
+
+    target: ['node18'],
+  });
 
   await build({
     entry: ['./src/modules/core-server/presets/common-manager.ts'],
@@ -133,6 +255,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       aliasPlugin({
         process: require.resolve('process/browser.js'),
         util: require.resolve('util/util.js'),
+        assert: require.resolve('browser-assert'),
       }),
     ],
     target: ['chrome100', 'safari15', 'firefox91'],
@@ -162,14 +285,15 @@ async function getBaseOptions({
   watch,
   optimized,
   cwd,
-}: Flags): Promise<{ defaults: Options; overrides: Options }> {
-  return {
+}: Flags): Promise<(format: string) => { defaults: Options; overrides: Options }> {
+  return (format) => ({
     defaults: {
-      config: false,
-      silent: !watch,
       treeshake: true,
       sourcemap: false,
       shims: false,
+      splitting: true,
+
+      external: format.match('esm') ? ['@storybook/core'] : ['@storybook/core', ...nodeBuildIn],
 
       outDir: join(cwd, 'dist'),
       esbuildOptions: (c) =>
@@ -180,7 +304,19 @@ async function getBaseOptions({
           minifyWhitespace: optimized,
           minifyIdentifiers: false,
           minifySyntax: optimized,
+          conditions: format.match('esm') ? ['browser', 'module'] : ['node', 'module', 'require'],
         }),
+      ...(format.match('esm')
+        ? {
+            esbuildPlugins: [
+              aliasPlugin({
+                process: require.resolve('process/browser.js'),
+                util: require.resolve('util/util.js'),
+                assert: require.resolve('browser-assert'),
+              }),
+            ],
+          }
+        : {}),
 
       define: {
         'process.env.NODE_ENV': '"production"',
@@ -189,10 +325,12 @@ async function getBaseOptions({
       },
     },
     overrides: {
+      silent: !watch,
       watch: !!watch,
       clean: false,
+      config: false,
     },
-  };
+  });
 }
 
 function mergeOptions({
@@ -241,6 +379,36 @@ const formatToExt: Record<string, string> = {
   esm: '.mjs',
   iife: '.js',
 };
+
+const nodeBuildIn = [
+  'assert',
+  'buffer',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'https',
+  'net',
+  'os',
+  'path',
+  'punycode',
+  'querystring',
+  'readline',
+  'stream',
+  'string_decoder',
+  'tls',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'zlib',
+].flatMap((name) => [name, `node:${name}`]);
 
 async function updatePackageJson(
   pkg: PackageJson.PackageJsonStandard,

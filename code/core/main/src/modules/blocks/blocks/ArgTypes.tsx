@@ -2,9 +2,9 @@
 import type { Parameters, Renderer, StrictArgTypes } from '@storybook/csf';
 import type { ModuleExports } from '../../types';
 import type { FC } from 'react';
-import type { PropDescriptor } from '../../preview-api';
-import { filterArgTypes } from '../../preview-api';
-import type { ArgTypesExtractor } from '../../docs-tools';
+import type { PropDescriptor } from '@storybook/core/dist/modules/preview-api/index';
+import { filterArgTypes } from '@storybook/core/dist/modules/preview-api/index';
+import type { ArgTypesExtractor } from '@storybook/core/dist/modules/docs-tools/index';
 import React from 'react';
 
 import { mapValues } from 'lodash';

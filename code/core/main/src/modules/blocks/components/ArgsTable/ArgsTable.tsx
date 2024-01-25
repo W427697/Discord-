@@ -4,7 +4,7 @@ import pickBy from 'lodash/pickBy.js';
 import { styled } from '../../../theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
-import { once } from '../../../client-logger';
+import { once } from '@storybook/core/dist/modules/client-logger/index';
 import { IconButton, ResetWrapper, Link } from '../../../components';
 
 import { UndoIcon } from '@storybook/icons';

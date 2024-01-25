@@ -1,6 +1,8 @@
-import type { Theme } from '../../../theming';
+import type { StorybookTheme } from '../../theming';
 
-export const getBlockBackgroundStyle: (theme: Theme) => object = (theme: Theme) => ({
+export const getBlockBackgroundStyle: (theme: StorybookTheme) => object = (
+  theme: StorybookTheme
+) => ({
   borderRadius: theme.appBorderRadius,
   background: theme.background.content,
   boxShadow:

@@ -1,6 +1,6 @@
 import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
-import { NAVIGATE_URL } from '../../events';
+import { NAVIGATE_URL } from '@storybook/core/dist/modules/events/index';
 import type { SupportedLanguage } from '../../components';
 import { Code, components, nameSpaceClassNames } from '../../components';
 import { global } from '@storybook/global';

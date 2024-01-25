@@ -1,7 +1,7 @@
 import type { Renderer, CSFFile, ModuleExports, DocsContextProps } from '../../../types';
-import { DocsContext } from '../../../preview-api';
-import type { StoryStore } from '../../../preview-api';
-import type { Channel } from '../../../channels';
+import { DocsContext } from '@storybook/core/dist/modules/preview-api/index';
+import type { StoryStore } from '@storybook/core/dist/modules/preview-api/index';
+import type { Channel } from '@storybook/core/dist/modules/channels/index';
 
 export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext<TRenderer> {
   constructor(

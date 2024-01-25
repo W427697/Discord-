@@ -3,9 +3,9 @@ import type { Renderer, Parameters, StrictArgTypes } from '@storybook/csf';
 import type { ModuleExports } from '../../types';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import { filterArgTypes } from '../../preview-api';
-import type { PropDescriptor } from '../../preview-api';
-import type { ArgTypesExtractor } from '../../docs-tools';
+import { filterArgTypes } from '@storybook/core/dist/modules/preview-api/index';
+import type { PropDescriptor } from '@storybook/core/dist/modules/preview-api/index';
+import type { ArgTypesExtractor } from '@storybook/core/dist/modules/docs-tools/index';
 
 import { mapValues } from 'lodash';
 import type { SortType } from '../components';
