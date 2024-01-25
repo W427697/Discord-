@@ -5079,6 +5079,7 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
+    "@storybook/icons": "npm:^1.2.3"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
