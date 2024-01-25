@@ -114,7 +114,9 @@ Storybook architecture is focused on performance and now needs code that is stat
 
 <!-- prettier-ignore-end -->
 
-While stories written in CSF 1 are supported in Storybook 8, we recommend upgrading to CSF 3, which has [significant benefits](/blog/component-story-format-3-0/) when writing and maintaining stories. You'll need to manually [migrate your stories to CSF 2](/blog/introducing-storybook-args/), and then you can use the [codemod to automatically upgrade from CSF 2 to 3](#csf-2-to-csf-3).
+This will transform your stories into [CSF 1](/blog/component-story-format/) stories, which are story functions that don't accept [args](./writing-stories/args.md). These are fully supported in Storybook 8, and will continue to be for the foreseeable future.
+
+However, we recommend [writing all **new** stories in CSF 3](./writing-stories/index.md), which are story objects that are easier to write, reuse, and maintain.
 
 ### `storiesOf` to dynamically created stories
 
