@@ -45,7 +45,7 @@ const createCanvasTab = (): Addon_BaseType => ({
 
 const useTabs = (getElements: API['getElements'], entry: PreviewProps['entry']) => {
   const canvasTab = useMemo(() => createCanvasTab(), []);
-  const tabsFromConfig = useMemo(() => getTabs(getElements), [getElements]);
+  const tabsFromConfig = getTabs(getElements);
 
   return useMemo(() => {
     if (entry?.type === 'story' && entry.parameters) {
