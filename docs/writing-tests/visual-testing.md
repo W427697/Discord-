@@ -2,13 +2,10 @@
 title: 'Visual tests'
 ---
 
-Visual tests, also called visual regression tests, catch bugs in UI appearance. They work by taking screenshots of every story and comparing them commit-to-commit to identify changes.
+Visual tests catch bugs in UI appearance. It works by taking screenshots of every story and comparing them to previous versions to identify visual changes. This is ideal for verifying layout, color, size, and contrast. 
 
-Ideal for verifying what the user sees: layout, color, size, and contrast. Storybook is a fantastic tool for visual testing because every story is essentially a test specification. Any time you write or update a story, you get a spec for free.
+Storybook supports cross-browser visual testing natively using [Chromatic](https://www.chromatic.com/storybook/?ref=storybook_site), a cloud service made by the Storybook team. When you enable visual testing, every story is automatically turned into a test. This gives you instant feedback on UI bugs directly in Storybook.
 
-<!--
-  TODO: Update hero video with a new one that shows the visual testing flywheel for the addon and CI
- -->
 <video autoPlay muted playsInline loop>
   <source
     src="component-visual-testing-optimized.mp4"
@@ -16,28 +13,10 @@ Ideal for verifying what the user sees: layout, color, size, and contrast. Story
   />
 </video>
 
-<!--
 
-TODO: Reframe or remove this section to focus on the addon
- -->
+### Install Visual Tests addon
 
-There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
-
-For a self-managed alternative to Chromatic, we offer [test runner](./test-runner.md). It allows you to run visual tests on stories by integrating with [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/). Here's an example [recipe for visual testing stories](https://github.com/storybookjs/test-runner#image-snapshot-recipe).
-
-## Visual Tests addon for Storybook
-
-<Callout variant="info" style={{ marginBottom: "2rem" }}>
-
-🧪 Currently in beta: [Sign up for early access](https://forms.gle/NCDV1BMGuNfjWrPm9)
-
-</Callout>
-
-The Visual Tests addon turns your stories into visual tests. Powered by Chromatic, which allows you to pinpoint UI bugs and get instant feedback without leaving Storybook.
-
-### Setup
-
-If you want to check visual changes locally in your development environment using the addon, you'll need to install it and add it to your Storybook. Run the following command to automate the setup process:
+Install the Visual Tests addon by running the following command. 
 
 <!-- prettier-ignore-start -->
 
@@ -53,25 +32,25 @@ If you want to check visual changes locally in your development environment usin
 
 <Callout variant="info">
 
-The addon requires Storybook 7.4 or higher. Read the [migration guide](../migration-guide.md) to help you upgrade your project.
+Storybook 7.4 or higher required. Read the [migration guide](../migration-guide.md) to upgrade your project.
 
 </Callout>
 
-When you start Storybook, you'll see a new addon panel for "Visual Tests" where you can run tests and view the results.
+### Enable visual tests
+
+When you start Storybook, you'll see a new addon panel for "Visual Tests" where you can run tests and view results. 
 
 ![Visual Tests Addon enabled](./visual-tests-enable.png)
 
-### Authentication
-
-To enable visual testing with the addon, you must authenticate yourself with [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook). Sign in to create a new project or link an existing project.
-
-You'll see list of available projects that you have access to. Select a project to finish setup. The addon will automatically adjust the configuration file, add the necessary project identifiers, and retrieve any existing baselines if available.
+To enable visual testing, sign up to [Chromatic](https://www.chromatic.com/start?startWithSignup=true&ref=storybook_site) and create a project. This will give you access to a fleet of cloud browsers.
 
 ![Visual Tests Addon project selection](./visual-tests-project-selection.png)
 
+Select a project from your project list to finish setup. If you're setting up the addon for the first time, the configuration files and necessary project identifiers will be added for you automatically. 
+
 ### Configure
 
-Out of the box, the Visual Tests addon includes configuration options covering most use cases. You can also fine-tune the addon configuration to match your project's requirements via the [`.storybook/chromatic.config.json`](https://www.chromatic.com/docs/cli#configuration) file. Listed below are the available options and examples of how to use them.
+Visual Tests addon includes configuration options covering most use cases by default. You can also fine-tune the addon configuration to match your project's requirements via the [`./chromatic.config.json`](https://www.chromatic.com/docs/cli#configuration) file. Below are the available options and examples of how to use them.
 
 | Option            | Description                                                                                                                              |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -90,35 +69,43 @@ Out of the box, the Visual Tests addon includes configuration options covering m
 }
 ```
 
-<!--
+### Run visual tests
 
-TODO: Adjust this section to align with Storybook's voice and tone
- -->
-
-### How to run visual tests
-
-Click the ▶️ Play button in the Storybook sidebar to start visual testing. Behind the scenes, this sends your stories to the cloud to snapshot and find visual changes.
+Click the ▶️ Play button in the Storybook sidebar to run visual tests. This will send your stories to the cloud to snapshot and detect visual changes.
 
 ![Storybook running visual tests with the addon](./visual-tests-run-tests.png)
 
-<!--
-
-TODO: Adjust this section to align with Storybook's voice and tone
- -->
 
 ### Review changes
 
-The addon highlights which stories require your attention 🟡 in the Storybook sidebar. Results will stream in while the test runs.
+If there are visual changes in your stories, they will be 🟡 highlighted in the sidebar. Click the story and go to the "Visual Tests" addon panel to see which pixels changed.
 
-Use the "Visual Tests" addon tab to see which pixels changed. If the changes are intentional, accept them as baselines. If they're not intentional, fix the story and run the tests again with the ▶️ Play button.
+If the changes are intentional, ✅ accept them as baselines locally. If the changes aren't intentional, fix the story and rerun the tests using the ▶️ Play button. 
 
 ![Confirm UI changes in Storybook](./visual-tests-accept-all.png)
 
-When you finish accepting changes as baselines in the addon, you're ready to push the code to your remote repository. If you have Chromatic running in CI (recommended), your updated baselines will be reconciled automatically without you having to re-accept changes.
+When you finish accepting changes as baselines in the addon, you're ready to push the code to your remote repository. This will sync baselines to the cloud for anyone who checks out your branch. 
 
-## Automate visual tests in CI
+### Automate with CI
 
-Visual testing with Storybook and the addon is a powerful combination to help catch UI changes early and prevent regressions during development. We recommend automating visual tests with CI and Chromatic to ensure your UI remains consistent across various environments. This provides a comprehensive solution for maintaining UI quality throughout your project's lifecycle. To learn more, read Chromatic's [documentation](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook).
+The addon is designed to be used in tandem with CI. We recommend using the addon to check for changes during development then running visual tests in CI as you get ready to merge to production. 
+
+Changes you accept as baselines in the addon will get auto-accepted as baselines in CI so you don’t have to review twice.
+
+Run `chromatic` in your CI jobs like so:
+
+```
+- run:
+    command: npm run chromatic # run visual tests and publish Storybook
+```
+
+Learn how to configure visual tests in GitHub Actions, CircleCI and more [here](https://www.chromatic.com/docs/ci/#configure-ci).
+
+#### PR checks 
+
+Chromatic adds a ‘UI Tests’ check to your pull/merge requests. The badge shows errors or changes that need to be verified by your team. Require the check in GitHub, GitLab, or Bitbucket to prevent accidental UI bugs from being merged.
+
+![PR badge for visual tests](./visual-tests-prbadge-test.png)
 
 ---
 
