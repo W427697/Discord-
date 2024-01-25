@@ -6,7 +6,7 @@ import { styled } from '@storybook/theming';
 import { deprecate, logger } from '@storybook/client-logger';
 
 export type IconType = keyof typeof icons;
-type NewIconTypes = typeof icons[IconType];
+type NewIconTypes = (typeof icons)[IconType];
 
 const NEW_ICON_MAP = StorybookIcons as Record<NewIconTypes, (props: unknown) => React.ReactNode>;
 
