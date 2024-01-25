@@ -40,11 +40,11 @@ Storybook 7.4 or higher required. Read the [migration guide](../migration-guide.
 
 When you start Storybook, you'll see a new addon panel for "Visual Tests" where you can run tests and view results. 
 
-![Visual Tests Addon enabled](./visual-tests-enable.png)
+![Visual Tests Addon enabled](./vta-enable.png)
 
 To enable visual testing, sign up to [Chromatic](https://www.chromatic.com/start?startWithSignup=true&ref=storybook_site) and create a project. This will give you access to a fleet of cloud browsers.
 
-![Visual Tests Addon project selection](./visual-tests-project-selection.png)
+![Visual Tests Addon project selection](./vta-select-project.png)
 
 Select a project from your project list to finish setup. If you're setting up the addon for the first time, the configuration files and necessary project identifiers will be added for you automatically. 
 
@@ -73,7 +73,7 @@ Visual Tests addon includes configuration options covering most use cases by def
 
 Click the ▶️ Play button in the Storybook sidebar to run visual tests. This will send your stories to the cloud to snapshot and detect visual changes.
 
-![Storybook running visual tests with the addon](./visual-tests-run-tests.png)
+![Storybook running visual tests with the addon](./vta-run-tests.png)
 
 
 ### Review changes
@@ -82,30 +82,34 @@ If there are visual changes in your stories, they will be 🟡 highlighted in th
 
 If the changes are intentional, ✅ accept them as baselines locally. If the changes aren't intentional, fix the story and rerun the tests using the ▶️ Play button. 
 
-![Confirm UI changes in Storybook](./visual-tests-accept-all.png)
+![Confirm UI changes in Storybook](./vta-changes-found.png)
 
 When you finish accepting changes as baselines in the addon, you're ready to push the code to your remote repository. This will sync baselines to the cloud for anyone who checks out your branch. 
 
+![Accept UI changes in Storybook](./vta-changes-accepted.png)
+
 ### Automate with CI
 
-The addon is designed to be used in tandem with CI. We recommend using the addon to check for changes during development then running visual tests in CI as you get ready to merge to production. 
+The addon is designed to be used in tandem with CI. We recommend using the addon to check for changes during development and then running visual tests in CI as you get ready to merge. 
 
 Changes you accept as baselines in the addon will get auto-accepted as baselines in CI so you don’t have to review twice.
 
-Run `chromatic` in your CI jobs like so:
-
-```
-- run:
-    command: npm run chromatic # run visual tests and publish Storybook
-```
-
-Learn how to configure visual tests in GitHub Actions, CircleCI and more [here](https://www.chromatic.com/docs/ci/#configure-ci).
+1. Add a step to your CI workflow to run Chromatic.
+  - [GitHub Actions](https://chromatic.com/docs/github-actions?ref=storybook_docs)
+  - [GitLab Pipelines](https://chromatic.com/docs/gitlab?ref=storybook_docs)
+  - [Bitbucket Pipelines](https://chromatic.com/docs/bitbucket-pipelines?ref=storybook_docs)
+  - [CircleCI](https://chromatic.com/docs/circleci?ref=storybook_docs)
+  - [Travis CI](https://chromatic.com/docs/travisci?ref=storybook_docs)
+  - [Jenkins](https://chromatic.com/docs/jenkins?ref=storybook_docs)
+  - [Azure Pipelines](https://chromatic.com/docs/azure-pipelines?ref=storybook_docs)
+  - [Custom CI provider](https://chromatic.com/docs/custom-ci-provider?ref=storybook_docs)
+2. Configure your CI to include environment variables to authenticate with Chromatic (project token).
 
 #### PR checks 
 
-Chromatic adds a ‘UI Tests’ check to your pull/merge requests. The badge shows errors or changes that need to be verified by your team. Require the check in GitHub, GitLab, or Bitbucket to prevent accidental UI bugs from being merged.
+Once you successfully setup Chromatic in CI, your pull/merge requests will be badged with a ‘UI Tests’ check. The badge notifies you of test errors or UI changes that need to be verified by your team. Make the check required in your Git provider to prevent accidental UI bugs from being merged.
 
-![PR badge for visual tests](./visual-tests-prbadge-test.png)
+![PR badge for visual tests](./vta-prbadge-test.png)
 
 ---
 
