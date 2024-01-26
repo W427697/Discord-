@@ -73,12 +73,10 @@ export const fullScreenTool: Addon_BaseType = {
   },
 };
 
-const tabsMapper = ({ state }: Combo) => ({
-  viewMode: state.docsOnly,
-  storyId: state.storyId,
+const tabsMapper = ({ api, state }: Combo) => ({
+  navigate: api.navigate,
   path: state.path,
-  location: state.location,
-  refId: state.refId,
+  applyQueryParams: api.applyQueryParams,
 });
 
 export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
@@ -91,16 +89,21 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
         <Fragment>
           <TabBar key="tabs">
             {tabs
-              .filter((p) => !p.hidden)
-              .map((t, index) => {
-                const to = t.route(rp);
-                const isActive = rp.path === to;
+              .filter(({ hidden }) => !hidden)
+              .map((tab, index) => {
+                const tabIdToApply = tab.id === 'canvas' ? undefined : tab.id;
+                const isActive = rp.path.includes(`tab=${tab.id}`);
                 return (
-                  <S.UnstyledLink key={t.id || `l${index}`} to={to}>
-                    <TabButton disabled={t.disabled} active={isActive}>
-                      {t.title as any}
-                    </TabButton>
-                  </S.UnstyledLink>
+                  <TabButton
+                    disabled={tab.disabled}
+                    active={isActive}
+                    onClick={() => {
+                      rp.applyQueryParams({ tab: tabIdToApply });
+                    }}
+                    key={tab.id || `tab-${index}`}
+                  >
+                    {tab.title as any}
+                  </TabButton>
                 );
               })}
           </TabBar>

@@ -8,7 +8,7 @@ import type { Addon_BaseType } from '@storybook/types';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
-import { Location } from '@storybook/router';
+import { Location, Route } from '@storybook/router';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
@@ -81,20 +81,22 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
   useEffect(() => {
     if (entry && viewMode) {
       // Don't emit the event on first ("real") render, only when entry changes
-      if (storyId !== previousStoryId.current) {
-        previousStoryId.current = storyId;
+      if (storyId === previousStoryId.current) {
+        return;
+      }
 
-        if (viewMode.match(/docs|story/)) {
-          const { refId, id } = entry;
-          api.emit(SET_CURRENT_STORY, {
-            storyId: id,
-            viewMode,
-            options: { target: refId },
-          });
-        }
+      previousStoryId.current = storyId;
+
+      if (viewMode.match(/docs|story/)) {
+        const { refId, id } = entry;
+        api.emit(SET_CURRENT_STORY, {
+          storyId: id,
+          viewMode,
+          options: { target: refId },
+        });
       }
     }
-  }, [entry, viewMode]);
+  }, [entry, viewMode, storyId, api]);
 
   return (
     <Fragment>
@@ -113,16 +115,28 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
             tabs={visibleTabsInToolbar}
           />
           <S.FrameWrap key="frame">
-            <Canvas {...{ withLoader, baseUrl }} />
-            {tabs.map(({ render: Render, match, ...t }, i) => {
-              // @ts-expect-error (Converted from ts-ignore)
-              const key = t.id || t.key || i;
-              return (
-                <Fragment key={key}>
-                  <Location>{(lp) => <Render active={match(lp)} />}</Location>
-                </Fragment>
-              );
-            })}
+            <Consumer
+              filter={({ api }) => ({
+                customQueryParams: api.getQueryParam('tab'),
+              })}
+            >
+              {({ customQueryParams: x }) => {
+                console.log(api.getQueryParam('tab'));
+                console.log(x);
+                const tabId = api.getQueryParam('tab');
+                const tabContent = tabs.find((tab) => tab.id === tabId)?.render;
+
+                console.log('LOG: tabbs', { tabContent, tabs, tabId });
+                return (
+                  <>
+                    <div hidden={!!tabId}>
+                      <Canvas {...{ withLoader, baseUrl }} />
+                    </div>
+                    {tabContent && tabContent({ active: true })}
+                  </>
+                );
+              }}
+            </Consumer>
           </S.FrameWrap>
         </S.PreviewContainer>
       </ZoomProvider>
