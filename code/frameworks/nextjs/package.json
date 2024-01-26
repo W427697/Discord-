@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.6.0-beta.2",
+  "version": "8.0.0-alpha.14",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -88,6 +88,7 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
     "@babel/runtime": "^7.23.2",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
@@ -96,7 +97,10 @@
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0",
+    "@types/semver": "^7.3.4",
+    "babel-loader": "^9.1.3",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
@@ -106,6 +110,7 @@
     "pnp-webpack-plugin": "^1.7.0",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.0.2",
+    "react-refresh": "^0.14.0",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^12.4.0",
     "semver": "^7.3.5",
@@ -122,21 +127,18 @@
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
     "@types/loader-utils": "^2.0.5",
+    "@types/react-refresh": "^0",
     "next": "^14.0.2",
-    "typescript": "^4.9.3",
+    "typescript": "^5.3.2",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
-    "@next/font": "^13.0.0|| ^14.0.0",
-    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0",
+    "next": "^13.5.0 || ^14.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
-    "@next/font": {
-      "optional": true
-    },
     "typescript": {
       "optional": true
     },
@@ -145,7 +147,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -158,10 +160,10 @@
       "./src/preview.tsx",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
-      "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
+      "./src/rsc/server-only.ts",
       "./src/swc/next-swc-loader-patch.ts"
     ],
     "externals": [

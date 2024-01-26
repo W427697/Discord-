@@ -1,9 +1,10 @@
 import type { ComponentProps, FC } from 'react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { styled, useTheme } from '@storybook/theming';
-import { Button, IconButton, Icons, Loader } from '@storybook/components';
+import { Button, Loader } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';
+import { EyeCloseIcon, EyeIcon, HeartIcon, AlertIcon as AlertIconSvg } from '@storybook/icons';
 
 const Centered = styled.div({
   top: '50%',
@@ -41,22 +42,6 @@ const Container = styled.div(({ theme }) => ({
   justifyContent: 'space-between',
 }));
 
-const ToggleNotificationButton = styled(IconButton)(({ theme }) => ({
-  fontWeight: theme.typography.weight.regular,
-  color: theme.color.mediumdark,
-  margin: 0,
-}));
-
-const CopyButton = styled(Button)(({ theme }) => ({
-  '&&': {
-    fontSize: `13px`,
-    color: theme.color.defaultText,
-    margin: 0,
-    padding: 0,
-    borderRadius: 0,
-  },
-}));
-
 export const WhatsNewFooter = ({
   isNotificationsEnabled,
   onToggleNotifications,
@@ -77,25 +62,23 @@ export const WhatsNewFooter = ({
   return (
     <Container>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Icons icon="heart" color={theme.color.mediumdark} />
+        <HeartIcon color={theme.color.mediumdark} />
         <div>Share this with your team.</div>
-        <CopyButton onClick={copyLink} small>
+        <Button onClick={copyLink} size="small" variant="ghost">
           {copyText}
-        </CopyButton>
+        </Button>
       </div>
-      <ToggleNotificationButton onClick={onToggleNotifications}>
-        {isNotificationsEnabled ? (
-          <>
-            <Icons icon="eyeclose" />
-            &nbsp;Hide notifications
-          </>
-        ) : (
-          <>
-            <Icons icon="eye" />
-            &nbsp;Show notifications
-          </>
-        )}
-      </ToggleNotificationButton>
+      {isNotificationsEnabled ? (
+        <Button size="small" variant="ghost" onClick={onToggleNotifications}>
+          <EyeCloseIcon />
+          Hide notifications
+        </Button>
+      ) : (
+        <Button size="small" variant="ghost" onClick={onToggleNotifications}>
+          <EyeIcon />
+          Show notifications
+        </Button>
+      )}
     </Container>
   );
 };
@@ -117,8 +100,8 @@ const Iframe = styled.iframe<{ isLoaded: boolean }>(
   ({ isLoaded }) => ({ visibility: isLoaded ? 'visible' : 'hidden' })
 );
 
-const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FC<
-  Omit<ComponentProps<typeof Icons>, 'icon'>
+const AlertIcon = styled(((props) => <AlertIconSvg {...props} />) as FC<
+  Omit<ComponentProps<typeof AlertIconSvg>, 'icon'>
 >)(({ theme }) => ({
   color: theme.textMutedColor,
   width: 32,

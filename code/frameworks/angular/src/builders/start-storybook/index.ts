@@ -14,7 +14,7 @@ import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { CLIOptions } from '@storybook/types';
-import { getEnvConfig, versions } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/core-common';
 import { addToGlobalContext } from '@storybook/telemetry';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
@@ -86,7 +86,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         configDir: 'SBCONFIG_CONFIG_DIR',
         ci: 'CI',
       });
-      // eslint-disable-next-line no-param-reassign
+
       options.port = parseInt(`${options.port}`, 10);
 
       const {

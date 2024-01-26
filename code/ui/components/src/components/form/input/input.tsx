@@ -1,12 +1,29 @@
-import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
+import type { HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
-import type { Theme, CSSObject } from '@storybook/theming';
+import type { CSSObject, FunctionInterpolation } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
-import type { TextareaAutosizeProps } from 'react-textarea-autosize';
 import TextareaAutoResize from 'react-textarea-autosize';
 
-import { Button as StyledButton } from '../../Button/Button';
+/**
+ * these types are copied from `react-textarea-autosize`.
+ * I copied them because of https://github.com/storybookjs/storybook/issues/18734
+ * Maybe there's some bug in `tsup` or `react-textarea-autosize`?
+ */
+type TextareaPropsRaw = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+type Style = Omit<NonNullable<TextareaPropsRaw['style']>, 'maxHeight' | 'minHeight'> & {
+  height?: number;
+};
+type TextareaHeightChangeMeta = {
+  rowHeight: number;
+};
+export interface TextareaAutosizeProps extends Omit<TextareaPropsRaw, 'style'> {
+  maxRows?: number;
+  minRows?: number;
+  onHeightChange?: (height: number, meta: TextareaHeightChangeMeta) => void;
+  cacheMeasurements?: boolean;
+  style?: Style;
+}
 
 const styleResets: CSSObject = {
   // resets
@@ -21,8 +38,8 @@ const styleResets: CSSObject = {
   position: 'relative',
 };
 
-const styles = ({ theme }: { theme: Theme }): CSSObject => ({
-  ...styleResets,
+const styles: FunctionInterpolation = ({ theme }) => ({
+  ...(styleResets as any),
 
   transition: 'box-shadow 200ms ease-out, opacity 200ms ease-out',
   color: theme.input.color || 'inherit',
@@ -60,7 +77,7 @@ export type Sizes = '100%' | 'flex' | 'auto';
 export type Alignments = 'end' | 'center' | 'start';
 export type ValidationStates = 'valid' | 'error' | 'warn';
 
-const sizes = ({ size }: { size?: Sizes }): CSSObject => {
+const sizes: FunctionInterpolation<{ size?: Sizes }> = ({ size }) => {
   switch (size) {
     case '100%': {
       return { width: '100%' };
@@ -74,14 +91,12 @@ const sizes = ({ size }: { size?: Sizes }): CSSObject => {
     }
   }
 };
-const alignment = ({
-  align,
-}: {
+const alignment: FunctionInterpolation<{
   size?: Sizes;
   align?: Alignments;
   valid?: ValidationStates;
   height?: number;
-}): CSSObject => {
+}> = ({ align }) => {
   switch (align) {
     case 'end': {
       return { textAlign: 'right' };
@@ -95,7 +110,7 @@ const alignment = ({
     }
   }
 };
-const validation = ({ valid, theme }: { valid: ValidationStates; theme: Theme }): CSSObject => {
+const validation: FunctionInterpolation<{ valid: ValidationStates }> = ({ valid, theme }) => {
   switch (valid) {
     case 'valid': {
       return { boxShadow: `${theme.color.positive} 0 0 0 1px inset !important` };
@@ -191,7 +206,7 @@ type TextareaProps = Omit<
   align?: Alignments;
   valid?: ValidationStates;
   height?: number;
-};
+} & React.RefAttributes<HTMLTextAreaElement>;
 export const Textarea = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
@@ -203,43 +218,5 @@ export const Textarea = Object.assign(
   })),
   {
     displayName: 'Textarea',
-  }
-);
-
-const ButtonStyled = styled(
-  forwardRef<
-    any,
-    {
-      size?: Sizes;
-      align?: Alignments;
-      valid?: ValidationStates;
-      height?: number;
-    }
-  >(function ButtonStyled({ size, valid, align, ...props }, ref) {
-    return <StyledButton {...props} ref={ref} />;
-  })
-)<{
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-}>(sizes, validation, {
-  // Custom styling for color widget nested in buttons
-  userSelect: 'none',
-  overflow: 'visible',
-  zIndex: 2,
-
-  // overrides the default hover from Button
-  '&:hover': {
-    transform: 'none',
-  },
-});
-
-export const Button: FC<any> = Object.assign(
-  forwardRef<{}, {}>(function Button(props, ref) {
-    return <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />;
-  }),
-  {
-    displayName: 'Button',
   }
 );

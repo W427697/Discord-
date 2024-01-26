@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import type { InstallationMetadata } from '@storybook/core-common';
 import { hasMultipleVersions } from './hasMultipleVersions';
-import type { InstallationMetadata } from '../js-package-manager/types';
 
 export const messageDivider = '\n\n';
 
@@ -44,6 +44,7 @@ export function getDuplicatedDepsWarnings(
 ): string[] | undefined {
   try {
     if (
+      !installationMetadata ||
       !installationMetadata?.duplicatedDependencies ||
       Object.keys(installationMetadata.duplicatedDependencies).length === 0
     ) {

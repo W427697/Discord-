@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
 import dedent from 'ts-dedent';
+import type { InstallationMetadata } from '@storybook/core-common';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
-import type { InstallationMetadata } from '../../js-package-manager/types';
 import { getDuplicatedDepsWarnings } from '../../doctor/getDuplicatedDepsWarnings';
 
 export const messageDivider = '\n\n';
@@ -57,8 +57,8 @@ export function getMigrationSummary({
 }: {
   fixResults: Record<string, FixStatus>;
   fixSummary: FixSummary;
-  installationMetadata: InstallationMetadata;
-  logFile?: string;
+  installationMetadata?: InstallationMetadata | null;
+  logFile: string;
 }) {
   const messages = [];
   messages.push(getGlossaryMessages(fixSummary, fixResults, logFile).join(messageDivider));
@@ -75,7 +75,9 @@ export function getMigrationSummary({
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
 
-  const duplicatedDepsMessage = getDuplicatedDepsWarnings(installationMetadata);
+  const duplicatedDepsMessage = installationMetadata
+    ? getDuplicatedDepsWarnings(installationMetadata)
+    : getDuplicatedDepsWarnings();
 
   if (duplicatedDepsMessage) {
     messages.push(duplicatedDepsMessage.join(messageDivider));
@@ -86,12 +88,11 @@ export function getMigrationSummary({
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
   );
 
-  // eslint-disable-next-line no-nested-ternary
   const title = hasNoFixes
     ? 'No migrations were applicable to your project'
     : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
+      ? 'Migration check ran with failures'
+      : 'Migration check ran successfully';
 
   return boxen(messages.filter(Boolean).join(segmentDivider), {
     borderStyle: 'round',

@@ -61,7 +61,6 @@ export const executor = {
 export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
-  const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
   const frameworkOptions = await presets.apply<any>('frameworkOptions');
 
   return presets.apply(
@@ -69,7 +68,6 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
     {},
     {
       ...options,
-      babelOptions,
       typescriptOptions,
       frameworkOptions,
     }
@@ -314,7 +312,6 @@ export const start = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -326,7 +323,6 @@ export const build = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 

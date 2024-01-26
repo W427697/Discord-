@@ -1,5 +1,6 @@
 import path from 'path';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
 
@@ -56,7 +57,10 @@ const config: StorybookConfig = {
   ],
   build: {
     test: {
+      // we have stories for the blocks here, we can't exclude them
       disableBlocks: false,
+      // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
+      disableDocgen: false,
     },
   },
   framework: {

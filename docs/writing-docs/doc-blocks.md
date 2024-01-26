@@ -135,7 +135,7 @@ Accepts parameters in the namespace `parameters.docs.argTypes`.
 
 </Callout>
 
-The `ArgTypes` block can be used to show a static table of [arg types](../api/argtypes.md) for a given component as a way to document its interface.
+The `ArgTypes` block can be used to show a static table of [arg types](../api/arg-types.md) for a given component as a way to document its interface.
 
 ![Screenshot of ArgTypes block](../api/doc-block-argtypes.png)
 
@@ -278,7 +278,7 @@ Storybook's Doc Blocks are highly customizable and helpful building blocks to as
 
 <!-- prettier-ignore-end -->
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

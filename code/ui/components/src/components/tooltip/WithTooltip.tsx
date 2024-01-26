@@ -1,4 +1,4 @@
-import type { ComponentProps, FC, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { styled } from '@storybook/theming';
@@ -37,18 +37,6 @@ export interface WithTooltipPureProps
   children: ReactNode;
   onDoubleClick?: () => void;
   /**
-   * @deprecated use `defaultVisible` property instead. This property will be removed in SB 8.0
-   */
-  tooltipShown?: boolean;
-  /**
-   * @deprecated use `closeOnOutsideClick` property instead. This property will be removed in SB 8.0
-   */
-  closeOnClick?: boolean;
-  /**
-   * @deprecated use `onVisibleChange` property instead. This property will be removed in SB 8.0
-   */
-  onVisibilityChange?: (visibility: boolean) => void | boolean;
-  /**
    * If `true`, a click outside the trigger element closes the tooltip
    * @default false
    */
@@ -56,7 +44,7 @@ export interface WithTooltipPureProps
 }
 
 // Pure, does not bind to the body
-const WithTooltipPure: FC<WithTooltipPureProps> = ({
+const WithTooltipPure = ({
   svg,
   trigger,
   closeOnOutsideClick,
@@ -68,9 +56,6 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
   children,
   closeOnTriggerHidden,
   mutationObserverOptions,
-  closeOnClick,
-  tooltipShown,
-  onVisibilityChange,
   defaultVisible,
   delayHide,
   visible,
@@ -81,7 +66,7 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
   followCursor,
   onVisibleChange,
   ...props
-}) => {
+}: WithTooltipPureProps) => {
   const Container = svg ? TargetSvgContainer : TargetContainer;
   const {
     getArrowProps,
@@ -94,15 +79,12 @@ const WithTooltipPure: FC<WithTooltipPureProps> = ({
     {
       trigger,
       placement,
-      defaultVisible: defaultVisible ?? tooltipShown,
+      defaultVisible,
       delayHide,
       interactive,
-      closeOnOutsideClick: closeOnOutsideClick ?? closeOnClick,
+      closeOnOutsideClick,
       closeOnTriggerHidden,
-      onVisibleChange: (_isVisible) => {
-        onVisibilityChange?.(_isVisible);
-        onVisibleChange?.(_isVisible);
-      },
+      onVisibleChange,
       delayShow,
       followCursor,
       mutationObserverOptions,
@@ -167,12 +149,16 @@ WithTooltipPure.defaultProps = {
   defaultVisible: false,
 };
 
-const WithToolTipState: FC<
-  Omit<WithTooltipPureProps, 'onVisibleChange'> & {
-    startOpen?: boolean;
-    onVisibleChange?: (visible: boolean) => void | boolean;
-  }
-> = ({ startOpen = false, onVisibleChange: onChange, ...rest }) => {
+export interface WithTooltipStateProps extends Omit<WithTooltipPureProps, 'onVisibleChange'> {
+  startOpen?: boolean;
+  onVisibleChange?: (visible: boolean) => void | boolean;
+}
+
+const WithToolTipState = ({
+  startOpen = false,
+  onVisibleChange: onChange,
+  ...rest
+}: WithTooltipStateProps) => {
   const [tooltipShown, setTooltipShown] = useState(startOpen);
   const onVisibilityChange = useCallback(
     (visibility: boolean) => {

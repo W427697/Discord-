@@ -1,8 +1,7 @@
-/* eslint-disable no-case-declarations */
 import type { SBType } from '@storybook/types';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
-const isLiteral = (type: FlowType) => type.name === 'literal';
+const isLiteral = (type: FlowType): type is FlowLiteralType => type.name === 'literal';
 const toEnumOption = (element: FlowLiteralType) => element.value.replace(/['|"]/g, '');
 
 const convertSig = (type: FlowSigType) => {
