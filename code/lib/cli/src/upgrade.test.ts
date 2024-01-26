@@ -66,7 +66,7 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
   it('should throw an error when upgrading to the same version number', async () => {
     findInstallationsMock.mockResolvedValue({
@@ -83,6 +83,6 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
 });
