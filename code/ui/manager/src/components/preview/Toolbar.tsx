@@ -122,76 +122,61 @@ export const defaultToolsExtra: Addon_BaseType[] = [
   copyTool,
 ];
 
-const useTools = (
-  getElements: API['getElements'],
-  tabs: Addon_BaseType[],
-  viewMode: PreviewProps['viewMode'],
-  entry: PreviewProps['entry'],
-  location: PreviewProps['location'],
-  path: PreviewProps['path']
-) => {
-  const toolsFromConfig = useMemo(
-    () => getTools(getElements),
-    [getElements, getTools(getElements).length]
-  );
-  const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
-
-  const tools = useMemo(
-    () => [...defaultTools, ...toolsFromConfig],
-    [defaultTools, toolsFromConfig]
-  );
-  const toolsExtra = useMemo(
-    () => [...defaultToolsExtra, ...toolsExtraFromConfig],
-    [defaultToolsExtra, toolsExtraFromConfig]
-  );
-
-  return useMemo(() => {
-    return ['story', 'docs'].includes(entry?.type)
-      ? filterTools(tools, toolsExtra, tabs, {
-          viewMode,
-          entry,
-          location,
-          path,
-        })
-      : { left: tools, right: toolsExtra };
-  }, [viewMode, entry, location, path, tools, toolsExtra, tabs]);
-};
-
 export interface ToolData {
   isShown: boolean;
   tabs: Addon_BaseType[];
+  tools: Addon_BaseType[];
+  tabId: string;
+  toolsExtra: Addon_BaseType[];
   api: API;
-  entry: LeafEntry;
 }
 
-export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<ToolData & RenderData>(
-  function ToolRes({ api, entry, tabs, isShown, location, path, viewMode }) {
-    const { left, right } = useTools(api.getElements, tabs, viewMode, entry, location, path);
-
-    return left || right ? (
-      <Toolbar key="toolbar" shown={isShown} data-test-id="sb-preview-toolbar">
-        <ToolbarInner>
-          <ToolbarLeft>
-            <Tools key="left" list={left} />
-          </ToolbarLeft>
-          <ToolbarRight>
-            <Tools key="right" list={right} />
-          </ToolbarRight>
-        </ToolbarInner>
-      </Toolbar>
-    ) : null;
-  }
-);
-
-export const ToolbarComp = React.memo<ToolData>(function ToolbarComp(props) {
-  return (
-    <Location>
-      {({ location, path, viewMode }) => <ToolRes {...props} {...{ location, path, viewMode }} />}
-    </Location>
-  );
+export const ToolbarComp = React.memo<ToolData>(function ToolbarComp({
+  isShown,
+  tools,
+  toolsExtra,
+  tabs,
+  tabId,
+  api,
+}) {
+  console.log({ tabs, tools, toolsExtra });
+  return tabs || tools || toolsExtra ? (
+    <Toolbar key="toolbar" shown={isShown} data-test-id="sb-preview-toolbar">
+      <ToolbarInner>
+        <ToolbarLeft>
+          {tabs.length > 1 ? (
+            <Fragment>
+              <TabBar key="tabs">
+                {tabs.map((tab, index) => {
+                  return (
+                    <TabButton
+                      disabled={tab.disabled}
+                      active={tab.id === tabId || (tab.id === 'canvas' && !tabId)}
+                      onClick={() => {
+                        api.applyQueryParams({ tab: tab.id === 'canvas' ? undefined : tab.id });
+                      }}
+                      key={tab.id || `tab-${index}`}
+                    >
+                      {tab.title as any}
+                    </TabButton>
+                  );
+                })}
+              </TabBar>
+              <Separator />
+            </Fragment>
+          ) : null}
+          <Tools key="left" list={tools} />
+        </ToolbarLeft>
+        <ToolbarRight>
+          <Tools key="right" list={toolsExtra} />
+        </ToolbarRight>
+      </ToolbarInner>
+    </Toolbar>
+  ) : null;
 });
 
 export const Tools = React.memo<{ list: Addon_BaseType[] }>(function Tools({ list }) {
+  console.log({ list });
   return (
     <>
       {list.filter(Boolean).map(({ render: Render, id, ...t }, index) => (
@@ -202,55 +187,36 @@ export const Tools = React.memo<{ list: Addon_BaseType[] }>(function Tools({ lis
   );
 });
 
-function toolbarItemHasBeenExcluded(item: Partial<Addon_BaseType>, entry: LeafEntry) {
-  const parameters = entry.type === 'story' && entry.prepared ? entry.parameters : {};
+function toolbarItemHasBeenExcluded(item: Partial<Addon_BaseType>, entry: LeafEntry | undefined) {
+  const parameters = entry?.type === 'story' && entry?.prepared ? entry?.parameters : {};
   const toolbarItemsFromStoryParameters = 'toolbar' in parameters ? parameters.toolbar : undefined;
   const { toolbar: toolbarItemsFromAddonsConfig } = addons.getConfig();
 
   const toolbarItems = merge(toolbarItemsFromAddonsConfig, toolbarItemsFromStoryParameters);
 
-  return toolbarItems ? !!toolbarItems[item.id]?.hidden : false;
+  return toolbarItems ? !!toolbarItems[item?.id]?.hidden : false;
 }
 
-export function filterTools(
+export function filterToolsSide(
   tools: Addon_BaseType[],
-  toolsExtra: Addon_BaseType[],
-  tabs: Addon_BaseType[],
-  {
-    viewMode,
-    entry,
-    location,
-    path,
-  }: {
-    viewMode: State['viewMode'];
-    entry: PreviewProps['entry'];
-    location: State['location'];
-    path: State['path'];
-  }
+  entry: PreviewProps['entry'],
+  viewMode: State['viewMode'],
+  location: State['location'],
+  path: State['path']
 ) {
-  const toolsLeft = [
-    menuTool,
-    tabs.filter((p) => !p.hidden).length > 1 && createTabsTool(tabs),
-    ...tools,
-  ];
-  const toolsRight = [...toolsExtra];
-
   const filter = (item: Partial<Addon_BaseType>) =>
     item &&
     (!item.match ||
       item.match({
-        storyId: entry.id,
-        refId: entry.refId,
+        storyId: entry?.id,
+        refId: entry?.refId,
         viewMode,
         location,
         path,
       })) &&
     !toolbarItemHasBeenExcluded(item, entry);
 
-  const left = toolsLeft.filter(filter);
-  const right = toolsRight.filter(filter);
-
-  return { left, right };
+  return tools.filter(filter);
 }
 
 const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({

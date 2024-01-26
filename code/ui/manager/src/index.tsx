@@ -72,7 +72,12 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   <App
                     key="app"
                     pages={pages}
-                    managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
+                    managerLayoutState={{
+                      ...state.layout,
+                      viewMode: state.viewMode,
+                      showPanel: true,
+                    }}
+                    hasTab={!!api.getQueryParam('tab')}
                     setManagerLayoutState={setManagerLayoutState}
                   />
                 </LayoutProvider>

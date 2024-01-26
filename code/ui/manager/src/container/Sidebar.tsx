@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
@@ -44,10 +44,8 @@ const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
 
     const bottomItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_BOTTOM);
     const topItems = api.getElements(Addon_TypesEnum.experimental_SIDEBAR_TOP);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const bottom = useMemo(() => Object.values(bottomItems), [...Object.values(bottomItems)]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const top = useMemo(() => Object.values(topItems), [...Object.values(topItems)]);
+    const bottom = Object.values(bottomItems);
+    const top = Object.values(topItems);
 
     return {
       title: name,

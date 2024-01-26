@@ -3,23 +3,19 @@ import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { global } from '@storybook/global';
 
-import { type API, Consumer, type Combo, merge, addons, types } from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
+import { Consumer, type Combo, merge, addons, types } from '@storybook/manager-api';
+import type { Addon_BaseType, Addon_WrapperType } from '@storybook/types';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
-import { Location, Route } from '@storybook/router';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
-import { defaultWrappers, ApplyWrappers } from './Wrappers';
+import { ApplyWrappers } from './Wrappers';
 import { ToolbarComp } from './Toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
-
-const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
-const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
 const canvasMapper = ({ state, api }: Combo) => ({
   storyId: state.storyId,
@@ -31,10 +27,9 @@ const canvasMapper = ({ state, api }: Combo) => ({
   entry: api.getData(state.storyId, state.refId),
   previewInitialized: state.previewInitialized,
   refs: state.refs,
-  active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
 
-const createCanvasTab = (): Addon_BaseType => ({
+export const createCanvasTab = (): Addon_BaseType => ({
   id: 'canvas',
   type: types.TAB,
   title: 'Canvas',
@@ -42,19 +37,6 @@ const createCanvasTab = (): Addon_BaseType => ({
   match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
   render: () => null,
 });
-
-const useTabs = (getElements: API['getElements'], entry: PreviewProps['entry']) => {
-  const canvasTab = useMemo(() => createCanvasTab(), []);
-  const tabsFromConfig = getTabs(getElements);
-
-  return useMemo(() => {
-    if (entry?.type === 'story' && entry.parameters) {
-      return filterTabs([canvasTab, ...tabsFromConfig], entry.parameters);
-    }
-
-    return [canvasTab, ...tabsFromConfig];
-  }, [entry, ...tabsFromConfig]);
-};
 
 const Preview = React.memo<PreviewProps>(function Preview(props) {
   const {
@@ -67,14 +49,17 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
     description,
     baseUrl,
     withLoader = true,
+    tools,
+    toolsExtra,
+    tabs,
+    wrappers,
+    tabId,
   } = props;
-  const { getElements } = api;
 
-  const tabs = useTabs(getElements, entry);
+  const tabContent = tabs.find((tab) => tab.id === tabId)?.render;
 
   const shouldScale = viewMode === 'story';
-  const { showToolbar, showTabs = true } = options;
-  const visibleTabsInToolbar = showTabs ? tabs : [];
+  const { showToolbar } = options;
 
   const previousStoryId = useRef(storyId);
 
@@ -109,34 +94,16 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
         <S.PreviewContainer>
           <ToolbarComp
             key="tools"
-            entry={entry}
-            api={api}
             isShown={showToolbar}
-            tabs={visibleTabsInToolbar}
+            tabId={tabId}
+            tabs={tabs}
+            tools={tools}
+            toolsExtra={toolsExtra}
+            api={api}
           />
           <S.FrameWrap key="frame">
-            <Consumer
-              filter={({ api }) => ({
-                customQueryParams: api.getQueryParam('tab'),
-              })}
-            >
-              {({ customQueryParams: x }) => {
-                console.log(api.getQueryParam('tab'));
-                console.log(x);
-                const tabId = api.getQueryParam('tab');
-                const tabContent = tabs.find((tab) => tab.id === tabId)?.render;
-
-                console.log('LOG: tabbs', { tabContent, tabs, tabId });
-                return (
-                  <>
-                    <div hidden={!!tabId}>
-                      <Canvas {...{ withLoader, baseUrl }} />
-                    </div>
-                    {tabContent && tabContent({ active: true })}
-                  </>
-                );
-              }}
-            </Consumer>
+            {tabContent && <S.IframeWrapper>{tabContent({ active: true })}</S.IframeWrapper>}
+            <Canvas {...{ withLoader, baseUrl }} active={!tabId} wrappers={wrappers} />
           </S.FrameWrap>
         </S.PreviewContainer>
       </ZoomProvider>
@@ -146,10 +113,13 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
 
 export { Preview };
 
-const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = ({
-  baseUrl,
-  withLoader,
-}) => {
+const Canvas: FC<{
+  withLoader: boolean;
+  baseUrl: string;
+  children?: never;
+  active: boolean;
+  wrappers: Addon_WrapperType[];
+}> = ({ baseUrl, withLoader, active, wrappers }) => {
   return (
     <Consumer filter={canvasMapper}>
       {({
@@ -160,15 +130,9 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
         refId,
         viewMode,
         queryParams,
-        getElements,
         previewInitialized,
-        active,
       }) => {
         const id = 'canvas';
-        const wrappers = useMemo(
-          () => [...defaultWrappers, ...getWrappers(getElements)],
-          [getElements, ...defaultWrappers]
-        );
 
         const [progress, setProgress] = useState(undefined);
         useEffect(() => {
@@ -196,7 +160,7 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
             {({ value: scale }) => {
               return (
                 <>
-                  {withLoader && isLoading && (
+                  {active && withLoader && isLoading && (
                     <S.LoaderWrapper>
                       <Loader id="preview-loader" role="progressbar" progress={progress} />
                     </S.LoaderWrapper>
@@ -233,7 +197,7 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
   );
 };
 
-function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
+export function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
   const { previewTabs } = addons.getConfig();
   const parametersTabs = parameters ? parameters.previewTabs : undefined;
 

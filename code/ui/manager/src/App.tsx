@@ -16,15 +16,17 @@ type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
   setManagerLayoutState: ComponentProps<typeof Layout>['setManagerLayoutState'];
   pages: Addon_PageType[];
+  hasTab: boolean;
 };
 
-export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
+export const App = ({ managerLayoutState, setManagerLayoutState, pages, hasTab }: Props) => {
   const { setMobileAboutOpen } = useLayout();
 
   return (
     <>
       <Global styles={createGlobal} />
       <Layout
+        hasTab={hasTab}
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}
         slotMain={

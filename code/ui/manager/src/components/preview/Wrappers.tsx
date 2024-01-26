@@ -29,7 +29,11 @@ export const defaultWrappers: Addon_WrapperType[] = [
     id: 'iframe-wrapper',
     type: Addon_TypesEnum.PREVIEW,
     render: (p) => (
-      <IframeWrapper id="storybook-preview-wrapper" hidden={!p.active}>
+      <IframeWrapper
+        id="storybook-preview-wrapper"
+        hidden={!p.active}
+        style={{ ...(p.active ? {} : { display: 'none' }) }}
+      >
         {p.children}
       </IframeWrapper>
     ),
