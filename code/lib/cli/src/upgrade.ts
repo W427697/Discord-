@@ -115,9 +115,8 @@ export const doUpgrade = async ({
 
   // If we can't determine the existing version (Yarn PnP), fallback to v0.0.0 to not block the upgrade
   const beforeVersion =
-    (await packageManager.findInstallations(['@storybook/cli']))?.dependencies[
-      '@storybook/cli'
-    ]?.[0].version ?? '0.0.0';
+    (await packageManager.findInstallations(['@storybook/cli']))?.dependencies['storybook']?.[0]
+      .version ?? '0.0.0';
 
   const currentVersion = versions['@storybook/cli'];
   const isCanary = currentVersion.startsWith('0.0.0');
