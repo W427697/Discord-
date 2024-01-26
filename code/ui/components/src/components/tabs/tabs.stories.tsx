@@ -1,4 +1,4 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -26,7 +26,6 @@ interface FibonacciMap {
 }
 
 function fibonacci(num: number, memo?: FibonacciMap): number {
-  /* eslint-disable no-param-reassign */
   if (!memo) {
     memo = {};
   }
@@ -39,7 +38,6 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
 
   memo[num] = fibonacci(num - 1, memo) + fibonacci(num - 2, memo);
   return memo[num];
-  /* eslint-enable no-param-reassign */
 }
 
 type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;

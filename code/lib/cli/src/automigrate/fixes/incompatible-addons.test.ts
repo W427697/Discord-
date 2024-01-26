@@ -1,8 +1,8 @@
-/// <reference types="@types/jest" />;
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import { incompatibleAddons } from './incompatible-addons';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
 const check = async ({
   packageManager,
@@ -22,7 +22,9 @@ const check = async ({
 };
 
 describe('incompatible-addons fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should show incompatible addons registered in main.js', async () => {
     await expect(

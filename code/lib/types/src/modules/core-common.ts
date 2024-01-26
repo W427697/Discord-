@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions as BabelOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 
-import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
+import type { StoriesEntry, Indexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -71,8 +69,8 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
-  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<any>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<any>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
@@ -157,6 +155,7 @@ export interface LoadOptions {
   packageJson: PackageJson;
   outputDir?: string;
   configDir?: string;
+  cacheKey?: string;
   ignorePreview?: boolean;
   extendServer?: (server: Server) => void;
 }
@@ -170,10 +169,7 @@ export interface CLIOptions {
   enableCrashReports?: boolean;
   host?: string;
   initialPath?: string;
-  /**
-   * @deprecated Use 'staticDirs' Storybook Configuration option instead
-   */
-  staticDir?: string[];
+  exactPort?: boolean;
   configDir?: string;
   https?: boolean;
   sslCa?: string[];
@@ -247,16 +243,9 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
-  /**
-   * Disable parsing typescript files through babel.
-   *
-   * @default `false`
-   * @deprecated use `skipCompiler` instead
-   */
-  skipBabel: boolean;
 
   /**
-   * Disable parsing typescript files through compiler.
+   * Disable parsing TypeScript files through compiler.
    *
    * @default `false`
    */
@@ -337,6 +326,15 @@ export interface TestBuildConfig {
   test?: TestBuildFlags;
 }
 
+type Tag = string;
+
+export interface TagOptions {
+  excludeFromSidebar: boolean;
+  excludeFromDocsStories: boolean;
+}
+
+export type TagsOptions = Record<Tag, Partial<TagOptions>>;
+
 /**
  * The interface for Storybook configuration used internally in presets
  * The difference is that these values are the raw values, AKA, not wrapped with `PresetValue<>`
@@ -353,31 +351,9 @@ export interface StorybookConfigRaw {
   logLevel?: string;
   features?: {
     /**
-     * Build stories.json automatically on start/build
-     */
-    buildStoriesJson?: boolean;
-
-    /**
-     * Activate on demand story store
-     */
-    storyStoreV7?: boolean;
-
-    /**
-     * Do not throw errors if using `.mdx` files in SSv7
-     * (for internal use in sandboxes)
-     */
-    storyStoreV7MdxErrors?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
 
     /**
      * Use legacy MDX1, to help smooth migration to 7.0
@@ -395,6 +371,11 @@ export interface StorybookConfigRaw {
      * This will make sure that your story renders the same no matter if docgen is enabled or not.
      */
     disallowImplicitActionsInRenderV8?: boolean;
+
+    /**
+     * Enable asynchronous component rendering in React renderer
+     */
+    experimentalRSC?: boolean;
   };
 
   build?: TestBuildConfig;
@@ -407,19 +388,17 @@ export interface StorybookConfigRaw {
 
   refs?: CoreCommon_StorybookRefs;
 
-  babel?: BabelOptions;
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babel?: any;
 
-  swc?: SWCOptions;
+  swc?: any;
 
   env?: Record<string, string>;
 
-  babelDefault?: BabelOptions;
-
-  config?: Entry[];
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babelDefault?: any;
 
   previewAnnotations?: Entry[];
-
-  storyIndexers?: StoryIndexer[];
 
   experimental_indexers?: Indexer[];
 
@@ -432,6 +411,8 @@ export interface StorybookConfigRaw {
   previewMainTemplate?: string;
 
   managerHead?: string;
+
+  tags?: TagsOptions;
 }
 
 /**
@@ -502,21 +483,8 @@ export interface StorybookConfig {
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
-   *
-   * @deprecated use `previewAnnotations` or `/preview.js` file instead
-   */
-  config?: PresetValue<StorybookConfigRaw['config']>;
-
-  /**
-   * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: PresetValue<StorybookConfigRaw['previewAnnotations']>;
-
-  /**
-   * Process CSF files for the story index.
-   * @deprecated use {@link experimental_indexers} instead
-   */
-  storyIndexers?: PresetValue<StorybookConfigRaw['storyIndexers']>;
 
   /**
    * Process CSF files for the story index.
@@ -552,6 +520,11 @@ export interface StorybookConfig {
    * which is the existing head content, and return a modified string.
    */
   managerHead?: PresetValue<StorybookConfigRaw['managerHead']>;
+
+  /**
+   * Configure non-standard tag behaviors
+   */
+  tags?: PresetValue<StorybookConfigRaw['tags']>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);

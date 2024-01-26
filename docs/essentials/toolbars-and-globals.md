@@ -170,6 +170,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'vue/my-component-story-use-globaltype.ts.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
+    'svelte/my-component-story-use-globaltype.ts.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.ts.mdx',
     'solid/my-component-story-use-globaltype.js.mdx',
@@ -180,28 +181,6 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 />
 
 <!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-</Callout>
 
 ## Consuming globals from within an addon
 

@@ -10,7 +10,7 @@ import type {
   API_StoryMapper,
   StoryIndex,
 } from '@storybook/types';
-// eslint-disable-next-line import/no-cycle
+
 import {
   transformSetStoriesStoryDataToPreparedStoryIndex,
   transformStoryIndexToStoriesHash,
@@ -20,7 +20,6 @@ import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
-// eslint-disable-next-line no-useless-escape
 const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
 
 export interface SubState {
@@ -88,13 +87,13 @@ export const getSourceType = (source: string, refId?: string) => {
   return [null, null];
 };
 
-export const defaultStoryMapper: API_StoryMapper = (b, a) => {
+export const defaultStoryMapper: API_StoryMapper = (b: any, a: any) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
 const addRefIds = (input: API_IndexHash, ref: API_ComposedRef): API_IndexHash => {
   return Object.entries(input).reduce((acc, [id, item]) => {
-    return { ...acc, [id]: { ...item, refId: ref.id } };
+    return { ...acc, [id]: { ...item!, refId: ref.id } };
   }, {} as API_IndexHash);
 };
 
@@ -119,7 +118,7 @@ async function handleRequest(
     }
 
     return json as API_SetRefData;
-  } catch (err) {
+  } catch (err: any) {
     return { indexError: err };
   }
 }
@@ -164,10 +163,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
   { runCheck = true } = {}
 ) => {
   const api: SubAPI = {
-    findRef: (source) => {
+    findRef: (source): any => {
       const refs = api.getRefs();
 
-      return Object.values(refs).find(({ url }) => url.match(source));
+      return Object.values(refs).find(({ url }: any) => url.match(source));
     },
     changeRefVersion: (id, url) => {
       const { versions, title } = api.getRefs()[id];
@@ -204,7 +203,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const loadedData: API_SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
-      const urlParseResult = parseUrl(url);
+      const urlParseResult = parseUrl(url!);
 
       const headers: HeadersInit = {
         Accept: 'application/json',
@@ -262,7 +261,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const versions =
         ref.versions && Object.keys(ref.versions).length ? ref.versions : loadedData.versions;
 
-      await api.setRef(id, {
+      await api.setRef(id!, {
         id,
         url: urlParseResult.url,
         ...loadedData,
@@ -295,6 +294,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
             )
           : storyIndex;
 
+        // @ts-expect-error (could be undefined)
         index = transformStoryIndexToStoriesHash(storyIndex, {
           provider,
           docsOptions,
@@ -315,12 +315,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
 
       updated[id] = { ...ref, ...data };
 
-      /* eslint-disable no-param-reassign */
       const ordered = Object.keys(initialState).reduce((obj: any, key) => {
         obj[key] = updated[key];
         return obj;
       }, {});
-      /* eslint-enable no-param-reassign */
 
       store.setState({
         refs: ordered,
@@ -334,7 +332,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
 
   if (runCheck) {
     Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref, stories: {} } as API_SetRefData);
+      api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
     });
   }
 

@@ -19,6 +19,18 @@ module.exports = {
           description: 'Install the Storybook package in your project',
         },
         {
+          pathSegment: '',
+          title: 'Frameworks',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'nextjs',
+              title: 'Next.js',
+              type: 'link',
+            },
+          ],
+        },
+        {
           pathSegment: 'whats-a-story',
           title: "What's a story?",
           type: 'link',
@@ -153,6 +165,23 @@ module.exports = {
           pathSegment: 'test-coverage',
           title: 'Test coverage',
           type: 'link',
+        },
+        {
+          pathSegment: '',
+          title: 'Snapshot testing',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'snapshot-testing',
+              title: 'Storyshots',
+              type: 'link',
+            },
+            {
+              pathSegment: 'storyshots-migration-guide',
+              title: 'Migration guide',
+              type: 'link',
+            },
+          ],
         },
         {
           pathSegment: '',
@@ -561,13 +590,18 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
+        },
+        {
           pathSegment: 'arg-types',
           title: 'ArgTypes',
           type: 'link',
         },
         {
-          pathSegment: 'csf',
-          title: 'Component Story Format (CSF)',
+          pathSegment: 'parameters',
+          title: 'Parameters',
           type: 'link',
         },
         {
@@ -724,7 +758,7 @@ module.exports = {
       type: 'link',
     },
     {
-      title: 'Migrate to 7.0',
+      title: 'Migrate to 8.0',
       pathSegment: 'migration-guide',
       type: 'link',
     },

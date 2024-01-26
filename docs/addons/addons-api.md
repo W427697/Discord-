@@ -41,7 +41,7 @@ The `add` method allows you to register the type of UI component associated with
 
 <Callout variant="info">
 
-The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
+The render function is called with `active`. The `active` value will be true when the panel is focused on the UI.
 
 </Callout>
 
@@ -93,7 +93,7 @@ Use the `makeDecorator` API to create decorators in the style of the official ad
 
 <Callout variant="info">
 
- If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
+If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
 
 </Callout>
 
@@ -124,6 +124,7 @@ The `selectStory` API method allows you to select a single story. It accepts the
     'vue/button-story-with-addon-example.ts.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
+    'svelte/button-story-with-addon-example.ts.mdx',
     'web-components/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.ts.mdx',
   ]}
@@ -377,7 +378,7 @@ Hook that allows you to retrieve or update a story's [`args`](../writing-stories
 
 <!-- prettier-ignore-end -->
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

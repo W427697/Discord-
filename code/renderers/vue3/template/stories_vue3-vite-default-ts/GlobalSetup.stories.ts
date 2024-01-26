@@ -1,7 +1,4 @@
-/// <reference types="jest" />
-/// <reference types="testing-library__jest-dom" />
-
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { within } from '@storybook/testing-library';
 import { inject } from 'vue';

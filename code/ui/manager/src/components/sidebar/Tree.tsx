@@ -18,7 +18,7 @@ import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons
 import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
-// eslint-disable-next-line import/no-cycle
+
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
@@ -317,7 +317,7 @@ const Node = React.memo<NodeProps>(function Node({
           if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
-          if (item.isComponent) {
+          if (item.type === 'component') {
             api.emit(PRELOAD_ENTRIES, {
               ids: [item.children[0]],
               options: { target: refId },

@@ -35,6 +35,7 @@ export type {
   SyntaxHighlighterFormatTypes,
   SyntaxHighlighterProps,
   SyntaxHighlighterRendererProps,
+  SupportedLanguage,
 } from './components/syntaxhighlighter/syntaxhighlighter-types';
 export { SyntaxHighlighter } from './components/syntaxhighlighter/lazy-syntaxhighlighter';
 export { createCopyToClipboardFunction } from './components/syntaxhighlighter/syntaxhighlighter';
@@ -90,7 +91,6 @@ export { withReset, codeCommon } from './components/typography/lib/common';
 
 export { ClipboardCode } from './components/clipboard/ClipboardCode';
 
-// eslint-disable-next-line prefer-destructuring
 export const components = typography.components;
 
 const resetComponents: Record<string, ElementType> = {};

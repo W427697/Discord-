@@ -1,23 +1,28 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/types';
-import type { ConfigItem, PluginItem } from '@babel/core';
+import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
+import fs from 'fs';
+import semver from 'semver';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
-import { configureRuntimeNextjsVersionResolution } from './utils';
+import { configureRSC } from './rsc/webpack';
+import { configureRuntimeNextjsVersionResolution, getNextjsVersion } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
-import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
-import { configureAliasing } from './dependency-map';
 import { configureSWCLoader } from './swc/loader';
+import { configureBabelLoader } from './babel/loader';
+import { configureFastRefresh } from './fastRefresh/webpack';
+import { configureAliases } from './aliases/webpack';
+import { logger } from '@storybook/node-logger';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -67,15 +72,16 @@ export const core: PresetProperty<'core'> = async (config, options) => {
   };
 };
 
-export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
-  ...entry,
-  join(dirname(require.resolve('@storybook/nextjs/package.json')), 'dist/preview.mjs'),
-];
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (
+  entry = [],
+  { features }
+) => {
+  const nextDir = dirname(require.resolve('@storybook/nextjs/package.json'));
+  const result = [...entry, join(nextDir, 'dist/preview.mjs')];
+  return result;
+};
 
-// Not even sb init - automigrate - running dev
-// You're using a version of Nextjs prior to v10, which is unsupported by this framework.
-
-export const babel: PresetProperty<'babel'> = async (baseConfig) => {
+export const babel: PresetProperty<'babel'> = async (baseConfig: TransformOptions) => {
   const configPartial = loadPartialConfig({
     ...baseConfig,
     filename: `${getProjectRoot()}/__fake__.js`,
@@ -135,26 +141,44 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );
-  const { options: { nextConfigPath, builder } = {} } = frameworkOptions;
+  const { options: { nextConfigPath } = {} } = frameworkOptions;
   const nextConfig = await configureConfig({
     baseConfig,
     nextConfigPath,
-    configDir: options.configDir,
   });
 
-  configureAliasing(baseConfig);
-  configureNextFont(baseConfig, builder?.useSWC);
-  configureNextImport(baseConfig);
+  const babelRCPath = join(getProjectRoot(), '.babelrc');
+  const hasBabelConfig = fs.existsSync(babelRCPath);
+  const nextjsVersion = getNextjsVersion();
+  const isDevelopment = options.configType !== 'PRODUCTION';
+
+  const isNext14orNewer = semver.gte(nextjsVersion, '14.0.0');
+  const useSWC =
+    isNext14orNewer && (nextConfig.experimental?.forceSwcTransforms || !hasBabelConfig);
+
+  configureNextFont(baseConfig, useSWC);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+  configureAliases(baseConfig);
 
-  // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
-  if (builder?.useSWC) {
+  if (isDevelopment) {
+    configureFastRefresh(baseConfig);
+  }
+
+  if (options.features?.experimentalRSC) {
+    configureRSC(baseConfig);
+  }
+
+  if (useSWC) {
+    logger.info('=> Using SWC as compiler');
     await configureSWCLoader(baseConfig, options, nextConfig);
+  } else {
+    logger.info('=> Using Babel as compiler');
+    await configureBabelLoader(baseConfig, options);
   }
 
   return baseConfig;
