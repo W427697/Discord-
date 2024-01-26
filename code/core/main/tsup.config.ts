@@ -3,8 +3,6 @@ import { type defineConfig as definer } from '../../../scripts/node_modules/tsup
 const defineConfig: typeof definer = (config) => config;
 
 const common = [
-  // './src/modules/blocks/index.ts',
-  // './src/modules/components/index.ts',
   './src/modules/channels/index.ts',
   './src/modules/client-logger/index.ts',
   './src/modules/docs-tools/index.ts',
