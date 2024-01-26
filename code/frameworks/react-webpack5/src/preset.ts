@@ -10,13 +10,13 @@ export const addons: PresetProperty<'addons'> = [
 ];
 
 export const core: PresetProperty<'core'> = async (config, options) => {
-  const presetFramework = await options.presets.apply('framework');
+  const framework = await options.presets.apply('framework');
 
   return {
     ...config,
     builder: {
       name: getAbsolutePath('@storybook/builder-webpack5'),
-      options: typeof presetFramework === 'string' ? {} : presetFramework.options.builder || {},
+      options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
     renderer: getAbsolutePath('@storybook/react'),
   };
