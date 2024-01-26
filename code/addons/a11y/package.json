@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@storybook/addon-highlight": "workspace:*",
+    "@storybook/icons": "^1.2.3",
     "axe-core": "^4.2.0"
   },
   "devDependencies": {
@@ -60,7 +61,6 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.3",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
