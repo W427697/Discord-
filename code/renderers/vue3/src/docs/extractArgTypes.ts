@@ -20,17 +20,19 @@ type MetaDocgenInfo = DocgenInfo & {
 const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
-  console.log('########     --- component', component);
-  console.log('########     --- hasDocgen(component)', hasDocgen(component));
   if (!hasDocgen(component)) {
     return null;
   }
+
+  
+
+  ARG_TYPE_SECTIONS.forEach((section) => {
 
   const argTypes: StrictArgTypes = {};
 
   ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
-    console.log('########     --- props', props);
+
     props.forEach(({ docgenInfo, propDef }) => {
       const {
         name,
