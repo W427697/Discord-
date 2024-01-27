@@ -21,6 +21,8 @@ import { configureNodePolyfills } from './nodePolyfills/webpack';
 import { configureSWCLoader } from './swc/loader';
 import { configureBabelLoader } from './babel/loader';
 import { configureFastRefresh } from './fastRefresh/webpack';
+import { configureAliases } from './aliases/webpack';
+import { logger } from '@storybook/node-logger';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -161,6 +163,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+  configureAliases(baseConfig);
 
   if (isDevelopment) {
     configureFastRefresh(baseConfig);
@@ -171,8 +174,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   }
 
   if (useSWC) {
+    logger.info('=> Using SWC as compiler');
     await configureSWCLoader(baseConfig, options, nextConfig);
   } else {
+    logger.info('=> Using Babel as compiler');
     await configureBabelLoader(baseConfig, options);
   }
 
