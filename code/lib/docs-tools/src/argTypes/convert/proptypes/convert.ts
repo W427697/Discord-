@@ -1,8 +1,7 @@
-/* eslint-disable no-case-declarations */
 import mapValues from 'lodash/mapValues.js';
 import type { SBType } from '@storybook/types';
 import type { PTType } from './types';
-import { includesQuotes, trimQuotes } from '../utils';
+import { parseLiteral } from '../utils';
 
 const SIGNATURE_REGEXP = /^\(.*\) => /;
 
@@ -13,15 +12,7 @@ export const convert = (type: PTType): SBType | any => {
 
   switch (name) {
     case 'enum': {
-      const values = computed
-        ? value
-        : value.map((v: PTType) => {
-            const trimmedValue = trimQuotes(v.value);
-
-            return includesQuotes(v.value) || Number.isNaN(Number(trimmedValue))
-              ? trimmedValue
-              : Number(trimmedValue);
-          });
+      const values = computed ? value : value.map((v: PTType) => parseLiteral(v.value));
       return { ...base, name, value: values };
     }
     case 'string':

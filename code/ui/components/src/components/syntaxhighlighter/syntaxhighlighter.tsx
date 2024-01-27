@@ -1,5 +1,5 @@
-import type { ComponentProps, FC, MouseEvent } from 'react';
-import React, { useCallback, useState } from 'react';
+import type { MouseEvent } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -23,6 +23,7 @@ import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-ligh
 import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
 import { ActionBar } from '../ActionBar/ActionBar';
+import type { ScrollAreaProps } from '../ScrollArea/ScrollArea';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import type {
@@ -33,17 +34,23 @@ import type {
 
 const { navigator, document, window: globalWindow } = global;
 
-ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
-ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
-ReactSyntaxHighlighter.registerLanguage('json', json);
-ReactSyntaxHighlighter.registerLanguage('yml', yml);
-ReactSyntaxHighlighter.registerLanguage('md', md);
-ReactSyntaxHighlighter.registerLanguage('bash', bash);
-ReactSyntaxHighlighter.registerLanguage('css', css);
-ReactSyntaxHighlighter.registerLanguage('html', html);
-ReactSyntaxHighlighter.registerLanguage('tsx', tsx);
-ReactSyntaxHighlighter.registerLanguage('typescript', typescript);
-ReactSyntaxHighlighter.registerLanguage('graphql', graphql);
+export const supportedLanguages = {
+  jsextra: jsExtras,
+  jsx,
+  json,
+  yml,
+  md,
+  bash,
+  css,
+  html,
+  tsx,
+  typescript,
+  graphql,
+};
+
+Object.entries(supportedLanguages).forEach(([key, val]) => {
+  ReactSyntaxHighlighter.registerLanguage(key, val);
+});
 
 const themedSyntax = memoize(2)((theme) =>
   Object.entries(theme.code || {}).reduce((acc, [key, val]) => ({ ...acc, [`* .${key}`]: val }), {})
@@ -100,10 +107,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
-  children,
-  className,
-}): JSX.Element => (
+const UnstyledScroller = ({ children, className }: ScrollAreaProps) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
@@ -135,6 +139,7 @@ const Code = styled.div(({ theme }) => ({
   paddingLeft: 2, // TODO: To match theming/global.ts for now
   paddingRight: theme.layoutMargin,
   opacity: 1,
+  fontFamily: theme.typography.fonts.mono,
 }));
 
 const processLineNumber = (row: any) => {
@@ -205,7 +210,15 @@ export const SyntaxHighlighter = ({
     return null;
   }
 
-  const highlightableCode = formatter ? formatter(format, children) : children.trim();
+  const [highlightableCode, setHighlightableCode] = useState('');
+
+  useEffect(() => {
+    if (formatter) {
+      formatter(format, children).then(setHighlightableCode);
+    } else {
+      setHighlightableCode(children.trim());
+    }
+  }, [children, format, formatter]);
 
   const [copied, setCopied] = useState(false);
 

@@ -11,7 +11,7 @@ import { mkdir } from 'fs/promises';
 import { PACKS_DIRECTORY } from './utils/constants';
 
 import { maxConcurrentTasks } from './utils/concurrency';
-import { listOfPackages } from './utils/list-packages';
+import { getWorkspaces } from './utils/workspace';
 
 program
   .option('-O, --open', 'keep process open')
@@ -89,7 +89,10 @@ const publish = async (packages: { name: string; location: string }[], url: stri
             );
 
             const tarballFilename = `${name.replace('@', '').replace('/', '-')}.tgz`;
-            const command = `cd ${location} && yarn pack --out=${PACKS_DIRECTORY}/${tarballFilename} && cd ${PACKS_DIRECTORY} && npm publish ./${tarballFilename} --registry ${url} --force --access restricted --ignore-scripts`;
+            const command = `cd ${path.resolve(
+              '../code',
+              location
+            )} && yarn pack --out=${PACKS_DIRECTORY}/${tarballFilename} && cd ${PACKS_DIRECTORY} && npm publish ./${tarballFilename} --registry ${url} --force --access restricted --ignore-scripts`;
             exec(command, (e) => {
               if (e) {
                 rej(e);
@@ -137,7 +140,7 @@ const run = async () => {
 
   const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(),
-    listOfPackages(),
+    getWorkspaces(false),
     currentVersion(),
   ]);
 

@@ -1,6 +1,4 @@
 ```ts
-// codegen-iframe-script.ts
-
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
@@ -31,7 +29,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender
-    } from '@storybook/client-api';
+    } from '@storybook/preview-api';
     import { logger } from '@storybook/client-logger';
     ${absoluteFilesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';

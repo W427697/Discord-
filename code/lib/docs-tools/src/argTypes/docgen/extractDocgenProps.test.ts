@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect } from 'vitest';
 
 import type { Component } from '../types';
 import { extractComponentProps } from './extractDocgenProps';
@@ -8,7 +9,7 @@ const PROP_NAME = 'propName';
 
 interface TypeSystemDef {
   name: string;
-  typeProperty?: string;
+  typeProperty: string;
 }
 
 const TypeSystems: TypeSystemDef[] = [
@@ -67,10 +68,10 @@ TypeSystems.forEach((x) => {
       const { propDef } = extractComponentProps(component, DOCGEN_SECTION)[0];
 
       expect(propDef.name).toBe(PROP_NAME);
-      expect(propDef.type.summary).toBe('string');
+      expect(propDef.type?.summary).toBe('string');
       expect(propDef.description).toBe('Hey! Hey!');
       expect(propDef.required).toBe(false);
-      expect(propDef.defaultValue.summary).toBe("'Default'");
+      expect(propDef.defaultValue?.summary).toBe("'Default'");
     });
 
     if (x === TypeSystems[0]) {
@@ -87,10 +88,10 @@ TypeSystems.forEach((x) => {
         const { propDef } = extractComponentProps(component, DOCGEN_SECTION)[0];
 
         expect(propDef.name).toBe(PROP_NAME);
-        expect(propDef.type.summary).toBe('string');
+        expect(propDef.type?.summary).toBe('string');
         expect(propDef.description).toBe('Hey! Hey!');
         expect(propDef.required).toBe(false);
-        expect(propDef.defaultValue.summary).toBe('"Default"');
+        expect(propDef.defaultValue?.summary).toBe('"Default"');
       });
 
       it('should map defaults docgen info properly, RDT broken enums', () => {
@@ -107,10 +108,10 @@ TypeSystems.forEach((x) => {
         const { propDef } = extractComponentProps(component, DOCGEN_SECTION)[0];
 
         expect(propDef.name).toBe(PROP_NAME);
-        expect(propDef.type.summary).toBe('enum');
+        expect(propDef.type?.summary).toBe('enum');
         expect(propDef.description).toBe('Hey! Hey!');
         expect(propDef.required).toBe(false);
-        expect(propDef.defaultValue.summary).toBe('"Default"');
+        expect(propDef.defaultValue?.summary).toBe('"Default"');
       });
 
       it('should map defaults docgen info properly, vue', () => {
@@ -126,10 +127,10 @@ TypeSystems.forEach((x) => {
         const { propDef } = extractComponentProps(component, DOCGEN_SECTION)[0];
 
         expect(propDef.name).toBe(PROP_NAME);
-        expect(propDef.type.summary).toBe('string');
+        expect(propDef.type?.summary).toBe('string');
         expect(propDef.description).toBe('Hey! Hey!');
         expect(propDef.required).toBe(false);
-        expect(propDef.defaultValue.summary).toBe("'Default'");
+        expect(propDef.defaultValue?.summary).toBe("'Default'");
       });
     }
 
@@ -208,11 +209,11 @@ TypeSystems.forEach((x) => {
 
       expect(propDef.description).toBe('onClick description');
       expect(propDef.jsDocTags).toBeDefined();
-      expect(propDef.jsDocTags.params).toBeDefined();
-      expect(propDef.jsDocTags.params[0].name).toBe('event');
-      expect(propDef.jsDocTags.params[0].description).toBe('Original event.');
-      expect(propDef.jsDocTags.params[1].name).toBe('value');
-      expect(propDef.jsDocTags.params[1].description).toBeNull();
+      expect(propDef.jsDocTags?.params).toBeDefined();
+      expect(propDef.jsDocTags?.params?.[0].name).toBe('event');
+      expect(propDef.jsDocTags?.params?.[0].description).toBe('Original event.');
+      expect(propDef.jsDocTags?.params?.[1].name).toBe('value');
+      expect(propDef.jsDocTags?.params?.[1].description).toBeNull();
     });
 
     it("should not return 'null' default value", () => {

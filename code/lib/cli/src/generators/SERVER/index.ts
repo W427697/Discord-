@@ -9,6 +9,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Webpack5 },
     'server',
     {
+      webpackCompiler: () => 'swc',
       extensions: ['json', 'yaml', 'yml'],
     }
   );

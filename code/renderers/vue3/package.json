@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue3",
-  "version": "7.5.0-alpha.4",
+  "version": "8.0.0-alpha.15",
   "description": "Storybook Vue 3 renderer",
   "keywords": [
     "storybook"
@@ -26,11 +26,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
+    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -46,14 +44,14 @@
   ],
   "scripts": {
     "check": "vue-tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*",
+    "@vue/compiler-core": "^3.0.0",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
@@ -80,7 +78,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -88,7 +86,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts",
+      "./src/entry-preview-docs.ts"
     ],
     "platform": "browser"
   },

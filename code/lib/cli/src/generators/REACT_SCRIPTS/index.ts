@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
-
 import dedent from 'ts-dedent';
+import { versions } from '@storybook/core-common';
+
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
-import versions from '../../versions';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
@@ -44,8 +44,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   const extraPackages = [];
   extraPackages.push('webpack');
-  // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
-  extraPackages.push('babel-plugin-named-exports-order');
   // Miscellaneous dependency to add to be sure Storybook + CRA is working fine with Yarn PnP mode
   extraPackages.push('prop-types');
 
@@ -61,10 +59,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Webpack5 },
     'react',
     {
+      webpackCompiler: () => undefined,
       extraAddons,
       extraPackages,
       staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
-      skipBabel: true,
       extraMain,
     }
   );

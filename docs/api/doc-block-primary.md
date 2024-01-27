@@ -29,10 +29,8 @@ import { Primary } from '@storybook/blocks';
 
 `Primary` is configured with the following props:
 
-### `name`
+### `of`
 
-(⛔️ **Deprecated**)
+Type: CSF file exports
 
-Type: `string`
-
-Primary block should only be used to render the primary story, which is automatically found.
+Specifies which CSF file is used to find the first story, which is then rendered by this block. Pass the full set of exports from the CSF file (not the default export!).

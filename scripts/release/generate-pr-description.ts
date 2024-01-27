@@ -5,6 +5,7 @@ import { z } from 'zod';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import { setOutput } from '@actions/core';
+import { esMain } from '../utils/esmain';
 import type { Change } from './utils/get-changes';
 import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
@@ -18,7 +19,7 @@ program
     'Which version to generate changelog from, eg. "7.0.7". Defaults to the version at code/package.json'
   )
   .option('-N, --next-version <version>', 'Which version to generate changelog to, eg. "7.0.8"')
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option(
     '-M, --manual-cherry-picks <commits>',
     'A stringified JSON array of commit hashes, of patch PRs that needs to be cherry-picked manually'
@@ -52,6 +53,7 @@ const CHANGE_TITLES_TO_IGNORE = [
   /\[ci skip\]/i,
   /^Update CHANGELOG\.md for.*/i,
   /^Release: (Pre)?(Patch|Minor|Major|Release).*\d+$/i,
+  /^Update \.\/docs\/versions/,
 ];
 
 export const mapToChangelist = ({
@@ -65,7 +67,7 @@ export const mapToChangelist = ({
     .filter((change) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const titleToIgnore of CHANGE_TITLES_TO_IGNORE) {
-        if (change.title.match(titleToIgnore)) {
+        if (change.title?.match(titleToIgnore)) {
           return false;
         }
       }
@@ -90,7 +92,7 @@ export const mapToChangelist = ({
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
       return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
-        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
+        !unpickedPatches && change.labels?.includes('patch:yes') ? ' (will also be patched)' : ''
       }`;
     })
     .join('\n');
@@ -141,7 +143,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
-  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflow = semver.prerelease(nextVersion)
+    ? 'prepare-non-patch-release'
+    : 'prepare-patch-release';
   const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
 
   return (
@@ -292,7 +296,7 @@ export const run = async (rawOptions: unknown) => {
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

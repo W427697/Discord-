@@ -10,7 +10,7 @@ Storybook maintains code snippets for a [variety of frameworks](../configure/fra
 
 We welcome community contributions to the code snippets. Here's a matrix of the frameworks we have snippets for. Help us add snippets for your favorite framework.
 
-| React                                                                        | Vue                                                                        | Angular                                                                        | Web Components                                                                        | Svelte                                                                        | Solid                                                                        | Ember | HTML | Preact |
+| React                                                                        | Vue 3                                                                      | Angular                                                                        | Web Components                                                                        | Svelte                                                                        | Solid                                                                        | Ember | HTML | Preact |
 | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----- | ---- | ------ |
 | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/react) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/vue) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/angular) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/web-components) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/svelte) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/solid) | ❌    | ❌   | ❌     |
 
@@ -48,7 +48,6 @@ Browse the documentation and look for the code snippets you're willing to contri
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',
@@ -72,7 +71,6 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',
@@ -85,9 +83,11 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 <!-- prettier-ignore-end -->
 ```
 
-<div class="aside">
-💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code> .
-</div>
+<Callout variant="info" icon="💡">
+
+Code snippets are divided into various file extensions, if you're contributing a TypeScript file use `.ts.mdx`, or if you're adding JavaScript files use `.js.mdx`.
+
+</Callout>
 
 Go through the rest of the documentation and repeat the process.
 
@@ -113,9 +113,11 @@ Next, make sure that you have running the `Synchronize documentation (sync-docs)
 yarn start:docs-only
 ```
 
-<div class="aside">
-💡 During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
-</div>
+<Callout variant="info" icon="💡">
+
+During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
+
+</Callout>
 
 Open a browser window to `http://localhost:8000`, click the Docs link, and select your framework from the dropdown.
 
@@ -127,7 +129,7 @@ Go through the documentation and check your work.
 
 Finally, commit, push and open a pull request in the Storybook monorepo. Add a clear description of the work you've done, and one of the maintainers will guide you through the merge process.
 
-## Learn more about contributing to Storybook
+**Learn more about contributing to Storybook**
 
 - [RFC process](./RFC.md) for authoring feature requests
 - [Code](./code.md) for features and bug fixes

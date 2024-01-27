@@ -63,32 +63,19 @@ Clone the repository you just created and install its dependencies. When the ins
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
+The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
 
-</div>
+</Callout>
 
 ### Understanding the build system
 
 Addons built in the Storybook ecosystem rely on [tsup](https://tsup.egoist.dev/), a fast, zero-config bundler powered by [esbuild](https://esbuild.github.io/) to transpile your addon's code into modern JavaScript that can run in the browser. Out of the box, the Addon Kit comes with a pre-configured `tsup` configuration file that you can use to customize the build process of your addon.
 
-<!-- prettier-ignore-start -->
+When the build scripts run, it will look for the configuration file and pre-bundle the addon's code based on the configuration provided. Addons can interact with Storybook in various ways. They can define presets to modify the configuration, add behavior to the manager UI, or add behavior to the preview iframe. These different use cases require different bundle outputs because they target different runtimes and environments. Presets are executed in a Node environment. Storybook's manager and preview environments provide certain packages in the global scope, so addons don't need to bundle them or include them as dependencies in their `package.json` file.
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-toolkit-tsup-config.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-When the build scripts run, it will look for the configuration file and pre-bundle the addon's code based on the configuration provided. However, there are a few properties that are worth referencing:
-
-- **entry**: Configures the files to be processed by the bundler. It can be extended to include additional files using a regex pattern.
-- **format**: Enables the generation of multiple output formats. In this case, we're generating a CommonJS and an ES Module version of our addon.
-- **dts**: Auto-generates type definitions for our addon.
-- **platform**: Specifies the target platform for our addon. In this case, we're targeting the browser. It can be set to `node` for Node.js environments or `neutral` for universal modules.
+The `tsup` configuration handles these complexities by default, but you can customize it according to their requirements. For a detailed explanation of the bundling techniques used, please refer to [the README of the addon-kit](https://github.com/storybookjs/addon-kit#bundling), and check out the default `tsup` configuration [here](https://github.com/storybookjs/addon-kit/blob/main/tsup.config.ts).
 
 ## Register the addon
 
@@ -107,6 +94,8 @@ By default, code for the UI-based addons is located in one of the following file
 Going through the code blocks in sequence:
 
 ```ts
+// src/Tool.tsx
+
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 
 import { Icons, IconButton } from '@storybook/components';
@@ -115,6 +104,8 @@ import { Icons, IconButton } from '@storybook/components';
 The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
 
 ```ts
+// src/Tool.tsx
+
 export const Tool = memo(function MyAddonSelector() {
   const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
@@ -144,7 +135,7 @@ export const Tool = memo(function MyAddonSelector() {
       title="Apply outlines to the preview"
       onClick={toggleMyTool}
     >
-      <Icons icon="lightning" />
+      <LightningIcon />
     </IconButton>
   );
 });
@@ -214,55 +205,46 @@ Storybook addons, similar to most packages in the JavaScript ecosystem, are dist
 
 1. Have a `dist` folder with the transpiled code.
 2. A `package.json` file declaring:
-   - Peer dependencies
    - Module-related information
    - Integration catalog metadata
 
 ### Module Metadata
 
-The first category of metadata is related to the addon itself. This includes the entry for the module and which files to include when the addon is published. And all the peer-dependencies of the addon (e.g., `react`,`react-dom`, and Storybook's related APIs).
+The first category of metadata is related to the addon itself. This includes the entry for the module, which files to include when the addon is published. And the required configuration to integrate the addon with Storybook, allowing it to be used by its consumers.
 
 ```json
 {
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
-    "./preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
-    },
+    "./manager": "./dist/manager.mjs",
+    "./preview": "./dist/preview.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": ["dist/**/*", "README.md", "*.js", "*.d.ts"],
-  "peerDependencies": {
+  "devDependencies": {
     "@storybook/blocks": "^7.0.0",
     "@storybook/components": "^7.0.0",
     "@storybook/core-events": "^7.0.0",
     "@storybook/manager-api": "^7.0.0",
     "@storybook/preview-api": "^7.0.0",
     "@storybook/theming": "^7.0.0",
-    "@storybook/types": "^7.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/types": "^7.0.0"
+  },
+  "bundler": {
+    "exportEntries": ["src/index.ts"],
+    "managerEntries": ["src/manager.ts"],
+    "previewEntries": ["src/preview.ts"]
   }
 }
 ```
-
-#### Why peer-dependencies?
-
-A standard practice in the JavaScript ecosystem ensuring compatibility between modules or packages that are meant to work together, often in a plugin or extension scenario. Peer-dependencies are dependencies that are not bundled with the addon but are expected to be installed by the consumer of the addon. When a module relies on a specific version of another module, it might assume certain features, APIs, or behavior provided by that dependency. By specifying a peer dependency, the module can indicate its compatibility requirements and avoid potential conflicts or unexpected behavior due to incompatible versions.
 
 ### Integration Catalog Metadata
 
@@ -283,11 +265,11 @@ The second metadata category is related to the [integration catalog](https://sto
 }
 ```
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
+The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
 
-</div>
+</Callout>
 
 One essential item to note is the `keywords` property as it maps to the catalog's tag system. Adding the `storybook-addons` ensures that the addon is discoverable in the catalog when searching for addons. The remaining keywords help with the searchability and categorization of the addon.
 
@@ -333,7 +315,7 @@ By default, the Addon Kit comes pre-configured with a GitHub Actions workflow, e
 
 Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the token you generated earlier. Whenever you merge a pull request to the default branch, the workflow will run and publish a new release, automatically incrementing the version number and updating the changelog.
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - Writing addons for the basics of addon development

@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
 import invariant from 'tiny-invariant';
+import { esMain } from '../utils/esmain';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
 
@@ -80,11 +81,12 @@ export const run = async (_: unknown) => {
   }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('pr-count', JSON.stringify(patchPRs.length));
     setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse(process.argv);
   run(options).catch((err) => {
     console.error(err);

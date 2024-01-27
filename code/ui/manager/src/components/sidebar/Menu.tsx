@@ -4,86 +4,53 @@ import React, { useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import { WithTooltip, TooltipLinkList, IconButton } from '@storybook/components';
+import { CloseIcon, CogIcon } from '@storybook/icons';
+import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
-const sharedStyles = {
-  height: 10,
-  width: 10,
-  marginLeft: -5,
-  marginRight: -5,
-  display: 'block',
-};
+export const SidebarIconButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> =
+  styled(IconButton)<
+    ComponentProps<typeof Button> & {
+      highlighted: boolean;
+    }
+  >(({ highlighted, theme }) => ({
+    position: 'relative',
+    overflow: 'visible',
+    marginTop: 0,
+    zIndex: 1,
 
-const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
-  color: theme.color.secondary,
-}));
+    ...(highlighted && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        width: 5,
+        height: 5,
+        zIndex: 2,
+        borderRadius: '50%',
+        background: theme.background.app,
+        border: `1px solid ${theme.background.app}`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
+      '&:after': {
+        background: theme.color.positive,
+        border: `1px solid rgba(0, 0, 0, 0.1)`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
 
-export const SidebarIconButton: FC<
-  ComponentProps<typeof Button> & { highlighted: boolean; active: boolean }
-> = styled(IconButton)<
-  ComponentProps<typeof Button> & {
-    highlighted: boolean;
-    active: boolean;
-  }
->(({ highlighted, active, theme }) => ({
-  position: 'relative',
-  overflow: 'visible',
-  color: theme.textMutedColor,
-  marginTop: 0,
-  zIndex: 1,
+      '&:hover:after, &:focus-visible:after': {
+        boxShadow: `0 0 0 2px ${transparentize(0.88, theme.color.secondary)}`,
+      },
+    }),
+  }));
 
-  ...(highlighted && {
-    '&:before, &:after': {
-      content: '""',
-      position: 'absolute',
-      top: 6,
-      right: 6,
-      width: 5,
-      height: 5,
-      zIndex: 2,
-      borderRadius: '50%',
-      background: theme.background.app,
-      border: `1px solid ${theme.background.app}`,
-      boxShadow: `0 0 0 2px ${theme.background.app}`,
-    },
-    '&:after': {
-      background: theme.color.positive,
-      border: `1px solid rgba(0, 0, 0, 0.1)`,
-      boxShadow: `0 0 0 2px ${theme.background.app}`,
-    },
-
-    '&:hover:after, &:focus-visible:after': {
-      boxShadow: `0 0 0 2px ${transparentize(0.88, theme.color.secondary)}`,
-    },
-  }),
-  ...(active && {
-    color: theme.color.secondary,
-  }),
-}));
-
-const Img = styled.img(sharedStyles);
-const Placeholder = styled.div(sharedStyles);
-
-export interface ListItemIconProps {
-  icon?: ComponentProps<typeof Icons>['icon'];
-  imgSrc?: string;
-}
-
-/**
- * @deprecated Please use `Icons` from `@storybook/components` instead
- * Component will be removed in SB 8.0
- */
-export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
-  if (icon) {
-    return <Icon icon={icon} />;
-  }
-  if (imgSrc) {
-    return <Img src={imgSrc} alt="image" />;
-  }
-  return <Placeholder />;
-};
+const MenuButtonGroup = styled.div({
+  display: 'flex',
+  gap: 4,
+});
 
 type ClickHandler = TooltipLinkListLink['onClick'];
 
@@ -101,15 +68,43 @@ const SidebarMenuList: FC<{
         onHide();
       }) as ClickHandler,
     }));
-  }, [menu]);
+  }, [menu, onHide]);
   return <TooltipLinkList links={links} />;
 };
 
-export const SidebarMenu: FC<{
+export interface SidebarMenuProps {
   menu: MenuList;
   isHighlighted?: boolean;
-}> = ({ menu, isHighlighted }) => {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const { isMobile, setMobileMenuOpen } = useLayout();
+
+  if (isMobile) {
+    return (
+      <MenuButtonGroup>
+        <SidebarIconButton
+          title="About Storybook"
+          aria-label="About Storybook"
+          highlighted={isHighlighted}
+          active={false}
+          onClick={onClick}
+        >
+          <CogIcon />
+        </SidebarIconButton>
+        <IconButton
+          title="Close menu"
+          aria-label="Close menu"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <CloseIcon />
+        </IconButton>
+      </MenuButtonGroup>
+    );
+  }
+
   return (
     <WithTooltip
       placement="top"
@@ -123,32 +118,8 @@ export const SidebarMenu: FC<{
         highlighted={isHighlighted}
         active={isTooltipVisible}
       >
-        <Icons icon="cog" />
+        <CogIcon />
       </SidebarIconButton>
-    </WithTooltip>
-  );
-};
-
-export const ToolbarMenu: FC<{
-  menu: MenuList;
-}> = ({ menu }) => {
-  return (
-    <WithTooltip
-      placement="bottom"
-      closeOnOutsideClick
-      modifiers={[
-        {
-          name: 'flip',
-          options: {
-            allowedAutoPlacements: [],
-          },
-        },
-      ]}
-      tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
-    >
-      <IconButton title="Shortcuts" aria-label="Shortcuts">
-        <Icons icon="menu" />
-      </IconButton>
     </WithTooltip>
   );
 };

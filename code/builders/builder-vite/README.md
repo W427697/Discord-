@@ -9,7 +9,6 @@ Build your stories with [vite](https://vitejs.dev/) for fast startup times and n
   - [Getting started with Vite and Storybook (on a new project)](#getting-started-with-vite-and-storybook-on-a-new-project)
   - [Migration from webpack / CRA](#migration-from-webpack--cra)
   - [Customize Vite config](#customize-vite-config)
-  - [Svelte Options](#svelte-options)
   - [TypeScript](#typescript)
   - [React Docgen](#react-docgen)
   - [Note about working directory](#note-about-working-directory)
@@ -113,10 +112,6 @@ The `configType` variable will be either `"DEVELOPMENT"` or `"PRODUCTION"`.
 
 The function should return the updated Vite configuration.
 
-### Svelte Options
-
-When using this builder with Svelte, your `svelte.config.js` file will be used automatically.
-
 ### TypeScript
 
 Configure your `.storybook/main.ts` to use TypeScript:
@@ -138,7 +133,7 @@ See [Customize Vite config](#customize-vite-config) for details about using `vit
 
 ### React Docgen
 
-Docgen is used in Storybook to populate the props table in docs view, the controls panel, and for several other addons. Docgen is supported in Svelte, Vue, and React, and there are two docgen options when using react, `react-docgen` and `react-docgen-typescript`. You can learn more about the pros/cons of each in [this gist](https://gist.github.com/shilman/036313ffa3af52ca986b375d90ea46b0). By default, if we find a `typescript` dependency in your `package.json` file, we will assume you're using typescript and will choose `react-docgen-typescript`. You can change this by setting the `typescript.reactDocgen` option in your `.storybook/main.js` file:
+Docgen is used in Storybook to populate the props table in docs view, the controls panel, and for several other addons. Docgen is supported in Svelte, Vue 3, and React. React docgen is configurable via the [`typescript.reactDocgen`](https://storybook.js.org/docs/api/main-config-typescript#reactdocgen) setting in `.storybook/main.js`.
 
 ```javascript
 export default {
@@ -163,7 +158,7 @@ storybook configuration directory. This can be overridden in viteFinal.
 ## Contributing
 
 The Vite builder cannot build itself.
-Are you willing to contribute? We are especially looking for Vue and Svelte experts, as the current maintainers are react users.
+Are you willing to contribute? We are especially looking for Vue 3 and Svelte experts, as the current maintainers are react users.
 
 Have a look at the GitHub issues with the `vite` label for known bugs. If you find any new bugs,
 feel free to create an issue or send a pull request!

@@ -12,10 +12,10 @@ You start by [installing](../get-started/install.md) Storybook into an existing 
 
 Storybook provides support for the leading industry builders and frameworks. However, that doesn't mean you can't use Storybook with other frameworks. Below is a list of currently supported frameworks divided by their builders.
 
-| Builder | Framework                                                                |
-| ------- | ------------------------------------------------------------------------ |
-| Webpack | React, Angular, Vue, Web Components, NextJS, HTML, Ember, Preact, Svelte |
-| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit, Qwik, Solid         |
+| Builder | Framework                                                                  |
+| ------- | -------------------------------------------------------------------------- |
+| Webpack | React, Angular, Vue 3, Web Components, NextJS, HTML, Ember, Preact, Svelte |
+| Vite    | React, Vue 3, Web Components, HTML, Svelte, SvelteKit, Qwik, Solid         |
 
 ### What about feature support?
 
@@ -40,7 +40,6 @@ Every modern web application has unique requirements and relies on various tools
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | `nextConfigPath` | Sets the default path for the NextJS configuration file<br/>`framework: { name: '@storybook/nextjs', options: { nextConfigPath: '../next.config.js'} }`                                                                                                     | NextJS    |
 | `builder`        | Configures [Webpack 5](../builders/webpack.md) builder options for NextJS<br/> `core: { builder: { name:'webpack5', options: { lazyCompilation: true} }}`                                                                                                   | NextJS    |
-| `fastRefresh`    | Enables [fast refresh mode](https://www.npmjs.com/package/react-refresh) for React<br/>`framework: { name: '@storybook/react-webpack5', options: { fastRefresh: false } }`                                                                                  | React     |
 | `strictMode`     | Enables React's [strict mode](https://reactjs.org/docs/strict-mode.html)<br/>`framework: { name: '@storybook/react-webpack5', options: { strictMode: false } }`                                                                                             | React     |
 | `legacyRootApi`  | Requires React 18. Toggles support for React's [legacy root API](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#updates-to-client-rendering-apis)<br/>`framework: { name: '@storybook/react-webpack5', options: { legacyRootApi: true } }` | React     |
 | `enableIvy`      | Enabled by default with Angular 9+. Replaces the default compiler with the [Ivy compiler](https://docs.angular.lat/guide/ivy)<br/>`framework: { name: '@storybook/angular', options: { enableIvy: true } }`                                                 | Angular   |
@@ -52,11 +51,11 @@ Every modern web application has unique requirements and relies on various tools
 
 ### NextJS 13 doesn't work with Storybook
 
-The latest release of [NextJS](https://nextjs.org/) introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Component](https://nextjs.org/docs/advanced-features/react-18/server-components), [SWC](https://nextjs.org/docs/advanced-features/compiler#why-swc)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your NextJS 13 project if you're not relying on them.
+With the release of Next.js [version 13](https://nextjs.org/blog/next-13), it introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Components](https://nextjs.org/docs/advanced-features/react-18/server-components)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your Next.js 13 project if you're not relying on them.
 
 ### My framework doesn't work with Storybook
 
-Out of the box, most frameworks work seamlessly with Storybook. However, some frameworks (e.g., [CRACO](https://craco.js.org/)) provide their own configuration that Storybook isn't prepared to handle without additional steps, either [via addon](../addons/writing-presets.md) or integration. To learn more, read our [addons guide](../addons/introduction.md).
+Out of the box, most frameworks work seamlessly with Storybook. However, some frameworks (e.g., [CRACO](https://craco.js.org/)) provide their own configuration that Storybook isn't prepared to handle without additional steps, either [via addon](../addons/writing-presets.md) or integration. To learn more, read our [addons guide](../addons/index.md).
 
 ### How do I build a Storybook framework?
 
@@ -64,7 +63,7 @@ Storybook is a framework-agnostic tool. It can be used with any framework. Howev
 
 ### Legacy framework support
 
-We're deprecating support for several frameworks, including [Aurelia](https://github.com/aurelia/framework), [Marionette](https://github.com/marionettejs/backbone.marionette), [Mithril](https://github.com/MithrilJS/mithril.js), [Rax](https://github.com/alibaba/rax), and [Riot](https://github.com/riot/riot). Nevertheless, we're always looking for help maintaining these frameworks. If you're working with one of them and you want to continue supporting them, visit the dedicated [Storybook End-of-Life repository](https://github.com/storybook-eol) to learn more about the sunsetting process and for instructions on how to contribute visit our [Discord server](https://discord.gg/storybook).
+We're deprecating support for several frameworks, including [Aurelia](https://github.com/aurelia/framework), [Marionette](https://github.com/marionettejs/backbone.marionette), [Mithril](https://github.com/MithrilJS/mithril.js), [Rax](https://github.com/alibaba/rax), and [Riot](https://github.com/riot/riot). Nevertheless, we're always looking for help maintaining these frameworks. If you're working with one of them and you want to continue supporting them, visit the dedicated [Storybook End-of-Life repository](https://github.com/storybook-eol). To learn more about the sunsetting process and view instructions on how to contribute, read our [documentation](../contribute/index.md).
 
 ### Learn about configuring Storybook
 

@@ -120,6 +120,8 @@ export class CouldNotEvaluateFrameworkError extends StorybookError {
   }
 }
 
+// this error is not used anymore, but we keep it to maintain unique its error code
+// which is used for telemetry
 export class ConflictingStaticDirConfigError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
@@ -138,7 +140,6 @@ export class ConflictingStaticDirConfigError extends StorybookError {
     `;
   }
 }
-
 export class InvalidStoriesEntryError extends StorybookError {
   readonly category = Category.CORE_COMMON;
 
@@ -197,7 +198,6 @@ export class WebpackInvocationError extends StorybookError {
 }
 
 function removeAnsiEscapeCodes(input = '') {
-  // eslint-disable-next-line no-control-regex
   return input.replace(/\u001B\[[0-9;]*m/g, '');
 }
 
@@ -365,6 +365,106 @@ export class GoogleFontsLoadingError extends StorybookError {
       An error occurred when trying to load Google Fonts with URL \`${this.data.url}\`.
       
       ${this.data.error instanceof Error ? this.data.error.message : ''}
+    `;
+  }
+}
+
+export class NoMatchingExportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 4;
+
+  constructor(public data: { error: unknown | Error }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      There was an exports mismatch error when trying to build Storybook.
+      Please check whether the versions of your Storybook packages match whenever possible, as this might be the cause.
+      
+      Problematic example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.4.5", "storybook": "7.3.0" }
+
+      Correct example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.5.3", "storybook": "7.5.3" }
+
+      Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
+    `;
+  }
+}
+
+export class GenerateNewProjectOnInitError extends StorybookError {
+  readonly category = Category.CLI_INIT;
+
+  readonly code = 3;
+
+  constructor(
+    public data: { error: unknown | Error; packageManager: string; projectType: string }
+  ) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      There was an error while using ${this.data.packageManager} to create a new ${
+        this.data.projectType
+      } project.
+      
+      ${this.data.error instanceof Error ? this.data.error.message : ''}
+      `;
+  }
+}
+
+export class UpgradeStorybookToLowerVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 3;
+
+  constructor(public data: { beforeVersion: string; currentVersion: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      You are trying to upgrade Storybook to a lower version than the version currently installed. This is not supported.
+
+      Storybook version ${this.data.beforeVersion} was detected in your project, but you are trying to "upgrade" to version ${this.data.currentVersion}.
+      
+      This usually happens when running the upgrade command without a version specifier, e.g. "npx storybook upgrade".
+      This will cause npm to run the globally cached storybook binary, which might be an older version.
+
+      Instead you should always run the Storybook CLI with a version specifier to force npm to download the latest version:
+      
+      "npx storybook@latest upgrade"
+    `;
+  }
+}
+
+export class UpgradeStorybookToSameVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 4;
+
+  constructor(public data: { beforeVersion: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      You are trying to upgrade Storybook to the same version that is currently installed in the project, version ${this.data.beforeVersion}. This is not supported.
+      
+      This usually happens when running the upgrade command without a version specifier, e.g. "npx storybook upgrade".
+      This will cause npm to run the globally cached storybook binary, which might be the same version that you already have.
+      This also happens if you're running the Storybook CLI that is locally installed in your project.
+
+      If you intended to upgrade to the latest version, you should always run the Storybook CLI with a version specifier to force npm to download the latest version:
+
+      "npx storybook@latest upgrade"
+
+      If you intended to re-run automigrations, you should run the "automigrate" command directly instead:
+
+      "npx storybook@${this.data.beforeVersion} automigrate"
     `;
   }
 }

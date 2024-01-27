@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.5.0-alpha.4",
+  "version": "8.0.0-alpha.15",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -45,27 +45,27 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
     "@storybook/client-logger": "workspace:*",
     "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {
-    "@emotion/cache": "^11.10.7",
-    "@emotion/is-prop-valid": "^1.2.0",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/is-prop-valid": "^1.2.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "deep-object-diff": "^1.1.0",
     "fs-extra": "^11.1.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -78,6 +78,20 @@
     "entries": [
       "./src/index.ts",
       "./src/create.ts"
+    ],
+    "externals": [
+      "react",
+      "react-dom",
+      "@storybook/addons",
+      "@storybook/api",
+      "@storybook/channels",
+      "@storybook/client-logger",
+      "@storybook/components",
+      "@storybook/core-events",
+      "@storybook/manager-api",
+      "@storybook/router",
+      "@storybook/theming",
+      "@storybook/types"
     ],
     "post": "./scripts/fix-theme-type-export.ts"
   },

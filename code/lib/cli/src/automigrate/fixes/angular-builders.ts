@@ -6,7 +6,7 @@ import prompts from 'prompts';
 import type { Fix } from '../types';
 import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface AngularBuildersRunOptions {
@@ -31,10 +31,10 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
       return null;
     }
 
-    if (semver.lt(angularVersion, '14.0.0')) {
+    if (semver.lt(angularVersion, '15.0.0')) {
       throw new Error(dedent`
-      ❌ Your project uses Angular < 14.0.0. Storybook 7.0 for Angular requires Angular 14.0.0 or higher. 
-      Please upgrade your Angular version to at least version 14.0.0 to use Storybook 7.0 in your project.
+      ❌ Your project uses Angular < 15.0.0. Storybook 8.0 for Angular requires Angular 15.0.0 or higher. 
+      Please upgrade your Angular version to at least version 15.0.0 to use Storybook 8.0 in your project.
       `);
     }
 

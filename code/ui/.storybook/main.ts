@@ -1,5 +1,6 @@
 import path from 'path';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
 
@@ -8,6 +9,7 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 const allStories = [
   {
     directory: '../manager/src',
+    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
     titlePrefix: '@manager',
   },
   {
@@ -53,6 +55,14 @@ const config: StorybookConfig = {
     '@storybook/addon-designs',
     '@chromaui/addon-visual-tests',
   ],
+  build: {
+    test: {
+      // we have stories for the blocks here, we can't exclude them
+      disableBlocks: false,
+      // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
+      disableDocgen: false,
+    },
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {},

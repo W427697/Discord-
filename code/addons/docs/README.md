@@ -12,7 +12,7 @@ Storybook Docs transforms your Storybook stories into world-class component docu
 
 **MDX.** If you want more control, `MDX` allows you to write long-form markdown documentation and include stories in one file. You can also use it to write pure documentation pages and embed them inside your Storybook alongside your stories.
 
-Just like Storybook, Docs supports every major view layer including React, Vue, Angular, HTML, Web components, Svelte, and many more.
+Just like Storybook, Docs supports every major view layer including React, Vue 3, Angular, HTML, Web components, Svelte, and many more.
 
 Read on to learn more:
 
@@ -110,24 +110,10 @@ export default {
 };
 ```
 
-If using in conjunction with the [storyshots add-on](https://github.com/storybookjs/storybook/blob/next/code/addons/storyshots-core/README.md), you will need to
-configure Jest to transform MDX stories into something Storyshots can understand:
-
-Add the following to your Jest configuration:
-
-```json
-{
-  "transform": {
-    "^.+\\.[tj]sx?$": "babel-jest",
-    "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx"
-  }
-}
-```
-
 ### Be sure to check framework specific installation needs
 
 - [React](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/react) (covered here)
-- [Vue](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/vue)
+- [Vue 3](https://github.com/storybookjs/storybook/blob/next/code/addons/docs/vue3)
 - [Angular](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/angular)
 - [Ember](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/ember)
 - [Web Components](https://github.com/storybookjs/storybook/tree/next/code/addons/docs/web-components)
@@ -143,30 +129,17 @@ export default {
     {
       name: '@storybook/addon-docs',
       options: {
-        jsxOptions: {},
         csfPluginOptions: null,
         mdxPluginOptions: {},
-        transcludeMarkdown: true,
       },
     },
   ],
 };
 ```
 
-`jsxOptions` are options that will be passed to `@babel/preset-react` for `.md` and `.mdx` files.
-
 `csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
-The `transcludeMarkdown` option enables mdx files to import `.md` files and render them as a component.
-
-```mdx
-import { Meta } from '@storybook/addon-docs';
-import Changelog from '../CHANGELOG.md';
-
-<Meta title="Changelog" />
-
-<Changelog />
-```
+> With the release of version 7.0, it is no longer possible to import `.md` files directly into Storybook using the `transcludeMarkdown` [option](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#importing-plain-markdown-files-with-transcludemarkdown-has-changed). Instead, we recommend using the [`Markdown`](https://storybook.js.org/docs/react/api/doc-block-markdown) Doc Block for importing Markdown files into your Storybook documentation.
 
 ## TypeScript configuration
 

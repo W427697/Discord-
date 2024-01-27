@@ -13,8 +13,8 @@ export * from './main';
 
 export default Channel;
 
-export { createChannel as createPostMessageChannel, PostMessageTransport } from './postmessage';
-export { createChannel as createWebSocketChannel, WebsocketTransport } from './websocket';
+export { PostMessageTransport } from './postmessage';
+export { WebsocketTransport } from './websocket';
 
 type Options = Config & {
   extraTransports?: ChannelTransport[];
@@ -23,7 +23,7 @@ type Options = Config & {
 /**
  * Creates a new browser channel instance.
  * @param {Options} options - The options object.
- * @param {Page} options.page - The puppeteer page instance.
+ * @param {Page} options.page - page identifier.
  * @param {ChannelTransport[]} [options.extraTransports=[]] - An optional array of extra channel transports.
  * @returns {Channel} - The new channel instance.
  */

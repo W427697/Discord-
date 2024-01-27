@@ -45,7 +45,9 @@ export const exec = async (
         resolve(undefined);
       } else {
         logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-        logger.info(errorMessage);
+        if (errorMessage) {
+          logger.info(errorMessage);
+        }
         reject(new Error(`command exited with code: ${code}: `));
       }
     });
@@ -86,8 +88,8 @@ export const link = async ({ target, local, start }: LinkOptions) => {
     shell: true,
   }).stdout.toString();
 
-  if (!/^[23]\./.test(version)) {
-    logger.warn(`🚨 Expected yarn 2 or 3 in ${reproDir}!`);
+  if (!/^[2-4]\./.test(version)) {
+    logger.warn(`🚨 Expected yarn 2 or higher in ${reproDir}!`);
     logger.warn('');
     logger.warn('Please set it up with `yarn set version berry`,');
     logger.warn(`then link '${reproDir}' with the '--local' flag.`);
@@ -105,7 +107,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   }
 
   // ensure that linking is possible
-  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+  await exec(`yarn add @types/node@18`, { cwd: reproDir });
 
   if (start) {
     logger.info(`Running ${reproName} storybook`);

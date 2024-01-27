@@ -8,7 +8,6 @@ import { useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import type { Highlight } from './types';
 
-// eslint-disable-next-line import/no-cycle
 import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from '../../utils/tree';
 
 const { document } = global;
@@ -104,7 +103,7 @@ export const useExpanded = ({
   );
 
   const updateExpanded = useCallback(
-    ({ ids, value }) => {
+    ({ ids, value }: ExpandAction) => {
       setExpanded({ ids, value });
       if (ids.length === 1) {
         const element = containerRef.current?.querySelector(

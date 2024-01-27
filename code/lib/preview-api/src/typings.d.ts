@@ -7,10 +7,11 @@ declare module 'better-opn';
 declare module 'open';
 declare module '@aw-web-design/x-default-browser';
 
-declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
+declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
 
 declare var STORIES: any;
 declare var DOCS_OPTIONS: any;
+declare var TAGS_OPTIONS: import('@storybook/types').StorybookConfigRaw['tags'];
 
 // To enable user code to detect if it is running in Storybook
 declare var IS_STORYBOOK: boolean;
@@ -19,7 +20,6 @@ declare var IS_STORYBOOK: boolean;
 // relevant framework instantiates them via `start.js`. The good news is this happens right away.
 declare var __STORYBOOK_ADDONS_CHANNEL__: any;
 declare var __STORYBOOK_ADDONS_PREVIEW: any;
-declare var __STORYBOOK_CLIENT_API__: import('./modules/client-api/ClientApi').ClientApi<any>;
 declare var __STORYBOOK_PREVIEW__: import('./modules/preview-web/PreviewWeb').PreviewWeb<any>;
 declare var __STORYBOOK_STORY_STORE__: any;
 declare var STORYBOOK_HOOKS_CONTEXT: any;
