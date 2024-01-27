@@ -24,10 +24,6 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
     return null;
   }
 
-  
-
-  ARG_TYPE_SECTIONS.forEach((section) => {
-
   const argTypes: StrictArgTypes = {};
 
   ARG_TYPE_SECTIONS.forEach((section) => {

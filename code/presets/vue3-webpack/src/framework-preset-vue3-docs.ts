@@ -21,7 +21,6 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = (config, options) =
     loader: require.resolve('vue-docgen-loader', {
       paths: [require.resolve('@storybook/preset-vue3-webpack')],
     }),
-
     enforce: 'post',
     options: {
       docgenOptions: {

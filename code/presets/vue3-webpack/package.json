@@ -65,13 +65,13 @@
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.46.0",
     "vue-docgen-loader": "^1.5.1",
-    "vue-loader": "^17.2.0",
+    "vue-loader": "^16.0.0",
     "webpack": "5"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.33",
     "typescript": "^5.3.2",
-    "vue-template-compiler": "^2.7.0"
+    "vue": "^3.2.33"
   },
   "peerDependencies": {
     "@vue/compiler-sfc": "^3.0.0",

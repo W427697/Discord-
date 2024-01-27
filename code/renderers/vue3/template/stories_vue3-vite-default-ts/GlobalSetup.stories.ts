@@ -2,7 +2,6 @@ import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { within } from '@storybook/testing-library';
 import { inject } from 'vue';
-import type { PlayFunctionContext } from '@storybook/csf';
 import GlobalSetup from './GlobalSetup.vue';
 
 const meta: Meta = {
@@ -29,7 +28,7 @@ export const Primary: Story = {
     primary: true,
     label: 'someColor injected from .storybook/preview.ts',
   },
-  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+  play: async ({ canvasElement, id }) => {
     const canvas = within(canvasElement);
 
     const button = await canvas.getByRole('button');

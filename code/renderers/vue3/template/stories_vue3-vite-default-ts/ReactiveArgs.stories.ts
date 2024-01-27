@@ -4,10 +4,7 @@ import type { Meta, StoryObj, StoryFn } from '@storybook/vue3';
 import { within, userEvent } from '@storybook/testing-library';
 import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 
-import type { PlayFunctionContext } from '@storybook/csf';
 import ReactiveArgs from './ReactiveArgs.vue';
-
-const globalThis = global as any;
 
 const meta = {
   component: ReactiveArgs,
@@ -26,7 +23,7 @@ export const ReactiveTest: Story = {
     label: 'Button',
   },
   // test that args are updated correctly in rective mode
-  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+  play: async ({ canvasElement, id }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 
@@ -114,7 +111,7 @@ ReactiveCSF2Wrapper.decorators = [
   }),
 ];
 
-ReactiveCSF2Wrapper.play = async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+ReactiveCSF2Wrapper.play = async ({ canvasElement, id }) => {
   const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
   const canvas = within(canvasElement);
 

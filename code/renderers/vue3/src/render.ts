@@ -124,7 +124,7 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  */
 
 function getArgs(element: StoryFnVueReturnType, storyContext: StoryContext<VueRenderer, Args>) {
-  return (element && isVNode(element) ? element.props : storyContext.args) ?? {};
+  return element.props && isVNode(element) ? element.props : storyContext.args;
 }
 
 /**

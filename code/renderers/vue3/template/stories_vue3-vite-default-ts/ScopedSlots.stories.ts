@@ -5,7 +5,6 @@ import { within } from '@storybook/testing-library';
 import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 
 import type { Meta, StoryObj } from '@storybook/vue3';
-import type { PlayFunctionContext } from '@storybook/csf';
 import MySlotComponent from './MySlotComponent.vue';
 
 declare global {
@@ -28,7 +27,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   // test that args are updated correctly in reactive mode
-  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+  play: async ({ canvasElement, id }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 

@@ -3,8 +3,6 @@ import { userEvent, within } from '@storybook/testing-library';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { h } from 'vue';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
-import type { PlayFunctionContext } from '@storybook/csf';
-
 import Reactivity from './Reactivity.vue';
 
 const meta = {
@@ -20,7 +18,7 @@ const meta = {
     header: 'If you see this, the header slot was not reactive.', // this can be useless if you have custom render function that overrides the slot
     footer: 'If you see this, the footer slot was not reactive.',
   },
-  play: async ({ canvasElement, id, args }: PlayFunctionContext<any>) => {
+  play: async ({ canvasElement, id, args }) => {
     const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
 
     const canvas = within(canvasElement);
@@ -51,7 +49,7 @@ export const NoDecorators: Story = {};
 
 export const DecoratorFunctionalComponent: Story = {
   decorators: [
-    (storyFn: () => any) => {
+    (storyFn, context) => {
       const story = storyFn();
       return () => h('div', [h('h2', ['Decorator not using args']), [h(story)]]);
     },
@@ -70,7 +68,7 @@ export const DecoratorFunctionalComponentArgsFromContext: Story = {
 
 export const DecoratorComponentOptions: Story = {
   decorators: [
-    (storyFn: any, context: any) => {
+    (storyFn, context) => {
       return {
         template: '<div><h2>Decorator not using args</h2><story/></div>',
       };
