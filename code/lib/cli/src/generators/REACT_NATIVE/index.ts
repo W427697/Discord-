@@ -25,7 +25,6 @@ const generator = async (
     '@storybook/react-native',
   ];
 
-  // change these to latest version once v6 stable is released
   const packagesWithFixedVersion: string[] = [];
 
   const versionedPackages = await packageManager.getVersionedPackages(packagesToResolve);
