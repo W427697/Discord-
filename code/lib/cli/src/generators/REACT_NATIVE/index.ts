@@ -32,11 +32,11 @@ const generator = async (
   const babelDependencies = await getBabelDependencies(packageManager, packageJson);
 
   const packages: string[] = [];
-  
+
   packages.push(...babelDependencies);
 
   packages.push(...packagesWithFixedVersion);
-  
+
   packages.push(...versionedPackages);
 
   if (missingReactDom && reactVersion) {
