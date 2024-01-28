@@ -28,7 +28,7 @@ const categories = [
   'Addons',
 ] as const;
 
-type MyCategories = typeof categories[number];
+type MyCategories = (typeof categories)[number];
 
 export interface MyProps {
   /**

@@ -1,8 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { createFilter, type PluginOption } from 'vite';
 import path from 'path';
 
 import findPackageJson from 'find-package-json';
-import type { PluginOption } from 'vite';
-import { createFilter } from 'vite';
+
 import MagicString from 'magic-string';
 
 import type { ComponentMeta, MetaCheckerOptions } from 'vue-component-meta';
