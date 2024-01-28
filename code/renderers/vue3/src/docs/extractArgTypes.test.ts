@@ -8,375 +8,376 @@ import {
   templateSlots,
   mockExtractComponentSlotsReturn,
 } from './tests-meta-components/meta-components';
+import { Mock, describe, expect, it, vitest } from 'vitest';
 
-jest.mock('@storybook/docs-tools');
+vitest.mock('@storybook/docs-tools');
 
 describe('extractArgTypes', () => {
   it('should return null if component does not contain docs', () => {
-    (hasDocgen as jest.Mock).mockReturnValueOnce(false);
-    (extractComponentProps as jest.Mock).mockReturnValueOnce([] as any);
+    (hasDocgen as Mock).mockReturnValueOnce(false);
+    (extractComponentProps as Mock).mockReturnValueOnce([] as any);
 
     expect(extractArgTypes({} as any)).toBeNull();
   });
 
   it('should extract arg types for component', () => {
     const component = referenceTypeProps;
-    (hasDocgen as jest.Mock).mockReturnValueOnce(true);
-    (extractComponentProps as jest.Mock).mockReturnValue(mockExtractComponentPropsReturn);
+    (hasDocgen as Mock).mockReturnValueOnce(true);
+    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentPropsReturn);
 
     const argTypes = extractArgTypes(component);
 
     expect(argTypes).toMatchInlineSnapshot(`
-      Object {
-        "array": Object {
-          "control": Object {
+      {
+        "array": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description required array object",
           "name": "array",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedProps[]",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedProps[]",
             "required": true,
           },
         },
-        "arrayOptional": Object {
-          "control": Object {
+        "arrayOptional": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description optional array object",
           "name": "arrayOptional",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedProps[]",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedProps[] | undefined",
             "required": false,
           },
         },
-        "bar": Object {
-          "control": Object {
+        "bar": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": "1",
           },
           "description": "description bar is optional number",
           "name": "bar",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": "1",
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "number",
             },
           },
-          "type": Object {
+          "type": {
             "name": "number | undefined",
             "required": false,
           },
         },
-        "baz": Object {
-          "control": Object {
+        "baz": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
-            "summary": "[\\"foo\\", \\"bar\\"]",
+          "defaultValue": {
+            "summary": "["foo", "bar"]",
           },
           "description": "description baz is string array",
           "name": "baz",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
-              "summary": "[\\"foo\\", \\"bar\\"]",
+            "defaultValue": {
+              "summary": "["foo", "bar"]",
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "string[]",
             },
           },
-          "type": Object {
+          "type": {
             "name": "string[] | undefined",
             "required": false,
           },
         },
-        "enumValue": Object {
-          "control": Object {
+        "enumValue": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description enum value",
           "name": "enumValue",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyEnum",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyEnum",
             "required": true,
           },
         },
-        "foo": Object {
-          "control": Object {
+        "foo": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
-          "description": "@default: \\"rounded\\"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo",
+          "description": "@default: "rounded"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo",
           "name": "foo",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [
-              Object {
+            "jsDocTags": [
+              {
                 "name": "default",
-                "text": "\\"rounded\\"",
+                "text": ""rounded"",
               },
-              Object {
+              {
                 "name": "since",
                 "text": "v1.0.0",
               },
-              Object {
+              {
                 "name": "see",
                 "text": "https://vuejs.org/",
               },
-              Object {
+              {
                 "name": "deprecated",
                 "text": "v1.1.0",
               },
             ],
-            "type": Object {
+            "type": {
               "summary": "string",
             },
           },
-          "type": Object {
+          "type": {
             "name": "string",
             "required": true,
           },
         },
-        "inlined": Object {
-          "control": Object {
+        "inlined": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "",
           "name": "inlined",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "{ foo: string; }",
             },
           },
-          "type": Object {
+          "type": {
             "name": "{ foo: string; }",
             "required": true,
           },
         },
-        "literalFromContext": Object {
-          "control": Object {
+        "literalFromContext": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description literal type alias that require context",
           "name": "literalFromContext",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "\\"Uncategorized\\" | \\"Content\\" | \\"Interaction\\" | \\"Display\\" | \\"Forms\\" | \\"Addons\\"",
+            "jsDocTags": [],
+            "type": {
+              "summary": ""Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"",
             },
           },
-          "type": Object {
-            "name": "\\"Uncategorized\\" | \\"Content\\" | \\"Interaction\\" | \\"Display\\" | \\"Forms\\" | \\"Addons\\"",
+          "type": {
+            "name": ""Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"",
             "required": true,
           },
         },
-        "nested": Object {
-          "control": Object {
+        "nested": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description nested is required nested object",
           "name": "nested",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedProps",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedProps",
             "required": true,
           },
         },
-        "nestedIntersection": Object {
-          "control": Object {
+        "nestedIntersection": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description required nested object with intersection",
           "name": "nestedIntersection",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedProps & { additionalProp: string; }",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedProps & { additionalProp: string; }",
             "required": true,
           },
         },
-        "nestedOptional": Object {
-          "control": Object {
+        "nestedOptional": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description optional nested object",
           "name": "nestedOptional",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedProps | MyIgnoredNestedProps",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedProps | MyIgnoredNestedProps | undefined",
             "required": false,
           },
         },
-        "recursive": Object {
-          "control": Object {
+        "recursive": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "",
           "name": "recursive",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "MyNestedRecursiveProps",
             },
           },
-          "type": Object {
+          "type": {
             "name": "MyNestedRecursiveProps",
             "required": true,
           },
         },
-        "union": Object {
-          "control": Object {
+        "union": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description union is required union type",
           "name": "union",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "string | number",
             },
           },
-          "type": Object {
+          "type": {
             "name": "string | number",
             "required": true,
           },
         },
-        "unionOptional": Object {
-          "control": Object {
+        "unionOptional": {
+          "control": {
             "disable": true,
           },
-          "defaultValue": Object {
+          "defaultValue": {
             "summary": undefined,
           },
           "description": "description unionOptional is optional union type",
           "name": "unionOptional",
-          "table": Object {
+          "table": {
             "category": "events",
-            "defaultValue": Object {
+            "defaultValue": {
               "summary": undefined,
             },
-            "jsDocTags": Array [],
-            "type": Object {
+            "jsDocTags": [],
+            "type": {
               "summary": "string | number",
             },
           },
-          "type": Object {
+          "type": {
             "name": "string | number | undefined",
             "required": false,
           },
@@ -387,333 +388,21 @@ describe('extractArgTypes', () => {
 
   it('should extract events for Vue component', () => {
     const component = referenceTypeEvents;
-    (hasDocgen as jest.Mock).mockReturnValueOnce(true);
-    (extractComponentProps as jest.Mock).mockReturnValue(mockExtractComponentEventsReturn);
+    (hasDocgen as Mock).mockReturnValueOnce(true);
+    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentEventsReturn);
 
     const argTypes = extractArgTypes(component);
 
-    expect(argTypes).toMatchInlineSnapshot(`
-      Object {
-        "bar": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "bar",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "[value: { year: number; title?: any; }]",
-            },
-          },
-          "type": Object {
-            "name": Array [
-              Object {
-                "kind": "object",
-                "schema": Object {
-                  "title": Object {
-                    "declarations": Array [
-                      Object {
-                        "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
-                        "range": Array [
-                          269,
-                          280,
-                        ],
-                      },
-                    ],
-                    "description": "",
-                    "global": false,
-                    "name": "title",
-                    "required": false,
-                    "schema": "any",
-                    "tags": Array [],
-                    "type": "any",
-                  },
-                  "year": Object {
-                    "declarations": Array [
-                      Object {
-                        "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
-                        "range": Array [
-                          255,
-                          268,
-                        ],
-                      },
-                    ],
-                    "description": "",
-                    "global": false,
-                    "name": "year",
-                    "required": true,
-                    "schema": "number",
-                    "tags": Array [],
-                    "type": "number",
-                  },
-                },
-                "type": "{ year: number; title?: any; }",
-              },
-            ],
-            "required": undefined,
-          },
-        },
-        "baz": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "baz",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "[]",
-            },
-          },
-          "type": Object {
-            "name": Array [],
-            "required": undefined,
-          },
-        },
-        "foo": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "foo",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "[data?: { foo: string; }]",
-            },
-          },
-          "type": Object {
-            "name": Array [
-              Object {
-                "kind": "enum",
-                "schema": Array [
-                  "undefined",
-                  Object {
-                    "kind": "object",
-                    "schema": Object {
-                      "foo": Object {
-                        "declarations": Array [
-                          Object {
-                            "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
-                            "range": Array [
-                              207,
-                              218,
-                            ],
-                          },
-                        ],
-                        "description": "",
-                        "global": false,
-                        "name": "foo",
-                        "required": true,
-                        "schema": "string",
-                        "tags": Array [],
-                        "type": "string",
-                      },
-                    },
-                    "type": "{ foo: string; }",
-                  },
-                ],
-                "type": "{ foo: string; } | undefined",
-              },
-            ],
-            "required": undefined,
-          },
-        },
-      }
-    `);
+    expect(argTypes).toMatchSnapshot();
   });
 
   it('should extract slots type for Vue component', () => {
     const component = templateSlots;
-    (hasDocgen as jest.Mock).mockReturnValueOnce(true);
-    (extractComponentProps as jest.Mock).mockReturnValue(mockExtractComponentSlotsReturn);
+    (hasDocgen as Mock).mockReturnValueOnce(true);
+    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentSlotsReturn);
 
     const argTypes = extractArgTypes(component);
 
-    expect(argTypes).toMatchInlineSnapshot(`
-      Object {
-        "default": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "default",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "{ num: number; }",
-            },
-          },
-          "type": Object {
-            "name": "object",
-            "required": undefined,
-            "value": Object {
-              "num": Object {
-                "declarations": Array [],
-                "description": "",
-                "global": false,
-                "name": "num",
-                "required": true,
-                "schema": "number",
-                "tags": Array [],
-                "type": "number",
-              },
-            },
-          },
-        },
-        "named": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "named",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "{ str: string; }",
-            },
-          },
-          "type": Object {
-            "name": "object",
-            "required": undefined,
-            "value": Object {
-              "str": Object {
-                "declarations": Array [],
-                "description": "",
-                "global": false,
-                "name": "str",
-                "required": true,
-                "schema": "string",
-                "tags": Array [],
-                "type": "string",
-              },
-            },
-          },
-        },
-        "no-bind": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "no-bind",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "{}",
-            },
-          },
-          "type": Object {
-            "name": "object",
-            "required": undefined,
-            "value": Object {},
-          },
-        },
-        "vbind": Object {
-          "control": Object {
-            "disable": false,
-          },
-          "defaultValue": Object {
-            "summary": undefined,
-          },
-          "description": "",
-          "name": "vbind",
-          "table": Object {
-            "category": "props",
-            "defaultValue": Object {
-              "summary": undefined,
-            },
-            "jsDocTags": Array [],
-            "type": Object {
-              "summary": "{ num: number; str: string; }",
-            },
-          },
-          "type": Object {
-            "name": "object",
-            "required": undefined,
-            "value": Object {
-              "num": Object {
-                "declarations": Array [
-                  Object {
-                    "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
-                    "range": Array [
-                      153,
-                      161,
-                    ],
-                  },
-                ],
-                "description": "",
-                "global": false,
-                "name": "num",
-                "required": true,
-                "schema": "number",
-                "tags": Array [],
-                "type": "number",
-              },
-              "str": Object {
-                "declarations": Array [
-                  Object {
-                    "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
-                    "range": Array [
-                      163,
-                      173,
-                    ],
-                  },
-                ],
-                "description": "",
-                "global": false,
-                "name": "str",
-                "required": true,
-                "schema": "string",
-                "tags": Array [],
-                "type": "string",
-              },
-            },
-          },
-        },
-      }
-    `);
+    expect(argTypes).toMatchSnapshot();
   });
 });

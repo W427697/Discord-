@@ -1,0 +1,317 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`extractArgTypes > should extract events for Vue component 1`] = `
+{
+  "bar": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "bar",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[value: { year: number; title?: any; }]",
+      },
+    },
+    "type": {
+      "name": [
+        {
+          "kind": "object",
+          "schema": {
+            "title": {
+              "declarations": [
+                {
+                  "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                  "range": [
+                    269,
+                    280,
+                  ],
+                },
+              ],
+              "description": "",
+              "global": false,
+              "name": "title",
+              "required": false,
+              "schema": "any",
+              "tags": [],
+              "type": "any",
+            },
+            "year": {
+              "declarations": [
+                {
+                  "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                  "range": [
+                    255,
+                    268,
+                  ],
+                },
+              ],
+              "description": "",
+              "global": false,
+              "name": "year",
+              "required": true,
+              "schema": "number",
+              "tags": [],
+              "type": "number",
+            },
+          },
+          "type": "{ year: number; title?: any; }",
+        },
+      ],
+      "required": undefined,
+    },
+  },
+  "baz": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "baz",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[]",
+      },
+    },
+    "type": {
+      "name": [],
+      "required": undefined,
+    },
+  },
+  "foo": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "foo",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "[data?: { foo: string; }]",
+      },
+    },
+    "type": {
+      "name": [
+        {
+          "kind": "enum",
+          "schema": [
+            "undefined",
+            {
+              "kind": "object",
+              "schema": {
+                "foo": {
+                  "declarations": [
+                    {
+                      "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-events/component.vue",
+                      "range": [
+                        207,
+                        218,
+                      ],
+                    },
+                  ],
+                  "description": "",
+                  "global": false,
+                  "name": "foo",
+                  "required": true,
+                  "schema": "string",
+                  "tags": [],
+                  "type": "string",
+                },
+              },
+              "type": "{ foo: string; }",
+            },
+          ],
+          "type": "{ foo: string; } | undefined",
+        },
+      ],
+      "required": undefined,
+    },
+  },
+}
+`;
+
+exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
+{
+  "default": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "default",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ num: number; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": undefined,
+      "value": {
+        "num": {
+          "declarations": [],
+          "description": "",
+          "global": false,
+          "name": "num",
+          "required": true,
+          "schema": "number",
+          "tags": [],
+          "type": "number",
+        },
+      },
+    },
+  },
+  "named": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "named",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ str: string; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": undefined,
+      "value": {
+        "str": {
+          "declarations": [],
+          "description": "",
+          "global": false,
+          "name": "str",
+          "required": true,
+          "schema": "string",
+          "tags": [],
+          "type": "string",
+        },
+      },
+    },
+  },
+  "no-bind": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "no-bind",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{}",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": undefined,
+      "value": {},
+    },
+  },
+  "vbind": {
+    "control": {
+      "disable": false,
+    },
+    "defaultValue": {
+      "summary": undefined,
+    },
+    "description": "",
+    "name": "vbind",
+    "table": {
+      "category": "props",
+      "defaultValue": {
+        "summary": undefined,
+      },
+      "jsDocTags": [],
+      "type": {
+        "summary": "{ num: number; str: string; }",
+      },
+    },
+    "type": {
+      "name": "object",
+      "required": undefined,
+      "value": {
+        "num": {
+          "declarations": [
+            {
+              "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
+              "range": [
+                153,
+                161,
+              ],
+            },
+          ],
+          "description": "",
+          "global": false,
+          "name": "num",
+          "required": true,
+          "schema": "number",
+          "tags": [],
+          "type": "number",
+        },
+        "str": {
+          "declarations": [
+            {
+              "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
+              "range": [
+                163,
+                173,
+              ],
+            },
+          ],
+          "description": "",
+          "global": false,
+          "name": "str",
+          "required": true,
+          "schema": "string",
+          "tags": [],
+          "type": "string",
+        },
+      },
+    },
+  },
+}
+`;
