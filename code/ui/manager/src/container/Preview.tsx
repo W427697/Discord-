@@ -2,7 +2,7 @@ import { global } from '@storybook/global';
 import type { Addon_BaseType, Addon_Collection, Addon_WrapperType } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import type { ComponentProps } from 'react';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import memoizerific from 'memoizerific';
 

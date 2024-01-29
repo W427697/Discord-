@@ -1,5 +1,4 @@
-import type { FunctionComponent } from 'react';
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment } from 'react';
 
 import { styled } from '@storybook/theming';
 
@@ -16,17 +15,13 @@ import {
   types,
 } from '@storybook/manager-api';
 
-import { Location, type RenderData } from '@storybook/router';
 import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/types';
 import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 
-import * as S from './utils/components';
-
 import type { PreviewProps } from './utils/types';
 import { copyTool } from './tools/copy';
 import { ejectTool } from './tools/eject';
-import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
 import { useLayout } from '../layout/LayoutProvider';
