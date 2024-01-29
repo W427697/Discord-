@@ -171,7 +171,6 @@ export const ToolbarComp = React.memo<ToolData>(function ToolbarComp({
 });
 
 export const Tools = React.memo<{ list: Addon_BaseType[] }>(function Tools({ list }) {
-  console.log({ list });
   return (
     <>
       {list.filter(Boolean).map(({ render: Render, id, ...t }, index) => (
