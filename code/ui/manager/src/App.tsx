@@ -28,9 +28,9 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}
         slotMain={
-          <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-            <Preview id="main" withLoader />
-          </Route>
+          // <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+          <Preview id="main" withLoader />
+          // </Route>
         }
         slotSidebar={<Sidebar onMenuClick={() => setMobileAboutOpen((state) => !state)} />}
         slotPanel={<Panel />}
