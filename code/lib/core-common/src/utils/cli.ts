@@ -4,6 +4,7 @@ import { join } from 'path';
 import tempy from 'tempy';
 import { rendererPackages } from './get-storybook-info';
 import type { JsPackageManager } from '../js-package-manager';
+import versions from '../versions';
 
 export function parseList(str: string): string[] {
   return str
@@ -12,7 +13,7 @@ export function parseList(str: string): string[] {
     .filter((item) => item.length > 0);
 }
 
-export async function getStorybookVersion(packageManager: JsPackageManager) {
+export async function getCoercedStorybookVersion(packageManager: JsPackageManager) {
   const packages = (
     await Promise.all(
       Object.keys(rendererPackages).map(async (pkg) => ({
