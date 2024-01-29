@@ -42,7 +42,9 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
   return (
     <Container>
       <MobileMenuDrawer>{menu}</MobileMenuDrawer>
-      {!isMobilePanelOpen && (
+      {isMobilePanelOpen ? (
+        <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
+      ) : (
         <Nav>
           <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
             <MenuIcon />
@@ -55,7 +57,6 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
           )}
         </Nav>
       )}
-      {isMobilePanelOpen && <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>}
     </Container>
   );
 };

@@ -7,14 +7,13 @@ interface MobileAddonsDrawerProps {
 }
 
 const Container = styled.div(({ theme }) => ({
+  position: 'relative',
   boxSizing: 'border-box',
   width: '100%',
   background: theme.background.content,
   height: '42vh',
   zIndex: 11,
-  transition: 'all 200ms ease-in-out',
   overflow: 'hidden',
-  transform: 'translateY(0)',
 }));
 
 export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) => {
