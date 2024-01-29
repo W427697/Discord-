@@ -40,7 +40,6 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         global,
       } = docgenInfo as MetaDocgenInfo;
 
-      console.log('docgenInfo', docgenInfo);
       if (argTypes[name] || global) {
         return; // skip duplicate and global props
       }
