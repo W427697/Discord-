@@ -202,7 +202,8 @@ export function filterToolsSide(
   entry: PreviewProps['entry'],
   viewMode: State['viewMode'],
   location: State['location'],
-  path: State['path']
+  path: State['path'],
+  tabId: string
 ) {
   const filter = (item: Partial<Addon_BaseType>) =>
     item &&
@@ -213,6 +214,7 @@ export function filterToolsSide(
         viewMode,
         location,
         path,
+        tabId,
       })) &&
     !toolbarItemHasBeenExcluded(item, entry);
 

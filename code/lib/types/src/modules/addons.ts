@@ -351,7 +351,7 @@ export interface Addon_BaseType {
   /**
    * This will determine the value of `active` prop of your render function.
    */
-  match?: (matchOptions: RouterData) => boolean;
+  match?: (matchOptions: RouterData & { tabId?: string }) => boolean;
   /**
    * The actual contents of your addon.
    *
