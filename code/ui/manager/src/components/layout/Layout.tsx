@@ -14,7 +14,6 @@ interface InternalLayoutState {
 interface ManagerLayoutState
   extends Pick<API_Layout, 'navSize' | 'bottomPanelHeight' | 'rightPanelWidth' | 'panelPosition'> {
   viewMode: API_ViewMode;
-  showPanel: boolean;
 }
 
 export type LayoutState = InternalLayoutState & ManagerLayoutState;
@@ -176,7 +175,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, hasTab, ...s
   );
 };
 
-const LayoutContainer = styled.div<LayoutState>(
+const LayoutContainer = styled.div<LayoutState & { showPanel: boolean }>(
   ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, showPanel }) => {
     return {
       width: '100%',

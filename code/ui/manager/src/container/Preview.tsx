@@ -1,12 +1,12 @@
 import { global } from '@storybook/global';
-import type { Addon_BaseType, Addon_WrapperType } from '@storybook/types';
+import type { Addon_BaseType, Addon_Collection, Addon_WrapperType } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import type { ComponentProps } from 'react';
 import React from 'react';
 
 import memoizerific from 'memoizerific';
 
-import type { StoriesHash } from '@storybook/manager-api';
+import type { State, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
 import { Preview, createCanvasTab, filterTabs } from '../components/preview/Preview';
@@ -15,26 +15,45 @@ import { filterToolsSide } from '../components/preview/Toolbar';
 import { menuTool } from '../components/preview/tools/menu';
 import { remountTool } from '../components/preview/tools/remount';
 import { zoomTool } from '../components/preview/tools/zoom';
+import type { PreviewProps } from '../components/preview/utils/types';
 
 const defaultTabs = [createCanvasTab()];
 const defaultTools = [menuTool, remountTool, zoomTool];
 
 const emptyTabsList: Addon_BaseType[] = [];
 
+type FilterProps = [
+  entry: PreviewProps['entry'],
+  viewMode: State['viewMode'],
+  location: State['location'],
+  path: State['path'],
+];
+
 // memoization to return the same array every time, unless something relevant changes
-const memoizedTabs = memoizerific(1)((l, s, p, v) =>
-  v ? filterTabs([...defaultTabs, ...Object.values<Addon_BaseType>(s)], p) : emptyTabsList
+const memoizedTabs = memoizerific(1)(
+  (
+    _,
+    tabElements: Addon_Collection<Addon_BaseType>,
+    parameters: Record<string, any> | undefined,
+    showTabs: boolean
+  ) =>
+    showTabs
+      ? filterTabs([...defaultTabs, ...Object.values(tabElements)], parameters)
+      : emptyTabsList
 );
-const memoizedTools = memoizerific(1)((l, s, p) =>
-  //@ts-expect-error (whatever TS)
-  filterToolsSide([...defaultTools, ...Object.values<Addon_BaseType>(s)], ...p)
+const memoizedTools = memoizerific(1)(
+  (_, toolElements: Addon_Collection<Addon_BaseType>, filterProps: FilterProps) =>
+    filterToolsSide([...defaultTools, ...Object.values(toolElements)], ...filterProps)
 );
-const memoizedExtra = memoizerific(1)((l, s, p) =>
-  //@ts-expect-error (whatever TS)
-  filterToolsSide([...defaultTools, ...Object.values<Addon_BaseType>(s)], ...p)
+const memoizedExtra = memoizerific(1)(
+  (_, extraElements: Addon_Collection<Addon_BaseType>, filterProps: FilterProps) =>
+    filterToolsSide([...defaultTools, ...Object.values(extraElements)], ...filterProps)
 );
 
-const memoizedWrapper = memoizerific(1)((l, s) => [...defaultWrappers, ...Object.values(s)]);
+const memoizedWrapper = memoizerific(1)((_, previewElements: Addon_Collection) => [
+  ...defaultWrappers,
+  ...Object.values(previewElements),
+]);
 
 const { PREVIEW_URL } = global;
 
