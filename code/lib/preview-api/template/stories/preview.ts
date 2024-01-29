@@ -1,11 +1,14 @@
 import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export const parameters = {
-  projectParameter: 'projectParameter',
-  storyObject: {
-    a: 'project',
-    b: 'project',
-    c: 'project',
+  docs: {
+    source: { type: 'code' }, // Assigned issue 22881 by assigning docs -> source -> type to 'code'.
+    projectParameter: 'projectParameter',
+    storyObject: {
+      a: 'project',
+      b: 'project',
+      c: 'project',
+    },
   },
 };
 
