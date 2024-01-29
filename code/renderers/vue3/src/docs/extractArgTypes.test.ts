@@ -8,7 +8,8 @@ import {
   templateSlots,
   mockExtractComponentSlotsReturn,
 } from './tests-meta-components/meta-components';
-import { Mock, describe, expect, it, vitest } from 'vitest';
+import type { Mock } from 'vitest';
+import { describe, expect, it, vitest } from 'vitest';
 
 vitest.mock('@storybook/docs-tools');
 
