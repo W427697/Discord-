@@ -35,39 +35,48 @@ const useFullStoryName = () => {
 };
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
-  const { isMobileMenuOpen, setMobileMenuOpen, setMobilePanelOpen } = useLayout();
+  const { isMobileMenuOpen, isMobilePanelOpen, setMobileMenuOpen, setMobilePanelOpen } =
+    useLayout();
   const fullStoryName = useFullStoryName();
 
   return (
     <Container>
       <MobileMenuDrawer>{menu}</MobileMenuDrawer>
-      <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
-      <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
-        <MenuIcon />
-        <Text>{fullStoryName}</Text>
-      </Button>
-      {showPanel && (
-        <IconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
-          <BottomBarToggleIcon />
-        </IconButton>
+      {!isMobilePanelOpen && (
+        <Nav>
+          <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
+            <MenuIcon />
+            <Text>{fullStoryName}</Text>
+          </Button>
+          {showPanel && (
+            <IconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
+              <BottomBarToggleIcon />
+            </IconButton>
+          )}
+        </Nav>
       )}
+      {isMobilePanelOpen && <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>}
     </Container>
   );
 };
 
 const Container = styled.div(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
   bottom: 0,
   left: 0,
   width: '100%',
-  height: 40,
   zIndex: 10,
   background: theme.barBg,
-  padding: '0 6px',
   borderTop: `1px solid ${theme.appBorderColor}`,
 }));
+
+const Nav = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
+  height: 40,
+  padding: '0 6px',
+});
 
 const Button = styled.button(({ theme }) => ({
   all: 'unset',
