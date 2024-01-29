@@ -2,7 +2,7 @@ import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export const parameters = {
   docs: {
-    source: { type: 'code' }, // Assigned issue 22881 by assigning docs -> source -> type to 'code'.
+    source: { type: 'code' }, // Walkthrough for issue 22881 by assigning docs -> source -> type to 'code'.
     projectParameter: 'projectParameter',
     storyObject: {
       a: 'project',
@@ -16,7 +16,7 @@ export const loaders = [async () => ({ projectValue: 2 })];
 
 export const decorators = [
   (storyFn: PartialStoryFn, context: StoryContext) => {
-    if (context.parameters['useProjectDecorator'])
+    if (context.parameters.useProjectDecorator)
       return storyFn({ args: { ...context.args, text: `project ${context.args.text}` } });
     return storyFn();
   },
