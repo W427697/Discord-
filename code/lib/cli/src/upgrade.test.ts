@@ -1,9 +1,27 @@
+import { describe, it, expect, vi } from 'vitest';
+import { getStorybookCoreVersion } from '@storybook/telemetry';
 import {
-  addExtraFlags,
-  addNxPackagesToReject,
-  getStorybookVersion,
-  isCorePackage,
-} from './upgrade';
+  UpgradeStorybookToLowerVersionError,
+  UpgradeStorybookToSameVersionError,
+} from '@storybook/core-events/server-errors';
+import { doUpgrade, getStorybookVersion } from './upgrade';
+
+import type * as sbcc from '@storybook/core-common';
+
+vi.mock('@storybook/telemetry');
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  const originalModule = (await importOriginal()) as typeof sbcc;
+  return {
+    ...originalModule,
+    versions: Object.keys(originalModule.versions).reduce(
+      (acc, key) => {
+        acc[key] = '8.0.0';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
+  };
+});
 
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
@@ -26,84 +44,15 @@ describe.each([
   });
 });
 
-describe.each([
-  ['@storybook/react', true],
-  ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
-  ['@storybook/linter-config', false],
-  ['@storybook/design-system', false],
-  ['@nx/storybook', false],
-  ['@nrwl/storybook', false],
-])('isCorePackage', (input, output) => {
-  it(`${input}`, () => {
-    expect(isCorePackage(input)).toEqual(output);
-  });
-});
+describe('Upgrade errors', () => {
+  it('should throw an error when upgrading to a lower version number', async () => {
+    vi.mocked(getStorybookCoreVersion).mockResolvedValue('8.1.0');
 
-describe('extra flags', () => {
-  const extraFlags = {
-    'react-scripts@<5': ['--foo'],
-  };
-  const devDependencies = {};
-  it('package matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], { dependencies: { 'react-scripts': '4' }, devDependencies })
-    ).toEqual(['--foo']);
+    await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
   });
-  it('package prerelease matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: { 'react-scripts': '4.0.0-alpha.0' },
-        devDependencies,
-      })
-    ).toEqual(['--foo']);
-  });
-  it('package not matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: { 'react-scripts': '5.0.0-alpha.0' },
-        devDependencies,
-      })
-    ).toEqual([]);
-  });
-  it('no package not matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: {},
-        devDependencies,
-      })
-    ).toEqual([]);
-  });
-});
+  it('should throw an error when upgrading to the same version number', async () => {
+    vi.mocked(getStorybookCoreVersion).mockResolvedValue('8.0.0');
 
-describe('addNxPackagesToReject', () => {
-  it('reject exists and is in regex pattern', () => {
-    const flags = ['--reject', '/preset-create-react-app/', '--some-flag', 'hello'];
-    expect(addNxPackagesToReject(flags)).toMatchObject([
-      '--reject',
-      '/(preset-create-react-app|@nrwl/storybook|@nx/storybook)/',
-      '--some-flag',
-      'hello',
-    ]);
-  });
-  it('reject exists and is in unknown pattern', () => {
-    const flags = ['--some-flag', 'hello', '--reject', '@storybook/preset-create-react-app'];
-    expect(addNxPackagesToReject(flags)).toMatchObject([
-      '--some-flag',
-      'hello',
-      '--reject',
-      '@storybook/preset-create-react-app,@nrwl/storybook,@nx/storybook',
-    ]);
-  });
-  it('reject does not exist', () => {
-    const flags = ['--some-flag', 'hello'];
-    expect(addNxPackagesToReject(flags)).toMatchObject([
-      '--some-flag',
-      'hello',
-      '--reject',
-      '@nrwl/storybook,@nx/storybook',
-    ]);
+    await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
   });
 });

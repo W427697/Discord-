@@ -12,7 +12,6 @@ Type:
   checkOptions?: CheckOptions;
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
-  skipBabel?: boolean;
 }
 ```
 
@@ -57,10 +56,9 @@ Type: `'react-docgen' | 'react-docgen-typescript' | false`
 Default:
 
 - `false`: if `@storybook/react` is not installed
-- `'react-docgen-typescript'`: if `@storybook/react` and `typescript` are installed
 - `'react-docgen'`: if `@storybook/react` is installed
 
-Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
+Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
 
 <!-- prettier-ignore-start -->
 
@@ -88,17 +86,17 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 
 <!-- prettier-ignore-end -->
 
-## `skipBabel`
+## `skipCompiler`
 
 Type: `boolean`
 
-Disable parsing of TypeScript files through babel.
+Disable parsing of TypeScript files through the compiler, which is used for Webpack5.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/main-config-typescript-skip-babel.ts.mdx',
+    'common/main-config-typescript-skip-compiler.ts.mdx',
   ]}
 />
 

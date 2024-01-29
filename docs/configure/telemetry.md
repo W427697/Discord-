@@ -8,7 +8,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 Hundreds of thousands of developers use Storybook daily to build, test, and document components. Storybook is framework agnostic and integrates with the front-end ecosystem:
 
-- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
+- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue 3](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
 - **Libraries** such as [Styled-Components](https://styled-components.com/), [Tailwind](https://tailwindcss.com/), [Redux](https://redux.js.org/)
 - **Design tools** such as [Figma](https://figma.com/), [Sketch](https://www.sketch.com/), [Zeplin](https://zeplin.io/) and [InVision](https://www.invisionapp.com/)
 - **Workflow tools** such as [Notion](https://www.notion.so/product), [Confluence](https://www.atlassian.com/software/confluence), and [Jira](https://www.atlassian.com/software/jira)
@@ -31,11 +31,10 @@ Specifically, we track the following information in our telemetry events:
 - Storybook version.
 - Storybook metadata:
   - Language (e.g., TypeScript, JavaScript).
-  - Supported view layers (e.g., React, Vue, Angular, Svelte).
+  - Supported view layers (e.g., React, Vue 3, Angular, Svelte).
   - Builder (e.g., Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
-  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
-  - [Feature flags](./overview.md#feature-flags) (e.g., `buildStoriesJson`).
+  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/index.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
 - Package manager information (e.g., `npm`, `yarn`).
 - Monorepo information (e.g., [NX](https://nx.dev/), [Turborepo](https://turborepo.org/)).
 - In-app events (e.g., [Storybook guided tour](https://github.com/storybookjs/addon-onboarding)).
@@ -92,9 +91,6 @@ Will generate the following output:
       "version": "3.1.1"
     },
     "monorepo": "Nx",
-    "features": {
-      "buildStoriesJson": true
-    },
     "framework": {
       "name": "@storybook/react-vite",
       "options": {}
@@ -178,11 +174,11 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
+There is a `boot` event containing no metadata (used to ensure the telemetry is working). It is sent prior to evaluating your [Storybook configuration file](../api/main-config.md) (i.e., `main.js|ts`), so it is unaffected by the `disableTelemetry` option. If you want to ensure that the event is not sent, use the `STORYBOOK_DISABLE_TELEMETRY` environment variable.
 
-</div>
+</Callout>
 
 ## Crash reports (disabled by default)
 

@@ -1,47 +1,35 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
+import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path from 'path';
-import favicon from 'serve-favicon';
-import isEqual from 'lodash/isEqual.js';
+import path, { basename, isAbsolute } from 'path';
 
 import { dedent } from 'ts-dedent';
-import { defaultStaticDirs } from './constants';
 
-export async function useStatics(router: any, options: Options) {
-  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+export async function useStatics(router: Router, options: Options) {
+  const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
-  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new Error(dedent`
-      Conflict when trying to read staticDirs:
-      * Storybook's configuration option: 'staticDirs'
-      * Storybook's CLI flag: '--staticDir' or '-s'
-      
-      Choose one of them, but not both.
-    `);
-  }
-
   const statics = [
-    ...(staticDirs ?? []).map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
-    ...(options.staticDir || []),
+    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
   ];
 
   if (statics && statics.length > 0) {
     await Promise.all(
       statics.map(async (dir) => {
         try {
-          const relativeDir = staticDirs
-            ? getDirectoryFromWorkingDir({
-                configDir: options.configDir,
-                workingDir: process.cwd(),
-                directory: dir,
-              })
-            : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+          const normalizedDir =
+            staticDirs && !isAbsolute(dir)
+              ? getDirectoryFromWorkingDir({
+                  configDir: options.configDir,
+                  workingDir: process.cwd(),
+                  directory: dir,
+                })
+              : dir;
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
           // Don't log for the internal static dir
           if (!targetEndpoint.startsWith('/sb-')) {
@@ -58,7 +46,7 @@ export async function useStatics(router: any, options: Options) {
     );
   }
 
-  router.use(favicon(faviconPath));
+  router.get(`/${basename(faviconPath)}`, (req, res) => res.sendFile(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {
@@ -81,7 +69,7 @@ export const parseStaticDir = async (arg: string) => {
     throw new Error(
       dedent(chalk`
         Failed to load static files, no such directory: {cyan ${staticPath}}
-        Make sure this directory exists, or omit the {bold -s (--static-dir)} option.
+        Make sure this directory exists.
       `)
     );
   }

@@ -1,13 +1,12 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 import dedent from 'ts-dedent';
+import type { InstallationMetadata } from '@storybook/core-common';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
-import { hasMultipleVersions } from './hasMultipleVersions';
-import type { InstallationMetadata } from '../../js-package-manager/types';
+import { getDuplicatedDepsWarnings } from '../../doctor/getDuplicatedDepsWarnings';
 
-const messageDivider = '\n\n';
+export const messageDivider = '\n\n';
 const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
 
 function getGlossaryMessages(
@@ -58,8 +57,8 @@ export function getMigrationSummary({
 }: {
   fixResults: Record<string, FixStatus>;
   fixSummary: FixSummary;
-  installationMetadata: InstallationMetadata;
-  logFile?: string;
+  installationMetadata?: InstallationMetadata | null;
+  logFile: string;
 }) {
   const messages = [];
   messages.push(getGlossaryMessages(fixSummary, fixResults, logFile).join(messageDivider));
@@ -76,11 +75,12 @@ export function getMigrationSummary({
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
 
-  if (
-    installationMetadata?.duplicatedDependencies &&
-    Object.keys(installationMetadata.duplicatedDependencies).length > 0
-  ) {
-    messages.push(getWarnings(installationMetadata).join(messageDivider));
+  const duplicatedDepsMessage = installationMetadata
+    ? getDuplicatedDepsWarnings(installationMetadata)
+    : getDuplicatedDepsWarnings();
+
+  if (duplicatedDepsMessage) {
+    messages.push(duplicatedDepsMessage.join(messageDivider));
   }
 
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
@@ -88,12 +88,11 @@ export function getMigrationSummary({
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
   );
 
-  // eslint-disable-next-line no-nested-ternary
   const title = hasNoFixes
     ? 'No migrations were applicable to your project'
     : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
+      ? 'Migration check ran with failures'
+      : 'Migration check ran successfully';
 
   return boxen(messages.filter(Boolean).join(segmentDivider), {
     borderStyle: 'round',
@@ -101,89 +100,4 @@ export function getMigrationSummary({
     title,
     borderColor: hasFailures ? 'red' : 'green',
   });
-}
-
-// These packages are aliased by Storybook, so it doesn't matter if they're duplicated
-const allowList = [
-  '@storybook/csf',
-  // see this file for more info: code/lib/preview/src/globals/types.ts
-  '@storybook/addons',
-  '@storybook/channel-postmessage', // @deprecated: remove in 8.0
-  '@storybook/channel-websocket', // @deprecated: remove in 8.0
-  '@storybook/channels',
-  '@storybook/client-api',
-  '@storybook/client-logger',
-  '@storybook/core-client',
-  '@storybook/core-events',
-  '@storybook/preview-web',
-  '@storybook/preview-api',
-  '@storybook/store',
-
-  // see this file for more info: code/ui/manager/src/globals/types.ts
-  '@storybook/components',
-  '@storybook/router',
-  '@storybook/theming',
-  '@storybook/api', // @deprecated: remove in 8.0
-  '@storybook/manager-api',
-];
-
-// These packages definitely will cause issues if they're duplicated
-const disallowList = [
-  Object.keys(rendererPackages),
-  Object.keys(frameworkPackages),
-  '@storybook/instrumenter',
-];
-
-function getWarnings(installationMetadata: InstallationMetadata) {
-  const messages = [];
-
-  const { critical, trivial } = Object.entries(
-    installationMetadata?.duplicatedDependencies
-  ).reduce<{
-    critical: string[];
-    trivial: string[];
-  }>(
-    (acc, [dep, versions]) => {
-      if (allowList.includes(dep)) {
-        return acc;
-      }
-
-      const hasMultipleMajorVersions = hasMultipleVersions(versions);
-
-      if (disallowList.includes(dep) && hasMultipleMajorVersions) {
-        acc.critical.push(`${chalk.redBright(dep)}:\n${versions.join(', ')}`);
-      } else {
-        acc.trivial.push(`${chalk.hex('#ff9800')(dep)}:\n${versions.join(', ')}`);
-      }
-
-      return acc;
-    },
-    { critical: [], trivial: [] }
-  );
-
-  if (critical.length > 0) {
-    messages.push(
-      `${chalk.bold(
-        'Critical:'
-      )} The following dependencies are duplicated and WILL cause unexpected behavior:`
-    );
-    messages.push(critical.join(messageDivider));
-  }
-
-  if (trivial.length > 0) {
-    messages.push(
-      `${chalk.bold(
-        'Attention:'
-      )} The following dependencies are duplicated which might cause unexpected behavior:`
-    );
-    messages.push(trivial.join(messageDivider));
-  }
-
-  messages.push(
-    `You can find more information for a given dependency by running ${chalk.cyan(
-      `${installationMetadata.infoCommand} <package-name>`
-    )}`
-  );
-
-  return messages;
 }

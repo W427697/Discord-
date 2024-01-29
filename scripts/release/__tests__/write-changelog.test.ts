@@ -1,19 +1,34 @@
-/* eslint-disable global-require */
+/* eslint-disable jest/no-mocks-import */
+
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
 import dedent from 'ts-dedent';
+import { vi, expect, describe, it, beforeEach } from 'vitest';
+import * as fsExtraImp from 'fs-extra';
 import { run as writeChangelog } from '../write-changelog';
-import * as changesUtils from '../utils/get-changes';
+import * as changesUtils_ from '../utils/get-changes';
 
-// eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
-const fsExtra = require('fs-extra');
+import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
-const getChangesMock = jest.spyOn(changesUtils, 'getChanges');
+vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('../utils/get-changes');
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
+const changesUtils = vi.mocked(changesUtils_);
+
+const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+
+  vi.spyOn(console, 'log').mockImplementation(() => {});
+  vi.spyOn(console, 'warn').mockImplementation(() => {});
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+
+  fsExtra.__setMockFiles({
+    [STABLE_CHANGELOG_PATH]: EXISTING_STABLE_CHANGELOG,
+    [PRERELEASE_CHANGELOG_PATH]: EXISTING_PRERELEASE_CHANGELOG,
+  });
+});
 
 const STABLE_CHANGELOG_PATH = path.join(__dirname, '..', '..', '..', 'CHANGELOG.md');
 const PRERELEASE_CHANGELOG_PATH = path.join(__dirname, '..', '..', '..', 'CHANGELOG.prerelease.md');
@@ -28,10 +43,6 @@ const LATEST_VERSION_PATH = path.join(
 );
 const NEXT_VERSION_PATH = path.join(__dirname, '..', '..', '..', 'docs', 'versions', 'next.json');
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 const EXISTING_STABLE_CHANGELOG = dedent`## 7.0.0
 
 - Core: Some change`;
@@ -40,14 +51,9 @@ const EXISTING_PRERELEASE_CHANGELOG = dedent`## 7.1.0-alpha.20
 
 - CLI: Super fast now`;
 
-fsExtra.__setMockFiles({
-  [STABLE_CHANGELOG_PATH]: EXISTING_STABLE_CHANGELOG,
-  [PRERELEASE_CHANGELOG_PATH]: EXISTING_PRERELEASE_CHANGELOG,
-});
-
 describe('Write changelog', () => {
   it('should write to stable changelogs and version files in docs', async () => {
-    getChangesMock.mockResolvedValue({
+    changesUtils.getChanges.mockResolvedValue({
       changes: [],
       changelogText: `## 7.0.1
 
@@ -82,8 +88,47 @@ describe('Write changelog', () => {
     `);
   });
 
+  it('should escape double quotes for json files', async () => {
+    changesUtils.getChanges.mockResolvedValue({
+      changes: [],
+      changelogText: `## 7.0.1
+
+- React: Make it reactive
+- Revert "CLI: Not UI"
+- CLI: Not UI`,
+    });
+
+    await writeChangelog(['7.0.1'], {});
+
+    expect(fsExtra.writeFile).toHaveBeenCalledTimes(1);
+    expect(fsExtra.writeFile.mock.calls[0][0]).toBe(STABLE_CHANGELOG_PATH);
+    expect(fsExtra.writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
+      "## 7.0.1
+
+      - React: Make it reactive
+      - Revert "CLI: Not UI"
+      - CLI: Not UI
+
+      ## 7.0.0
+
+      - Core: Some change"
+    `);
+    expect(fsExtra.writeJson).toBeCalledTimes(1);
+    expect(fsExtra.writeJson.mock.calls[0][0]).toBe(LATEST_VERSION_PATH);
+    expect(fsExtra.writeJson.mock.calls[0][1]).toMatchInlineSnapshot(`
+      {
+        "info": {
+          "plain": "- React: Make it reactive
+      - Revert \\"CLI: Not UI\\"
+      - CLI: Not UI",
+        },
+        "version": "7.0.1",
+      }
+    `);
+  });
+
   it('should write to prerelase changelogs and version files in docs', async () => {
-    getChangesMock.mockResolvedValue({
+    changesUtils.getChanges.mockResolvedValue({
       changes: [],
       changelogText: `## 7.1.0-alpha.21
 

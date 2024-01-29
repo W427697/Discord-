@@ -1,5 +1,4 @@
 import type { Server } from 'http';
-import { createServer } from 'vite';
 import type { Options } from '@storybook/types';
 import { commonConfig } from './vite-config';
 import { getOptimizeDeps } from './optimizeDeps';
@@ -12,6 +11,8 @@ export async function createViteServer(options: Options, devServer: Server) {
 
   const config = {
     ...commonCfg,
+    // Needed in Vite 5: https://github.com/storybookjs/storybook/issues/25256
+    assetsInclude: ['/sb-preview/**'],
     // Set up dev server
     server: {
       middlewareMode: true,
@@ -29,5 +30,6 @@ export async function createViteServer(options: Options, devServer: Server) {
 
   const finalConfig = await presets.apply('viteFinal', config, options);
 
+  const { createServer } = await import('vite');
   return createServer(await sanitizeEnvVars(options, finalConfig));
 }

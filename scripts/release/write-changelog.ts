@@ -5,6 +5,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { readFile, writeFile, writeJson } from 'fs-extra';
+import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -94,7 +95,7 @@ const writeToDocsVersionFile = async ({
     console.log(`📝 Writing changelog to ${chalk.blue(path)}`);
   }
 
-  const textWithoutHeading = changelogText.split('\n').slice(2).join('\n');
+  const textWithoutHeading = changelogText.split('\n').slice(2).join('\n').replaceAll('"', '\\"');
 
   const content = {
     version,
@@ -132,7 +133,7 @@ export const run = async (args: unknown[], options: unknown) => {
   console.log(`✅ Wrote Changelog to file`);
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.args, parsed.opts()).catch((err) => {
     console.error(err);

@@ -4,15 +4,20 @@ import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import { configOverrides } from './plugins/config-overrides';
+import { mockSveltekitStores } from './plugins/mock-sveltekit-stores';
 import { type StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const core: PresetProperty<'core', StorybookConfig> = {
+export const core: PresetProperty<'core'> = {
   builder: getAbsolutePath('@storybook/builder-vite'),
   renderer: getAbsolutePath('@storybook/svelte'),
 };
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entry = []) => [
+  ...entry,
+  join(dirname(require.resolve('@storybook/sveltekit/package.json')), 'dist/preview.mjs'),
+];
 
 export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {
   const baseConfig = await svelteViteFinal(config, options);
@@ -25,7 +30,9 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
       'vite-plugin-sveltekit-compile',
       'vite-plugin-sveltekit-guard',
     ])
-  ).concat(configOverrides());
+  )
+    .concat(configOverrides())
+    .concat(await mockSveltekitStores());
 
   return { ...baseConfig, plugins };
 };

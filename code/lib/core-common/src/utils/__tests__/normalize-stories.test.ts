@@ -1,32 +1,20 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../test-typings.d.ts" />
+/// <reference types="@testing-library/jest-dom" />;
+import { describe, it, expect, vi } from 'vitest';
+import { sep } from 'path';
 
-import { dedent } from 'ts-dedent';
-
-import { normalizeStoriesEntry } from '../normalize-stories';
+import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
+import {
+  getDirectoryFromWorkingDir,
+  normalizeStories,
+  normalizeStoriesEntry,
+} from '../normalize-stories';
 
 expect.addSnapshotSerializer({
   print: (val: any) => JSON.stringify(val, null, 2),
   test: (val) => typeof val !== 'string',
 });
 
-expect.extend({
-  toMatchPaths(regex: RegExp, paths: string[]) {
-    const matched = paths.map((p) => !!p.match(regex));
-
-    const pass = matched.every(Boolean);
-    const failures = paths.filter((_, i) => (pass ? matched[i] : !matched[i]));
-    const message = () => dedent`Expected ${regex} to ${pass ? 'not ' : ''}match all strings.
-    
-    Failures:${['', ...failures].join('\n - ')}`;
-    return {
-      pass,
-      message,
-    };
-  },
-});
-
-jest.mock('fs', () => {
+vi.mock('fs', () => {
   const mockStat = (
     path: string,
     options: Record<string, any>,
@@ -47,12 +35,12 @@ jest.mock('fs', () => {
   };
 });
 
-describe('normalizeStoriesEntry', () => {
-  const options = {
-    configDir: '/path/to/project/.storybook',
-    workingDir: '/path/to/project',
-  };
+const options = {
+  configDir: '/path/to/project/.storybook',
+  workingDir: '/path/to/project',
+};
 
+describe('normalizeStoriesEntry', () => {
   it('direct file path', () => {
     const specifier = normalizeStoriesEntry('../path/to/file.stories.mdx', options);
     expect(specifier).toMatchInlineSnapshot(`
@@ -308,5 +296,22 @@ describe('normalizeStoriesEntry', () => {
       './file.stories.mdx',
       '../file.stories.mdx',
     ]);
+  });
+});
+
+describe('getDirectoryFromWorkingDir', () => {
+  it('should return normalized story path', () => {
+    const normalizedPath = getDirectoryFromWorkingDir({
+      configDir: '/path/to/project/.storybook',
+      workingDir: '/path/to/project',
+      directory: '/path/to/project/src',
+    });
+    expect(normalizedPath).toBe(`.${sep}src`);
+  });
+});
+
+describe('normalizeStories', () => {
+  it('should throw InvalidStoriesEntryError for empty entries', () => {
+    expect(() => normalizeStories([], options)).toThrow(InvalidStoriesEntryError);
   });
 });

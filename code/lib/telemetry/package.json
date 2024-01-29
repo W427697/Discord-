@@ -1,6 +1,6 @@
 {
   "name": "@storybook/telemetry",
-  "version": "7.2.0-alpha.0",
+  "version": "8.0.0-alpha.15",
   "description": "Telemetry logging for crash reports and usage statistics",
   "keywords": [
     "storybook"
@@ -36,16 +36,17 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-alpha.0",
-    "@storybook/core-common": "7.2.0-alpha.0",
-    "@storybook/csf-tools": "7.2.0-alpha.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
     "chalk": "^4.1.0",
     "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
@@ -55,7 +56,7 @@
   "devDependencies": {
     "nanoid": "^4.0.2",
     "node-fetch": "^3.3.1",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"

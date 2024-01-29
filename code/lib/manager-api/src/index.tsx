@@ -53,7 +53,7 @@ import * as channel from './modules/channel';
 
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
-// eslint-disable-next-line import/no-cycle
+
 import * as stories from './modules/stories';
 
 import * as refs from './modules/refs';
@@ -65,6 +65,9 @@ import * as version from './modules/versions';
 import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
+import type { ModuleFn } from './lib/types';
+
+import { types } from './lib/addons';
 
 export * from './lib/shortcut';
 
@@ -74,15 +77,7 @@ export { default as merge } from './lib/merge';
 export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
-export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
-
-export type ModuleArgs = RouterData &
-  API_ProviderData<API> & {
-    mode?: 'production' | 'development';
-    state: State;
-    fullAPI: API;
-    store: Store;
-  };
+export const ManagerContext = createContext({ api: undefined!, state: getInitialState({}!) });
 
 export type State = layout.SubState &
   stories.SubState &
@@ -140,7 +135,7 @@ export interface Combo {
 
 export type ManagerProviderProps = RouterData &
   API_ProviderData<API> & {
-    children: ReactNode | ((props: Combo) => ReactNode);
+    children: ReactNode | FC<Combo>;
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
@@ -152,28 +147,10 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-interface ModuleWithInit<APIType = unknown, StateType = unknown> {
-  init: () => void | Promise<void>;
-  api: APIType;
-  state: StateType;
-}
-
-type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
-  ModuleWithInit<APIType, StateType>,
-  'init'
->;
-
-export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs,
-  options?: any
-) => HasInit extends true
-  ? ModuleWithInit<APIType, StateType>
-  : ModuleWithoutInit<APIType, StateType>;
-
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: (ModuleWithInit | ModuleWithoutInit)[];
+  modules: ReturnType<ModuleFn>[];
 
   static displayName = 'Manager';
 
@@ -192,7 +169,11 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
+      setState: (stateChange: Partial<State>, callback) => {
+        this.setState(stateChange, () => callback(this.state));
+
+        return this.state;
+      },
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -225,7 +206,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
-    const state = getInitialState(this.state, ...this.modules.map((m) => m.state));
+    const state = getInitialState(this.state, ...this.modules.map((m) => m.state!));
 
     // Get our API by combining the APIs exported by each module
     const api: API = Object.assign(this.api, { navigate }, ...this.modules.map((m) => m.api));
@@ -242,10 +223,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
         path: props.path,
         refId: props.refId,
         viewMode: props.viewMode,
-        storyId: props.storyId,
+        storyId: props.storyId!,
       };
     }
-    return null;
+    return null!;
   }
 
   shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State): boolean {
@@ -264,7 +245,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
   initModules = () => {
     // Now every module has had a chance to set its API, call init on each module which gives it
     // a chance to do things that call other modules' APIs.
-    this.modules.forEach((module) => {
+    this.modules.forEach((module: any) => {
       if ('init' in module) {
         module.init();
       }
@@ -313,7 +294,7 @@ function ManagerConsumer<P = Combo>({
   filter = defaultFilter,
   children,
 }: ManagerConsumerProps<P>): ReactElement {
-  const c = useContext(ManagerContext);
+  const managerContext = useContext(ManagerContext);
   const renderer = useRef(children);
   const filterer = useRef(filter);
 
@@ -321,17 +302,18 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  const data = filterer.current(c);
+  const comboData = filterer.current(managerContext);
 
-  const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
-  }, [c.state]);
+  const comboDataArray = useMemo(() => {
+    // @ts-expect-error (No overload matches this call)
+    return [...Object.entries(comboData).reduce((acc, keyval) => acc.concat(keyval), [])];
+  }, [managerContext.state]);
 
   return useMemo(() => {
-    const Child = renderer.current as FC<P>;
+    const Child: any = renderer.current as FC<P>;
 
-    return <Child {...data} />;
-  }, l);
+    return <Child {...comboData} />;
+  }, comboDataArray);
 }
 
 export function useStorybookState(): State {
@@ -400,39 +382,47 @@ export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
 
 export function useStoryPrepared(storyId?: StoryId) {
   const api = useStorybookApi();
-  return api.isPrepared(storyId);
+  return api.isPrepared(storyId!);
 }
 
 export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   const api = useStorybookApi();
 
   const result = api.getCurrentParameter<S>(parameterKey);
-  return orDefault<S>(result, defaultValue);
+  return orDefault<S>(result, defaultValue!);
 }
 
 // cache for taking care of HMR
-const addonStateCache: {
-  [key: string]: any;
-} = {};
+globalThis.STORYBOOK_ADDON_STATE = {};
+const { STORYBOOK_ADDON_STATE } = globalThis;
 
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
+  const existingState = api.getAddonState<S>(stateId) || STORYBOOK_ADDON_STATE[stateId];
   const state = orDefault<S>(
     existingState,
-    addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
+    STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
+  let quicksync = false;
 
-  if (api.getAddonState(stateId) && api.getAddonState(stateId) !== state) {
-    api.setAddonState<S>(stateId, state).then((s) => {
-      addonStateCache[stateId] = s;
-    });
+  if (state === defaultState && defaultState !== undefined) {
+    STORYBOOK_ADDON_STATE[stateId] = defaultState;
+    quicksync = true;
   }
 
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = api.setAddonState<S>(stateId, s, options);
-    addonStateCache[stateId] = result;
+  useEffect(() => {
+    if (quicksync) {
+      // @ts-expect-error (Argument of type 'S | undefined' is not assignable)
+      api.setAddonState<S>(stateId, defaultState);
+    }
+  }, [quicksync]);
+
+  const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
+    await api.setAddonState<S>(stateId, s, options);
+    const result = api.getAddonState(stateId);
+
+    STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
   const allListeners = useMemo(() => {
@@ -444,17 +434,17 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
       [SET_STORIES]: async () => {
         const currentState = api.getAddonState(stateId);
         if (currentState) {
-          addonStateCache[stateId] = currentState;
+          STORYBOOK_ADDON_STATE[stateId] = currentState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, currentState);
-        } else if (addonStateCache[stateId]) {
+        } else if (STORYBOOK_ADDON_STATE[stateId]) {
           // this happens when HMR
-          await setState(addonStateCache[stateId]);
-          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, addonStateCache[stateId]);
+          await setState(STORYBOOK_ADDON_STATE[stateId]);
+          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, STORYBOOK_ADDON_STATE[stateId]);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are from the manager
           await setState(defaultState);
-          // initialize addonStateCache after first load, so its available for subsequent HMR
-          addonStateCache[stateId] = defaultState;
+          // initialize STORYBOOK_ADDON_STATE after first load, so its available for subsequent HMR
+          STORYBOOK_ADDON_STATE[stateId] = defaultState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, defaultState);
         }
       },
@@ -477,7 +467,8 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   return [
     state,
     async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      const result = await setState(newStateOrMerger, options);
+      await setState(newStateOrMerger, options);
+      const result = api.getAddonState(stateId);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
@@ -501,7 +492,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
     [data, resetStoryArgs]
   );
 
-  return [args, updateArgs, resetArgs];
+  return [args!, updateArgs, resetArgs];
 }
 
 export function useGlobals(): [Args, (newGlobals: Args) => void] {
@@ -526,5 +517,14 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
+/**
+ * We need to rename this so it's not compiled to a straight re-export
+ * Our globalization plugin can't handle an import and export of the same name in different lines
+ * @deprecated
+ */
+const typesX = types;
+
+export { typesX as types };
+
 /* deprecated */
-export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';
+export { mockChannel, type Addon, type AddonStore } from './lib/addons';

@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import type { Locator } from '@playwright/test';
 import { test, expect } from '@playwright/test';
 import process from 'process';
@@ -11,7 +10,6 @@ test.describe('Next.js', () => {
   // TODO: improve these E2E tests given that we have more version of Next.js to test
   // and this only tests nextjs/default-js
   test.skip(
-    // eslint-disable-next-line jest/valid-title
     !templateName?.includes('nextjs/default-js'),
     'Only run this test for the Frameworks that support next/navigation'
   );
@@ -19,10 +17,6 @@ test.describe('Next.js', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
-  });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   test.describe('next/image', () => {
@@ -34,7 +28,7 @@ test.describe('Next.js', () => {
 
     // TODO: Test is flaky, investigate why
     test.skip('should lazy load images by default', async () => {
-      await sbPage.navigateToStory('frameworks/nextjs/Image', 'lazy');
+      await sbPage.navigateToStory('stories/frameworks/nextjs/Image', 'lazy');
 
       const img = sbPage.previewRoot().locator('img');
 
@@ -43,7 +37,7 @@ test.describe('Next.js', () => {
 
     // TODO: Test is flaky, investigate why
     test.skip('should eager load images when loading parameter is set to eager', async () => {
-      await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
+      await sbPage.navigateToStory('stories/frameworks/nextjs/Image', 'eager');
 
       const img = sbPage.previewRoot().locator('img');
 
@@ -71,7 +65,10 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Navigation', 'default');
+      await sbPage.navigateToStory(
+        'stories/frameworks/nextjs-nextjs-default-js/Navigation',
+        'default'
+      );
       root = sbPage.previewRoot();
     });
 
@@ -103,7 +100,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Router', 'default');
+      await sbPage.navigateToStory('stories/frameworks/nextjs-nextjs-default-js/Router', 'default');
       root = sbPage.previewRoot();
     });
 

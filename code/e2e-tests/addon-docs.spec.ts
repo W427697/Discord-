@@ -1,6 +1,3 @@
-/* eslint-disable jest/valid-title */
-/* eslint-disable jest/no-disabled-tests */
-/* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import dedent from 'ts-dedent';
@@ -13,10 +10,6 @@ test.describe('addon-docs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
-  });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   test('should show descriptions for stories', async ({ page }) => {
@@ -87,7 +80,7 @@ test.describe('addon-docs', () => {
   });
 
   test('should provide source snippet', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // templateName is e.g. 'vue-cli/default-js'
     test.skip(
       /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
@@ -126,9 +119,6 @@ test.describe('addon-docs', () => {
       //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
       //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
       'lit-vite',
-      // Vue doesn't update when you change args, apparently fixed by this:
-      //   https://github.com/storybookjs/storybook/pull/20995
-      'vue2-vite',
     ];
     test.skip(
       new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
@@ -192,5 +182,32 @@ test.describe('addon-docs', () => {
     await expect(stories.first()).toHaveText('Basic');
     await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
+  });
+
+  test('should resolve react to the correct version', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
+    const root = sbPage.previewRoot();
+
+    let expectedReactVersion = /^18/;
+    if (
+      templateName.includes('preact') ||
+      templateName.includes('react-webpack/17') ||
+      templateName.includes('react-vite/17')
+    ) {
+      expectedReactVersion = /^17/;
+    } else if (templateName.includes('react16')) {
+      expectedReactVersion = /^16/;
+    }
+
+    const mdxReactVersion = await root.getByTestId('mdx-react');
+    const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
+    const componentReactVersion = await root.getByTestId('component-react');
+    const componentReactDomVersion = await root.getByTestId('component-react-dom');
+
+    await expect(mdxReactVersion).toHaveText(expectedReactVersion);
+    await expect(mdxReactDomVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactVersion).toHaveText(expectedReactVersion);
+    await expect(componentReactDomVersion).toHaveText(expectedReactVersion);
   });
 });

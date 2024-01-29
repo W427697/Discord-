@@ -1,5 +1,5 @@
 ---
-title: 'Snapshot tests'
+title: 'Snapshot testing with Storyshots'
 ---
 
 Snapshot tests compare the rendered markup of every story against known baselines. It’s a way to identify markup changes that trigger rendering errors and warnings.
@@ -8,9 +8,19 @@ Storybook is a helpful tool for snapshot testing because every story is essentia
 
 ![Example Snapshot test](./snapshot-test.png)
 
-## Setup Storyshots
+## Migrating Tests
 
-[Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is the official Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
+The Storyshots addon was the original testing solution for Storybook, offering a highly extensible API and a wide range of configuration options for testing. However, it was difficult to set up and maintain, and it needed to be compatible with the latest version of Storybook, which introduced some significant architectural changes, including a high-performance [on-demand story loading](../configure/index.md#on-demand-story-loading) feature. As a result, Storyshots is now officially deprecated, is no longer being maintained, and will be removed in the next major release of Storybook. We recommend following the [migration guide](./storyshots-migration-guide.md) we've prepared to help you during this transition period.
+
+## Set up Storyshots
+
+<Callout variant="warning">
+
+The Storyshots addon was deprecated and has been removed in Storybook 8. See the [migration guide](./storyshots-migration-guide.md) for more information.
+
+</Callout>
+
+[Storyshots](https://storybook.js.org/addons/@storybook/addon-storyshots/) is a Storybook addon that enables snapshot testing, powered by [Jest](https://jestjs.io/docs/getting-started).
 
 Run the following command to install Storyshots:
 
@@ -37,11 +47,13 @@ Add a test file to your environment with the following contents to configure Sto
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 You can name the test file differently to suit your needs. Bear in mind that it requires to be picked up by Jest.
-</div>
+<Callout variant="info" icon="💡">
 
-Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](https://storybook.js.org/docs/react/configure/story-rendering)) and save them in the **snapshots** directory.
+You can name the test file differently to suit your needs. Bear in mind that it requires to be picked up by Jest.
+
+</Callout>
+
+Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](../configure/story-rendering.md)) and save them in the **snapshots** directory.
 
 ```shell
 npm test storybook.test.js
@@ -79,15 +91,17 @@ Next, update your test file (for example, `storybook.test.js`) to the following:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Don't forget to replace your-custom-directory with your own.
-</div>
+<Callout variant="info" icon="💡">
 
-When you run your tests, the snapshots will be available in the directory you've specified.
+Don't forget to replace your-custom-directory with your own.
+
+</Callout>
+
+When you run your tests, the snapshots will be available in your specified directory.
 
 ### Framework configuration
 
-By default, Storyshots detects your project's framework. If you run into a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
+By default, Storyshots detects your project's framework. If you encounter a situation where this is not the case, you can adjust the configuration object and specify your framework. For example, if you wanted to configure the addon for a Vue 3 project:
 
 <!-- prettier-ignore-start -->
 
@@ -119,4 +133,5 @@ Visual tests capture images of stories and compare them against image baselines.
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - Snapshot tests for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

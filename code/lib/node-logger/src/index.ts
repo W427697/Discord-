@@ -1,6 +1,5 @@
 /// <reference types="node" />
 
-/* eslint-disable no-console */
 import npmLog from 'npmlog';
 import prettyTime from 'pretty-hrtime';
 import chalk from 'chalk';
@@ -25,11 +24,27 @@ export const logger = {
   plain: (message: string): void => console.log(message),
   line: (count = 1): void => console.log(`${Array(count - 1).fill('\n')}`),
   warn: (message: string): void => npmLog.warn('', message),
-  error: (message: string): void => npmLog.error('', message),
   trace: ({ message, time }: { message: string; time: [number, number] }): void =>
     npmLog.info('', `${message} (${colors.purple(prettyTime(time))})`),
   setLevel: (level = 'info'): void => {
     npmLog.level = level;
+  },
+  error: (message: Error | string): void => {
+    if (npmLog.levels[npmLog.level] < npmLog.levels.error) {
+      let msg: string;
+
+      if (message instanceof Error && message.stack) {
+        msg = message.stack.toString();
+      } else {
+        msg = message.toString();
+      }
+
+      console.log(
+        msg
+          .replace(message.toString(), chalk.red(message.toString()))
+          .replaceAll(process.cwd(), '.')
+      );
+    }
   },
 };
 

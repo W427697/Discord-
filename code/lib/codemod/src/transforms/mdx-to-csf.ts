@@ -1,8 +1,7 @@
-/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/ban-ts-comment,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
-import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';
 import { SKIP, visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
@@ -25,7 +24,7 @@ import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
-export default function jscodeshift(info: FileInfo) {
+export default async function jscodeshift(info: FileInfo) {
   const parsed = path.parse(info.path);
 
   let baseName = path.join(
@@ -38,7 +37,7 @@ export default function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const result = transform(info.source, path.basename(baseName));
+  const result = await transform(info, path.basename(baseName));
 
   const [mdx, csf] = result;
 
@@ -49,8 +48,8 @@ export default function jscodeshift(info: FileInfo) {
   return mdx;
 }
 
-export function transform(source: string, baseName: string): [mdx: string, csf: string] {
-  const root = mdxProcessor.parse(source);
+export async function transform(info: FileInfo, baseName: string): Promise<[string, string]> {
+  const root = mdxProcessor.parse(info.source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
@@ -70,6 +69,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   >();
 
   // rewrite addon docs import
+  // @ts-ignore
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     node.value = node.value
       .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
@@ -78,10 +78,8 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
   const file = getEsmAst(root);
 
-  visit(
-    root,
-    ['mdxJsxFlowElement', 'mdxJsxTextElement'],
-    (node: MdxJsxFlowElement | MdxJsxTextElement, index, parent) => {
+  visit(root, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node, index, parent) => {
+    if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
       if (is(node, { name: 'Meta' })) {
         metaAttributes.push(...node.attributes);
         node.attributes = [
@@ -134,18 +132,18 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
-          parent.children.splice(index, 0, newNode);
+          parent?.children.splice(index as number, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
-          return [SKIP, index + 2];
+          return [SKIP, (index as number) + 2];
         } else if (
           storyAttribute?.type === 'mdxJsxAttribute' &&
           typeof storyAttribute.value === 'object' &&
-          storyAttribute.value.type === 'mdxJsxAttributeValueExpression'
+          storyAttribute.value?.type === 'mdxJsxAttributeValueExpression'
         ) {
           // e.g. <Story story={Primary} />
 
-          const name = storyAttribute.value.value;
+          const name = storyAttribute.value?.value;
           node.attributes = [
             {
               type: 'mdxJsxAttribute',
@@ -158,16 +156,16 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           ];
           node.children = [];
 
-          storiesMap.set(name, { type: 'reference' });
+          storiesMap.set(name ?? '', { type: 'reference' });
         } else {
-          parent.children.splice(index, 1);
+          parent?.children.splice(index as number, 1);
           // Do not traverse `node`, continue at the node *now* at `index`.
           return [SKIP, index];
         }
       }
-      return undefined;
     }
-  );
+    return undefined;
+  });
 
   const metaProperties = metaAttributes.flatMap((attribute) => {
     if (attribute.type === 'mdxJsxAttribute') {
@@ -177,7 +175,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       return [
         t.objectProperty(
           t.identifier(attribute.name),
-          babelParseExpression(attribute.value.value) as any as t.Expression
+          babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
         ),
       ];
     }
@@ -193,13 +191,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     },
     // remove exports from csf file
     ExportNamedDeclaration(path) {
+      // @ts-ignore
       path.replaceWith(path.node.declaration);
     },
   });
 
   if (storiesMap.size === 0 && metaAttributes.length === 0) {
     // A CSF file must have at least one story, so skip migrating if this is the case.
-    return [mdxProcessor.stringify(root), null];
+    return [mdxProcessor.stringify(root), ''];
   }
 
   addStoriesImport(root, baseName, storyNamespaceName);
@@ -260,9 +259,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       }
       const renderProperty = mapChildrenToRender(value.children);
       const newObject = t.objectExpression([
-        ...(renderProperty
-          ? [t.objectProperty(t.identifier('render'), mapChildrenToRender(value.children))]
-          : []),
+        ...(renderProperty ? [t.objectProperty(t.identifier('render'), renderProperty)] : []),
         ...value.attributes.flatMap((attribute) => {
           if (attribute.type === 'mdxJsxAttribute') {
             if (typeof attribute.value === 'string') {
@@ -273,7 +270,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             return [
               t.objectProperty(
                 t.identifier(attribute.name),
-                babelParseExpression(attribute.value.value) as any as t.Expression
+                babelParseExpression(attribute.value?.value ?? '') as any as t.Expression
               ),
             ];
           }
@@ -294,7 +291,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   const newMdx = mdxProcessor.stringify(root);
   let output = recast.print(file.path.node).code;
 
-  const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
+  const prettierConfig = (await prettier.resolveConfig(`${info.path}.jsx`)) || {
     printWidth: 100,
     tabWidth: 2,
     bracketSpacing: true,
@@ -302,19 +299,22 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     singleQuote: true,
   };
 
-  output = prettier.format(output, { ...prettierConfig, filepath: `file.jsx` });
+  output = await prettier.format(output.trim(), {
+    ...prettierConfig,
+    filepath: `${info.path}.jsx`,
+  });
 
   return [newMdx, output];
 }
 
-function getEsmAst(root: Root) {
+function getEsmAst(root: ReturnType<typeof mdxProcessor.parse>) {
   const esm: string[] = [];
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     esm.push(node.value);
   });
   const esmSource = `${esm.join('\n\n')}`;
 
-  // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+  // @ts-expect-error (File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606)
   const file: BabelFile = new babel.File(
     { filename: 'info.path' },
     { code: esmSource, ast: babelParse(esmSource) }
@@ -322,10 +322,13 @@ function getEsmAst(root: Root) {
   return file;
 }
 
-function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
+function addStoriesImport(
+  root: ReturnType<typeof mdxProcessor.parse>,
+  baseName: string,
+  storyNamespaceName: string
+): void {
   let found = false;
-
-  visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
+  visit(root, 'mdxjsEsm', (node) => {
     if (!found) {
       node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;
       found = true;

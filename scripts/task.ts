@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -73,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -174,6 +175,11 @@ export const options = createOptions({
   skipTemplateStories: {
     type: 'boolean',
     description: 'Do not include template stories and their addons',
+    promptType: false,
+  },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
     promptType: false,
   },
 });
@@ -304,7 +310,10 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   try {
     let updatedOptions = optionValues;
     if (details.template?.modifications?.skipTemplateStories) {
-      updatedOptions = { ...optionValues, skipTemplateStories: true };
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
     }
     const controller = await task.run(details, updatedOptions);
 
@@ -312,6 +321,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
@@ -458,13 +468,9 @@ async function run() {
         });
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        // If it is the last task, we don't need to log the full trace
-        if (task === finalTask) {
-          logger.error(err.message);
-        } else {
-          logger.error(err);
-        }
+        logger.error(JSON.stringify(err, null, 2));
 
         if (process.env.CI) {
           logger.error(
@@ -490,7 +496,7 @@ async function run() {
           controller.abort();
         });
 
-        return 1;
+        throw err;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
 

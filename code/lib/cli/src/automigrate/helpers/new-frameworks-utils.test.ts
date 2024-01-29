@@ -1,11 +1,12 @@
+import { describe, it, expect, vi } from 'vitest';
 import * as findUp from 'find-up';
 import {
   detectBuilderInfo as _getBuilderInfo,
   getNextjsAddonOptions,
 } from './new-frameworks-utils';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
-jest.mock('find-up');
+vi.mock('find-up');
 
 type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0]['mainConfig'];
 
@@ -166,7 +167,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has legacy renderer as framework, it should infer vite info from vite config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve('vite.config.js'));
     await expect(getBuilderInfo({ mainConfig: { framework: 'react' } })).resolves.toEqual({
@@ -177,7 +178,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has legacy renderer as framework, it should infer webpack info from webpack config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve(undefined))
       .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
@@ -189,7 +190,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, it should infer vite info from vite config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve('vite.config.js'));
     await expect(getBuilderInfo({ mainConfig: {} })).resolves.toEqual({
@@ -200,7 +201,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, it should infer webpack info from webpack config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve(undefined))
       .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
@@ -212,7 +213,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, and there is no vite or webpack config, infer vite from dependencies', async () => {
-    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    const findUpSpy = vi.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
     await expect(
       getBuilderInfo({
         mainConfig: {},
@@ -233,7 +234,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, and there is no vite or webpack config, infer webpack from dependencies', async () => {
-    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    const findUpSpy = vi.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
     await expect(
       getBuilderInfo({
         mainConfig: {},

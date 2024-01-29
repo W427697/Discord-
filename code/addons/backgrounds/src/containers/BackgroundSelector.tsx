@@ -4,8 +4,9 @@ import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
+import { PhotoIcon } from '@storybook/icons';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
 import type {
@@ -18,10 +19,10 @@ import { getBackgroundColorByName } from '../helpers';
 
 const createBackgroundSelectorItem = memoize(1000)(
   (
-    id: string,
+    id: string | null,
     name: string,
     value: string,
-    hasSwatch: boolean,
+    hasSwatch: boolean | null,
     change: (arg: { selected: string; name: string }) => void,
     active: boolean
   ): BackgroundSelectorItem => ({
@@ -36,40 +37,24 @@ const createBackgroundSelectorItem = memoize(1000)(
   })
 );
 
-const getDisplayedItems = memoize(10)(
-  (
-    backgrounds: Background[],
-    selectedBackgroundColor: string | null,
-    change: (arg: { selected: string; name: string }) => void
-  ) => {
-    const backgroundSelectorItems = backgrounds.map(({ name, value }) =>
-      createBackgroundSelectorItem(
-        null,
-        name,
-        value,
-        true,
-        change,
-        value === selectedBackgroundColor
-      )
-    );
+const getDisplayedItems = memoize(10)((
+  backgrounds: Background[],
+  selectedBackgroundColor: string | null,
+  change: (arg: { selected: string; name: string }) => void
+) => {
+  const backgroundSelectorItems = backgrounds.map(({ name, value }) =>
+    createBackgroundSelectorItem(null, name, value, true, change, value === selectedBackgroundColor)
+  );
 
-    if (selectedBackgroundColor !== 'transparent') {
-      return [
-        createBackgroundSelectorItem(
-          'reset',
-          'Clear background',
-          'transparent',
-          null,
-          change,
-          false
-        ),
-        ...backgroundSelectorItems,
-      ];
-    }
-
-    return backgroundSelectorItems;
+  if (selectedBackgroundColor !== 'transparent') {
+    return [
+      createBackgroundSelectorItem('reset', 'Clear background', 'transparent', null, change, false),
+      ...backgroundSelectorItems,
+    ];
   }
-);
+
+  return backgroundSelectorItems;
+});
 
 const DEFAULT_BACKGROUNDS_CONFIG: BackgroundsParameter = {
   default: null,
@@ -102,7 +87,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
   }
 
   const onBackgroundChange = useCallback(
-    (value: string) => {
+    (value: string | undefined) => {
       updateGlobals({ [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], value } });
     },
     [backgroundsConfig, globals, updateGlobals]
@@ -140,7 +125,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
           title="Change the background of the preview"
           active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
         >
-          <Icons icon="photo" />
+          <PhotoIcon />
         </IconButton>
       </WithTooltip>
     </Fragment>

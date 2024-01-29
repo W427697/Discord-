@@ -38,6 +38,8 @@ enum events {
   STORY_RENDER_PHASE_CHANGED = 'storyRenderPhaseChanged',
   // Emitted when the play function throws
   PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
+  // Emitted when there were unhandled errors while playing the story
+  UNHANDLED_ERRORS_WHILE_PLAYING = 'unhandledErrorsWhilePlaying',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
   // The values of a stories args just changed
@@ -69,6 +71,7 @@ enum events {
   RESULT_WHATS_NEW_DATA = 'resultWhatsNewData',
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
+  TELEMETRY_ERROR = 'telemetryError',
 }
 
 // Enables: `import Events from ...`
@@ -87,6 +90,7 @@ export const {
   GLOBALS_UPDATED,
   NAVIGATE_URL,
   PLAY_FUNCTION_THREW_EXCEPTION,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
   PRELOAD_ENTRIES,
   PREVIEW_BUILDER_PROGRESS,
   PREVIEW_KEYDOWN,
@@ -120,10 +124,8 @@ export const {
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
+  TELEMETRY_ERROR,
 } = events;
-
-// Used to break out of the current render without showing a redbox
-export const IGNORED_EXCEPTION = new Error('ignoredException');
 
 export interface WhatsNewCache {
   lastDismissedPost?: string;

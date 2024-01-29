@@ -7,9 +7,11 @@ import program from 'commander';
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
 import type { Server } from 'http';
-// @ts-expect-error (Converted from ts-ignore)
+import { mkdir } from 'fs/promises';
+import { PACKS_DIRECTORY } from './utils/constants';
+
 import { maxConcurrentTasks } from './utils/concurrency';
-import { listOfPackages } from './utils/list-packages';
+import { getWorkspaces } from './utils/workspace';
 
 program
   .option('-O, --open', 'keep process open')
@@ -53,11 +55,26 @@ const currentVersion = async () => {
   return version;
 };
 
-const publish = (packages: { name: string; location: string }[], url: string) => {
+const publish = async (packages: { name: string; location: string }[], url: string) => {
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
   let i = 0;
+
+  /**
+   * We need to "pack" our packages before publishing to npm because our package.json files contain yarn specific version "ranges".
+   * such as "workspace:*"
+   *
+   * We can't publish to npm if the package.json contains these ranges. So with `yarn pack` we create a tarball that we can publish.
+   *
+   * However this bug exists in NPM: https://github.com/npm/cli/issues/4533!
+   * Which causes the NPM CLI to disregard the tarball CLI argument and instead re-create a tarball.
+   * But NPM doesn't replace the yarn version ranges.
+   *
+   * So we create the tarball ourselves and move it to another location on the FS.
+   * Then we change-directory to that directory and publish the tarball from there.
+   */
+  await mkdir(PACKS_DIRECTORY, { recursive: true }).catch(() => {});
 
   return Promise.all(
     packages.map(({ name, location }) =>
@@ -70,7 +87,12 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
                 '.'
               )})`
             );
-            const command = `cd ${location} && npm publish --registry ${url} --force --access restricted --ignore-scripts`;
+
+            const tarballFilename = `${name.replace('@', '').replace('/', '-')}.tgz`;
+            const command = `cd ${path.resolve(
+              '../code',
+              location
+            )} && yarn pack --out=${PACKS_DIRECTORY}/${tarballFilename} && cd ${PACKS_DIRECTORY} && npm publish ./${tarballFilename} --registry ${url} --force --access restricted --ignore-scripts`;
             exec(command, (e) => {
               if (e) {
                 rej(e);
@@ -118,7 +140,7 @@ const run = async () => {
 
   const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(),
-    listOfPackages(),
+    getWorkspaces(false),
     currentVersion(),
   ]);
 

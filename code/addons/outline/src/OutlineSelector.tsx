@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect } from 'react';
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
-import { Icons, IconButton } from '@storybook/components';
+import { IconButton } from '@storybook/components';
+import { OutlineIcon } from '@storybook/icons';
 import { ADDON_ID, PARAM_KEY } from './constants';
 
 export const OutlineSelector = memo(function OutlineSelector() {
@@ -19,8 +20,8 @@ export const OutlineSelector = memo(function OutlineSelector() {
 
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
-      label: 'Toggle Outline [O]',
-      defaultShortcut: ['O'],
+      label: 'Toggle Outline',
+      defaultShortcut: ['alt', 'O'],
       actionName: 'outline',
       showInMenu: false,
       action: toggleOutline,
@@ -34,7 +35,7 @@ export const OutlineSelector = memo(function OutlineSelector() {
       title="Apply outlines to the preview"
       onClick={toggleOutline}
     >
-      <Icons icon="outline" />
+      <OutlineIcon />
     </IconButton>
   );
 });

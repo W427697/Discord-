@@ -6,11 +6,10 @@ import {
 import type {
   Args,
   ProjectAnnotations,
-  ComposedStory,
+  StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
 } from '@storybook/types';
-import { deprecate } from '@storybook/client-logger';
 
 import { render } from './render';
 import type { Meta } from './public-types';
@@ -35,17 +34,6 @@ export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
 ) {
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
-}
-
-/** Preserved for users migrating from `@storybook/testing-react`.
- *
- * @deprecated Use setProjectAnnotations instead
- */
-export function setGlobalConfig(
-  projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
-) {
-  deprecate(`setGlobalConfig is deprecated. Use setProjectAnnotations instead.`);
-  setProjectAnnotations(projectAnnotations);
 }
 
 // This will not be necessary once we have auto preset loading
@@ -81,13 +69,13 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
 export function composeStory<TArgs extends Args = Args>(
-  story: ComposedStory<ReactRenderer, TArgs>,
+  story: StoryAnnotationsOrFn<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactRenderer, TArgs>(
-    story as ComposedStory<ReactRenderer, Args>,
+    story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,

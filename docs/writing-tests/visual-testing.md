@@ -15,7 +15,7 @@ Ideal for verifying what the user sees: layout, color, size, and contrast. Story
 
 There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
 
-For a self-managed alternative to Chromatic, we offer [StoryShots](https://github.com/storybookjs/storybook/tree/next/code/addons/storyshots-core). It allows you to run visual tests on stories by integrating with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/main/code/addons/storyshots-puppeteer#imagesnapshots).
+For a self-managed alternative to Chromatic, we offer [test runner](./test-runner.md). It allows you to run visual tests on stories by integrating with [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/). Here's an example [recipe for visual testing stories](https://github.com/storybookjs/test-runner#image-snapshot-recipe).
 
 ## Setup Chromatic addon
 
@@ -42,11 +42,11 @@ Run the following command after the package finishes installing:
 npx chromatic --project-token <your-project-token>
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
  
  Don't forget to replace `your-project-token` with the one provided by Chromatic.
  
-</div>
+</Callout>
 
 ```shell
 Build 1 published.
@@ -54,9 +54,11 @@ Build 1 published.
 View it online at https://www.chromatic.com/build?appId=...&number=1.
 ```
 
-<div class="aside">
-💡 Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's <a href="https://www.chromatic.com/docs/branching-and-baselines?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook"> documentation</a>
-</div>
+<Callout variant="info" icon="💡">
+
+Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's [documentation](https://www.chromatic.com/docs/branching-and-baselines?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook).
+
+</Callout>
 
 When Chromatic finishes, it should have successfully deployed your Storybook and established the baselines, that is to say, the starting point for all your component's stories. Additionally, providing you with a link to the published Storybook that you can share with your team to gather feedback.
 
@@ -88,4 +90,5 @@ Snapshot tests compare the rendered markup of every story against known baseline
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

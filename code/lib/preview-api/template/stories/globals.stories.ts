@@ -1,7 +1,7 @@
 import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Pre,
@@ -22,6 +22,7 @@ export const Inheritance = {
 };
 
 export const Events = {
+  parameters: { chromatic: { disableSnapshot: true } },
   // Just pass the "foo" global to the pre
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>

@@ -6,21 +6,20 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
-import { execaCommand } from '../utils/exec';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
 import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
-import storybookVersions from '../../code/lib/cli/src/versions';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
-
-import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
+import storybookVersions from '../../code/lib/core-common/src/versions';
+import { JsPackageManagerFactory } from '../../code/lib/core-common/src/js-package-manager/JsPackageManagerFactory';
 
 // eslint-disable-next-line import/no-cycle
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
-import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
+import type { JsPackageManager } from '../../code/lib/core-common/src/js-package-manager';
 import {
   BEFORE_DIR_NAME,
   AFTER_DIR_NAME,
@@ -29,10 +28,15 @@ import {
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
 
-const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
+const sbInit = async (
+  cwd: string,
+  envVars: Record<string, unknown> = {},
+  flags?: string[],
+  debug?: boolean
+) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', ...envVars };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
@@ -60,33 +64,43 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
 const addStorybook = async ({
   baseDir,
   localRegistry,
-  flags,
+  flags = [],
   debug,
+  env = {},
 }: {
   baseDir: string;
   localRegistry: boolean;
   flags?: string[];
   debug?: boolean;
+  env?: Record<string, unknown>;
 }) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
-  const tmpDir = join(baseDir, 'tmp');
 
-  await ensureDir(tmpDir);
-  await emptyDir(tmpDir);
+  const tmpDir = directory();
 
-  await copy(beforeDir, tmpDir);
+  try {
+    await copy(beforeDir, tmpDir);
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
-  if (localRegistry) {
-    await withLocalRegistry(packageManager, async () => {
-      await packageManager.addPackageResolutions(storybookVersions);
+    const packageManager = JsPackageManagerFactory.getPackageManager({ force: 'yarn1' }, tmpDir);
+    if (localRegistry) {
+      await withLocalRegistry(packageManager, async () => {
+        await packageManager.addPackageResolutions({
+          ...storybookVersions,
+          // Yarn1 Issue: https://github.com/storybookjs/storybook/issues/22431
+          jackspeak: '2.1.1',
+        });
 
-      await sbInit(tmpDir, flags, debug);
-    });
-  } else {
-    await sbInit(tmpDir, flags, debug);
+        await sbInit(tmpDir, env, [...flags, '--package-manager=yarn1'], debug);
+      });
+    } else {
+      await sbInit(tmpDir, env, [...flags, '--package-manager=yarn1'], debug);
+    }
+  } catch (e) {
+    await remove(tmpDir);
+    throw e;
   }
+
   await rename(tmpDir, afterDir);
 };
 
@@ -98,6 +112,7 @@ export const runCommand = async (script: string, options: ExecaOptions, debug = 
   return execaCommand(script, {
     stdout: debug ? 'inherit' : 'ignore',
     shell: true,
+    cleanup: true,
     ...options,
   });
 };
@@ -125,12 +140,16 @@ const runGenerators = async (
   localRegistry = true,
   debug = false
 ) => {
-  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
+  if (debug) {
+    console.log('Debug mode enabled. Verbose logs will be printed to the console.');
+  }
 
-  const limit = pLimit(maxConcurrentTasks);
+  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${1}`);
+
+  const limit = pLimit(1);
 
   await Promise.all(
-    generators.map(({ dirName, name, script, expected }) =>
+    generators.map(({ dirName, name, script, expected, env }) =>
       limit(async () => {
         let flags: string[] = [];
         if (expected.renderer === '@storybook/html') flags = ['--type html'];
@@ -177,7 +196,7 @@ const runGenerators = async (
         // Make sure there are no git projects in the folder
         await remove(join(beforeDir, '.git'));
 
-        await addStorybook({ baseDir, localRegistry, flags, debug });
+        await addStorybook({ baseDir, localRegistry, flags, debug, env });
 
         await addDocumentation(baseDir, { name, dirName });
 
@@ -202,10 +221,15 @@ const runGenerators = async (
 };
 
 export const options = createOptions({
-  template: {
-    type: 'string',
-    description: 'Which template would you like to create?',
+  templates: {
+    type: 'string[]',
+    description: 'Which templates would you like to create?',
     values: Object.keys(sandboxTemplates),
+  },
+  exclude: {
+    type: 'string[]',
+    description: 'Space-delimited list of templates to exclude. Takes precedence over --templates',
+    promptType: false,
   },
   localRegistry: {
     type: 'boolean',
@@ -220,7 +244,8 @@ export const options = createOptions({
 });
 
 export const generate = async ({
-  template,
+  templates,
+  exclude,
   localRegistry,
   debug,
 }: OptionValues<typeof options>) => {
@@ -230,20 +255,24 @@ export const generate = async ({
       ...configuration,
     }))
     .filter(({ dirName }) => {
-      if (template) {
-        return dirName === template;
+      let include = Array.isArray(templates) ? templates.includes(dirName) : true;
+      if (Array.isArray(exclude) && include) {
+        include = !exclude.includes(dirName);
       }
-
-      return true;
+      return include;
     });
 
   await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   program
     .description('Generate sandboxes from a set of possible templates')
-    .option('--template <template>', 'Create a single template')
+    .option('--templates [templates...]', 'Space-delimited list of templates to include')
+    .option(
+      '--exclude [templates...]',
+      'Space-delimited list of templates to exclude. Takes precedence over --templates'
+    )
     .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)
     .action((optionValues) => {

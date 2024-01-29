@@ -3,26 +3,29 @@ import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
+import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
+import {
+  versions,
+  HandledError,
+  JsPackageManagerFactory,
+  commandLog,
+  codeLog,
+  paddedLog,
+} from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core-common';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { lt, prerelease } from 'semver';
+import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
-import {
-  detect,
-  isStorybookInstantiated,
-  detectLanguage,
-  detectBuilder,
-  detectPnp,
-} from './detect';
-import { commandLog, codeLog, paddedLog } from './helpers';
+import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import nextjsGenerator from './generators/NEXTJS';
-import sfcVueGenerator from './generators/SFC_VUE';
-import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
 import htmlGenerator from './generators/HTML';
@@ -33,11 +36,9 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager } from './js-package-manager';
-import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import type { CommandOptions } from './generators/types';
-import { HandledError } from './HandledError';
+import type { CommandOptions, GeneratorOptions } from './generators/types';
+import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
 
 const logger = console;
 
@@ -54,12 +55,13 @@ const installStorybook = async <Project extends ProjectType>(
   const language = await detectLanguage(packageManager);
   const pnp = await detectPnp();
 
-  const generatorOptions = {
+  const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder || (await detectBuilder(packageManager, projectType)),
+    builder: options.builder as Builder,
     linkable: !!options.linkable,
-    pnp: pnp || options.usePnp,
-    yes: options.yes,
+    pnp: pnp || (options.usePnp as boolean),
+    yes: options.yes as boolean,
+    projectType,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -99,16 +101,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.NEXTJS:
         return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Next" app')
-        );
-
-      case ProjectType.SFC_VUE:
-        return sfcVueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Single File Components Vue" app')
-        );
-
-      case ProjectType.VUE:
-        return vueGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Vue" app')
         );
 
       case ProjectType.VUE3:
@@ -156,11 +148,7 @@ const installStorybook = async <Project extends ProjectType>(
         );
 
       case ProjectType.NX:
-        throw new Error(dedent`
-          We have detected Nx in your project. Please use "nx g @nrwl/storybook:configuration" to add Storybook to your project.
-          
-          For more information, please see https://nx.dev/packages/storybook
-        `);
+        throw new NxProjectDetectedError();
 
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -193,7 +181,7 @@ const installStorybook = async <Project extends ProjectType>(
 
   try {
     return await runGenerator();
-  } catch (err) {
+  } catch (err: any) {
     if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
@@ -204,7 +192,6 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
-  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -239,7 +226,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-async function doInitiate(
+export async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
 ): Promise<
@@ -251,22 +238,51 @@ async function doInitiate(
     }
   | { shouldRunDev: false }
 > {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
+  const { packageManager: pkgMgr } = options;
 
-    pkgMgr = 'npm';
-  }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
-  logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
-
-  // Update notify code.
-  const { default: updateNotifier } = await import('simple-update-notifier');
-  await updateNotifier({
-    pkg: pkg as any,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
+  const packageManager = JsPackageManagerFactory.getPackageManager({
+    force: pkgMgr,
   });
+
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const currentVersion = versions['@storybook/cli'];
+  const isPrerelease = prerelease(currentVersion);
+  const isOutdated = lt(currentVersion, latestVersion);
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
+
+  const messages = {
+    welcome: `Adding Storybook version ${chalk.bold(currentVersion)} to your project..`,
+    notLatest: chalk.red(dedent`
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
+      You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
+      ${chalk.bold('npx storybook@latest init')}
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
+
+  logger.log(
+    boxen(
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
+
+  // Check if the current directory is empty.
+  if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
+    // Prompt the user to create a new project from our list.
+    await scaffoldNewProject(packageManager.type, options);
+
+    if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
+      packageManager.addPackageResolutions({
+        '@storybook/telemetry': versions['@storybook/telemetry'],
+      });
+    }
+  }
 
   let projectType: ProjectType;
   const projectTypeProvided = options.type;
@@ -287,9 +303,9 @@ async function doInitiate(
     }
   } else {
     try {
-      projectType = await detect(packageManager, options);
+      projectType = (await detect(packageManager, options)) as ProjectType;
     } catch (err) {
-      done(err.message);
+      done(String(err));
       throw new HandledError(err);
     }
   }
@@ -310,7 +326,6 @@ async function doInitiate(
     logger.log();
 
     if (force) {
-      // eslint-disable-next-line no-param-reassign
       options.force = true;
     } else {
       process.exit(0);
@@ -349,6 +364,7 @@ async function doInitiate(
     projectType === ProjectType.ANGULAR
       ? `ng run ${installResult.projectName}:storybook`
       : packageManager.getRunStorybookCommand();
+
   logger.log(
     boxen(
       dedent`
@@ -382,7 +398,7 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
     () => doInitiate(options, pkg)
   );
 
-  if (initiateResult.shouldRunDev) {
+  if (initiateResult?.shouldRunDev) {
     const { projectType, packageManager, storybookCommand } = initiateResult;
     logger.log('\nRunning Storybook');
 

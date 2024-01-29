@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -11,16 +10,10 @@ test.describe('addon-interactions', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
-  });
 
-  // FIXME: skip xxx
   test('should have interactions', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // templateName is e.g. 'vue-cli/default-js'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
@@ -34,7 +27,7 @@ test.describe('addon-interactions', () => {
     await expect(welcome).toContainText('Welcome, Jane Doe!');
 
     const interactionsTab = await page.locator('#tabbutton-storybook-interactions-panel');
-    await expect(interactionsTab).toContainText(/(1)/);
+    await expect(interactionsTab).toContainText(/(\d)/);
     await expect(interactionsTab).toBeVisible();
 
     const panel = sbPage.panelContent();
@@ -42,21 +35,20 @@ test.describe('addon-interactions', () => {
     await expect(panel).toContainText(/userEvent.click/);
     await expect(panel).toBeVisible();
 
-    const done = await panel.locator('[data-testid=icon-done]');
+    const done = await panel.locator('[data-testid=icon-done]').nth(0);
     await expect(done).toBeVisible();
   });
 
   test('should step through interactions', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // templateName is e.g. 'vue-cli/default-js'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
 
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('addons/interactions/basics', 'type-and-clear');
+    await sbPage.deepLinkToStory(storybookUrl, 'addons/interactions/basics', 'type-and-clear');
     await sbPage.viewAddonPanel('Interactions');
 
     // Test initial state - Interactions have run, count is correct and values are as expected
@@ -109,18 +101,6 @@ test.describe('addon-interactions', () => {
     await expect(interactionsTab).toBeVisible();
     await expect(interactionsTab.getByText('3')).toBeVisible();
 
-    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
-    // if the toolbar is hidden, this will toggle the toolbar
-    if (await page.locator('[offset="40"]').isHidden()) {
-      await page.locator('html').press('t');
-    }
-
-    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
-    // if the toolbar is hidden, this will toggle the toolbar
-    if (await page.locator('[offset="40"]').isHidden()) {
-      await page.locator('html').press('t');
-    }
-
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
@@ -132,5 +112,24 @@ test.describe('addon-interactions', () => {
     await expect(interactionsTab).toBeVisible();
     await expect(interactionsTab).toBeVisible();
     await expect(formInput).toHaveValue('final value');
+  });
+
+  test('should show unhandled errors', async ({ page }) => {
+    test.skip(
+      /^(lit)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support addon-interactions`
+    );
+    // We trigger the implicit action error here, but angular works a bit different with implicit actions.
+    test.skip(/^(angular)/i.test(`${templateName}`));
+
+    const sbPage = new SbPage(page);
+
+    await sbPage.deepLinkToStory(storybookUrl, 'addons/interactions/unhandled-errors', 'default');
+    await sbPage.viewAddonPanel('Interactions');
+
+    const panel = sbPage.panelContent();
+    await expect(panel).toContainText(/Fail/);
+    await expect(panel).toContainText(/Found 1 unhandled error/);
+    await expect(panel).toBeVisible();
   });
 });

@@ -8,11 +8,11 @@ Type: `(config: Babel.Config, options: Options) => Babel.Config | Promise<Babel.
 
 Customize Storybook's [Babel](https://babeljs.io/) setup.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 [Addon authors](../addons/writing-presets.md#babel) should use [`babelDefault`](./main-config-babel-default.md) instead, which is applied to the preview config before any user presets have been applied.
+[Addon authors](../addons/writing-presets.md#babel) should use [`babelDefault`](./main-config-babel-default.md) instead, which is applied to the preview config before any user presets have been applied.
 
-</div>
+</Callout>
 
 <!-- prettier-ignore-start -->
 
@@ -27,7 +27,13 @@ Customize Storybook's [Babel](https://babeljs.io/) setup.
 
 ## `Babel.Config`
 
-See [Babel docs](https://babeljs.io/docs/options).
+The options provided by [Babel](https://babeljs.io/docs/options) are only applicable if you've enabled the [`@storybook/addon-webpack5-compiler-babel`](https://storybook.js.org/addons/@storybook/addon-webpack5-compiler-babel) addon.
+
+<Callout variant="info">
+
+If you have an existing Babel configuration file (e.g., `.babelrc`), it will be automatically detected and used by Storybook without any additional configuration required.
+
+</Callout>
 
 ## `Options`
 

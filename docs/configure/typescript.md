@@ -20,15 +20,15 @@ Storybook's configuration file (i.e., `main.ts`) is defined as an ESM module wri
 
 See the [main configuration API reference](../api/main-config) for more details and additional properties.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 See the Vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
+See the Vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
 
-</div>
+</Callout>
 
 ### Extending the default configuration
 
-Out of the box, Storybook is built to work with a wide range of third-party libraries, enabling you to safely access and document metadata (e.g., props, inputs) from your components without any additional configuration. It relies on [`babel-loader`](https://webpack.js.org/loaders/babel-loader/) for TypeScript support and optionally [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options) for type checking. Since Storybook supports multiple frameworks, it also includes a set of third-party packages to support each framework (e.g., `ts-loader` and `ngx-template-loader` for Angular, `react-docgen-typescript-plugin` for React). If you need to customize the default configuration for a specific use case scenario, refer to the [`config.typescript` API reference](../api/main-config-typescript.md).
+Out of the box, Storybook is built to work with a wide range of third-party libraries, enabling you to safely access and document metadata (e.g., props, inputs) from your components without any additional configuration. Since Storybook supports multiple frameworks, it also includes a set of third-party packages to support each framework (e.g., `ts-loader` and `ngx-template-loader` for Angular, `react-docgen-typescript-plugin` for React). If you need to customize the default configuration for a specific use case scenario, refer to the [`config.typescript` API reference](../api/main-config-typescript.md).
 
 The above example extends the baseline configuration to remove existing props from third-party libraries. Useful if you want to document only your components. However, if you need to include them, you can do so by adjusting your configuration as follows:
 
@@ -90,7 +90,7 @@ Now, when you define a story or update an existing one, you'll automatically get
 
 ### The `satisfies` operator is not working as expected
 
-Out of the box, Storybook supports the `satisfies` operator for almost every framework already using TypeScript version 4.9 or higher. However, due to the constraints of the Angular and Web Components framework, you might run into issues when applying this operator for additional type safety. This is primarily due to how both frameworks are currently implemented, making it almost impossible for Storybook to determine if the component property is required. If you encounter this issue, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub discussion](https://github.com/storybookjs/storybook/discussions/20988)).
+Out of the box, Storybook supports the `satisfies` operator for almost every framework already using TypeScript version 4.9 or higher. However, due to the constraints of the Angular and Web Components framework, you might run into issues when applying this operator for additional type safety. This is primarily due to how both frameworks are currently implemented, making it almost impossible for Storybook to determine if the component property is required. If you encounter this issue, please open up a support request on [GitHub Discussions](https://github.com/storybookjs/storybook/discussions/new?category=help).
 
 ### The TypeScript auto-completion is not working on my editor
 

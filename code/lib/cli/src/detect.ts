@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
@@ -13,8 +13,9 @@ import {
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { commandLog, isNxProject } from './helpers';
-import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import { isNxProject } from './helpers';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
+import { commandLog, HandledError } from '@storybook/core-common';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
@@ -43,7 +44,7 @@ const hasPeerDependency = (
   return !!version;
 };
 
-type SearchTuple = [string, (version: string) => boolean | undefined];
+type SearchTuple = [string, ((version: string) => boolean) | undefined];
 
 const getFrameworkPreset = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -126,25 +127,30 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SFC_VUE:
-      return CoreBuilder.Vite;
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
     case ProjectType.NEXTJS:
+    case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
-      // eslint-disable-next-line no-case-declarations
-      const { builder } = await prompts({
-        type: 'select',
-        name: 'builder',
-        message:
-          'We were not able to detect the right builder for your project. Please select one:',
-        choices: [
-          { title: 'Vite', value: CoreBuilder.Vite },
-          { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
-        ],
-      });
+      const { builder } = await prompts(
+        {
+          type: 'select',
+          name: 'builder',
+          message:
+            '\nWe were not able to detect the right builder for your project. Please select one:',
+          choices: [
+            { title: 'Vite', value: CoreBuilder.Vite },
+            { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+          ],
+        },
+        {
+          onCancel: () => {
+            throw new HandledError('Canceled by the user');
+          },
+        }
+      );
 
       return builder;
   }
@@ -178,9 +184,8 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     '@typescript-eslint/parser'
   );
 
-  const eslintPluginStorybookVersion = await packageManager.getPackageVersion(
-    'eslint-plugin-storybook'
-  );
+  const eslintPluginStorybookVersion =
+    await packageManager.getPackageVersion('eslint-plugin-storybook');
 
   if (isTypescriptDirectDependency && typescriptVersion) {
     if (

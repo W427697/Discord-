@@ -1,11 +1,11 @@
 name: Publish canary release of PR
-run-name: 'Canary release: PR #${{ inputs.pr }}, triggered by ${{ github.triggering_actor }}'
+run-name: "Canary release: PR #${{ inputs.pr }}, triggered by ${{ github.triggering_actor }}"
 
 on:
   workflow_dispatch:
     inputs:
       pr:
-        description: 'Pull request number to create a canary release for'
+        description: "Pull request number to create a canary release for"
         required: true
         type: number
 
@@ -58,8 +58,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
+          node-version-file: ".nvmrc"
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -78,7 +77,7 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          yarn release:version --release-type prerelease --pre-id canary-${{ inputs.pr }}-${{ steps.info.outputs.timestamp }}-${{ steps.info.outputs.shortSha }} --verbose
+          yarn release:version --exact 0.0.0-pr-${{ inputs.pr }}-sha-${{ steps.info.outputs.shortSha }} --verbose
 
       - name: Publish v${{ steps.version.outputs.next-version }}
         env:
@@ -92,10 +91,10 @@ jobs:
         with:
           githubToken: ${{ secrets.GH_TOKEN }}
           prNumber: ${{ inputs.pr }}
-          find: 'CANARY_RELEASE_SECTION'
+          find: "CANARY_RELEASE_SECTION"
           isHtmlCommentTag: true
           replace: |
-            This pull request has been released as version [`${{ steps.version.outputs.next-version }}`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}). Install it by pinning all your Storybook dependencies to that version.
+            This pull request has been released as version `${{ steps.version.outputs.next-version }}`. Try it out in a new sandbox by running `npx storybook@${{ steps.version.outputs.next-version }} sandbox` or in an existing project with `npx storybook@${{ steps.version.outputs.next-version }} upgrade`.
             <details>
             <summary>More information</summary>
 

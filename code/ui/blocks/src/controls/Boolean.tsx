@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { opacify, transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 
-import { Form } from '@storybook/components';
+import { Button } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, BooleanValue, BooleanConfig } from './types';
@@ -102,9 +102,14 @@ export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur
   const onSetFalse = useCallback(() => onChange(false), [onChange]);
   if (value === undefined) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onSetFalse}>
+      <Button
+        variant="outline"
+        size="medium"
+        id={getControlSetterButtonId(name)}
+        onClick={onSetFalse}
+      >
         Set boolean
-      </Form.Button>
+      </Button>
     );
   }
   const controlId = getControlId(name);
@@ -112,16 +117,17 @@ export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur
   const parsedValue = typeof value === 'string' ? parse(value) : value;
 
   return (
-    <Label htmlFor={controlId} title={parsedValue ? 'Change to false' : 'Change to true'}>
+    <Label htmlFor={controlId} aria-label={name}>
       <input
         id={controlId}
         type="checkbox"
         onChange={(e) => onChange(e.target.checked)}
         checked={parsedValue}
+        role="switch"
         {...{ name, onBlur, onFocus }}
       />
-      <span>False</span>
-      <span>True</span>
+      <span aria-hidden="true">False</span>
+      <span aria-hidden="true">True</span>
     </Label>
   );
 };

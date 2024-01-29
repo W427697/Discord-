@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
+import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
 import type { ArgType, Args, TableAnnotation } from './types';
@@ -39,10 +40,10 @@ const Description = styled.div(({ theme }) => ({
   },
 
   code: {
-    ...codeCommon({ theme }),
+    ...(codeCommon({ theme }) as CSSObject),
     fontSize: 12,
     fontFamily: theme.typography.fonts.mono,
-  },
+  } as CSSObject,
 
   '& code': {
     margin: 0,
@@ -76,6 +77,7 @@ const StyledTd = styled.td<{ expandable: boolean }>(({ theme, expandable }) => (
 }));
 
 export const ArgRow: FC<ArgRowProps> = (props) => {
+  const [isHovered, setIsHovered] = useState(false);
   const { row, updateArgs, compact, expandable, initialExpandedArgs } = props;
   const { name, description } = row;
   const table = (row.table || {}) as TableAnnotation;
@@ -85,7 +87,7 @@ export const ArgRow: FC<ArgRowProps> = (props) => {
   const hasDescription = description != null && description !== '';
 
   return (
-    <tr>
+    <tr onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <StyledTd expandable={expandable}>
         <Name>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
@@ -118,7 +120,7 @@ export const ArgRow: FC<ArgRowProps> = (props) => {
       )}
       {updateArgs ? (
         <td>
-          <ArgControl {...(props as ArgControlProps)} />
+          <ArgControl {...(props as ArgControlProps)} isHovered={isHovered} />
         </td>
       ) : null}
     </tr>

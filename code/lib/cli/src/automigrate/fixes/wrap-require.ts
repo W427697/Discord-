@@ -26,6 +26,10 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
     const isStorybookInMonorepo = await packageManager.isStorybookInMonorepo();
     const isPnp = await detectPnp();
 
+    if (!mainConfigPath) {
+      return null;
+    }
+
     const config = await readConfig(mainConfigPath);
 
     if (!isStorybookInMonorepo && !isPnp) {
@@ -54,14 +58,23 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
 
   async run({ dryRun, mainConfigPath, result }) {
     return new Promise((resolve, reject) => {
-      updateMainConfig({ dryRun, mainConfigPath }, (mainConfig) => {
+      updateMainConfig({ dryRun: !!dryRun, mainConfigPath }, (mainConfig) => {
         try {
           getFieldsForRequireWrapper(mainConfig).forEach((node) => {
             wrapValueWithRequireWrapper(mainConfig, node);
           });
 
           if (getRequireWrapperName(mainConfig) === null) {
-            mainConfig.setImport(['dirname', 'join'], 'path');
+            if (
+              mainConfig?.fileName?.endsWith('.cjs') ||
+              mainConfig?.fileName?.endsWith('.cts') ||
+              mainConfig?.fileName?.endsWith('.cjsx') ||
+              mainConfig?.fileName?.endsWith('.ctsx')
+            ) {
+              mainConfig.setRequireImport(['dirname', 'join'], 'path');
+            } else {
+              mainConfig.setImport(['dirname', 'join'], 'path');
+            }
             mainConfig.setBodyDeclaration(
               getRequireWrapperAsCallExpression(result.isConfigTypescript)
             );

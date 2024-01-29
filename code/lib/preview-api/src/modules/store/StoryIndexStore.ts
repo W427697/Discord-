@@ -1,4 +1,3 @@
-import { dedent } from 'ts-dedent';
 import type {
   IndexEntry,
   Path,
@@ -8,14 +7,18 @@ import type {
   ComponentTitle,
 } from '@storybook/types';
 import memoize from 'memoizerific';
+import { MissingStoryAfterHmrError } from '@storybook/core-events/preview-errors';
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 
 const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
-  Object.values(entries).reduce((acc, entry) => {
-    acc[entry.importPath] = acc[entry.importPath] || entry;
-    return acc;
-  }, {} as Record<Path, IndexEntry>)
+  Object.values(entries).reduce(
+    (acc, entry) => {
+      acc[entry.importPath] = acc[entry.importPath] || entry;
+      return acc;
+    },
+    {} as Record<Path, IndexEntry>
+  )
 );
 
 export class StoryIndexStore {
@@ -49,11 +52,7 @@ export class StoryIndexStore {
   storyIdToEntry(storyId: StoryId): IndexEntry {
     const storyEntry = this.entries[storyId];
     if (!storyEntry) {
-      throw new Error(dedent`Couldn't find story matching '${storyId}' after HMR.
-      - Did you remove it from your CSF file?
-      - Are you sure a story with that id exists?
-      - Please check your entries field of your main.js config.
-      - Also check the browser console and terminal for error messages.`);
+      throw new MissingStoryAfterHmrError({ storyId });
     }
 
     return storyEntry;

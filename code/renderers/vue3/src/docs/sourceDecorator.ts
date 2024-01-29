@@ -1,7 +1,6 @@
-/* eslint-disable no-eval */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
-import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
+import type { ArgTypes, Args, StoryContext } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
@@ -25,13 +24,14 @@ import {
   replaceValueWithRef,
   generateExpression,
 } from './utils';
+import type { VueRenderer } from '../types';
 
 /**
  * Check if the sourcecode should be generated.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<Renderer>) => {
+const skipSourceRender = (context: StoryContext<VueRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
   const isDocsViewMode = context?.viewMode === 'docs';
@@ -85,7 +85,7 @@ function mapAttributesAndDirectives(props: Args) {
         loc: { source: attributeSource(tranformKey(key), props[key]) }, // attribute value or directive value
         exp: { isStatic: false, loc: { source: props[key] } }, // directive expression
         modifiers: [''],
-      } as unknown as AttributeNode)
+      }) as unknown as AttributeNode
   );
 }
 /**
@@ -106,16 +106,16 @@ function mapSlots(
       ?.bindings?.map((b) => b.name)
       .join(',');
 
-    if (typeof slot === 'function') {
+    if (typeof slot === 'string') {
+      slotContent = slot;
+    } else if (typeof slot === 'function') {
       slotContent = generateExpression(slot);
-    }
-    if (isVNode(slot)) {
+    } else if (isVNode(slot)) {
       slotContent = generateComponentSource(slot);
-    }
-
-    if (typeof slot === 'object' && !isVNode(slot)) {
+    } else if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
+
     const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
     slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
 
@@ -153,7 +153,7 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
  */
 function getTemplateComponents(
   renderFn: any,
-  context?: StoryContext<Renderer>
+  context?: StoryContext<VueRenderer>
 ): (TemplateChildNode | VNode)[] {
   try {
     const originalStoryFn = renderFn;
@@ -239,7 +239,7 @@ export function generateTemplateSource(
       const slotArgs = Object.fromEntries(
         Object.entries(props ?? {}).filter(([key, value]) => slotsProps?.[key])
       );
-      // eslint-disable-next-line no-nested-ternary
+
       const childSources: string = children
         ? typeof children === 'string'
           ? children
@@ -247,7 +247,6 @@ export function generateTemplateSource(
               .map((child) => child.content)
               .join('')
         : '';
-      console.log(' vnode ', vnode, ' childSources ', childSources, ' attributes ', attributes);
       const name =
         typeof type === 'string'
           ? type
@@ -275,7 +274,7 @@ export function generateTemplateSource(
  * @param storyFn Fn
  * @param context  StoryContext
  */
-export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
+export const sourceDecorator = (storyFn: any, context: StoryContext<VueRenderer>) => {
   const skip = skipSourceRender(context);
   const story = storyFn();
 
@@ -291,7 +290,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   return story;
 };
 
-export function generateSource(context: StoryContext<Renderer>) {
+export function generateSource(context: StoryContext<VueRenderer>) {
   const channel = addons.getChannel();
   const { args = {}, argTypes = {}, id } = context || {};
   const storyComponents = getTemplateComponents(context?.originalStoryFn, context);

@@ -1,17 +1,19 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
-import { SidebarMenu, ToolbarMenu } from './Menu';
-import { useMenu } from '../../containers/menu';
+import { LinkIcon } from '@storybook/icons';
+import { SidebarMenu } from './Menu';
+import { useMenu } from '../../container/Menu';
+import { LayoutProvider } from '../layout/LayoutProvider';
 
 const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
-  { title: 'has icon', icon: 'link', id: 'icon' },
+  { title: 'has icon', icon: <LinkIcon />, id: 'icon' },
   { title: 'has no icon', id: 'non' },
 ];
 
@@ -21,6 +23,7 @@ const meta = {
   args: {
     menu: fakemenu,
   },
+  decorators: [(storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>],
 } satisfies Meta<typeof SidebarMenu>;
 export default meta;
 
@@ -31,11 +34,10 @@ export const Items: Story = {
 };
 
 export const Real: Story = {
-  render: () => <SidebarMenu menu={fakemenu} isHighlighted />,
-};
-
-export const Toolbar = {
-  render: () => <ToolbarMenu menu={fakemenu} />,
+  args: {
+    isHighlighted: true,
+  },
+  render: (args) => <SidebarMenu menu={fakemenu} {...args} />,
 };
 
 const DoubleThemeRenderingHack = styled.div({
@@ -54,6 +56,7 @@ export const Expanded: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => true,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,
@@ -97,6 +100,7 @@ export const ExpandedWithoutWhatsNew: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => false,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,

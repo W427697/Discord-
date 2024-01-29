@@ -1,4 +1,5 @@
-import type { JsPackageManager } from '../../js-package-manager';
+import { describe, it, expect } from 'vitest';
+import type { JsPackageManager } from '@storybook/core-common';
 import { sbBinary } from './sb-binary';
 
 const checkStorybookBinary = async ({

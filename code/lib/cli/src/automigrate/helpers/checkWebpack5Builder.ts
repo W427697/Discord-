@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 import { getBuilderPackageName } from './mainConfigFile';
 
 const logger = console;
@@ -10,7 +10,7 @@ export const checkWebpack5Builder = async ({
   mainConfig,
   storybookVersion,
 }: {
-  mainConfig: StorybookConfig;
+  mainConfig: StorybookConfigRaw;
   storybookVersion: string;
 }) => {
   if (semver.lt(storybookVersion, '6.3.0')) {
@@ -20,9 +20,11 @@ export const checkWebpack5Builder = async ({
 
         To upgrade to the latest stable release, run this from your project directory:
 
-        ${chalk.cyan('npx storybook upgrade')}
+        ${chalk.cyan('npx storybook@latest upgrade')}
 
-        Add the ${chalk.cyan('--prerelease')} flag to get the latest prerelease.
+        To upgrade to the latest pre-release, run this from your project directory:
+
+        ${chalk.cyan('npx storybook@next upgrade')}
       `.trim()
     );
     return null;

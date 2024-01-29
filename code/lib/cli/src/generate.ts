@@ -1,31 +1,32 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
+import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
+import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@storybook/core-common';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
+import { removeAddon as remove } from '@storybook/core-common';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
-import { parseList, getEnvConfig } from './utils';
-import versions from './versions';
+import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>
@@ -33,19 +34,18 @@ const command = (name: string) =>
     .command(name)
     .option(
       '--disable-telemetry',
-      'disable sending telemetry data',
+      'Disable sending telemetry data',
       // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
       process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
     )
     .option('--debug', 'Get more logs in debug mode', false)
-    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+    .option('--enable-crash-reports', 'Enable sending crash reports to telemetry data');
 
 command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
-  .option('-N --use-npm', 'Use npm to install deps (deprecated)')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
@@ -62,42 +62,49 @@ command('add <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
-command('babelrc')
-  .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
-
-command('upgrade')
-  .description('Upgrade your Storybook packages to the latest')
+command('remove <addon>')
+  .description('Remove an addon from your Storybook')
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
+  .action((addonName: string, options: any) => remove(addonName, options));
+
+command('upgrade')
+  .description(`Upgrade your Storybook packages to v${versions.storybook}`)
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
-  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
-  .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
 
 command('info')
   .description('Prints debugging information about the local environment')
-  .action(() => {
-    consoleLogger.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
-      .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
-        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
-      })
-      .then(consoleLogger.log);
+  .action(async () => {
+    consoleLogger.log(chalk.bold('\nStorybook Environment Info:'));
+    const pkgManager = await JsPackageManagerFactory.getPackageManager();
+    const activePackageManager = pkgManager.type.replace(/\d/, ''); // 'yarn1' -> 'yarn'
+    const output = await envinfo.run({
+      System: ['OS', 'CPU', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm', 'pnpm'],
+      Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+      npmPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+      npmGlobalPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+    });
+    const activePackageManagerLine = output.match(new RegExp(`${activePackageManager}:.*`, 'i'));
+    consoleLogger.log(
+      output.replace(
+        activePackageManagerLine,
+        chalk.bold(`${activePackageManagerLine} <----- active`)
+      )
+    );
   });
 
 command('migrate [migration]')
@@ -128,23 +135,13 @@ command('migrate [migration]')
     });
   });
 
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }, pkg).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
@@ -162,11 +159,10 @@ command('link <repo-url-or-directory>')
   );
 
 command('automigrate [fixId]')
-  .description('Check storybook for known problems or migrations and apply fixes')
+  .description('Check storybook for incompatibilities or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
-  .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
   .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
   .option('-s --skip-install', 'Skip installing deps')
@@ -181,10 +177,20 @@ command('automigrate [fixId]')
     });
   });
 
+command('doctor')
+  .description('Check Storybook for known problems and provide suggestions or fixes')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configuration')
+  .action(async (options) => {
+    await doctor(options).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    });
+  });
+
 command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '--https',
@@ -211,6 +217,7 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--exact-port', 'Exit early if the desired port is not available')
   .option(
     '--initial-path [path]',
     'URL path to be appended when visiting Storybook for the first time'
@@ -230,7 +237,6 @@ command('dev')
     });
 
     if (parseInt(`${options.port}`, 10)) {
-      // eslint-disable-next-line no-param-reassign
       options.port = parseInt(`${options.port}`, 10);
     }
 
@@ -238,7 +244,6 @@ command('dev')
   });
 
 command('build')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('--quiet', 'Suppress verbose build output')
@@ -251,6 +256,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--test', 'Build stories optimized for testing purposes.')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
@@ -264,7 +270,11 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
+    await build({
+      ...options,
+      packageJson: pkg,
+      test: !!options.test || process.env.SB_TESTBUILD === 'true',
+    }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {

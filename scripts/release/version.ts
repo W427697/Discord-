@@ -6,9 +6,10 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
-import { execaCommand } from '../utils/exec';
 
 program
   .name('version')
@@ -124,7 +125,7 @@ const bumpCodeVersion = async (nextVersion: string) => {
 const bumpVersionSources = async (currentVersion: string, nextVersion: string) => {
   const filesToUpdate = [
     path.join(CODE_DIR_PATH, 'lib', 'manager-api', 'src', 'version.ts'),
-    path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts'),
+    path.join(CODE_DIR_PATH, 'lib', 'core-common', 'src', 'versions.ts'),
   ];
   console.log(`🤜 Bumping versions in...:\n  ${chalk.cyan(filesToUpdate.join('\n  '))}`);
 
@@ -141,12 +142,10 @@ const bumpVersionSources = async (currentVersion: string, nextVersion: string) =
 
 const bumpAllPackageJsons = async ({
   packages,
-  currentVersion,
   nextVersion,
   verbose,
 }: {
   packages: Workspace[];
-  currentVersion: string;
   nextVersion: string;
   verbose?: boolean;
 }) => {
@@ -162,51 +161,18 @@ const bumpAllPackageJsons = async ({
       const packageJsonPath = path.join(CODE_DIR_PATH, pkg.location, 'package.json');
       const packageJson: {
         version: string;
-        dependencies: Record<string, string>;
-        devDependencies: Record<string, string>;
-        peerDependencies: Record<string, string>;
         [key: string]: any;
       } = await readJson(packageJsonPath);
       // 3. bump the version
       packageJson.version = nextVersion;
-      const { dependencies, devDependencies, peerDependencies } = packageJson;
       if (verbose) {
         console.log(
           `    Bumping ${chalk.blue(pkg.name)}'s version to ${chalk.yellow(nextVersion)}`
         );
       }
-      // 4. go through all deps in the package.json
-      Object.entries({ dependencies, devDependencies, peerDependencies }).forEach(
-        ([depType, deps]) => {
-          if (!deps) {
-            return;
-          }
-          // 5. find all storybook deps
-          Object.entries(deps)
-            .filter(
-              ([depName, depVersion]) =>
-                depName.startsWith('@storybook/') &&
-                // ignore storybook dependneices that don't use the current version
-                depVersion.includes(currentVersion)
-            )
-            .forEach(([depName, depVersion]) => {
-              // 6. bump the version of any found storybook dep
-              const nextDepVersion = depVersion.replace(currentVersion, nextVersion);
-              if (verbose) {
-                console.log(
-                  `    Bumping ${chalk.blue(pkg.name)}'s ${chalk.red(depType)} on ${chalk.green(
-                    depName
-                  )} from ${chalk.yellow(depVersion)} to ${chalk.yellow(nextDepVersion)}`
-                );
-              }
-              packageJson[depType][depName] = nextDepVersion;
-            });
-        }
-      );
       await writeJson(packageJsonPath, packageJson, { spaces: 2 });
     })
   );
-  console.log(`✅ Bumped peer dependency versions in ${chalk.cyan('all packages')}`);
 };
 
 const bumpDeferred = async (nextVersion: string) => {
@@ -312,12 +278,13 @@ export const run = async (options: unknown) => {
 
     await bumpCodeVersion(nextVersion);
     await bumpVersionSources(currentVersion, nextVersion);
-    await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
+    await bumpAllPackageJsons({ packages, nextVersion, verbose });
 
     console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
     await execaCommand(`yarn install --mode=update-lockfile`, {
       cwd: path.join(CODE_DIR_PATH),
       stdio: verbose ? 'inherit' : undefined,
+      cleanup: true,
     });
     console.log(`✅ Updated lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
   }
@@ -328,7 +295,7 @@ export const run = async (options: unknown) => {
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse().opts();
   run(options).catch((err) => {
     console.error(err);

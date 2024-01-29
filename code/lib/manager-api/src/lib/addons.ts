@@ -13,6 +13,8 @@ import type {
   Addon_Types,
   Addon_TypesMapping,
   Addon_WrapperType,
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -23,13 +25,6 @@ export { Addon_Type as Addon, Addon_TypesEnum as types };
 
 export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
-}
-
-interface DeprecatedAddonWithId {
-  /**
-   * @deprecated will be removed in 8.0, when registering addons, please use the addon id as the first argument
-   */
-  id?: string;
 }
 
 export class AddonStore {
@@ -47,11 +42,6 @@ export class AddonStore {
 
   private channel: Channel | undefined;
 
-  /**
-   * @deprecated will be removed in 8.0
-   */
-  private serverChannel: Channel | undefined;
-
   private promise: any;
 
   private resolve: any;
@@ -62,74 +52,30 @@ export class AddonStore {
       this.setChannel(mockChannel());
     }
 
-    return this.channel;
-  };
-
-  /**
-   * @deprecated will be removed in 8.0, use getChannel instead
-   */
-  getServerChannel = (): Channel => {
-    if (!this.serverChannel) {
-      throw new Error('Accessing non-existent serverChannel');
-    }
-
-    return this.serverChannel;
+    return this.channel!;
   };
 
   ready = (): Promise<Channel> => this.promise;
 
   hasChannel = (): boolean => !!this.channel;
 
-  /**
-   * @deprecated will be removed in 8.0, please use the normal channel instead
-   */
-  hasServerChannel = (): boolean => !!this.serverChannel;
-
   setChannel = (channel: Channel): void => {
     this.channel = channel;
     this.resolve();
   };
 
-  /**
-   * @deprecated will be removed in 8.0, please use the normal channel instead
-   */
-  setServerChannel = (channel: Channel): void => {
-    this.serverChannel = channel;
-  };
-
-  getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
-    type: T
-  ): Addon_Collection<Addon_TypesMapping[T]> {
+  getElements<
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP,
+  >(type: T): Addon_Collection<Addon_TypesMapping[T]> | any {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
-    // @ts-expect-error (Kaspar told me to do this)
     return this.elements[type];
   }
-
-  /**
-   * Adds a panel to the addon store.
-   * @param {string} id - The id of the panel.
-   * @param {Addon_Type} options - The options for the panel.
-   * @returns {void}
-   *
-   * @deprecated Use the 'add' method instead.
-   * @example
-   * addons.add('My Panel', {
-   *   title: 'My Title',
-   *   type: types.PANEL,
-   *   render: () => <div>My Content</div>,
-   * });
-   */
-  addPanel = (
-    id: string,
-    options: Omit<Addon_BaseType, 'type' | 'id'> & DeprecatedAddonWithId
-  ): void => {
-    this.add(id, {
-      type: Addon_TypesEnum.PANEL,
-      ...options,
-    });
-  };
 
   /**
    * Adds an addon to the addon store.
@@ -141,12 +87,14 @@ export class AddonStore {
     id: string,
     addon:
       | Addon_BaseType
-      | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
-      | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
+      | Omit<Addon_SidebarTopType, 'id'>
+      | Omit<Addon_SidebarBottomType, 'id'>
+      | Omit<Addon_PageType, 'id'>
+      | Omit<Addon_WrapperType, 'id'>
   ): void {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[id] = { id, ...addon };
+    collection[id] = { ...addon, id };
   }
 
   setConfig = (value: Addon_Config) => {
@@ -177,7 +125,7 @@ export class AddonStore {
   };
 
   loadAddons = (api: any) => {
-    Object.values(this.loaders).forEach((value) => value(api));
+    Object.values(this.loaders).forEach((value: any) => value(api));
   };
 }
 

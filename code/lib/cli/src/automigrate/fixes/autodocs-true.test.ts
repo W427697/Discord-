@@ -1,5 +1,6 @@
-import type { StorybookConfig } from '@storybook/types';
-import type { PackageJson } from '../../js-package-manager';
+import { describe, afterEach, it, expect, vi } from 'vitest';
+import type { StorybookConfigRaw } from '@storybook/types';
+import type { PackageJson } from '@storybook/core-common';
 import { makePackageManager } from '../helpers/testing-helpers';
 import { autodocsTrue } from './autodocs-true';
 
@@ -8,17 +9,19 @@ const checkAutodocs = async ({
   main: mainConfig,
 }: {
   packageJson?: PackageJson;
-  main: Partial<StorybookConfig> & Record<string, unknown>;
+  main: Partial<StorybookConfigRaw> & Record<string, unknown>;
 }) => {
   return autodocsTrue.check({
     packageManager: makePackageManager(packageJson),
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     storybookVersion: '7.0.0',
   });
 };
 
 describe('autodocs-true fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should skip when docs.autodocs is already defined', async () => {
     await expect(checkAutodocs({ main: { docs: { autodocs: 'tag' } } })).resolves.toBeFalsy();

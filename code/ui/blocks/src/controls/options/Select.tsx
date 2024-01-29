@@ -23,9 +23,7 @@ const styleResets: CSSObject = {
   position: 'relative',
 };
 
-const OptionsSelect = styled.select(({ theme }) => ({
-  ...styleResets,
-
+const OptionsSelect = styled.select(styleResets, ({ theme }) => ({
   boxSizing: 'border-box',
   position: 'relative',
   padding: '6px 10px',
@@ -110,7 +108,9 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
           {NO_SELECTION}
         </option>
         {Object.keys(options).map((key) => (
-          <option key={key}>{key}</option>
+          <option key={key} value={key}>
+            {key}
+          </option>
         ))}
       </OptionsSelect>
     </SelectWrapper>
@@ -131,7 +131,9 @@ const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
     <SelectWrapper>
       <OptionsSelect id={controlId} multiple value={selection} onChange={handleChange}>
         {Object.keys(options).map((key) => (
-          <option key={key}>{key}</option>
+          <option key={key} value={key}>
+            {key}
+          </option>
         ))}
       </OptionsSelect>
     </SelectWrapper>

@@ -4,21 +4,26 @@ import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 
-import type { API_LoadedRefData } from 'lib/types/src';
+import type {
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
+  API_LoadedRefData,
+} from '@storybook/types';
+import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 
-// eslint-disable-next-line import/no-cycle
 import { Explorer } from './Explorer';
-// eslint-disable-next-line import/no-cycle
+
 import { Search } from './Search';
-// eslint-disable-next-line import/no-cycle
+
 import { SearchResults } from './SearchResults';
 import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav({
+const Container = styled.nav(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   left: 0,
@@ -27,21 +32,35 @@ const Container = styled.nav({
   right: 0,
   width: '100%',
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  background: theme.background.content,
+
+  [MEDIA_DESKTOP_BREAKPOINT]: {
+    background: theme.background.app,
+  },
+}));
+
+const Top = styled(Spaced)({
+  paddingLeft: 12,
+  paddingRight: 12,
+  paddingBottom: 20,
+  paddingTop: 16,
+  flex: 1,
 });
 
-const StyledSpaced = styled(Spaced)({
-  paddingBottom: '2.5rem',
-});
+const Bottom = styled.div(({ theme }) => ({
+  borderTop: `1px solid ${theme.appBorderColor}`,
+  padding: theme.layoutMargin / 2,
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.layoutMargin / 2,
+  backgroundColor: theme.barBg,
 
-const CustomScrollArea = styled(ScrollArea)({
-  '&&&&& .os-scrollbar-handle:before': {
-    left: -12,
+  '&:empty': {
+    display: 'none',
   },
-  '&&&&& .os-scrollbar-vertical': {
-    right: 5,
-  },
-  padding: 20,
-});
+}));
 
 const Swap = React.memo(function Swap({
   children,
@@ -82,10 +101,13 @@ export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
   status: State['status'];
   menu: any[];
+  extra: Addon_SidebarTopType[];
+  bottom?: Addon_SidebarBottomType[];
   storyId?: string;
   refId?: string;
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
+  onMenuClick?: HeadingProps['onMenuClick'];
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -96,9 +118,12 @@ export const Sidebar = React.memo(function Sidebar({
   status,
   previewInitialized,
   menu,
+  extra,
+  bottom = [],
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
+  onMenuClick,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
@@ -107,21 +132,18 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <Container className="container sidebar-container">
-      <CustomScrollArea vertical>
-        <StyledSpaced row={1.6}>
+      <ScrollArea vertical offset={3} scrollbarSize={6}>
+        <Top row={1.6}>
           <Heading
             className="sidebar-header"
             menuHighlighted={menuHighlighted}
             menu={menu}
+            extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
-          />
-
-          <Search
-            dataset={dataset}
             isLoading={isLoading}
-            enableShortcuts={enableShortcuts}
-            {...lastViewedProps}
-          >
+            onMenuClick={onMenuClick}
+          />
+          <Search dataset={dataset} enableShortcuts={enableShortcuts} {...lastViewedProps}>
             {({
               query,
               results,
@@ -147,12 +169,20 @@ export const Sidebar = React.memo(function Sidebar({
                   highlightedIndex={highlightedIndex}
                   enableShortcuts={enableShortcuts}
                   isLoading={isLoading}
+                  clearLastViewed={lastViewedProps.clearLastViewed}
                 />
               </Swap>
             )}
           </Search>
-        </StyledSpaced>
-      </CustomScrollArea>
+        </Top>
+      </ScrollArea>
+      {isLoading ? null : (
+        <Bottom>
+          {bottom.map(({ id, render: Render }) => (
+            <Render key={id} />
+          ))}
+        </Bottom>
+      )}
     </Container>
   );
 });

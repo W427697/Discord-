@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type {
-  FC,
-  PropsWithChildren,
-  ReactElement,
-  ReactNode,
-  ValidationMap,
-  WeakValidationMap,
-} from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
+import type { API_SidebarOptions } from './api';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -26,9 +20,14 @@ import type {
   StoryKind,
   StoryName,
 } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
-export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
+export type Addon_Types = Exclude<
+  Addon_TypesEnum,
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
+>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -157,9 +156,7 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {
-  storiesOf(kind: StoryKind, module: any): Addon_StoryApi<StoryFnReturnType>;
-}
+export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
 export type Addon_RequireContext = any; // FIXME
@@ -174,7 +171,7 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
 export interface Addon_BaseAnnotations<
   TArgs,
   StoryFnReturnType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
@@ -190,7 +187,7 @@ export interface Addon_BaseAnnotations<
 
   /**
    * Custom metadata for a story.
-   * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
+   * @see [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)
    */
   parameters?: Parameters;
 
@@ -198,7 +195,7 @@ export interface Addon_BaseAnnotations<
    * Wrapper components or Storybook decorators that wrap a story.
    *
    * Decorators defined in Meta will be applied to every story variation.
-   * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
+   * @see [Decorators](https://storybook.js.org/docs/addons/#1-decorators)
    */
   decorators?: Addon_BaseDecorators<StoryFnReturnType>;
 
@@ -307,30 +304,31 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  key: string;
 }
 
-/**
- * @deprecated This type is deprecated and will be removed in 8.0.
- */
-export type ReactJSXElement = {
-  type: any;
-  props: any;
-  key: any;
-};
-
-export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
+export type Addon_Type =
+  | Addon_BaseType
+  | Addon_PageType
+  | Addon_WrapperType
+  | Addon_SidebarBottomType
+  | Addon_SidebarTopType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
    * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
    */
-  title: FCWithoutChildren | ReactNode;
+  title: FC | ReactNode | (() => string);
   /**
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
    */
-  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
+  type: Exclude<
+    Addon_Types,
+    | Addon_TypesEnum.PREVIEW
+    | Addon_TypesEnum.experimental_PAGE
+    | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+    | Addon_TypesEnum.experimental_SIDEBAR_TOP
+  >;
   /**
    * The unique id of the addon.
    * @warn This will become non-optional in 8.0
@@ -375,20 +373,6 @@ export interface Addon_BaseType {
   hidden?: boolean;
 }
 
-/**
- * This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
- * this is correct and more type strict, and future compatible with React.FC in React 18+
- *
- * @deprecated This type is deprecated and will be removed in 8.0. (assuming the manager uses React 18 is out by then)
- */
-interface FCWithoutChildren<P = {}> {
-  (props: P, context?: any): ReactElement<any, any> | null;
-  propTypes?: WeakValidationMap<P> | undefined;
-  contextTypes?: ValidationMap<any> | undefined;
-  defaultProps?: Partial<P> | undefined;
-  displayName?: string | undefined;
-}
-
 export interface Addon_PageType {
   type: Addon_TypesEnum.experimental_PAGE;
   /**
@@ -402,7 +386,7 @@ export interface Addon_PageType {
   /**
    * The title is used in mobile mode to represent the page in the navigation.
    */
-  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  title: FC | string | ReactElement | ReactNode;
   /**
    * The main content of the addon, a function component without any props.
    * Storybook will render your component always.
@@ -419,7 +403,7 @@ export interface Addon_PageType {
    *   );
    * };
    */
-  render: FCWithoutChildren;
+  render: FC;
 }
 
 export interface Addon_WrapperType {
@@ -443,15 +427,43 @@ export interface Addon_WrapperType {
     }>
   >;
 }
+export interface Addon_SidebarBottomType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FC;
+}
+
+export interface Addon_SidebarTopType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_TOP;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FC;
+}
 
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.PREVIEW
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_TOP]: Addon_SidebarTopType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -473,6 +485,7 @@ export interface Addon_Config {
   toolbar?: {
     [id: string]: Addon_ToolbarConfig;
   };
+  sidebar?: API_SidebarOptions;
   [key: string]: any;
 }
 
@@ -504,9 +517,14 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   experimental_PAGE = 'page',
-
   /**
-   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
+   * This adds items in the bottom of the sidebar.
+   * @unstable
    */
-  NOTES_ELEMENT = 'notes-element',
+  experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
+  /**
+   * This adds items in the top of the sidebar.
+   * @unstable This will get replaced with a new API in 8.0, use at your own risk.
+   */
+  experimental_SIDEBAR_TOP = 'sidebar-top',
 }
