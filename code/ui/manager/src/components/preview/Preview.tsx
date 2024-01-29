@@ -103,7 +103,9 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
           />
           <S.FrameWrap key="frame">
             {tabContent && <S.IframeWrapper>{tabContent({ active: true })}</S.IframeWrapper>}
-            <Canvas {...{ withLoader, baseUrl }} active={!tabId} wrappers={wrappers} />
+            <S.CanvasWrap style={!!tabId ? { display: 'none' } : {}}>
+              <Canvas {...{ withLoader, baseUrl }} wrappers={wrappers} />
+            </S.CanvasWrap>
           </S.FrameWrap>
         </S.PreviewContainer>
       </ZoomProvider>
@@ -117,9 +119,8 @@ const Canvas: FC<{
   withLoader: boolean;
   baseUrl: string;
   children?: never;
-  active: boolean;
   wrappers: Addon_WrapperType[];
-}> = ({ baseUrl, withLoader, active, wrappers }) => {
+}> = ({ baseUrl, withLoader, wrappers }) => {
   return (
     <Consumer filter={canvasMapper}>
       {({
@@ -160,18 +161,12 @@ const Canvas: FC<{
             {({ value: scale }) => {
               return (
                 <>
-                  {active && withLoader && isLoading && (
+                  {withLoader && isLoading && (
                     <S.LoaderWrapper>
                       <Loader id="preview-loader" role="progressbar" progress={progress} />
                     </S.LoaderWrapper>
                   )}
-                  <ApplyWrappers
-                    id={id}
-                    storyId={storyId}
-                    viewMode={viewMode}
-                    active={active}
-                    wrappers={wrappers}
-                  >
+                  <ApplyWrappers id={id} storyId={storyId} viewMode={viewMode} wrappers={wrappers}>
                     {customCanvas ? (
                       customCanvas(storyId, viewMode, id, baseUrl, scale, queryParams)
                     ) : (

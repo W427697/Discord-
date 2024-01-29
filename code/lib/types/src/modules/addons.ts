@@ -423,7 +423,6 @@ export interface Addon_WrapperType {
       children: ReactNode;
       id: string;
       storyId: StoryId;
-      active: boolean;
     }>
   >;
 }

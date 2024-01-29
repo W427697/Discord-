@@ -30,7 +30,6 @@ export interface ApplyWrappersProps {
   viewMode: State['viewMode'];
   id: string;
   storyId: StoryId;
-  active: boolean;
 }
 
 export type CustomCanvasRenderer = (

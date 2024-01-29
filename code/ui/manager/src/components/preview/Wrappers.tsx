@@ -9,14 +9,13 @@ export const ApplyWrappers: FC<PropsWithChildren<ApplyWrappersProps>> = ({
   wrappers,
   id,
   storyId,
-  active,
   children,
 }) => {
   return (
     <Fragment>
       {wrappers.reduceRight(
         (acc, wrapper, index) => (
-          <wrapper.render {...{ index, children: acc, id, storyId, active }} />
+          <wrapper.render {...{ index, children: acc, id, storyId }} />
         ),
         children
       )}
@@ -28,14 +27,6 @@ export const defaultWrappers: Addon_WrapperType[] = [
   {
     id: 'iframe-wrapper',
     type: Addon_TypesEnum.PREVIEW,
-    render: (p) => (
-      <IframeWrapper
-        id="storybook-preview-wrapper"
-        hidden={!p.active}
-        style={{ ...(p.active ? {} : { display: 'none' }) }}
-      >
-        {p.children}
-      </IframeWrapper>
-    ),
+    render: (p) => <IframeWrapper id="storybook-preview-wrapper">{p.children}</IframeWrapper>,
   },
 ];
