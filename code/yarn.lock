@@ -6732,6 +6732,7 @@ __metadata:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/vue3": "workspace:*"
+    "@types/find-package-json": "npm:^1.2.6"
     "@types/node": "npm:^18.0.0"
     find-package-json: "npm:^1.2.0"
     magic-string: "npm:^0.30.0"
@@ -7383,6 +7384,15 @@ __metadata:
   version: 3.2.1
   resolution: "@types/find-cache-dir@npm:3.2.1"
   checksum: 68059aec88ef776a689c1711a881fd91a9ce1b03dd5898ea1d2ac5d77d7b0235f21fdf210f380c13deca8b45e4499841a63aaf31fd2123af687f2c6b472f41ce
+  languageName: node
+  linkType: hard
+
+"@types/find-package-json@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@types/find-package-json@npm:1.2.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: e9ec7d10f9c919b14cf391e710f41ff6684a6e6d87afc6322e7f7e3afe30b5f046b806767cb1509af6265e3f4ceb11fac9da279757839269a4c849359d7f5f18
   languageName: node
   linkType: hard
 
