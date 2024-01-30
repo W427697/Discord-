@@ -202,7 +202,7 @@ Autodocs allows you to document your "main" component, defined by the `component
 
 ![Subcomponents in ArgTypes doc block](./doc-block-arg-types-subcomponents.png)
 
-The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the subcomponents object.
+The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
 
 If you want to organize your documentation differently for component groups, we recommend [using MDX](./mdx.md). It gives you complete control over how your components are displayed and supports any configuration.
 
