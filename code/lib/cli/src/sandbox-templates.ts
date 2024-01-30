@@ -558,7 +558,7 @@ export const merged: TemplateKey[] = [
   ...normal,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
-  'angular-cli/15-ts',
+  // 'angular-cli/15-ts',
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
