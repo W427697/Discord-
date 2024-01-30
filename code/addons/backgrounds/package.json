@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "7.6.10",
+  "version": "7.6.11",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
