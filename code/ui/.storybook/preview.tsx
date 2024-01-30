@@ -304,7 +304,7 @@ export const globalTypes = {
     name: 'Theme',
     description: 'Global theme for components',
     toolbar: {
-      icon: 'circlehollow',
+      // icon: 'circlehollow',
       title: 'Theme',
       items: [
         { value: 'light', icon: 'circlehollow', title: 'light' },

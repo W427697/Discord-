@@ -1,11 +1,11 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import React from 'react';
-import { Icons, IconButton, type IconsProps } from '@storybook/components';
+import { IconButton } from '@storybook/components';
 
 interface ToolbarMenuButtonProps {
   active: boolean;
   title: string;
-  icon?: IconsProps['icon'];
+  icon?: ReactNode;
   description: string;
   onClick?: () => void;
 }
@@ -19,7 +19,7 @@ export const ToolbarMenuButton: FC<ToolbarMenuButtonProps> = ({
 }) => {
   return (
     <IconButton active={active} title={description} onClick={onClick}>
-      {icon && <Icons icon={icon} />}
+      {icon}
       {title ? `\xa0${title}` : null}
     </IconButton>
   );

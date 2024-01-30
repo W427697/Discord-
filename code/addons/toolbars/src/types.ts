@@ -1,5 +1,5 @@
-import type { IconsProps } from '@storybook/components';
 import type { InputType } from '@storybook/types';
+import type { ReactNode } from 'react';
 
 export type ToolbarShortcutType = 'next' | 'previous' | 'reset';
 
@@ -14,7 +14,7 @@ export type ToolbarShortcuts = Record<ToolbarShortcutType, ToolbarShortcutConfig
 
 export interface ToolbarItem {
   value?: string;
-  icon?: IconsProps['icon'];
+  icon?: ReactNode;
   left?: string;
   right?: string;
   title?: string;
@@ -25,8 +25,8 @@ export interface ToolbarItem {
 export interface NormalizedToolbarConfig {
   /** The label to show for this toolbar item */
   title?: string;
-  /** Choose an icon to show for this toolbar item */
-  icon: IconsProps['icon'];
+  /** Add your own icon, ideally from the @storybook/icons library */
+  icon: ReactNode;
   /** Set to true to prevent default update of icon to match any present selected items icon */
   preventDynamicIcon?: boolean;
   items: ToolbarItem[];
