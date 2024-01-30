@@ -193,14 +193,21 @@ Autodocs allows you to document your "main" component, defined by the `component
 
 <CodeSnippets
   paths={[
-    'common/subcomponents-in-meta.js.mdx',
-    'common/subcomponents-in-meta.ts.mdx'
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
 />
 
 <!-- prettier-ignore-end -->
 
-![Subcomponents in ArgTypes doc block](./doc-block-arg-types-subcomponents.png)
+![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
 
 The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
 
