@@ -21,9 +21,12 @@ export const Empty: Story = {
 };
 
 export const OneItem: Story = {
-  render: () => ({
+  render: (args) => ({
     components: { List, ListItem },
-    template: '<List><ListItem /></List>',
+    setup() {
+      return { args }
+    }
+    template: '<List v-bind="args"><ListItem /></List>',
   }),
 };
 ```

@@ -16,9 +16,12 @@ export const Empty = {
 };
 
 export const OneItem = {
-  render: () => ({
+  render: (args) => ({
     components: { List, ListItem },
-    template: '<List><ListItem /></List>',
+    setup() {
+      return { args }
+    }
+    template: '<List v-bind="args"><ListItem /></List>',
   }),
 };
 ```
