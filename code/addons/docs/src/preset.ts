@@ -140,8 +140,8 @@ export const viteFinal = async (config: any, options: Options) => {
   // Use the resolvedReact preset to alias react and react-dom to either the users version or the version shipped with addon-docs
   const { react, reactDom } = await getResolvedReact(options);
 
-  const reactAliasPlugin = {
-    name: 'storybook:react-alias',
+  const packageDeduplicationPlugin = {
+    name: 'storybook:package-deduplication',
     enforce: 'pre',
     config: () => ({
       resolve: {
@@ -149,13 +149,14 @@ export const viteFinal = async (config: any, options: Options) => {
           react,
           'react-dom': reactDom,
         },
+        dedupe: ['@storybook/theming', '@storybook/components', '@storybook/blocks'],
       },
     }),
   };
 
   // add alias plugin early to ensure any other plugins that also add the aliases will override this
   // eg. the preact vite plugin adds its own aliases
-  plugins.unshift(reactAliasPlugin);
+  plugins.unshift(packageDeduplicationPlugin);
   plugins.push(mdxPlugin(options));
 
   return config;
