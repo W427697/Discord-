@@ -34,6 +34,15 @@ Please upgrade your addon to Node.js 18, as support for Node.js 16 has ended.
 
 UI injected into panels, tools, etc. by addons is now rendered with React 18. Also note that the `key` prop is no longer passed to the render function.
 
+### React peer dependency is no longer required
+
+To remove your addon's peer dependency on React, and reduce its install size, do the following:
+
+1. Move `react`, `react-dom` and the globalized Storybook packages from `peerDependencies` to `devDependencies`
+2. Add the list of globalized packages to the `externals` property in the `tsup` configuration, to ensure they are not part of the bundle.
+
+For an example, see [the updates we've made to the addon-kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20). These changes are optional but recommended.
+
 ### @storybook/components deprecations
 
 `Icons` component from `@storybook/components` is now deprecated in favor of [`@storybook/icons`](https://github.com/storybookjs/icons). Additionally, various `Button` component props are also deprecated, with alternatives provided.
