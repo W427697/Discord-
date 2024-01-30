@@ -26,10 +26,10 @@ Note that by adding a `subcomponents` property to the default export, we get an 
 
 ![Subcomponents in ArgTypes doc block](./doc-block-arg-types-subcomponents-for-list.png)
 
-The downside of the approach used above, where each story creates its own combination of components, is that it does not take advantage of Storybook [Args](../writing-stories/args.md) meaning:
+Subcomponents are only intended for documentation purposes and have some limitations:
 
-1. You cannot change the stories via the controls panel
-2. There is no [args reuse](../writing-stories/index.md#using-args) possible, which makes the stories harder to maintain.
+1. The [argTypes](../api/arg-types.md) of subcomponents are [inferred (for the renderers that support that feature)](../api/arg-types.md#automatic-argtype-inference) and cannot be manually defined or overridden.
+2. The table for each documented subcomponent does _not_ include [controls](../essentials/controls.md) to change the value of the props, because controls always apply to the main component's args.
 
 Let's talk about some techniques you can use to mitigate the above, which are especially useful in more complicated situations.
 
