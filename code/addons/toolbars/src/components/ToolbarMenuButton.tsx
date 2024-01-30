@@ -3,8 +3,7 @@ import React from 'react';
 import { icons } from '@storybook/components';
 import { IconButton, Icons } from '@storybook/components';
 import { deprecate } from '@storybook/client-logger';
-
-type IconType = keyof typeof icons;
+import type { IconType } from '../types';
 
 interface ToolbarMenuButtonProps {
   active: boolean;
