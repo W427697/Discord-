@@ -134,7 +134,6 @@ export const ToolbarComp = React.memo<ToolData>(function ToolbarComp({
   tabId,
   api,
 }) {
-  console.log({ tabs, tools, toolsExtra });
   return tabs || tools || toolsExtra ? (
     <Toolbar key="toolbar" shown={isShown} data-test-id="sb-preview-toolbar">
       <ToolbarInner>
