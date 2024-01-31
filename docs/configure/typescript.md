@@ -134,7 +134,7 @@ If you're using Vue single file components and TypeScript, you can add both [Vol
 
 ### Storybook doesn't create the required types for external packages
 
-If you're working with a project relying on a third-party library and you're running into an issue where you notice that the required types are not being generated, preventing you from accurately documenting your components, you can adjust the `reactDocgen` configuration option in your Storybook configuration file to use `react-docgen-typescript` instead and include the required options. For example:
+If your project relies on a third-party library and the expected types are not being generated, preventing you from accurately documenting your components, you can adjust the `reactDocgen` configuration option in your Storybook configuration file to use `react-docgen-typescript` instead and include the required options. For example:
 
 <!-- prettier-ignore-start -->
 

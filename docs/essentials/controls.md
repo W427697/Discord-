@@ -73,7 +73,7 @@ Finally, update your `.storybook/preview.ts` file to include the following confi
 
 <!-- prettier-ignore-end -->
 
-When you set the `component` annotation to the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
+When you set the `component` annotation of the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
 
 <!-- prettier-ignore-start -->
 
@@ -89,9 +89,9 @@ When you set the `component` annotation to the default export of your story file
 
 <IfRenderer renderer='ember'>
 
-By default, Storybook will try to infer the required argTypes and associated controls for your stories based on the metadata provided by the [`@storybook/ember-cli-storybook`](https://github.com/storybookjs/ember-cli-storybook) addon. You'll need to take some additional steps to set it up properly.
+By default, Storybook will try to infer the required argTypes and associated controls for your stories based on the metadata provided by the [`@storybook/ember-cli-storybook`](https://github.com/storybookjs/ember-cli-storybook) adapter. You'll need to take some additional steps to set it up properly.
 
-Update your `ember-cli-build.js` configuration file to include the addon.
+Update your `ember-cli-build.js` configuration file to include the adapter.
 
 <!-- prettier-ignore-start -->
 
@@ -121,7 +121,7 @@ Enabling this feature will generate a `storybook-docgen/index.json` automaticall
 
 </Callout>
 
-When you set the `component` annotation to the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
+When you set the `component` annotation of the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
 
 <!-- prettier-ignore-start -->
 
@@ -171,7 +171,7 @@ By default, Storybook will choose a control for each arg based on its initial va
 
 <IfRenderer renderer='web-components'>
 
-By default, Storybook will try to infer the required argTypes and associated controls for your stories based on the component's definition and the initial value of the args. You'll need to take some additional steps to set it up properly. You can opt to generate a [`custom-elements.json`](https://github.com/webcomponents/custom-elements-json) file with [`@custom-elements-manifest/analyzer`](https://github.com/open-wc/custom-elements-manifest) if you're using the `pre-v1.0.0` version of the elements file or [`@custom-elements-manifest/analyzer`](https://github.com/open-wc/custom-elements-manifest) for newer versions and configure it in your Storybook UI configuration file (i.e., `.storybook/preview.js|ts`) to enable it.
+By default, Storybook will try to infer the required argTypes and associated controls for your stories based on the component's definition and the initial value of the args. You'll need to take some additional steps to set it up properly. You can opt to generate a [`custom-elements.json`](https://github.com/webcomponents/custom-elements-json) file with [`@custom-elements-manifest/analyzer`](https://github.com/open-wc/custom-elements-manifest) if you're using the `pre-v1.0.0` version of the elements file or [`@custom-elements-manifest/analyzer`](https://github.com/open-wc/custom-elements-manifest/tree/master/packages/analyzer) for newer versions and configure it in your Storybook UI configuration file (i.e., `.storybook/preview.js|ts`) to enable it.
 
 <!-- prettier-ignore-start -->
 
@@ -185,7 +185,7 @@ By default, Storybook will try to infer the required argTypes and associated con
 
 <!-- prettier-ignore-end -->
 
-When you set the `component` annotation to the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
+When you set the `component` annotation of the default export of your story file, it will be used to infer the controls and auto-generate the matching [`argTypes`](../api/arg-types.md) for your component.
 
 <!-- prettier-ignore-start -->
 
