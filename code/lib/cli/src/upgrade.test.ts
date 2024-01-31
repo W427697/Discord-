@@ -1,4 +1,3 @@
-import { getStorybookCoreVersion } from '@storybook/telemetry';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
@@ -13,6 +12,20 @@ jest.mock('./versions', () => {
       acc[key] = '8.0.0';
       return acc;
     }, {} as Record<string, string>),
+  };
+});
+
+const findInstallationsMock = jest.fn();
+
+jest.mock('./js-package-manager', () => {
+  const originalModule = jest.requireActual('./js-package-manager');
+  return {
+    ...originalModule,
+    JsPackageManagerFactory: {
+      getPackageManager: () => ({
+        findInstallations: findInstallationsMock,
+      }),
+    },
   };
 });
 
@@ -39,13 +52,37 @@ describe.each([
 
 describe('Upgrade errors', () => {
   it('should throw an error when upgrading to a lower version number', async () => {
-    jest.mocked(getStorybookCoreVersion).mockResolvedValue('8.1.0');
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.1.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
   it('should throw an error when upgrading to the same version number', async () => {
-    jest.mocked(getStorybookCoreVersion).mockResolvedValue('8.0.0');
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.0.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
 });
