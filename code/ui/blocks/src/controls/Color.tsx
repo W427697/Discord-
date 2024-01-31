@@ -8,7 +8,7 @@ import { TooltipNote, WithTooltip, Form } from '@storybook/components';
 
 import type { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
 import { getControlId } from './helpers';
-import { MarkdownIcon } from '@storybook/icons';
+import { MarkupIcon } from '@storybook/icons';
 
 const Wrapper = styled.div({
   position: 'relative',
@@ -75,7 +75,7 @@ const Input = styled(Form.Input)(({ theme }) => ({
   fontFamily: theme.typography.fonts.base,
 }));
 
-const ToggleIcon = styled(MarkdownIcon)(({ theme }) => ({
+const ToggleIcon = styled(MarkupIcon)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   top: 6,
