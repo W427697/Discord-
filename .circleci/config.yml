@@ -43,7 +43,7 @@ executors:
         default: "small"
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.41.1-focal
+      - image: mcr.microsoft.com/playwright:v1.41.1-jammy
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -360,6 +360,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Node 18
+          command: nvm install v18.14.0
+      - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
       - report-workflow-on-failure:
@@ -379,6 +382,9 @@ jobs:
           clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
+      - run:
+          name: Node 18
+          command: nvm install v18.14.0
       - run:
           name: Running Test Runner in Dev mode
           command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
@@ -419,6 +425,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Node 18
+          command: nvm install v18.14.0
+      - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
       - report-workflow-on-failure:
@@ -442,6 +451,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Node 18
+          command: nvm install v18.14.0
+      - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
       - report-workflow-on-failure:
@@ -464,6 +476,9 @@ jobs:
           clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
+      - run:
+          name: Node 18
+          command: nvm install v18.14.0
       - run:
           name: Running Bench
           command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
