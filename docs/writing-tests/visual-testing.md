@@ -14,17 +14,17 @@ Storybook supports cross-browser visual testing natively using [Chromatic](https
   />
 </video>
 
-### Install Visual Tests addon
+### Install the addon
 
-Install the Visual Tests addon by running the following command:
+Add visual tests to your project by installing `@chromatic-com/storybook`, the official addon by Storybook maintainers:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/visual-test-addon-install.npm.js.mdx',
-    'common/visual-test-addon-install.pnpm.js.mdx',
-    'common/visual-test-addon-install.yarn.js.mdx'
+    'common/chromatic-storybook-add.npm.js.mdx',
+    'common/chromatic-storybook-add.pnpm.js.mdx',
+    'common/chromatic-storybook-add.yarn.js.mdx'
   ]}
 />
 
@@ -40,17 +40,17 @@ Storybook 7.4 or higher is required. Read the [migration guide](../migration-gui
 
 When you start Storybook, you'll see a new addon panel for Visual Tests where you can run tests and view results.
 
-![Visual Tests Addon enabled](./vta-enable.png)
+![Visual Tests addon enabled](./vta-enable.png)
 
 To enable visual testing, sign up for [Chromatic](https://www.chromatic.com/start?startWithSignup=true&ref=storybook_site) and create a project. This will give you access to a fleet of cloud browsers.
 
-![Visual Tests Addon project selection](./vta-select-project.png)
+![Visual Tests addon project selection](./vta-select-project.png)
 
 Select a project from your project list to finish setup. If you're setting up the addon for the first time, the configuration files and necessary project identifiers will be added for you automatically.
 
 ### Configure
 
-Visual Tests addon includes configuration options covering most use cases by default. You can also fine-tune the addon configuration to match your project's requirements via the [`./chromatic.config.json`](https://www.chromatic.com/docs/cli#configuration) file. Below are the available options and examples of how to use them.
+The addon includes configuration options covering most use cases by default. You can also fine-tune the addon configuration to match your project's requirements via the [`./chromatic.config.json`](https://www.chromatic.com/docs/cli#configuration) file. Below are the available options and examples of how to use them.
 
 | Option            | Description                                                                                                                                        |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
