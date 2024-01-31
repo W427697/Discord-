@@ -17,17 +17,13 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 <!-- prettier-ignore-end -->
 
 <details>
+<summary>Install a specific version</summary>
 
-<summary><code>storybook init</code> is not made for empty projects</summary>
+The `init` command will use whichever version you specify. For example:
 
-Storybook needs to be installed into a project that is already set up with a framework. It will not work on an empty project. There are many ways to bootstrap an app in a given framework, including:
-
-- 📦 [Create an Angular Workspace](https://angular.io/cli/new)
-- 📦 [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
-- 📦 [Create a Vue App](https://vuejs.org/guide/quick-start.html)
-- 📦 [Ember CLI](https://guides.emberjs.com/release/getting-started/quick-start/)
-- 📦 [Vite CLI](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
-- Or any other tooling available.
+- `storybook@latest init` will initialize the latest version
+- `storybook@7.6.10 init` will initialize `7.6.10`
+- `storybook@7 init` will initialize the newest `7.x.x` version
 
 </details>
 

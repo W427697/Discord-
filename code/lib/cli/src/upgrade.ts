@@ -1,5 +1,5 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import semver, { coerce, eq, lt } from 'semver';
 import { deprecate, logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
@@ -11,7 +11,11 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
+import type {
+  JsPackageManager,
+  PackageJsonWithMaybeDeps,
+  PackageManagerName,
+} from './js-package-manager';
 import { JsPackageManagerFactory, getPackageDetails, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
@@ -32,6 +36,18 @@ export const getStorybookVersion = (line: string) => {
     package: match[1],
     version: match[2],
   };
+};
+
+const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
+  const installations = await packageManager.findInstallations(['storybook', '@storybook/cli']);
+  if (!installations) {
+    return undefined;
+  }
+  const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
+  if (cliVersion) {
+    return cliVersion;
+  }
+  return installations.dependencies['storybook']?.[0].version;
 };
 
 const deprecatedPackages = [
@@ -91,9 +107,7 @@ export const checkVersionConsistency = () => {
   });
 };
 
-/**
- * DEPRECATED BEHAVIOR SECTION
- */
+// #region DEPRECATED BEHAVIOR SECTION
 
 type ExtraFlags = Record<string, string[]>;
 const EXTRA_FLAGS: ExtraFlags = {
@@ -170,7 +184,8 @@ export const deprecatedUpgrade = async ({
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  const beforeVersion = await getStorybookCoreVersion();
+  // If we can't determine the existing version fallback to v0.0.0 to not block the upgrade
+  const beforeVersion = (await getInstalledStorybookVersion(packageManager)) ?? '0.0.0';
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
 
@@ -221,7 +236,7 @@ export const deprecatedUpgrade = async ({
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
+    const afterVersion = await getInstalledStorybookVersion(packageManager);
     const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,
@@ -237,9 +252,7 @@ export const deprecatedUpgrade = async ({
   }
 };
 
-/**
- * DEPRECATED BEHAVIOR SECTION END
- */
+// #endregion DEPRECATED BEHAVIOR SECTION
 
 export interface UpgradeOptions {
   /**
@@ -292,8 +305,9 @@ export const doUpgrade = async ({
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  // If we can't determine the existing version (Yarn PnP), fallback to v0.0.0 to not block the upgrade
-  const beforeVersion = (await getStorybookCoreVersion()) ?? '0.0.0';
+  // If we can't determine the existing version fallback to v0.0.0 to not block the upgrade
+  const beforeVersion = (await getInstalledStorybookVersion(packageManager)) ?? '0.0.0';
+
   const currentVersion = versions['@storybook/cli'];
   const isCanary = currentVersion.startsWith('0.0.0');
 
@@ -385,7 +399,7 @@ export const doUpgrade = async ({
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
+    const afterVersion = await getInstalledStorybookVersion(packageManager);
     const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,
