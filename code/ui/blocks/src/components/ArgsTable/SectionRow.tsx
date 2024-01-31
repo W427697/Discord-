@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { transparentize, lighten } from 'polished';
 import { styled } from '@storybook/theming';
-import { ChevronSmallDownIcon, ChevronSmallRightIcon } from '@storybook/icons';
+import { ChevronDownIcon, ChevronRightIcon } from '@storybook/icons';
 
 type Level = 'section' | 'subsection';
 
@@ -14,7 +14,7 @@ export interface SectionRowProps {
   colSpan: number;
 }
 
-const ExpanderIconDown = styled(ChevronSmallDownIcon)(({ theme }) => ({
+const ExpanderIconDown = styled(ChevronDownIcon)(({ theme }) => ({
   marginRight: 8,
   marginLeft: -10,
   marginTop: -2, // optical alignment
@@ -28,7 +28,7 @@ const ExpanderIconDown = styled(ChevronSmallDownIcon)(({ theme }) => ({
   display: 'inline-block',
 }));
 
-const ExpanderIconRight = styled(ChevronSmallRightIcon)(({ theme }) => ({
+const ExpanderIconRight = styled(ChevronRightIcon)(({ theme }) => ({
   marginRight: 8,
   marginLeft: -10,
   marginTop: -2, // optical alignment
