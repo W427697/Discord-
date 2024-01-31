@@ -22,37 +22,11 @@ import { configureSWCLoader } from './swc/loader';
 import { configureBabelLoader } from './babel/loader';
 import { configureFastRefresh } from './fastRefresh/webpack';
 import { configureAliases } from './aliases/webpack';
+import { logger } from '@storybook/node-logger';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
 ];
-
-const defaultFrameworkOptions: FrameworkOptions = {};
-
-export const frameworkOptions: PresetProperty<'framework'> = async (_, options) => {
-  const config = await options.presets.apply('framework');
-
-  if (typeof config === 'string') {
-    return {
-      name: config,
-      options: defaultFrameworkOptions,
-    };
-  }
-  if (typeof config === 'undefined') {
-    return {
-      name: require.resolve('@storybook/nextjs') as '@storybook/nextjs',
-      options: defaultFrameworkOptions,
-    };
-  }
-
-  return {
-    name: config.name,
-    options: {
-      ...defaultFrameworkOptions,
-      ...config.options,
-    },
-  };
-};
 
 export const core: PresetProperty<'core'> = async (config, options) => {
   const framework = await options.presets.apply('framework');
@@ -136,7 +110,6 @@ export const babel: PresetProperty<'babel'> = async (baseConfig: TransformOption
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );
@@ -173,8 +146,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   }
 
   if (useSWC) {
+    logger.info('=> Using SWC as compiler');
     await configureSWCLoader(baseConfig, options, nextConfig);
   } else {
+    logger.info('=> Using Babel as compiler');
     await configureBabelLoader(baseConfig, options);
   }
 
