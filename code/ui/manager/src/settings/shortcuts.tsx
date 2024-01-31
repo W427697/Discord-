@@ -81,7 +81,7 @@ export const Fade = keyframes`
   50% { opacity: 1; }
 `;
 
-export const SuccessIcon = styled(CheckIcon)<{ valid: string }>(
+const SuccessIcon = styled(CheckIcon)<{ valid: string }>(
   ({ valid, theme }) =>
     valid === 'valid'
       ? {
