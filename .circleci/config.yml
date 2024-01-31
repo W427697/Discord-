@@ -363,6 +363,7 @@ jobs:
           name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
       - run:
           name: Node 18
           command: |
@@ -391,6 +392,7 @@ jobs:
           name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
       - run:
           name: Node 18
           command: |
@@ -438,6 +440,7 @@ jobs:
           name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
       - run:
           name: Node 18
           command: |
@@ -469,6 +472,7 @@ jobs:
           name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
       - run:
           name: Node 18
           command: |
@@ -500,6 +504,7 @@ jobs:
           name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
       - run:
           name: Node 18
           command: |
