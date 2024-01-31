@@ -34,6 +34,6 @@ const MockedNextImage = React.forwardRef<HTMLImageElement, _NextImage.ImageProps
 MockedNextImage.displayName = 'NextImage';
 
 export const getImageProps = (props: _NextImage.ImageProps) =>
-  originalGetImageProps?.({ loader: defaultLoader, ...props})
+  originalGetImageProps?.({ loader: defaultLoader, ...props });
 
 export default MockedNextImage;

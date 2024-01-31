@@ -28,7 +28,7 @@ export default {
   component: Component,
   args: {
     alt: 'getImageProps Example',
-  }
+  },
 } as Meta<typeof Component>;
 
 export const Default: StoryObj<typeof Component> = {};
