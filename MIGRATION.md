@@ -20,7 +20,6 @@
     - [Dropping support for Yarn 1](#dropping-support-for-yarn-1)
     - [Dropping support for Node.js 16](#dropping-support-for-nodejs-16)
     - [Autotitle breaking fixes](#autotitle-breaking-fixes)
-    - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
     - [Storyshots has been removed](#storyshots-has-been-removed)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
@@ -28,6 +27,7 @@
     - [Removed postinstall](#removed-postinstall)
     - [Removed stories.json](#removed-storiesjson)
     - [Removed `sb babelrc` command](#removed-sb-babelrc-command)
+    - [Changed interfaces for `@storybook/router` components](#changed-interfaces-for-storybookrouter-components)
   - [Framework-specific changes](#framework-specific-changes)
     - [React](#react)
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
@@ -670,13 +670,6 @@ export default {
 
 Alternatively, if you need to achieve a different behavior for a large number of files, you can provide a [custom indexer](https://storybook.js.org/docs/7.0/vue/configure/sidebar-and-urls#processing-custom-titles) to generate the titles dynamically.
 
-#### React v18 in the manager UI (including addons)
-
-Storybook 7 used React 16 in the manager. In Storybook 8 this is upgraded to react v18.
-Addons that inject UI into panels, tools, etc. are possibly affected by this.
-
-Addon authors are advised to upgrade to react v18.
-
 #### Storyshots has been removed
 
 Storyshots was an addon for Storybook which allowed users to turn their stories into automated snapshot tests.
@@ -745,6 +738,10 @@ The `sb babelrc` command was used to generate a `.babelrc` file for Storybook. T
 From version 8.0 onwards, Storybook is compiler-agnostic and does not depend on Babel or SWC if you use Webpack 5. This move was made to make Storybook more flexible and allow users to configure their own Babel setup according to their project needs and setup. If you need a custom Babel configuration, you can create a `.babelrc` file yourself and configure it according to your project setup.
 
 The reasoning behind is to condense and provide some clarity to what's happened to both the command and what's shifted with the upcoming release.
+
+#### Changed interfaces for `@storybook/router` components
+
+The `hideOnly` prop has been removed from the `<Route />` component in `@storybook/router`. If needed this can be implemented manually with the `<Match />` component.
 
 ### Framework-specific changes
 

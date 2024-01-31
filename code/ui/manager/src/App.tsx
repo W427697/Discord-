@@ -1,8 +1,5 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-
-import { Route } from '@storybook/router';
-
 import { Global, createGlobal } from '@storybook/theming';
 import type { Addon_PageType } from '@storybook/types';
 import Sidebar from './container/Sidebar';
@@ -29,11 +26,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages, hasTab }
         hasTab={hasTab}
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}
-        slotMain={
-          <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-            <Preview id="main" withLoader />
-          </Route>
-        }
+        slotMain={<Preview id="main" withLoader />}
         slotSidebar={<Sidebar onMenuClick={() => setMobileAboutOpen((state) => !state)} />}
         slotPanel={<Panel />}
         slotPages={pages.map(({ id, render: Content }) => (
