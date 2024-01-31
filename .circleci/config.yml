@@ -360,9 +360,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Node 18
+          name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - run:
+          name: Node 18
+          command: |
             nvm install v18.14.0
       - run:
           name: Running Test Runner
@@ -385,9 +388,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Node 18
+          name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - run:
+          name: Node 18
+          command: |
             nvm install v18.14.0
       - run:
           name: Running Test Runner in Dev mode
@@ -429,9 +435,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Node 18
+          name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - run:
+          name: Node 18
+          command: |
             nvm install v18.14.0
       - run:
           name: Running E2E Tests
@@ -457,9 +466,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Node 18
+          name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - run:
+          name: Node 18
+          command: |
             nvm install v18.14.0
       - run:
           name: Running E2E Tests
@@ -485,9 +497,12 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Node 18
+          name: NVM
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - run:
+          name: Node 18
+          command: |
             nvm install v18.14.0
       - run:
           name: Running Bench
