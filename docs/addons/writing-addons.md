@@ -98,10 +98,11 @@ Going through the code blocks in sequence:
 
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 
-import { Icons, IconButton } from '@storybook/components';
+import { IconButton } from '@storybook/components';
+import { LightningIcon } from '@storybook/icons';
 ```
 
-The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
+The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `IconButton` component from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the buttons in the toolbar. Any icon from the [`@storybook/icons`](https://storybook.js.org/docs/react/api/icons) package can be used.
 
 ```ts
 // src/Tool.tsx
