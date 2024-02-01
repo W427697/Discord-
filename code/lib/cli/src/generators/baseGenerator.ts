@@ -226,6 +226,7 @@ export async function baseGenerator(
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@chromatic-com/storybook',
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...stripVersions(extraAddonsToInstall || []),
   ].filter(Boolean);
@@ -234,6 +235,7 @@ export async function baseGenerator(
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@chromatic-com/storybook',
     '@storybook/blocks',
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
     ...(extraAddonsToInstall || []),
