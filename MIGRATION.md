@@ -1,7 +1,6 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
@@ -71,6 +70,7 @@
     - [`createChannel` from `@storybook/postmessage` and `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and-storybookchannel-websocket)
     - [StoryStore and methods deprecated](#storystore-and-methods-deprecated)
   - [Addon author changes](#addon-author-changes)
+    - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
     - [Removed `config` preset](#removed-config-preset-1)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
@@ -386,46 +386,6 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.x to 8.0.0
-
-### Tab addons are now routed to a query parameter
-
-The TAB type addons now should no longer specify the `match` or `route` property.
-
-Instead storybook will automatically show the addon's rendered content when the query parameter `tab` is set to the addon's ID.
-
-Example:
-
-```tsx
-import { addons, types } from "@storybook/manager-api";
-
-addons.register("my-addon", () => {
-  addons.add("my-addon/panel", {
-    type: types.TAB,
-    title: "My Addon",
-    render: () => <div>Hello World</div>,
-  });
-});
-```
-
-Tool type addon will now receive the `tabId` property passed to their `match` function.
-That way they can chose to show/hide their content based on the current tab.
-
-When the canvas is shown, the `tabId` will be set to `undefined`.
-
-Example:
-
-```tsx
-import { addons, types } from "@storybook/manager-api";
-
-addons.register("my-addon", () => {
-  addons.add("my-addon/tool", {
-    type: types.TOOL,
-    title: "My Addon",
-    match: ({ tabId }) => tabId === "my-addon/panel",
-    render: () => <div>👀</div>,
-  });
-});
-```
 
 ### Default keyboard shortcuts changed
 
@@ -1090,6 +1050,48 @@ In particular, the following methods on the `StoryStore` are deprecated and will
 Note that both these methods require initialization, so you should await `preview.ready()`.
 
 ### Addon author changes
+
+#### Tab addons are now routed to a query parameter
+
+The TAB type addons now should no longer specify the `match` or `route` property.
+
+Instead storybook will automatically show the addon's rendered content when the query parameter `tab` is set to the addon's ID.
+
+Example:
+
+```tsx
+import { addons, types } from "@storybook/manager-api";
+
+addons.register("my-addon", () => {
+  addons.add("my-addon/panel", {
+    type: types.TAB,
+    title: "My Addon",
+    render: () => <div>Hello World</div>,
+  });
+});
+```
+
+Tool type addon will now receive the `tabId` property passed to their `match` function.
+That way they can chose to show/hide their content based on the current tab.
+
+When the canvas is shown, the `tabId` will be set to `undefined`.
+
+Example:
+
+```tsx
+import { addons, types } from "@storybook/manager-api";
+
+addons.register("my-addon", () => {
+  addons.add("my-addon/tool", {
+    type: types.TOOL,
+    title: "My Addon",
+    match: ({ tabId }) => tabId === "my-addon/panel",
+    render: () => <div>👀</div>,
+  });
+});
+```
+
+The URL the tab gets rendered on will be `http://localhost:6006/?path=/story/my-story&tab=my-addon/tab`.
 
 #### Removed `config` preset
 
