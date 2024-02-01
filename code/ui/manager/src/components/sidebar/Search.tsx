@@ -5,7 +5,7 @@ import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React, { useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { CloseIcon, SearchIcon } from '@storybook/icons';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
@@ -175,6 +175,20 @@ export const Search = React.memo<{
     [api, inputRef, showAllComponents, DEFAULT_REF_ID]
   );
 
+  const useCheckMobileScreen = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+    const handleWindowSizeChange = () => {
+            setWidth(window.innerWidth);
+    }
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    }, []);
+    return (width <= 768);
+  }
+
   const list: SearchItem[] = useMemo(() => {
     return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index || {}, status);
@@ -288,7 +302,7 @@ export const Search = React.memo<{
     },
     [inputRef, selectStory, showAllComponents]
   );
-
+  const isMobile = useCheckMobileScreen();
   return (
     <Downshift<DownshiftItem>
       initialInputValue={initialQuery}
@@ -359,7 +373,7 @@ export const Search = React.memo<{
               </SearchIconWrapper>
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && !isOpen && (
+              {!isMobile && enableShortcuts && !isOpen && (
                 <FocusKey>
                   {searchShortcut === '⌘ K' ? (
                     <>
