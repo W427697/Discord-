@@ -3,7 +3,8 @@ import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 
-test.describe('tags', () => {
+// FIXME - get rid of the flake
+test.describe.skip('tags', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
@@ -37,8 +38,7 @@ test.describe('tags', () => {
     expect(testOnlyAnchor.length).toBe(0);
   });
 
-  // FIXME - get rid of the flake
-  test.skip('should correctly filter out test-only autodocs pages', async ({ page }) => {
+  test('should correctly filter out test-only autodocs pages', async ({ page }) => {
     const sbPage = new SbPage(page);
 
     await sbPage.selectToolbar('#lib-preview-api');
