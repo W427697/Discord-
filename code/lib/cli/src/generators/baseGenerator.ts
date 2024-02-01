@@ -222,13 +222,10 @@ export async function baseGenerator(
         })
       : extraAddonPackages;
 
-  extraAddonsToInstall?.push(
-    ...[
-      ...(extraAddonsToInstall || []),
-      '@storybook/addon-links',
-      '@storybook/addon-essentials',
-      '@chromatic-com/storybook@^1',
-    ]
+  extraAddonsToInstall.push(
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@chromatic-com/storybook@^1'
   );
 
   // added to main.js
