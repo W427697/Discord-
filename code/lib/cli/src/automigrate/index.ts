@@ -1,23 +1,25 @@
-/* eslint-disable no-await-in-loop */
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
-
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
 import invariant from 'tiny-invariant';
-import { JsPackageManagerFactory } from '../js-package-manager';
-import type { PackageManagerName } from '../js-package-manager';
+
+import {
+  getStorybookInfo,
+  loadMainConfig,
+  getCoercedStorybookVersion,
+  JsPackageManagerFactory,
+} from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core-common';
 
 import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
 import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
-import { getStorybookVersion } from '../utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -154,7 +156,7 @@ export async function runFixes({
     userSpecifiedConfigDir
   );
 
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
 
   if (!storybookVersion) {
     logger.info(dedent`

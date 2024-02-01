@@ -21,7 +21,7 @@ vi.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const mockRunScript = vi.fn();
 
-vi.mock('@storybook/cli', () => ({
+vi.mock('@storybook/core-common', () => ({
   getEnvConfig: (options: any) => options,
   versions: {
     storybook: 'x.x.x',
@@ -34,7 +34,6 @@ vi.mock('@storybook/cli', () => ({
 }));
 
 // Randomly fails on CI. TODO: investigate why
-// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('Start Storybook Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
@@ -161,7 +160,6 @@ describe.skip('Start Storybook Builder', () => {
 
       expect(false).toEqual('Throw expected');
     } catch (error) {
-      // eslint-disable-next-line jest/no-try-expect, jest/no-conditional-expect
       expect(error).toEqual(
         'Broken build, fix the error above.\nYou may need to refresh the browser.'
       );

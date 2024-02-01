@@ -13,9 +13,9 @@ import {
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { commandLog, isNxProject } from './helpers';
-import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { HandledError } from './HandledError';
+import { isNxProject } from './helpers';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
+import { commandLog, HandledError } from '@storybook/core-common';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
@@ -134,7 +134,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
     default:
-      // eslint-disable-next-line no-case-declarations
       const { builder } = await prompts(
         {
           type: 'select',

@@ -4,7 +4,7 @@ import path from 'path';
 import type { TemplateKey } from 'get-template';
 import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
-import storybookVersions from '../../code/lib/cli/src/versions';
+import storybookVersions from '../../code/lib/core-common/src/versions';
 import touch from './touch';
 
 export type YarnOptions = {
@@ -25,9 +25,9 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
-    playwright: '1.36.0',
-    'playwright-core': '1.36.0',
-    '@playwright/test': '1.36.0',
+    playwright: '1.41.1',
+    'playwright-core': '1.41.1',
+    '@playwright/test': '1.41.1',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
