@@ -196,7 +196,7 @@ export async function baseGenerator(
   );
 
   const {
-    extraAddons: extraAddonPackages,
+    extraAddons: extraAddonPackages = [],
     extraPackages,
     staticDir,
     addScripts,
@@ -214,7 +214,7 @@ export async function baseGenerator(
 
   const compiler = webpackCompiler ? webpackCompiler({ builder }) : undefined;
 
-  let extraAddonsToInstall =
+  const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
       ? await extraAddonPackages({
           builder: (builder || builderInclude) as string,
@@ -222,12 +222,14 @@ export async function baseGenerator(
         })
       : extraAddonPackages;
 
-  extraAddonsToInstall = [
-    ...(extraAddonsToInstall || []),
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@chromatic-com/storybook@^1',
-  ];
+  extraAddonsToInstall?.push(
+    ...[
+      ...(extraAddonsToInstall || []),
+      '@storybook/addon-links',
+      '@storybook/addon-essentials',
+      '@chromatic-com/storybook@^1',
+    ]
+  );
 
   // added to main.js
   const addons = [
