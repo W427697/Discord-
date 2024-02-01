@@ -224,8 +224,8 @@ export async function baseGenerator(
 
   extraAddonsToInstall.push(
     '@storybook/addon-links',
-    '@storybook/addon-essentials'
-    // '@chromatic-com/storybook@^1'
+    '@storybook/addon-essentials',
+    '@chromaui/addon-visual-tests@0.0.124'
   );
 
   // added to main.js
