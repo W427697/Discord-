@@ -1070,7 +1070,7 @@ Example:
 import { addons, types } from "@storybook/manager-api";
 
 addons.register("my-addon", () => {
-  addons.add("my-addon/panel", {
+  addons.add("my-addon/tab", {
     type: types.TAB,
     title: "My Addon",
     render: () => <div>Hello World</div>,
@@ -1092,7 +1092,7 @@ addons.register("my-addon", () => {
   addons.add("my-addon/tool", {
     type: types.TOOL,
     title: "My Addon",
-    match: ({ tabId }) => tabId === "my-addon/panel",
+    match: ({ tabId }) => tabId === "my-addon/tab",
     render: () => <div>👀</div>,
   });
 });
