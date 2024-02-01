@@ -31,6 +31,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@adobe/css-tools@npm:^4.3.2":
+  version: 4.3.3
+  resolution: "@adobe/css-tools@npm:4.3.3"
+  checksum: e76e712df713964b87cdf2aca1f0477f19bebd845484d5fcba726d3ec7782366e2f26ec8cb2dcfaf47081a5c891987d8a9f5c3f30d11e1eb3c1848adc27fcb24
+  languageName: node
+  linkType: hard
+
 "@ampproject/remapping@npm:2.2.1, @ampproject/remapping@npm:^2.2.0, @ampproject/remapping@npm:^2.2.1":
   version: 2.2.1
   resolution: "@ampproject/remapping@npm:2.2.1"
@@ -6663,7 +6670,7 @@ __metadata:
     "@storybook/instrumenter": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@testing-library/dom": "npm:^9.3.1"
-    "@testing-library/jest-dom": "npm:^6.1.3"
+    "@testing-library/jest-dom": "npm:^6.4.0"
     "@testing-library/user-event": "npm:14.3.0"
     "@vitest/expect": "npm:1.1.3"
     "@vitest/spy": "npm:^1.1.3"
@@ -6925,7 +6932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^6.1.3, @testing-library/jest-dom@npm:^6.1.4":
+"@testing-library/jest-dom@npm:^6.1.4":
   version: 6.1.5
   resolution: "@testing-library/jest-dom@npm:6.1.5"
   dependencies:
@@ -6952,6 +6959,39 @@ __metadata:
     vitest:
       optional: true
   checksum: f3643a56fcd970b5c7e8fd10faf3c4817d8ab0e74fb1198d726643bdc5ac675ceaac3b0068c5b4fbad254470e8f98ed50028741de875a29ceaa2f854570979c9
+  languageName: node
+  linkType: hard
+
+"@testing-library/jest-dom@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "@testing-library/jest-dom@npm:6.4.0"
+  dependencies:
+    "@adobe/css-tools": "npm:^4.3.2"
+    "@babel/runtime": "npm:^7.9.2"
+    aria-query: "npm:^5.0.0"
+    chalk: "npm:^3.0.0"
+    css.escape: "npm:^1.5.1"
+    dom-accessibility-api: "npm:^0.6.3"
+    lodash: "npm:^4.17.15"
+    redent: "npm:^3.0.0"
+  peerDependencies:
+    "@jest/globals": ">= 28"
+    "@types/bun": "*"
+    "@types/jest": ">= 28"
+    jest: ">= 28"
+    vitest: ">= 0.32"
+  peerDependenciesMeta:
+    "@jest/globals":
+      optional: true
+    "@types/bun":
+      optional: true
+    "@types/jest":
+      optional: true
+    jest:
+      optional: true
+    vitest:
+      optional: true
+  checksum: 6b7eba9ca388986a721fb12f84adf0f5534bf7ec5851982023a889c4a0afac6e9e91291bdac39e1f59a05adefd7727e30463d98b21c3da32fbfec229ccb11ef1
   languageName: node
   linkType: hard
 
@@ -8479,12 +8519,12 @@ __metadata:
 
 "@vitest/expect@patch:@vitest/expect@npm%3A1.1.3#~/.yarn/patches/@vitest-expect-npm-1.1.3-2062bf533f.patch":
   version: 1.1.3
-  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A1.1.3#~/.yarn/patches/@vitest-expect-npm-1.1.3-2062bf533f.patch::version=1.1.3&hash=5d51c9"
+  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A1.1.3#~/.yarn/patches/@vitest-expect-npm-1.1.3-2062bf533f.patch::version=1.1.3&hash=8fb073"
   dependencies:
     "@vitest/spy": "npm:1.1.3"
     "@vitest/utils": "npm:1.1.3"
     chai: "npm:^4.3.10"
-  checksum: 426287f864f58b05b1c4689bc87b4ef2ca7b3316a22e8e42d94ee9c125cbc0caf294618c9a1201a8ddf8ab68ce1ab194d1e34589f7d608906a3dc679074cfe22
+  checksum: c3bbcae82050b7e92438c85e679ef2cb09162dc5638a10b3f0b5a8fc5600dfb0be578a244d84012ae2f1715748189393ac0fc72b891efff3503338221795ebe5
   languageName: node
   linkType: hard
 
@@ -12990,6 +13030,13 @@ __metadata:
   version: 0.5.16
   resolution: "dom-accessibility-api@npm:0.5.16"
   checksum: b2c2eda4fae568977cdac27a9f0c001edf4f95a6a6191dfa611e3721db2478d1badc01db5bb4fa8a848aeee13e442a6c2a4386d65ec65a1436f24715a2f8d053
+  languageName: node
+  linkType: hard
+
+"dom-accessibility-api@npm:^0.6.3":
+  version: 0.6.3
+  resolution: "dom-accessibility-api@npm:0.6.3"
+  checksum: 10bee5aa514b2a9a37c87cd81268db607a2e933a050074abc2f6fa3da9080ebed206a320cbc123567f2c3087d22292853bdfdceaffdd4334ffe2af9510b29360
   languageName: node
   linkType: hard
 
