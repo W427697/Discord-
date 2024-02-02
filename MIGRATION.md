@@ -35,6 +35,8 @@
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
       - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
+    - [Vue](#vue)
+      - [Require Vue 3 and up](#require-vue-3-and-up)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -748,6 +750,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
 
 These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
+
+#### Vue
+
+##### Require Vue 3 and up
+
+Starting in 8.0, Storybook requires Vue 3 and up.
 
 #### Angular
 
