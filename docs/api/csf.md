@@ -8,7 +8,7 @@ Component Story Format (CSF) is the recommended way to [write stories](../writin
 
 <Callout variant="info" icon="💡">
 
-If you are writing stories in the older `storiesOf()` syntax, it was removed in Storybook 8.0 and is no longer maintained. We recommend migrating your stories to CSF. See the [migration guide](../migration-guide.md#storiesof-to-csf) for more information.
+If you have stories written in the older `storiesOf()` syntax, it was removed in Storybook 8.0 and is no longer maintained. We recommend migrating your stories to CSF. See the [migration guide](../migration-guide.md#storiesof-to-csf) for more information.
 
 </Callout>
 
