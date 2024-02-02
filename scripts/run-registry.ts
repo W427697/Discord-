@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { remove, pathExists, readJSON } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
-import path from 'node:path';
+import { join, resolve } from 'node:path';
 import program from 'commander';
 
 import { runServer, parseConfigFile } from 'verdaccio';
@@ -24,10 +24,10 @@ const logger = console;
 const startVerdaccio = async () => {
   let resolved = false;
   return Promise.race([
-    new Promise((resolve) => {
-      const cache = path.join(__dirname, '..', '.verdaccio-cache');
+    new Promise((res) => {
+      const cache = join(__dirname, '..', '.verdaccio-cache');
       const config = {
-        ...parseConfigFile(path.join(__dirname, 'verdaccio.yaml')),
+        ...parseConfigFile(join(__dirname, 'verdaccio.yaml')),
         self_path: cache,
       };
 
@@ -35,7 +35,7 @@ const startVerdaccio = async () => {
       runServer(config).then((app: Server) => {
         app.listen(6001, () => {
           resolved = true;
-          resolve(app);
+          res(app);
         });
       });
     }),
@@ -51,7 +51,7 @@ const startVerdaccio = async () => {
 };
 
 const currentVersion = async () => {
-  const { version } = await readJSON(path.join(__dirname, '..', 'code', 'package.json'));
+  const { version } = await readJSON(join(__dirname, '..', 'code', 'package.json'));
   return version;
 };
 
@@ -82,14 +82,11 @@ const publish = async (packages: { name: string; location: string }[], url: stri
         () =>
           new Promise((res, rej) => {
             logger.log(
-              `🛫 publishing ${name} (${location.replace(
-                path.resolve(path.join(__dirname, '..')),
-                '.'
-              )})`
+              `🛫 publishing ${name} (${location.replace(resolve(join(__dirname, '..')), '.')})`
             );
 
             const tarballFilename = `${name.replace('@', '').replace('/', '-')}.tgz`;
-            const command = `cd ${path.resolve(
+            const command = `cd ${resolve(
               '../code',
               location
             )} && yarn pack --out=${PACKS_DIRECTORY}/${tarballFilename} && cd ${PACKS_DIRECTORY} && npm publish ./${tarballFilename} --registry ${url} --force --access restricted --ignore-scripts`;
@@ -129,7 +126,7 @@ const run = async () => {
 
   if (!process.env.CI) {
     // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
-    const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
+    const verdaccioCache = resolve(__dirname, '..', '.verdaccio-cache');
     if (await pathExists(verdaccioCache)) {
       logger.log(`🗑 cleaning up cache`);
       await remove(verdaccioCache);

@@ -5,7 +5,7 @@
  */
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import path from 'node:path';
+import { join } from 'node:path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { readCsf, getStorySortParameter } from '@storybook/csf-tools';
@@ -40,8 +40,8 @@ const readCsfMock = vi.mocked(readCsf);
 const getStorySortParameterMock = vi.mocked(getStorySortParameter);
 
 const options: StoryIndexGeneratorOptions = {
-  configDir: path.join(__dirname, '__mockdata__'),
-  workingDir: path.join(__dirname, '__mockdata__'),
+  configDir: join(__dirname, '__mockdata__'),
+  workingDir: join(__dirname, '__mockdata__'),
   indexers: [csfIndexer],
   docs: { defaultName: 'docs', autodocs: false },
 };

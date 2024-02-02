@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { join } from 'node:path';
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 import { existsSync } from 'node:fs';
@@ -81,7 +81,7 @@ const getRendererInfo = (packageJson: PackageJson) => {
 const validConfigExtensions = ['ts', 'js', 'tsx', 'jsx', 'mjs', 'cjs'];
 
 export const findConfigFile = (prefix: string, configDir: string) => {
-  const filePrefix = path.join(configDir, prefix);
+  const filePrefix = join(configDir, prefix);
   const extension = validConfigExtensions.find((ext: string) => existsSync(`${filePrefix}.${ext}`));
   return extension ? `${filePrefix}.${extension}` : null;
 };

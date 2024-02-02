@@ -2,7 +2,7 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
-import path from 'node:path';
+import { join } from 'node:path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { normalizeStoriesEntry } from '@storybook/core-common';
@@ -17,7 +17,7 @@ vi.mock('watchpack');
 vi.mock('lodash/debounce');
 vi.mock('@storybook/node-logger');
 
-const workingDir = path.join(__dirname, '__mockdata__');
+const workingDir = join(__dirname, '__mockdata__');
 const normalizedStories = [
   normalizeStoriesEntry(
     {

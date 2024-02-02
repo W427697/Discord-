@@ -1,7 +1,7 @@
 import { pathExistsSync } from '@ndelangen/fs-extra-unified';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
-import path from 'node:path';
+import { join } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -131,7 +131,7 @@ export class PNPMProxy extends JsPackageManager {
         const pkg = pnpApi.getPackageInformation(pkgLocator);
 
         const packageJSON = JSON.parse(
-          readFileSync(path.join(pkg.packageLocation, 'package.json'), 'utf-8')
+          readFileSync(join(pkg.packageLocation, 'package.json'), 'utf-8')
         );
 
         return packageJSON;
@@ -145,7 +145,7 @@ export class PNPMProxy extends JsPackageManager {
 
     const packageJsonPath = await findUpSync(
       (dir) => {
-        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        const possiblePath = join(dir, 'node_modules', packageName, 'package.json');
         return existsSync(possiblePath) ? possiblePath : undefined;
       },
       { cwd: basePath }

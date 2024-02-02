@@ -3,7 +3,7 @@ import { platform } from 'os';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'node:fs';
-import path from 'node:path';
+import { join } from 'node:path';
 import { logger } from '@storybook/node-logger';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -87,7 +87,7 @@ export class NPMProxy extends JsPackageManager {
   ): Promise<PackageJson | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
-        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        const possiblePath = join(dir, 'node_modules', packageName, 'package.json');
         return existsSync(possiblePath) ? possiblePath : undefined;
       },
       { cwd: basePath }

@@ -1,8 +1,8 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
 
 export function readPackageJson(): Record<string, any> | false {
-  const packageJsonPath = path.resolve('package.json');
+  const packageJsonPath = resolve('package.json');
   if (!existsSync(packageJsonPath)) {
     return false;
   }

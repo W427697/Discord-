@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { sep } from 'node:path';
 
 export interface IErrorWithStdErrAndStdOut {
   stderr?: Buffer | string;
@@ -15,7 +15,7 @@ export function removeAnsiEscapeCodes(input = ''): string {
   return input.replace(/\u001B\[[0-9;]*m/g, '');
 }
 
-export function cleanPaths(str: string, separator: string = path.sep): string {
+export function cleanPaths(str: string, separator: string = sep): string {
   if (!str) return str;
 
   const stack = process.cwd().split(separator);
@@ -35,7 +35,7 @@ export function cleanPaths(str: string, separator: string = path.sep): string {
 }
 
 // Takes an Error and returns a sanitized JSON String
-export function sanitizeError(error: Error, pathSeparator: string = path.sep) {
+export function sanitizeError(error: Error, pathSeparator: string = sep) {
   try {
     error = {
       ...JSON.parse(JSON.stringify(error)),

@@ -10,7 +10,7 @@ import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import path from 'node:path';
+import { normalize } from 'node:path';
 import type { JsPackageManager } from '@storybook/core-common';
 import { getCoercedStorybookVersion } from '@storybook/core-common';
 
@@ -29,7 +29,7 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
     return null;
   }
 
-  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+  const normalizedPath = normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   return (
     Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath
@@ -51,7 +51,7 @@ export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
     return null;
   }
 
-  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+  const normalizedPath = normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
 };

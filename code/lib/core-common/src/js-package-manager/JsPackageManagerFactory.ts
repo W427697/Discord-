@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { basename } from 'node:path';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
 
@@ -34,7 +34,7 @@ export class JsPackageManagerFactory {
     const closestLockfilePath = findUpSync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
       cwd,
     });
-    const closestLockfile = closestLockfilePath && path.basename(closestLockfilePath);
+    const closestLockfile = closestLockfilePath && basename(closestLockfilePath);
 
     const hasNPMCommand = hasNPM(cwd);
     const hasPNPMCommand = hasPNPM(cwd);

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'node:path';
+import { join } from 'node:path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import * as fsExtraOriginal from '@ndelangen/fs-extra-unified';
 import { run as ensureNextAhead } from '../ensure-next-ahead';
@@ -21,7 +21,7 @@ vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
 vi.spyOn(console, 'error').mockImplementation(() => {});
 
-const CODE_PACKAGE_JSON_PATH = path.join(__dirname, '..', '..', '..', 'code', 'package.json');
+const CODE_PACKAGE_JSON_PATH = join(__dirname, '..', '..', '..', 'code', 'package.json');
 
 describe('Ensure next ahead', () => {
   beforeEach(() => {

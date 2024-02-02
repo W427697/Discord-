@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
@@ -75,13 +75,13 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           ...(configType === 'DEVELOPMENT'
-            ? { '@storybook/components': path.resolve(__dirname, '../components/src') }
+            ? { '@storybook/components': resolve(__dirname, '../components/src') }
             : {}),
         },
       },
       plugins: [
         configType === 'PRODUCTION'
-          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
+          ? pluginTurbosnap({ rootDir: resolve(__dirname, '../..') })
           : [],
       ],
       optimizeDeps: { force: true },

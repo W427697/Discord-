@@ -1,7 +1,7 @@
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import { lstatSync } from 'node:fs';
-import path from 'node:path';
+import { basename, join, relative } from 'node:path';
 import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 
@@ -16,7 +16,7 @@ const isDirectory = (directory: Path) => {
   }
 };
 
-// Watchpack (and path.relative) passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
+// Watchpack (and relative) passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
 // or with a leading `../` (etc), e.g. `../src/Foo.stories.js`.
 // We want to deal in importPaths relative to the working dir, so we normalize
 function toImportPath(relativePath: Path) {
@@ -56,7 +56,7 @@ export function watchStorySpecifiers(
     // However, when a directory is added, it does not fire events for any files *within* the directory,
     // so we need to scan within that directory for new files. It is tricky to use a glob for this,
     // so we'll do something a bit more "dumb" for now
-    const absolutePath = path.join(options.workingDir, importPath);
+    const absolutePath = join(options.workingDir, importPath);
     if (!removed && isDirectory(absolutePath)) {
       await Promise.all(
         specifiers
@@ -66,13 +66,13 @@ export function watchStorySpecifiers(
           .map(async (specifier) => {
             // If `./path/to/dir` was added, check all files matching `./path/to/dir/**/*.stories.*`
             // (where the last bit depends on `files`).
-            const dirGlob = path.join(
+            const dirGlob = join(
               options.workingDir,
               importPath,
               '**',
               // files can be e.g. '**/foo/*/*.js' so we just want the last bit,
               // because the directoru could already be within the files part (e.g. './x/foo/bar')
-              path.basename(specifier.files)
+              basename(specifier.files)
             );
             // glob only supports forward slashes
             const files = await glob(slash(dirGlob), commonGlobOptions(dirGlob));
@@ -80,7 +80,7 @@ export function watchStorySpecifiers(
             files.forEach((filePath) => {
               const fileImportPath = toImportPath(
                 // use posix path separators even on windows
-                path.relative(options.workingDir, filePath).replace(/\\/g, '/')
+                relative(options.workingDir, filePath).replace(/\\/g, '/')
               );
 
               if (specifier.importPathMatcher.exec(fileImportPath)) {

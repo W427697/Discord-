@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import { sync } from 'pkg-dir';
 import { existsSync, readFileSync } from 'node:fs';
 
@@ -11,7 +11,7 @@ export function getPreviewBodyTemplate(
 ) {
   const base = readFileSync(`${sync(__dirname)}/templates/base-preview-body.html`, 'utf8');
 
-  const bodyHtmlPath = path.resolve(configDirPath, 'preview-body.html');
+  const bodyHtmlPath = resolve(configDirPath, 'preview-body.html');
   let result = base;
 
   if (existsSync(bodyHtmlPath)) {
@@ -26,7 +26,7 @@ export function getPreviewHeadTemplate(
   interpolations?: Record<string, string>
 ) {
   const base = readFileSync(`${sync(__dirname)}/templates/base-preview-head.html`, 'utf8');
-  const headHtmlPath = path.resolve(configDirPath, 'preview-head.html');
+  const headHtmlPath = resolve(configDirPath, 'preview-head.html');
 
   let result = base;
 

@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { join } from 'node:path';
 import { ensureDir } from '@ndelangen/fs-extra-unified';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
@@ -359,7 +359,7 @@ export async function baseGenerator(
         : addons,
       extensions,
       language,
-      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
+      ...(staticDir ? { staticDirs: [join('..', staticDir)] } : null),
       ...extraMain,
       ...(type !== 'framework'
         ? {

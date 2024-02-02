@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'node:fs';
-import path from 'node:path';
+import { join } from 'node:path';
 import { createLogStream } from '../utils/cli';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -68,7 +68,7 @@ export class Yarn1Proxy extends JsPackageManager {
   ): Promise<PackageJson | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
-        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        const possiblePath = join(dir, 'node_modules', packageName, 'package.json');
         return existsSync(possiblePath) ? possiblePath : undefined;
       },
       { cwd: basePath }

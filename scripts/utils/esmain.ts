@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { extname } from 'node:path';
 import process from 'process';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
@@ -6,10 +6,10 @@ import { fileURLToPath } from 'url';
 /**
  * Strip the extension from a filename if it has one.
  * @param {string} name A filename.
- * @return {string} The filename without a path.
+ * @return {string} The filename without a
  */
 export function stripExt(name: string) {
-  const extension = path.extname(name);
+  const extension = extname(name);
   if (!extension) {
     return name;
   }
@@ -31,7 +31,7 @@ export function esMain(url: string) {
 
   const modulePath = fileURLToPath(url);
 
-  const extension = path.extname(scriptPath);
+  const extension = extname(scriptPath);
   if (extension) {
     return modulePath === scriptPath;
   }

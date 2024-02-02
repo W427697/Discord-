@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import { setOutput } from '@actions/core';
-import path from 'node:path';
+import { join } from 'node:path';
 import { readJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 
-const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
-const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
+const CODE_DIR_PATH = join(__dirname, '..', '..', 'code');
+const CODE_PACKAGE_JSON_PATH = join(CODE_DIR_PATH, 'package.json');
 
 export const getCurrentVersion = async () => {
   console.log(`📐 Reading current version of Storybook...`);

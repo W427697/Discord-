@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import type { StorybookConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
@@ -12,7 +12,7 @@ export async function loadMainConfig({
 }): Promise<StorybookConfig> {
   await validateConfigurationFiles(configDir);
 
-  const mainJsPath = serverResolve(path.resolve(configDir, 'main')) as string;
+  const mainJsPath = serverResolve(resolve(configDir, 'main')) as string;
 
   if (noCache && mainJsPath && require.cache[mainJsPath]) {
     delete require.cache[mainJsPath];

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
-import path from 'node:path';
+import { join } from 'node:path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
@@ -67,7 +67,7 @@ const writeToChangelogFile = async ({
 }) => {
   const isPrerelease = semver.prerelease(version) !== null;
   const changelogFilename = isPrerelease ? 'CHANGELOG.prerelease.md' : 'CHANGELOG.md';
-  const changelogPath = path.join(__dirname, '..', '..', changelogFilename);
+  const changelogPath = join(__dirname, '..', '..', changelogFilename);
 
   if (verbose) {
     console.log(`📝 Writing changelog to ${chalk.blue(changelogPath)}`);
@@ -90,10 +90,10 @@ const writeToDocsVersionFile = async ({
 }) => {
   const isPrerelease = semver.prerelease(version) !== null;
   const filename = isPrerelease ? 'next.json' : 'latest.json';
-  const filepath = path.join(__dirname, '..', '..', 'docs', 'versions', filename);
+  const filepath = join(__dirname, '..', '..', 'docs', 'versions', filename);
 
   if (verbose) {
-    console.log(`📝 Writing changelog to ${chalk.blue(path)}`);
+    console.log(`📝 Writing changelog to ${chalk.blue(filepath)}`);
   }
 
   const textWithoutHeading = changelogText.split('\n').slice(2).join('\n').replaceAll('"', '\\"');

@@ -1,7 +1,7 @@
 import semver from 'semver';
 import type { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
 import type { NextConfig } from 'next';
-import path from 'node:path';
+import * as path from 'node:path';
 import { getNextjsVersion } from '../utils';
 
 export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {

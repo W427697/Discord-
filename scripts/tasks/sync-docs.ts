@@ -9,7 +9,7 @@ import {
   unlinkSync,
   watch,
 } from 'node:fs';
-import path from 'node:path';
+import { join } from 'node:path';
 import type { Task } from '../task';
 import { ask } from '../utils/ask';
 
@@ -22,12 +22,12 @@ export const syncDocs: Task = {
     return false;
   },
   async run() {
-    const rootDir = path.join(__dirname, '..', '..');
-    const docsDir = path.join(rootDir, 'docs');
+    const rootDir = join(__dirname, '..', '..');
+    const docsDir = join(rootDir, 'docs');
     let frontpageDocsPath = '/src/content/docs';
 
     const frontpagePath = await ask('Provide the frontpage project path:');
-    frontpageDocsPath = path.join(rootDir, frontpagePath, frontpageDocsPath);
+    frontpageDocsPath = join(rootDir, frontpagePath, frontpageDocsPath);
 
     if (!existsSync(frontpageDocsPath)) {
       mkdirSync(frontpageDocsPath);
@@ -41,8 +41,8 @@ export const syncDocs: Task = {
     logger.info(`Synchronizing files from: \n${docsDir} \nto: \n${frontpageDocsPath}`);
 
     watch(docsDir, { recursive: true }, (_, filename) => {
-      const srcFilePath = path.join(docsDir, filename);
-      const targetFilePath = path.join(frontpageDocsPath, filename);
+      const srcFilePath = join(docsDir, filename);
+      const targetFilePath = join(frontpageDocsPath, filename);
       const targetDir = targetFilePath.split('/').slice(0, -1).join('/');
 
       // Syncs create file

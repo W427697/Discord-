@@ -1,6 +1,6 @@
 import { pathExists } from '@ndelangen/fs-extra-unified';
 import { writeFile } from 'node:fs/promises';
-import path from 'node:path';
+import { resolve } from 'node:path';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
@@ -58,7 +58,7 @@ export async function configureMain({
   prefixes = [],
   ...custom
 }: ConfigureMainOptions) {
-  const srcPath = path.resolve(storybookConfigFolder, '../src');
+  const srcPath = resolve(storybookConfigFolder, '../src');
   const prefix = (await pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],

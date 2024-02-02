@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { dirname, extname, join, normalize, relative, resolve, sep } from 'node:path';
 import chalk from 'chalk';
 import glob from 'globby';
 import slash from 'slash';
@@ -66,12 +66,7 @@ export function isMdxEntry({ tags }: DocsIndexEntry) {
 
 const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
   otherImport.startsWith('.')
-    ? slash(
-        path.resolve(
-          workingDir,
-          normalizeStoryPath(path.join(path.dirname(normalizedPath), otherImport))
-        )
-      )
+    ? slash(resolve(workingDir, normalizeStoryPath(join(dirname(normalizedPath), otherImport))))
     : otherImport;
 
 /**
@@ -122,23 +117,21 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = slash(
-          path.join(this.options.workingDir, specifier.directory, specifier.files)
-        );
+        const fullGlob = slash(join(this.options.workingDir, specifier.directory, specifier.files));
         const files = await glob(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
             `No story files found for the specified pattern: ${chalk.blue(
-              path.join(specifier.directory, specifier.files)
+              join(specifier.directory, specifier.files)
             )}`
           );
         }
 
         files.sort().forEach((absolutePath: Path) => {
-          const ext = path.extname(absolutePath);
+          const ext = extname(absolutePath);
           if (ext === '.storyshot') {
-            const relativePath = path.relative(this.options.workingDir, absolutePath);
+            const relativePath = relative(this.options.workingDir, absolutePath);
             logger.info(`Skipping ${ext} file ${relativePath}`);
             return;
           }
@@ -187,10 +180,7 @@ export class StoryIndexGenerator {
             try {
               entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
             } catch (err) {
-              const relativePath = `.${path.sep}${path.relative(
-                this.options.workingDir,
-                absolutePath
-              )}`;
+              const relativePath = `.${sep}${relative(this.options.workingDir, absolutePath)}`;
 
               entry[absolutePath] = {
                 type: 'error',
@@ -269,7 +259,7 @@ export class StoryIndexGenerator {
     specifier: NormalizedStoriesSpecifier,
     absolutePath: Path
   ): Promise<StoriesCacheEntry | DocsCacheEntry> {
-    const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const relativePath = relative(this.options.workingDir, absolutePath);
     const importPath = slash(normalizeStoryPath(relativePath));
     const defaultMakeTitle = (userTitle?: string) => {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
@@ -344,7 +334,7 @@ export class StoryIndexGenerator {
   }
 
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
-    const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const relativePath = relative(this.options.workingDir, absolutePath);
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
@@ -386,9 +376,9 @@ export class StoryIndexGenerator {
             const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntryWithMetaId;
 
             if (
-              path
-                .normalize(path.resolve(this.options.workingDir, first.importPath))
-                .startsWith(path.normalize(absoluteOf))
+              normalize(resolve(this.options.workingDir, first.importPath)).startsWith(
+                normalize(absoluteOf)
+              )
             ) {
               csfEntry = first;
             }
@@ -586,7 +576,7 @@ export class StoryIndexGenerator {
   }
 
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
-    const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
+    const absolutePath = slash(resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
     invariant(
       cache,
@@ -614,7 +604,7 @@ export class StoryIndexGenerator {
     if (removed) {
       if (cacheEntry && cacheEntry.type === 'docs') {
         const absoluteImports = cacheEntry.storiesImports.map((p) =>
-          path.resolve(this.options.workingDir, p)
+          resolve(this.options.workingDir, p)
         );
         const dependencies = this.findDependencies(absoluteImports);
         dependencies.forEach((dep) =>
@@ -631,7 +621,7 @@ export class StoryIndexGenerator {
 
   async getStorySortParameter() {
     const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
-      .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
+      .map((ext) => join(this.options.configDir, `preview.${ext}`))
       .find((fname) => existsSync(fname));
     let storySortParameter;
     if (previewFile) {

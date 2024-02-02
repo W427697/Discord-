@@ -9,7 +9,7 @@
 
 /* eslint-disable no-console */
 import chalk from 'chalk';
-import path from 'node:path';
+import { join } from 'node:path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
@@ -35,8 +35,8 @@ type Options = {
   mainVersion: string;
 };
 
-const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
-const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
+const CODE_DIR_PATH = join(__dirname, '..', '..', 'code');
+const CODE_PACKAGE_JSON_PATH = join(CODE_DIR_PATH, 'package.json');
 
 const validateOptions = (options: { [key: string]: any }): options is Options => {
   optionsSchema.parse(options);

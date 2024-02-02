@@ -1,5 +1,5 @@
 import glob from 'fast-glob';
-import path from 'node:path';
+import { dirname, join } from 'node:path';
 import fsSync from 'node:fs';
 import JSON5 from 'json5';
 
@@ -12,7 +12,7 @@ const files = glob.sync('**/*/tsconfig.json', {
   const packages = files
     .filter((file) => !file.includes('node_modules') && !file.includes('dist'))
     .map((file) => {
-      const packageJson = path.join(path.dirname(file), 'package.json');
+      const packageJson = join(dirname(file), 'package.json');
       let packageName;
       if (fsSync.existsSync(packageJson)) {
         const json = fsSync.readFileSync(packageJson, { encoding: 'utf-8' });

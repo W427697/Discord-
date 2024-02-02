@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { relative } from 'node:path';
 import { createFilter } from '@rollup/pluginutils';
 import type { Documentation } from 'react-docgen';
 import {
@@ -36,7 +36,7 @@ export function reactDocgen({
     name: 'storybook:react-docgen-plugin',
     enforce: 'pre',
     async transform(src: string, id: string) {
-      const relPath = path.relative(cwd, id);
+      const relPath = relative(cwd, id);
       if (!filter(relPath)) return;
 
       try {

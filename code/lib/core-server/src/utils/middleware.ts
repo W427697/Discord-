@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
 
 const fileExists = (basename: string) =>
@@ -8,7 +8,7 @@ const fileExists = (basename: string) =>
   }, '');
 
 export function getMiddleware(configDir: string) {
-  const middlewarePath = fileExists(path.resolve(configDir, 'middleware'));
+  const middlewarePath = fileExists(resolve(configDir, 'middleware'));
   if (middlewarePath) {
     let middlewareModule = require(middlewarePath);
     // eslint-disable-next-line no-underscore-dangle

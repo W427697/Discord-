@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { join, resolve, sep } from 'node:path';
 import findUp from 'find-up';
 
 export const getProjectRoot = () => {
@@ -11,7 +11,7 @@ export const getProjectRoot = () => {
   try {
     const found = findUp.sync('.git', { type: 'directory' });
     if (found) {
-      result = path.join(found, '..');
+      result = join(found, '..');
     }
   } catch (e) {
     //
@@ -19,7 +19,7 @@ export const getProjectRoot = () => {
   try {
     const found = findUp.sync('.svn', { type: 'directory' });
     if (found) {
-      result = result || path.join(found, '..');
+      result = result || join(found, '..');
     }
   } catch (e) {
     //
@@ -27,7 +27,7 @@ export const getProjectRoot = () => {
   try {
     const found = findUp.sync('.hg', { type: 'directory' });
     if (found) {
-      result = result || path.join(found, '..');
+      result = result || join(found, '..');
     }
   } catch (e) {
     //
@@ -35,7 +35,7 @@ export const getProjectRoot = () => {
   try {
     const found = findUp.sync('.yarn', { type: 'directory' });
     if (found) {
-      result = result || path.join(found, '..');
+      result = result || join(found, '..');
     }
   } catch (e) {
     //
@@ -53,7 +53,7 @@ export const nodePathsToArray = (nodePath: string) =>
   nodePath
     .split(process.platform === 'win32' ? ';' : ':')
     .filter(Boolean)
-    .map((p) => path.resolve('./', p));
+    .map((p) => resolve('./', p));
 
 const relativePattern = /^\.{1,2}([/\\]|$)/;
 /**
@@ -62,5 +62,5 @@ const relativePattern = /^\.{1,2}([/\\]|$)/;
 export function normalizeStoryPath(filename: string) {
   if (relativePattern.test(filename)) return filename;
 
-  return `.${path.sep}${filename}`;
+  return `.${sep}${filename}`;
 }

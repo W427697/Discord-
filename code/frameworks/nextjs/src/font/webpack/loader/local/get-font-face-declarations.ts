@@ -3,7 +3,7 @@
 import loaderUtils from 'next/dist/compiled/loader-utils3';
 import { getProjectRoot } from '@storybook/core-common';
 import { validateLocalFontFunctionCall } from 'next/dist/compiled/@next/font/dist/local/validate-local-font-function-call';
-import path from 'node:path';
+import { dirname, join } from 'node:path';
 
 import type { LoaderOptions } from '../types';
 
@@ -18,8 +18,8 @@ export async function getFontFaceDeclarations(
 
   // Parent folder relative to the root context
   const parentFolder = swcMode
-    ? path.dirname(path.join(getProjectRoot(), options.filename)).replace(rootContext, '')
-    : path.dirname(options.filename).replace(rootContext, '');
+    ? dirname(join(getProjectRoot(), options.filename)).replace(rootContext, '')
+    : dirname(options.filename).replace(rootContext, '');
 
   const {
     weight,
@@ -45,7 +45,7 @@ export async function getFontFaceDeclarations(
 
   const getFontFaceCSS = () => {
     if (typeof localFontSrc === 'string') {
-      const localFontPath = cleanWin32Path(path.join(parentFolder, localFontSrc));
+      const localFontPath = cleanWin32Path(join(parentFolder, localFontSrc));
 
       return `@font-face {
           font-family: ${id};
@@ -55,7 +55,7 @@ export async function getFontFaceDeclarations(
     }
     return localFontSrc
       .map((font) => {
-        const localFontPath = cleanWin32Path(path.join(parentFolder, font.path));
+        const localFontPath = cleanWin32Path(join(parentFolder, font.path));
 
         return `@font-face {
           font-family: ${id};

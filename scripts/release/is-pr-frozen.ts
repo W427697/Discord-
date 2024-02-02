@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
-import path from 'node:path';
+import { join } from 'node:path';
 import { readJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 import { getPullInfoFromCommit } from './utils/get-github-info';
@@ -16,8 +16,8 @@ program
   .option('-H, --patch', 'Look for patch PR instead of next PR', false)
   .option('-V, --verbose', 'Enable verbose logging', false);
 
-const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
-const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
+const CODE_DIR_PATH = join(__dirname, '..', '..', 'code');
+const CODE_PACKAGE_JSON_PATH = join(CODE_DIR_PATH, 'package.json');
 
 const getCurrentVersion = async () => {
   console.log(`📐 Reading current version of Storybook...`);

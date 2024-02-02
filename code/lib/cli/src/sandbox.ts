@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import path from 'node:path';
+import { isAbsolute, join } from 'node:path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
@@ -191,9 +191,9 @@ export const sandbox = async (
   invariant(selectedDirectory);
 
   try {
-    const templateDestination = path.isAbsolute(selectedDirectory)
+    const templateDestination = isAbsolute(selectedDirectory)
       ? selectedDirectory
-      : path.join(process.cwd(), selectedDirectory);
+      : join(process.cwd(), selectedDirectory);
 
     logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
 

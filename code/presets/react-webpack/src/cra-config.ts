@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, realpathSync } from 'node:fs';
-import path from 'node:path';
+import { join } from 'node:path';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
@@ -10,13 +10,11 @@ let reactScriptsPath: string;
 export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
   if (reactScriptsPath && !noCache) return reactScriptsPath;
 
-  let reactScriptsScriptPath = realpathSync(
-    path.join(appDirectory, '/node_modules/.bin/react-scripts')
-  );
+  let reactScriptsScriptPath = realpathSync(join(appDirectory, '/node_modules/.bin/react-scripts'));
 
   try {
     // Note: Since there is no symlink for .bin/react-scripts on Windows
-    // we'll parse react-scripts file to find actual package path.
+    // we'll parse react-scripts file to find actual package path
     // This is important if you use fork of CRA.
 
     const pathIsNotResolved = /node_modules[\\/]\.bin[\\/]react-scripts/i.test(
@@ -30,19 +28,15 @@ export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
       );
 
       if (packagePathMatch && packagePathMatch.length > 1) {
-        reactScriptsScriptPath = path.join(
-          appDirectory,
-          '/node_modules/.bin/',
-          packagePathMatch[1]
-        );
+        reactScriptsScriptPath = join(appDirectory, '/node_modules/.bin/', packagePathMatch[1]);
       }
     }
   } catch (e) {
     logger.warn(`Error occurred during react-scripts package path resolving: ${e}`);
   }
 
-  reactScriptsPath = path.join(reactScriptsScriptPath, '../..');
-  const scriptsPkgJson = path.join(reactScriptsPath, 'package.json');
+  reactScriptsPath = join(reactScriptsScriptPath, '../..');
+  const scriptsPkgJson = join(reactScriptsPath, 'package.json');
 
   if (!existsSync(scriptsPkgJson)) {
     reactScriptsPath = 'react-scripts';
@@ -53,7 +47,7 @@ export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
 
 export function isReactScriptsInstalled(requiredVersion = '2.0.0') {
   try {
-    const reactScriptsJson = require(path.join(getReactScriptsPath(), 'package.json'));
+    const reactScriptsJson = require(join(getReactScriptsPath(), 'package.json'));
     return !semver.gtr(requiredVersion, reactScriptsJson.version);
   } catch (e) {
     return false;

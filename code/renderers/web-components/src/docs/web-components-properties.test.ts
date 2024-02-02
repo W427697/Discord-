@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { join } from 'node:path';
 import { vi, describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import tmp from 'tmp';
@@ -13,7 +13,7 @@ const runWebComponentsAnalyzer = (inputPath: string) => {
   const { name: tmpDir, removeCallback } = tmp.dirSync();
   const customElementsFile = `${tmpDir}/custom-elements.json`;
   spawnSync(
-    path.join(__dirname, '../../../../node_modules/.bin/wca'),
+    join(__dirname, '../../../../node_modules/.bin/wca'),
     ['analyze', inputPath, '--outFile', customElementsFile],
     {
       stdio: 'ignore',
@@ -36,14 +36,14 @@ describe('web-components component properties', () => {
   vi.mock('lit', () => ({ default: {} }));
   vi.mock('lit/directive-helpers.js', () => ({ default: {} }));
 
-  const fixturesDir = path.join(__dirname, '__testfixtures__');
+  const fixturesDir = join(__dirname, '__testfixtures__');
   readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
-      const testDir = path.join(fixturesDir, testEntry.name);
+      const testDir = join(fixturesDir, testEntry.name);
       const testFile = readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         it(`${testEntry.name}`, () => {
-          const inputPath = path.join(testDir, testFile);
+          const inputPath = join(testDir, testFile);
 
           // snapshot the output of wca
           const customElementsJson = runWebComponentsAnalyzer(inputPath);
@@ -51,13 +51,11 @@ describe('web-components component properties', () => {
           customElements.tags.forEach((tag: any) => {
             tag.path = 'dummy-path-to-component';
           });
-          expect(customElements).toMatchFileSnapshot(
-            path.join(testDir, 'custom-elements.snapshot')
-          );
+          expect(customElements).toMatchFileSnapshot(join(testDir, 'custom-elements.snapshot'));
 
           // snapshot the properties
           const properties = extractArgTypesFromElements('input', customElements);
-          expect(properties).toMatchFileSnapshot(path.join(testDir, 'properties.snapshot'));
+          expect(properties).toMatchFileSnapshot(join(testDir, 'properties.snapshot'));
         });
       }
     }

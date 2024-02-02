@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import path from 'node:path';
+import { join, resolve } from 'node:path';
 // @ts-expect-error (seems broken/missing)
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
@@ -59,21 +59,21 @@ const skippedTests = [
 
 describe('react component properties', () => {
   // Fixture files are in template/stories
-  const fixturesDir = path.resolve(__dirname, '../../template/stories/docgen-components');
+  const fixturesDir = resolve(__dirname, '../../template/stories/docgen-components');
   readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
-      const testDir = path.join(fixturesDir, testEntry.name);
+      const testDir = join(fixturesDir, testEntry.name);
       const testFile = readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
           it.skip(`${testEntry.name}`, () => {});
         } else {
           it(`${testEntry.name}`, () => {
-            const inputPath = path.join(testDir, testFile);
+            const inputPath = join(testDir, testFile);
 
             // snapshot the output of babel-plugin-react-docgen
             const docgenPretty = annotateWithDocgen(inputPath);
-            expect(docgenPretty).toMatchFileSnapshot(path.join(testDir, 'docgen.snapshot'));
+            expect(docgenPretty).toMatchFileSnapshot(join(testDir, 'docgen.snapshot'));
 
             // transform into an uglier format that's works with require-from-string
             const docgenModule = transformToModule(docgenPretty);
@@ -81,7 +81,7 @@ describe('react component properties', () => {
             // snapshot the output of component-properties/react
             const { component } = requireFromString(docgenModule, inputPath);
             const properties = extractProps(component);
-            expect(properties).toMatchFileSnapshot(path.join(testDir, 'properties.snapshot'));
+            expect(properties).toMatchFileSnapshot(join(testDir, 'properties.snapshot'));
 
             // snapshot the output of `extractArgTypes`
             const argTypes = extractArgTypes(component);
@@ -90,7 +90,7 @@ describe('react component properties', () => {
               argTypes,
               parameters,
             } as unknown as StoryContext<Renderer>);
-            expect(rows).toMatchFileSnapshot(path.join(testDir, 'argTypes.snapshot'));
+            expect(rows).toMatchFileSnapshot(join(testDir, 'argTypes.snapshot'));
           });
         }
       }

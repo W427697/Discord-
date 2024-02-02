@@ -1,11 +1,11 @@
 import { ensureFile } from '@ndelangen/fs-extra-unified';
-import path from 'node:path';
+import { join } from 'node:path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
 import { globalsNameValueMap } from '../src/globals/runtime';
 import { writeFile } from 'node:fs/promises';
 
-const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
+const location = join(__dirname, '..', 'src', 'globals', 'exports.ts');
 let attempts = 0;
 
 function removeDefault(input: string) {
@@ -18,7 +18,7 @@ async function generate(text: string) {
   console.log('Linting...');
 
   const eslint = new ESLint({
-    cwd: path.join(__dirname, '..'),
+    cwd: join(__dirname, '..'),
     fix: true,
   });
   const output = await eslint.lintText(text, { filePath: location });

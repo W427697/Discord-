@@ -1,7 +1,7 @@
 import type { PluginOption } from 'vite';
 import MagicString from 'magic-string';
-import path from 'node:path';
-import fs, { readFileSync } from 'node:fs';
+import { basename, relative } from 'node:path';
+import { readFileSync } from 'node:fs';
 import svelteDoc from 'sveltedoc-parser';
 import type { SvelteComponentDoc, SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
@@ -96,7 +96,7 @@ export async function svelteDocgen(svelteOptions: Record<string, any> = {}): Pro
         }
       }
 
-      const resource = path.relative(cwd, id);
+      const resource = relative(cwd, id);
 
       let docOptions;
       if (docPreprocessOptions) {
@@ -132,9 +132,9 @@ export async function svelteDocgen(svelteOptions: Record<string, any> = {}): Pro
       }
 
       // get filename for source content
-      const file = path.basename(resource);
+      const file = basename(resource);
 
-      componentDoc.name = path.basename(file);
+      componentDoc.name = basename(file);
 
       const componentName = getNameFromFilename(resource);
       s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
