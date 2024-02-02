@@ -1,4 +1,4 @@
-import readline from 'readline';
+import readline from 'node:readline';
 
 export const ask = (query: string) => {
   const rl = readline.createInterface({

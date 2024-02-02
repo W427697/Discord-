@@ -2,7 +2,7 @@
 import type { FileSystemCache } from 'file-system-cache';
 import type { Options as TelejsonOptions } from 'telejson';
 import type { Router } from 'express';
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 
 import type { StoriesEntry, Indexer } from './indexer';

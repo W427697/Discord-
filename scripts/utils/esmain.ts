@@ -1,7 +1,7 @@
 import { extname } from 'node:path';
 import process from 'process';
 import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Strip the extension from a filename if it has one.

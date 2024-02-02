@@ -3,7 +3,7 @@ import qs from 'qs';
 
 import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
 
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import { init as initURL } from '../modules/url';
 
 vi.mock('@storybook/client-logger');

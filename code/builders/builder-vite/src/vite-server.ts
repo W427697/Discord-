@@ -1,4 +1,4 @@
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 import type { Options } from '@storybook/types';
 import { commonConfig } from './vite-config';
 import { getOptimizeDeps } from './optimizeDeps';

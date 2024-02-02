@@ -1,7 +1,7 @@
 import type { Mock, Mocked } from 'vitest';
 import { vi } from 'vitest';
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import {
   DOCS_RENDERED,
   STORY_ERRORED,

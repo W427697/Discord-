@@ -1,5 +1,5 @@
 import { relative } from 'node:path';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import { getProjectRoot } from '@storybook/core-common';
 
 import { oneWayHash } from './one-way-hash';

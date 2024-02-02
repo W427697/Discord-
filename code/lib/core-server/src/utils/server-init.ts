@@ -1,7 +1,7 @@
 import { logger } from '@storybook/node-logger';
 import type { Express } from 'express';
-import http from 'http';
-import https from 'https';
+import http from 'node:http';
+import https from 'node:https';
 import { readFile } from 'node:fs/promises';
 
 export async function getServer(

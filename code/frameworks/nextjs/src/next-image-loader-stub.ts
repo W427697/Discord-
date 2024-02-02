@@ -3,7 +3,7 @@ import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
 import type { NextConfig } from 'next';
 import sharp from 'sharp';
-import { cpus } from 'os';
+import { cpus } from 'node:os';
 
 interface LoaderOptions {
   filename: string;

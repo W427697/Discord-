@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-import * as os from 'os';
+import * as os from 'node:os';
 import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';

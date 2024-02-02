@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { exec } from 'node:child_process';
 import { remove, pathExists, readJSON } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
 import { join, resolve } from 'node:path';
@@ -6,7 +6,7 @@ import program from 'commander';
 
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 import { mkdir } from 'node:fs/promises';
 import { PACKS_DIRECTORY } from './utils/constants';
 

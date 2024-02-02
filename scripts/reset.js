@@ -1,6 +1,6 @@
 import { writeFileSync, appendFile } from 'node:fs';
 import { remove } from '@ndelangen/fs-extra-unified';
-import { spawn } from 'child_process';
+import { spawn } from 'node:child_process';
 import trash from 'trash';
 
 const logger = console;

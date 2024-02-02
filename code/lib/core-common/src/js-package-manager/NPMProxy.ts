@@ -1,5 +1,5 @@
 import sort from 'semver/functions/sort';
-import { platform } from 'os';
+import { platform } from 'node:os';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'node:fs';

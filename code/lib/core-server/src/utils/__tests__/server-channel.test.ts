@@ -1,8 +1,8 @@
 import { describe, expect, vi, it } from 'vitest';
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 import { Channel } from '@storybook/channels';
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { stringify } from 'telejson';
 import { getServerChannel, ServerChannelTransport } from '../get-server-channel';
 

@@ -3,7 +3,7 @@ import { expect, describe, beforeEach, it, vi } from 'vitest';
 
 import { themes } from '@storybook/theming';
 import type { API_Provider } from 'lib/types/src';
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import type { SubAPI, SubState } from '../modules/layout';
 import type { SubState as AddonsSubState } from '../modules/addons';
 import { defaultLayoutState, init as initLayout } from '../modules/layout';

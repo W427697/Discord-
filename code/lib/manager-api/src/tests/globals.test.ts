@@ -1,5 +1,5 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 
 import { logger as _logger } from '@storybook/client-logger';

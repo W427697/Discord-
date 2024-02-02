@@ -14,7 +14,7 @@ import {
   STORY_MISSING,
   DOCS_PREPARED,
 } from '@storybook/core-events';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { global } from '@storybook/global';
 
 import type { API_StoryEntry } from '@storybook/types';
