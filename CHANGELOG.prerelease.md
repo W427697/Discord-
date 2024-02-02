@@ -1,3 +1,13 @@
+## 7.1.0-alpha.21
+
+- React: Make it reactive
+- CLI: Not UI
+
+## 7.1.0-alpha.21
+
+- React: Make it reactive
+- CLI: Not UI
+
 ## 8.0.0-alpha.17
 
 - CLI: Fix add command for non monorepo deps - [#25791](https://github.com/storybookjs/storybook/pull/25791), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!

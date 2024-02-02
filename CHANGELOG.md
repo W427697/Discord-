@@ -1,3 +1,25 @@
+## 7.0.1
+
+- React: Make it reactive
+- Revert "CLI: Not UI"
+- CLI: Not UI
+
+## 7.0.1
+
+- React: Make it reactive
+- CLI: Not UI
+
+## 7.0.1
+
+- React: Make it reactive
+- Revert "CLI: Not UI"
+- CLI: Not UI
+
+## 7.0.1
+
+- React: Make it reactive
+- CLI: Not UI
+
 ## 7.6.12
 
 - CLI: Fix `upgrade` detecting the wrong version of existing Storybooks - [#25752](https://github.com/storybookjs/storybook/pull/25752), thanks [@JReinhold](https://github.com/JReinhold)!

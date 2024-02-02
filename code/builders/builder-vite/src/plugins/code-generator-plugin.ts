@@ -1,4 +1,3 @@
-import * as fs from 'node:fs';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';

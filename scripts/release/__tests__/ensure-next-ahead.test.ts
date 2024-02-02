@@ -8,7 +8,9 @@ import * as bumpVersion_ from '../version';
 
 vi.mock('../utils/git-client');
 vi.mock('../version');
-vi.mock('@ndelangen/fs-extra-unifie', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('node:fs/promises', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('node:fs', async () => import('../../../code/__mocks__/fs-extra'));
 
 const fsExtra = vi.mocked<typeof import('../../../code/__mocks__/fs-extra')>(
   fsExtraOriginal as any

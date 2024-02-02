@@ -8,7 +8,9 @@ import { run as version } from '../version';
 // eslint-disable-next-line jest/no-mocks-import
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
-vi.mock('@ndelangen/fs-extra-unifie', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('node:fs', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('node:fs/promises', async () => import('../../../code/__mocks__/fs-extra'));
 const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
 
 vi.mock('../../../code/lib/core-common/src/versions', () => ({

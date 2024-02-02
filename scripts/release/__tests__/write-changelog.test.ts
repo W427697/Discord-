@@ -8,7 +8,8 @@ import * as changesUtils_ from '../utils/get-changes';
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 import { join } from 'node:path';
 
-vi.mock('@ndelangen/fs-extra-unifie', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('node:fs/promises', async () => import('../../../code/__mocks__/fs-extra'));
 vi.mock('../utils/get-changes');
 
 const changesUtils = vi.mocked(changesUtils_);
