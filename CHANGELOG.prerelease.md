@@ -1,12 +1,8 @@
-## 7.1.0-alpha.21
+## 8.0.0-beta.0
 
-- React: Make it reactive
-- CLI: Not UI
-
-## 7.1.0-alpha.21
-
-- React: Make it reactive
-- CLI: Not UI
+- CLI: Add Visual Tests addon to `init` - [#25850](https://github.com/storybookjs/storybook/pull/25850), thanks [@shilman](https://github.com/shilman)!
+- CLI: Upgrade boxen library - [#25713](https://github.com/storybookjs/storybook/pull/25713), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix custom tabs not showing in the manager - [#25792](https://github.com/storybookjs/storybook/pull/25792), thanks [@ndelangen](https://github.com/ndelangen)!
 
 ## 8.0.0-alpha.17
 
@@ -313,8 +309,8 @@
 
 ## 7.6.0-alpha.4
 
--  CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
-- Babel: Update all @babel/* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
+- Babel: Update all @babel/\* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
 - CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
 - CLI: Ignore `addon-onboarding` when checking versions - [#24634](https://github.com/storybookjs/storybook/pull/24634), thanks [@JReinhold](https://github.com/JReinhold)!
 - CLI: Use @storybook/test in template stories - [#24393](https://github.com/storybookjs/storybook/pull/24393), thanks [@yannbf](https://github.com/yannbf)!

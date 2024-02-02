@@ -28,6 +28,7 @@
     - [Removed stories.json](#removed-storiesjson)
     - [Removed `sb babelrc` command](#removed-sb-babelrc-command)
     - [Changed interfaces for `@storybook/router` components](#changed-interfaces-for-storybookrouter-components)
+    - [Extract no longer batches](#extract-no-longer-batches)
   - [Framework-specific changes](#framework-specific-changes)
     - [React](#react)
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
@@ -711,6 +712,10 @@ The reasoning behind is to condense and provide some clarity to what's happened 
 #### Changed interfaces for `@storybook/router` components
 
 The `hideOnly` prop has been removed from the `<Route />` component in `@storybook/router`. If needed this can be implemented manually with the `<Match />` component.
+
+#### Extract no longer batches
+
+`Preview.extract()` no longer loads CSF files in batches. This was a workaround for resource limitations that slowed down extract. This shouldn't affect behaviour.
 
 ### Framework-specific changes
 
