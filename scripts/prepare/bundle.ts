@@ -9,6 +9,36 @@ import slash from 'slash';
 import { exec } from '../utils/exec';
 import { writeFile } from 'node:fs/promises';
 
+const nodeExternals = [
+  'assert',
+  'buffer',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dgram',
+  'dns',
+  'domain',
+  'events',
+  'fs',
+  'http',
+  'https',
+  'net',
+  'os',
+  'path',
+  'punycode',
+  'querystring',
+  'readline',
+  'stream',
+  'string_decoder',
+  'tls',
+  'tty',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'zlib',
+].flatMap((m) => [m, 'node:' + m]);
+
 /* TYPES */
 
 type Formats = 'esm' | 'cjs';
@@ -65,6 +95,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
+
+  if (platform === 'node') {
+    externals.push(...nodeExternals);
+  }
 
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
@@ -134,7 +168,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
         platform: 'node',
         clean: false,
-        external: externals,
+        external: [...externals, ...nodeExternals],
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
