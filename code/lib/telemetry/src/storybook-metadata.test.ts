@@ -14,7 +14,8 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-vi.mock('path', async (importOriginal) => importOriginal());
+// @ts-expect-error (makes the module mutable)
+vi.mock('path', async (importOriginal) => ({ ...(await importOriginal()) }));
 
 vi.mock('./package-json', () => {
   const getActualPackageVersion = vi.fn((name) =>
