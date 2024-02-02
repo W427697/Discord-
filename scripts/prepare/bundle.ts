@@ -98,12 +98,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
-        esbuildPlugins: [
-          aliasPlugin({
-            process: path.resolve('../node_modules/process/browser.js'),
-            util: path.resolve('../node_modules/util/util.js'),
-          }),
-        ],
+        esbuildPlugins:
+          platform !== 'node'
+            ? [
+                aliasPlugin({
+                  process: path.resolve('../node_modules/process/browser.js'),
+                  util: path.resolve('../node_modules/util/util.js'),
+                }),
+              ]
+            : [],
         external: externals,
 
         esbuildOptions: (c) => {

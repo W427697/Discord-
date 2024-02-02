@@ -45,11 +45,12 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@ndelangen/fs-extra-unified": "^1.0.2",
+    "@ndelangen/fs-extra-unified": "^1.0.3",
     "@storybook/core-common": "workspace:*",
     "@storybook/manager": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@types/ejs": "^3.1.1",
+    "@types/fs-extra": "^11.0.4",
     "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
     "browser-assert": "^1.2.1",
     "ejs": "^3.1.8",

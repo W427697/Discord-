@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@ndelangen/fs-extra-unified": "^1.0.2",
+    "@ndelangen/fs-extra-unified": "^1.0.3",
     "@storybook/addon-designs": "^7.0.4",
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
@@ -87,6 +87,7 @@
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
+    "@types/fs-extra": "^11.0.4",
     "@types/react-transition-group": "^4",
     "@types/semver": "^7.3.4",
     "browser-dtector": "^3.4.0",

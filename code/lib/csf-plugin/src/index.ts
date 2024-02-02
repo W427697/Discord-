@@ -1,5 +1,5 @@
 import { createUnplugin } from 'unplugin';
-import fs, { readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
 import type { EnrichCsfOptions } from '@storybook/csf-tools';
 

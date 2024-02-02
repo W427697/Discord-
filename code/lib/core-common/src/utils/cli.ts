@@ -1,5 +1,6 @@
 import { move, remove } from '@ndelangen/fs-extra-unified';
-import { createWriteStream } from 'node:fs';
+// rollup bug, when changed to `node:fs` it throws
+import { createWriteStream } from 'fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import tempy from 'tempy';

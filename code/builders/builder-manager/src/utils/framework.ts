@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { sep } from 'node:path';
 import type { Options } from '@storybook/types';
 
 interface PropertyObject {
@@ -17,7 +17,7 @@ export const pluckNameFromConfigProperty = (property: Property) => {
 };
 
 // For replacing Windows backslashes with forward slashes
-const normalizePath = (packagePath: string) => packagePath.replaceAll(path.sep, '/');
+const normalizePath = (packagePath: string) => packagePath.replaceAll(sep, '/');
 
 export const pluckStorybookPackageFromPath = (packagePath: string) =>
   normalizePath(packagePath).match(/(@storybook\/.*)$/)?.[1];

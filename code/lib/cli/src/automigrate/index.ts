@@ -1,7 +1,7 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { createWriteStream, move, remove } from '@ndelangen/fs-extra-unified';
+import { move, remove } from '@ndelangen/fs-extra-unified';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
 import { join } from 'node:path';
@@ -20,6 +20,7 @@ import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
+import { createWriteStream } from 'node:fs';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';

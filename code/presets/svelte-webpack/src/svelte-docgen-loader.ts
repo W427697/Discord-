@@ -1,7 +1,6 @@
 import svelteDoc from 'sveltedoc-parser';
 import { dedent } from 'ts-dedent';
-import * as path from 'node:path';
-import * as fs from 'node:fs';
+import { basename } from 'node:path';
 import { preprocess } from 'svelte/compiler';
 import { logger } from '@storybook/node-logger';
 import { readFileSync } from 'node:fs';
@@ -103,10 +102,10 @@ export default async function svelteDocgen(this: any, source: string) {
   }
 
   // get filename for source content
-  const file = path.basename(resource);
+  const file = basename(resource);
 
   // populate filename in docgen
-  componentDoc.name = path.basename(file);
+  componentDoc.name = basename(file);
 
   const componentName = getNameFromFilename(resource);
 

@@ -100,7 +100,7 @@
   "dependencies": {
     "@babel/core": "^7.12.3",
     "@mdx-js/react": "^3.0.0",
-    "@ndelangen/fs-extra-unified": "^1.0.2",
+    "@ndelangen/fs-extra-unified": "^1.0.3",
     "@storybook/blocks": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
@@ -112,6 +112,7 @@
     "@storybook/react-dom-shim": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
+    "@types/fs-extra": "^11.0.4",
     "fs-extra": "^11.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

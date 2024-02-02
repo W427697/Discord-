@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@babel/types": "^7.23.0",
-    "@ndelangen/fs-extra-unified": "^1.0.2",
+    "@ndelangen/fs-extra-unified": "^1.0.3",
     "@ndelangen/get-tarball": "^3.0.7",
     "@storybook/codemod": "workspace:*",
     "@storybook/core-common": "workspace:*",
@@ -67,6 +67,7 @@
     "@storybook/node-logger": "workspace:*",
     "@storybook/telemetry": "workspace:*",
     "@storybook/types": "workspace:*",
+    "@types/fs-extra": "^11.0.4",
     "@types/semver": "^7.3.4",
     "@yarnpkg/fslib": "2.10.3",
     "@yarnpkg/libzip": "2.3.0",

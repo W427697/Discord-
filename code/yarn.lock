@@ -3647,16 +3647,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndelangen/fs-extra-unified@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@ndelangen/fs-extra-unified@npm:1.0.2"
+"@ndelangen/fs-extra-unified@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@ndelangen/fs-extra-unified@npm:1.0.3"
   peerDependencies:
     "@types/fs-extra": ^11.0.0
     fs-extra: ^11.0.0
   peerDependenciesMeta:
     "@types/fs-extra":
       optional: true
-  checksum: ea47123359d5deba74d8f13e54877138210f8921808328701894f45d16c5e5efa2c37720112d9edb4acb652c9bd477b250e5f9c6a9afad683d03a1d21630cc0b
+  checksum: 397e94eb34a644e33bb7e0cf263da2758efb44924dd6b4bd90e82184868cf4dca5f116b628a9dd0837e3c5c9a36735069bec4312f5d6be2b9997cb0fd3712aaa
   languageName: node
   linkType: hard
 
@@ -4843,7 +4843,7 @@ __metadata:
     "@babel/core": "npm:^7.12.3"
     "@mdx-js/mdx": "npm:^3.0.0"
     "@mdx-js/react": "npm:^3.0.0"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@rollup/pluginutils": "npm:^5.0.2"
     "@storybook/blocks": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -4857,6 +4857,7 @@ __metadata:
     "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
+    "@types/fs-extra": "npm:^11.0.4"
     fs-extra: "npm:^11.2.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -4955,7 +4956,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-links@workspace:addons/links"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
@@ -4964,6 +4965,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/types": "workspace:*"
+    "@types/fs-extra": "npm:^11.0.4"
     fs-extra: "npm:^11.2.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
@@ -5234,11 +5236,12 @@ __metadata:
   resolution: "@storybook/builder-manager@workspace:builders/builder-manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/core-common": "workspace:*"
     "@storybook/manager": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@types/ejs": "npm:^3.1.1"
+    "@types/fs-extra": "npm:^11.0.4"
     "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
     browser-assert: "npm:^1.2.1"
     ejs: "npm:^3.1.8"
@@ -5257,7 +5260,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -5268,6 +5271,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/express": "npm:^4.17.13"
     "@types/find-cache-dir": "npm:^3.2.1"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/node": "npm:^18.0.0"
     browser-assert: "npm:^1.2.1"
     es-module-lexer: "npm:^0.9.3"
@@ -5298,7 +5302,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -5307,6 +5311,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview": "workspace:*"
     "@storybook/preview-api": "workspace:*"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/node": "npm:^18.0.0"
     "@types/pretty-hrtime": "npm:^1.0.0"
     "@types/semver": "npm:^7.3.4"
@@ -5365,7 +5370,7 @@ __metadata:
   resolution: "@storybook/cli@workspace:lib/cli"
   dependencies:
     "@babel/types": "npm:^7.23.0"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@ndelangen/get-tarball": "npm:^3.0.7"
     "@storybook/codemod": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -5376,6 +5381,7 @@ __metadata:
     "@storybook/telemetry": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/cross-spawn": "npm:^6.0.2"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/prompts": "npm:^2.0.9"
     "@types/semver": "npm:^7.3.4"
     "@types/util-deprecate": "npm:^1.0.0"
@@ -5493,7 +5499,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-common@workspace:lib/core-common"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/core-events": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/node-logger": "workspace:*"
@@ -5551,7 +5557,7 @@ __metadata:
   dependencies:
     "@aw-web-design/x-default-browser": "npm:1.4.126"
     "@discoveryjs/json-ext": "npm:^0.5.3"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/addon-docs": "workspace:*"
     "@storybook/builder-manager": "workspace:*"
     "@storybook/channels": "workspace:*"
@@ -5569,6 +5575,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/compression": "npm:^1.7.0"
     "@types/detect-port": "npm:^1.3.0"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/ip": "npm:^1.1.0"
     "@types/node": "npm:^18.0.0"
     "@types/node-fetch": "npm:^2.5.7"
@@ -5637,7 +5644,7 @@ __metadata:
     "@babel/parser": "npm:^7.23.0"
     "@babel/traverse": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/types": "workspace:*"
     "@types/fs-extra": "npm:^11.0.1"
@@ -5890,7 +5897,7 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": "npm:^2.1.2"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/addon-designs": "npm:^7.0.4"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -5904,6 +5911,7 @@ __metadata:
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@testing-library/react": "npm:^11.2.2"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/react-transition-group": "npm:^4"
     "@types/semver": "npm:^7.3.4"
     browser-dtector: "npm:^3.4.0"
@@ -5948,7 +5956,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/runtime": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-webpack5": "workspace:*"
@@ -5962,6 +5970,7 @@ __metadata:
     "@types/babel__core": "npm:^7"
     "@types/babel__plugin-transform-runtime": "npm:^7"
     "@types/babel__preset-env": "npm:^7"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/loader-utils": "npm:^2.0.5"
     "@types/node": "npm:^18.0.0"
     "@types/react-refresh": "npm:^0"
@@ -6107,12 +6116,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-react-webpack@workspace:presets/react-webpack"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/core-webpack": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/react": "workspace:*"
     "@storybook/react-docgen-typescript-plugin": "npm:1.0.6--canary.9.0c3f3b7.0"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/node": "npm:^18.0.0"
     "@types/semver": "npm:^7.3.4"
     fs-extra: "npm:^11.2.0"
@@ -6134,11 +6144,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preset-server-webpack@workspace:presets/server-webpack"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/server": "workspace:*"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/node": "npm:^18.0.0"
     fs-extra: "npm:^11.2.0"
     safe-identifier: "npm:^0.4.1"
@@ -6341,7 +6352,7 @@ __metadata:
   resolution: "@storybook/root@workspace:."
   dependencies:
     "@chromaui/addon-visual-tests": "npm:^0.0.124"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@nx/workspace": "npm:17.0.2"
     "@playwright/test": "npm:1.36.0"
     "@storybook/addon-a11y": "workspace:*"
@@ -6428,7 +6439,7 @@ __metadata:
     "@testing-library/react": "npm:^14.0.0"
     "@testing-library/user-event": "npm:^14.4.3"
     "@types/express": "npm:^4.17.11"
-    "@types/fs-extra": "npm:^11.0.1"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/lodash": "npm:^4.14.167"
     "@types/mock-require": "npm:^2.0.3"
     "@types/node": "npm:^18.0.0"
@@ -6532,13 +6543,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
-    "@types/fs-extra": "npm:^11.0.1"
+    "@types/fs-extra": "npm:^11.0.4"
     fs-extra: "npm:^11.2.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
@@ -6643,10 +6654,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
+    "@types/fs-extra": "npm:^11.0.4"
     chalk: "npm:^4.1.0"
     detect-package-manager: "npm:^2.0.1"
     fetch-retry: "npm:^5.0.2"
@@ -6699,10 +6711,10 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
-    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/client-logger": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
-    "@types/fs-extra": "npm:^11.0.1"
+    "@types/fs-extra": "npm:^11.0.4"
     "@types/node": "npm:^18.0.0"
     deep-object-diff: "npm:^1.1.0"
     fs-extra: "npm:^11.2.0"
@@ -7393,7 +7405,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:^11.0.1":
+"@types/fs-extra@npm:^11.0.1, @types/fs-extra@npm:^11.0.4":
   version: 11.0.4
   resolution: "@types/fs-extra@npm:11.0.4"
   dependencies:
