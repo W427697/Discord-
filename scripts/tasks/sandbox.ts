@@ -1,7 +1,7 @@
 import { pathExists, remove } from '@ndelangen/fs-extra-unified';
 
 import { join } from 'node:path';
-import { promisify } from 'util';
+import { promisify } from 'node:util';
 import dirSize from 'fast-folder-size';
 import type { Task } from '../task';
 import { now, saveBench } from '../bench/utils';
