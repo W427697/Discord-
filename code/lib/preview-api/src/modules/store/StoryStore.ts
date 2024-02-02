@@ -133,21 +133,19 @@ export class StoryStore<TRenderer extends Renderer> {
       importPaths[importPath] = storyId;
     });
 
-    const csfFilePromiseList = Object.entries(importPaths).map(([importPath, storyId]) =>
-      this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
+    const list = await Promise.all(
+      Object.entries(importPaths).map(async ([importPath, storyId]) => ({
         importPath,
-        csfFile,
+        csfFile: await this.loadCSFFileByStoryId(storyId),
       }))
     );
 
-    return Promise.all(csfFilePromiseList).then((list) =>
-      list.reduce(
-        (acc, { importPath, csfFile }) => {
-          acc[importPath] = csfFile;
-          return acc;
-        },
-        {} as Record<Path, CSFFile<TRenderer>>
-      )
+    return list.reduce(
+      (acc, { importPath, csfFile }) => {
+        acc[importPath] = csfFile;
+        return acc;
+      },
+      {} as Record<Path, CSFFile<TRenderer>>
     );
   }
 
