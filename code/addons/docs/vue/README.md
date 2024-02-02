@@ -39,7 +39,7 @@ export default {
 The `addon-docs` preset for Vue has a configuration option that can be used to configure [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api), a tool which extracts information from Vue components. Here's an example of how to use the preset with options for Vue app:
 
 ```js
-import * as path from 'path';
+import * as path from 'node:path';
 
 export default {
   addons: [

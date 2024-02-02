@@ -1,9 +1,9 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
-import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
+import { existsSync } from 'node:fs';
 
 vi.mock('./helpers', () => ({
   isNxProject: vi.fn(),
@@ -16,11 +16,11 @@ vi.mock('fs', () => ({
   access: vi.fn(),
 }));
 
-vi.mock('fs-extra', () => ({
+vi.mock('@ndelangen/fs-extra-unified', () => ({
   pathExistsSync: vi.fn(() => true),
 }));
 
-vi.mock('path', () => ({
+vi.mock('node:path', () => ({
   // make it return just the second path, for easier testing
   join: vi.fn((_, p) => p),
 }));
@@ -416,7 +416,7 @@ describe('Detect', () => {
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+        vi.mocked(existsSync).mockImplementation((filePath) => {
           return typeof filePath === 'string' && Object.keys(structure.files).includes(filePath);
         });
 
@@ -449,7 +449,7 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+      vi.mocked(existsSync).mockImplementation((filePath) => {
         return (
           typeof filePath === 'string' && Object.keys(forkedReactScriptsConfig).includes(filePath)
         );

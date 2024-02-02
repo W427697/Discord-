@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig, mergeConfig } from 'vitest/config';
-import { sep, posix } from 'path';
+import { sep, posix } from 'node:path';
 import vue from '@vitejs/plugin-vue';
 import { vitestCommonConfig } from '../../vitest.workspace';
 

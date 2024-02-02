@@ -86,6 +86,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "@nx/workspace": "17.0.2",
     "@playwright/test": "1.36.0",
     "@storybook/addon-a11y": "workspace:*",
@@ -195,7 +196,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-local-rules": "portal:../scripts/eslint-plugin-local-rules",
     "eslint-plugin-storybook": "^0.6.15",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.2.0",
     "github-release-from-changelog": "^2.1.1",
     "glob": "^10.0.0",
     "http-server": "^14.1.1",

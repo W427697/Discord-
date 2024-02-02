@@ -1,6 +1,5 @@
-import path from 'path';
+import path from 'node:path';
 import chalk from 'chalk';
-import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
@@ -28,6 +27,8 @@ import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
 // Extended type to keep track of the csf meta id so we know the component id when referencing docs in `extractDocs`
 type StoryIndexEntryWithMetaId = StoryIndexEntry & { metaId?: string };
@@ -348,7 +349,7 @@ export class StoryIndexGenerator {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
-      const content = await fs.readFile(absolutePath, 'utf8');
+      const content = await readFile(absolutePath, 'utf8');
 
       const result: {
         title?: ComponentTitle;
@@ -631,10 +632,10 @@ export class StoryIndexGenerator {
   async getStorySortParameter() {
     const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
-      .find((fname) => fs.existsSync(fname));
+      .find((fname) => existsSync(fname));
     let storySortParameter;
     if (previewFile) {
-      const previewCode = (await fs.readFile(previewFile, 'utf-8')).toString();
+      const previewCode = (await readFile(previewFile, 'utf-8')).toString();
       storySortParameter = await getStorySortParameter(previewCode);
     }
 

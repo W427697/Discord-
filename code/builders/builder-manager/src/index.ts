@@ -1,5 +1,6 @@
-import { dirname, join, parse } from 'path';
-import fs from 'fs-extra';
+import { dirname, join, parse } from 'node:path';
+import { writeFile } from 'node:fs/promises';
+import { copy, remove } from '@ndelangen/fs-extra-unified';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -147,7 +148,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   // make sure we clear output directory of addons dir before starting
   // this could cause caching issues where addons are loaded when they shouldn't
   const addonsDir = config.outdir;
-  await fs.remove(addonsDir);
+  await remove(addonsDir);
 
   yield;
 
@@ -246,7 +247,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   yield;
 
-  const managerFiles = fs.copy(coreDirOrigin, coreDirTarget, {
+  const managerFiles = copy(coreDirOrigin, coreDirTarget, {
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
@@ -280,7 +281,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   await Promise.all([
     //
-    fs.writeFile(join(options.outputDir, 'index.html'), html),
+    writeFile(join(options.outputDir, 'index.html'), html),
     managerFiles,
   ]);
 

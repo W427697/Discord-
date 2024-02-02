@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
 import semver from 'semver';
 import dedent from 'ts-dedent';
 import { versions } from '@storybook/core-common';
@@ -62,7 +62,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
       webpackCompiler: () => undefined,
       extraAddons,
       extraPackages,
-      staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
+      staticDir: existsSync(path.resolve('./public')) ? 'public' : undefined,
       extraMain,
     }
   );

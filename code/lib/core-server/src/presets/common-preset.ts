@@ -1,4 +1,4 @@
-import fs, { pathExists, readFile } from 'fs-extra';
+import { pathExists } from '@ndelangen/fs-extra-unified';
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
@@ -18,7 +18,7 @@ import type {
   PresetProperty,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join, dirname, isAbsolute } from 'path';
+import { join, dirname, isAbsolute } from 'node:path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -34,6 +34,7 @@ import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -305,7 +306,7 @@ export const experimental_serverChannel = async (
         invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
         const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await fs.writeFile(mainPath, printConfig(main).code);
+        await writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }

@@ -1,9 +1,10 @@
 import svelteDoc from 'sveltedoc-parser';
 import { dedent } from 'ts-dedent';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import { preprocess } from 'svelte/compiler';
 import { logger } from '@storybook/node-logger';
+import { readFileSync } from 'node:fs';
 
 /*
  * Patch sveltedoc-parser internal options.
@@ -71,7 +72,7 @@ export default async function svelteDocgen(this: any, source: string) {
 
   let docOptions;
   if (preprocessOptions) {
-    const src = fs.readFileSync(resource).toString();
+    const src = readFileSync(resource).toString();
 
     const { code: fileContent } = await preprocess(src, preprocessOptions);
     docOptions = {

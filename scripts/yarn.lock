@@ -1964,6 +1964,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ndelangen/fs-extra-unified@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@ndelangen/fs-extra-unified@npm:1.0.2"
+  peerDependencies:
+    "@types/fs-extra": ^11.0.0
+    fs-extra: ^11.0.0
+  peerDependenciesMeta:
+    "@types/fs-extra":
+      optional: true
+  checksum: ea47123359d5deba74d8f13e54877138210f8921808328701894f45d16c5e5efa2c37720112d9edb4acb652c9bd477b250e5f9c6a9afad683d03a1d21630cc0b
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -2712,6 +2725,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
     "@google-cloud/bigquery": "npm:^6.2.0"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.2"
     "@nx/workspace": "npm:17.0.2"
     "@octokit/graphql": "npm:^5.0.5"
     "@octokit/request": "npm:^8.1.2"
@@ -2772,7 +2786,7 @@ __metadata:
     fast-folder-size: "npm:^2.1.0"
     fast-glob: "npm:^3.2.12"
     find-up: "npm:^5.0.0"
-    fs-extra: "npm:^11.1.0"
+    fs-extra: "npm:^11.2.0"
     github-release-from-changelog: "npm:^2.1.1"
     glob: "npm:^10.0.0"
     http-server: "npm:^14.1.1"
@@ -7644,6 +7658,17 @@ __metadata:
     jsonfile: "npm:^6.0.1"
     universalify: "npm:^2.0.0"
   checksum: a2480243d7dcfa7d723c5f5b24cf4eba02a6ccece208f1524a2fbde1c629492cfb9a59e4b6d04faff6fbdf71db9fdc8ef7f396417a02884195a625f5d8dc9427
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "fs-extra@npm:11.2.0"
+  dependencies:
+    graceful-fs: "npm:^4.2.0"
+    jsonfile: "npm:^6.0.1"
+    universalify: "npm:^2.0.0"
+  checksum: d77a9a9efe60532d2e790e938c81a02c1b24904ef7a3efb3990b835514465ba720e99a6ea56fd5e2db53b4695319b644d76d5a0e9988a2beef80aa7b1da63398
   languageName: node
   linkType: hard
 

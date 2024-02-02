@@ -1,5 +1,5 @@
-import path from 'path';
-import fse from 'fs-extra';
+import path from 'node:path';
+import { ensureDir } from '@ndelangen/fs-extra-unified';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
@@ -322,7 +322,7 @@ export async function baseGenerator(
     addDependenciesSpinner.succeed();
   }
 
-  await fse.ensureDir(`./${storybookConfigFolder}`);
+  await ensureDir(`./${storybookConfigFolder}`);
 
   if (addMainFile) {
     const prefixes = shouldApplyRequireWrapperOnPackageNames

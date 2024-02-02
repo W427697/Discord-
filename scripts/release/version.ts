@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { setOutput } from '@actions/core';
-import { readFile, readJson, writeFile, writeJson } from 'fs-extra';
+import { readJson, writeJson } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
@@ -10,6 +10,7 @@ import { execaCommand } from 'execa';
 import { esMain } from '../utils/esmain';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
+import { readFile, writeFile } from 'node:fs/promises';
 
 program
   .name('version')

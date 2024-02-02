@@ -1,7 +1,7 @@
 /* eslint import/prefer-default-export: "off" */
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
+import fs from 'node:fs';
+import { rename } from 'node:fs/promises';
+import path from 'node:path';
 import globby from 'globby';
 import { sync as spawnSync } from 'cross-spawn';
 import { jscodeshiftToPrettierParser } from './lib/utils';
@@ -22,25 +22,26 @@ export function listCodemods() {
     .map((fname) => fname.slice(0, -3));
 }
 
-const renameAsync = promisify(fs.rename);
-
 async function renameFile(file: any, from: any, to: any, { logger }: any) {
   const newFile = file.replace(from, to);
   logger.log(`Rename: ${file} ${newFile}`);
-  return renameAsync(file, newFile);
+  return rename(file, newFile);
 }
 
-export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, parser }: any) {
+export async function runCodemod(
+  codemod: any,
+  { glob, logger, dryRun, rename: renameInput, parser }: any
+) {
   const codemods = listCodemods();
   if (!codemods.includes(codemod)) {
     throw new Error(`Unknown codemod ${codemod}. Run --list for options.`);
   }
 
   let renameParts = null;
-  if (rename) {
-    renameParts = rename.split(':');
+  if (renameInput) {
+    renameParts = renameInput.split(':');
     if (renameParts.length !== 2) {
-      throw new Error(`Codemod rename: expected format "from:to", got "${rename}"`);
+      throw new Error(`Codemod rename: expected format "from:to", got "${renameInput}"`);
     }
   }
 
@@ -95,12 +96,12 @@ export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, p
 
   if (!renameParts && codemod === 'mdx-to-csf') {
     renameParts = ['.stories.mdx', '.mdx'];
-    rename = '.stories.mdx:.mdx;';
+    renameInput = '.stories.mdx:.mdx;';
   }
 
   if (renameParts) {
     const [from, to] = renameParts;
-    logger.log(`=> Renaming ${rename}: ${files.length} files`);
+    logger.log(`=> Renaming ${renameInput}: ${files.length} files`);
     await Promise.all(
       files.map((file) => renameFile(file, new RegExp(`${from}$`), to, { logger }))
     );

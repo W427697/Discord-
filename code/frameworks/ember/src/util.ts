@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { sync as findUpSync } from 'find-up';
 
 export const findDistFile = (cwd: string, relativePath: string) => {

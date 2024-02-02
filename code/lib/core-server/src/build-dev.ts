@@ -13,10 +13,10 @@ import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry, oneWayHash } from '@storybook/telemetry';
 
-import { join, relative, resolve } from 'path';
+import { join, relative, resolve } from 'node:path';
 import { deprecate } from '@storybook/node-logger';
 import dedent from 'ts-dedent';
-import { readFile } from 'fs-extra';
+import { readFile } from '@ndelangen/fs-extra-unified';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';

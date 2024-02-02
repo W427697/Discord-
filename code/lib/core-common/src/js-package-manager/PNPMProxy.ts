@@ -1,8 +1,8 @@
-import { pathExistsSync } from 'fs-extra';
+import { pathExistsSync } from '@ndelangen/fs-extra-unified';
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -131,7 +131,7 @@ export class PNPMProxy extends JsPackageManager {
         const pkg = pnpApi.getPackageInformation(pkgLocator);
 
         const packageJSON = JSON.parse(
-          fs.readFileSync(path.join(pkg.packageLocation, 'package.json'), 'utf-8')
+          readFileSync(path.join(pkg.packageLocation, 'package.json'), 'utf-8')
         );
 
         return packageJSON;
@@ -146,7 +146,7 @@ export class PNPMProxy extends JsPackageManager {
     const packageJsonPath = await findUpSync(
       (dir) => {
         const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
-        return fs.existsSync(possiblePath) ? possiblePath : undefined;
+        return existsSync(possiblePath) ? possiblePath : undefined;
       },
       { cwd: basePath }
     );
@@ -155,7 +155,7 @@ export class PNPMProxy extends JsPackageManager {
       return null;
     }
 
-    return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    return JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

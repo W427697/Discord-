@@ -1,6 +1,7 @@
-import type { WriteStream } from 'fs-extra';
-import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
-import { join } from 'path';
+import { move, remove } from '@ndelangen/fs-extra-unified';
+import { createWriteStream } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import tempy from 'tempy';
 import { rendererPackages } from './get-storybook-info';
 import type { JsPackageManager } from '../js-package-manager';
@@ -83,7 +84,7 @@ export const createLogStream = async (
   removeLogFile: () => Promise<void>;
   clearLogFile: () => Promise<void>;
   readLogFile: () => Promise<string>;
-  logStream: WriteStream;
+  logStream: ReturnType<typeof createWriteStream>;
 }> => {
   const finalLogPath = join(process.cwd(), logFileName);
   const temporaryLogPath = tempy.file({ name: logFileName });

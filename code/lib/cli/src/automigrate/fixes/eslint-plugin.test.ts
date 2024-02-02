@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
-import * as fsExtra from 'fs-extra';
+import * as fsExtra from '@ndelangen/fs-extra-unified';
 import type { PackageJson } from '@storybook/core-common';
 import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
-vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,

@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { PresetProperty } from '@storybook/types';
 import { getVirtualModules } from '@storybook/builder-webpack5';
 import { getProjectRoot, resolvePathInStorybookCache } from '@storybook/core-common';

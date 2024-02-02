@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile, writeJson } from 'fs-extra';
+import { writeJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
+import { readFile, writeFile } from 'node:fs/promises';
 
 program
   .name('write-changelog')

@@ -1,7 +1,7 @@
-import * as fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 
 import type { Dependency } from './types';
+import { readJson } from '@ndelangen/fs-extra-unified';
 
 export const getActualPackageVersions = async (packages: Record<string, Partial<Dependency>>) => {
   const packageNames = Object.keys(packages);
@@ -24,6 +24,6 @@ export const getActualPackageJson = async (packageName: string) => {
   const resolvedPackageJson = require.resolve(path.join(packageName, 'package.json'), {
     paths: [process.cwd()],
   });
-  const packageJson = await fs.readJson(resolvedPackageJson);
+  const packageJson = await readJson(resolvedPackageJson);
   return packageJson;
 };

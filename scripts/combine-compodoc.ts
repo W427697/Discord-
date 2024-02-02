@@ -2,12 +2,12 @@
 // So, we need to run a separate compodoc process on every symlink inside the project,
 // then combine the results into one large documentation.json
 
-import { join, resolve } from 'path';
-import { realpath, readFile, writeFile, lstat } from 'fs-extra';
+import { join, resolve } from 'node:path';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
+import { lstat, readFile, realpath, writeFile } from 'node:fs/promises';
 
 const logger = console;
 

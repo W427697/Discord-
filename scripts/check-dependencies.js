@@ -3,8 +3,8 @@
  * Therefore, we cannot transform this file to Typescript, because it would require esbuild to be installed
  */
 import { spawn } from 'child_process';
-import { join } from 'path';
-import { existsSync } from 'fs';
+import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 import * as url from 'url';
 
 const logger = console;

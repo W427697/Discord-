@@ -2,8 +2,8 @@
 import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
-import path from 'path';
-import { readJson } from 'fs-extra';
+import path from 'node:path';
+import { readJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 import { getPullInfoFromCommit } from './utils/get-github-info';
 import { git } from './utils/git-client';

@@ -1,6 +1,6 @@
 import type { Options } from '@storybook/types';
-import { join, dirname } from 'path';
-import { readFile } from 'fs/promises';
+import { join, dirname } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 /**
  * Get react-dom version from the resolvedReact preset, which points to either

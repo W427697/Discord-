@@ -1,7 +1,7 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
 import execa from 'execa';
-import { readdirSync, remove } from 'fs-extra';
+import { remove } from '@ndelangen/fs-extra-unified';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 
@@ -12,6 +12,7 @@ import { logger } from '@storybook/node-logger';
 
 import type { PackageManagerName } from '@storybook/core-common';
 import type { CommandOptions } from './generators/types';
+import { readdirSync } from 'node:fs';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';
 

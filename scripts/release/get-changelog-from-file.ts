@@ -2,12 +2,12 @@
 import { setOutput } from '@actions/core';
 import chalk from 'chalk';
 import { program } from 'commander';
-import { readFile } from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import semver from 'semver';
 import dedent from 'ts-dedent';
 import { esMain } from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
+import { readFile } from 'node:fs/promises';
 
 program
   .name('get-changelog-from-file')

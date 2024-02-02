@@ -1,5 +1,5 @@
-import * as fs from 'fs-extra';
-import path, { dirname, join, relative } from 'path';
+import { emptyDir, ensureFile, pathExists, readJson } from '@ndelangen/fs-extra-unified';
+import path, { dirname, join, relative } from 'node:path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';
@@ -7,6 +7,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
 import slash from 'slash';
 import { exec } from '../utils/exec';
+import { writeFile } from 'node:fs/promises';
 
 /* TYPES */
 
@@ -30,7 +31,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     dependencies,
     peerDependencies,
     bundler: { browserEntries = [], nodeEntries = [], externals: extraExternals = [], pre, post },
-  } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
+  } = (await readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
     await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
@@ -41,7 +42,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const optimized = hasFlag(flags, 'optimized');
 
   if (reset) {
-    await fs.emptyDir(join(process.cwd(), 'dist'));
+    await emptyDir(join(process.cwd(), 'dist'));
   }
 
   const tasks: Promise<any>[] = [];
@@ -165,7 +166,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
 async function getDTSConfigs({ entries, optimized }: { entries: string[]; optimized: boolean }) {
   const tsConfigPath = join(cwd, 'tsconfig.json');
-  const tsConfigExists = await fs.pathExists(tsConfigPath);
+  const tsConfigExists = await pathExists(tsConfigPath);
 
   const dtsBuild = optimized && tsConfigExists;
 
@@ -197,8 +198,8 @@ async function generateDTSMapperFile(file: string) {
   const srcName = join(process.cwd(), file);
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
-  await fs.ensureFile(pathName);
-  await fs.writeFile(
+  await ensureFile(pathName);
+  await writeFile(
     pathName,
     dedent`
       // dev-mode

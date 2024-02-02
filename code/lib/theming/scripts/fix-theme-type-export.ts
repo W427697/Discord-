@@ -1,6 +1,8 @@
-import { readFile, writeFile } from 'fs-extra';
+/// <reference types="node" />
+
 import { dedent } from 'ts-dedent';
-import { join } from 'path';
+import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const run = async () => {
   const target = join(process.cwd(), 'dist', 'index.d.ts');

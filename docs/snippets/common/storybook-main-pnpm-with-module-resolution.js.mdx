@@ -1,7 +1,7 @@
 ```js
 // .storybook/main.js
 
-import path from 'path';
+import path from 'node:path';
 
 const getAbsolutePath = (packageName) =>
   path.dirname(require.resolve(path.join(packageName, 'package.json')));

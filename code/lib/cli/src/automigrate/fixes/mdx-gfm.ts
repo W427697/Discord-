@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { join } from 'path';
+import { join } from 'node:path';
 import slash from 'slash';
 import glob from 'globby';
 import { commonGlobOptions } from '@storybook/core-common';

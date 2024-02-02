@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
 // @ts-expect-error (seems broken/missing)
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
@@ -12,6 +11,7 @@ import { normalizeNewlines } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
 import { extractProps } from './extractProps';
 import { extractArgTypes } from './extractArgTypes';
+import { readdirSync } from 'node:fs';
 
 // File hierarchy:
 // __testfixtures__ / some-test-case / input.*
@@ -60,10 +60,10 @@ const skippedTests = [
 describe('react component properties', () => {
   // Fixture files are in template/stories
   const fixturesDir = path.resolve(__dirname, '../../template/stories/docgen-components');
-  fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
+  readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
       const testDir = path.join(fixturesDir, testEntry.name);
-      const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
+      const testFile = readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
           it.skip(`${testEntry.name}`, () => {});

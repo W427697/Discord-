@@ -9,11 +9,11 @@
 
 /* eslint-disable no-console */
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readJson } from 'fs-extra';
+import { readJson } from '@ndelangen/fs-extra-unified';
 import { esMain } from '../utils/esmain';
 import { run as bumpVersion } from './version';
 import { git } from './utils/git-client';

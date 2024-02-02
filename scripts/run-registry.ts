@@ -1,13 +1,13 @@
 import { exec } from 'child_process';
-import { remove, pathExists, readJSON } from 'fs-extra';
+import { remove, pathExists, readJSON } from '@ndelangen/fs-extra-unified';
 import chalk from 'chalk';
-import path from 'path';
+import path from 'node:path';
 import program from 'commander';
 
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
 import type { Server } from 'http';
-import { mkdir } from 'fs/promises';
+import { mkdir } from 'node:fs/promises';
 import { PACKS_DIRECTORY } from './utils/constants';
 
 import { maxConcurrentTasks } from './utils/concurrency';

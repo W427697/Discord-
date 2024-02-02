@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { execSync } from 'child_process';
 import { getProjectRoot } from '@storybook/core-common';
 

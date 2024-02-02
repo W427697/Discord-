@@ -1,7 +1,7 @@
-import path from 'path';
-import fse from 'fs-extra';
+import path from 'node:path';
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
+import { existsSync } from 'node:fs';
 
 export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
@@ -82,9 +82,7 @@ const validConfigExtensions = ['ts', 'js', 'tsx', 'jsx', 'mjs', 'cjs'];
 
 export const findConfigFile = (prefix: string, configDir: string) => {
   const filePrefix = path.join(configDir, prefix);
-  const extension = validConfigExtensions.find((ext: string) =>
-    fse.existsSync(`${filePrefix}.${ext}`)
-  );
+  const extension = validConfigExtensions.find((ext: string) => existsSync(`${filePrefix}.${ext}`));
   return extension ? `${filePrefix}.${extension}` : null;
 };
 

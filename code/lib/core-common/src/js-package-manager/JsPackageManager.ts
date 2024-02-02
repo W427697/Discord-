@@ -2,17 +2,17 @@ import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
 import { command as execaCommand, sync as execaCommandSync } from 'execa';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
 
 import dedent from 'ts-dedent';
-import { readFile, writeFile, readFileSync } from 'fs-extra';
 import invariant from 'tiny-invariant';
 import { commandLog } from '../utils/log';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 import type { InstallationMetadata } from './types';
 import { HandledError } from '../utils/HandledError';
+import { existsSync, readFileSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const logger = console;
 
@@ -92,7 +92,7 @@ export abstract class JsPackageManager {
         const turboJsonPath = `${cwd}/turbo.json`;
         const rushJsonPath = `${cwd}/rush.json`;
 
-        if (fs.existsSync(turboJsonPath) || fs.existsSync(rushJsonPath)) {
+        if (existsSync(turboJsonPath) || existsSync(rushJsonPath)) {
           return true;
         }
 
@@ -156,7 +156,7 @@ export abstract class JsPackageManager {
 
   async readPackageJson(): Promise<PackageJson> {
     const packageJsonPath = this.packageJsonPath();
-    if (!fs.existsSync(packageJsonPath)) {
+    if (!existsSync(packageJsonPath)) {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
 

@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { paddedLog } from '@storybook/core-common';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';

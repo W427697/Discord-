@@ -1,6 +1,5 @@
-import { dirname, join } from 'path';
-import fs from 'fs-extra';
-
+import { dirname, join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 import { render } from 'ejs';
 
 import type { DocsOptions, TagsOptions, Options, Ref } from '@storybook/types';
@@ -16,7 +15,7 @@ export const getTemplatePath = async (template: string) => {
 export const readTemplate = async (template: string) => {
   const path = await getTemplatePath(template);
 
-  return fs.readFile(path, 'utf8');
+  return readFile(path, 'utf8');
 };
 
 export async function getManagerMainTemplate() {

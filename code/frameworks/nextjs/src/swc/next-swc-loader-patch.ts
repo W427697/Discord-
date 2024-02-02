@@ -30,7 +30,7 @@ DEALINGS IN THE SOFTWARE.
 import type { NextConfig } from 'next';
 import { isWasm, transform } from 'next/dist/build/swc';
 import { getLoaderSWCOptions } from 'next/dist/build/swc/options';
-import path, { isAbsolute } from 'path';
+import path, { isAbsolute } from 'node:path';
 
 export interface SWCLoaderOptions {
   rootDir: string;

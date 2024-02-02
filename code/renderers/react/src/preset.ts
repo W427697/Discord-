@@ -1,6 +1,6 @@
 import type { PresetProperty } from '@storybook/types';
 
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 
 export const addons: PresetProperty<'addons'> = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),

@@ -6,7 +6,7 @@
  */
 import type { NodePath, PluginObj, types as BabelTypes } from '@babel/core';
 
-import { relative as relativePath } from 'path';
+import { relative as relativePath } from 'node:path';
 
 export default function ({ types: t }: { types: typeof BabelTypes }): PluginObj {
   return {

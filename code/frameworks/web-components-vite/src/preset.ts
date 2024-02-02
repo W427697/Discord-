@@ -1,5 +1,5 @@
 import type { PresetProperty } from '@storybook/types';
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;

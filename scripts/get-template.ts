@@ -1,5 +1,5 @@
-import { readdir } from 'fs/promises';
-import { pathExists, readFile } from 'fs-extra';
+import { readFile, readdir } from 'node:fs/promises';
+import { pathExists } from '@ndelangen/fs-extra-unified';
 import { program } from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
@@ -62,8 +62,8 @@ export async function getTemplate(
     throw new Error(dedent`Circle parallelism set incorrectly.
     
       Parallelism is set to ${total}, but there are ${
-      potentialTemplateKeys.length
-    } templates to run for the "${scriptName}" task:
+        potentialTemplateKeys.length
+      } templates to run for the "${scriptName}" task:
       ${potentialTemplateKeys.map((v) => `- ${v}`).join('\n')}
     
       ${await checkParallelism(cadence)}

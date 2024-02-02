@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { DefinePlugin } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import type { Configuration as WebpackConfig } from 'webpack';

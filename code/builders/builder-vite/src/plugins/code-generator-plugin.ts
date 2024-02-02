@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
@@ -12,6 +12,7 @@ import {
   virtualPreviewFile,
   virtualStoriesFile,
 } from '../virtual-file-names';
+import { readFileSync } from 'node:fs';
 
 export function codeGeneratorPlugin(options: Options): Plugin {
   const iframePath = require.resolve('@storybook/builder-vite/input/iframe.html');
@@ -99,10 +100,7 @@ export function codeGeneratorPlugin(options: Options): Plugin {
       }
 
       if (id === iframeId) {
-        return fs.readFileSync(
-          require.resolve('@storybook/builder-vite/input/iframe.html'),
-          'utf-8'
-        );
+        return readFileSync(require.resolve('@storybook/builder-vite/input/iframe.html'), 'utf-8');
       }
 
       return undefined;

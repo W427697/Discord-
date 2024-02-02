@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { glob } from 'glob';
-import path from 'path';
+import path from 'node:path';
 import slash from 'slash';
 import { once } from '@storybook/node-logger';
 

@@ -1,5 +1,5 @@
 import type { PluginItem } from '@babel/core';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 
 const isLoadIntentTest = process.env.NODE_ENV === 'test';
 const isLoadIntentDevelopment = process.env.NODE_ENV === 'development';

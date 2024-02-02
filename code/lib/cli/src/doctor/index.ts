@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { createWriteStream, move, remove } from 'fs-extra';
+import { move, remove } from '@ndelangen/fs-extra-unified';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import type { PackageManagerName } from '@storybook/core-common';
@@ -13,6 +13,7 @@ import { incompatibleAddons } from '../automigrate/fixes/incompatible-addons';
 import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
 import { getIncompatibleAddons } from './getIncompatibleAddons';
 import { getMismatchingVersionsWarnings } from './getMismatchingVersionsWarning';
+import { createWriteStream } from 'node:fs';
 
 const logger = console;
 const LOG_FILE_NAME = 'doctor-storybook.log';

@@ -63,6 +63,7 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-common": "workspace:*",
@@ -81,7 +82,7 @@
     "es-module-lexer": "^1.4.1",
     "express": "^4.17.3",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.2.0",
     "html-webpack-plugin": "^5.5.0",
     "magic-string": "^0.30.5",
     "path-browserify": "^1.0.1",

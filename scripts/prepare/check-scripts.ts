@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import ts from 'typescript';
 
 const run = async ({ cwd }: { cwd: string }) => {

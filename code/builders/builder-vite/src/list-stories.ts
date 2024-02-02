@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from 'node:path';
 import slash from 'slash';
 import { glob } from 'glob';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';

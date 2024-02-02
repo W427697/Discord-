@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import mapValues from 'lodash/mapValues.js';
 import { transformSync } from '@babel/core';
 import requireFromString from 'require-from-string';
-import fs from 'fs';
+import { readFileSync } from 'node:fs';
 
 import { convert } from './index';
 import { normalizeNewlines } from '../utils';
@@ -778,7 +778,7 @@ describe('storybook type system', () => {
 });
 
 const readFixture = (fixture: string) =>
-  fs.readFileSync(`${__dirname}/__testfixtures__/${fixture}`).toString();
+  readFileSync(`${__dirname}/__testfixtures__/${fixture}`).toString();
 
 const transformToModule = (inputCode: string) => {
   const options = {

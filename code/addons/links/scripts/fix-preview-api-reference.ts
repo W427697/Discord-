@@ -1,7 +1,7 @@
-import { readFile, writeFile } from 'fs-extra';
+import { readFile, writeFile } from 'node:fs/promises';
 
 /* I wish this wasn't needed..
- * There seems to be some bug in tsup / the unlaying lib that does DTS bundling
+ * There seems to be som  e bug in tsup / the unlaying lib that does DTS bundling
  * ...that makes it mess up the generation.
  */
 const run = async () => {

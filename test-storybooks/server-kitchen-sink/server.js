@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const path = require('path');
+const path = require('node:path');
 const { logger } = require('@storybook/node-logger');
 
 const port = process.env.PORT || 8080;

@@ -1,10 +1,10 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
-import fs from 'fs';
+import { existsSync } from 'node:fs';
 import semver from 'semver';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
@@ -120,7 +120,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   });
 
   const babelRCPath = join(getProjectRoot(), '.babelrc');
-  const hasBabelConfig = fs.existsSync(babelRCPath);
+  const hasBabelConfig = existsSync(babelRCPath);
   const nextjsVersion = getNextjsVersion();
   const isDevelopment = options.configType !== 'PRODUCTION';
 

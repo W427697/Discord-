@@ -1,6 +1,6 @@
 import { logger } from '@storybook/node-logger';
 import type { Express } from 'express';
-import { readFile } from 'fs-extra';
+import { readFile } from '@ndelangen/fs-extra-unified';
 import http from 'http';
 import https from 'https';
 

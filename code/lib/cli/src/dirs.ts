@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 
 import downloadTarball from '@ndelangen/get-tarball';
 import getNpmTarballUrl from 'get-npm-tarball-url';

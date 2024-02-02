@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import process from 'process';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';

@@ -1,10 +1,10 @@
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
 
 const fileExists = (basename: string) =>
   ['.js', '.cjs'].reduce((found: string, ext: string) => {
     const filename = `${basename}${ext}`;
-    return !found && fs.existsSync(filename) ? filename : found;
+    return !found && existsSync(filename) ? filename : found;
   }, '');
 
 export function getMiddleware(configDir: string) {

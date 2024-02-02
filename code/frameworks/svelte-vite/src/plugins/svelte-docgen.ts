@@ -1,7 +1,7 @@
 import type { PluginOption } from 'vite';
 import MagicString from 'magic-string';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs, { readFileSync } from 'node:fs';
 import svelteDoc from 'sveltedoc-parser';
 import type { SvelteComponentDoc, SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
@@ -100,7 +100,7 @@ export async function svelteDocgen(svelteOptions: Record<string, any> = {}): Pro
 
       let docOptions;
       if (docPreprocessOptions) {
-        const rawSource = fs.readFileSync(resource).toString();
+        const rawSource = readFileSync(resource).toString();
 
         const { code: fileContent } = await preprocess(rawSource, docPreprocessOptions, {
           filename: resource,

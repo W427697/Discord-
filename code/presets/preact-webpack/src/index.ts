@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import type { PresetProperty } from 'lib/types/dist';
 import type { StorybookConfig } from './types';
 

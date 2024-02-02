@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
-import { existsSync, readFileSync } from 'fs';
-import path from 'path';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { createLogStream } from '../utils/cli';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';

@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs, { readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 // File hierarchy: __testfixtures__ / some-test-case / input.*
@@ -7,10 +7,10 @@ const inputRegExp = /^input\..*$/;
 
 describe('angular component properties', () => {
   const fixturesDir = path.join(__dirname, '__testfixtures__');
-  fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
+  readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
       const testDir = path.join(fixturesDir, testEntry.name);
-      const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
+      const testFile = readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         // TODO: Remove this as soon as the real test is fixed
         it('true', () => {

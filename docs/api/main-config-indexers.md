@@ -318,7 +318,7 @@ A builder plugin will then need to transform the JSON file into a regular CSF fi
 // vite-plugin-storybook-json-stories.ts
 
 import type { PluginOption } from 'vite';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 function JsonStoriesPlugin(): PluginOption {
   return {

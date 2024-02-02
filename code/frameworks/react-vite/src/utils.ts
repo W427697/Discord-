@@ -1,12 +1,12 @@
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
 
 export function readPackageJson(): Record<string, any> | false {
   const packageJsonPath = path.resolve('package.json');
-  if (!fs.existsSync(packageJsonPath)) {
+  if (!existsSync(packageJsonPath)) {
     return false;
   }
 
-  const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
+  const jsonContent = readFileSync(packageJsonPath, 'utf8');
   return JSON.parse(jsonContent);
 }

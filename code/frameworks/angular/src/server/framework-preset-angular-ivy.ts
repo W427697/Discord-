@@ -1,7 +1,7 @@
 import { Configuration } from 'webpack';
-import * as path from 'path';
+import * as path from 'node:path';
 import { Preset } from '@storybook/types';
-import fs from 'fs';
+import { readFileSync } from 'node:fs';
 
 import { PresetOptions } from './preset-options';
 import { AngularOptions } from '../types';
@@ -50,7 +50,7 @@ export const runNgcc = async () => {
 
 export const webpack = async (webpackConfig: Configuration, options: PresetOptions) => {
   const packageJsonPath = require.resolve('@angular/core/package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
   const VERSION = packageJson.version;
   const framework = await options.presets.apply<Preset>('framework');
   const angularOptions = (typeof framework === 'object' ? framework.options : {}) as AngularOptions;

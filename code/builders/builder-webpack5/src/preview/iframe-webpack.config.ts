@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path';
+import { dirname, join, resolve } from 'node:path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';

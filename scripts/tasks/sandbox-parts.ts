@@ -5,13 +5,11 @@ import {
   copy,
   ensureSymlink,
   ensureDir,
-  existsSync,
   pathExists,
-  readFileSync,
   readJson,
   writeJson,
-} from 'fs-extra';
-import { join, resolve, sep } from 'path';
+} from '@ndelangen/fs-extra-unified';
+import { join, resolve, sep } from 'node:path';
 import JSON5 from 'json5';
 import { createRequire } from 'module';
 import slash from 'slash';
@@ -42,6 +40,7 @@ import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
+import { existsSync, readFileSync } from 'node:fs';
 
 const logger = console;
 

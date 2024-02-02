@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -19,6 +18,7 @@ import type {
 import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const logger = console;
 
@@ -610,12 +610,12 @@ export const printCsf = (csf: CsfFile, options: Options = {}) => {
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const code = (await readFile(fileName, 'utf-8')).toString();
   return loadCsf(code, { ...options, fileName });
 };
 
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, printCsf(csf).code);
+  await writeFile(fileName as string, printCsf(csf).code);
 };

@@ -1,7 +1,7 @@
 import { glob as globOriginal } from 'glob';
 import { type StoriesEntry } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import { join } from 'path';
+import { join } from 'node:path';
 import slash from 'slash';
 import { vi, it, describe, expect } from 'vitest';
 import { removeMDXEntries } from '../remove-mdx-entries';

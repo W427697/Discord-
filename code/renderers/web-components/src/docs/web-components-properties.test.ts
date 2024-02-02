@@ -1,6 +1,6 @@
-import path from 'path';
+import path from 'node:path';
 import { vi, describe, it, expect } from 'vitest';
-import fs from 'fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import tmp from 'tmp';
 import { sync as spawnSync } from 'cross-spawn';
 import { extractArgTypesFromElements } from './custom-elements';
@@ -20,7 +20,7 @@ const runWebComponentsAnalyzer = (inputPath: string) => {
       shell: true,
     }
   );
-  const output = fs.readFileSync(customElementsFile, 'utf8');
+  const output = readFileSync(customElementsFile, 'utf8');
   try {
     removeCallback();
   } catch (e) {
@@ -37,10 +37,10 @@ describe('web-components component properties', () => {
   vi.mock('lit/directive-helpers.js', () => ({ default: {} }));
 
   const fixturesDir = path.join(__dirname, '__testfixtures__');
-  fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
+  readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
       const testDir = path.join(fixturesDir, testEntry.name);
-      const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
+      const testFile = readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         it(`${testEntry.name}`, () => {
           const inputPath = path.join(testDir, testFile);

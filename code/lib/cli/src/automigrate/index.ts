@@ -1,10 +1,10 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { createWriteStream, move, remove } from 'fs-extra';
+import { createWriteStream, move, remove } from '@ndelangen/fs-extra-unified';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
-import { join } from 'path';
+import { join } from 'node:path';
 import invariant from 'tiny-invariant';
 
 import {

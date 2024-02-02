@@ -1,4 +1,4 @@
-import { basename } from 'path';
+import { basename } from 'node:path';
 import type { Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 

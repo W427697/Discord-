@@ -1,5 +1,5 @@
 import type { PackageJson, StorybookConfig } from '@storybook/types';
-import path from 'path';
+import path from 'node:path';
 import { frameworkPackages } from '@storybook/core-common';
 import { cleanPaths } from './sanitize';
 import { getActualPackageJson } from './package-json';

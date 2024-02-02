@@ -1,9 +1,9 @@
-import { readFile } from 'fs-extra';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
+import { readFile } from 'node:fs/promises';
 
 const linkedContents = `export * from '../src/index';`;
 const linkCommand = `nx run-many --target="prep" --all --parallel --max-parallel=${maxConcurrentTasks} -- --reset`;

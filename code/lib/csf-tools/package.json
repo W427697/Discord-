@@ -46,9 +46,10 @@
     "@babel/parser": "^7.23.0",
     "@babel/traverse": "^7.23.2",
     "@babel/types": "^7.23.0",
+    "@ndelangen/fs-extra-unified": "^1.0.2",
     "@storybook/csf": "^0.1.2",
     "@storybook/types": "workspace:*",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.2.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"
   },

@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs-extra';
 import dedent from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -10,6 +9,7 @@ import * as traverse from '@babel/traverse';
 import type { Options } from 'recast';
 import * as recast from 'recast';
 import { babelParse } from './babelParse';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const logger = console;
 
@@ -824,12 +824,12 @@ export const printConfig = (config: ConfigFile, options: Options = {}) => {
 };
 
 export const readConfig = async (fileName: string) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const code = (await readFile(fileName, 'utf-8')).toString();
   return loadConfig(code, fileName).parse();
 };
 
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fs.writeFile(fname, formatConfig(config));
+  await writeFile(fname, formatConfig(config));
 };

@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
 import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, readFile, pathExists } from 'fs-extra';
-import { join, resolve } from 'path';
+import { outputFile, pathExists } from '@ndelangen/fs-extra-unified';
+import { join, resolve } from 'node:path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
@@ -36,6 +36,7 @@ import {
 } from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
+import { readFile } from 'node:fs/promises';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 

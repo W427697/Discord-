@@ -1,7 +1,7 @@
 import Watchpack from 'watchpack';
 import slash from 'slash';
-import fs from 'fs';
-import path from 'path';
+import { lstatSync } from 'node:fs';
+import path from 'node:path';
 import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 
@@ -10,7 +10,7 @@ import { commonGlobOptions } from '@storybook/core-common';
 
 const isDirectory = (directory: Path) => {
   try {
-    return fs.lstatSync(directory).isDirectory();
+    return lstatSync(directory).isDirectory();
   } catch (err) {
     return false;
   }

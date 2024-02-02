@@ -1,8 +1,9 @@
-import fs from 'fs-extra';
-import path from 'path';
+import { ensureFile } from '@ndelangen/fs-extra-unified';
+import path from 'node:path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
 import { globalsNameValueMap } from '../src/globals/runtime';
+import { writeFile } from 'node:fs/promises';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 let attempts = 0;
@@ -24,7 +25,7 @@ async function generate(text: string) {
 
   console.log('Writing...');
 
-  await fs.writeFile(location, output[0].output);
+  await writeFile(location, output[0].output);
 }
 
 const run = async () => {
@@ -45,7 +46,7 @@ const run = async () => {
   
   export default ${JSON.stringify(data, null, 2)} as const;`;
 
-  await fs.ensureFile(location);
+  await ensureFile(location);
 
   const tryGenerate = async () => {
     attempts += 1;

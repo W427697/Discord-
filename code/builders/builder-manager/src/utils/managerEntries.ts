@@ -1,4 +1,5 @@
-import fs from 'fs-extra';
+import { ensureFile } from '@ndelangen/fs-extra-unified';
+import { writeFile } from 'node:fs/promises';
 import { resolvePathInStorybookCache } from '@storybook/core-common';
 import { join, parse, relative, sep } from 'node:path';
 import slash from 'slash';
@@ -50,8 +51,8 @@ export async function wrapManagerEntries(entrypoints: string[], uniqueId?: strin
         sanitizeFinal(join(`${sanitizeBase(base)}-${i}`, `${sanitizeBase(name)}-bundle.js`))
       );
 
-      await fs.ensureFile(location);
-      await fs.writeFile(location, `import '${slash(entry)}';`);
+      await ensureFile(location);
+      await writeFile(location, `import '${slash(entry)}';`);
 
       return location;
     })

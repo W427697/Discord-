@@ -1,9 +1,10 @@
-import { join, parse } from 'path';
-import fs from 'fs-extra';
+import { join, parse } from 'node:path';
+import { ensureFile, readJson } from '@ndelangen/fs-extra-unified';
 import dedent from 'ts-dedent';
 import { build } from 'tsup';
 import slash from 'slash';
 import { exec } from '../utils/exec';
+import { writeFile } from 'node:fs/promises';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
@@ -13,7 +14,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     dependencies,
     peerDependencies,
     bundler: { entries, pre, post, shim },
-  } = await fs.readJson(join(cwd, 'package.json'));
+  } = await readJson(join(cwd, 'package.json'));
 
   const optimized = hasFlag(flags, 'optimized');
 
@@ -29,8 +30,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       const mjsPathName = join(process.cwd(), 'dist', `${entryName}.mjs`);
 
       await Promise.all([
-        fs.ensureFile(dtsPathName).then(() =>
-          fs.writeFile(
+        ensureFile(dtsPathName).then(() =>
+          writeFile(
             dtsPathName,
             dedent`
             // shim-mmode
@@ -38,8 +39,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           `
           )
         ),
-        fs.ensureFile(mjsPathName).then(() =>
-          fs.writeFile(
+        ensureFile(mjsPathName).then(() =>
+          writeFile(
             mjsPathName,
             dedent`
             // shim-mmode

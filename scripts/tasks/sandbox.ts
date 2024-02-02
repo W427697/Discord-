@@ -1,6 +1,6 @@
-import { pathExists, remove } from 'fs-extra';
+import { pathExists, remove } from '@ndelangen/fs-extra-unified';
 
-import { join } from 'path';
+import { join } from 'node:path';
 import { promisify } from 'util';
 import dirSize from 'fast-folder-size';
 import type { Task } from '../task';

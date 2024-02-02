@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'path';
+import path from 'node:path';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import * as fsExtraOriginal from 'fs-extra';
+import * as fsExtraOriginal from '@ndelangen/fs-extra-unified';
 import { run as ensureNextAhead } from '../ensure-next-ahead';
 import * as gitClient_ from '../utils/git-client';
 import * as bumpVersion_ from '../version';
 
 vi.mock('../utils/git-client');
 vi.mock('../version');
-vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unifie', async () => import('../../../code/__mocks__/fs-extra'));
 
 const fsExtra = vi.mocked<typeof import('../../../code/__mocks__/fs-extra')>(
   fsExtraOriginal as any

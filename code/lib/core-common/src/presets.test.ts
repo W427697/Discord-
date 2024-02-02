@@ -1,6 +1,6 @@
 import mockRequire from 'mock-require';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import { logger } from '@storybook/node-logger';
 import { getPresets, resolveAddonName, loadPreset } from './presets';
 

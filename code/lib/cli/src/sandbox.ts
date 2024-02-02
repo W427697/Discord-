@@ -1,11 +1,10 @@
 import prompts from 'prompts';
-import path from 'path';
+import path from 'node:path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
-import { existsSync, readdir } from 'fs-extra';
 import invariant from 'tiny-invariant';
 import { lt, prerelease } from 'semver';
 import type { Template, TemplateKey } from './sandbox-templates';
@@ -14,6 +13,8 @@ import type { PackageJson, PackageManagerName } from '@storybook/core-common';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import { versions } from '@storybook/core-common';
 import { doInitiate } from './initiate';
+import { existsSync } from 'node:fs';
+import { readdir } from 'node:fs/promises';
 
 const logger = console;
 

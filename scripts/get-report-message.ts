@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { readJson } from 'fs-extra';
-import { join } from 'path';
+import { readJson } from '@ndelangen/fs-extra-unified';
+import { join } from 'node:path';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
 import { CODE_DIRECTORY } from './utils/constants';

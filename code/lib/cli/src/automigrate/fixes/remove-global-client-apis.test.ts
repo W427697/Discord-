@@ -1,12 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 
-import path from 'path';
-import * as fsExtra from 'fs-extra';
+import path from 'node:path';
+import * as fsExtra from '@ndelangen/fs-extra-unified';
 import type { JsPackageManager } from '@storybook/core-common';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';
 
-vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('node:fs/promise', async () => import('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ contents, previewConfigPath }: any) => {
   if (contents) {

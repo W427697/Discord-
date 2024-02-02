@@ -1014,7 +1014,7 @@ describe('ConfigFile', () => {
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        import path from 'path';
+        import path from 'node:path';
         const config: StorybookConfig = { };
         export default config;
       `);
@@ -1033,7 +1033,7 @@ describe('ConfigFile', () => {
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        import path from 'path';
+        import path from 'node:path';
         const config: StorybookConfig = { };
         export default config;
       `);
@@ -1052,7 +1052,7 @@ describe('ConfigFile', () => {
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        import { dirname } from 'path';
+        import { dirname } from 'node:path';
         const config: StorybookConfig = { };
         export default config;
       `);
@@ -1060,7 +1060,7 @@ describe('ConfigFile', () => {
 
     it(`supports setting a named import for a field where the source already exists`, () => {
       const source = dedent`
-        import { dirname } from 'path';
+        import { dirname } from 'node:path';
 
         const config: StorybookConfig = { };
         export default config;
@@ -1073,7 +1073,7 @@ describe('ConfigFile', () => {
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        import { dirname } from 'path';
+        import { dirname } from 'node:path';
 
         const config: StorybookConfig = { };
         export default config;

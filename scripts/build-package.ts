@@ -1,5 +1,5 @@
-import { resolve, posix, sep } from 'path';
-import { readJSON } from 'fs-extra';
+import { resolve, posix, sep } from 'node:path';
+import { readJSON } from '@ndelangen/fs-extra-unified';
 import prompts from 'prompts';
 import program from 'commander';
 import chalk from 'chalk';
@@ -18,10 +18,16 @@ async function run() {
         helpText: `build only the ${pkg.name} package`,
       };
     })
-    .reduce((acc, next) => {
-      acc[next.name] = next;
-      return acc;
-    }, {} as Record<string, { name: string; defaultValue: boolean; suffix: string; helpText: string }>);
+    .reduce(
+      (acc, next) => {
+        acc[next.name] = next;
+        return acc;
+      },
+      {} as Record<
+        string,
+        { name: string; defaultValue: boolean; suffix: string; helpText: string }
+      >
+    );
 
   const tasks: Record<
     string,

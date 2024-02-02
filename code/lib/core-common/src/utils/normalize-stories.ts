@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import * as pico from 'picomatch';
 import slash from 'slash';
 
@@ -7,13 +6,14 @@ import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types'
 import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
+import { lstatSync } from 'node:fs';
 
 const DEFAULT_TITLE_PREFIX = '';
 const DEFAULT_FILES_PATTERN = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
-    return fs.lstatSync(path.resolve(configDir, entry)).isDirectory();
+    return lstatSync(path.resolve(configDir, entry)).isDirectory();
   } catch (err) {
     return false;
   }

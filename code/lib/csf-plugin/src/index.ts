@@ -1,5 +1,5 @@
 import { createUnplugin } from 'unplugin';
-import fs from 'fs/promises';
+import fs, { readFile } from 'node:fs/promises';
 import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
 import type { EnrichCsfOptions } from '@storybook/csf-tools';
 
@@ -17,7 +17,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
       return STORIES_REGEX.test(id);
     },
     async transform(code, id) {
-      const sourceCode = await fs.readFile(id, 'utf-8');
+      const sourceCode = await readFile(id, 'utf-8');
       try {
         const makeTitle = (userTitle: string) => userTitle || 'default';
         const csf = loadCsf(code, { makeTitle }).parse();

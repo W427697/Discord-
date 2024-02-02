@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import { PresetProperty } from '@storybook/types';
 import { StorybookConfig } from './types';
 import { StandaloneOptions } from './builders/utils/standalone-options';

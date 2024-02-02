@@ -1,5 +1,5 @@
 import glob from 'fast-glob';
-import path from 'path';
+import path from 'node:path';
 import fsSync from 'node:fs';
 import JSON5 from 'json5';
 

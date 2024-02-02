@@ -1,5 +1,6 @@
-import fse from 'fs-extra';
-import path from 'path';
+import { pathExists } from '@ndelangen/fs-extra-unified';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
@@ -58,7 +59,7 @@ export async function configureMain({
   ...custom
 }: ConfigureMainOptions) {
   const srcPath = path.resolve(storybookConfigFolder, '../src');
-  const prefix = (await fse.pathExists(srcPath)) ? '../src' : '../stories';
+  const prefix = (await pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
@@ -86,7 +87,7 @@ export async function configureMain({
   const finalPrefixes = [...prefixes];
 
   if (custom.framework?.name.includes('path.dirname(')) {
-    imports.push(`import path from 'path';`);
+    imports.push(`import path from 'node:path';`);
   }
 
   if (isTypescript) {
@@ -113,7 +114,7 @@ export async function configureMain({
     logger.verbose(`Failed to prettify ${mainPath}`);
   }
 
-  await fse.writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
+  await writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
@@ -133,7 +134,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
-  if (await fse.pathExists(previewPath)) {
+  if (await pathExists(previewPath)) {
     return;
   }
 
@@ -176,5 +177,5 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     logger.verbose(`Failed to prettify ${previewPath}`);
   }
 
-  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
+  await writeFile(previewPath, preview, { encoding: 'utf8' });
 }

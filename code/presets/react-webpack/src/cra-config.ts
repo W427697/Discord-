@@ -1,16 +1,16 @@
-import fs from 'fs';
-import path from 'path';
+import { existsSync, readFileSync, realpathSync } from 'node:fs';
+import path from 'node:path';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
-const appDirectory = fs.realpathSync(process.cwd());
+const appDirectory = realpathSync(process.cwd());
 
 let reactScriptsPath: string;
 
 export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
   if (reactScriptsPath && !noCache) return reactScriptsPath;
 
-  let reactScriptsScriptPath = fs.realpathSync(
+  let reactScriptsScriptPath = realpathSync(
     path.join(appDirectory, '/node_modules/.bin/react-scripts')
   );
 
@@ -24,7 +24,7 @@ export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
     );
 
     if (pathIsNotResolved) {
-      const content = fs.readFileSync(reactScriptsScriptPath, 'utf8');
+      const content = readFileSync(reactScriptsScriptPath, 'utf8');
       const packagePathMatch = content.match(
         /"\$basedir[\\/]([^\s]+?[\\/]bin[\\/]react-scripts\.js")/i
       );
@@ -44,7 +44,7 @@ export function getReactScriptsPath({ noCache }: { noCache?: boolean } = {}) {
   reactScriptsPath = path.join(reactScriptsScriptPath, '../..');
   const scriptsPkgJson = path.join(reactScriptsPath, 'package.json');
 
-  if (!fs.existsSync(scriptsPkgJson)) {
+  if (!existsSync(scriptsPkgJson)) {
     reactScriptsPath = 'react-scripts';
   }
 

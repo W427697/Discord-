@@ -7,7 +7,7 @@ import { vi, describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { Architect, createBuilder } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
-import * as path from 'path';
+import * as path from 'node:path';
 
 const buildDevStandaloneMock = vi.fn();
 const buildStaticStandaloneMock = vi.fn();

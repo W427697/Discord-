@@ -1,5 +1,5 @@
 import type { Router, Request, Response } from 'express';
-import { writeJSON } from 'fs-extra';
+import { writeJSON } from '@ndelangen/fs-extra-unified';
 
 import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
 import debounce from 'lodash/debounce.js';

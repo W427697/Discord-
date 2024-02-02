@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { basename } from 'path';
-import fse from 'fs-extra';
+import { basename } from 'node:path';
+import { writeFile, readFile } from 'node:fs/promises';
 import globby from 'globby';
 import type { Fix } from '../types';
 
@@ -67,14 +67,14 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
   async run({ result: { storiesMdxFiles }, dryRun }) {
     await Promise.all([
       ...storiesMdxFiles.map(async (fname) => {
-        const contents = await fse.readFile(fname, 'utf-8');
+        const contents = await readFile(fname, 'utf-8');
         const updated = fixMdxComments(fixMdxStyleTags(contents));
         if (updated === contents) {
           logger.info(`🆗 Unmodified ${basename(fname)}`);
         } else {
           logger.info(`✅ Modified ${basename(fname)}`);
           if (!dryRun) {
-            await fse.writeFile(fname, updated);
+            await writeFile(fname, updated);
           }
         }
       }),

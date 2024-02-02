@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { join, relative, dirname } from 'path';
+import { join, relative, dirname } from 'node:path';
 import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';

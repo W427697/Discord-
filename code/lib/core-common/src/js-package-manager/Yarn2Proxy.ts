@@ -1,7 +1,7 @@
 import dedent from 'ts-dedent';
 import { sync as findUpSync, sync as syncFindUp } from 'find-up';
-import { existsSync, readFileSync } from 'fs';
-import path from 'path';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
 import { createLogStream } from '../utils/cli';

@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { serverRequire } from '@storybook/core-common';
 
 const webpackConfigs = ['webpack.config', 'webpackfile'];

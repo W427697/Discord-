@@ -1,4 +1,4 @@
-const { dirname } = require('path');
+const { dirname } = require('node:path');
 const resolveFrom = require('resolve-from');
 
 const resolve = resolveFrom.bind(null, __dirname);

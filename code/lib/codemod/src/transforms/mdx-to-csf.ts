@@ -18,9 +18,9 @@ import * as babel from '@babel/core';
 import * as recast from 'recast';
 import * as path from 'node:path';
 import prettier from 'prettier';
-import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
 import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
+import { existsSync, writeFileSync } from 'node:fs';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
@@ -33,7 +33,7 @@ export default async function jscodeshift(info: FileInfo) {
   );
 
   // make sure the new csf file we are going to create exists
-  while (fs.existsSync(`${baseName}.stories.js`)) {
+  while (existsSync(`${baseName}.stories.js`)) {
     baseName += '_';
   }
 
@@ -42,7 +42,7 @@ export default async function jscodeshift(info: FileInfo) {
   const [mdx, csf] = result;
 
   if (csf != null) {
-    fs.writeFileSync(`${baseName}.stories.js`, csf);
+    writeFileSync(`${baseName}.stories.js`, csf);
   }
 
   return mdx;
