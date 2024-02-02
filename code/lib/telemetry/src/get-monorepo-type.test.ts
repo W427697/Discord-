@@ -6,6 +6,8 @@ import { join } from 'node:path';
 import { getMonorepoType, monorepoConfigs } from './get-monorepo-type';
 
 vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../__mocks__/fs-extra'));
+vi.mock('node:fs/promises', async () => import('../../../__mocks__/fs-extra'));
+vi.mock('node:fs', async () => import('../../../__mocks__/fs-extra'));
 
 vi.mock('@storybook/core-common', async (importOriginal) => {
   return {

@@ -2,7 +2,7 @@ import type { MockInstance } from 'vitest';
 import { describe, beforeEach, afterEach, expect, vi, it } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
-import path from 'node:path';
+import * as path from 'node:path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
 
 const packageJsonMock: PackageJson = {
@@ -13,6 +13,10 @@ const packageJsonMock: PackageJson = {
 const mainJsMock: StorybookConfig = {
   stories: [],
 };
+
+vi.mock('path', async (importOriginal) => ({
+  ...(await importOriginal()),
+}));
 
 vi.mock('./package-json', () => {
   const getActualPackageVersion = vi.fn((name) =>

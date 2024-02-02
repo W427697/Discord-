@@ -6,6 +6,7 @@ import { configureMain, configurePreview } from './configure';
 import { pathExists } from '@ndelangen/fs-extra-unified';
 
 vi.mock('node:fs/promises');
+vi.mock('@ndelangen/fs-extra-unified');
 
 describe('configureMain', () => {
   beforeAll(() => {

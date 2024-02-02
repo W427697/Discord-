@@ -1008,7 +1008,7 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setImport('path', 'path');
+      config.setImport('path', 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1027,7 +1027,7 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setImport('path', 'path');
+      config.setImport('path', 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1046,7 +1046,7 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setImport(['dirname'], 'path');
+      config.setImport(['dirname'], 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1067,7 +1067,7 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setImport(['dirname'], 'path');
+      config.setImport(['dirname'], 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1089,13 +1089,13 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setRequireImport('path', 'path');
+      config.setRequireImport('path', 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        const path = require('path');
+        const path = require('node:path');
         const config: StorybookConfig = { };
         export default config;
       `);
@@ -1103,19 +1103,19 @@ describe('ConfigFile', () => {
 
     it(`supports setting a default import for a field that does exist`, () => {
       const source = dedent`
-        const path = require('path');
+        const path = require('node:path');
         const config: StorybookConfig = { };
         export default config;
       `;
 
       const config = loadConfig(source).parse();
-      config.setRequireImport('path', 'path');
+      config.setRequireImport('path', 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
 
       expect(parsed).toMatchInlineSnapshot(`
-        const path = require('path');
+        const path = require('node:path');
         const config: StorybookConfig = { };
         export default config;
       `);
@@ -1128,7 +1128,7 @@ describe('ConfigFile', () => {
       `;
 
       const config = loadConfig(source).parse();
-      config.setRequireImport(['dirname'], 'path');
+      config.setRequireImport(['dirname'], 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1136,7 +1136,7 @@ describe('ConfigFile', () => {
       expect(parsed).toMatchInlineSnapshot(`
         const {
           dirname,
-        } = require('path');
+        } = require('node:path');
 
         const config: StorybookConfig = { };
         export default config;
@@ -1145,14 +1145,14 @@ describe('ConfigFile', () => {
 
     it(`supports setting a named import for a field where the source already exists`, () => {
       const source = dedent`
-        const { dirname } = require('path');
+        const { dirname } = require('node:path');
 
         const config: StorybookConfig = { };
         export default config;
       `;
 
       const config = loadConfig(source).parse();
-      config.setRequireImport(['dirname', 'basename'], 'path');
+      config.setRequireImport(['dirname', 'basename'], 'node:path');
 
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
@@ -1161,7 +1161,7 @@ describe('ConfigFile', () => {
         const {
           dirname,
           basename,
-        } = require('path');
+        } = require('node:path');
 
         const config: StorybookConfig = { };
         export default config;

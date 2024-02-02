@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { copy, copySync, pathExists } from '@ndelangen/fs-extra-unified';
 import { writeFile, readFile } from 'node:fs/promises';
-import path, { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { coerce, satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
@@ -21,7 +21,7 @@ import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 const logger = console;
 
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
-  const filePath = path.resolve(jsonPath);
+  const filePath = resolve(jsonPath);
   if (!existsSync(filePath)) {
     return false;
   }
@@ -38,7 +38,7 @@ export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
 }
 
 export const writeFileAsJson = (jsonPath: string, content: unknown) => {
-  const filePath = path.resolve(jsonPath);
+  const filePath = resolve(jsonPath);
   if (!existsSync(filePath)) {
     return false;
   }
@@ -114,7 +114,7 @@ export function addToDevDependenciesIfNotPresent(
 }
 
 export function copyTemplate(templateRoot: string, destination = '.') {
-  const templateDir = path.resolve(templateRoot, `template-csf/`);
+  const templateDir = resolve(templateRoot, `template-csf/`);
 
   if (!existsSync(templateDir)) {
     throw new Error(`Couldn't find template dir`);

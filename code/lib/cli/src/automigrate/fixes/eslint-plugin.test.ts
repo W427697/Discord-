@@ -7,6 +7,8 @@ import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
 vi.mock('@ndelangen/fs-extra-unified', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('node:fs/promises', async () => import('../../../../../__mocks__/fs-extra'));
+vi.mock('node:fs', async () => import('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,

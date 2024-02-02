@@ -12,6 +12,8 @@ const normalizePath = (path: string) => (IS_WINDOWS ? path.replace(/\//g, sep) :
 
 const fsMocks = vi.hoisted(() => ({
   existsSync: vi.fn(),
+  readFile: vi.fn(() => ''),
+  writeFile: vi.fn(),
 }));
 
 const fseMocks = vi.hoisted(() => ({
@@ -20,19 +22,20 @@ const fseMocks = vi.hoisted(() => ({
   ensureDir: vi.fn(() => {}),
   existsSync: vi.fn(),
   pathExists: vi.fn(),
-  readFile: vi.fn(() => ''),
-  writeFile: vi.fn(),
 }));
 
-vi.mock('fs', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('fs')>();
+vi.mock('node:fs/promises', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('node:fs/promises')>();
   return {
     ...actual,
     ...fsMocks,
-    default: {
-      ...actual,
-      ...fsMocks,
-    },
+  };
+});
+vi.mock('node:fs', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('node:fs')>();
+  return {
+    ...actual,
+    ...fsMocks,
   };
 });
 vi.mock('./dirs', () => ({
@@ -46,10 +49,6 @@ vi.mock('@ndelangen/fs-extra-unified', async (importOriginal) => {
   return {
     ...actual,
     ...fseMocks,
-    default: {
-      ...actual,
-      ...fseMocks,
-    },
   };
 });
 
@@ -77,7 +76,7 @@ describe('Helpers', () => {
 
   describe('copyTemplate', () => {
     it(`should copy template files when directory is present`, () => {
-      const csfDirectory = /template-csf$/;
+      const csfDirectory = /template-csf\/$/;
       fsMocks.existsSync.mockReturnValue(true);
 
       helpers.copyTemplate('');
