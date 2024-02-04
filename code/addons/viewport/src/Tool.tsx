@@ -167,7 +167,7 @@ export const ViewportTool: FC = memo(
       const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-is-storybook="true"]');
       const body = iframe?.contentDocument?.querySelector<HTMLBodyElement>('body');
       if (iframe && body) {
-        body.dataset.storybookViewportName = item.title;
+        body.dataset.storybookViewportId = item.id;
       }
     }, [item]);
 
