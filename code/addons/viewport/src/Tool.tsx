@@ -164,12 +164,15 @@ export const ViewportTool: FC = memo(
 
     useEffect(() => {
       ref.current = styles;
+      const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-is-storybook="true"]');
+      if (iframe) {
+        iframe.dataset.storybookViewportName = item.title;
+      }
     }, [item]);
 
     if (disable || Object.entries(viewports).length === 0) {
       return null;
     }
-    document.querySelector('iframe[data-is-storybook="true"]')?.dataset.storybookViewportName = item.title;
 
     return (
       <Fragment>
