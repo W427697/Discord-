@@ -169,6 +169,7 @@ export const ViewportTool: FC = memo(
     if (disable || Object.entries(viewports).length === 0) {
       return null;
     }
+    document.querySelector('iframe[data-is-storybook="true"]')?.dataset.storybookViewportName = item.title;
 
     return (
       <Fragment>
