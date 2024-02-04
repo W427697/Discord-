@@ -165,8 +165,9 @@ export const ViewportTool: FC = memo(
     useEffect(() => {
       ref.current = styles;
       const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-is-storybook="true"]');
-      if (iframe) {
-        iframe.dataset.storybookViewportName = item.title;
+      const body = iframe?.contentDocument?.querySelector<HTMLBodyElement>('body');
+      if (iframe && body) {
+        body.dataset.storybookViewportName = item.title;
       }
     }, [item]);
 
