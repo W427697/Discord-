@@ -24,7 +24,7 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
   icon: IconType;
   useSymbol?: boolean;
   onClick?: () => void;
-  removeDeprecateWarning?: boolean;
+  __suppressDeprecationWarning?: boolean;
 }
 
 /**
@@ -34,10 +34,10 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
 export const Icons = ({
   icon,
   useSymbol,
-  removeDeprecateWarning = false,
+  __suppressDeprecationWarning = false,
   ...props
 }: IconsProps) => {
-  if (!removeDeprecateWarning) {
+  if (!__suppressDeprecationWarning) {
     deprecate(
       `Use of the deprecated Icons ${
         `(${icon})` || ''

@@ -97,7 +97,7 @@ export const NoDeprecateWarning = (args: ComponentProps<typeof Icons>) => (
     <List>
       {Object.keys(icons).map((key) => (
         <Item minimal key={key}>
-          <Icons icon={key as IconType} aria-label={key} removeDeprecateWarning {...args} />
+          <Icons icon={key as IconType} aria-label={key} __suppressDeprecationWarning {...args} />
         </Item>
       ))}
     </List>
