@@ -1,7 +1,6 @@
 /// <reference types="@testing-library/jest-dom" />;
 import { it, expect, vi, describe } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import '@testing-library/svelte/vitest';
 import { expectTypeOf } from 'expect-type';
 import type { Meta } from '../../';
 import * as stories from './Button.stories';
@@ -14,27 +13,32 @@ import { SvelteComponent } from 'svelte';
 const { CSF3Primary } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
-const Secondary = composeStory(stories.CSF2Secondary, stories.default);
+// const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
-it('renders primary button', () => {
-  const CSF3PrimaryRendered = CSF3Primary();
-  render(CSF3PrimaryRendered.Component, { props: CSF3PrimaryRendered.props });
-  // const buttonElement = screen.getByText(/Hello world/i);
-  // expect(buttonElement).toBeInTheDocument();
+it('renders basic story', () => {
+  const CSF3PrimaryRendered = CSF3Primary({ label: 'Hello world' });
+  render(CSF3PrimaryRendered.Component, CSF3PrimaryRendered.props);
+
+  const buttonElement = screen.getByText(/Hello world/i);
+  expect(buttonElement).toBeInTheDocument();
 });
 
-// it('reuses args from composed story', () => {
-//   render(Secondary());
-//   const buttonElement = screen.getByRole('button');
-//   expect(buttonElement.textContent).toEqual(Secondary.args.label);
-// });
+it('reuses args from composed story', () => {
+  const CSF3PrimaryRendered = CSF3Primary();
+  render(CSF3PrimaryRendered.Component, CSF3PrimaryRendered.props);
 
-// it('myClickEvent handler is called', async () => {
-//   const myClickEventSpy = vi.fn();
-//   render(Secondary({ onMyClickEvent: myClickEventSpy }));
+  const buttonElement = screen.getByText(/foo/i);
+  expect(buttonElement).toBeInTheDocument();
+});
+
+// it.only('calls spy function on click', async () => {
+//   const onClickMock = vi.fn();
+//   const CSF3PrimaryRendered = CSF3Primary({ on: { click: onClickMock } });
+//   render(CSF3PrimaryRendered.Component, CSF3PrimaryRendered.props);
 //   const buttonElement = screen.getByRole('button');
 //   buttonElement.click();
-//   expect(myClickEventSpy).toHaveBeenCalled();
+
+//   expect(onClickMock).toHaveBeenCalled();
 // });
 
 // it('reuses args from composeStories', () => {
