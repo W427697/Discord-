@@ -17,7 +17,8 @@ const { CSF3Primary } = composeStories(stories);
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
 it('renders primary button', () => {
-  render(CSF3Primary);
+  const CSF3PrimaryRendered = CSF3Primary();
+  render(CSF3PrimaryRendered.Component, { props: CSF3PrimaryRendered.props });
   // const buttonElement = screen.getByText(/Hello world/i);
   // expect(buttonElement).toBeInTheDocument();
 });
