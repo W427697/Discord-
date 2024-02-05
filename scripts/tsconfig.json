@@ -13,13 +13,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "strictBindCallApply": true,
-    "lib": [
-      "dom",
-      "es2023"
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["dom", "es2023"],
+    "types": ["node"],
     "strict": true,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
@@ -29,14 +24,6 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "dist",
-    "**/dist",
-    "node_modules",
-    "**/node_modules"
-  ],
-  "include": [
-    "./**/*",
-    "./.eslintrc.js"
-  ]
+  "exclude": ["dist", "**/dist", "node_modules", "**/node_modules"],
+  "include": ["./**/*", "./.eslintrc.js"]
 }
