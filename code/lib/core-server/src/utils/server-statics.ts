@@ -1,29 +1,20 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
-import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
 import path, { basename, isAbsolute } from 'path';
-import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
-import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: Router, options: Options) {
-  const staticDirs =
-    (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
+  const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
-
-  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new ConflictingStaticDirConfigError();
-  }
 
   const statics = [
     ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
-    ...(options.staticDir || []),
   ];
 
   if (statics && statics.length > 0) {
@@ -78,7 +69,7 @@ export const parseStaticDir = async (arg: string) => {
     throw new Error(
       dedent(chalk`
         Failed to load static files, no such directory: {cyan ${staticPath}}
-        Make sure this directory exists, or omit the {bold -s (--static-dir)} option.
+        Make sure this directory exists.
       `)
     );
   }

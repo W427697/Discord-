@@ -1,13 +1,11 @@
 import { minVersion, validRange } from 'semver';
 
-function ltMajor(versionRange: string, major: number) {
-  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major < major;
-}
-
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major === major;
+  if (validRange(versionRange)) {
+    return minVersion(versionRange)?.major === major;
+  }
+  return false;
 }
 
 /** A list of all frameworks that are supported, but use a package outside the storybook monorepo */
@@ -24,13 +22,12 @@ export const externalFrameworks: ExternalFramework[] = [
 ];
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid' | 'ember';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
   | 'react'
   | 'react-native'
-  | 'vue'
   | 'vue3'
   | 'angular'
   | 'ember'
@@ -45,7 +42,6 @@ export type SupportedRenderers =
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
   'react-native',
-  'vue',
   'vue3',
   'angular',
   'ember',
@@ -64,9 +60,7 @@ export enum ProjectType {
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   NEXTJS = 'NEXTJS',
-  VUE = 'VUE',
   VUE3 = 'VUE3',
-  SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
@@ -118,69 +112,48 @@ export type TemplateConfiguration = {
  */
 export const supportedTemplates: TemplateConfiguration[] = [
   {
-    preset: ProjectType.SFC_VUE,
-    dependencies: {
-      'vue-loader': (versionRange) => ltMajor(versionRange, 16),
-      vuetify: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.VUE,
-    // This Vue template only works with Vue or Nuxt under v3
-    dependencies: {
-      vue: (versionRange) => ltMajor(versionRange, 3),
-      nuxt: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
     preset: ProjectType.VUE3,
     dependencies: {
       // This Vue template works with Vue 3
       vue: (versionRange) => versionRange === 'next' || eqMajor(versionRange, 3),
     },
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
     preset: ProjectType.EMBER,
     dependencies: ['ember-cli'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.NEXTJS,
     dependencies: ['next'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.QWIK,
     dependencies: ['@builder.io/qwik'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT_PROJECT,
     peerDependencies: ['react'],
     matcherFunction: ({ peerDependencies }) => {
-      return peerDependencies.every(Boolean);
+      return peerDependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT_NATIVE,
     dependencies: ['react-native', 'react-native-scripts'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
@@ -190,28 +163,28 @@ export const supportedTemplates: TemplateConfiguration[] = [
     // For standard CRA projects
     dependencies: ['react-scripts'],
     matcherFunction: ({ dependencies, files }) => {
-      return dependencies.every(Boolean) || files.every(Boolean);
+      return (dependencies?.every(Boolean) || files?.every(Boolean)) ?? false;
     },
   },
   {
     preset: ProjectType.ANGULAR,
     dependencies: ['@angular/core'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.WEB_COMPONENTS,
     dependencies: ['lit-element', 'lit-html', 'lit'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
     preset: ProjectType.PREACT,
     dependencies: ['preact'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
@@ -219,21 +192,21 @@ export const supportedTemplates: TemplateConfiguration[] = [
     preset: ProjectType.SVELTEKIT,
     dependencies: ['@sveltejs/kit'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.SVELTE,
     dependencies: ['svelte'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.SOLID,
     dependencies: ['solid-js'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   // DO NOT MOVE ANY TEMPLATES BELOW THIS LINE
@@ -242,14 +215,14 @@ export const supportedTemplates: TemplateConfiguration[] = [
     preset: ProjectType.WEBPACK_REACT,
     dependencies: ['react', 'webpack'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT,
     dependencies: ['react'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
 ];
@@ -264,7 +237,7 @@ export const unsupportedTemplate: TemplateConfiguration = {
     nuxt: (versionRange) => eqMajor(versionRange, 3),
   },
   matcherFunction: ({ dependencies }) => {
-    return dependencies.some(Boolean);
+    return dependencies?.some(Boolean) ?? false;
   },
 };
 

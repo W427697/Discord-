@@ -1,7 +1,7 @@
-/// <reference types="@types/jest" />;
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
-import type { StorybookConfig } from '@storybook/types';
-import type { PackageJson } from '../../js-package-manager';
+import type { StorybookConfigRaw } from '@storybook/types';
+import type { PackageJson } from '@storybook/core-common';
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager } from '../helpers/testing-helpers';
 import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
@@ -13,18 +13,20 @@ const checkBareMdxStoriesGlob = async ({
   storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
-  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  main?: Partial<StorybookConfigRaw> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
   return bareMdxStoriesGlob.check({
-    mainConfig: mainConfig as StorybookConfig,
+    mainConfig: mainConfig as StorybookConfigRaw,
     packageManager: makePackageManager(packageJson),
     storybookVersion,
   });
 };
 
 describe('bare-mdx fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('should no-op', () => {
     it('in SB < v7.0.0', async () => {
@@ -153,21 +155,21 @@ describe('bare-mdx fix', () => {
 
       expect(result.replaceAll(ansiRegex(), '')).toMatchInlineSnapshot(`
         "We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
-          \\"../src/**/*.stories.@(js|jsx|mdx|ts|tsx)\\"
+          "../src/**/*.stories.@(js|jsx|mdx|ts|tsx)"
           {
-            \\"directory\\": \\"../src/**\\",
-            \\"files\\": \\"*.stories.mdx\\"
+            "directory": "../src/**",
+            "files": "*.stories.mdx"
           }
 
         In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
 
         We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
         That would result in the following 'stories' config:
-          \\"../src/**/*.mdx\\"
-          \\"../src/**/*.stories.@(js|jsx|ts|tsx)\\"
+          "../src/**/*.mdx"
+          "../src/**/*.stories.@(js|jsx|ts|tsx)"
           {
-            \\"directory\\": \\"../src/**\\",
-            \\"files\\": \\"*.mdx\\"
+            "directory": "../src/**",
+            "files": "*.mdx"
           }
 
         To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files"

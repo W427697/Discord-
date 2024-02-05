@@ -1,15 +1,15 @@
-import { getStorybookInfo, serverRequire } from '@storybook/core-common';
+import {
+  getStorybookInfo,
+  serverRequire,
+  getCoercedStorybookVersion,
+  isCorePackage,
+  JsPackageManagerFactory,
+  type PackageManagerName,
+} from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
 import dedent from 'ts-dedent';
-
-import {
-  JsPackageManagerFactory,
-  useNpmWarning,
-  type PackageManagerName,
-} from './js-package-manager';
-import { getStorybookVersion, isCorePackage } from './utils';
 
 const logger = console;
 
@@ -20,7 +20,7 @@ interface PostinstallOptions {
 const postinstallAddon = async (addonName: string, options: PostinstallOptions) => {
   try {
     const modulePath = require.resolve(`${addonName}/postinstall`, { paths: [process.cwd()] });
-    // eslint-disable-next-line import/no-dynamic-require, global-require
+
     const postinstall = require(modulePath);
 
     try {
@@ -37,7 +37,10 @@ const postinstallAddon = async (addonName: string, options: PostinstallOptions) 
 
 const getVersionSpecifier = (addon: string) => {
   const groups = /^(...*)@(.*)$/.exec(addon);
-  return groups ? [groups[1], groups[2]] : [addon, undefined];
+  if (groups) {
+    return [groups[0], groups[2]] as const;
+  }
+  return [addon, undefined] as const;
 };
 
 const requireMain = (configDir: string) => {
@@ -68,16 +71,19 @@ const checkInstalled = (addonName: string, main: any) => {
  */
 export async function add(
   addon: string,
-  options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
+  options: { packageManager: PackageManagerName; skipPostinstall: boolean }
 ) {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
-    pkgMgr = 'npm';
-  }
+  const { packageManager: pkgMgr } = options;
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
   const { mainConfig, configDir } = getStorybookInfo(packageJson);
+
+  if (typeof configDir === 'undefined') {
+    throw new Error(dedent`
+      Unable to find storybook config directory
+    `);
+  }
 
   if (checkInstalled(addon, requireMain(configDir))) {
     throw new Error(dedent`
@@ -101,8 +107,9 @@ export async function add(
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const isAddonFromCore = isCorePackage(addonName);
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
   const version = versionSpecifier || (isAddonFromCore ? storybookVersion : latestVersion);
+
   const addonWithVersion = SemVer.valid(version)
     ? `${addonName}@^${version}`
     : `${addonName}@${version}`;

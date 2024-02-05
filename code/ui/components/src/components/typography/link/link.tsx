@@ -1,9 +1,8 @@
-import type { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
+import type { AnchorHTMLAttributes, MouseEvent } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
-
-import { Icons } from '../../icon/icon';
+import { ChevronRightIcon } from '@storybook/icons';
 
 // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behavior. Same applies to non-left clicks
 const LEFT_BUTTON = 0;
@@ -176,7 +175,7 @@ const A = styled.a<LinkStylesProps>(
       : {}
 );
 
-export interface LinkProps extends LinkInnerProps, LinkStylesProps {
+export interface LinkProps extends LinkInnerProps, LinkStylesProps, AProps {
   cancel?: boolean;
   className?: string;
   style?: object;
@@ -184,15 +183,16 @@ export interface LinkProps extends LinkInnerProps, LinkStylesProps {
   href?: string;
 }
 
-export const Link: FC<LinkProps & AProps> = ({
-  cancel,
+export const Link = ({
+  cancel = true,
   children,
-  onClick,
-  withArrow,
-  containsIcon,
-  className,
+  onClick = undefined,
+  withArrow = false,
+  containsIcon = false,
+  className = undefined,
+  style = undefined,
   ...rest
-}) => (
+}: LinkProps) => (
   <A
     {...rest}
     onClick={onClick && cancel ? (e) => cancelled(e, onClick) : onClick}
@@ -200,16 +200,7 @@ export const Link: FC<LinkProps & AProps> = ({
   >
     <LinkInner withArrow={withArrow} containsIcon={containsIcon}>
       {children}
-      {withArrow && <Icons icon="arrowright" />}
+      {withArrow && <ChevronRightIcon />}
     </LinkInner>
   </A>
 );
-
-Link.defaultProps = {
-  cancel: true,
-  className: undefined,
-  style: undefined,
-  onClick: undefined,
-  withArrow: false,
-  containsIcon: false,
-};

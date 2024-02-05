@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -82,8 +81,9 @@ const BadgeWrapper = styled.div<BadgeProps>(
 
 export interface BadgeProps {
   status: 'positive' | 'negative' | 'neutral' | 'warning' | 'critical';
+  children?: React.ReactNode;
 }
 
-export const Badge: FC<BadgeProps> = ({ ...props }) => {
+export const Badge = ({ ...props }: BadgeProps) => {
   return <BadgeWrapper {...props} />;
 };

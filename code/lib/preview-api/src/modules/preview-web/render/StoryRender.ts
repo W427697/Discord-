@@ -12,11 +12,11 @@ import type {
   ViewMode,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
 } from '@storybook/core-events';
 import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
@@ -218,22 +218,43 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 
+      const ignoreUnhandledErrors =
+        this.story.parameters?.test?.dangerouslyIgnoreUnhandledErrors === true;
+
+      const unhandledErrors: Set<unknown> = new Set();
+      const onError = (event: ErrorEvent | PromiseRejectionEvent) =>
+        unhandledErrors.add('error' in event ? event.error : event.reason);
+
       // The phase should be 'rendering' but it might be set to 'aborted' by another render cycle
       if (this.renderOptions.autoplay && forceRemount && playFunction && this.phase !== 'errored') {
+        window.addEventListener('error', onError);
+        window.addEventListener('unhandledrejection', onError);
         this.disableKeyListeners = true;
         try {
           await this.runPhase(abortSignal, 'playing', async () => {
             await playFunction(renderContext.storyContext);
           });
-          await this.runPhase(abortSignal, 'played');
+          if (!ignoreUnhandledErrors && unhandledErrors.size > 0) {
+            await this.runPhase(abortSignal, 'errored');
+          } else {
+            await this.runPhase(abortSignal, 'played');
+          }
         } catch (error) {
-          logger.error(error);
           await this.runPhase(abortSignal, 'errored', async () => {
             this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
           });
           if (this.story.parameters.throwPlayFunctionExceptions !== false) throw error;
+          console.error(error);
+        }
+        if (!ignoreUnhandledErrors && unhandledErrors.size > 0) {
+          this.channel.emit(
+            UNHANDLED_ERRORS_WHILE_PLAYING,
+            Array.from(unhandledErrors).map(serializeError)
+          );
         }
         this.disableKeyListeners = false;
+        window.removeEventListener('unhandledrejection', onError);
+        window.removeEventListener('error', onError);
         if (abortSignal.aborted) return;
       }
 
@@ -275,11 +296,10 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     // Note that there's a max of 5 nested timeouts before they're no longer "instant".
     for (let i = 0; i < 3; i += 1) {
       if (!this.isPending()) {
-        // eslint-disable-next-line no-await-in-loop
         await this.teardownRender();
         return;
       }
-      // eslint-disable-next-line no-await-in-loop
+
       await new Promise((resolve) => setTimeout(resolve, 0));
     }
 

@@ -1,7 +1,8 @@
+import { describe, it, expect, vi } from 'vitest';
 import { parseArgsParam } from './parseArgsParam';
 
-jest.mock('@storybook/client-logger', () => ({
-  once: { warn: jest.fn() },
+vi.mock('@storybook/client-logger', () => ({
+  once: { warn: vi.fn() },
 }));
 
 describe('parseArgsParam', () => {
@@ -97,7 +98,7 @@ describe('parseArgsParam', () => {
 
   it('parses sparse arrays', () => {
     const args = parseArgsParam('arr[0]:A;arr[2]:C');
-    // eslint-disable-next-line no-sparse-arrays
+
     expect(args).toStrictEqual({ arr: ['A', , 'C'] });
   });
 
@@ -119,7 +120,7 @@ describe('parseArgsParam', () => {
   it('parses arrays in objects', () => {
     expect(parseArgsParam('obj.foo[]:A;obj.foo[]:B')).toStrictEqual({ obj: { foo: ['A', 'B'] } });
     expect(parseArgsParam('obj.foo[0]:A;obj.foo[1]:B')).toStrictEqual({ obj: { foo: ['A', 'B'] } });
-    // eslint-disable-next-line no-sparse-arrays
+
     expect(parseArgsParam('obj.foo[1]:B')).toStrictEqual({ obj: { foo: [, 'B'] } });
     expect(parseArgsParam('obj.foo:A;obj.foo:B')).toStrictEqual({ obj: { foo: ['A', 'B'] } });
   });

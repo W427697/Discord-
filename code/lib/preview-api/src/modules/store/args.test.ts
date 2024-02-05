@@ -1,5 +1,5 @@
+import { describe, it, expect, vi } from 'vitest';
 import { once } from '@storybook/client-logger';
-import { expect } from '@jest/globals';
 import type { SBType } from '@storybook/types';
 
 import {
@@ -18,7 +18,7 @@ const functionType: SBType = { name: 'function' };
 const numArrayType: SBType = { name: 'array', value: numberType };
 const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 enum ArgsMapTestEnumWithoutInitializer {
   EnumValue,
@@ -75,9 +75,7 @@ describe('mapArgsToTypes', () => {
   });
 
   it('maps sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(mapArgsToTypes({ a: [, '2', undefined] }, { a: { type: numArrayType } })).toStrictEqual({
-      // eslint-disable-next-line no-sparse-arrays
       a: [, 2, undefined],
     });
   });
@@ -195,7 +193,6 @@ describe('combineArgs', () => {
   });
 
   it('merges sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(combineArgs({ foo: [1, 2, 3] }, { foo: [, 4, undefined] })).toStrictEqual({
       foo: [1, 4],
     });

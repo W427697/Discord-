@@ -8,10 +8,8 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I opt-out of Angular Ivy?](#how-can-i-opt-out-of-angular-ivy)
 - [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
-- [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
 - [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
-- [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
 - [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
@@ -21,9 +19,9 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
 - [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
 - [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
-- [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
+- [Can I use Storybook with Vue 2?](#can-i-use-storybook-with-vue-2)
 - [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
-- [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
+- [Why aren't my MDX stories working in Storybook?](#why-arent-my-mdx-stories-working-in-storybook)
 - [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
 - [Can I use other GraphQL providers with Storybook's MSW addon?](#can-i-use-other-graphql-providers-with-storybooks-msw-addon)
 - [Can I mock GraphQL mutations with Storybook's MSW addon?](#can-i-mock-graphql-mutations-with-storybooks-msw-addon)
@@ -97,13 +95,6 @@ If you're using [`Yarn`](https://yarnpkg.com/) as a package manager, you'll need
 
 </Callout>
 
-## I see `ReferenceError: React is not defined` when using Storybook with Next.js
-
-Next automatically defines `React` for all of your files via a babel plugin. In Storybook, you can solve this either by:
-
-1.  Adding `import React from 'react'` to your component files.
-2.  Adding a `.babelrc` that includes [`babel-plugin-react-require`](https://www.npmjs.com/package/babel-plugin-react-require)
-
 ## How do I setup Storybook to share Webpack configuration with Next.js?
 
 You can generally reuse Webpack rules by placing them in a file that is `require()`-ed from both your `next.config.js` and your `.storybook/main.js` files. For example:
@@ -140,36 +131,6 @@ To fix this, you can wrap the package name inside your Storybook configuration f
 />
 
 <!-- prettier-ignore-end -->
-
-## How do I setup React Fast Refresh with Storybook?
-
-Fast refresh is an opt-in feature that can be used in Storybook React.
-There are two ways that you can enable it, go ahead and pick one:
-
-- You can set a `FAST_REFRESH` environment variable in your `.env` file:
-
-```
-FAST_REFRESH=true
-```
-
-- Or you can set the following properties in your `.storybook/main.js` files:
-
-```js
-export default {
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      fastRefresh: true,
-    },
-  },
-};
-```
-
-<Callout variant="info" icon="💡">
-
-Fast Refresh only works in development mode with React 16.10 or higher.
-
-</Callout>
 
 ## How do I setup the new React Context Root API with Storybook?
 
@@ -226,7 +187,7 @@ We're working on overcoming this limitation, and soon you'll be able to use them
 
 Storybook does not work unless you have at least one local story (or docs page) defined in your project. In this context, local means a `.stories.*` or `.mdx` file that is referenced in your project's `.storybook/main.js` config.
 
-If you're in a [Storybook composition](https://storybook.js.org/docs/react/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
+If you're in a [Storybook composition](https://storybook.js.org/docs/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
 
 Introduce a single `.mdx` docs page (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
 
@@ -276,7 +237,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | What's a story                               | [See current documentation](./get-started/whats-a-story.md)                                                            | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides)                        |
 |                  | Browse Stories                               | [See current documentation](./get-started/browse-stories.md)                                                           | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                        |
 |                  | Setup                                        | [See current documentation](./get-started/setup.md)                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides)                        |
-| Write stories    | Introduction                                 | [See current documentation](./writing-stories/introduction.md)                                                         | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories)                                                                                                                                       | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
+| Write stories    | Introduction                                 | [See current documentation](./writing-stories/index.md)                                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories)                                                                                                                                       | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
 |                  | Parameters                                   | [See current documentation](./writing-stories/parameters.md)                                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories/index.md#parameters)                                                                                                                   | Non existing feature or undocumented                                                                                                                     |
 |                  | Decorators                                   | [See current documentation](./writing-stories/decorators.md)                                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories/index.md#decorators)                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories/index.md#using-decorators) |
 |                  | Naming components and hierarchy              | [See current documentation](./writing-stories/naming-components-and-hierarchy.md)                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/writing-stories)                                                                                                                                       | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
@@ -301,10 +262,10 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Viewport                                     | [See current documentation](./essentials/viewport.md)                                                                  | [See addon versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/addons/viewport)                                                                                                                                                       | [See addon versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/addons/viewport)                                           |
 |                  | Backgrounds                                  | [See current documentation](./essentials/backgrounds.md)                                                               | [See addon versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/addons/backgrounds)                                                                                                                                                    | [See addon versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/addons/backgrounds)                                        |
 |                  | Toolbars and globals                         | [See current documentation](./essentials/toolbars-and-globals.md)                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/toolbar-guide)                                                                                                                                         | Non existing feature or undocumented                                                                                                                     |
-| Configure        | Overview                                     | [See current documentation](./configure/overview.md)                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/overview)                                                                                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
+| Configure        | Overview                                     | [See current documentation](./configure/index.md)                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/overview)                                                                                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/writing-stories)                           |
 |                  | Integration/Frameworks                       | [See current documentation](./configure/frameworks.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Integration/Framework support for frameworks | [See current documentation](./configure/frameworks-feature-support.md)                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
-|                  | Integration/Babel                            | [See current documentation](./configure/babel.md)                                                                      | See versioned documentation [here](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/custom-babel-config)                                                                                                                      | See versioned documentation [here](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/custom-babel-config)          |
+|                  | Integration/Compilers                        | [See current documentation](./configure/compilers.md)                                                                  | See versioned documentation [here](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/custom-babel-config)                                                                                                                      | See versioned documentation [here](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/custom-babel-config)          |
 |                  | Integration/Typescript                       | [See current documentation](./configure/typescript.md)                                                                 | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/typescript-config)                                                                                                                             | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/typescript-config)                 |
 |                  | Integration/Styling and CSS                  | [See current documentation](./configure/styling-and-css.md)                                                            | See versioned documentation                                                                                                                                                                                                                                          | See versioned documentation                                                                                                                              |
 |                  | Integration/Images and assets                | [See current documentation](./configure/images-and-assets.md)                                                          | See versioned documentation                                                                                                                                                                                                                                          | See versioned documentation                                                                                                                              |
@@ -314,11 +275,11 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | User Interface/Theming                       | [See current documentation](./configure/theming.md)                                                                    | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/theming)                                                                                                                                       | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/theming)                           |
 |                  | User Interface/Sidebar & URLS                | [See current documentation](./configure/sidebar-and-urls.md)                                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/options-parameter)                                                                                                                             | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/options-parameter)                 |
 |                  | Environment variables                        | [See current documentation](./configure/environment-variables.md)                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/env-vars)                                                                                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/env-vars)                          |
-| Builders         | Introduction                                 | [See current documentation](./builders/overview.md)                                                                    | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+| Builders         | Introduction                                 | [See current documentation](./builders/index.md)                                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Vite                                         | [See current documentation](./builders/vite.md)                                                                        | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Webpack                                      | [See current documentation](./builders/webpack.md)                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/custom-webpack-config/index.md)                                                                                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/custom-webpack-config/index.md)    |
 |                  | Builder API                                  | [See current documentation](./builders/builder-api.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
-| Addons           | Introduction                                 | [See current documentation](./addons/introduction.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/writing-addons)                                                                                                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/writing-addons)                            |
+| Addons           | Introduction                                 | [See current documentation](./addons/index.md)                                                                         | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/writing-addons)                                                                                                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/writing-addons)                            |
 |                  | Install addons                               | [See current documentation](./addons/install-addons.md)                                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/using-addons/)                                                                                                                                         | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/using-addons/)                             |
 |                  | Writing Addons                               | [See current documentation](./addons/writing-addons.md)                                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/writing-addons)                                                                                                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/writing-addons)                            |
 |                  | Writing Presets                              | [See current documentation](./addons/writing-presets.md)                                                               | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/presets/writing-presets)                                                                                                                                      | Non existing feature or undocumented                                                                                                                     |
@@ -364,10 +325,10 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | `main.js` configuration/previewHead          | [See current documentation](./api/main-config-preview-head.md)                                                         | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | `main.js` configuration/refs                 | [See current documentation](./api/main-config-refs.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | `main.js` configuration/staticDirs           | [See current documentation](./api/main-config-static-dirs.md)                                                          | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/swc                  | [See current documentation](./api/main-config-swc.md)                                                                  | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | `main.js` configuration/typescript           | [See current documentation](./api/main-config-typescript.md)                                                           | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | `main.js` configuration/viteFinal            | [See current documentation](./api/main-config-vite-final.md)                                                           | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | `main.js` configuration/webpackFinal         | [See current documentation](./api/main-config-webpack-final.md)                                                        | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
-|                  | `main.js` configuration/config               | [See current documentation](./api/main-config-config.md)                                                               | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                   | [See current documentation](./api/new-frameworks.md)                                                                   | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                                  | [See current documentation](./api/cli-options.md)                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
 
@@ -401,17 +362,29 @@ Suppose you don't want to run the command above frequently. Add `http-server` as
 
 </Callout>
 
-## Can I use Storybook with Vue 3?
+## Can I use Storybook with Vue 2?
 
-Yes, with the release of version 6.2, Storybook now includes support for Vue 3. See the [install page](./get-started/install.md) for instructions.
+Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31, 2023, and is no longer supported by the Vue team. As a result, we've stopped supporting Vue 2 in Storybook 8 and above and will not be releasing any new versions that support it. We recommend upgrading your project to Vue 3, which Storybook fully supports. If that's not an option, you can still use Storybook with Vue 2 by installing the latest version of Storybook 7 with the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/init-command-specific-version.npx.js.mdx',
+    'common/init-command-specific-version.yarn.js.mdx',
+    'common/init-command-specific-version.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Why aren't my code blocks highlighted with Storybook MDX
 
 Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a known limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
 
-## Why aren't my MDX 2 stories working in Storybook?
+## Why aren't my MDX stories working in Storybook?
 
-MDX 2 introduced some changes to how the code is rendered. For example, if you enabled it in your Storybook and you have the following code block:
+MDX can be picky about how your code is formatted with line breaks. This is especially true with code blocks. For example, this will break:
 
 ```
 <style>{`
@@ -426,7 +399,7 @@ MDX 2 introduced some changes to how the code is rendered. For example, if you e
 
 ```
 
-You'll need to update it to make it compatible with MDX 2.
+But this will work:
 
 ```
 <style>
@@ -506,7 +479,7 @@ import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/configure/#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',

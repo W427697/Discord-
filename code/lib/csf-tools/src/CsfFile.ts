@@ -72,7 +72,6 @@ const isArgsStory = (init: t.Node, parent: t.Node, csf: CsfFile) => {
       const boundIdentifier = callee.object.name;
       const template = findVarInitialization(boundIdentifier, parent);
       if (template) {
-        // eslint-disable-next-line no-param-reassign
         csf._templates[boundIdentifier] = template;
         storyFn = template;
       }
@@ -100,11 +99,14 @@ const parseExportsOrder = (init: t.Expression) => {
 };
 
 const sortExports = (exportByName: Record<string, any>, order: string[]) => {
-  return order.reduce((acc, name) => {
-    const namedExport = exportByName[name];
-    if (namedExport) acc[name] = namedExport;
-    return acc;
-  }, {} as Record<string, any>);
+  return order.reduce(
+    (acc, name) => {
+      const namedExport = exportByName[name];
+      if (namedExport) acc[name] = namedExport;
+      return acc;
+    },
+    {} as Record<string, any>
+  );
 };
 
 export interface CsfOptions {
@@ -117,7 +119,7 @@ export class NoMetaError extends Error {
     super(dedent`
       CSF: ${message} ${formatLocation(ast, fileName)}
 
-      More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+      More info: https://storybook.js.org/docs/react/writing-stories#default-export
     `);
     this.name = this.constructor.name;
   }
@@ -455,8 +457,7 @@ export class CsfFile {
             throw new Error(dedent`
               Unexpected \`storiesOf\` usage: ${formatLocation(node, self._fileName)}.
 
-              In SB7, we use the next-generation \`storyStoreV7\` by default, which does not support \`storiesOf\`. 
-              More info, with details about how to opt-out here: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default
+              SB8 does not support \`storiesOf\`. 
             `);
           }
         },
@@ -481,7 +482,7 @@ export class CsfFile {
       throw new Error(dedent`
         CSF: missing title/component ${formatLocation(self._ast, self._fileName)}
 
-        More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+        More info: https://storybook.js.org/docs/react/writing-stories#default-export
       `);
     }
 
@@ -491,35 +492,38 @@ export class CsfFile {
     if (self._metaAnnotations.play) {
       self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
     }
-    self._stories = entries.reduce((acc, [key, story]) => {
-      if (!isExportStory(key, self._meta as StaticMeta)) {
-        return acc;
-      }
-      const id =
-        story.parameters?.__id ??
-        toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
-      const parameters: Record<string, any> = { ...story.parameters, __id: id };
+    self._stories = entries.reduce(
+      (acc, [key, story]) => {
+        if (!isExportStory(key, self._meta as StaticMeta)) {
+          return acc;
+        }
+        const id =
+          story.parameters?.__id ??
+          toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
+        const parameters: Record<string, any> = { ...story.parameters, __id: id };
 
-      const { includeStories } = self._meta || {};
-      if (
-        key === '__page' &&
-        (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
-      ) {
-        parameters.docsOnly = true;
-      }
-      acc[key] = { ...story, id, parameters };
-      const { tags, play } = self._storyAnnotations[key];
-      if (tags) {
-        const node = t.isIdentifier(tags)
-          ? findVarInitialization(tags.name, this._ast.program)
-          : tags;
-        acc[key].tags = parseTags(node);
-      }
-      if (play) {
-        acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
-      }
-      return acc;
-    }, {} as Record<string, StaticStory>);
+        const { includeStories } = self._meta || {};
+        if (
+          key === '__page' &&
+          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+        ) {
+          parameters.docsOnly = true;
+        }
+        acc[key] = { ...story, id, parameters };
+        const { tags, play } = self._storyAnnotations[key];
+        if (tags) {
+          const node = t.isIdentifier(tags)
+            ? findVarInitialization(tags.name, this._ast.program)
+            : tags;
+          acc[key].tags = parseTags(node);
+        }
+        if (play) {
+          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
+        }
+        return acc;
+      },
+      {} as Record<string, StaticStory>
+    );
 
     Object.keys(self._storyExports).forEach((key) => {
       if (!isExportStory(key, self._meta as StaticMeta)) {
@@ -572,6 +576,7 @@ export class CsfFile {
         title: this.meta?.title,
         metaId: this.meta?.id,
         tags,
+        metaTags: this.meta?.tags,
         __id: story.id,
       };
     });

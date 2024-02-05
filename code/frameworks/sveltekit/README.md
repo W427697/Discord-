@@ -17,7 +17,6 @@ Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) ann
   - [Mocking links](#mocking-links)
 - [Troubleshooting](#troubleshooting)
   - [Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook](#error-err-syntaxerror-identifier-__esbuild_register_import_meta_url__-has-already-been-declared-when-starting-storybook)
-  - [Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview](#error-cannot-read-properties-of-undefined-reading-disable_scroll_handling-in-preview)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported features
@@ -40,7 +39,7 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported       | They are only meant to be used in service workers                                                                                   |
 | [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported           |                                                                                                                                     |
 
-This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories/introduction), [test](https://storybook.js.org/docs/svelte/writing-tests/introduction) and [document](https://storybook.js.org/docs/svelte/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
+This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories), [test](https://storybook.js.org/docs/svelte/writing-tests) and [document](https://storybook.js.org/docs/svelte/writing-docs) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
 
 ## Requirements
 
@@ -64,7 +63,7 @@ npx storybook@latest init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@latest upgrade --prerelease
+npx storybook@latest upgrade
 ```
 
 #### Automatic migration
@@ -130,16 +129,18 @@ export const MyStory = {
 
 You can add the name of the module you want to mock to `parameters.sveltekit_experimental` (in the example above we are mocking the `stores` module which correspond to `$app/stores`) and then pass the following kind of objects:
 
-| Module                                            | Path in parameters                                           | Kind of objects                                                                                    |
-| ------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `import { page } from "$app/stores"`              | `parameters.sveltekit_experimental.stores.page`              | A Partial of the page store                                                                        |
-| `import { navigating } from "$app/stores"`        | `parameters.sveltekit_experimental.stores.navigating`        | A Partial of the navigating store                                                                  |
-| `import { updated } from "$app/stores"`           | `parameters.sveltekit_experimental.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)   |
-| `import { goto } from "$app/navigation"`          | `parameters.sveltekit_experimental.navigation.goto`          | A callback that will be called whenever goto is called                                             |
-| `import { invalidate } from "$app/navigation"`    | `parameters.sveltekit_experimental.navigation.invalidate`    | A callback that will be called whenever invalidate is called                                       |
-| `import { invalidateAll } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called                                    |
-| `import { afterNavigate } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called |
-| `import { enhance } from "$app/forms"`            | `parameters.sveltekit_experimental.forms.enhance`            | A callback that will called when a form with `use:enhance` is submitted                            |
+| Module                                            | Path in parameters                                           | Kind of objects                                                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `import { page } from "$app/stores"`              | `parameters.sveltekit_experimental.stores.page`              | A Partial of the page store                                                                                                               |
+| `import { navigating } from "$app/stores"`        | `parameters.sveltekit_experimental.stores.navigating`        | A Partial of the navigating store                                                                                                         |
+| `import { updated } from "$app/stores"`           | `parameters.sveltekit_experimental.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)                                          |
+| `import { goto } from "$app/navigation"`          | `parameters.sveltekit_experimental.navigation.goto`          | A callback that will be called whenever goto is called, in no function is provided an action will be logged to the Actions panel          |
+| `import { pushState } from "$app/navigation"`     | `parameters.sveltekit_experimental.navigation.pushState`     | A callback that will be called whenever pushState is called, in no function is provided an action will be logged to the Actions panel     |
+| `import { replaceState } from "$app/navigation"`  | `parameters.sveltekit_experimental.navigation.replaceState`  | A callback that will be called whenever replaceState is called, in no function is provided an action will be logged to the Actions panel  |
+| `import { invalidate } from "$app/navigation"`    | `parameters.sveltekit_experimental.navigation.invalidate`    | A callback that will be called whenever invalidate is called, in no function is provided an action will be logged to the Actions panel    |
+| `import { invalidateAll } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called, in no function is provided an action will be logged to the Actions panel |
+| `import { afterNavigate } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called                                        |
+| `import { enhance } from "$app/forms"`            | `parameters.sveltekit_experimental.forms.enhance`            | A callback that will called when a form with `use:enhance` is submitted                                                                   |
 
 All the other functions are still exported as `noop` from the mocked modules so that your application will still work.
 
@@ -184,16 +185,6 @@ export const MyStory = {
 > ```
 
 You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
-
-### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
-
-> Some stories don't load, instead they show the following error in the preview:
->
-> ```
-> Cannot read properties of undefined (reading 'disable_scroll_handling')
-> ```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 ## Acknowledgements
 

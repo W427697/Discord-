@@ -14,7 +14,7 @@ export const Goto = {
     const canvas = within(canvasElement);
     const button = canvas.getByText('goto');
     button.click();
-    expect(goto).toHaveBeenCalledWith('/storybook');
+    expect(goto).toHaveBeenCalledWith('/storybook-goto');
   },
   parameters: {
     sveltekit_experimental: {
@@ -25,6 +25,44 @@ export const Goto = {
   },
 };
 
+const replaceState = fn();
+
+export const ReplaceState = {
+  async play({ canvasElement }) {
+    const canvas = within(canvasElement);
+    const button = canvas.getByText('replaceState');
+    button.click();
+    expect(replaceState).toHaveBeenCalledWith('/storybook-replace-state', {});
+  },
+  parameters: {
+    sveltekit_experimental: {
+      navigation: {
+        replaceState,
+      },
+    },
+  },
+};
+
+const pushState = fn();
+
+export const PushState = {
+  async play({ canvasElement }) {
+    const canvas = within(canvasElement);
+    const button = canvas.getByText('pushState');
+    button.click();
+    expect(pushState).toHaveBeenCalledWith('/storybook-push-state', {});
+  },
+  parameters: {
+    sveltekit_experimental: {
+      navigation: {
+        pushState,
+      },
+    },
+  },
+};
+
+export const DefaultActions = {};
+
 const invalidate = fn();
 
 export const Invalidate = {
@@ -32,7 +70,7 @@ export const Invalidate = {
     const canvas = within(canvasElement);
     const button = canvas.getByText('invalidate', { exact: true });
     button.click();
-    expect(invalidate).toHaveBeenCalledWith('/storybook');
+    expect(invalidate).toHaveBeenCalledWith('/storybook-invalidate');
   },
   parameters: {
     sveltekit_experimental: {

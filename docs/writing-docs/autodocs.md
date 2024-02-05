@@ -20,6 +20,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
     'vue/button-story-auto-docs.ts.mdx',
     'angular/button-story-auto-docs.ts.mdx',
     'svelte/button-story-auto-docs.js.mdx',
+    'svelte/button-story-auto-docs.ts.mdx',
     'web-components/button-story-auto-docs.js.mdx',
     'web-components/button-story-auto-docs.ts.mdx',
   ]}
@@ -29,7 +30,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
 
 ![Storybook autodocs](./autodocs.png)
 
-Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
+Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/arg-types.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
 
@@ -78,7 +79,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 1. A header with the component's metadata retrieved by the `Title`, `Subtitle`, and `Description` Doc Blocks.
 2. The first story defined in the file via the `Primary` Doc Block with a handy set of UI controls to zoom in and out of the component.
-3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/argtypes.md) defined in the story via the `Controls` Doc Block.
+3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/arg-types.md) defined in the story via the `Controls` Doc Block.
 4. A overview of the remaining stories via the `Stories` Doc Block.
 
 #### With MDX
@@ -182,6 +183,36 @@ Creating automated documentation with Storybook's Autodocs provides you with the
 
 ## Advanced configuration
 
+### Documenting multiple components
+
+Sometimes it's helpful to document multiple components together. For example, a component library’s ButtonGroup and Button components might not make sense without one another.
+
+Autodocs allows you to document your "main" component, defined by the `component` property, as well as one or more `subcomponents` related to it.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
+/>
+
+<!-- prettier-ignore-end -->
+
+![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
+
+The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
+
+If you want to organize your documentation differently for component groups, we recommend [using MDX](./mdx.md). It gives you complete control over how your components are displayed and supports any configuration.
+
 ### Customize the Docs Container
 
 The Docs Container is the component that wraps up the documentation page. It's responsible for rendering the documentation page in Storybook's UI. You can customize it by creating your own component and updating your Storybook UI configuration file (i.e., `.storybook/preview.js`) to reference it.
@@ -229,7 +260,9 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <Callout variant="info" icon="💡">
 
-This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a detail of how MDX works. From their [migration guide](https://mdxjs.com/migrating/v2/#update-mdx-content):
+
+“We now ‘sandbox’ components, for lack of a better name. It means that when you pass a component for h1, it does get used for `# hi` but not for `<h1>hi</h1>`”
 
 </Callout>
 
@@ -237,7 +270,7 @@ This is not a Storybook issue but a breaking change introduced with MDX 2. For m
 
 ### The table of contents doesn't render as expected
 
-When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues. If you've run into any of the items listed below and you're interested in helping us improve the support for this feature, we encourage you to reach out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues.
 
 #### With simple documentation pages
 
@@ -283,9 +316,13 @@ Additionally, if you're developing using TypeScript, you may need to update Stor
 
 <!-- prettier-ignore-end -->
 
-If you're still encountering issues, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 
-#### Learn more about Storybook documentation
+### The controls are not updating the story within the auto-generated documentation
+
+If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
+
+**Learn more about Storybook documentation**
 
 - Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

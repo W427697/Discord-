@@ -6,6 +6,12 @@ title: 'Parameters'
 
 Parameters are a set of static, named metadata about a story, typically used to control the behavior of Storybook features and addons.
 
+<Callout variant="info">
+
+Available parameters are listed in the [parameters API reference](../api/parameters.md#available-parameters).
+
+</Callout>
+
 For example, let’s customize the backgrounds addon via a parameter. We’ll use `parameters.backgrounds` to define which backgrounds appear in the backgrounds toolbar when a story is selected.
 
 ## Story parameters
@@ -16,11 +22,11 @@ We can set a parameter for a single story with the `parameters` key on a CSF exp
 
 <CodeSnippets
   paths={[
-   'angular/component-story-custom-params.ts.mdx',
-   'web-components/component-story-custom-params.js.mdx',
-   'web-components/component-story-custom-params.ts.mdx',
-   'common/component-story-custom-params.js.mdx',
-   'common/component-story-custom-params.ts.mdx',   
+    'angular/parameters-in-story.ts.mdx',
+    'web-components/parameters-in-story.js.mdx',
+    'web-components/parameters-in-story.ts.mdx',
+    'common/parameters-in-story.js.mdx',
+    'common/parameters-in-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/parameters#snippet-component-story-custom-params"
@@ -36,16 +42,11 @@ We can set the parameters for all stories of a component using the `parameters` 
 
 <CodeSnippets
   paths={[
-    'react/button-story-with-blue-args.js.mdx',
-    'react/button-story-with-blue-args.ts.mdx',
-    'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.ts.mdx',
-    'web-components/button-story-with-blue-args.js.mdx',
-    'web-components/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.ts.mdx',
+    'angular/parameters-in-meta.ts.mdx',
+    'web-components/parameters-in-meta.js.mdx',
+    'web-components/parameters-in-meta.ts.mdx',
+    'common/parameters-in-meta.js.mdx',
+    'common/parameters-in-meta.ts.mdx',
   ]}
 />
 
@@ -53,14 +54,14 @@ We can set the parameters for all stories of a component using the `parameters` 
 
 ## Global parameters
 
-We can also set the parameters for **all stories** via the `parameters` export of your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file (this is the file where you configure all stories):
+We can also set the parameters for **all stories** via the `parameters` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-   'common/preview-story-custom-params.js.mdx',
-   'common/preview-story-custom-params.ts.mdx',
+   'common/parameters-in-preview.js.mdx',
+   'common/parameters-in-preview.ts.mdx',
   ]}
 />
 
@@ -77,4 +78,4 @@ The way the global, component and story parameters are combined is:
 
 The merging of parameters is important. It means it is possible to override a single specific sub-parameter on a per-story basis but still retain the majority of the parameters defined globally.
 
-If you are defining an API that relies on parameters (e.g. an [**addon**](../addons/introduction.md)) it is a good idea to take this behavior into account.
+If you are defining an API that relies on parameters (e.g. an [**addon**](../addons/index.md)) it is a good idea to take this behavior into account.
