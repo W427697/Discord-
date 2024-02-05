@@ -6583,7 +6583,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@testing-library/jest-dom": "npm:^6.4.1"
-    "@testing-library/svelte": "npm:^4.1.0"
+    "@testing-library/svelte": "patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch"
     expect-type: "npm:^0.15.0"
     jsdom: "npm:^24.0.0"
     svelte: "npm:^5.0.0-next.28"
@@ -6996,7 +6996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/svelte@npm:^4.1.0":
+"@testing-library/svelte@npm:4.1.0":
   version: 4.1.0
   resolution: "@testing-library/svelte@npm:4.1.0"
   dependencies:
@@ -7004,6 +7004,17 @@ __metadata:
   peerDependencies:
     svelte: ^3 || ^4
   checksum: 4335d8be01bd1e6475062be218577fa1d1b24e9dc97c33db523c5af6b044b97625f65a58bb5f73225064c5a2bf9ae9696948a2bcd2d82c1c25423014d635dce2
+  languageName: node
+  linkType: hard
+
+"@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch":
+  version: 4.1.0
+  resolution: "@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch::version=4.1.0&hash=b98ce0"
+  dependencies:
+    "@testing-library/dom": "npm:^9.3.1"
+  peerDependencies:
+    svelte: ^3 || ^4
+  checksum: 80f213b04582d0d64755e01d8a9a8b556883d2fb58f4b34902025b0459b1bb9beab4dc128d9dbee4c7d6ceb3d3107fd450cde0940176a4c2eecb513f2575514e
   languageName: node
   linkType: hard
 
