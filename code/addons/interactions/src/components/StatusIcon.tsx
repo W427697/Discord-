@@ -20,16 +20,25 @@ const WarningContainer = styled.div({
 export const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
   const theme = useTheme();
 
-  return (
-    <>
-      {status === CallStates.DONE && <CheckIcon color={theme.color.positive} />}
-      {status === CallStates.ERROR && <StopAltIcon color={theme.color.negative} />}
-      {status === CallStates.ACTIVE && <PlayIcon color={theme.color.secondary} />}
-      {status === CallStates.WAITING && (
+  switch (status) {
+    case CallStates.DONE: {
+      return <CheckIcon color={theme.color.positive} />;
+    }
+    case CallStates.ERROR: {
+      return <StopAltIcon color={theme.color.negative} />;
+    }
+    case CallStates.ACTIVE: {
+      return <PlayIcon color={theme.color.secondary} />;
+    }
+    case CallStates.WAITING: {
+      return (
         <WarningContainer>
           <CircleIcon color={transparentize(0.5, '#CCCCCC')} size={6} />
         </WarningContainer>
-      )}
-    </>
-  );
+      );
+    }
+    default: {
+      return null; //log warning?
+    }
+  }
 };
