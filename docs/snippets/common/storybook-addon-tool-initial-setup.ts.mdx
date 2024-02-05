@@ -32,12 +32,7 @@ export const Tool = memo(function MyAddonSelector() {
   }, [toggleMyTool, api]);
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Enable my addon"
-      onClick={toggleMyTool}
-    >
+    <IconButton key={TOOL_ID} active={isActive} title="Enable my addon" onClick={toggleMyTool}>
       <LightningIcon />
     </IconButton>
   );
