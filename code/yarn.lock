@@ -6583,10 +6583,12 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@testing-library/jest-dom": "npm:^6.4.1"
-    "@testing-library/svelte": "patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch"
+    "@testing-library/svelte": "npm:^4.1.0"
+    estree-walker: "npm:^3.0.3"
     expect-type: "npm:^0.15.0"
     jsdom: "npm:^24.0.0"
-    svelte: "npm:^5.0.0-next.28"
+    magic-string: "npm:^0.30.6"
+    svelte: "npm:^4.2.9"
     svelte-check: "npm:^3.6.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.0.0"
@@ -6996,7 +6998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/svelte@npm:4.1.0":
+"@testing-library/svelte@npm:^4.1.0":
   version: 4.1.0
   resolution: "@testing-library/svelte@npm:4.1.0"
   dependencies:
@@ -7004,17 +7006,6 @@ __metadata:
   peerDependencies:
     svelte: ^3 || ^4
   checksum: 4335d8be01bd1e6475062be218577fa1d1b24e9dc97c33db523c5af6b044b97625f65a58bb5f73225064c5a2bf9ae9696948a2bcd2d82c1c25423014d635dce2
-  languageName: node
-  linkType: hard
-
-"@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch":
-  version: 4.1.0
-  resolution: "@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch::version=4.1.0&hash=b98ce0"
-  dependencies:
-    "@testing-library/dom": "npm:^9.3.1"
-  peerDependencies:
-    svelte: ^3 || ^4
-  checksum: 80f213b04582d0d64755e01d8a9a8b556883d2fb58f4b34902025b0459b1bb9beab4dc128d9dbee4c7d6ceb3d3107fd450cde0940176a4c2eecb513f2575514e
   languageName: node
   linkType: hard
 
@@ -19515,6 +19506,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"magic-string@npm:^0.30.6":
+  version: 0.30.6
+  resolution: "magic-string@npm:0.30.6"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+  checksum: e8835de3427d28678667c4a82e3b54d82ac73d455aa508b8445867b70024eb7dabe4ef82393762baf296256981fa973fc1b8a3e7f837efbc44eec9a65b19efd3
+  languageName: node
+  linkType: hard
+
 "magicast@npm:^0.3.2":
   version: 0.3.2
   resolution: "magicast@npm:0.3.2"
@@ -27187,6 +27187,28 @@ __metadata:
     magic-string: "npm:^0.30.4"
     periscopic: "npm:^3.1.0"
   checksum: 13673a6211cc38224398f4bda8e0ba93edfb1338aa4f28f614a31ac31b152479038761cfc57f1668554f5ab70effcd8023dcf549d75e7b2a7ae703d213b7e9da
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^4.2.9":
+  version: 4.2.9
+  resolution: "svelte@npm:4.2.9"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.1"
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+    "@jridgewell/trace-mapping": "npm:^0.3.18"
+    "@types/estree": "npm:^1.0.1"
+    acorn: "npm:^8.9.0"
+    aria-query: "npm:^5.3.0"
+    axobject-query: "npm:^4.0.0"
+    code-red: "npm:^1.0.3"
+    css-tree: "npm:^2.3.1"
+    estree-walker: "npm:^3.0.3"
+    is-reference: "npm:^3.0.1"
+    locate-character: "npm:^3.0.0"
+    magic-string: "npm:^0.30.4"
+    periscopic: "npm:^3.1.0"
+  checksum: 534d3cdd3ee0c7c5139e17493c45f15426676b5d32da2c9430268ef94504ac908ea541283b3025aaf56a17382badc2464e95927d3dd094588d894ea350302bfa
   languageName: node
   linkType: hard
 

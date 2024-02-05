@@ -29,4 +29,5 @@
   on:click
 >
   {label}
+  <slot />
 </button>
