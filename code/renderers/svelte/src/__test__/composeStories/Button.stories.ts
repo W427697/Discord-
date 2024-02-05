@@ -7,13 +7,14 @@ const meta = {
   title: 'Example/Button',
   component: Button,
   argTypes: {
-    size: { control: 'select', options: ['small', 'medium', 'large'] },
     backgroundColor: { control: 'color' },
-    onClick: { action: 'clicked' },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+    },
   },
-  args: { primary: false },
   excludeStories: /.*ImNotAStory$/,
-} as Meta<typeof Button>;
+} satisfies Meta<Button>;
 
 export default meta;
 type CSF3Story = StoryObj<typeof meta>;
