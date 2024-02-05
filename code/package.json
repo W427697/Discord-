@@ -220,7 +220,7 @@
     "util": "^0.12.4",
     "vite": "^4.0.0",
     "vite-plugin-turbosnap": "^1.0.1",
-    "vitest": "^1.0.1",
+    "vitest": "^1.2.2",
     "wait-on": "^7.0.1"
   },
   "devDependencies": {
