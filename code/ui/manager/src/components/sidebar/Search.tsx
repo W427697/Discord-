@@ -20,6 +20,7 @@ import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
 const { document } = global;
 
@@ -175,20 +176,6 @@ export const Search = React.memo<{
     [api, inputRef, showAllComponents, DEFAULT_REF_ID]
   );
 
-  const useCheckMobileScreen = () => {
-    const [width, setWidth] = useState(window.innerWidth);
-    const handleWindowSizeChange = () => {
-            setWidth(window.innerWidth);
-    }
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowSizeChange);
-        return () => {
-            window.removeEventListener('resize', handleWindowSizeChange);
-        }
-    }, []);
-    return (width <= 768);
-  }
-
   const list: SearchItem[] = useMemo(() => {
     return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index || {}, status);
@@ -302,7 +289,8 @@ export const Search = React.memo<{
     },
     [inputRef, selectStory, showAllComponents]
   );
-  const isMobile = useCheckMobileScreen();
+  const { isMobile } = useLayout();
+
   return (
     <Downshift<DownshiftItem>
       initialInputValue={initialQuery}
