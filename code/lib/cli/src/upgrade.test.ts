@@ -1,17 +1,25 @@
 import { describe, it, expect, vi } from 'vitest';
-import { getStorybookCoreVersion } from '@storybook/telemetry';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
 } from '@storybook/core-events/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
-import type versions from './versions';
+
+import type * as sbcc from '@storybook/core-common';
+
+const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
 
 vi.mock('@storybook/telemetry');
-vi.mock('./versions', async (importOriginal) => {
-  const originalVersions = ((await importOriginal()) as { default: typeof versions }).default;
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  const originalModule = (await importOriginal()) as typeof sbcc;
   return {
-    default: Object.keys(originalVersions).reduce(
+    ...originalModule,
+    JsPackageManagerFactory: {
+      getPackageManager: () => ({
+        findInstallations: findInstallationsMock,
+      }),
+    },
+    versions: Object.keys(originalModule.versions).reduce(
       (acc, key) => {
         acc[key] = '8.0.0';
         return acc;
@@ -44,13 +52,37 @@ describe.each([
 
 describe('Upgrade errors', () => {
   it('should throw an error when upgrading to a lower version number', async () => {
-    vi.mocked(getStorybookCoreVersion).mockResolvedValue('8.1.0');
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.1.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
   it('should throw an error when upgrading to the same version number', async () => {
-    vi.mocked(getStorybookCoreVersion).mockResolvedValue('8.0.0');
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.0.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
   });
 });

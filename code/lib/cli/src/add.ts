@@ -1,11 +1,15 @@
-import { getStorybookInfo, serverRequire } from '@storybook/core-common';
+import {
+  getStorybookInfo,
+  serverRequire,
+  getCoercedStorybookVersion,
+  isCorePackage,
+  JsPackageManagerFactory,
+  type PackageManagerName,
+} from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
 import dedent from 'ts-dedent';
-
-import { JsPackageManagerFactory, type PackageManagerName } from './js-package-manager';
-import { getStorybookVersion, isCorePackage } from './utils';
 
 const logger = console;
 
@@ -103,8 +107,9 @@ export async function add(
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const isAddonFromCore = isCorePackage(addonName);
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
   const version = versionSpecifier || (isAddonFromCore ? storybookVersion : latestVersion);
+
   const addonWithVersion = SemVer.valid(version)
     ? `${addonName}@^${version}`
     : `${addonName}@${version}`;

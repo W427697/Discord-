@@ -155,7 +155,14 @@ Moving onto the manager, here we register the addon with Storybook using a uniqu
 
 <!-- prettier-ignore-end -->
 
-Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you must adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
+### Conditionally render the addon
+
+Notice the `match` property. It allows you to control the view mode (story or docs) and tab (the story canvas or [custom tabs](./addon-types.md#tabs)) where the toolbar addon is visible. For example:
+
+- `({ tabId }) => tabId === 'my-addon/tab'` will show your addon when viewing the tab with the ID `my-addon/tab`.
+- `({ viewMode }) => viewMode === 'story'` will show your addon when viewing a story in the canvas.
+- `({ viewMode }) => viewMode === 'docs'` will show your addon when viewing the documentation for a component.
+- `({ tabId, viewMode }) => !tabId && viewMode === 'story'` will show your addon when viewing a story in the canvas and not in a custom tab (i.e. when `tabId === undefined`).
 
 Run the `start` script to build and start Storybook and verify that the addon is registered correctly and showing in the UI.
 
@@ -315,7 +322,7 @@ By default, the Addon Kit comes pre-configured with a GitHub Actions workflow, e
 
 Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the token you generated earlier. Whenever you merge a pull request to the default branch, the workflow will run and publish a new release, automatically incrementing the version number and updating the changelog.
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - Writing addons for the basics of addon development
