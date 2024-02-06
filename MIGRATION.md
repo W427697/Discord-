@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
@@ -27,6 +28,7 @@
     - [Removed stories.json](#removed-storiesjson)
     - [Removed `sb babelrc` command](#removed-sb-babelrc-command)
     - [Changed interfaces for `@storybook/router` components](#changed-interfaces-for-storybookrouter-components)
+    - [Extract no longer batches](#extract-no-longer-batches)
   - [Framework-specific changes](#framework-specific-changes)
     - [React](#react)
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
@@ -34,6 +36,8 @@
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
       - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
+    - [Vue](#vue)
+      - [Require Vue 3 and up](#require-vue-3-and-up)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -70,6 +74,7 @@
     - [`createChannel` from `@storybook/postmessage` and `@storybook/channel-websocket`](#createchannel-from-storybookpostmessage-and-storybookchannel-websocket)
     - [StoryStore and methods deprecated](#storystore-and-methods-deprecated)
   - [Addon author changes](#addon-author-changes)
+    - [Tab addons cannot manually route, Tool addons can filter their visibility via tabId](#tab-addons-cannot-manually-route-tool-addons-can-filter-their-visibility-via-tabid)
     - [Removed `config` preset](#removed-config-preset-1)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
@@ -385,6 +390,12 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.x to 8.0.0
+
+### Tab addons are now routed to a query parameter
+
+The URL of a tab used to be: `http://localhost:6006/?path=/my-addon-tab/my-story`.
+
+The new URL of a tab is `http://localhost:6006/?path=/story/my-story&tab=my-addon-tab`.
 
 ### Default keyboard shortcuts changed
 
@@ -702,6 +713,10 @@ The reasoning behind is to condense and provide some clarity to what's happened 
 
 The `hideOnly` prop has been removed from the `<Route />` component in `@storybook/router`. If needed this can be implemented manually with the `<Match />` component.
 
+#### Extract no longer batches
+
+`Preview.extract()` no longer loads CSF files in batches. This was a workaround for resource limitations that slowed down extract. This shouldn't affect behaviour.
+
 ### Framework-specific changes
 
 #### React
@@ -740,6 +755,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
 
 These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
+
+#### Vue
+
+##### Require Vue 3 and up
+
+Starting in 8.0, Storybook requires Vue 3 and up.
 
 #### Angular
 
@@ -1049,6 +1070,46 @@ In particular, the following methods on the `StoryStore` are deprecated and will
 Note that both these methods require initialization, so you should await `preview.ready()`.
 
 ### Addon author changes
+
+#### Tab addons cannot manually route, Tool addons can filter their visibility via tabId
+
+The TAB type addons now should no longer specify the `match` or `route` property.
+
+Instead storybook will automatically show the addon's rendered content when the query parameter `tab` is set to the addon's ID.
+
+Example:
+
+```tsx
+import { addons, types } from "@storybook/manager-api";
+
+addons.register("my-addon", () => {
+  addons.add("my-addon/tab", {
+    type: types.TAB,
+    title: "My Addon",
+    render: () => <div>Hello World</div>,
+  });
+});
+```
+
+Tool type addon will now receive the `tabId` property passed to their `match` function.
+That way they can chose to show/hide their content based on the current tab.
+
+When the canvas is shown, the `tabId` will be set to `undefined`.
+
+Example:
+
+```tsx
+import { addons, types } from "@storybook/manager-api";
+
+addons.register("my-addon", () => {
+  addons.add("my-addon/tool", {
+    type: types.TOOL,
+    title: "My Addon",
+    match: ({ tabId }) => tabId === "my-addon/tab",
+    render: () => <div>👀</div>,
+  });
+});
+```
 
 #### Removed `config` preset
 
