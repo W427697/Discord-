@@ -2,6 +2,7 @@ import type { Options } from '@storybook/types';
 import { commonConfig } from './vite-config';
 
 import { sanitizeEnvVars } from './envs';
+import type { WebpackStatsPlugin } from './plugins';
 
 export async function build(options: Options) {
   const { build: viteBuild, mergeConfig } = await import('vite');
@@ -29,4 +30,9 @@ export async function build(options: Options) {
 
   const finalConfig = await presets.apply('viteFinal', config, options);
   await viteBuild(await sanitizeEnvVars(options, finalConfig));
+
+  const statsPlugin = config.plugins?.find(
+    (p) => p && 'name' in p && p.name === 'rollup-plugin-webpack-stats'
+  ) as WebpackStatsPlugin;
+  return statsPlugin?.storybookGetStats();
 }
