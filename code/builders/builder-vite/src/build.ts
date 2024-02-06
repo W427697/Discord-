@@ -3,6 +3,12 @@ import { commonConfig } from './vite-config';
 
 import { sanitizeEnvVars } from './envs';
 import type { WebpackStatsPlugin } from './plugins';
+import type { InlineConfig } from 'vite';
+import { logger } from '@storybook/node-logger';
+
+function findPlugin(config: InlineConfig, name: string) {
+  return config.plugins?.find((p) => p && 'name' in p && p.name === name);
+}
 
 export async function build(options: Options) {
   const { build: viteBuild, mergeConfig } = await import('vite');
@@ -29,10 +35,18 @@ export async function build(options: Options) {
   }).build;
 
   const finalConfig = await presets.apply('viteFinal', config, options);
+
+  const turbosnapPlugin = findPlugin(finalConfig, 'rollup-plugin-turbosnap');
+  if (turbosnapPlugin) {
+    logger.warn(`Found 'rollup-plugin-turbosnap' which is now included by default in Storybook 8.`);
+    logger.warn(
+      `Removing from your plugins list. Ensure you pass \`--webpack-stats-json\` to generate stats.`
+    );
+    finalConfig.plugins = finalConfig.plugins?.filter((p) => p !== turbosnapPlugin);
+  }
+
   await viteBuild(await sanitizeEnvVars(options, finalConfig));
 
-  const statsPlugin = config.plugins?.find(
-    (p) => p && 'name' in p && p.name === 'rollup-plugin-webpack-stats'
-  ) as WebpackStatsPlugin;
+  const statsPlugin = findPlugin(finalConfig, 'rollup-plugin-webpack-stats') as WebpackStatsPlugin;
   return statsPlugin?.storybookGetStats();
 }
