@@ -1,10 +1,11 @@
 import { join } from 'path';
+import { paddedLog } from '@storybook/core-common';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 import { AngularJSON, compoDocPreviewPrefix, promptForCompoDocs } from './helpers';
 import { getCliDir } from '../../dirs';
-import { paddedLog, copyTemplate } from '../../helpers';
+import { copyTemplate } from '../../helpers';
 
 const generator: Generator<{ projectName: string }> = async (
   packageManager,
@@ -71,6 +72,7 @@ const generator: Generator<{ projectName: string }> = async (
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,
+      webpackCompiler: () => undefined,
     },
     'angular'
   );

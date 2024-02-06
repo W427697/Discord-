@@ -124,14 +124,14 @@ Provides HTML class(es) to the preview element, for custom styling.
 
 ### `layout`
 
-Type: `'padded' | 'centered' | 'fullscreen'`
+Type: `'centered' | 'fullscreen' | 'padded'`
 
 Default: `parameters.layout` or `parameters.docs.canvas.layout` or `'padded'`
 
 Specifies how the canvas should layout the story.
 
-- **padded**: Add padding to the story
 - **centered**: Center the story within the canvas
+- **padded**: (default) Add padding to the story
 - **fullscreen**: Show the story as-is, without padding
 
 In addition to the `parameters.docs.canvas.layout` property or the `layout` prop, the `Canvas` block will respect the `parameters.layout` value that defines [how a story is laid out](../configure/story-layout.md) in the regular story view.
@@ -170,7 +170,7 @@ Specifies which story's source is displayed.
 
 Type: `SourceProps['code'] | SourceProps['format'] | SourceProps['language'] | SourceProps['type']`
 
-Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
+Specifies the props passed to the inner `Source` block. For more information, see the `Source` Doc Block [documentation](./doc-block-source.md).
 
 <Callout variant="info" icon="💡">
 
@@ -194,7 +194,7 @@ Specifies the initial state of the source panel.
 
 Type: `StoryProps['inline'] | StoryProps['height'] | StoryProps['autoplay']`
 
-Specifies props passed to the inner `Story` block. See [StoryProps](./doc-block-story.md#storyprops).
+Specifies the props passed to the inner `Story` block. For more information, see the `Story` Doc Block [documentation](./doc-block-story.md).
 
 ### `withToolbar`
 
@@ -203,51 +203,3 @@ Type: `boolean`
 Default: `parameters.docs.canvas.withToolbar`
 
 Determines whether to render a toolbar containing tools to interact with the story.
-
-### `children`
-
-(⛔️ **Deprecated**)
-
-Type: `React.ReactNode`
-
-Expects only [Story](./doc-block-story.md) children. Reference the story with the `of` prop instead.
-
-### `columns`
-
-(⛔️ **Deprecated**)
-
-Type: `number`
-
-Splits the stories based on the number of defined columns. Multiple stories are not supported.
-
-### `isColumn`
-
-(⛔️ **Deprecated**)
-
-Type: `boolean`
-
-Displays the stories one above the other. Multiple stories are not supported.
-
-### `mdxSource`
-
-(⛔️ **Deprecated**)
-
-Type: `string`
-
-Provides source to display. Use [`source.code`](#source) instead.
-
-### `withSource`
-
-(⛔️ **Deprecated**)
-
-Type: `'open' | 'closed' | 'none'`
-
-Controls the source code block visibility. Use [`sourceState`](#sourcestate) instead.
-
-### `withToolbar`
-
-(⛔️ **Deprecated**)
-
-Type: `boolean`
-
-Sets the Canvas toolbar visibility. Use [`story.withToolbar`](#story) instead.

@@ -1,7 +1,6 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop */
 import {
   copy,
   ensureSymlink,
@@ -26,21 +25,23 @@ import {
   addWorkaroundResolutions,
 } from '../utils/yarn';
 import { exec } from '../utils/exec';
-import type { ConfigFile } from '../../code/lib/csf-tools';
-import storybookPackages from '../../code/lib/cli/src/versions';
-import { writeConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools/src';
+import { writeConfig } from '../../code/lib/csf-tools/src';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
 import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
+import {
+  type JsPackageManager,
+  versions as storybookPackages,
+  JsPackageManagerFactory,
+} from '../../code/lib/core-common/src';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
-import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 
 const logger = console;
 
@@ -69,7 +70,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
+      optionValues: { output: sandboxDir, init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -191,11 +192,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const require = createRequire(import.meta.url);
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
-  const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx2-csf/loader'
-  );
-  const babelLoaderPath = require.resolve('babel-loader');
-  const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -213,45 +209,13 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
           },
         },
         // Handle MDX files per the addon-docs presets (ish)
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.stories\\.mdx$/],
+        {        
+          test: /template-stories\\/.*\\.mdx$/,
+          exclude: /\\.stories\\.mdx$/,
           use: [
             {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
+              loader: require.resolve('@storybook/addon-docs/mdx-loader'),
             },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: false,
-              }
-            }
-          ],
-        },
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.mdx$/],
-          exclude: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: true,
-              }
-            }
           ],
         },
         // Ensure no other loaders from the framework apply
@@ -389,11 +353,7 @@ export async function addExtraDependencies({
   extraDeps?: string[];
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDevDeps = [
-    '@storybook/jest@next',
-    '@storybook/testing-library@next',
-    '@storybook/test-runner@next',
-  ];
+  const extraDevDeps = ['@storybook/testing-library@next', '@storybook/test-runner@next'];
   if (debug) logger.log('🎁 Adding extra dev deps', extraDevDeps);
   let packageManager: JsPackageManager;
   if (!dryRun) {
@@ -420,7 +380,8 @@ export const addStories: Task['run'] = async (
   // Ensure that we match the right stories in the stories directory
   updateStoriesField(
     mainConfig,
-    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
+    (await detectLanguage(packageManager as any as Parameters<typeof detectLanguage>[0])) ===
+      SupportedLanguage.JAVASCRIPT
   );
 
   const isCoreRenderer =
@@ -558,6 +519,11 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
     features: {
       ...templateConfig.features,
     },
+    ...(template.modifications?.editAddons
+      ? {
+          addons: template.modifications?.editAddons(mainConfig.getFieldValue(['addons']) || []),
+        }
+      : {}),
     core: {
       ...templateConfig.core,
       // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests

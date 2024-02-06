@@ -1,10 +1,6 @@
-import type { API } from '@storybook/manager-api';
+import { type API } from '@storybook/manager-api';
 import { ADDON_ID } from './constants';
-
-type State = {
-  selected: string;
-  isRotated: boolean;
-};
+import { globals as defaultGlobals } from './preview';
 
 const getCurrentViewportIndex = (viewportsKeys: string[], current: string): number =>
   viewportsKeys.indexOf(current);
@@ -23,43 +19,40 @@ const getPreviousViewport = (viewportsKeys: string[], current: string): string =
     : viewportsKeys[currentViewportIndex - 1];
 };
 
-export const registerShortcuts = async (api: API, setState: any, viewportsKeys: string[]) => {
+export const registerShortcuts = async (
+  api: API,
+  globals: any,
+  updateGlobals: any,
+  viewportsKeys: string[]
+) => {
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Previous viewport',
-    defaultShortcut: ['shift', 'V'],
+    defaultShortcut: ['alt', 'shift', 'V'],
     actionName: 'previous',
     action: () => {
-      const { selected, isRotated } = api.getAddonState<State>(ADDON_ID);
-      setState({
-        selected: getPreviousViewport(viewportsKeys, selected),
-        isRotated,
+      updateGlobals({
+        viewport: getPreviousViewport(viewportsKeys, globals.viewport),
       });
     },
   });
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Next viewport',
-    defaultShortcut: ['V'],
+    defaultShortcut: ['alt', 'V'],
     actionName: 'next',
     action: () => {
-      const { selected, isRotated } = api.getAddonState<State>(ADDON_ID);
-      setState({
-        selected: getNextViewport(viewportsKeys, selected),
-        isRotated,
+      updateGlobals({
+        viewport: getNextViewport(viewportsKeys, globals.viewport),
       });
     },
   });
 
   await api.setAddonShortcut(ADDON_ID, {
     label: 'Reset viewport',
-    defaultShortcut: ['alt', 'V'],
+    defaultShortcut: ['alt', 'control', 'V'],
     actionName: 'reset',
     action: () => {
-      const { isRotated } = api.getAddonState<State>(ADDON_ID);
-      setState({
-        selected: 'reset',
-        isRotated,
-      });
+      updateGlobals(defaultGlobals);
     },
   });
 };

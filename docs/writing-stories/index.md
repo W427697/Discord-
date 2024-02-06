@@ -207,8 +207,6 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
   paths={[
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
-    'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.2.ts.mdx',
     'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
@@ -238,8 +236,6 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.js.mdx',
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
-    'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.2.ts.mdx',
     'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.3.ts.mdx',
     'web-components/button-group-story.js.mdx',
@@ -312,19 +308,11 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <CodeSnippets
   paths={[
-    'react/button-story-with-blue-args.js.mdx',
-    'react/button-story-with-blue-args.ts.mdx',
-    'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.ts.mdx',
-    'web-components/button-story-with-blue-args.js.mdx',
-    'web-components/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
-    'svelte/button-story-with-blue-args.ts.mdx',
-    'html/button-story-with-blue-args.js.mdx',
-    'html/button-story-with-blue-args.ts.mdx',
-    'solid/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.ts.mdx',
+    'angular/parameters-in-meta.ts.mdx',
+    'web-components/parameters-in-meta.js.mdx',
+    'web-components/parameters-in-meta.ts.mdx',
+    'common/parameters-in-meta.js.mdx',
+    'common/parameters-in-meta.ts.mdx',
   ]}
 />
 
@@ -425,8 +413,6 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'react/list-story-reuse-data.js.mdx',
     'react/list-story-reuse-data.ts.mdx',
     'angular/list-story-reuse-data.ts.mdx',
-    'vue/list-story-reuse-data.2.js.mdx',
-    'vue/list-story-reuse-data.2.ts.mdx',
     'vue/list-story-reuse-data.3.js.mdx',
     'vue/list-story-reuse-data.3.ts.mdx',
     'web-components/list-story-reuse-data.js.mdx',

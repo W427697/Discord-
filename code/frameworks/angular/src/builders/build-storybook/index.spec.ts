@@ -3,7 +3,7 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { vi, describe, beforeEach, expect } from 'vitest';
+import { vi, describe, beforeEach, expect, it, afterEach } from 'vitest';
 import { Architect, createBuilder } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
@@ -19,7 +19,7 @@ const buildMock = {
 };
 
 vi.doMock('@storybook/core-server', () => buildMock);
-vi.doMock('@storybook/cli', () => ({
+vi.doMock('@storybook/core-common', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
       runPackageCommand: mockRunScript,
@@ -35,7 +35,6 @@ vi.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 const mockRunScript = vi.fn();
 
 // Randomly fails on CI. TODO: investigate why
-// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('Build Storybook Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
@@ -181,7 +180,6 @@ describe.skip('Build Storybook Builder', () => {
 
       expect(false).toEqual('Throw expected');
     } catch (error) {
-      // eslint-disable-next-line jest/no-try-expect, jest/no-conditional-expect
       expect(error).toEqual(
         'Broken build, fix the error above.\nYou may need to refresh the browser.'
       );

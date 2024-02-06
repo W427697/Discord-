@@ -23,11 +23,6 @@ module.exports = {
   },
   plugins: ['local-rules'],
   rules: {
-    // remove as shared eslint has jest rules removed
-    'jest/no-standalone-expect': 'off',
-    'jest/no-done-callback': 'off',
-    'jest/no-deprecated-functions': 'off',
-
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
@@ -39,6 +34,19 @@ module.exports = {
         allowIndexSignaturePropertyAccess: true,
       },
     ],
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'vite',
+            message: 'Please dynamically import from vite instead, to force the use of ESM',
+            allowTypeImports: true,
+          },
+        ],
+      },
+    ],
+    '@typescript-eslint/default-param-last': 'off',
   },
   overrides: [
     {

@@ -1,8 +1,5 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-
-import { Route } from '@storybook/router';
-
 import { Global, createGlobal } from '@storybook/theming';
 import type { Addon_PageType } from '@storybook/types';
 import Sidebar from './container/Sidebar';
@@ -16,22 +13,20 @@ type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
   setManagerLayoutState: ComponentProps<typeof Layout>['setManagerLayoutState'];
   pages: Addon_PageType[];
+  hasTab: boolean;
 };
 
-export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
+export const App = ({ managerLayoutState, setManagerLayoutState, pages, hasTab }: Props) => {
   const { setMobileAboutOpen } = useLayout();
 
   return (
     <>
       <Global styles={createGlobal} />
       <Layout
+        hasTab={hasTab}
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}
-        slotMain={
-          <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-            <Preview id="main" withLoader />
-          </Route>
-        }
+        slotMain={<Preview id="main" withLoader />}
         slotSidebar={<Sidebar onMenuClick={() => setMobileAboutOpen((state) => !state)} />}
         slotPanel={<Panel />}
         slotPages={pages.map(({ id, render: Content }) => (

@@ -6,18 +6,7 @@ Javascript compilers are essential in optimizing and transforming code, enhancin
 
 ## SWC
 
-SWC is a fast, highly extensible tool for compiling and bundling modern JavaScript applications. Powered by [Rust](https://www.rust-lang.org/), it improves performance and reduces build times. Storybook includes a built-in integration with SWC, allowing zero-configuration setup and built-in types for APIs. If you've initialized Storybook in a Webpack-based project with any of the supported [frameworks](./frameworks.md), except Angular, it will automatically use SWC as its default, providing you with faster loading time. However, if you're upgrading from a previous version of Storybook, you may need to opt-in to use SWC by adjusting your Storybook configuration file (i.e., `.storybook/main.js|ts`) as follows:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+SWC is a fast, highly extensible tool for compiling and bundling modern JavaScript applications. Powered by [Rust](https://www.rust-lang.org/), it improves performance and reduces build times. Storybook includes a built-in integration with SWC, allowing zero-configuration setup and built-in types for APIs. If you've initialized Storybook in a Webpack-based project with any of the supported [frameworks](./frameworks.md), except Angular, Create React App, Ember.js and Next.js, it will automatically use SWC as its default, providing you with faster loading time.
 
 <Callout variant="info">
 
@@ -42,90 +31,7 @@ By default, Babel provides an opinionated [configuration](https://babeljs.io/doc
 - **Project-wide configuration**: Babel will look for a `babel.config.js` or equivalent file in the root of your project and use it to configure your project's Babel setup.
 - **File-relative configuration**: Babel will look for a `.babelrc.json` or equivalent file, introspecting the project structure until it finds a configuration file. This will allow you to configure Babel individually for multiple aspects of your project.
 
-Storybook relies on an agnostic approach to configuring Babel, enabling you to provide the necessary configuration for your project, and it will use it. Based on the supported frameworks, builders, and addons, it may include minor adjustments to ensure compatibility with Storybook's features. If you need to provide a custom configuration, you can generate a `.babelrc.json` file by running the following command:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-cli-babelrc-file.yarn.mdx',
-    'common/storybook-cli-babelrc-file.npm.mdx',
-    'common/storybook-cli-babelrc-file.pnpm.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-When the command runs, it will prompt you to install additional packages and generate a `.babelrc.json` file in the current working directory of your project and apply it, assuming that you're using the default configuration and co-locating your Storybook stories in the current working directory of your project.
-
-<details>
-<summary>Example Babel configuration</summary>
-
-```json
-{
-  "sourceType": "unambiguous",
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "shippedProposals": true,
-        "loose": true
-      }
-    ],
-    "@babel/preset-typescript"
-  ],
-  "plugins": [
-    "@babel/plugin-transform-shorthand-properties",
-    "@babel/plugin-transform-block-scoping",
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        "legacy": true
-      }
-    ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ],
-    [
-      "@babel/plugin-proposal-private-methods",
-      {
-        "loose": true
-      }
-    ],
-    "@babel/plugin-proposal-export-default-from",
-    "@babel/plugin-syntax-dynamic-import",
-    [
-      "@babel/plugin-proposal-object-rest-spread",
-      {
-        "loose": true,
-        "useBuiltIns": true
-      }
-    ],
-    "@babel/plugin-transform-classes",
-    "@babel/plugin-transform-arrow-functions",
-    "@babel/plugin-transform-parameters",
-    "@babel/plugin-transform-destructuring",
-    "@babel/plugin-transform-spread",
-    "@babel/plugin-transform-for-of",
-    "babel-plugin-macros",
-    "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-nullish-coalescing-operator",
-    [
-      "babel-plugin-polyfill-corejs3",
-      {
-        "method": "usage-global",
-        "absoluteImports": "core-js",
-        "version": "3.18.3"
-      }
-    ]
-  ]
-}
-```
-
-</details>
+Storybook relies on an agnostic approach to configuring Babel, enabling you to provide the necessary configuration for your project, and it will use it. Based on the supported frameworks, builders, and addons, it may include minor adjustments to ensure compatibility with Storybook's features.
 
 <Callout variant="info">
 

@@ -56,6 +56,12 @@ To customize Storybook's Babel configuration and add support for additional feat
 
 <!-- prettier-ignore-end -->
 
+<Callout variant="info">
+
+The Babel configuration is only applied to frameworks that use Babel internally. If you enable it for a framework that uses a different compiler, like [SWC](https://swc.rs/) or [esbuild](https://esbuild.github.io/), it will be ignored.
+
+</Callout>
+
 ### Builders
 
 By default, Storybook provides support for the leading industry builders, including [Webpack](../builders/webpack.md) and [Vite](../builders/vite.md). If you need additional features for any of these builders, you can use APIs to extend the builder configuration based on your specific needs.
@@ -194,6 +200,8 @@ However, if you need, you can also customize the template used by Storybook to r
 ### Storybook doesn't load files in my preset
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) instead of Webpack to build the UI, presets that depend on the `managerWebpack` API to configure the manager or load additional files other than CSS or images will no longer work. We recommend removing it from your preset and adjusting your configuration to convert any additional files to JavaScript.
+
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

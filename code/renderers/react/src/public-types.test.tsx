@@ -1,5 +1,4 @@
 // this file tests Typescript types that's why there are no assertions
-/* eslint-disable jest/expect-expect */
 import { describe, it } from 'vitest';
 
 import { satisfies } from '@storybook/core-common';
@@ -88,7 +87,7 @@ describe('Args can be provided in multiple ways', () => {
   });
 });
 
-it('✅ All void functions are optional', () => {
+it('✅ Void functions are not changed', () => {
   interface CmpProps {
     label: string;
     disabled: boolean;
@@ -106,13 +105,16 @@ it('✅ All void functions are optional', () => {
   });
 
   const Basic: StoryObj<typeof meta> = {
-    args: { disabled: false, onLoading: () => <div>Loading...</div> },
+    args: {
+      disabled: false,
+      onLoading: () => <div>Loading...</div>,
+      onKeyDown: fn(),
+      onClick: fn(),
+      submitAction: fn(),
+    },
   };
 
-  type Expected = ReactStory<
-    CmpProps,
-    SetOptional<CmpProps, 'label' | 'onClick' | 'onKeyDown' | 'submitAction'>
-  >;
+  type Expected = ReactStory<CmpProps, SetOptional<CmpProps, 'label'>>;
   expectTypeOf(Basic).toEqualTypeOf<Expected>();
 });
 
@@ -128,7 +130,7 @@ describe('Story args can be inferred', () => {
       args: { disabled: false },
       render: (args, { component }) => {
         // component is not null as it is provided in meta
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         const Component = component!;
         return (
           <Theme theme={args.theme}>

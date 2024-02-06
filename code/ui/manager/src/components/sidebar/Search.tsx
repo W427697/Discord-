@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -21,6 +20,7 @@ import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
 const { document } = global;
 
@@ -123,7 +123,14 @@ const FocusKey = styled.code(({ theme }) => ({
   color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   userSelect: 'none',
   pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
 }));
+
+const FocusKeyCmd = styled.span({
+  fontSize: '14px',
+});
 
 const ClearIcon = styled.div(({ theme }) => ({
   position: 'absolute',
@@ -282,6 +289,7 @@ export const Search = React.memo<{
     },
     [inputRef, selectStory, showAllComponents]
   );
+  const { isMobile } = useLayout();
 
   return (
     <Downshift<DownshiftItem>
@@ -353,7 +361,17 @@ export const Search = React.memo<{
               </SearchIconWrapper>
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && !isOpen && <FocusKey>{searchShortcut}</FocusKey>}
+              {!isMobile && enableShortcuts && !isOpen && (
+                <FocusKey>
+                  {searchShortcut === '⌘ K' ? (
+                    <>
+                      <FocusKeyCmd>⌘</FocusKeyCmd>K
+                    </>
+                  ) : (
+                    searchShortcut
+                  )}
+                </FocusKey>
+              )}
               {isOpen && (
                 <ClearIcon onClick={() => clearSelection()}>
                   <CloseIcon />

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -41,7 +40,10 @@ export class PropertyExtractor implements NgModuleMetadata {
   applicationProviders?: Array<Provider | ReturnType<typeof importProvidersFrom>>;
   /* eslint-enable @typescript-eslint/lines-between-class-members */
 
-  constructor(private metadata: NgModuleMetadata, private component?: any) {
+  constructor(
+    private metadata: NgModuleMetadata,
+    private component?: any
+  ) {
     this.init();
   }
 

@@ -1,17 +1,24 @@
-/* eslint-disable no-param-reassign */
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
+import {
+  versions,
+  HandledError,
+  JsPackageManagerFactory,
+  commandLog,
+  paddedLog,
+} from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core-common';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { lt, prerelease } from 'semver';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
-import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
@@ -28,13 +35,9 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager } from './js-package-manager';
-import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
-import { HandledError } from './HandledError';
 import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
-import versions from './versions';
 
 const logger = console;
 
@@ -188,7 +191,6 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
-  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -223,7 +225,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-async function doInitiate(
+export async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
 ): Promise<
@@ -235,26 +237,39 @@ async function doInitiate(
     }
   | { shouldRunDev: false }
 > {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
-
-    pkgMgr = 'npm';
-  }
+  const { packageManager: pkgMgr } = options;
 
   const packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr,
   });
 
-  const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
-  logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
+  const latestVersion = await packageManager.latestVersion('@storybook/cli');
+  const currentVersion = versions['@storybook/cli'];
+  const isPrerelease = prerelease(currentVersion);
+  const isOutdated = lt(currentVersion, latestVersion);
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
 
-  // Update notify code.
-  const { default: updateNotifier } = await import('simple-update-notifier');
-  await updateNotifier({
-    pkg: pkg as any,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  });
+  const messages = {
+    welcome: `Adding Storybook version ${chalk.bold(currentVersion)} to your project..`,
+    notLatest: chalk.red(dedent`
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
+      You likely ran the init command through npx, which can use a locally cached version, to get the latest please run:
+      ${chalk.bold('npx storybook@latest init')}
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
+
+  logger.log(
+    boxen(
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
 
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
@@ -331,15 +346,25 @@ async function doInitiate(
   }
 
   if (projectType === ProjectType.REACT_NATIVE) {
-    logger.log();
-    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
-    logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
-    codeLog(["export {default} from './.storybook';"]);
-    logger.log('\n Then to run your Storybook, type:\n');
-    codeLog([packageManager.getRunCommand('start')]);
-    logger.log('\n For more in information, see the github readme:\n');
-    logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
-    logger.log();
+    logger.log(dedent`
+      ${chalk.yellow('NOTE: installation is not 100% automated.')}
+
+      To run Storybook, you will need to:
+
+      1. Replace the contents of your app entry with the following
+      
+      ${chalk.inverse(' ' + "export {default} from './.storybook';" + ' ')}
+      
+      2. Enable transformer.unstable_allowRequireContext in your metro config
+      
+      For a more detailed guide go to:
+      ${chalk.cyan('https://github.com/storybookjs/react-native#existing-project')}
+      
+      Then to run your Storybook, type:
+
+      ${chalk.inverse(' ' + packageManager.getRunCommand('start') + ' ')}
+
+    `);
 
     return { shouldRunDev: false };
   }

@@ -1,25 +1,17 @@
-/* eslint-disable global-require */
 import type { PresetProperty } from '@storybook/types';
-import { hasVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const core: PresetProperty<'core', StorybookConfig> = {
+export const core: PresetProperty<'core'> = {
   builder: getAbsolutePath('@storybook/builder-vite'),
   renderer: getAbsolutePath('@storybook/react'),
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
-
-  // Add react plugin if not present
-  if (!(await hasVitePlugins(plugins, ['vite:react-babel', 'vite:react-swc']))) {
-    const { default: react } = await import('@vitejs/plugin-react');
-    plugins.push(react());
-  }
 
   // Add docgen plugin
   const { reactDocgen: reactDocgenOption, reactDocgenTypescriptOptions } = await presets.apply<any>(

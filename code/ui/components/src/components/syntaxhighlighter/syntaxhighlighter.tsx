@@ -1,5 +1,5 @@
-import type { ComponentProps, FC, MouseEvent } from 'react';
-import React, { useCallback, useState } from 'react';
+import type { MouseEvent } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -23,6 +23,7 @@ import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-ligh
 import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
 import { ActionBar } from '../ActionBar/ActionBar';
+import type { ScrollAreaProps } from '../ScrollArea/ScrollArea';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
 import type {
@@ -106,7 +107,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
+const UnstyledScroller = ({ children, className }: ScrollAreaProps) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
@@ -209,7 +210,15 @@ export const SyntaxHighlighter = ({
     return null;
   }
 
-  const highlightableCode = formatter ? formatter(format, children) : children.trim();
+  const [highlightableCode, setHighlightableCode] = useState('');
+
+  useEffect(() => {
+    if (formatter) {
+      formatter(format, children).then(setHighlightableCode);
+    } else {
+      setHighlightableCode(children.trim());
+    }
+  }, [children, format, formatter]);
 
   const [copied, setCopied] = useState(false);
 
