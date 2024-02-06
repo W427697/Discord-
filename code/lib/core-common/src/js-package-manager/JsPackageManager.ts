@@ -8,7 +8,6 @@ import fs from 'fs';
 import dedent from 'ts-dedent';
 import { readFile, writeFile, readFileSync } from 'fs-extra';
 import invariant from 'tiny-invariant';
-import { commandLog } from '../utils/log';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 import type { InstallationMetadata } from './types';
@@ -128,21 +127,13 @@ export abstract class JsPackageManager {
    * Install dependencies listed in `package.json`
    */
   public async installDependencies() {
-    let done = commandLog('Preparing to install dependencies');
-    done();
-
-    logger.log();
-    logger.log();
-
-    done = commandLog('Installing dependencies');
-
+    logger.log('Installing dependencies...');
     logger.log();
 
     try {
       await this.runInstall();
-      done();
     } catch (e) {
-      done('An error occurred while installing dependencies.');
+      logger.error('An error occurred while installing dependencies.');
       throw new HandledError(e);
     }
   }

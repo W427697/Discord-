@@ -3,20 +3,13 @@ import chalk from 'chalk';
 import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
-import dedent from 'ts-dedent';
 import { join } from 'path';
 import invariant from 'tiny-invariant';
 
-import {
-  getStorybookInfo,
-  loadMainConfig,
-  getCoercedStorybookVersion,
-  JsPackageManagerFactory,
-} from '@storybook/core-common';
-import type { PackageManagerName } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core-common';
 
-import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
-import { FixStatus, PreCheckFailure, allFixes } from './fixes';
+import type { Fix, FixId, AutofixOptions, FixSummary, PreCheckFailure } from './fixes';
+import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
@@ -57,13 +50,15 @@ export const automigrate = async ({
   fixes: inputFixes,
   dryRun,
   yes,
-  packageManager: pkgMgr,
+  packageManager,
   list,
-  configDir: userSpecifiedConfigDir,
+  configDir,
+  mainConfigPath,
+  storybookVersion,
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
-}: FixOptions = {}): Promise<{
+}: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
 } | null> => {
@@ -87,10 +82,12 @@ export const automigrate = async ({
 
   const { fixResults, fixSummary, preCheckFailure } = await runFixes({
     fixes,
-    pkgMgr,
-    userSpecifiedConfigDir,
+    packageManager,
     rendererPackage,
     skipInstall,
+    configDir,
+    mainConfigPath,
+    storybookVersion,
     dryRun,
     yes,
   });
@@ -107,7 +104,6 @@ export const automigrate = async ({
   }
 
   if (!hideMigrationSummary) {
-    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
     const installationMetadata = await packageManager.findInstallations([
       '@storybook/*',
       'storybook',
@@ -129,77 +125,29 @@ export async function runFixes({
   fixes,
   dryRun,
   yes,
-  pkgMgr,
-  userSpecifiedConfigDir,
   rendererPackage,
   skipInstall,
+  configDir,
+  packageManager,
+  mainConfigPath,
+  storybookVersion,
 }: {
   fixes: Fix[];
   yes?: boolean;
   dryRun?: boolean;
-  pkgMgr?: PackageManagerName;
-  userSpecifiedConfigDir?: string;
   rendererPackage?: string;
   skipInstall?: boolean;
+  configDir: string;
+  packageManager: JsPackageManager;
+  mainConfigPath: string;
+  storybookVersion: string;
 }): Promise<{
   preCheckFailure?: PreCheckFailure;
   fixResults: Record<FixId, FixStatus>;
   fixSummary: FixSummary;
 }> {
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
-
-  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
-    await packageManager.retrievePackageJson(),
-    userSpecifiedConfigDir
-  );
-
-  const storybookVersion = await getCoercedStorybookVersion(packageManager);
-
-  if (!storybookVersion) {
-    logger.info(dedent`
-      [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `);
-    return {
-      fixResults,
-      fixSummary,
-      preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION,
-    };
-  }
-
-  const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
-  try {
-    await loadMainConfig({ configDir });
-  } catch (err) {
-    const errMessage = String(err);
-    if (errMessage.includes('No configuration files have been found')) {
-      logger.info(
-        dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
-          configDir
-        )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`
-      );
-      return {
-        fixResults,
-        fixSummary,
-        preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND,
-      };
-    }
-    logger.info(
-      dedent`[Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
-        mainConfigPath
-      )} with the following error: ${errMessage}`
-    );
-    logger.info('Please fix the error and try again.');
-
-    return {
-      fixResults,
-      fixSummary,
-      preCheckFailure: PreCheckFailure.MAINJS_EVALUATION,
-    };
-  }
 
   for (let i = 0; i < fixes.length; i += 1) {
     const f = fixes[i] as Fix;
