@@ -111,6 +111,7 @@
     "@storybook/react-dom-shim": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
+    "@types/react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "fs-extra": "^11.1.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
