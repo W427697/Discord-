@@ -138,7 +138,7 @@ export const viteFinal = async (config: any, options: Options) => {
   const { mdxPlugin } = await import('./plugins/mdx-plugin');
 
   // Use the resolvedReact preset to alias react and react-dom to either the users version or the version shipped with addon-docs
-  const { react, reactDom } = await getResolvedReact(options);
+  const { react, reactDom, mdx } = await getResolvedReact(options);
 
   const packageDeduplicationPlugin = {
     name: 'storybook:package-deduplication',
@@ -148,6 +148,7 @@ export const viteFinal = async (config: any, options: Options) => {
         alias: {
           react,
           'react-dom': reactDom,
+          '@mdx-js/react': mdx,
         },
         dedupe: ['@storybook/theming', '@storybook/components', '@storybook/blocks'],
       },
