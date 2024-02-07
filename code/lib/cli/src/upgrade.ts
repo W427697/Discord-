@@ -229,16 +229,6 @@ export const doUpgrade = async ({
   if (!dryRun && !results) {
     const toUpgradedDependencies = (deps: Record<string, any>) => {
       const monorepoDependencies = Object.keys(deps || {}).filter((dependency) => {
-        // don't upgrade @storybook/preset-create-react-app if react-scripts is < v5
-        if (dependency === '@storybook/preset-create-react-app') {
-          const reactScriptsVersion =
-            packageJson.dependencies['react-scripts'] ??
-            packageJson.devDependencies['react-scripts'];
-          if (reactScriptsVersion && lt(coerceSemver(reactScriptsVersion), '5.0.0')) {
-            return false;
-          }
-        }
-
         // only upgrade packages that are in the monorepo
         return dependency in versions;
       }) as Array<keyof typeof versions>;
