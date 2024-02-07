@@ -20,7 +20,6 @@ import {
   loadMainConfig,
   JsPackageManagerFactory,
 } from '@storybook/core-common';
-import { coerceSemver } from './helpers';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
 import { PreCheckFailure } from './automigrate/types';
