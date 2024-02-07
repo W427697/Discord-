@@ -5,6 +5,8 @@ import { sanitizeEnvVars } from './envs';
 import type { WebpackStatsPlugin } from './plugins';
 import type { InlineConfig } from 'vite';
 import { logger } from '@storybook/node-logger';
+import { hasVitePlugins } from './utils/has-vite-plugins';
+import { withoutVitePlugins } from './utils/without-vite-plugins';
 
 function findPlugin(config: InlineConfig, name: string) {
   return config.plugins?.find((p) => p && 'name' in p && p.name === name);
@@ -36,13 +38,15 @@ export async function build(options: Options) {
 
   const finalConfig = await presets.apply('viteFinal', config, options);
 
-  const turbosnapPlugin = findPlugin(finalConfig, 'rollup-plugin-turbosnap');
-  if (turbosnapPlugin) {
-    logger.warn(`Found 'rollup-plugin-turbosnap' which is now included by default in Storybook 8.`);
+  const turbosnapPluginName = 'rollup-plugin-turbosnap';
+  const hasTurbosnapPlugin =
+    finalConfig.plugins && hasVitePlugins(finalConfig.plugins, [turbosnapPluginName]);
+  if (hasTurbosnapPlugin) {
+    logger.warn(`Found '${turbosnapPluginName}' which is now included by default in Storybook 8.`);
     logger.warn(
       `Removing from your plugins list. Ensure you pass \`--webpack-stats-json\` to generate stats.`
     );
-    finalConfig.plugins = finalConfig.plugins?.filter((p) => p !== turbosnapPlugin);
+    finalConfig.plugins = await withoutVitePlugins(finalConfig.plugins, [turbosnapPluginName]);
   }
 
   await viteBuild(await sanitizeEnvVars(options, finalConfig));

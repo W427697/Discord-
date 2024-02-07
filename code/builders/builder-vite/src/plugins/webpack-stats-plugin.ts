@@ -83,7 +83,7 @@ export function pluginWebpackStats({ workingDir }: WebpackStatsPluginOptions): W
   const statsMap = new Map<string, Module>();
 
   return {
-    name: 'rollup-plugin-webpack-stats',
+    name: 'storybook:rollup-plugin-webpack-stats',
     // We want this to run after the vite build plugins (https://vitejs.dev/guide/api-plugin.html#plugin-ordering)
     enforce: 'post',
     moduleParsed: function (mod) {
