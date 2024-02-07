@@ -17,22 +17,22 @@ export interface Blocker<T> {
   /**
    * Check if the blocker should block.
    *
-   * @param > The context.
-   * @returns > Return a truthy value to activate the block, return false to proceed.
+   * @param context
+   * @returns A truthy value to activate the block, return false to proceed.
    */
   check: (options: AutoblockOptions) => Promise<T | false>;
   /**
    * Format a message to be printed to the log-file.
-   * @param > The context.
-   * @param > The data returned from the check method.
-   * @returns > The string to print to the terminal.
+   * @param context
+   * @param data returned from the check method.
+   * @returns The string to print to the terminal.
    */
   message: (options: AutoblockOptions, data: T) => string;
   /**
    * Format a message to be printed to the log-file.
-   * @param > The context.
-   * @param > The data returned from the check method.
-   * @returns > The string to print to the log-file.
+   * @param context
+   * @param data returned from the check method.
+   * @returns The string to print to the log-file.
    */
   log: (options: AutoblockOptions, data: T) => string;
 }
