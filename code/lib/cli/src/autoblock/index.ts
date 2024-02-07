@@ -1,21 +1,30 @@
-import type { AutoblockOptions } from './types';
+import type { AutoblockOptions, Blocker } from './types';
 import { logger } from '@storybook/node-logger';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { writeFile } from 'fs/promises';
+import { writeFile } from 'node:fs/promises';
 
 const excludesFalse = <T>(x: T | false): x is T => x !== false;
 
-const blockers = [
+const blockers: () => BlockerModule<any>[] = () => [
   // add/remove blockers here
   import('./block-storystorev6'),
 ];
 
-export const autoblock = async (options: AutoblockOptions) => {
+type BlockerModule<T> = Promise<{ blocker: Blocker<T> }>;
+
+export const autoblock = async (
+  options: AutoblockOptions,
+  list: BlockerModule<any>[] = blockers()
+) => {
+  if (list.length === 0) {
+    return null;
+  }
+
   logger.info('Checking for upgrade blockers...');
 
   const out = await Promise.all(
-    blockers.map(async (i) => {
+    list.map(async (i) => {
       const { blocker } = await i;
       const result = await blocker.check(options);
       if (result) {

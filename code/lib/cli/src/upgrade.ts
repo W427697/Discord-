@@ -300,7 +300,7 @@ export const doUpgrade = async ({
 
 function missingStorybookVersionMessage(): string {
   return dedent`
-      [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
+      [Storybook automigrate] ❌ Unable to determine Storybook version so that the automigrations will be skipped.
         🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `;
 }

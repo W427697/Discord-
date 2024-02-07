@@ -1,7 +1,7 @@
 import { relative } from 'path';
 import { createBlocker } from './types';
 import { dedent } from 'ts-dedent';
-import type { StorybookConfigRaw } from 'lib/types/src';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export const blocker = createBlocker({
   id: 'storyStoreV7removal',
@@ -17,18 +17,18 @@ export const blocker = createBlocker({
   },
   message(options, data) {
     const mainConfigPath = relative(process.cwd(), options.mainConfigPath);
-    return `StoryStoreV7 feature most be removed from ${mainConfigPath}`;
+    return `StoryStoreV7 feature must be removed from ${mainConfigPath}`;
   },
   log() {
     return dedent`
-      StoryStoreV7 feature most be removed from your Storybook configuration.
+      StoryStoreV7 feature must be removed from your Storybook configuration.
       This feature was removed in Storybook 7.0.0.
       Please see the migration guide for more information:
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
       
       In your Storybook configuration file you have this code:
 
-      module.exports = {
+      export default = {
         features: {
           storyStoreV7: false, <--- remove this line
         },
