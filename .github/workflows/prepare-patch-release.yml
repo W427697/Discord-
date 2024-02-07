@@ -89,7 +89,7 @@ jobs:
           yarn release:pick-patches
 
       - name: Cancel when no patches to pick
-        if: steps.pick-patches.outputs.pr-count == 0 && steps.pick-patches.outputs.pr-count != null
+        if: steps.pick-patches.outputs.no-patch-prs == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # From https://stackoverflow.com/a/75809743
