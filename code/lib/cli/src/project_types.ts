@@ -1,4 +1,5 @@
 import { minVersion, validRange } from 'semver';
+import type { SupportedFrameworks } from '@storybook/types';
 
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
@@ -20,9 +21,6 @@ export const externalFrameworks: ExternalFramework[] = [
   { name: 'qwik', packageName: 'storybook-framework-qwik' },
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
 ];
-
-// Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid' | 'ember';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =

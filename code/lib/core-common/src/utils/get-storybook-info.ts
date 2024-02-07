@@ -1,6 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
-import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
+import type { CoreCommon_StorybookInfo, PackageJson, SupportedFrameworks } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
 export const rendererPackages: Record<string, string> = {
@@ -19,7 +19,7 @@ export const rendererPackages: Record<string, string> = {
   'storybook-solidjs': 'solid',
 };
 
-export const frameworkPackages: Record<string, string> = {
+export const frameworkPackages: Record<string, SupportedFrameworks> = {
   '@storybook/angular': 'angular',
   '@storybook/ember': 'ember',
   '@storybook/html-vite': 'html-vite',
