@@ -2,7 +2,7 @@
 import { it, expect, vi, describe } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import { expectTypeOf } from 'expect-type';
-import type { Meta } from '../../';
+import type { Meta } from '../..';
 import * as stories from './Button.stories';
 // import type Button from './Button.svelte';
 import Button from './Button.svelte';
@@ -113,4 +113,20 @@ it('reuses args from composed story', () => {
 //       default: stories.default satisfies Meta<typeof Button>,
 //     }).toMatchTypeOf<ComposeStoriesParam>();
 //   });
+// });
+
+// // Batch snapshot testing
+// const testCases = Object.values(composeStories(stories)).map((Story) => [
+//   Story.storyName,
+//   Story,
+// ]);
+// it.each(testCases)('Renders %s story', async (_storyName, Story) => {
+//   if (typeof Story === 'string' || _storyName === 'CSF2StoryWithParamsAndDecorator') {
+//     return;
+//   }
+
+//   await new Promise((resolve) => setTimeout(resolve, 0));
+
+//   const tree = await render(Story());
+//   expect(tree.baseElement).toMatchSnapshot();
 // });
