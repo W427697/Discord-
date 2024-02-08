@@ -22,7 +22,7 @@ export const blocker = createBlocker({
   log() {
     return dedent`
       StoryStoreV7 feature must be removed from your Storybook configuration.
-      This feature was removed in Storybook 7.0.0.
+      This feature was removed in Storybook 8.0.0.
       Please see the migration guide for more information:
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
       
