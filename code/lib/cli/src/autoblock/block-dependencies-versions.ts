@@ -20,7 +20,7 @@ export const blocker = createBlocker({
     const list = await Promise.all(
       typedKeys(minimalVersionsMap).map(async (packageName) => ({
         packageName,
-        installedVersion: await packageManager.getVersion(packageName),
+        installedVersion: await packageManager.getPackageVersion(packageName),
         minimumVersion: minimalVersionsMap[packageName],
       }))
     );
