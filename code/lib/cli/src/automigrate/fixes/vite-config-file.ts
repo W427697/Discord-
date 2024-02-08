@@ -19,6 +19,7 @@ export const viteConfigFile = {
       react: '@vitejs/plugin-react',
       solid: 'vite-plugin-solid',
       svelte: '@sveltejs/vite-plugin-svelte',
+      sveltekit: '@sveltejs/kit/vite', // might be pointless?
       vue: '@vitejs/plugin-vue',
     };
 
@@ -32,6 +33,7 @@ export const viteConfigFile = {
       frameworkName === 'sveltekit' ||
       frameworkName === 'solid';
 
+    // TODO: cleanup this logic
     const rendererName = (mainConfig.core?.renderer || frameworkName?.split('-')[0]) as string;
 
     if (!viteConfigPath && isUsingViteBuilder) {
@@ -48,6 +50,11 @@ export const viteConfigFile = {
     }
 
     const plugin = rendererToVitePluginMap[rendererName];
+
+    if (!plugin) {
+      return null;
+    }
+
     const pluginVersion = await packageManager.getPackageVersion(plugin);
 
     if (viteConfigPath && isUsingViteBuilder && !pluginVersion) {
