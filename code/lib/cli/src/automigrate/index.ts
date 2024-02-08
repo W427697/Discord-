@@ -6,9 +6,21 @@ import tempy from 'tempy';
 import { join } from 'path';
 import invariant from 'tiny-invariant';
 
-import type { JsPackageManager } from '@storybook/core-common';
+import {
+  JsPackageManagerFactory,
+  type JsPackageManager,
+  getCoercedStorybookVersion,
+  getStorybookInfo,
+} from '@storybook/core-common';
 
-import type { Fix, FixId, AutofixOptions, FixSummary, PreCheckFailure } from './fixes';
+import type {
+  Fix,
+  FixId,
+  AutofixOptions,
+  FixSummary,
+  PreCheckFailure,
+  AutofixOptionsFromCLI,
+} from './fixes';
 import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
@@ -43,6 +55,33 @@ const cleanup = () => {
 const logAvailableMigrations = () => {
   const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
   logger.info(`\nThe following migrations are available: ${availableFixes}`);
+};
+
+export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
+  const packageManager = JsPackageManagerFactory.getPackageManager({
+    force: options.packageManager,
+  });
+
+  const [packageJson, storybookVersion] = await Promise.all([
+    packageManager.retrievePackageJson(),
+    getCoercedStorybookVersion(packageManager),
+  ]);
+
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    packageJson,
+    options.configDir
+  );
+  const configDir = options.configDir || inferredConfigDir || '.storybook';
+
+  if (!storybookVersion) {
+    throw new Error('Could not determine Storybook version');
+  }
+
+  if (!mainConfigPath) {
+    throw new Error('Could not determine main config path');
+  }
+
+  return automigrate({ ...options, packageManager, storybookVersion, mainConfigPath, configDir });
 };
 
 export const automigrate = async ({

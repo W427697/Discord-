@@ -1,5 +1,5 @@
 import type { StorybookConfigRaw } from '@storybook/types';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
@@ -35,19 +35,22 @@ export enum PreCheckFailure {
   MAINJS_EVALUATION = 'mainjs_evaluation_error',
 }
 
-export interface AutofixOptions {
+export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageManager'> {
+  packageManager: JsPackageManager;
+  mainConfigPath: string;
+  storybookVersion: string;
+}
+export interface AutofixOptionsFromCLI {
   fixId?: FixId;
   list?: boolean;
   fixes?: Fix[];
   yes?: boolean;
+  packageManager?: PackageManagerName;
   dryRun?: boolean;
-  packageManager: JsPackageManager;
   configDir: string;
   renderer?: string;
   skipInstall?: boolean;
   hideMigrationSummary?: boolean;
-  mainConfigPath: string;
-  storybookVersion: string;
 }
 
 export enum FixStatus {

@@ -17,7 +17,7 @@ import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
-import { automigrate } from './automigrate';
+import { doAutomigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
 import { doctor } from './doctor';
@@ -171,7 +171,7 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
-    await automigrate({ fixId, ...options }).catch((e) => {
+    await doAutomigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     });
