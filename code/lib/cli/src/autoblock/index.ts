@@ -9,6 +9,8 @@ const excludesFalse = <T>(x: T | false): x is T => x !== false;
 const blockers: () => BlockerModule<any>[] = () => [
   // add/remove blockers here
   import('./block-storystorev6'),
+  import('./block-stories-mdx'),
+  import('./block-dependencies-versions'),
 ];
 
 type BlockerModule<T> = Promise<{ blocker: Blocker<T> }>;
