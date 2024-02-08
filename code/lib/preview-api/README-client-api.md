@@ -1,10 +1,12 @@
-# `@storybook/client-api` -- Deprecated Story APIs (`storiesOf`)
+# `@storybook/client-api` -- Removed Story APIs (`storiesOf`)
 
 **NOTE** This API is deprecated, and the CSF format is preferred for all stories.
 
 ## `storiesOf` API
 
-The `@storybook/client` API provides the [`storiesOf()` API](./docs/storiesOf.md), which is proxied through to the CSF API.
+The `@storybook/client` package provided backward compatibility for the `storiesOf` API supported until the previous stable Storybook version. With the release of Storybook 8 the `storiesOf` API was removed and is no longer supported or maintained. 
+
+<!-- TODO:  Vet this section and see if its still needed -->
 
 ### Internals
 
