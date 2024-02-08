@@ -6,7 +6,7 @@ export const blocker = createBlocker({
   id: 'storiesMdxUsage',
   async check() {
     const files = await glob('**/*.stories.mdx', { cwd: process.cwd() });
-    if (files.length > 0) {
+    if (files.length === 0) {
       return false;
     }
     return { files };
