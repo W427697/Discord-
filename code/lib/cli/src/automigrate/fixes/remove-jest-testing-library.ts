@@ -21,10 +21,12 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
 
       ${incompatiblePackages.map((name) => `- ${chalk.cyan(`${name}`)}`).join('\n')}
       
-      Run:
-       npx sb migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"
-       
-       To migrate to the @storybook/test package.
+      Install the replacement for those package: ${chalk.cyan('@storybook/test')}
+      
+      And run the following codemod:
+       ${chalk.cyan(
+         'npx sb migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"'
+       )}     
     `;
   },
 };
