@@ -1,6 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 import invariant from 'tiny-invariant';
+import findUp from 'find-up';
 
 import type { Options } from '@storybook/types';
 
@@ -22,6 +23,9 @@ import { doTelemetry } from './utils/doTelemetry';
 import { router } from './utils/router';
 import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
 import { getCachingMiddleware } from './utils/get-caching-middleware';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { createAnnotationsServer } from './annotation-server';
 
 export async function storybookDevServer(options: Options) {
   const app = express();
@@ -126,6 +130,47 @@ export async function storybookDevServer(options: Options) {
     // We need to catch here or node will treat any errors thrown by `previewStarted` as
     // unhandled and exit (even though they are very much handled below)
     previewStarted.catch(() => {}).then(() => next());
+  });
+
+  const tsConfigFilePath = await findUp('tsconfig.json', { cwd: options.configDir });
+
+  const annotationsServer = await createAnnotationsServer(options, tsConfigFilePath);
+
+  router.get('/sb-annotations/*', async (req, res) => {
+    const generator = await initializedStoryIndexGenerator;
+    const index = await generator?.getIndex();
+
+    if (typeof index === 'undefined') {
+      res.status(500).send('Storybook annotations are not available');
+      return;
+    }
+
+    const id = req.path.split('/').pop();
+
+    if (!id) {
+      res.status(404).send('StoryId not found');
+      return;
+    }
+    const entry = index.entries[id];
+    const storyFilePath = join(process.cwd(), entry?.importPath);
+    const data = annotationsServer(storyFilePath);
+
+    const sources = {
+      story: await readFile(join(process.cwd(), entry?.importPath), 'utf-8'),
+      component: data?.file ? await readFile(data?.file, 'utf-8') : undefined,
+    };
+
+    res.json({
+      v: 1,
+      meta: entry,
+      sources,
+      component: data,
+      components: [
+        {
+          //
+        },
+      ],
+    });
   });
 
   await Promise.all([initializedStoryIndexGenerator, listening]).then(async ([indexGenerator]) => {
