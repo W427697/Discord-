@@ -1,6 +1,7 @@
 import { dedent } from 'ts-dedent';
 import type { Fix } from '../types';
 import findUp from 'find-up';
+import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface Webpack5RunOptions {
   plugins: string[];
@@ -24,8 +25,7 @@ export const viteConfigFile = {
     };
 
     // TODO: cleanup this logic
-    const frameworkName =
-      typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
+    const frameworkName = getFrameworkPackageName(mainConfig);
     const isUsingViteBuilder =
       mainConfig.core?.builder === 'vite' ||
       frameworkName?.includes('vite') ||
