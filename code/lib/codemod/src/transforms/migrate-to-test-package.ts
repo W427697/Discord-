@@ -4,8 +4,10 @@ import { loadCsf, printCsf } from '@storybook/csf-tools';
 import type { BabelFile } from '@babel/core';
 import * as babel from '@babel/core';
 import * as t from '@babel/types';
+import prettier from 'prettier';
+import { logger } from '@storybook/node-logger';
 
-export default function transform(info: FileInfo): string {
+export default async function transform(info: FileInfo) {
   const csf = loadCsf(info.source, { makeTitle: (title) => title });
   const fileNode = csf._ast;
   // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
@@ -36,14 +38,22 @@ export default function transform(info: FileInfo): string {
       }
     },
     Identifier: (path) => {
-      console.log(path.node.name);
       if (path.node.name === 'jest') {
         path.replaceWith(t.identifier('test'));
       }
     },
   });
 
-  return printCsf(csf).code;
+  let output = printCsf(csf).code;
+  try {
+    const prettierConfig = await prettier.resolveConfig(info.path);
+    if (prettierConfig) {
+      output = await prettier.format(output, { ...prettierConfig, filepath: info.path });
+    }
+  } catch (e) {
+    logger.warn(`Failed applying prettier to ${info.path}.`);
+  }
+  return output;
 }
 
 export const parser = 'tsx';
