@@ -1,0 +1,58 @@
+name: Generate and push sandboxes action
+description: This is a composite action that generates sandboxes and pushes them to the storybookjs/sandboxes repository
+
+inputs:
+  destination-branch:
+    description: The destination branch to generate sandboxes to in the storybookjs/sandboxes repository
+    required: true
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./code
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: ".nvmrc"
+
+    - name: Setup git user
+      run: |
+        git config --global user.name "storybook-bot"
+        git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
+
+    - name: Install dependencies
+      working-directory: ./scripts
+      env:
+        YARN_ENABLE_IMMUTABLE_INSTALLS: false
+      run: node --experimental-modules ./check-dependencies.js
+
+    - name: Compile Storybook libraries
+      run: yarn task --task compile --start-from=auto --no-link
+
+    - name: Publish to local registry
+      run: yarn local-registry --publish
+
+    - name: Run local registry
+      run: yarn local-registry --open &
+
+    - name: Wait for registry
+      run: yarn wait-on tcp:127.0.0.1:6001
+
+    - name: Generate
+      env:
+        CLEANUP_SANDBOX_NODE_MODULES: true
+      run: yarn generate-sandboxes --local-registry
+
+    - name: Publish
+      run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=${{ inputs.destination-branch }}
+
+    - name: The job has failed
+      if: ${{ failure() || cancelled() }}
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: "The generation of sandboxes in the **${{ inputs.destination-branch }}** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
