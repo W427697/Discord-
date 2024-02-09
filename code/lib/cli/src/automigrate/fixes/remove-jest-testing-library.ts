@@ -21,7 +21,7 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
 
       ${incompatiblePackages.map((name) => `- ${chalk.cyan(`${name}`)}`).join('\n')}
       
-      Install the replacement for those package: ${chalk.cyan('@storybook/test')}
+      Install the replacement for those packages: ${chalk.cyan('@storybook/test')}
       
       And run the following codemod:
        ${chalk.cyan(
