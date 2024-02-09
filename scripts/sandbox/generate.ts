@@ -27,6 +27,7 @@ import {
   REPROS_DIRECTORY,
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
+import { setOutput } from '@actions/core';
 
 const sbInit = async (
   cwd: string,
@@ -148,7 +149,10 @@ const runGenerators = async (
 
   const limit = pLimit(1);
 
-  await Promise.all(
+  const failedBeforeScriptTemplates: string[] = [];
+  const failedInitTemplates: string[] = [];
+
+  await Promise.allSettled(
     generators.map(({ dirName, name, script, expected, env }) =>
       limit(async () => {
         let flags: string[] = [];
@@ -173,19 +177,26 @@ const runGenerators = async (
         // Some tools refuse to run inside an existing directory and replace the contents,
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
-        if (script.includes('{{beforeDir}}')) {
-          const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
-          await runCommand(
-            scriptWithBeforeDir,
-            {
-              cwd: createBaseDir,
-              timeout: SCRIPT_TIMEOUT,
-            },
-            debug
-          );
-        } else {
-          await ensureDir(createBeforeDir);
-          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
+        try {
+          if (script.includes('{{beforeDir}}')) {
+            const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
+            await runCommand(
+              scriptWithBeforeDir,
+              {
+                cwd: createBaseDir,
+                timeout: SCRIPT_TIMEOUT,
+              },
+              debug
+            );
+          } else {
+            await ensureDir(createBeforeDir);
+            await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
+          }
+        } catch (error) {
+          console.error(`❌ Failed to execute before-script for template: ${name}`);
+          console.error(error);
+          failedBeforeScriptTemplates.push(name);
+          return;
         }
 
         await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
@@ -196,7 +207,14 @@ const runGenerators = async (
         // Make sure there are no git projects in the folder
         await remove(join(beforeDir, '.git'));
 
-        await addStorybook({ baseDir, localRegistry, flags, debug, env });
+        try {
+          await addStorybook({ baseDir, localRegistry, flags, debug, env });
+        } catch (error) {
+          console.error(`❌ Failed to add Storybook to template: ${name}`);
+          console.error(error);
+          failedInitTemplates.push(name);
+          return;
+        }
 
         await addDocumentation(baseDir, { name, dirName });
 
@@ -218,6 +236,15 @@ const runGenerators = async (
       })
     )
   );
+
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    if (failedBeforeScriptTemplates.length > 0) {
+      setOutput('failed-before-script-templates', failedBeforeScriptTemplates.join('\n- '));
+    }
+    if (failedInitTemplates.length > 0) {
+      setOutput('failed-init-templates', failedInitTemplates.join('\n- '));
+    }
+  }
 };
 
 export const options = createOptions({
