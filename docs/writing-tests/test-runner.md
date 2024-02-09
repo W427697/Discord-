@@ -467,10 +467,6 @@ If you've enabled filtering tests with tags and provided similar tags to the `in
 
 ### The test runner doesn't support Yarn PnP out of the box
 
-or
-
-### Yarn PnP (Plug n' Play) support
-
 If you've enabled the test-runner in a project running on a newer version of Yarn with Plug'n'Play (PnP) enabled, the test-runner might not work as expected and may generate the following error when running tests:
 
 ```shell
