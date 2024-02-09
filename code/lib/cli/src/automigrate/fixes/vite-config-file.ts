@@ -2,6 +2,7 @@ import { dedent } from 'ts-dedent';
 import type { Fix } from '../types';
 import findUp from 'find-up';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
+import { frameworkToRenderer } from '../../helpers';
 
 interface Webpack5RunOptions {
   plugins: string[];
@@ -12,7 +13,12 @@ export const viteConfigFile = {
   id: 'viteConfigFile',
 
   async check({ mainConfig, packageManager }) {
-    const viteConfigPath = await findUp('vite.config.js');
+    const viteConfigPath = await findUp([
+      'vite.config.js',
+      'vite.config.mjs',
+      'vite.config.cjs',
+      'vite.config.ts',
+    ]);
 
     const rendererToVitePluginMap: Record<string, string> = {
       preact: '@preact/preset-vite',
@@ -24,17 +30,20 @@ export const viteConfigFile = {
       vue: '@vitejs/plugin-vue',
     };
 
-    // TODO: cleanup this logic
     const frameworkName = getFrameworkPackageName(mainConfig);
     const isUsingViteBuilder =
       mainConfig.core?.builder === 'vite' ||
       frameworkName?.includes('vite') ||
       frameworkName === 'qwik' ||
-      frameworkName === 'sveltekit' ||
-      frameworkName === 'solid';
+      frameworkName === 'solid' ||
+      frameworkName === 'sveltekit';
 
-    // TODO: cleanup this logic
-    const rendererName = (mainConfig.core?.renderer || frameworkName?.split('-')[0]) as string;
+    if (!frameworkName) {
+      return null;
+    }
+
+    const key = frameworkName?.replace('@storybook/', '') as keyof typeof frameworkToRenderer;
+    const rendererName = frameworkToRenderer[key];
 
     if (!viteConfigPath && isUsingViteBuilder) {
       const plugins = [];
@@ -66,7 +75,7 @@ export const viteConfigFile = {
 
       return {
         plugins,
-        existed: !!viteConfigPath,
+        existed: !viteConfigPath,
       };
     }
 
