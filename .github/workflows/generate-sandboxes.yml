@@ -15,6 +15,7 @@ on:
 
 jobs:
   generate-next:
+    name: Generate to next
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +24,11 @@ jobs:
       - uses: ./.github/actions/generate-sandboxes-composite-action
         with:
           destination-branch: next
+          token: ${{ secrets.PAT_STORYBOOK_BOT }}
+          discord-url: ${{ secrets.DISCORD_MONITORING_URL }}
+
   # generate-main:
+  #   name: Generate to main
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
@@ -32,3 +37,5 @@ jobs:
   #     - uses: ./.github/actions/generate-sandboxes-composite-action
   #       with:
   #         destination-branch: main
+  #         token: ${{ secrets.PAT_STORYBOOK_BOT }}
+  #         discord-url: ${{ secrets.DISCORD_MONITORING_URL }}

@@ -5,6 +5,12 @@ inputs:
   destination-branch:
     description: The destination branch to generate sandboxes to in the storybookjs/sandboxes repository
     required: true
+  token:
+    description: The personal access token to use when authenticating with the destination repository
+    required: true
+  discord-url:
+    description: The Discord URL to use when reporting failures
+    required: true
 
 runs:
   using: "composite"
@@ -50,12 +56,12 @@ runs:
 
     - name: Publish
       shell: bash
-      run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=${{ inputs.destination-branch }}
+      run: yarn publish-sandboxes --remote=https://storybook-bot:${{ inputs.token }}@github.com/storybookjs/sandboxes.git --push --branch=${{ inputs.destination-branch }}
 
     - name: The job has failed
       if: ${{ failure() || cancelled() }}
       env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        DISCORD_WEBHOOK: ${{ inputs.discord-url }}
       uses: Ilshidur/action-discord@master
       with:
         args: "The generation of sandboxes in the **${{ inputs.destination-branch }}** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
