@@ -7,21 +7,22 @@ expect.addSnapshotSerializer({
   test: () => true,
 });
 
-const tsTransform = (source: string) => transform({ source, path: 'Component.stories.tsx' }).trim();
+const tsTransform = async (source: string) =>
+  (await transform({ source, path: 'Component.stories.tsx' })).trim();
 
-test('replace jest and testing-library with the test package', () => {
+test('replace jest and testing-library with the test package', async () => {
   const input = dedent`
     import { expect } from '@storybook/jest';
     import { within, userEvent } from '@storybook/testing-library';
   `;
 
-  expect(tsTransform(input)).toMatchInlineSnapshot(`
-    import { expect } from "@storybook/test";
-    import { within, userEvent } from "@storybook/test";
+  expect(await tsTransform(input)).toMatchInlineSnapshot(`
+    import { expect } from '@storybook/test';
+    import { within, userEvent } from '@storybook/test';
   `);
 });
 
-test('Make jest imports namespace imports', () => {
+test('Make jest imports namespace imports', async () => {
   const input = dedent`
     import { expect, jest } from '@storybook/jest';
     import { within, userEvent } from '@storybook/testing-library';
@@ -32,9 +33,10 @@ test('Make jest imports namespace imports', () => {
     jest.spyOn(window, 'Something');
   `;
 
-  expect(tsTransform(input)).toMatchInlineSnapshot(`
-    import * as test, { expect } from "@storybook/test";
-    import { within, userEvent } from "@storybook/test";
+  expect(await tsTransform(input)).toMatchInlineSnapshot(`
+    import { expect } from '@storybook/test';
+    import * as test from '@storybook/test';
+    import { within, userEvent } from '@storybook/test';
 
     const onFocusMock = test.fn();
     const onSearchMock = test.fn();

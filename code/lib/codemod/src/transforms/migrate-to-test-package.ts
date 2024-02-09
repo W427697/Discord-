@@ -5,7 +5,6 @@ import type { BabelFile } from '@babel/core';
 import * as babel from '@babel/core';
 import * as t from '@babel/types';
 import prettier from 'prettier';
-import { logger } from '@storybook/node-logger';
 
 export default async function transform(info: FileInfo) {
   const csf = loadCsf(info.source, { makeTitle: (title) => title });
@@ -29,6 +28,12 @@ export default async function transform(info: FileInfo) {
               if (!imported.isIdentifier()) return;
               if (imported.node.name === 'jest') {
                 specifier.remove();
+                path.insertAfter(
+                  t.importDeclaration(
+                    [t.importNamespaceSpecifier(t.identifier('test'))],
+                    t.stringLiteral('@storybook/test')
+                  )
+                );
                 path.node.specifiers.push(t.importNamespaceSpecifier(t.identifier('jest')));
               }
             }
@@ -46,12 +51,12 @@ export default async function transform(info: FileInfo) {
 
   let output = printCsf(csf).code;
   try {
-    const prettierConfig = await prettier.resolveConfig(info.path);
-    if (prettierConfig) {
-      output = await prettier.format(output, { ...prettierConfig, filepath: info.path });
-    }
+    output = await prettier.format(output, {
+      ...(await prettier.resolveConfig(info.path)),
+      filepath: info.path,
+    });
   } catch (e) {
-    logger.warn(`Failed applying prettier to ${info.path}.`);
+    console.warn(`Failed applying prettier to ${info.path}.`);
   }
   return output;
 }
