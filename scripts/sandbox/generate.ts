@@ -81,6 +81,9 @@ const addStorybook = async ({
   const tmpDir = directory();
 
   try {
+    if (Math.random() < 0.2) {
+      throw new Error('Blip Bloop random error in addStorybook');
+    }
     await copy(beforeDir, tmpDir);
 
     const packageManager = JsPackageManagerFactory.getPackageManager({ force: 'yarn1' }, tmpDir);
@@ -178,6 +181,9 @@ const runGenerators = async (
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
         try {
+          if (Math.random() < 0.2) {
+            throw new Error('Blip Bloop random error when executing before-script');
+          }
           if (script.includes('{{beforeDir}}')) {
             const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
             await runCommand(
