@@ -34,7 +34,6 @@ export default async function transform(info: FileInfo) {
                     t.stringLiteral('@storybook/test')
                   )
                 );
-                path.node.specifiers.push(t.importNamespaceSpecifier(t.identifier('jest')));
               }
             }
           });
