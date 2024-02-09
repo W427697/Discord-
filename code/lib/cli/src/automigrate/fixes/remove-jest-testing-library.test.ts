@@ -47,9 +47,9 @@ it('should show incompatible addons registered in main.js', async () => {
     - [36m@storybook/jest[39m
     - [36m@storybook/testing-library[39m
 
-    Run:
-     npx sb migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"
-     
-     To migrate to the @storybook/test package."
+    Install the replacement for those packages: [36m@storybook/test[39m
+
+    And run the following codemod:
+     [36mnpx sb migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"[39m     "
   `);
 });
