@@ -102,14 +102,12 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       argTypes: story.argTypes as StrictArgTypes<TArgs>,
       id: story.id,
       play: (async (extraContext: ComposedStoryPlayContext<TRenderer, TArgs>) => {
-        if (story.playFunction === undefined) {
-          throw new Error('The story does not have a play function. Make sure to add one.');
+        if (typeof story.playFunction === 'function') {
+          await story.playFunction({
+            ...context,
+            ...extraContext,
+          });
         }
-
-        await story.playFunction({
-          ...context,
-          ...extraContext,
-        });
       }) as unknown as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
     }
   );

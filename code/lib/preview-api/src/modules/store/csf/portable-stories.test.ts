@@ -52,14 +52,14 @@ describe('composeStory', () => {
     );
   });
 
-  it('should throw when executing the play function but the story does not have one', async () => {
+  it('should not throw when executing the play function but the story does not have one', async () => {
     const Story = () => {};
     Story.args = {
       primary: true,
     };
 
     const composedStory = composeStory(Story, meta);
-    expect(composedStory.play({ canvasElement: null })).rejects.toThrow();
+    await expect(composedStory.play({ canvasElement: null })).resolves.toBeUndefined();
   });
 
   it('should throw an error if Story is undefined', () => {
