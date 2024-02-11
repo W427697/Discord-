@@ -74,6 +74,13 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 </Callout>
 
+<Callout variant="info">
+
+If your repo is in PnP (Plug And Play) mode, node_modules may be installed when run.
+because Storybook's cache directory is located in the node_modules folder, since it is normally not checked in via version control.
+
+</Callout>
+
 ![Storybook welcome screen](./example-welcome.png)
 
 There are some noteworthy items here:
