@@ -80,6 +80,7 @@ command('upgrade')
     'Force package manager for installing dependencies'
   )
   .option('-y --yes', 'Skip prompting the user')
+  .option('-f --force', 'force the upgrade, skipping autoblockers')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')

@@ -114,6 +114,7 @@ export interface UpgradeOptions {
   packageManager?: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
+  force: boolean;
   disableTelemetry: boolean;
   configDir?: string;
 }
@@ -211,7 +212,12 @@ export const doUpgrade = async ({
   }
 
   // BLOCKERS
-  if (!results && typeof mainConfig !== 'boolean' && typeof mainConfigPath !== 'undefined') {
+  if (
+    !results &&
+    typeof mainConfig !== 'boolean' &&
+    typeof mainConfigPath !== 'undefined' &&
+    options.force
+  ) {
     const blockResult = await autoblock({
       packageManager,
       configDir,

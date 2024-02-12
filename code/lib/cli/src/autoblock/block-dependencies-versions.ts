@@ -3,8 +3,14 @@ import { dedent } from 'ts-dedent';
 import { lt } from 'semver';
 
 const minimalVersionsMap = {
+  '@angular/core': '15.0.0',
   'react-scripts': '5.0.0',
+  nextjs: '13.5.0',
+  preact: '10.0.0',
+  svelte: '4.0.0',
+  vite: '4.0.0',
   vue: '3.0.0',
+  webpack: '5.0.0',
 };
 
 type Result = {
@@ -56,12 +62,33 @@ export const blocker = createBlocker({
         return dedent`
           Support for Vue 2 has been removed.
           Please see the migration guide for more information:
+          https://angular.io/guide/update-to-version-15
+
+          Please upgrade to the latest version of Vue.
+        `;
+      case '@angular/core':
+        return dedent`
+          Support for Angular < 15 has been removed.
+          Please see the migration guide for more information:
           https://v3-migration.vuejs.org/
 
-          Upgrade to the latest version of Vue.
+          Please upgrade to the latest version of Angular.
+        `;
+      case 'nextjs':
+        return dedent`
+          Support for NextJS < 13.5 has been removed.
+          Please see the migration guide for more information:
+          https://nextjs.org/docs/pages/building-your-application/upgrading/version-13
+
+          Please upgrade to the latest version of NextJS.
         `;
       default:
-        throw new Error(`Unexpected package name: ${data.packageName}`);
+        return dedent`
+          Support for ${data.packageName} version < ${data.minimumVersion} has been removed.
+          Storybook 8 needs minimum version of ${data.minimumVersion}, but you had version ${data.installedVersion}.
+
+          Please update this dependency.
+        `;
     }
   },
 });
