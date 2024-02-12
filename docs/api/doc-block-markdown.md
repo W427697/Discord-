@@ -24,21 +24,11 @@ import { Button } from "@storybook/design-system";
 
 <!-- prettier-ignore-start -->
 ```md
+<!-- Header.mdx -->
+
 // DON'T do this, will error
 import ReadMe from './README.md';
-```
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-```md
 // DO this, will work
-import ReadMe from './README.md?raw';
-```
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-```md
-// Importing a raw markdown file
 import ReadMe from './README.md?raw';
 
 import { Markdown } from '@storybook/blocks';
