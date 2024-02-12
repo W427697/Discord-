@@ -3,6 +3,7 @@ import type { Fix } from '../types';
 import findUp from 'find-up';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import { frameworkToRenderer } from '../../helpers';
+import { frameworkPackages } from '@storybook/core-common';
 
 interface Webpack5RunOptions {
   plugins: string[];
@@ -30,20 +31,19 @@ export const viteConfigFile = {
       vue: '@vitejs/plugin-vue',
     };
 
-    const frameworkName = getFrameworkPackageName(mainConfig);
-    const isUsingViteBuilder =
-      mainConfig.core?.builder === 'vite' ||
-      frameworkName?.includes('vite') ||
-      frameworkName === 'qwik' ||
-      frameworkName === 'solid' ||
-      frameworkName === 'sveltekit';
-
-    if (!frameworkName) {
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
+    if (!frameworkPackageName) {
       return null;
     }
+    const frameworkName = frameworkPackages[frameworkPackageName];
+    const isUsingViteBuilder =
+      mainConfig.core?.builder === 'vite' ||
+      frameworkPackageName?.includes('vite') ||
+      frameworkPackageName === 'qwik' ||
+      frameworkPackageName === 'solid' ||
+      frameworkPackageName === 'sveltekit';
 
-    const key = frameworkName?.replace('@storybook/', '') as keyof typeof frameworkToRenderer;
-    const rendererName = frameworkToRenderer[key];
+    const rendererName = frameworkToRenderer[frameworkName as keyof typeof frameworkToRenderer];
 
     if (!viteConfigPath && isUsingViteBuilder) {
       const plugins = [];
