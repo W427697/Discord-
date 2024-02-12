@@ -60,8 +60,6 @@ export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
     return null;
   }
 
-  console.log({ packageNameOrPath });
-
   const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
