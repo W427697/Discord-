@@ -265,7 +265,7 @@ export default async function transformer(file, api, options) {
   let output = source;
 
   try {
-    const prettierConfig = (await prettier.resolveConfig(file.path))
+    const prettierConfig = await prettier.resolveConfig(file.path);
     output = prettier.format(source, {
       ...prettierConfig,
       parser: jscodeshiftToPrettierParser(options.parser),
