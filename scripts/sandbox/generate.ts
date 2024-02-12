@@ -189,7 +189,7 @@ const runGenerators = async (
           // where as others are very picky about what directories can be called. So we need to
           // handle different modes of operation.
           try {
-            if (Math.random() < 0.4) {
+            if (Math.random() < 0.2) {
               throw new Error('Blip Bloop random error when executing before-script');
             }
             if (script.includes('{{beforeDir}}')) {
@@ -211,8 +211,10 @@ const runGenerators = async (
             if (isCI) {
               ghActions.error(dedent`${message}
                 ${(error as any).stack}`);
+            } else {
+              console.error(message);
+              console.error(error);
             }
-            console.error(error);
             throw new BeforeScriptExecutionError(message, { cause: error });
           }
 
@@ -225,7 +227,7 @@ const runGenerators = async (
           await remove(join(beforeDir, '.git'));
 
           try {
-            if (Math.random() < 0.4) {
+            if (Math.random() < 0.2) {
               throw new Error('Blip Bloop random error when init storybook');
             }
             await addStorybook({ baseDir, localRegistry, flags, debug, env });
@@ -234,8 +236,10 @@ const runGenerators = async (
             if (isCI) {
               ghActions.error(dedent`${message}
                 ${(error as any).stack}`);
+            } else {
+              console.error(message);
+              console.error(error);
             }
-            console.error(error);
             throw new StorybookInitError(message, {
               cause: error,
             });
@@ -366,7 +370,7 @@ if (esMain(import.meta.url)) {
     .action((optionValues) => {
       generate(optionValues)
         .catch((e) => {
-          console.trace(e);
+          console.error(e);
           process.exit(1);
         })
         .then(() => {
