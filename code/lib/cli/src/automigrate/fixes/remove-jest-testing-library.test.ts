@@ -3,6 +3,7 @@ import { expect, it } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager } from '@storybook/core-common';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
+import ansiRegex from 'ansi-regex';
 
 const check = async ({
   packageManager,
@@ -41,15 +42,23 @@ it('should prompt to install the test package and run the codemod', async () => 
     }
   `);
 
+  expect.addSnapshotSerializer({
+    serialize: (value) => {
+      const stringVal = typeof value === 'string' ? value : value.toString();
+      return stringVal.replace(ansiRegex(), '');
+    },
+    test: () => true,
+  });
+
   expect(await removeJestTestingLibrary.prompt(options!)).toMatchInlineSnapshot(`
-    "[1mAttention[22m: We've detected that you're using the following packages which are known to be incompatible with Storybook 8:
+    Attention: We've detected that you're using the following packages which are known to be incompatible with Storybook 8:
 
-    - [36m@storybook/jest[39m
-    - [36m@storybook/testing-library[39m
+    - @storybook/jest
+    - @storybook/testing-library
 
-    Install the replacement for those packages: [36m@storybook/test[39m
+    Install the replacement for those packages: @storybook/test
 
     And run the following codemod:
-     [36mnpx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"[39m     "
+     npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"
   `);
 });
