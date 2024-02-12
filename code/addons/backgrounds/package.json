@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.2",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
-    "@storybook/icons": "^1.2.3",
+    "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
