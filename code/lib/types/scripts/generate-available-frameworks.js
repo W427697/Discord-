@@ -18,7 +18,6 @@ const run = async () => {
     .map((framework) => `'${framework}'`)
     .join(' | ')};
 `;
-  // format fileContent by prettier
   const frameworksFile = path.join(__dirname, '..', 'src', 'modules', 'frameworks.ts');
   const prettierConfig = await prettier.resolveConfig(frameworksFile);
 
