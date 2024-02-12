@@ -20,6 +20,7 @@ import { wrapRequire } from './wrap-require';
 import { reactDocgen } from './react-docgen';
 import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
+import { removeArgtypesRegex } from './remove-argtypes-regex';
 
 export * from '../types';
 
@@ -34,6 +35,7 @@ export const allFixes: Fix[] = [
   sbBinary,
   sbScripts,
   incompatibleAddons,
+  removeArgtypesRegex,
   removedGlobalClientAPIs,
   mdx1to2,
   mdxgfm,

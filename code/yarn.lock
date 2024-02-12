@@ -5354,6 +5354,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/cli@workspace:lib/cli"
   dependencies:
+    "@babel/core": "npm:^7.23.0"
     "@babel/types": "npm:^7.23.0"
     "@ndelangen/get-tarball": "npm:^3.0.7"
     "@storybook/codemod": "workspace:*"
