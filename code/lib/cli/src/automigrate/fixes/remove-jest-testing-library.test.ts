@@ -21,7 +21,7 @@ const check = async ({
   });
 };
 
-it('should show incompatible addons registered in main.js', async () => {
+it('should prompt to install the test package and run the codemod', async () => {
   const options = await check({
     packageManager: {
       getAllDependencies: async () => ({
