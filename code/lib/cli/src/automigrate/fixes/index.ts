@@ -14,7 +14,6 @@ import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { autodocsTrue } from './autodocs-true';
-import { nodeJsRequirement } from './nodejs-requirement';
 import { angularBuilders } from './angular-builders';
 import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
@@ -26,7 +25,6 @@ import { storyshotsMigration } from './storyshots-migration';
 export * from '../types';
 
 export const allFixes: Fix[] = [
-  nodeJsRequirement,
   newFrameworks,
   cra5,
   webpack5,
