@@ -2,6 +2,7 @@ import invariant from 'tiny-invariant';
 import {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
+  GLOBALS_UPDATED,
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
@@ -237,11 +238,11 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     this.selectionStore.setQueryParams(queryParams);
   }
 
-  async onUpdateGlobals({ globals }: { globals: Globals }) {
+  async onUpdateGlobals({ globals, rerender = true }: { globals: Globals; rerender?: boolean }) {
     super.onUpdateGlobals({ globals });
     if (
-      this.currentRender instanceof MdxDocsRender ||
-      this.currentRender instanceof CsfDocsRender
+      rerender &&
+      (this.currentRender instanceof MdxDocsRender || this.currentRender instanceof CsfDocsRender)
     ) {
       await this.currentRender.rerender?.();
     }
@@ -394,7 +395,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
     if (isStoryRender(render)) {
       invariant(!!render.story);
-      const { parameters, initialArgs, argTypes, unmappedArgs } =
+      const { parameters, initialArgs, argTypes, unmappedArgs, globals, globalOverrides } =
         this.storyStoreValue.getStoryContext(render.story);
 
       this.channel.emit(STORY_PREPARED, {
@@ -403,7 +404,12 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
         initialArgs,
         argTypes,
         args: unmappedArgs,
+        globalOverrides,
       });
+
+      if (globalOverrides && Object.keys(globalOverrides).length) {
+        this.onUpdateGlobals({ globals, rerender: false });
+      }
 
       // For v6 mode / compatibility
       // If the implementation changed, or args were persisted, the args may have changed,

@@ -267,12 +267,14 @@ export class Preview<TRenderer extends Renderer> {
     await this.storyStoreValue.onStoriesChanged({ importFn, storyIndex });
   }
 
-  async onUpdateGlobals({ globals }: { globals: Globals }) {
+  async onUpdateGlobals({ globals, rerender = true }: { globals: Globals; rerender?: boolean }) {
     if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateGlobals' });
     this.storyStoreValue.globals.update(globals);
 
-    await Promise.all(this.storyRenders.map((r) => r.rerender()));
+    if (rerender) {
+      await Promise.all(this.storyRenders.map((r) => r.rerender()));
+    }
 
     this.channel.emit(GLOBALS_UPDATED, {
       globals: this.storyStoreValue.globals.get(),
