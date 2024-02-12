@@ -28,10 +28,9 @@ import {
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
 import * as ghActions from '@actions/core';
+import dedent from 'ts-dedent';
 
 const isCI = process.env.GITHUB_ACTIONS === 'true';
-
-const logError = isCI ? ghActions.error : console.error;
 
 class BeforeScriptExecutionError extends Error {}
 class StorybookInitError extends Error {}
@@ -164,7 +163,7 @@ const runGenerators = async (
       limit(async () => {
         try {
           if (isCI) {
-            ghActions.startGroup(`Generating sandbox for ${name}`);
+            ghActions.startGroup(`${name} (${dirName})`);
           }
 
           let flags: string[] = [];
@@ -208,10 +207,12 @@ const runGenerators = async (
               await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
             }
           } catch (error) {
-            const message = `❌ Failed to execute before-script for template: ${name}`;
-            logError(message);
-            logError(error);
-            logError((error as any).stack);
+            const message = `❌ Failed to execute before-script for template: ${name} (${dirName})`;
+            if (isCI) {
+              ghActions.error(dedent`${message}
+                ${(error as any).stack}`);
+            }
+            console.error(error);
             throw new BeforeScriptExecutionError(message, { cause: error });
           }
 
@@ -229,10 +230,12 @@ const runGenerators = async (
             }
             await addStorybook({ baseDir, localRegistry, flags, debug, env });
           } catch (error) {
-            const message = `❌ Failed to initialize Storybook in template: ${name}`;
-            logError(message);
-            logError(error);
-            logError((error as any).stack);
+            const message = `❌ Failed to initialize Storybook in template: ${name} (${dirName})`;
+            if (isCI) {
+              ghActions.error(dedent`${message}
+                ${(error as any).stack}`);
+            }
+            console.error(error);
             throw new StorybookInitError(message, {
               cause: error,
             });
@@ -277,25 +280,25 @@ const runGenerators = async (
 
   if (isCI) {
     await ghActions.summary
-      .addRaw('Some sandboxes failed, see the action log for details')
+      .addRaw('Some sandboxes failed, see the job log for detailed errors')
       .addTable([
         [
-          { data: 'Template', header: true },
+          { data: 'Name', header: true },
+          { data: 'Key', header: true },
           { data: 'Result', header: true },
         ],
         ...generationResults.map((result, index) => {
-          const template = generators[index].name;
+          const { name, dirName } = generators[index];
           if (result.status === 'fulfilled') {
-            return [template, '🟢 Pass'];
+            return [name, dirName, '🟢 Pass'];
           }
           const generationError = (result as PromiseRejectedResult).reason as Error;
-          const errorCause = generationError.cause;
-          if (errorCause instanceof BeforeScriptExecutionError) {
-            return [template, '🔴 Failed to execute before script'];
-          } else if (errorCause instanceof StorybookInitError) {
-            return [template, '🔴 Failed to initialize Storybook'];
+          if (generationError instanceof BeforeScriptExecutionError) {
+            return [name, dirName, '🔴 Failed to execute before script'];
+          } else if (generationError instanceof StorybookInitError) {
+            return [name, dirName, '🔴 Failed to initialize Storybook'];
           } else {
-            return [template, '🔴 Failed with unknown error'];
+            return [name, dirName, '🔴 Failed with unknown error'];
           }
         }),
       ])

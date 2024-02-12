@@ -72,4 +72,4 @@ jobs:
         with:
           args: |
             The generation of some or all sandboxes on the **next** branch has failed.
-            [See the job summary for details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ github.job }})
+            [See the job summary for details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
