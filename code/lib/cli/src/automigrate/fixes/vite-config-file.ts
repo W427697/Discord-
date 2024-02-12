@@ -85,8 +85,8 @@ export const viteConfigFile = {
   prompt({ existed, plugins }) {
     if (existed) {
       return dedent`
-        Storybook 8.0.0 no longers ships with a vite config build-in.
-        We've detected you do have a vite config, but you may be missing the following plugins in it.
+        Storybook 8.0.0 no longer ships with a Vite config build-in.
+        We've detected you do have a Vite config, but you may be missing the following plugins in it.
 
         ${plugins.map((plugin) => `  - ${plugin}`).join('\n')}
 
@@ -95,17 +95,17 @@ export const viteConfigFile = {
         You can find more information on how to do this here:
         https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added  
 
-        This change was necessary to support newer versions of vite.
+        This change was necessary to support newer versions of Vite.
       `;
     }
     return dedent`
-      Storybook 8.0.0 no longers ships with a vite config build-in.
+      Storybook 8.0.0 no longer ships with a Vite config build-in.
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added
 
-      This change was necessary to support newer versions of vite.
+      This change was necessary to support newer versions of Vite.
     `;
   },
 } satisfies Fix<Webpack5RunOptions>;
