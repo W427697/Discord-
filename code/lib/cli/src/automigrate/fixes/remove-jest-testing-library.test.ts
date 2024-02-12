@@ -50,6 +50,6 @@ it('should prompt to install the test package and run the codemod', async () => 
     Install the replacement for those packages: [36m@storybook/test[39m
 
     And run the following codemod:
-     [36mnpx sb migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"[39m     "
+     [36mnpx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"[39m     "
   `);
 });
