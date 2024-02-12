@@ -5,7 +5,7 @@ import { lt } from 'semver';
 export const blocker = createBlocker({
   id: 'minimumNode16',
   async check() {
-    const nodeVersion = process.version;
+    const nodeVersion = process.versions.node;
     if (lt(nodeVersion, '16.0.0')) {
       return { nodeVersion };
     }
