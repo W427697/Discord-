@@ -11,6 +11,7 @@ const blockers: () => BlockerModule<any>[] = () => [
   import('./block-storystorev6'),
   import('./block-stories-mdx'),
   import('./block-dependencies-versions'),
+  import('./block-node-version'),
 ];
 
 type BlockerModule<T> = Promise<{ blocker: Blocker<T> }>;

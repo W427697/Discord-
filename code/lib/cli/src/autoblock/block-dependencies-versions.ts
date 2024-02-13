@@ -5,7 +5,7 @@ import { lt } from 'semver';
 const minimalVersionsMap = {
   '@angular/core': '15.0.0',
   'react-scripts': '5.0.0',
-  nextjs: '13.5.0',
+  next: '13.5.0',
   preact: '10.0.0',
   svelte: '4.0.0',
   vue: '3.0.0',
@@ -72,7 +72,7 @@ export const blocker = createBlocker({
 
           Please upgrade to the latest version of Angular.
         `;
-      case 'nextjs':
+      case 'next':
         return dedent`
           Support for Next.js < 13.5 has been removed.
           Please see the migration guide for more information:

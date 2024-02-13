@@ -216,7 +216,7 @@ export const doUpgrade = async ({
     !results &&
     typeof mainConfig !== 'boolean' &&
     typeof mainConfigPath !== 'undefined' &&
-    options.force
+    !options.force
   ) {
     const blockResult = await autoblock({
       packageManager,

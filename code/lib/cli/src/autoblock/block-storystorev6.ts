@@ -24,7 +24,7 @@ export const blocker = createBlocker({
       StoryStoreV7 feature must be removed from your Storybook configuration.
       This feature was removed in Storybook 8.0.0.
       Please see the migration guide for more information:
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated
       
       In your Storybook configuration file you have this code:
 
