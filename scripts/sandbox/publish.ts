@@ -1,5 +1,5 @@
 import program from 'commander';
-import { join, relative } from 'path';
+import { dirname, join, relative } from 'path';
 import { existsSync } from 'fs';
 import * as tempy from 'tempy';
 import { copy, emptyDir, remove, writeFile } from 'fs-extra';
@@ -35,16 +35,16 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
 
   // empty all existing directories for sandboxes that have a successful after-storybook directory
   await Promise.all(
-    // find all successfully generated after-storybook directories
-    // eg. /home/repros/react-vite/default-ts/after-storybook
-    (await glob(join(REPROS_DIRECTORY, '**', 'after-storybook'))).map((dir) => {
-      // get their path relative to the source 'repros' directory
+    // find all successfully generated after-storybook/README.md files
+    // eg. /home/repros/react-vite/default-ts/after-storybook/README.md
+    // README.md being the last fil generated, thus representing a successful generation
+    (await glob(join(REPROS_DIRECTORY, '**', 'after-storybook/README.md'))).map((readmePath) => {
+      // get the after-storybook path relative to the source 'repros' directory
       // eg. ./react-vite/default-ts/after-storybook
-      const pathRelativeToSource = relative(REPROS_DIRECTORY, dir);
+      const pathRelativeToSource = relative(REPROS_DIRECTORY, dirname(readmePath));
       // get the actual path to the corresponding sandbox directory in the clone
       // eg. /home/sandboxes-clone/react-vite/default-ts
       const sandboxDirectoryToEmpty = join(tmpFolder, pathRelativeToSource, '..');
-      console.log({ pathRelativeToSource, sandboxDirectoryToEmpty });
       return emptyDir(sandboxDirectoryToEmpty);
     })
   );
