@@ -18,14 +18,16 @@ export function removecomments(directoryPath: string) {
         if (stats.isDirectory()) {
           removecomments(filePath);
         } else {
-          if (path.extname(file) === '.mdx' || path.extname(file) === '.md') {
+          if (path.extname(file) === '.mdx') {
             fs.readFile(filePath, 'utf8', (err2, data) => {
               if (err2) {
                 console.error('Unable to read file: ' + err2);
                 return;
               }
 
-              const newData = data.replace(/\n<!-- prettier-ignore-start -->\n/g, '');
+              const newData = data
+                .replace(/\n<!-- prettier-ignore-start -->\n/g, '')
+                .replace(/\n<!-- prettier-ignore-end -->\n/g, '');
 
               fs.writeFile(filePath, newData, 'utf8', (err3) => {
                 if (err3) throw err3;

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 // import { transformSnippets } from './transform-snippets-1';
-// import { convertMdToMdx } from './convert-to-mdx';
+import { convertMdToMdx } from './convert-to-mdx';
 import { removecomments } from './removeComments';
 // import { transformPaths } from './transform-snippets-2';
 
@@ -11,7 +11,7 @@ console.log(' ');
 
 // Convert all .md files to .mdx
 console.log(chalk.cyan('Step 1') + ' - Converting all md files into mdx files...');
-// convertMdToMdx('./docs');
+convertMdToMdx('./docs');
 
 // Remove all comments from .mdx files
 console.log(chalk.cyan('Step 2') + ' - Converting all md files into mdx files...');
