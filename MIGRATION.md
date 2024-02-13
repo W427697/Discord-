@@ -1,12 +1,20 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Type change in `composeStories` API](#type-change-in-composestories-api)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
+    - [For React:](#for-react)
+    - [For Vue:](#for-vue)
+    - [For Svelte (without Sveltekit):](#for-svelte-without-sveltekit)
+    - [For Preact:](#for-preact)
+    - [For Solid:](#for-solid)
+    - [For Qwik:](#for-qwik)
+  - [TurboSnap Vite plugin is no longer needed](#turbosnap-vite-plugin-is-no-longer-needed)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [MDX related changes](#mdx-related-changes)
     - [MDX is upgraded to v3](#mdx-is-upgraded-to-v3)
@@ -28,6 +36,7 @@
     - [Removed stories.json](#removed-storiesjson)
     - [Removed `sb babelrc` command](#removed-sb-babelrc-command)
     - [Changed interfaces for `@storybook/router` components](#changed-interfaces-for-storybookrouter-components)
+    - [Extract no longer batches](#extract-no-longer-batches)
   - [Framework-specific changes](#framework-specific-changes)
     - [React](#react)
       - [`react-docgen` component analysis by default](#react-docgen-component-analysis-by-default)
@@ -35,6 +44,8 @@
       - [Require Next.js 13.5 and up](#require-nextjs-135-and-up)
       - [Automatic SWC mode detection](#automatic-swc-mode-detection)
       - [RSC config moved to React renderer](#rsc-config-moved-to-react-renderer)
+    - [Vue](#vue)
+      - [Require Vue 3 and up](#require-vue-3-and-up)
     - [Angular](#angular)
       - [Require Angular 15 and up](#require-angular-15-and-up)
     - [Svelte](#svelte)
@@ -388,6 +399,23 @@
 
 ## From version 7.x to 8.0.0
 
+### Type change in `composeStories` API
+
+There is a TypeScript type change in the `play` function returned from `composeStories` or `composeStory` in `@storybook/react` or `@storybook/vue3`, where before it was always defined, now it is potentially undefined. This means that you might have to make a small change in your code, such as:
+
+```ts
+const { Primary } = composeStories(stories)
+
+// before
+await Primary.play(...)
+
+// after
+await Primary.play?.(...) // if you don't care whether the play function exists
+await Primary.play!(...) // if you want a runtime error when the play function does not exist
+```
+
+There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
+
 ### Tab addons are now routed to a query parameter
 
 The URL of a tab used to be: `http://localhost:6006/?path=/my-addon-tab/my-story`.
@@ -447,15 +475,77 @@ This section explains the rationale, and the required changed you might have to 
 In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
 In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
 
+#### For React:
+
 ```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
 });
 ```
+
+#### For Vue:
+
+```ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+export default defineConfig({
+  plugins: [vue()],
+});
+```
+
+#### For Svelte (without Sveltekit):
+
+```ts
+import { defineConfig } from "vite";
+import svelte from "@sveltejs/vite-plugin-svelte";
+
+export default defineConfig({
+  plugins: [svelte()],
+});
+```
+
+#### For Preact:
+
+```ts
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+
+export default defineConfig({
+  plugins: [preact()],
+});
+```
+
+#### For Solid:
+
+```ts
+import { defineConfig } from "vite";
+import solid from "vite-plugin-solid";
+
+export default defineConfig({
+  plugins: [solid()],
+});
+```
+
+#### For Qwik:
+
+```ts
+import { defineConfig } from "vite";
+import qwik from "vite-plugin-qwik";
+
+export default defineConfig({
+  plugins: [qwik()],
+});
+```
+
+### TurboSnap Vite plugin is no longer needed
+
+At least in build mode, `builder-vite` now supports the `--webpack-stats-json` flag and will output `preview-stats.json`.
+
+This means https://github.com/IanVS/vite-plugin-turbosnap is no longer necessary, and duplicative, and the plugin will automatically be removed if found.
 
 ### Implicit actions can not be used during rendering (for example in the play function)
 
@@ -710,6 +800,10 @@ The reasoning behind is to condense and provide some clarity to what's happened 
 
 The `hideOnly` prop has been removed from the `<Route />` component in `@storybook/router`. If needed this can be implemented manually with the `<Match />` component.
 
+#### Extract no longer batches
+
+`Preview.extract()` no longer loads CSF files in batches. This was a workaround for resource limitations that slowed down extract. This shouldn't affect behaviour.
+
 ### Framework-specific changes
 
 #### React
@@ -748,6 +842,12 @@ Similar to how Next.js detects if SWC should be used, Storybook will follow more
 Storybook 7.6 introduced a new feature flag, `experimentalNextRSC`, to enable React Server Components in a Next.js project. It also introduced a parameter `nextjs.rsc` to selectively disable it on particular components or stories.
 
 These flags have been renamed to `experimentalRSC` and `react.rsc`, respectively. This is a breaking change to accommodate RSC support in other, non-Next.js frameworks. For now, `@storybook/nextjs` is the only framework that supports it, and does so experimentally.
+
+#### Vue
+
+##### Require Vue 3 and up
+
+Starting in 8.0, Storybook requires Vue 3 and up.
 
 #### Angular
 
@@ -1070,7 +1170,7 @@ Example:
 import { addons, types } from "@storybook/manager-api";
 
 addons.register("my-addon", () => {
-  addons.add("my-addon/panel", {
+  addons.add("my-addon/tab", {
     type: types.TAB,
     title: "My Addon",
     render: () => <div>Hello World</div>,
@@ -1092,7 +1192,7 @@ addons.register("my-addon", () => {
   addons.add("my-addon/tool", {
     type: types.TOOL,
     title: "My Addon",
-    match: ({ tabId }) => tabId === "my-addon/panel",
+    match: ({ tabId }) => tabId === "my-addon/tab",
     render: () => <div>👀</div>,
   });
 });
@@ -1480,7 +1580,7 @@ Storybook uses `react` in a variety of docs-related packages. In the past, we've
 To upgrade manually, add any version of `react` and `react-dom` as devDependencies using your package manager of choice, e.g.
 
 ```
-npm add react react-dom --dev
+npm add react react-dom --save-dev
 ```
 
 #### start-storybook / build-storybook binaries removed
