@@ -12,7 +12,9 @@ export const blocker = createBlocker({
     return { files };
   },
   message(options, data) {
-    return `Found ${data.files.length} stories.mdx files, these must be migrated.`;
+    return `Found ${data.files.length} stories.mdx ${
+      data.files.length === 1 ? 'file' : 'files'
+    }, these must be migrated.`;
   },
   log() {
     return dedent`
