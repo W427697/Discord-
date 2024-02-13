@@ -2,8 +2,8 @@
 declare var __STORYBOOK_ADDONS_MANAGER: any;
 
 declare var CONFIG_TYPE: string;
-declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
-declare var TAGS_OPTIONS: import('@storybook/types').StorybookConfigRaw['tags'];
+declare var FEATURES: import('../types').StorybookConfigRaw['features'];
+declare var TAGS_OPTIONS: import('../types').StorybookConfigRaw['tags'];
 declare var REFS: any;
 declare var VERSIONCHECK: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;

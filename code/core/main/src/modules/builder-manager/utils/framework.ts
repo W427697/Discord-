@@ -1,5 +1,5 @@
 import path from 'path';
-import type { Options } from '@storybook/types';
+import type { Options } from '../../types';
 
 interface PropertyObject {
   name: string;

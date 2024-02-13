@@ -1,5 +1,5 @@
 import { global as globalThis } from '@storybook/global';
-import type { PlayFunctionContext } from '@storybook/types';
+import type { PlayFunctionContext } from '@storybook/core/dist/modules/types/index';
 import { within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/test';
 import {
@@ -7,7 +7,7 @@ import {
   RESET_STORY_ARGS,
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/modules/events/index';
 
 export default {
   component: globalThis.Components.Button,

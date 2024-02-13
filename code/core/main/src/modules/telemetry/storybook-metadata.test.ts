@@ -49,9 +49,9 @@ vi.mock('detect-package-manager', () => ({
   getNpmVersion: () => '3.1.1',
 }));
 
-vi.mock('@storybook/core-common', async (importOriginal) => {
+vi.mock('@storybook/core/dist/modules/core-common/index', async (importOriginal) => {
   return {
-    ...(await importOriginal<typeof import('@storybook/core-common')>()),
+    ...(await importOriginal<typeof import('@storybook/core/dist/modules/core-common/index')>()),
     getProjectRoot: () => process.cwd(),
   };
 });

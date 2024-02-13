@@ -7,7 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Layout } from './Layout';
 import { LayoutProvider } from './LayoutProvider';
-import { LocationProvider } from '@storybook/router';
+import { LocationProvider } from '@storybook/core/dist/modules/router/index';
 import MobileNavigationStoriesMeta from '../mobile/navigation/MobileNavigation.stories';
 
 const PlaceholderBlock = styled.div({

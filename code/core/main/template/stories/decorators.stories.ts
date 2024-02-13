@@ -4,11 +4,15 @@ import type {
   PartialStoryFn,
   PlayFunctionContext,
   StoryContext,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/test';
-import { useEffect } from '@storybook/preview-api';
-import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
+import { useEffect } from '@storybook/core/dist/modules/preview-api/index';
+import {
+  STORY_ARGS_UPDATED,
+  UPDATE_STORY_ARGS,
+  RESET_STORY_ARGS,
+} from '@storybook/core/dist/modules/events/index';
 
 export default {
   component: globalThis.Components.Pre,

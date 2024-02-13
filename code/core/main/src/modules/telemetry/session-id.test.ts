@@ -4,8 +4,8 @@ import { nanoid } from 'nanoid';
 import { cache } from '../core-common';
 import { resetSessionIdForTest, getSessionId, SESSION_TIMEOUT } from './session-id';
 
-vi.mock('@storybook/core-common', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@storybook/core-common')>()),
+vi.mock('@storybook/core/dist/modules/core-common/index', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@storybook/core/dist/modules/core-common/index')>()),
   cache: {
     get: vi.fn(),
     set: vi.fn(),

@@ -1,7 +1,7 @@
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/modules/preview-api/index';
 import type { Meta } from '@storybook/react';
 import { expectTypeOf } from 'expect-type';
 

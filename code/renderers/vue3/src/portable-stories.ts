@@ -2,14 +2,14 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-} from '@storybook/preview-api';
+} from '@storybook/core/dist/modules/preview-api/index';
 import type {
   Args,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
-} from '@storybook/types';
+} from '@storybook/core/dist/modules/types/index';
 
 import * as defaultProjectAnnotations from './render';
 import type { Meta } from './public-types';

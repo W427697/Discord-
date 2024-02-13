@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
-import type { Addon_BaseType, Addon_Collection, Addon_WrapperType } from '@storybook/types';
-import { Addon_TypesEnum } from '@storybook/types';
+import type { Addon_BaseType, Addon_Collection, Addon_WrapperType } from '../../types';
+import { Addon_TypesEnum } from '../../types';
 import type { ComponentProps } from 'react';
 import React from 'react';
 

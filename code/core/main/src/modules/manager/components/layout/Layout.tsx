@@ -6,7 +6,7 @@ import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 import { useLayout } from './LayoutProvider';
 import { Notifications } from '../../container/Notifications';
-import { Match } from '@storybook/router';
+import { Match } from '../../../router';
 
 interface InternalLayoutState {
   isDragging: boolean;
