@@ -158,20 +158,15 @@ const runGenerators = async (
   const generationResults = await Promise.allSettled(
     generators.map(({ dirName, name, script, expected, env }) =>
       limit(async () => {
+        const baseDir = join(REPROS_DIRECTORY, dirName);
+        const beforeDir = join(baseDir, BEFORE_DIR_NAME);
         try {
-          if (isCI) {
-            ghActions.startGroup(`${name} (${dirName})`);
-          }
-
           let flags: string[] = [];
           if (expected.renderer === '@storybook/html') flags = ['--type html'];
           else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
           const time = process.hrtime();
-          console.log(`🧬 Generating ${name}`);
-
-          const baseDir = join(REPROS_DIRECTORY, dirName);
-          const beforeDir = join(baseDir, BEFORE_DIR_NAME);
+          console.log(`🧬 Generating ${name} (${{ dirName }})`);
           await emptyDir(baseDir);
 
           // We do the creation inside a temp dir to avoid yarn container problems
@@ -237,17 +232,8 @@ const runGenerators = async (
           }
           await addDocumentation(baseDir, { name, dirName });
 
-          // Remove node_modules to save space and avoid GH actions failing
-          // They're not uploaded to the git sandboxes repo anyway
-          if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
-            console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
-            await remove(join(beforeDir, 'node_modules'));
-            console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
-            await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
-          }
-
           console.log(
-            `✅ Created ${dirName} in ./${relative(
+            `✅ Generated ${name} (${dirName}) in ./${relative(
               process.cwd(),
               baseDir
             )} successfully in ${prettyTime(process.hrtime(time))}`
@@ -255,8 +241,13 @@ const runGenerators = async (
         } catch (error) {
           throw error;
         } finally {
-          if (isCI) {
-            ghActions.endGroup();
+          // Remove node_modules to save space and avoid GH actions failing
+          // They're not uploaded to the git sandboxes repo anyway
+          if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
+            console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
+            await remove(join(beforeDir, 'node_modules'));
+            console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
+            await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
           }
         }
       })
@@ -281,17 +272,20 @@ const runGenerators = async (
         ],
         ...generationResults.map((result, index) => {
           const { name, dirName } = generators[index];
+          const row = [name, `\`${dirName}\``];
           if (result.status === 'fulfilled') {
-            return [name, dirName, '🟢 Pass'];
+            row.push('🟢 Pass');
+            return row;
           }
           const generationError = (result as PromiseRejectedResult).reason as Error;
           if (generationError instanceof BeforeScriptExecutionError) {
-            return [name, dirName, '🔴 Failed to execute before script'];
+            row.push('🔴 Failed to execute before script');
           } else if (generationError instanceof StorybookInitError) {
-            return [name, dirName, '🔴 Failed to initialize Storybook'];
+            row.push('🔴 Failed to initialize Storybook');
           } else {
-            return [name, dirName, '🔴 Failed with unknown error'];
+            row.push('🔴 Failed with unknown error');
           }
+          return row;
         }),
       ])
       .write();
