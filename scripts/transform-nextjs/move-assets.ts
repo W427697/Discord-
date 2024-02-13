@@ -16,11 +16,7 @@ export function moveMediaFiles(sourceDirectory: string, targetDirectory: string)
       moveMediaFiles(filePath, targetDirectory);
     } else {
       const ext = path.extname(file).toLowerCase();
-      if (
-        ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.mp4', '.mov', '.avi', '.mkv'].includes(
-          ext
-        )
-      ) {
+      if (['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.mp4'].includes(ext)) {
         const targetPath = path.join(targetDirectory, file);
         fs.renameSync(filePath, targetPath);
       }
