@@ -21,6 +21,7 @@ import { reactDocgen } from './react-docgen';
 import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
 import { webpack5Migration } from './webpack5-compiler-setup';
+import { removeJestTestingLibrary } from './remove-jest-testing-library';
 
 export * from '../types';
 
@@ -35,6 +36,7 @@ export const allFixes: Fix[] = [
   sbBinary,
   sbScripts,
   incompatibleAddons,
+  removeJestTestingLibrary,
   removedGlobalClientAPIs,
   mdx1to2,
   mdxgfm,
