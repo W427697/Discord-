@@ -18,7 +18,11 @@ export function moveMediaFiles(
       const ext = path.extname(file).toLowerCase();
       if (['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.mp4'].includes(ext)) {
         const relativePath = path.relative(sourceDirectory, currentDirectory);
-        const targetPathDirectory = path.join(targetDirectory, relativePath);
+        let targetPathDirectory = path.join(targetDirectory, relativePath);
+
+        if (targetPathDirectory === 'docs/_assets/assets') {
+          targetPathDirectory = 'docs/_assets/migration-guide';
+        }
 
         if (!fs.existsSync(targetPathDirectory)) {
           fs.mkdirSync(targetPathDirectory, { recursive: true });

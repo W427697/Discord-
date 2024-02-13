@@ -5,6 +5,7 @@ import { removecomments } from './removeComments';
 import prompts from 'prompts';
 import { transformPaths } from './transform-snippets-2';
 import { moveMediaFiles } from './move-assets';
+import { removeFiles } from './remove-files';
 
 (async () => {
   console.log(chalk.cyan('---------------------------'));
@@ -12,50 +13,59 @@ import { moveMediaFiles } from './move-assets';
   console.log(chalk.cyan('---------------------------'));
   console.log(' ');
 
-  const step0 = await prompts({
+  const step1 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to move all assets into the right folder?',
     initial: true,
   });
 
-  if (step0.value === true) moveMediaFiles('./docs', './docs/_assets');
+  if (step1.value === true) moveMediaFiles('./docs', './docs/_assets');
 
-  const step1 = await prompts({
+  const step2 = await prompts({
+    type: 'confirm',
+    name: 'value',
+    message: 'Do you want to remove unnecessary files?',
+    initial: true,
+  });
+
+  if (step2.value === true) removeFiles();
+
+  const step3 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert all md files into mdx files?',
     initial: false,
   });
 
-  if (step1.value === true) convertMdToMdx('./docs');
+  if (step3.value === true) convertMdToMdx('./docs');
 
-  const step2 = await prompts({
+  const step4 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove all comments?',
     initial: false,
   });
 
-  if (step2.value === true) removecomments('./docs');
+  if (step4.value === true) removecomments('./docs');
 
-  const step3 = await prompts({
+  const step5 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to transform snippets?',
     initial: false,
   });
 
-  if (step3.value === true) transformSnippets();
+  if (step5.value === true) transformSnippets();
 
-  const step4 = await prompts({
+  const step6 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert snippets paths?',
     initial: false,
   });
 
-  if (step4.value === true) transformPaths();
+  if (step6.value === true) transformPaths();
 
   console.log(' ');
   console.log('🤍 Done');
