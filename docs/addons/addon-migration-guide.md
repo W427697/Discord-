@@ -63,6 +63,8 @@ import { ColorControl } from '@storybook/blocks';
 
 We’ve also deprecated a few packages and APIs in 7.0. After you’ve made your addon working with 7.0, make sure to check the browser console in a Storybook running your addon. If you’re using deprecated packages, you should see warnings that link to migration instructions.
 
+You can check out the [changes introduced to `addon-kit``](https://github.com/storybookjs/addon-kit/pull/45/files) that made it 7.0-compatible, among other benefits (e.g. more efficient bundling with tsup).
+
 There are more technical details available in the [migration notes for addon authors](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-creators).
 
 Finally, for an exhaustive list of noteworthy changes in 7.0, check [the full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700).
