@@ -37,7 +37,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   await Promise.all(
     // find all successfully generated after-storybook/README.md files
     // eg. /home/repros/react-vite/default-ts/after-storybook/README.md
-    // README.md being the last fil generated, thus representing a successful generation
+    // README.md being the last file generated, thus representing a successful generation
     (await glob(join(REPROS_DIRECTORY, '**', 'after-storybook/README.md'))).map((readmePath) => {
       // get the after-storybook path relative to the source 'repros' directory
       // eg. ./react-vite/default-ts/after-storybook
