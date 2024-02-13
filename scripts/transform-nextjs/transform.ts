@@ -17,7 +17,7 @@ import { removeFiles } from './remove-files';
     type: 'confirm',
     name: 'value',
     message: 'Do you want to move all assets into the right folder?',
-    initial: true,
+    initial: false,
   });
 
   if (step1.value === true) moveMediaFiles('./docs', './docs/_assets');
@@ -25,47 +25,47 @@ import { removeFiles } from './remove-files';
   const step2 = await prompts({
     type: 'confirm',
     name: 'value',
-    message: 'Do you want to remove unnecessary files?',
-    initial: true,
-  });
-
-  if (step2.value === true) removeFiles();
-
-  const step3 = await prompts({
-    type: 'confirm',
-    name: 'value',
     message: 'Do you want to convert all md files into mdx files?',
     initial: false,
   });
 
-  if (step3.value === true) convertMdToMdx('./docs');
+  if (step2.value === true) convertMdToMdx('./docs');
 
-  const step4 = await prompts({
+  const step3 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove all comments?',
     initial: false,
   });
 
-  if (step4.value === true) removecomments('./docs');
+  if (step3.value === true) removecomments('./docs');
 
-  const step5 = await prompts({
+  const step4 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to transform snippets?',
     initial: false,
   });
 
-  if (step5.value === true) transformSnippets();
+  if (step4.value === true) transformSnippets();
 
-  const step6 = await prompts({
+  const step5 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert snippets paths?',
     initial: false,
   });
 
-  if (step6.value === true) transformPaths();
+  if (step5.value === true) transformPaths();
+
+  const step6 = await prompts({
+    type: 'confirm',
+    name: 'value',
+    message: 'Do you want to remove unnecessary files?',
+    initial: true,
+  });
+
+  if (step6.value === true) removeFiles();
 
   console.log(' ');
   console.log('🤍 Done');
