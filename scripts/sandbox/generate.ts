@@ -189,9 +189,6 @@ const runGenerators = async (
           // where as others are very picky about what directories can be called. So we need to
           // handle different modes of operation.
           try {
-            if (Math.random() < 0.2) {
-              throw new Error('Blip Bloop random error when executing before-script');
-            }
             if (script.includes('{{beforeDir}}')) {
               const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
               await runCommand(
@@ -227,9 +224,6 @@ const runGenerators = async (
           await remove(join(beforeDir, '.git'));
 
           try {
-            if (Math.random() < 0.2) {
-              throw new Error('Blip Bloop random error when init storybook');
-            }
             await addStorybook({ baseDir, localRegistry, flags, debug, env });
           } catch (error) {
             const message = `❌ Failed to initialize Storybook in template: ${name} (${dirName})`;
@@ -243,9 +237,6 @@ const runGenerators = async (
             throw new StorybookInitError(message, {
               cause: error,
             });
-          }
-          if (Math.random() < 0.2) {
-            throw new Error('Blip Bloop random error anywhere');
           }
           await addDocumentation(baseDir, { name, dirName });
 
