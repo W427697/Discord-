@@ -12,10 +12,10 @@ import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
-import { versions as storybookMonorepoPackages } from '@storybook/core-common';
+import { versions as storybookMonorepoPackages } from '@storybook/core/dist/modules/core-common/index';
 
 const logger = console;
 

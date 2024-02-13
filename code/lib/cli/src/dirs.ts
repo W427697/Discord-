@@ -7,8 +7,8 @@ import * as tempy from 'tempy';
 import invariant from 'tiny-invariant';
 import { externalFrameworks } from './project_types';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
-import type { JsPackageManager } from '@storybook/core-common';
-import { versions } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
+import { versions } from '@storybook/core/dist/modules/core-common/index';
 
 export function getCliDir() {
   return dirname(require.resolve('@storybook/cli/package.json'));

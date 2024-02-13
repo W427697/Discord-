@@ -16,8 +16,8 @@ export const globalsNameReferenceMap = {
   '@storybook/types': '__STORYBOOK_TYPES__',
   '@storybook/core/dist/modules/components/index': '__STORYBOOK_CORE_COMPONENTS__',
   '@storybook/core/dist/modules/channels/index': '__STORYBOOK_CORE_CHANNELS__',
-  '@storybook/core/dist/modules/core-events/index': '__STORYBOOK_CORE_CORE_EVENTS__',
-  '@storybook/core/dist/modules/core-events/manager-errors':
+  '@storybook/core/dist/modules/events/index': '__STORYBOOK_CORE_CORE_EVENTS__',
+  '@storybook/core/dist/modules/events/manager-errors':
     '__STORYBOOK_CORE_CORE_EVENTS_MANAGER_ERRORS__',
   '@storybook/core/dist/modules/router/index': '__STORYBOOK_CORE_ROUTER__',
   '@storybook/core/dist/modules/theming/index': '__STORYBOOK_CORE_THEMING__',

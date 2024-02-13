@@ -37,7 +37,7 @@ export const disallowList = [
   '@storybook/core',
   '@storybook/core-events',
   '@storybook/instrumenter',
-  '@storybook/core-common',
+  '@storybook/core/dist/modules/core-common/index',
   '@storybook/core-server',
   '@storybook/manager',
   '@storybook/preview',

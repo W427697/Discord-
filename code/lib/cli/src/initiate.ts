@@ -4,7 +4,7 @@ import prompts from 'prompts';
 
 import { telemetry } from '@storybook/core/dist/modules/telemetry/index';
 import { withTelemetry } from '@storybook/core/dist/modules/core-server/index';
-import { NxProjectDetectedError } from '@storybook/core/dist/modules/core-events/server-errors/index';
+import { NxProjectDetectedError } from '@storybook/core/dist/modules/events/errors/server-errors';
 import {
   versions,
   HandledError,

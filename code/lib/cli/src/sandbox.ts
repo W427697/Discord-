@@ -10,9 +10,12 @@ import invariant from 'tiny-invariant';
 import { lt, prerelease } from 'semver';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
-import type { PackageJson, PackageManagerName } from '@storybook/core-common';
-import { JsPackageManagerFactory } from '@storybook/core-common';
-import { versions } from '@storybook/core-common';
+import type {
+  PackageJson,
+  PackageManagerName,
+} from '@storybook/core/dist/modules/core-common/index';
+import { JsPackageManagerFactory } from '@storybook/core/dist/modules/core-common/index';
+import { versions } from '@storybook/core/dist/modules/core-common/index';
 import { doInitiate } from './initiate';
 
 const logger = console;

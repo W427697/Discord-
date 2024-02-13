@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
-import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core-common';
+import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core/dist/modules/core-common/index';
 
 interface SbBinaryRunOptions {
   storybookVersion: string;

@@ -2,7 +2,7 @@ import { vi, describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import { glob } from 'glob';
 import { removeReactDependency } from './prompt-remove-react';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 
 const check = async ({
   packageManagerContent,

@@ -5,8 +5,8 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 import { join } from 'path';
 
-import { JsPackageManagerFactory } from '@storybook/core-common';
-import type { PackageManagerName } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core/dist/modules/core-common/index';
+import type { PackageManagerName } from '@storybook/core/dist/modules/core-common/index';
 import { getStorybookData } from '../automigrate/helpers/mainConfigFile';
 import { cleanLog } from '../automigrate/helpers/cleanLog';
 import { incompatibleAddons } from '../automigrate/fixes/incompatible-addons';

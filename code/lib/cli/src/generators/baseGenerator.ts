@@ -3,8 +3,11 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
-import type { JsPackageManager } from '@storybook/core-common';
-import { getPackageDetails, versions as packageVersions } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
+import {
+  getPackageDetails,
+  versions as packageVersions,
+} from '@storybook/core/dist/modules/core-common/index';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks } from '../project_types';

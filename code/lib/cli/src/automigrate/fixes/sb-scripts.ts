@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import type { PackageJson } from '@storybook/core/dist/modules/types/index';
 import type { Fix } from '../types';
-import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core-common';
+import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core/dist/modules/core-common/index';
 
 interface SbScriptsRunOptions {
   storybookScripts: Record<string, { before: string; after: string }>;

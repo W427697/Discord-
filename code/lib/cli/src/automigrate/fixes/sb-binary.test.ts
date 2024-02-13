@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 import { sbBinary } from './sb-binary';
 
 const checkStorybookBinary = async ({

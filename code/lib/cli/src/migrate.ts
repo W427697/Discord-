@@ -5,7 +5,7 @@ import {
   JsPackageManagerFactory,
   getStorybookInfo,
   getCoercedStorybookVersion,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;

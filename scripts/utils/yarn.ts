@@ -4,7 +4,7 @@ import path from 'path';
 import type { TemplateKey } from 'get-template';
 import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
-import storybookVersions from '../../code/lib/core-common/src/versions';
+import { versions as storybookVersions } from '../../code/core/main/src/modules/core-common';
 import touch from './touch';
 
 export type YarnOptions = {

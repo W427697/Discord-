@@ -11,8 +11,12 @@ import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
 const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
 
-vi.mock('../../../code/lib/core-common/src/versions', () => ({
-  '@storybook/addon-a11y': '7.1.0-alpha.29',
+vi.mock('../../../code/core/main/src/modules/core-common', async (originalImport) => ({
+  // @ts-expect-error (eh, it's a mock)
+  ...(await originalImport()),
+  version: {
+    '@storybook/addon-a11y': '7.1.0-alpha.29',
+  },
 }));
 
 vi.mock('execa');

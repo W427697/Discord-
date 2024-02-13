@@ -1,4 +1,4 @@
-import type { JsPackageManager, PackageJson } from '@storybook/core-common';
+import type { JsPackageManager, PackageJson } from '@storybook/core/dist/modules/core-common/index';
 import type { StorybookConfig } from '@storybook/types';
 
 export interface AutoblockOptions {

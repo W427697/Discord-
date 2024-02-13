@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import * as findUp from 'find-up';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 
 vi.mock('find-up');
 vi.mock('../helpers/detectRenderer', async (importOriginal) => ({

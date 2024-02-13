@@ -7,7 +7,7 @@ import { runCompodoc } from './run-compodoc';
 
 const mockRunScript = vi.fn();
 
-vi.mock('@storybook/core-common', () => ({
+vi.mock('@storybook/core/dist/modules/core-common/index', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
       runPackageCommandSync: mockRunScript,

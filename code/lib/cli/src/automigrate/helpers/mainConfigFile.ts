@@ -14,8 +14,8 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import path from 'path';
-import type { JsPackageManager } from '@storybook/core-common';
-import { getCoercedStorybookVersion } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
+import { getCoercedStorybookVersion } from '@storybook/core/dist/modules/core-common/index';
 
 const logger = console;
 

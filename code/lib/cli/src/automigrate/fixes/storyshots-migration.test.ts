@@ -2,7 +2,7 @@ import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
 import { storyshotsMigration } from './storyshots-migration';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 
 const check = async ({
   packageManager,

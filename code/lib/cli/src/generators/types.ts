@@ -1,6 +1,9 @@
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
-import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import type {
+  JsPackageManager,
+  PackageManagerName,
+} from '@storybook/core/dist/modules/core-common/index';
 import type { FrameworkPreviewParts } from './configure';
 
 export type GeneratorOptions = {

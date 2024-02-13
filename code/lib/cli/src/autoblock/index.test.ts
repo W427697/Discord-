@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { autoblock } from './index';
-import { JsPackageManagerFactory } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core/dist/modules/core-common/index';
 import { createBlocker } from './types';
 import { writeFile as writeFileRaw } from 'node:fs/promises';
 import { logger } from '@storybook/node-logger';

@@ -5,8 +5,8 @@ import { readConfig, writeConfig } from '@storybook/core/dist/modules/csf-tools/
 import prompts from 'prompts';
 import chalk from 'chalk';
 
-import type { JsPackageManager } from '@storybook/core-common';
-import { paddedLog } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
+import { paddedLog } from '@storybook/core/dist/modules/core-common/index';
 
 export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs', 'json'];
 const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml'];

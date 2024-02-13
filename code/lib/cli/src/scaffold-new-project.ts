@@ -10,7 +10,7 @@ import { telemetry } from '@storybook/core/dist/modules/telemetry/index';
 import { GenerateNewProjectOnInitError } from '@storybook/core/dist/modules/events/errors/server-errors';
 import { logger } from '@storybook/core/dist/modules/node-logger/index';
 
-import type { PackageManagerName } from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core/dist/modules/core-common/index';
 import type { CommandOptions } from './generators/types';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';

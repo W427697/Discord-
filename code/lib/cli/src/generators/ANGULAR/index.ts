@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { paddedLog } from '@storybook/core-common';
+import { paddedLog } from '@storybook/core/dist/modules/core-common/index';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';

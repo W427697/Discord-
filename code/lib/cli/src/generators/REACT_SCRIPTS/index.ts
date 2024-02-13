@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
 import dedent from 'ts-dedent';
-import { versions } from '@storybook/core-common';
+import { versions } from '@storybook/core/dist/modules/core-common/index';
 
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';

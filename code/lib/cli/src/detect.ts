@@ -14,8 +14,11 @@ import {
   CoreBuilder,
 } from './project_types';
 import { isNxProject } from './helpers';
-import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
-import { commandLog, HandledError } from '@storybook/core-common';
+import type {
+  JsPackageManager,
+  PackageJsonWithMaybeDeps,
+} from '@storybook/core/dist/modules/core-common/index';
+import { commandLog, HandledError } from '@storybook/core/dist/modules/core-common/index';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];

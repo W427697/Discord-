@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
 import ansiRegex from 'ansi-regex';
 

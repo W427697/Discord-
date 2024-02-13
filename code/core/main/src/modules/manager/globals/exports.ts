@@ -565,7 +565,7 @@ export default {
     'WebsocketTransport',
     'createBrowserChannel',
   ],
-  '@storybook/core/dist/modules/core-events/index': [
+  '@storybook/core/dist/modules/events/index': [
     'CHANNEL_CREATED',
     'CONFIG_ERROR',
     'CURRENT_STORY_WAS_SET',
@@ -612,7 +612,7 @@ export default {
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
   ],
-  '@storybook/core/dist/modules/core-events/manager-errors': [
+  '@storybook/core/dist/modules/events/manager-errors': [
     'Category',
     'ProviderDoesNotExtendBaseProviderError',
     'UncaughtManagerError',

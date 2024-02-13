@@ -4,7 +4,7 @@ import {
   detectBuilderInfo as _getBuilderInfo,
   getNextjsAddonOptions,
 } from './new-frameworks-utils';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
 
 vi.mock('find-up');
 

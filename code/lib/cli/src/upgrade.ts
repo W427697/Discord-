@@ -11,7 +11,10 @@ import {
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import type {
+  JsPackageManager,
+  PackageManagerName,
+} from '@storybook/core/dist/modules/core-common/index';
 import {
   isCorePackage,
   versions,
@@ -19,7 +22,7 @@ import {
   getCoercedStorybookVersion,
   loadMainConfig,
   JsPackageManagerFactory,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/modules/core-common/index';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
 import { PreCheckFailure } from './automigrate/types';
