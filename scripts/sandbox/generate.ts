@@ -254,42 +254,49 @@ const runGenerators = async (
     )
   );
 
+  const hasGenerationErrors = generationResults.some((result) => result.status === 'rejected');
+
+  if (!isCI) {
+    if (hasGenerationErrors) {
+      throw new Error(`Some sandboxes failed to generate`);
+    }
+    return;
+  }
+
   ghActions.summary.addHeading('Sandbox generation summary');
 
-  if (!generationResults.some((result) => result.status === 'rejected')) {
+  if (!hasGenerationErrors) {
     await ghActions.summary.addRaw('✅ Success!').write();
     return;
   }
 
-  if (isCI) {
-    await ghActions.summary
-      .addRaw('Some sandboxes failed, see the job log for detailed errors')
-      .addTable([
-        [
-          { data: 'Name', header: true },
-          { data: 'Key', header: true },
-          { data: 'Result', header: true },
-        ],
-        ...generationResults.map((result, index) => {
-          const { name, dirName } = generators[index];
-          const row = [name, `\`${dirName}\``];
-          if (result.status === 'fulfilled') {
-            row.push('🟢 Pass');
-            return row;
-          }
-          const generationError = (result as PromiseRejectedResult).reason as Error;
-          if (generationError instanceof BeforeScriptExecutionError) {
-            row.push('🔴 Failed to execute before script');
-          } else if (generationError instanceof StorybookInitError) {
-            row.push('🔴 Failed to initialize Storybook');
-          } else {
-            row.push('🔴 Failed with unknown error');
-          }
+  await ghActions.summary
+    .addRaw('Some sandboxes failed, see the job log for detailed errors')
+    .addTable([
+      [
+        { data: 'Name', header: true },
+        { data: 'Key', header: true },
+        { data: 'Result', header: true },
+      ],
+      ...generationResults.map((result, index) => {
+        const { name, dirName } = generators[index];
+        const row = [name, `\`${dirName}\``];
+        if (result.status === 'fulfilled') {
+          row.push('🟢 Pass');
           return row;
-        }),
-      ])
-      .write();
-  }
+        }
+        const generationError = (result as PromiseRejectedResult).reason as Error;
+        if (generationError instanceof BeforeScriptExecutionError) {
+          row.push('🔴 Failed to execute before script');
+        } else if (generationError instanceof StorybookInitError) {
+          row.push('🔴 Failed to initialize Storybook');
+        } else {
+          row.push('🔴 Failed with unknown error');
+        }
+        return row;
+      }),
+    ])
+    .write();
 
   throw new Error(`Some sandboxes failed to generate`);
 };
