@@ -35,6 +35,7 @@ module.exports = {
   },
   plugins: ['local-rules'],
   rules: {
+    'import/named': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
