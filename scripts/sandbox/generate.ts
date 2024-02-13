@@ -87,9 +87,6 @@ const addStorybook = async ({
   const tmpDir = directory();
 
   try {
-    if (Math.random() < 0.2) {
-      throw new Error('Blip Bloop random error in addStorybook');
-    }
     await copy(beforeDir, tmpDir);
 
     const packageManager = JsPackageManagerFactory.getPackageManager({ force: 'yarn1' }, tmpDir);
