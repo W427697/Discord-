@@ -6,7 +6,6 @@ export function convertMdToMdx(directoryPath: string) {
     if (err) {
       return console.error('Unable to scan directory: ' + err);
     }
-
     files.forEach((file) => {
       const filePath = path.join(directoryPath, file);
       fs.stat(filePath, (err1, stats) => {
@@ -14,7 +13,6 @@ export function convertMdToMdx(directoryPath: string) {
           console.error('Unable to get file stats: ' + err1);
           return;
         }
-
         if (stats.isDirectory()) {
           convertMdToMdx(filePath);
         } else {
@@ -22,7 +20,6 @@ export function convertMdToMdx(directoryPath: string) {
             const newPath = path.join(directoryPath, path.parse(file).name + '.mdx');
             fs.rename(filePath, newPath, (err2) => {
               if (err2) throw err2;
-              console.log(`Rename complete: ${file} -> ${path.parse(file).name}.mdx`);
             });
           }
         }
