@@ -163,9 +163,9 @@ async function askUserForCompilerChoice() {
   const response = await prompts<'compiler'>({
     type: 'select',
     name: 'compiler',
-    message: `Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:
-Babel - A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
-SWC - Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.
+    message: `Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:\n
+  - Babel: A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
+  - SWC:  Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.\n
 Which compiler would you like to use?`,
     choices: [
       {
