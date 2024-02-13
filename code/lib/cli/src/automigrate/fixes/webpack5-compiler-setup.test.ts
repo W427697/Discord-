@@ -426,10 +426,13 @@ describe('check function', () => {
         "We need to update your Storybook configuration for Webpack 5.
         The framework.options.builder.useSWC flag will be removed.
 
-        Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js itself.
-        If you have a babel.config.js file in your project, Storybook will use Babel as the compiler.
-        If you have a babel.config.js file in your project and you have set experimental.forceSwcTransforms = true in your next.config.js file, Storybook will use SWC as the compiler.
-        If you don't have a babel.config.js file in your project, Storybook will use SWC as the compiler."
+        Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js itself:
+
+          - If you have a babel.config.js file in your project, Storybook will use Babel as the compiler.
+          - If you have a babel.config.js file in your project and you have set 
+            experimental.forceSwcTransforms = true in your next.config.js file, 
+            Storybook will use SWC as the compiler.
+          - If you don't have a babel.config.js file in your project, Storybook will use SWC as the compiler."
       `);
     });
 
