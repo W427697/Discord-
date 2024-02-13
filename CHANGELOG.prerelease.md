@@ -1,3 +1,78 @@
+## 8.0.0-beta.2
+
+- Core: Fix boolean `true` args in URL getting ignored - [#25950](https://github.com/storybookjs/storybook/pull/25950), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Move @types packages to dev deps in core-common - [#25387](https://github.com/storybookjs/storybook/pull/25387), thanks [@kyletsang](https://github.com/kyletsang)!
+- Maintenance: Rename testing-utils paths to portable-stories - [#25888](https://github.com/storybookjs/storybook/pull/25888), thanks [@yannbf](https://github.com/yannbf)!
+- Portable stories: Pass story context to the play function of a composed story - [#25943](https://github.com/storybookjs/storybook/pull/25943), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix `display=true` warning in console - [#25951](https://github.com/storybookjs/storybook/pull/25951), thanks [@JReinhold](https://github.com/JReinhold)!
+- UI: Update deprecated Icons with the new @storybook/icons in addons - [#25822](https://github.com/storybookjs/storybook/pull/25822), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Vite: Add a `rollup-plugin-webpack-stats` to allow stats from preview builds - [#25923](https://github.com/storybookjs/storybook/pull/25923), thanks [@tmeasday](https://github.com/tmeasday)!
+
+## 8.0.0-beta.1
+
+- Addon-docs: Fix MDX components not applied in Vite and theme loading twice - [#25925](https://github.com/storybookjs/storybook/pull/25925), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Fix React peer dependency warnings - [#25926](https://github.com/storybookjs/storybook/pull/25926), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Remove CSF batching, as it isn't required any more - [#25872](https://github.com/storybookjs/storybook/pull/25872), thanks [@tmeasday](https://github.com/tmeasday)!
+- Next.js: Fix frameworkOptions resolution - [#25907](https://github.com/storybookjs/storybook/pull/25907), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React Native: Fix init fails when package is already installed - [#25908](https://github.com/storybookjs/storybook/pull/25908), thanks [@dannyhw](https://github.com/dannyhw)!
+- React Native: Remove watcher from init - [#25895](https://github.com/storybookjs/storybook/pull/25895), thanks [@dannyhw](https://github.com/dannyhw)!
+- Test: Fix jest-dom matcher type imports - [#25869](https://github.com/storybookjs/storybook/pull/25869), thanks [@alitas](https://github.com/alitas)!
+- UI: Fix overlapping on the ref button in the sidebar - [#25914](https://github.com/storybookjs/storybook/pull/25914), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Remove keyboard shortcut hint in search bar on mobile viewports - [#25866](https://github.com/storybookjs/storybook/pull/25866), thanks [@tusharwebd](https://github.com/tusharwebd)!
+
+## 8.0.0-beta.0
+
+- CLI: Add Visual Tests addon to `init` - [#25850](https://github.com/storybookjs/storybook/pull/25850), thanks [@shilman](https://github.com/shilman)!
+- CLI: Upgrade boxen library - [#25713](https://github.com/storybookjs/storybook/pull/25713), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix custom tabs not showing in the manager - [#25792](https://github.com/storybookjs/storybook/pull/25792), thanks [@ndelangen](https://github.com/ndelangen)!
+
+## 8.0.0-alpha.17
+
+- CLI: Fix add command for non monorepo deps - [#25791](https://github.com/storybookjs/storybook/pull/25791), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix `--test` must be passed for `build.test` values to be set. - [#25828](https://github.com/storybookjs/storybook/pull/25828), thanks [@ndelangen](https://github.com/ndelangen)!
+- Test: Fix vitest patch to work with portable stories and upgrade testing-library/jest-dom - [#25840](https://github.com/storybookjs/storybook/pull/25840), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Fix sidebar top and bottom addons not showing - [#25825](https://github.com/storybookjs/storybook/pull/25825), thanks [@ndelangen](https://github.com/ndelangen)!
+- Webpack: Update StorybookConfig import in core-webpack types.ts - [#25740](https://github.com/storybookjs/storybook/pull/25740), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 8.0.0-alpha.16
+
+- CLI: Fix `upgrade` detecting the wrong version of existing Storybooks - [#25752](https://github.com/storybookjs/storybook/pull/25752), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Update init for react native v7 - [#25780](https://github.com/storybookjs/storybook/pull/25780), thanks [@dannyhw](https://github.com/dannyhw)!
+- UI: Improve how the addon panel work on mobile - [#25787](https://github.com/storybookjs/storybook/pull/25787), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
+## 8.0.0-alpha.15
+
+- Next.js: Add logger statements for compiler selection - [#25755](https://github.com/storybookjs/storybook/pull/25755), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React-Native: Fixes for v8 compatibility - [#25678](https://github.com/storybookjs/storybook/pull/25678), thanks [@shilman](https://github.com/shilman)!
+- UI: Remove use of React.FC in components - [#25588](https://github.com/storybookjs/storybook/pull/25588), thanks [@ShaunEvening](https://github.com/ShaunEvening)!
+- Vue3: Fix support for `onX` and empty attributes in Show Code - [#25219](https://github.com/storybookjs/storybook/pull/25219), thanks [@Tap-Kim](https://github.com/Tap-Kim)!
+- Vue3: Introduce portable stories API - [#25443](https://github.com/storybookjs/storybook/pull/25443), thanks [@yannbf](https://github.com/yannbf)!
+
+## 8.0.0-alpha.14
+
+- Addons: Remove Node.js internal aliasing for Node builds - [#25712](https://github.com/storybookjs/storybook/pull/25712), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Automigration: Add removeReactDependency fix to allFixes array - [#25717](https://github.com/storybookjs/storybook/pull/25717), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Codemods: Add support for multiple file extensions in runCodemod function - [#25708](https://github.com/storybookjs/storybook/pull/25708), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Add webpack aliases for OpenTelemetry API - [#25652](https://github.com/storybookjs/storybook/pull/25652), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- UI: Remove `defaultProps` from `Link` component - [#25619](https://github.com/storybookjs/storybook/pull/25619), thanks [@tsvanharen](https://github.com/tsvanharen)!
+
+## 8.0.0-alpha.13
+
+- Next.js: Fix SWC mode activation - [#25670](https://github.com/storybookjs/storybook/pull/25670), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 8.0.0-alpha.12
+
+- Blocks: Fix Controls block not having controls - [#25663](https://github.com/storybookjs/storybook/pull/25663), thanks [@JReinhold](https://github.com/JReinhold)!
+- Blocks: Support `subcomponents` in `ArgTypes` and `Controls`, remove `ArgsTable` block - [#25614](https://github.com/storybookjs/storybook/pull/25614), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Fix existing version detection in `upgrade` - [#25642](https://github.com/storybookjs/storybook/pull/25642), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Add preset with experimental server API - [#25664](https://github.com/storybookjs/storybook/pull/25664), thanks [@shilman](https://github.com/shilman)!
+- MDX: Replace remark by rehype plugins - [#25615](https://github.com/storybookjs/storybook/pull/25615), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React: Fix acorn ecma version warning - [#25634](https://github.com/storybookjs/storybook/pull/25634), thanks [@dannyhw](https://github.com/dannyhw)!
+- Shortcuts: Require modifier key to trigger shortcuts (`F`,`A`,`D`,`S`,`T`,`/`) - [#25625](https://github.com/storybookjs/storybook/pull/25625), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Theming: Fix export of module augmentation - [#25643](https://github.com/storybookjs/storybook/pull/25643), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- UI: Add links to documentation and videos in UI - [#25565](https://github.com/storybookjs/storybook/pull/25565), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Webpack: Use `node:assert` used in `export-order-loader` - [#25622](https://github.com/storybookjs/storybook/pull/25622), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 8.0.0-alpha.11
 
 - Angular: Remove cached NgModules and introduce a global queue during bootstrapping - [#24982](https://github.com/storybookjs/storybook/pull/24982), thanks [@Marklb](https://github.com/Marklb)!

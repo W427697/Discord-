@@ -3,8 +3,8 @@ import {
   frameworkPackages,
   rendererPackages,
 } from '@storybook/core/dist/modules/core-common/index';
+import type { InstallationMetadata } from '@storybook/core/dist/modules/core-common/index';
 import { hasMultipleVersions } from './hasMultipleVersions';
-import type { InstallationMetadata } from '../js-package-manager/types';
 
 export const messageDivider = '\n\n';
 

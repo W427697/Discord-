@@ -1,7 +1,8 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfigRaw } from '@storybook/core/dist/modules/types/index';
-import type { PackageJson } from '../../js-package-manager';
+import type { PackageJson } from '@storybook/core/dist/modules/core-common/index';
+
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager } from '../helpers/testing-helpers';
 import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';

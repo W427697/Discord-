@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
 import { styled } from '../../../theming';
 
+export interface SeparatorProps {
+  force?: boolean;
+}
+
 export const Separator = styled.span<SeparatorProps>(
   ({ theme }) => ({
     width: 1,
@@ -35,6 +39,3 @@ export const interleaveSeparators = (list: any[]) =>
       ),
     null
   );
-export interface SeparatorProps {
-  force?: boolean;
-}

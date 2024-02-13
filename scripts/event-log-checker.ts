@@ -4,7 +4,7 @@ import assert from 'assert';
 import fetch from 'node-fetch';
 import { esMain } from './utils/esmain';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
-import versions from '../code/lib/cli/src/versions';
+import { versions } from '../code/core/main/src/modules/core-common';
 import { oneWayHash } from '../code/core/main/src/modules/telemetry/one-way-hash';
 
 const PORT = process.env.PORT || 6007;

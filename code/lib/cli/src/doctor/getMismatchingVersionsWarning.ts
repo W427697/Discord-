@@ -1,8 +1,10 @@
 import chalk from 'chalk';
 import semver from 'semver';
-import { frameworkPackages } from '@storybook/core/dist/modules/core-common/index';
-import type { InstallationMetadata } from '../js-package-manager/types';
-import storybookCorePackages from '../versions';
+import {
+  frameworkPackages,
+  versions as storybookCorePackages,
+} from '@storybook/core/dist/modules/core-common/index';
+import type { InstallationMetadata } from '@storybook/core/dist/modules/core-common/index';
 
 function getPrimaryVersion(name: string | undefined, installationMetadata?: InstallationMetadata) {
   if (!name) {

@@ -7,6 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
+  removeAddon,
 } from '../../core-common';
 import type {
   CLIOptions,
@@ -162,6 +163,12 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
   }
   return undefined;
 };
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverAPI = (extension: Record<string, Function>) => ({
+  ...extension,
+  removeAddon,
+});
 
 /**
  * If for some reason this config is not applied, the reason is that

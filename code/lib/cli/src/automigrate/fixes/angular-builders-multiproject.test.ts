@@ -1,6 +1,8 @@
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
+
 import type { StorybookConfig } from '@storybook/core/dist/modules/types/index';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core/dist/modules/core-common/index';
+
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
 import * as helpers from '../../helpers';
 import * as angularHelpers from '../../generators/ANGULAR/helpers';

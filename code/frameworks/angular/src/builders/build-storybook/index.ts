@@ -15,7 +15,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/core/dist/modules/types/index';
-import { getEnvConfig, versions } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/core/dist/modules/core-common/index';
 import { addToGlobalContext } from '@storybook/core/dist/modules/telemetry/index';
 
 import {
@@ -52,6 +52,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'configDir'
     | 'loglevel'
     | 'quiet'
+    | 'test'
     | 'webpackStatsJson'
     | 'disableTelemetry'
     | 'debugWebpack'
@@ -90,6 +91,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         configDir,
         docs,
         loglevel,
+        test,
         outputDir,
         quiet,
         enableProdMode = true,
@@ -107,6 +109,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         ...(docs ? { docs } : {}),
         loglevel,
         outputDir,
+        test,
         quiet,
         enableProdMode,
         disableTelemetry,

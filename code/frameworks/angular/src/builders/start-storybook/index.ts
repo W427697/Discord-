@@ -14,7 +14,7 @@ import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { CLIOptions } from '@storybook/core/dist/modules/types/index';
-import { getEnvConfig, versions } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/core/dist/modules/core-common/index';
 import { addToGlobalContext } from '@storybook/core/dist/modules/telemetry/index';
 import { buildDevStandalone, withTelemetry } from '@storybook/core/dist/modules/core-server/index';
 import {

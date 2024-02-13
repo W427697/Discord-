@@ -3,14 +3,13 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import invariant from 'tiny-invariant';
+import type { JsPackageManager } from '@storybook/core-common';
+import { getPackageDetails, versions as packageVersions } from '@storybook/core-common';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
-import type { JsPackageManager } from '../js-package-manager';
-import { getPackageDetails } from '../js-package-manager';
-import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
 import { configureEslintPlugin, extractEslintInfo } from '../automigrate/helpers/eslintPlugin';
 import { detectBuilder } from '../detect';
@@ -197,7 +196,7 @@ export async function baseGenerator(
   );
 
   const {
-    extraAddons: extraAddonPackages,
+    extraAddons: extraAddonPackages = [],
     extraPackages,
     staticDir,
     addScripts,
@@ -223,21 +222,23 @@ export async function baseGenerator(
         })
       : extraAddonPackages;
 
-  // added to main.js
-  const addons = [
+  extraAddonsToInstall.push(
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@chromatic-com/storybook@^1'
+  );
+
+  // added to main.js
+  const addons = [
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
-    ...stripVersions(extraAddonsToInstall || []),
+    ...stripVersions(extraAddonsToInstall),
   ].filter(Boolean);
 
   // added to package.json
   const addonPackages = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
     '@storybook/blocks',
     ...(compiler ? [`@storybook/addon-webpack5-compiler-${compiler}`] : []),
-    ...(extraAddonsToInstall || []),
+    ...extraAddonsToInstall,
   ].filter(Boolean);
 
   // TODO: migrate template stories in solid and qwik to use @storybook/test
