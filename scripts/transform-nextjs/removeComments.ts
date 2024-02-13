@@ -31,7 +31,6 @@ export function removecomments(directoryPath: string) {
 
               fs.writeFile(filePath, newData, 'utf8', (err3) => {
                 if (err3) throw err3;
-                console.log(`Updated file: ${file}`);
               });
             });
           }

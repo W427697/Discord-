@@ -4,6 +4,7 @@ import { convertMdToMdx } from './convert-to-mdx';
 import { removecomments } from './removeComments';
 import prompts from 'prompts';
 import { transformPaths } from './transform-snippets-2';
+import { moveMediaFiles } from './move-assets';
 
 (async () => {
   console.log(chalk.cyan('---------------------------'));
@@ -11,11 +12,20 @@ import { transformPaths } from './transform-snippets-2';
   console.log(chalk.cyan('---------------------------'));
   console.log(' ');
 
+  const step0 = await prompts({
+    type: 'confirm',
+    name: 'value',
+    message: 'Do you want to move all assets into the right folder?',
+    initial: true,
+  });
+
+  if (step0.value === true) moveMediaFiles('./docs', './docs/_assets');
+
   const step1 = await prompts({
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert all md files into mdx files?',
-    initial: true,
+    initial: false,
   });
 
   if (step1.value === true) convertMdToMdx('./docs');
