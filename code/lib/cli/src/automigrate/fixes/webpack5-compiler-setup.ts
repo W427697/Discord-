@@ -81,11 +81,15 @@ export const webpack5Migration: Fix<Options> = {
       ([, coreCompiler]) => coreCompiler === compiler
     )?.[0];
 
+    const shouldRemoveSWCFlag = frameworkOptions?.builder
+      ? 'useSWC' in frameworkOptions.builder
+      : false;
+
     if (frameworkName === 'nextjs') {
       return {
         compiler: undefined,
         compilerPackageName: undefined,
-        shouldRemoveSWCFlag: false,
+        shouldRemoveSWCFlag,
         isNextJs: true,
       };
     }
@@ -93,7 +97,7 @@ export const webpack5Migration: Fix<Options> = {
     return {
       compiler,
       compilerPackageName,
-      shouldRemoveSWCFlag: frameworkOptions?.builder ? 'useSWC' in frameworkOptions.builder : false,
+      shouldRemoveSWCFlag,
       isNextJs: false,
     };
   },
@@ -109,16 +113,18 @@ export const webpack5Migration: Fix<Options> = {
 
     if (isNextJs) {
       message.push(dedent`
-      Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js itself.
-      If you have a ${chalk.yellow(
-        'babel.config.js'
-      )} file in your project, Storybook will use Babel as the compiler.
-      If you have a ${chalk.yellow(
-        'babel.config.js'
-      )} file in your project and you have set ${chalk.yellow(
-        'experimental.forceSwcTransforms = true'
-      )} in your next.config.js file, Storybook will use SWC as the compiler.
-      If you don't have a babel.config.js file in your project, Storybook will use SWC as the compiler.
+      Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js itself:\n
+        - If you have a ${chalk.yellow(
+          'babel.config.js'
+        )} file in your project, Storybook will use Babel as the compiler.
+        - If you have a ${chalk.yellow('babel.config.js')} file in your project and you have set 
+          ${chalk.yellow('experimental.forceSwcTransforms = true')} in your ${chalk.yellow(
+            'next.config.js'
+          )} file, 
+          Storybook will use SWC as the compiler.
+        - If you don't have a ${chalk.yellow(
+          'babel.config.js'
+        )} file in your project, Storybook will use SWC as the compiler.
       `);
     } else if (compilerPackageName) {
       message.push(dedent`

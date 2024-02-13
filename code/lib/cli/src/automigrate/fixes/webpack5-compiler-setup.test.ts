@@ -236,6 +236,31 @@ describe('check function', () => {
         });
       });
 
+      it('should return isNextJs: true AND should return shouldRemoveSWCFlag: true when useSWC flag is set', async () => {
+        const result = await check({
+          packageManager: {
+            getPackageVersion: (name) => {
+              return Promise.resolve(null);
+            },
+          },
+          mainConfig: {
+            framework: {
+              name: '@storybook/nextjs',
+              options: {
+                builder: {
+                  useSWC: true,
+                },
+              },
+            },
+          },
+        });
+
+        expect(result).contains({
+          shouldRemoveSWCFlag: true,
+          isNextJs: true,
+        });
+      });
+
       it('should return isNextJs: false when the framework is not nextjs', async () => {
         const result = await check({
           packageManager: {
