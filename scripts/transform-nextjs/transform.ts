@@ -53,7 +53,7 @@ import { removeFiles } from './remove-files';
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert snippets paths?',
-    initial: false,
+    initial: true,
   });
 
   if (step5.value === true) transformPaths();
@@ -62,7 +62,7 @@ import { removeFiles } from './remove-files';
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove unnecessary files?',
-    initial: true,
+    initial: false,
   });
 
   if (step6.value === true) removeFiles();

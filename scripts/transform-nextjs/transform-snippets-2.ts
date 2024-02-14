@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import stringify from 'remark-stringify';
+import { remark } from 'remark';
+import remarkMdx from 'remark-mdx';
 import { visit } from 'unist-util-visit';
+import { is } from 'unist-util-is';
 
 export const transformPaths = async () => {
   const root = fs.readdirSync('docs');
@@ -27,36 +27,47 @@ export const transformPaths = async () => {
     const isDirectory = fs.lstatSync(`docs/${node}`).isDirectory();
     if (isDirectory) {
       const folder = fs.readdirSync(`docs/${node}`);
-      const listOfMarkdownFiles = folder.filter(
-        (str) => str.endsWith('.md') || str.endsWith('.mdx')
-      );
+      const listOfMarkdownFiles = folder.filter((str) => str.endsWith('.mdx'));
       files.push(...listOfMarkdownFiles.map((file) => path.join(node, file)));
     } else {
       files.push(node);
     }
   });
 
-  console.log(files);
+  files.forEach((file) => {
+    if (file !== 'test/test.mdx') return;
+    const filePath = path.join('docs', file);
+    const markdown = fs.readFileSync(filePath).toString();
 
-  // files.forEach((file) => {
-  //   const filePath = path.join('docs', file);
-  //   const markdown = fs.readFileSync(filePath).toString();
+    const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
+    const rootFile = mdxProcessor.parse(markdown);
 
-  //   unified()
-  //     .use(remarkParse)
-  //     .use(() => (tree) => {
-  //       console.log(tree);
-  //       visit(tree, 'jsx', (node) => {
-  //         console.log(node);
-  //         // Modify the node here
-  //         // This is a simplified example and won't work for complex cases.
-  //         // You'll need to write a proper function to find and replace the components.
-  //       });
-  //     })
-  //     .use(stringify)
-  //     .process(markdown, function (err, file) {
-  //       if (err) throw err;
-  //       // fs.writeFileSync(filePath, String(file));
-  //     });
-  // });
+    visit(rootFile, (node) => {
+      if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
+        if (is(node, { name: 'CodeSnippets' })) {
+          console.log(node);
+
+          // const oldPaths = node.attributes.find((attr) => attr.name === 'paths');
+          node.attributes = [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'paths',
+              value: {
+                type: 'mdxJsxAttributeValueExpression',
+                value: JSON.stringify(['bla']),
+              },
+            },
+          ];
+        }
+      }
+    });
+
+    const newMdx = mdxProcessor.stringify(rootFile);
+    console.log(newMdx);
+
+    fs.writeFile(filePath, newMdx, (err) => {
+      if (err) throw err;
+      console.log('The file has been replaced!');
+    });
+  });
 };
