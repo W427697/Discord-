@@ -55,6 +55,7 @@ export type ComposedStoryFn<
   TRenderer extends Renderer = Renderer,
   TArgs = Args,
 > = PartialArgsStoryFn<TRenderer, TArgs> & {
+  load: () => Promise<void>;
   play: ComposedStoryPlayFn<TRenderer, TArgs> | undefined;
   args: TArgs;
   id: StoryId;

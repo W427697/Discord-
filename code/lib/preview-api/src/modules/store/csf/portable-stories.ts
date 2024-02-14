@@ -87,16 +87,20 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   };
 
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
-    (extraArgs?: Partial<TArgs>) => {
-      const finalContext: StoryContext<TRenderer> = {
-        ...context,
-        args: { ...context.initialArgs, ...extraArgs },
+    function storyFn(extraArgs?: Partial<TArgs>) {
+      context.args = {
+        ...context.args,
+        ...extraArgs,
       };
 
-      return story.unboundStoryFn(prepareContext(finalContext));
+      return story.unboundStoryFn(prepareContext(context));
     },
     {
       storyName,
+      load: async () => {
+        const loadedContext = await story.applyLoaders(context);
+        context.loaded = loadedContext.loaded;
+      },
       args: story.initialArgs as Partial<TArgs>,
       parameters: story.parameters as Parameters,
       argTypes: story.argTypes as StrictArgTypes<TArgs>,
