@@ -1,4 +1,4 @@
-import ip from 'ip';
+import { internalIpV4Sync } from 'internal-ip';
 
 import { logger } from '@storybook/node-logger';
 import detectFreePort from 'detect-port';
@@ -10,7 +10,7 @@ export function getServerAddresses(
   initialPath?: string
 ) {
   const address = new URL(`${proto}://localhost:${port}/`);
-  const networkAddress = new URL(`${proto}://${host || ip.address()}:${port}/`);
+  const networkAddress = new URL(`${proto}://${host || internalIpV4Sync()}:${port}/`);
 
   if (initialPath) {
     const searchParams = `?path=${decodeURIComponent(
