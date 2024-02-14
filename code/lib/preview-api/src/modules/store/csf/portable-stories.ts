@@ -114,6 +114,14 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         : undefined,
     }
   );
+  console.log('LOG: I am globalizing globals 🌎');
+  globalThis.__STORYBOOK_TESTSTUFF = {
+    ...globalThis.__STORYBOOK_TESTSTUFF,
+    [storyName]: {
+      load: composedStory.load,
+      play: composedStory.play,
+    },
+  };
 
   return composedStory;
 }

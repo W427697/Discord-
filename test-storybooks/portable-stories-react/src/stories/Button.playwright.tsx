@@ -13,16 +13,20 @@ import stories from './Button.portable';
 test('renders primary button', async ({ mount }) => {
   const component = await mount(<stories.CSF3Primary />);
   await expect(component).toContainText('Decorator')
-  // const element = await component.evaluate((element) => {
-  //   // You can interact with the element directly here
-  //   return element; // This returns the DOM element to Playwright's context
-  // });
+});
 
-  // console.log({bla: stories.CSF3InputFieldFilled  })
-  // await stories.CSF3InputFieldFilled.play({ canvasElement: element as HTMLElement });
-  // expect(button).toContainText('Hello world')
-  // const buttonElement = screen.getByText(/Hello world/i);
-  // expect(buttonElement).not.toBeNull();
+test.only('apply story loaders', async ({ mount, page }) => {
+
+
+  // await stories.LoaderStory.load();
+  await mount(<stories.CSF3InputFieldFilled />);
+    // console.log({loaderStory: globalThis.__STORYBOOK_TESTSTUFF })
+    await page.evaluate(async() => {
+      console.log('LOG: stuff', { __STORYBOOK_TESTSTUFF: globalThis.__STORYBOOK_TESTSTUFF})
+      const story = globalThis.__STORYBOOK_TESTSTUFF['CSF3InputFieldFilled']
+      console.log({story})
+      await story.play({ canvasElement: document.body });  
+    })
 });
 
 // test('reuses args from composed story', ({ mount }) => {
