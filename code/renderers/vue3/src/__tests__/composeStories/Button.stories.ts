@@ -1,4 +1,4 @@
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within, expect, fn } from '@storybook/test';
 import type { Meta, StoryFn as CSF2Story, StoryObj } from '../..';
 
 import Button from './Button.vue';
@@ -114,7 +114,39 @@ export const CSF3InputFieldFilled: CSF3Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Step label', async () => {
-      await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
+      const inputEl = canvas.getByTestId('input');
+      await userEvent.type(inputEl, 'Hello world!');
+      await expect(inputEl).toHaveValue('Hello world!');
     });
+  },
+};
+
+const spyFn = fn();
+export const LoaderStory: StoryObj<{ spyFn: (val: string) => string }> = {
+  args: {
+    spyFn,
+  },
+  loaders: [
+    async () => {
+      spyFn.mockReturnValueOnce('baz');
+      return {
+        value: 'bar',
+      };
+    },
+  ],
+  render: (args, { loaded }) => ({
+    components: { Button },
+    setup() {
+      return { args, data: args.spyFn('foo'), loaded: loaded.value };
+    },
+    template: `
+      <div>
+        <div data-testid="loaded-data">{{loaded}}</div>
+        <div data-testid="spy-data">{{data}}</div>
+      </div>
+    `,
+  }),
+  play: async () => {
+    expect(spyFn).toHaveBeenCalledWith('foo');
   },
 };

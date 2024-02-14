@@ -1,5 +1,5 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, fn, expect } from '@storybook/test';
 import type { StoryFn as CSF2Story, StoryObj as CSF3Story, Meta } from '..';
 
 import type { ButtonProps } from './Button';
@@ -84,7 +84,36 @@ export const CSF3InputFieldFilled: CSF3Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Step label', async () => {
-      await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
+      const inputEl = canvas.getByTestId('input');
+      await userEvent.type(inputEl, 'Hello world!');
+      await expect(inputEl).toHaveValue('Hello world!');
     });
+  },
+};
+
+const spyFn = fn();
+export const LoaderStory: CSF3Story<{ spyFn: (val: string) => string }> = {
+  args: {
+    spyFn,
+  },
+  loaders: [
+    async () => {
+      spyFn.mockReturnValueOnce('baz');
+      return {
+        value: 'bar',
+      };
+    },
+  ],
+  render: (args, { loaded }) => {
+    const data = args.spyFn('foo');
+    return (
+      <div>
+        <div data-testid="loaded-data">{loaded.value}</div>
+        <div data-testid="spy-data">{String(data)}</div>
+      </div>
+    );
+  },
+  play: async () => {
+    expect(spyFn).toHaveBeenCalledWith('foo');
   },
 };

@@ -10,7 +10,7 @@ import type { Button } from './Button';
 import * as stories from './Button.stories';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
-const { CSF3Primary } = composeStories(stories);
+const { CSF3Primary, LoaderStory } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
@@ -43,6 +43,15 @@ describe('renders', () => {
     const { getByText } = render(<CSF3Primary />);
     const buttonElement = getByText(/foo/i);
     expect(buttonElement).not.toBeNull();
+  });
+
+  it('should call and compose loaders data', async () => {
+    await LoaderStory.load();
+    const { getByTestId, container } = render(<LoaderStory />);
+    expect(getByTestId('spy-data').textContent).toEqual('baz');
+    expect(getByTestId('loaded-data').textContent).toEqual('bar');
+    // spy assertions happen in the play function and should work
+    await LoaderStory.play!({ canvasElement: container as HTMLElement });
   });
 });
 
@@ -139,9 +148,13 @@ describe('ComposeStories types', () => {
 });
 
 // Batch snapshot testing
-const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
+const testCases = Object.values(composeStories(stories)).map(
+  (Story) => [Story.storyName, Story] as [string, typeof Story]
+);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
-  const tree = await render(<Story />);
-  expect(tree.baseElement).toMatchSnapshot();
+  await Story.load();
+  const { container, baseElement } = await render(<Story />);
+  await Story.play?.({ canvasElement: container });
+  expect(baseElement).toMatchSnapshot();
 });

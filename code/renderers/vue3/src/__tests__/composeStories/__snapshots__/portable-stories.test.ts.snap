@@ -86,3 +86,22 @@ exports[`Renders CSF3Primary story 1`] = `
   </div>
 </body>
 `;
+
+exports[`Renders LoaderStory story 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        data-testid="loaded-data"
+      >
+        bar
+      </div>
+      <div
+        data-testid="spy-data"
+      >
+        baz
+      </div>
+    </div>
+  </div>
+</body>
+`;

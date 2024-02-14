@@ -89,7 +89,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
     function storyFn(extraArgs?: Partial<TArgs>) {
       context.args = {
-        ...context.args,
+        ...context.initialArgs,
         ...extraArgs,
       };
 

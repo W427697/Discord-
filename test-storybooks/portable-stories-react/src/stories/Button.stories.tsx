@@ -1,4 +1,4 @@
-import { expect, within, userEvent } from '@storybook/test';
+import { expect, within, userEvent, fn } from '@storybook/test';
 import type { StoryFn as CSF2Story, StoryObj as CSF3Story, Meta } from '@storybook/react';
 
 import type { ButtonProps } from './Button';
@@ -97,5 +97,32 @@ export const CSF3InputFieldFilled: CSF3Story = {
       await expect(inputEl).toHaveValue('Hello world!');
     });
     console.log('end of play function')
+  },
+};
+
+const spyFn = fn();
+export const LoaderStory: CSF3Story<{ spyFn: (val: string) => string }> = {
+  args: {
+    spyFn,
+  },
+  render: (args, { loaded }) => {
+    const data = args.spyFn('foo');
+    return (
+      <div>
+        <div data-testid="loaded-data">{loaded.value}</div>
+        <div data-testid="spy-data">{String(data)}</div>
+      </div>
+    );
+  },
+  loaders: [
+    async () => {
+      spyFn.mockReturnValueOnce('mocked');
+      return {
+        value: 'bar',
+      };
+    },
+  ],
+  play: async () => {
+    expect(spyFn).toHaveBeenCalledWith('foo');
   },
 };

@@ -10,35 +10,46 @@ import type Button from './Button.vue';
 import { composeStories, composeStory, setProjectAnnotations } from '../../portable-stories';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
-const { CSF3Primary } = composeStories(stories);
+const { CSF3Primary, LoaderStory } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
-it('renders primary button', () => {
-  render(CSF3Primary({ label: 'Hello world' }));
-  const buttonElement = screen.getByText(/Hello world/i);
-  expect(buttonElement).toBeInTheDocument();
-});
+describe('renders', () => {
+  it('renders primary button', () => {
+    render(CSF3Primary({ label: 'Hello world' }));
+    const buttonElement = screen.getByText(/Hello world/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 
-it('reuses args from composed story', () => {
-  render(Secondary());
-  const buttonElement = screen.getByRole('button');
-  expect(buttonElement.textContent).toEqual(Secondary.args.label);
-});
+  it('reuses args from composed story', () => {
+    render(Secondary());
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement.textContent).toEqual(Secondary.args.label);
+  });
 
-it('myClickEvent handler is called', async () => {
-  const myClickEventSpy = vi.fn();
-  render(Secondary({ onMyClickEvent: myClickEventSpy }));
-  const buttonElement = screen.getByRole('button');
-  buttonElement.click();
-  expect(myClickEventSpy).toHaveBeenCalled();
-});
+  it('myClickEvent handler is called', async () => {
+    const myClickEventSpy = vi.fn();
+    render(Secondary({ onMyClickEvent: myClickEventSpy }));
+    const buttonElement = screen.getByRole('button');
+    buttonElement.click();
+    expect(myClickEventSpy).toHaveBeenCalled();
+  });
 
-it('reuses args from composeStories', () => {
-  const { getByText } = render(CSF3Primary());
-  const buttonElement = getByText(/foo/i);
-  expect(buttonElement).toBeInTheDocument();
+  it('reuses args from composeStories', () => {
+    const { getByText } = render(CSF3Primary());
+    const buttonElement = getByText(/foo/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  it('should call and compose loaders data', async () => {
+    await LoaderStory.load();
+    const { getByTestId, container } = render(LoaderStory());
+    expect(getByTestId('spy-data').textContent).toEqual('baz');
+    expect(getByTestId('loaded-data').textContent).toEqual('bar');
+    // spy assertions happen in the play function and should work
+    await LoaderStory.play!({ canvasElement: container as HTMLElement });
+  });
 });
 
 describe('projectAnnotations', () => {
@@ -131,8 +142,10 @@ it.each(testCases)('Renders %s story', async (_storyName, Story) => {
     return;
   }
 
+  await Story.load();
+  const { container, baseElement } = await render(Story());
+  await Story.play?.({ canvasElement: container as HTMLElement });
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  const tree = await render(Story());
-  expect(tree.baseElement).toMatchSnapshot();
+  expect(baseElement).toMatchSnapshot();
 });

@@ -26,9 +26,6 @@ describe('composeStory', () => {
     const args = { story: 'story' };
     const LoaderStory: Story = {
       args,
-      render: (_args, { loaded }) => {
-        expect(loaded).toEqual({ foo: 'bar' });
-      },
       loaders: [
         async (context) => {
           loadSpy();
@@ -38,6 +35,9 @@ describe('composeStory', () => {
           };
         },
       ],
+      render: (_args, { loaded }) => {
+        expect(loaded).toEqual({ foo: 'bar' });
+      },
     };
 
     const composedStory = composeStory(LoaderStory, {});
@@ -60,7 +60,6 @@ describe('composeStory', () => {
       ],
       render: (args) => {
         const data = args.spyFn();
-        expect(spyFn).toHaveBeenCalled();
         expect(data).toBe('mockedData');
       },
     };
@@ -68,6 +67,7 @@ describe('composeStory', () => {
     const composedStory = composeStory(Story, {});
     await composedStory.load();
     composedStory();
+    expect(spyFn).toHaveBeenCalled();
   });
 
   it('should return story with composed args and parameters', () => {
