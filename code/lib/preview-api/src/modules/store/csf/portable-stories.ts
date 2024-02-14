@@ -12,15 +12,16 @@ import type {
   Parameters,
   ComposedStoryFn,
   StrictArgTypes,
+  ComposedStoryPlayContext,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
-import { composeConfigs } from '../composeConfigs';
-import { prepareContext, prepareStory } from '../prepareStory';
-import { normalizeStory } from '../normalizeStory';
-import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
-import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
-import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';
+import { composeConfigs } from './composeConfigs';
+import { prepareContext, prepareStory } from './prepareStory';
+import { normalizeStory } from './normalizeStory';
+import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
+import { getValuesFromArgTypes } from './getValuesFromArgTypes';
+import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
 
@@ -74,24 +75,39 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   const defaultGlobals = getValuesFromArgTypes(projectAnnotations.globalTypes);
 
+  const context: StoryContext<TRenderer> = {
+    hooks: new HooksContext(),
+    globals: defaultGlobals,
+    args: { ...story.initialArgs },
+    viewMode: 'story',
+    loaded: {},
+    abortSignal: null as unknown as AbortSignal,
+    canvasElement: null,
+    ...story,
+  };
+
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
     (extraArgs?: Partial<TArgs>) => {
-      const context: Partial<StoryContext> = {
-        ...story,
-        hooks: new HooksContext(),
-        globals: defaultGlobals,
-        args: { ...story.initialArgs, ...extraArgs },
+      const finalContext: StoryContext<TRenderer> = {
+        ...context,
+        args: { ...context.initialArgs, ...extraArgs },
       };
 
-      return story.unboundStoryFn(prepareContext(context as StoryContext<TRenderer>));
+      return story.unboundStoryFn(prepareContext(finalContext));
     },
     {
       storyName,
       args: story.initialArgs as Partial<TArgs>,
-      play: story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
       parameters: story.parameters as Parameters,
       argTypes: story.argTypes as StrictArgTypes<TArgs>,
       id: story.id,
+      play: story.playFunction
+        ? ((async (extraContext: ComposedStoryPlayContext<TRenderer, TArgs>) =>
+            story.playFunction!({
+              ...context,
+              ...extraContext,
+            })) as unknown as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>)
+        : undefined,
     }
   );
 
