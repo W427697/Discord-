@@ -107,6 +107,7 @@ export const LoaderStory: CSF3Story<{ spyFn: (val: string) => string }> = {
   },
   render: (args, { loaded }) => {
     const data = args.spyFn('foo');
+    console.log('rendering...')
     return (
       <div>
         <div data-testid="loaded-data">{loaded.value}</div>
@@ -116,6 +117,7 @@ export const LoaderStory: CSF3Story<{ spyFn: (val: string) => string }> = {
   },
   loaders: [
     async () => {
+      console.log('loading...')
       spyFn.mockReturnValueOnce('mocked');
       return {
         value: 'bar',
@@ -123,6 +125,7 @@ export const LoaderStory: CSF3Story<{ spyFn: (val: string) => string }> = {
     },
   ],
   play: async () => {
-    expect(spyFn).toHaveBeenCalledWith('foo');
+      console.log('playing...')
+      expect(spyFn).toHaveBeenCalledWith('foo');
   },
 };

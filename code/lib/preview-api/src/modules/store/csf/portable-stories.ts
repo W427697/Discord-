@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
@@ -114,14 +115,12 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         : undefined,
     }
   );
-  console.log('LOG: I am globalizing globals 🌎');
-  globalThis.__STORYBOOK_TESTSTUFF = {
-    ...globalThis.__STORYBOOK_TESTSTUFF,
-    [storyName]: {
-      load: composedStory.load,
-      play: composedStory.play,
-    },
-  };
+  console.log('Setting globals');
+  (globalThis as any).__STORYBOOK_PORTABLE_STORIES =
+    (globalThis as any).__STORYBOOK_PORTABLE_STORIES || {};
+  Object.assign((globalThis as any).__STORYBOOK_PORTABLE_STORIES, {
+    [storyName]: composedStory,
+  });
 
   return composedStory;
 }
