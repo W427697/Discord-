@@ -408,10 +408,10 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
   template() {
     const message = [
-      `Storybook failed to load ${location}..`,
+      `Storybook failed to load ${this.data.location}..`,
       '',
       `It looks like the file tried to load/import an ESM only module.`,
-      `Support for this is currently limited in ${location}.`,
+      `Support for this is currently limited in ${this.data.location}.`,
       `You can import ESM modules in your main file, but only as dynamic import.`,
       '',
     ];
