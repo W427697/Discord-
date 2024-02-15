@@ -8,7 +8,6 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@storybook/test';
-import { action } from '@storybook/addon-actions';
 
 export default {
   component: globalThis.Components.Form,
