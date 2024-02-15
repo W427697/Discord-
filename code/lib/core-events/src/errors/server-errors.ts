@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { bold, gray, grey, white, yellow } from 'chalk';
 import dedent from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
@@ -417,21 +417,19 @@ export class MainFileESMOnlyImportError extends StorybookError {
     ];
     if (this.data.line) {
       message.push(
-        chalk.white(
-          `In your ${chalk.yellow(
-            this.data.location
-          )} file, this line threw an error: ${chalk.bold.cyan(
+        white(
+          `In your ${yellow(this.data.location)} file, this line threw an error: ${bold.cyan(
             this.data.num
           )}, which looks like this:`
         ),
-        chalk.grey(this.data.line)
+        grey(this.data.line)
       );
     }
 
     message.push(
       '',
-      chalk.white(`Convert the dynamic import to an dynamic import where they are used.`),
-      chalk.white(`Example:`) + ' ' + chalk.gray(`await import(<your ESM only module>);`)
+      white(`Convert the dynamic import to an dynamic import where they are used.`),
+      white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`)
     );
 
     return message.join('\n');
