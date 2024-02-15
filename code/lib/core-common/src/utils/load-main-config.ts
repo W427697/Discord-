@@ -28,14 +28,14 @@ export async function loadMainConfig({
       throw e;
     }
     if (e.message.match(/Cannot use import statement outside a module/)) {
-      const a = relative(process.cwd(), mainJsPath);
-      const line = e.stack?.match(new RegExp(`${a}:(\\d+):(\\d+)`))?.[1];
+      const location = relative(process.cwd(), mainJsPath);
+      const line = e.stack?.match(new RegExp(`${location}:(\\d+):(\\d+)`))?.[1];
       const message = [
-        `Storybook failed to load ${a}..`,
+        `Storybook failed to load ${location}..`,
         '',
         `It looks like the file tried to load/import an ESM only module.`,
-        `Support for this is currently limited in ${a}.`,
-        `You can import ESM modules in your main file, but only as imperative imports.`,
+        `Support for this is currently limited in ${location}.`,
+        `You can import ESM modules in your main file, but only as dynamic import.`,
         '',
       ];
 
@@ -46,7 +46,7 @@ export async function loadMainConfig({
 
         message.push(
           chalk.white(
-            `In your ${chalk.yellow(a)} file, this line threw an error: ${chalk.bold.cyan(
+            `In your ${chalk.yellow(location)} file, this line threw an error: ${chalk.bold.cyan(
               num
             )}, which looks like this:`
           ),
@@ -55,7 +55,8 @@ export async function loadMainConfig({
       }
       message.push(
         '',
-        `Convert the declarative import to an imperative import where they are used.`
+        chalk.white(`Convert the dynamic import to an dynamic import where they are used.`),
+        chalk.white(`Example:`) + ' ' + chalk.gray(`await import(<your ESM only module>);`)
       );
 
       const out = new Error(message.join('\n'));
