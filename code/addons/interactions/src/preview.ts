@@ -1,5 +1,20 @@
-import type { ArgsEnhancer, Renderer } from '@storybook/types';
+import type {
+  ArgsEnhancer,
+  PlayFunction,
+  PlayFunctionContext,
+  Renderer,
+  StepLabel,
+} from '@storybook/types';
 import { fn, isMockFunction } from '@storybook/test';
+import { instrument } from '@storybook/instrumenter';
+
+export const { step: runStep } = instrument(
+  {
+    step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext<any>) =>
+      play(context),
+  },
+  { intercept: true }
+);
 
 const traverseArgs = (value: unknown, depth = 0, key?: string): any => {
   // Make sure to not get in infinite loops with self referencing args
