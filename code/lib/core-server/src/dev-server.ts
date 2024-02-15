@@ -61,7 +61,7 @@ export async function storybookDevServer(options: Options) {
   const { port, host, initialPath } = options;
   invariant(port, 'expected options to have a port');
   const proto = options.https ? 'https' : 'http';
-  const { address, networkAddress } = await getServerAddresses(port, host, proto, initialPath);
+  const { address, networkAddress } = await getServerAddresses(port, host, proto, initialPath).catch();
 
   const listening = new Promise<void>((resolve, reject) => {
     // @ts-expect-error (Following line doesn't match TypeScript signature at all 🤔)
