@@ -238,16 +238,10 @@ export const doUpgrade = async ({
         return dependency in versions;
       }) as Array<keyof typeof versions>;
       return monorepoDependencies.map((dependency) => {
-        let char = '^';
-        if (isOutdated) {
-          char = '';
-        }
-        if (isCanary) {
-          char = '';
-        }
         /* add ^ modifier to the version if this is the latest stable or prerelease version
            example outputs: @storybook/react@^8.0.0 */
-        return `${dependency}@${char}${versions[dependency]}`;
+        const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+        return `${dependency}@${maybeCaret}${versions[dependency]}`;
       });
     };
 
