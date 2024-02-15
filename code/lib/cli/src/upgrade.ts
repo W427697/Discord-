@@ -142,11 +142,10 @@ export const doUpgrade = async ({
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
+  const [latestVersion, packageJson] = await Promise.all([
     //
     packageManager.latestVersion('@storybook/cli'),
     packageManager.retrievePackageJson(),
-    getCoercedStorybookVersion(packageManager),
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
@@ -194,7 +193,7 @@ export const doUpgrade = async ({
   });
 
   // GUARDS
-  if (!storybookVersion) {
+  if (!beforeVersion) {
     logger.info(missingStorybookVersionMessage());
     results = { preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION };
   } else if (
@@ -262,7 +261,7 @@ export const doUpgrade = async ({
   }
 
   // AUTOMIGRATIONS
-  if (!skipCheck && !results && mainConfigPath && storybookVersion) {
+  if (!skipCheck && !results && mainConfigPath) {
     checkVersionConsistency();
     results = await automigrate({
       dryRun,
@@ -270,7 +269,7 @@ export const doUpgrade = async ({
       packageManager,
       configDir,
       mainConfigPath,
-      storybookVersion,
+      storybookVersion: currentVersion,
     });
   }
 

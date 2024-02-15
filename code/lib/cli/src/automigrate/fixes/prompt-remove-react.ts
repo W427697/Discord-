@@ -25,7 +25,7 @@ export const removeReactDependency: Fix<{}> = {
     }
 
     // do not prompt to remove react for older versions of storybook
-    if (!semver.gte(storybookVersion, '8.0.0')) {
+    if (!semver.gte(storybookVersion, '8.0.0-alpha.4')) {
       return null;
     }
 
