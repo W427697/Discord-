@@ -97,11 +97,13 @@ Going through the code blocks in sequence:
 // src/Tool.tsx
 
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
-
-import { Icons, IconButton } from '@storybook/components';
+import { IconButton } from '@storybook/components';
+import { LightningIcon } from '@storybook/icons';
 ```
 
-The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
+The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it.
+
+The `IconButton` or `Button` component from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package can be used to render the buttons in the toolbar. The [`@storybook/icons`](https://github.com/storybookjs/icons) package provides a large set of appropriately sized and styled icons to choose from.
 
 ```ts
 // src/Tool.tsx
@@ -129,12 +131,7 @@ export const Tool = memo(function MyAddonSelector() {
   }, [toggleMyTool, api]);
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Apply outlines to the preview"
-      onClick={toggleMyTool}
-    >
+    <IconButton key={TOOL_ID} active={isActive} title="Enable my addon" onClick={toggleMyTool}>
       <LightningIcon />
     </IconButton>
   );
@@ -155,7 +152,14 @@ Moving onto the manager, here we register the addon with Storybook using a uniqu
 
 <!-- prettier-ignore-end -->
 
-Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you must adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
+### Conditionally render the addon
+
+Notice the `match` property. It allows you to control the view mode (story or docs) and tab (the story canvas or [custom tabs](./addon-types.md#tabs)) where the toolbar addon is visible. For example:
+
+- `({ tabId }) => tabId === 'my-addon/tab'` will show your addon when viewing the tab with the ID `my-addon/tab`.
+- `({ viewMode }) => viewMode === 'story'` will show your addon when viewing a story in the canvas.
+- `({ viewMode }) => viewMode === 'docs'` will show your addon when viewing the documentation for a component.
+- `({ tabId, viewMode }) => !tabId && viewMode === 'story'` will show your addon when viewing a story in the canvas and not in a custom tab (i.e. when `tabId === undefined`).
 
 Run the `start` script to build and start Storybook and verify that the addon is registered correctly and showing in the UI.
 
