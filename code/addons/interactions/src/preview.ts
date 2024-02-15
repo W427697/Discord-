@@ -2,7 +2,6 @@ import type { ArgsEnhancer, Renderer } from '@storybook/types';
 import { fn, isMockFunction } from '@storybook/test';
 
 const traverseArgs = (value: unknown, depth = 0, key?: string): any => {
-  console.log(1);
   // Make sure to not get in infinite loops with self referencing args
   if (depth > 5) return value;
   if (value == null) return value;
