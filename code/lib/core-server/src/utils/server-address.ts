@@ -1,16 +1,20 @@
-import { internalIpV4Sync } from 'internal-ip';
+const logger = require('@storybook/node-logger');
+const detectFreePort = require('detect-port');
 
-import { logger } from '@storybook/node-logger';
-import detectFreePort from 'detect-port';
-
-export function getServerAddresses(
+export async function getServerAddresses(
   port: number,
   host: string | undefined,
   proto: string,
   initialPath?: string
 ) {
   const address = new URL(`${proto}://localhost:${port}/`);
-  const networkAddress = new URL(`${proto}://${host || internalIpV4Sync()}:${port}/`);
+
+  // importing purely ESM 'internal-ip' package asynchronously to support CommonJS outputs
+  const internalIp = await import('internal-ip');
+
+  const networkAddress = new URL(
+    `${proto}://${host || internalIp.internalIpV4Sync()}:${port}/`
+  );
 
   if (initialPath) {
     const searchParams = `?path=${decodeURIComponent(
