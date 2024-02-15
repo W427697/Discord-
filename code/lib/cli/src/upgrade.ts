@@ -45,11 +45,8 @@ const getInstalledStorybookVersion = async (packageManager: JsPackageManager) =>
   if (!installations) {
     return;
   }
-  const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
-  if (cliVersion) {
-    return cliVersion;
-  }
-  return installations.dependencies['storybook']?.[0].version;
+
+  return Object.entries(installations.dependencies)[0]?.[1]?.[0].version;
 };
 
 const deprecatedPackages = [
