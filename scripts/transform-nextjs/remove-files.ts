@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 
 export function removeFiles(docsDir) {
   const filePath1 = `${docsDir}/frameworks.js`;

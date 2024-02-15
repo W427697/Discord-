@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 import * as path from 'path';
 
 export async function convertMdToMdx(directoryPath: string) {

@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 import * as path from 'path';
 import { remark } from 'remark';
 import remarkMdx from 'remark-mdx';
@@ -35,6 +35,7 @@ export const transformPaths = async (docsDir) => {
   });
 
   files.forEach((file) => {
+    console.log(file);
     const filePath = path.join(docsDir, file);
     const markdown = fs.readFileSync(filePath).toString();
 

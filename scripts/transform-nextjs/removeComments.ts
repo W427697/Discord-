@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 import * as path from 'path';
 
 export function removecomments(directoryPath: string) {
@@ -27,7 +27,13 @@ export function removecomments(directoryPath: string) {
 
               const newData = data
                 .replace(/\n<!-- prettier-ignore-start -->\n/g, '')
-                .replace(/\n<!-- prettier-ignore-end -->\n/g, '');
+                .replace(/\n<!-- prettier-ignore-end -->\n/g, '')
+                .replace(/\n<!-- Re-read this for accuracy -->\n/g, '')
+                .replace(/\n<!-- TODO: Is this used\? Should it be documented\? -->\n/g, '')
+                .replace(
+                  /<!--\n  We intentionally do not use markdown tables here[\s\S]*?-->/g,
+                  ''
+                );
 
               fs.writeFile(filePath, newData, 'utf8', (err3) => {
                 if (err3) throw err3;

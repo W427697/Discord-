@@ -1,13 +1,13 @@
 import chalk from 'chalk';
+import prompts from 'prompts';
 import { transformSnippets } from './transform-snippets-1';
 import { convertMdToMdx } from './convert-to-mdx';
 import { removecomments } from './removeComments';
-import prompts from 'prompts';
 import { transformPaths } from './transform-snippets-2';
 import { moveMediaFiles } from './move-assets';
 import { removeFiles } from './remove-files';
 
-const docsDir = '../docs';
+const docsDir = '../../docs';
 const assetsDir = `${docsDir}/_assets`;
 const oldSnippetsDir = `${docsDir}/snippets`;
 const newSnippetsDir = `${docsDir}/_snippets`;
@@ -22,7 +22,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to move all assets into the right folder?',
-    initial: true,
+    initial: false,
   });
 
   if (step1.value === true) moveMediaFiles(docsDir, assetsDir);
@@ -31,7 +31,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert all md files into mdx files?',
-    initial: true,
+    initial: false,
   });
 
   if (step2.value === true) convertMdToMdx(docsDir);
@@ -40,7 +40,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove all comments?',
-    initial: true,
+    initial: false,
   });
 
   if (step3.value === true) removecomments(docsDir);
@@ -49,7 +49,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to transform snippets?',
-    initial: true,
+    initial: false,
   });
 
   if (step4.value === true) transformSnippets(oldSnippetsDir, newSnippetsDir);
@@ -67,7 +67,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove unnecessary files?',
-    initial: true,
+    initial: false,
   });
 
   if (step6.value === true) removeFiles(docsDir);
