@@ -1,12 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { getServerAddresses, getServerPort, getServerChannelUrl } from './server-address';
 import detectPort from 'detect-port';
-import internalIP from 'internal-ip';
 
 vi.mock('internal-ip', () => ({
-  default: {
-    internalIpV4Sync: vi.fn(),
-  },
+  internalIpV4Sync: vi.fn(),
 }));
 vi.mock('detect-port');
 vi.mock('@storybook/node-logger');
@@ -57,7 +54,7 @@ describe('getServerAddresses', () => {
     const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
     const expectedNetworkAddress = `${proto}://${mockedNetworkIP}:${port}/?path=/foo/bar`;
 
-    vi.mocked(internalIP).internalIpV4Sync.mockReturnValue('192.168.0.5');
+    vi.mocked(await import('internal-ip')).internalIpV4Sync.mockReturnValue('192.168.0.5');
 
     const result = await getServerAddresses(port, undefined, proto, initialPath);
 

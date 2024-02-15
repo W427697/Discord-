@@ -1,16 +1,13 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { getServerAddresses } from '../server-address';
-import internalIP from 'internal-ip';
 
 vi.mock('internal-ip', () => ({
-  default: {
-    internalIpV4Sync: vi.fn(),
-  },
+  internalIpV4Sync: vi.fn(),
 }));
 
 describe('getServerAddresses', () => {
   beforeEach(async () => {
-    vi.mocked(internalIP).internalIpV4Sync.mockReturnValue('192.168.0.5');
+    vi.mocked(await import('internal-ip')).internalIpV4Sync.mockReturnValue('192.168.0.5');
   });
 
   it('builds addresses with a specified host', async () => {

@@ -11,7 +11,7 @@ export async function getServerAddresses(
 
   const networkAddress = new URL(
     // importing purely ESM 'internal-ip' package asynchronously to support CommonJS outputs
-    `${proto}://${host || (await import('internal-ip')).default.internalIpV4Sync()}:${port}/`
+    `${proto}://${host || (await import('internal-ip')).internalIpV4Sync()}:${port}/`
   );
 
   if (initialPath) {
