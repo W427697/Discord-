@@ -2,6 +2,7 @@ import type { ArgsEnhancer, Renderer } from '@storybook/types';
 import { fn, isMockFunction } from '@storybook/test';
 
 const traverseArgs = (value: unknown, depth = 0, key?: string): any => {
+  console.log(1);
   // Make sure to not get in infinite loops with self referencing args
   if (depth > 5) return value;
   if (value == null) return value;
@@ -30,7 +31,7 @@ const traverseArgs = (value: unknown, depth = 0, key?: string): any => {
   if (typeof value === 'object' && value.constructor === Object) {
     // We have to mutate the original object for this to survive HMR.
     for (const [k, v] of Object.entries(value)) {
-      (value as Record<string, unknown>)[k] = traverseArgs(v, depth++, key);
+      (value as Record<string, unknown>)[k] = traverseArgs(v, depth++, k);
     }
     return value;
   }
