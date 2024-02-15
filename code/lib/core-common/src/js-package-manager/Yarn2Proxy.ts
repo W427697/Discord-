@@ -261,7 +261,7 @@ export class Yarn2Proxy extends JsPackageManager {
     lines.forEach((packageName) => {
       if (
         !packageName ||
-        !pattern.some((p) => new RegExp(p.replace(/\*/g, '.*')).test(packageName))
+        !pattern.some((p) => new RegExp(`"${p.replace(/\*/g, '.*')}`).test(packageName))
       ) {
         return;
       }

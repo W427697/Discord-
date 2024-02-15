@@ -189,7 +189,10 @@ export class Yarn1Proxy extends JsPackageManager {
       const recurse = (tree: (typeof trees)[0]) => {
         const { children } = tree;
         const { name, value } = parsePackageData(tree.name);
-        if (!name || !pattern.some((p) => new RegExp(p.replace(/\*/g, '.*')).test(name))) return;
+        if (!name || !pattern.some((p) => new RegExp(`^${p.replace(/\*/g, '.*')}$`).test(name))) {
+          return;
+        }
+
         if (!existingVersions[name]?.includes(value.version)) {
           if (acc[name]) {
             acc[name].push(value);

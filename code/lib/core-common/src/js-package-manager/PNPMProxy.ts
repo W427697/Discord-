@@ -253,7 +253,9 @@ export class PNPMProxy extends JsPackageManager {
 
     const recurse = ([name, packageInfo]: [string, PnpmDependency]): void => {
       // transform pattern into regex where `*` is replaced with `.*`
-      if (!name || !pattern.some((p) => new RegExp(p.replace(/\*/g, '.*')).test(name))) return;
+      if (!name || !pattern.some((p) => new RegExp(`^${p.replace(/\*/g, '.*')}$`).test(name))) {
+        return;
+      }
 
       const value = {
         version: packageInfo.version,
