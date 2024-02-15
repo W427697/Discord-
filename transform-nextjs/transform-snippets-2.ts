@@ -35,7 +35,6 @@ export const transformPaths = async (docsDir) => {
   });
 
   files.forEach((file) => {
-    if (file !== 'test/test.mdx') return;
     const filePath = path.join(docsDir, file);
     const markdown = fs.readFileSync(filePath).toString();
 

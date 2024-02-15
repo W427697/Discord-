@@ -22,7 +22,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to move all assets into the right folder?',
-    initial: false,
+    initial: true,
   });
 
   if (step1.value === true) moveMediaFiles(docsDir, assetsDir);
@@ -31,7 +31,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to convert all md files into mdx files?',
-    initial: false,
+    initial: true,
   });
 
   if (step2.value === true) convertMdToMdx(docsDir);
@@ -40,7 +40,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove all comments?',
-    initial: false,
+    initial: true,
   });
 
   if (step3.value === true) removecomments(docsDir);
@@ -49,7 +49,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to transform snippets?',
-    initial: false,
+    initial: true,
   });
 
   if (step4.value === true) transformSnippets(oldSnippetsDir, newSnippetsDir);
@@ -67,7 +67,7 @@ const newSnippetsDir = `${docsDir}/_snippets`;
     type: 'confirm',
     name: 'value',
     message: 'Do you want to remove unnecessary files?',
-    initial: false,
+    initial: true,
   });
 
   if (step6.value === true) removeFiles(docsDir);
