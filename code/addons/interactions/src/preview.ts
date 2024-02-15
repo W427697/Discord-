@@ -24,13 +24,15 @@ const traverseArgs = (value: unknown, depth = 0, key?: string): any => {
   }
 
   if (Array.isArray(value)) {
-    return value.map((item) => traverseArgs(item, depth++));
+    depth++;
+    return value.map((item) => traverseArgs(item, depth));
   }
 
   if (typeof value === 'object' && value.constructor === Object) {
+    depth++;
     // We have to mutate the original object for this to survive HMR.
     for (const [k, v] of Object.entries(value)) {
-      (value as Record<string, unknown>)[k] = traverseArgs(v, depth++, k);
+      (value as Record<string, unknown>)[k] = traverseArgs(v, depth, k);
     }
     return value;
   }
