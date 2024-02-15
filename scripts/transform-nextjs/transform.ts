@@ -16,9 +16,9 @@ const MdNumber = countMarkdownFiles(docsDir);
 const AssetsNumber = countAssetsFiles(docsDir);
 
 (async () => {
-  console.log(chalk.cyan('---------------------------'));
-  console.log(chalk.cyan("-- Let's move to Next.js --"));
-  console.log(chalk.cyan('---------------------------'));
+  console.log(chalk.cyan('---------------------------------------------------------------'));
+  console.log(chalk.cyan("--                  Let's move to Next.js 🚀               ----"));
+  console.log(chalk.cyan('---------------------------------------------------------------'));
   console.log(' ');
 
   const step1 = await prompts({
@@ -28,11 +28,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step1.value === true) moveMediaFiles(docsDir, assetsDir);
-
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All ${AssetsNumber} md files have been converted to mdx files`));
-  console.log(' ');
+  if (step1.value === true) {
+    moveMediaFiles(docsDir, assetsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All ${AssetsNumber} md files have been converted to mdx files`));
+    console.log(' ');
+  }
 
   const step2 = await prompts({
     type: 'confirm',
@@ -41,11 +42,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step2.value === true) convertMdToMdx(docsDir);
-
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All ${MdNumber} md files have been converted to mdx files`));
-  console.log(' ');
+  if (step2.value === true) {
+    convertMdToMdx(docsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All ${MdNumber} md files have been converted to mdx files`));
+    console.log(' ');
+  }
 
   const step3 = await prompts({
     type: 'confirm',
@@ -54,11 +56,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step3.value === true) removecomments(docsDir);
-
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All comments have been removed from mdx files`));
-  console.log(' ');
+  if (step3.value === true) {
+    removecomments(docsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All comments have been removed from mdx files`));
+    console.log(' ');
+  }
 
   const step4 = await prompts({
     type: 'confirm',
@@ -67,11 +70,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step4.value === true) transformSnippets(oldSnippetsDir, newSnippetsDir);
-
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All snippets have been transformed to the new format`));
-  console.log(' ');
+  if (step4.value === true) {
+    transformSnippets(oldSnippetsDir, newSnippetsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All snippets have been transformed to the new format`));
+    console.log(' ');
+  }
 
   const step5 = await prompts({
     type: 'confirm',
@@ -80,11 +84,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step5.value === true) transformPaths(docsDir);
-
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All snippets paths have been transformed to the new format`));
-  console.log(' ');
+  if (step5.value === true) {
+    transformPaths(docsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All snippets paths have been transformed to the new format`));
+    console.log(' ');
+  }
 
   const step6 = await prompts({
     type: 'confirm',
@@ -93,10 +98,12 @@ const AssetsNumber = countAssetsFiles(docsDir);
     initial: true,
   });
 
-  if (step6.value === true) removeFiles(docsDir);
+  if (step6.value === true) {
+    removeFiles(docsDir);
+    console.log(' ');
+    console.log(chalk.cyan(`  ✨ All unnecessary files have been removed from the docs folder`));
+  }
 
-  console.log(' ');
-  console.log(chalk.cyan(`  ✨ All unnecessary files have been removed from the docs folder`));
   console.log(' ');
   console.log('🤍 Done');
 })();
