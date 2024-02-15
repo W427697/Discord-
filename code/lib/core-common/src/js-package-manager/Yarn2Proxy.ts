@@ -119,7 +119,7 @@ export class Yarn2Proxy extends JsPackageManager {
     });
 
     try {
-      return this.mapDependencies(commandResult);
+      return this.mapDependencies(commandResult, pattern);
     } catch (e) {
       return undefined;
     }
@@ -252,14 +252,17 @@ export class Yarn2Proxy extends JsPackageManager {
     }
   }
 
-  protected mapDependencies(input: string): InstallationMetadata {
+  protected mapDependencies(input: string, pattern: string[]): InstallationMetadata {
     const lines = input.split('\n');
     const acc: Record<string, PackageMetadata[]> = {};
     const existingVersions: Record<string, string[]> = {};
     const duplicatedDependencies: Record<string, string[]> = {};
 
     lines.forEach((packageName) => {
-      if (!packageName || !packageName.includes('storybook')) {
+      if (
+        !packageName ||
+        !pattern.some((p) => new RegExp(p.replace(/\*/g, '.*')).test(packageName))
+      ) {
         return;
       }
 
