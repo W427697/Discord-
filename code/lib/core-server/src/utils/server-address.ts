@@ -1,5 +1,5 @@
-const logger = require('@storybook/node-logger');
-const detectFreePort = require('detect-port');
+import { logger } from '@storybook/node-logger';
+import detectFreePort from 'detect-port';
 
 export async function getServerAddresses(
   port: number,
@@ -9,11 +9,9 @@ export async function getServerAddresses(
 ) {
   const address = new URL(`${proto}://localhost:${port}/`);
 
-  // importing purely ESM 'internal-ip' package asynchronously to support CommonJS outputs
-  const internalIp = await import('internal-ip');
-
   const networkAddress = new URL(
-    `${proto}://${host || internalIp.internalIpV4Sync()}:${port}/`
+    // importing purely ESM 'internal-ip' package asynchronously to support CommonJS outputs
+    `${proto}://${host || (await import('internal-ip')).default.internalIpV4Sync()}:${port}/`
   );
 
   if (initialPath) {

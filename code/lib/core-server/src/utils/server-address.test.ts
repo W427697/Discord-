@@ -1,8 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
-import detectPort from 'detect-port';
 import { getServerAddresses, getServerPort, getServerChannelUrl } from './server-address';
+import detectPort from 'detect-port';
+import internalIP from 'internal-ip';
 
-vi.mock('internal-ip');
+vi.mock('internal-ip', () => ({
+  default: {
+    internalIpV4Sync: vi.fn(),
+  },
+}));
 vi.mock('detect-port');
 vi.mock('@storybook/node-logger');
 
@@ -11,35 +16,50 @@ describe('getServerAddresses', () => {
   const host = 'localhost';
   const proto = 'http';
 
-  it('should return server addresses without initial path by default', () => {
+  it('should return server addresses without initial path by default', async () => {
     const expectedAddress = `${proto}://localhost:${port}/`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/`;
 
-    const result = getServerAddresses(port, host, proto);
+    const result = await getServerAddresses(port, host, proto);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
   });
 
-  it('should return server addresses with initial path', () => {
+  it('should return server addresses with initial path', async () => {
     const initialPath = '/foo/bar';
 
     const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/?path=/foo/bar`;
 
-    const result = getServerAddresses(port, host, proto, initialPath);
+    const result = await getServerAddresses(port, host, proto, initialPath);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
   });
 
-  it('should return server addresses with initial path and add slash if missing', () => {
+  it('should return server addresses with initial path and add slash if missing', async () => {
     const initialPath = 'foo/bar';
 
     const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/?path=/foo/bar`;
 
-    const result = getServerAddresses(port, host, proto, initialPath);
+    const result = await getServerAddresses(port, host, proto, initialPath);
+
+    expect(result.address).toBe(expectedAddress);
+    expect(result.networkAddress).toBe(expectedNetworkAddress);
+  });
+
+  it('should return the internal ip if host is not specified', async () => {
+    const initialPath = 'foo/bar';
+    const mockedNetworkIP = '192.168.0.5';
+
+    const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
+    const expectedNetworkAddress = `${proto}://${mockedNetworkIP}:${port}/?path=/foo/bar`;
+
+    vi.mocked(internalIP).internalIpV4Sync.mockReturnValue('192.168.0.5');
+
+    const result = await getServerAddresses(port, undefined, proto, initialPath);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
