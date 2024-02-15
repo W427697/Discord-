@@ -5528,6 +5528,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
+    chalk: "npm:^4.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   languageName: unknown

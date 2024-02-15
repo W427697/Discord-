@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
@@ -391,6 +392,49 @@ export class NoMatchingExportError extends StorybookError {
 
       Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
     `;
+  }
+}
+
+export class MainFileESMOnlyImportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 5;
+
+  constructor(
+    public data: { location: string; line: string | undefined; num: number | undefined }
+  ) {
+    super();
+  }
+
+  template() {
+    const message = [
+      `Storybook failed to load ${location}..`,
+      '',
+      `It looks like the file tried to load/import an ESM only module.`,
+      `Support for this is currently limited in ${location}.`,
+      `You can import ESM modules in your main file, but only as dynamic import.`,
+      '',
+    ];
+    if (this.data.line) {
+      message.push(
+        chalk.white(
+          `In your ${chalk.yellow(
+            this.data.location
+          )} file, this line threw an error: ${chalk.bold.cyan(
+            this.data.num
+          )}, which looks like this:`
+        ),
+        chalk.grey(this.data.line)
+      );
+    }
+
+    message.push(
+      '',
+      chalk.white(`Convert the dynamic import to an dynamic import where they are used.`),
+      chalk.white(`Example:`) + ' ' + chalk.gray(`await import(<your ESM only module>);`)
+    );
+
+    return message.join('\n');
   }
 }
 

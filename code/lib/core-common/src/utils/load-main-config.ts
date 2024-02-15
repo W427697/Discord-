@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
 import { readFile } from 'fs/promises';
-import chalk from 'chalk';
+import { MainFileESMOnlyImportError } from '@storybook/core-events/server-errors';
 
 export async function loadMainConfig({
   configDir = '.storybook',
@@ -29,37 +29,22 @@ export async function loadMainConfig({
     }
     if (e.message.match(/Cannot use import statement outside a module/)) {
       const location = relative(process.cwd(), mainJsPath);
-      const line = e.stack?.match(new RegExp(`${location}:(\\d+):(\\d+)`))?.[1];
-      const message = [
-        `Storybook failed to load ${location}..`,
-        '',
-        `It looks like the file tried to load/import an ESM only module.`,
-        `Support for this is currently limited in ${location}.`,
-        `You can import ESM modules in your main file, but only as dynamic import.`,
-        '',
-      ];
+      const numFromStack = e.stack?.match(new RegExp(`${location}:(\\d+):(\\d+)`))?.[1];
+      let num;
+      let line;
 
-      if (line) {
+      if (numFromStack) {
         const contents = await readFile(mainJsPath, 'utf-8');
         const lines = contents.split('\n');
-        const num = parseInt(line, 10) - 1;
-
-        message.push(
-          chalk.white(
-            `In your ${chalk.yellow(location)} file, this line threw an error: ${chalk.bold.cyan(
-              num
-            )}, which looks like this:`
-          ),
-          chalk.grey(lines[num])
-        );
+        num = parseInt(numFromStack, 10) - 1;
+        line = lines[num];
       }
-      message.push(
-        '',
-        chalk.white(`Convert the dynamic import to an dynamic import where they are used.`),
-        chalk.white(`Example:`) + ' ' + chalk.gray(`await import(<your ESM only module>);`)
-      );
 
-      const out = new Error(message.join('\n'));
+      const out = new MainFileESMOnlyImportError({
+        line,
+        location,
+        num,
+      });
 
       delete out.stack;
 
