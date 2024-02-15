@@ -1,9 +1,5 @@
-import fs from 'fs';
+import * as fs from "fs";
 
-const snippetsDir = 'docs/snippets';
-const newSnippetsDir = 'docs/_snippets';
-
-const root = fs.readdirSync(snippetsDir);
 
 type Snippet = {
   path: string;
@@ -20,12 +16,13 @@ type Snippet = {
   newContent: string;
 };
 
-export const transformSnippets = async () => {
+export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
+  const root = fs.readdirSync(oldSnippetsDir);
   const snippets: Snippet[] = [];
 
   // Iterate over each folder in the snippets directory
   root.forEach((dir) => {
-    const folder = fs.readdirSync(`${snippetsDir}/${dir}`).map((file) => {
+    const folder = fs.readdirSync(`${oldSnippetsDir}/${dir}`).map((file) => {
       const segments = file.split('.');
       segments.pop();
 
@@ -54,7 +51,7 @@ export const transformSnippets = async () => {
 
       const language = segments[segments.length - 1];
 
-      const content = fs.readFileSync(`${snippetsDir}/${dir}/${file}`, 'utf8');
+      const content = fs.readFileSync(`${oldSnippetsDir}/${dir}/${file}`, 'utf8');
 
       // take first line of content
       const firstLine = content.split('\n')[0];

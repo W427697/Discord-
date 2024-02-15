@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from "fs";
+import * as path from 'path';
 
 export async function convertMdToMdx(directoryPath: string) {
   const files = fs.readdirSync(directoryPath);

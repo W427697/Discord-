@@ -1,12 +1,12 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from "fs";
+import * as path from 'path';
 import { remark } from 'remark';
 import remarkMdx from 'remark-mdx';
 import { visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
 
-export const transformPaths = async () => {
-  const root = fs.readdirSync('docs');
+export const transformPaths = async (docsDir) => {
+  const root = fs.readdirSync(docsDir);
 
   const filterRoot = root.filter(
     (dir) =>
@@ -24,9 +24,9 @@ export const transformPaths = async () => {
   const files: string[] = [];
 
   filterRoot.forEach((node) => {
-    const isDirectory = fs.lstatSync(`docs/${node}`).isDirectory();
+    const isDirectory = fs.lstatSync(`${docsDir}/${node}`).isDirectory();
     if (isDirectory) {
-      const folder = fs.readdirSync(`docs/${node}`);
+      const folder = fs.readdirSync(`${docsDir}/${node}`);
       const listOfMarkdownFiles = folder.filter((str) => str.endsWith('.mdx'));
       files.push(...listOfMarkdownFiles.map((file) => path.join(node, file)));
     } else {
@@ -36,26 +36,34 @@ export const transformPaths = async () => {
 
   files.forEach((file) => {
     if (file !== 'test/test.mdx') return;
-    const filePath = path.join('docs', file);
+    const filePath = path.join(docsDir, file);
     const markdown = fs.readFileSync(filePath).toString();
 
     const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
     const rootFile = mdxProcessor.parse(markdown);
 
     visit(rootFile, (node) => {
-      if (node.type === 'mdxJsxFlowElement' || node.type === 'mdxJsxTextElement') {
+      if (node.type === 'mdxJsxFlowElement') {
         if (is(node, { name: 'CodeSnippets' })) {
-          console.log(node);
+          const oldPaths = node.attributes.find((attr) => 'name' in attr && attr.name === 'paths');
 
-          // const oldPaths = node.attributes.find((attr) => attr.name === 'paths');
+          const oldValue = typeof oldPaths.value !== 'string' && oldPaths.value.value;
+
+          // Remove the first and last characters (the square brackets)
+          const trimmedStr = oldValue.slice(1, -1);
+
+          // Split the string into an array of strings
+          const arr = trimmedStr.split(',\n').map((s) => s.trim().slice(1, -1));
+
+          const split1 = arr[0].split('/');
+          const split2 = split1[split1.length - 1].split('.');
+          const newPath = `${split2[0]}.${split2[split2.length - 1]}`;
+
           node.attributes = [
             {
               type: 'mdxJsxAttribute',
-              name: 'paths',
-              value: {
-                type: 'mdxJsxAttributeValueExpression',
-                value: JSON.stringify(['bla']),
-              },
+              name: 'path',
+              value: newPath,
             },
           ];
         }
@@ -63,11 +71,9 @@ export const transformPaths = async () => {
     });
 
     const newMdx = mdxProcessor.stringify(rootFile);
-    console.log(newMdx);
 
     fs.writeFile(filePath, newMdx, (err) => {
       if (err) throw err;
-      console.log('The file has been replaced!');
     });
   });
 };

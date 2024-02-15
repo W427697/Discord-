@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from "fs";
+import * as path from 'path';
 
 export function moveMediaFiles(
   sourceDirectory: string,
@@ -20,8 +20,8 @@ export function moveMediaFiles(
         const relativePath = path.relative(sourceDirectory, currentDirectory);
         let targetPathDirectory = path.join(targetDirectory, relativePath);
 
-        if (targetPathDirectory === 'docs/_assets/assets') {
-          targetPathDirectory = 'docs/_assets/migration-guide';
+        if (targetPathDirectory === `${targetDirectory}/assets`) {
+          targetPathDirectory = `${targetDirectory}/migration-guide`;
         }
 
         if (!fs.existsSync(targetPathDirectory)) {
