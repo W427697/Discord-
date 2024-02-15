@@ -57,7 +57,7 @@ export const transformPaths = async (docsDir) => {
 
           const split1 = arr[0].split('/');
           const split2 = split1[split1.length - 1].split('.');
-          const newPath = `${split2[0]}.${split2[split2.length - 1]}`;
+          const newPath = `${split2[0]}.md`;
 
           node.attributes = [
             {
