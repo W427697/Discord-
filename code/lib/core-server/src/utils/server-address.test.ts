@@ -11,35 +11,35 @@ describe('getServerAddresses', () => {
   const host = 'localhost';
   const proto = 'http';
 
-  it('should return server addresses without initial path by default', () => {
+  it('should return server addresses without initial path by default', async () => {
     const expectedAddress = `${proto}://localhost:${port}/`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/`;
 
-    const result = getServerAddresses(port, host, proto);
+    const result = await getServerAddresses(port, host, proto);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
   });
 
-  it('should return server addresses with initial path', () => {
+  it('should return server addresses with initial path', async () => {
     const initialPath = '/foo/bar';
 
     const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/?path=/foo/bar`;
 
-    const result = getServerAddresses(port, host, proto, initialPath);
+    const result = await getServerAddresses(port, host, proto, initialPath);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
   });
 
-  it('should return server addresses with initial path and add slash if missing', () => {
+  it('should return server addresses with initial path and add slash if missing', async () => {
     const initialPath = 'foo/bar';
 
     const expectedAddress = `${proto}://localhost:${port}/?path=/foo/bar`;
     const expectedNetworkAddress = `${proto}://${host}:${port}/?path=/foo/bar`;
 
-    const result = getServerAddresses(port, host, proto, initialPath);
+    const result = await getServerAddresses(port, host, proto, initialPath);
 
     expect(result.address).toBe(expectedAddress);
     expect(result.networkAddress).toBe(expectedNetworkAddress);
