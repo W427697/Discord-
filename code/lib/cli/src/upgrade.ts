@@ -23,13 +23,14 @@ import {
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
 import { PreCheckFailure } from './automigrate/types';
+import { legacy_getStorybookVersion } from './utils/legacy_storybookVersionDetection';
 
 type Package = {
   package: string;
   version: string;
 };
 
-const versionRegex = /(@storybook\/[^@]+)@(\S+)/;
+export const versionRegex = /(@storybook\/[^@]+)@(\S+)/;
 export const getStorybookVersion = (line: string) => {
   if (line.startsWith('npm ')) return null;
   const match = versionRegex.exec(line);
@@ -43,7 +44,14 @@ export const getStorybookVersion = (line: string) => {
 const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
   const installations = await packageManager.findInstallations(['storybook', '@storybook/cli']);
   if (!installations) {
-    return;
+    /**
+     * In older versions of Storybook, the user may not have a direct dependency on the CLI package.
+     * In this case, we need to use the legacy method to determine the version.
+     * @see legacy_getStorybookVersion
+     * @deprecated
+     * @remove in SB9 (or when we drop support for upgrading from SB6 & SB7)
+     */
+    return legacy_getStorybookVersion();
   }
   const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
   if (cliVersion) {
