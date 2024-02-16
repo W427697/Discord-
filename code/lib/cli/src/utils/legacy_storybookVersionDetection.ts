@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { sync as spawnSync } from 'cross-spawn';
 import semver from 'semver';
-import { versionRegex } from '../upgrade';
+
+const legacy_versionRegex = /(@storybook\/[^@]+)@(\S+)/;
 
 const legacy_excludeList = [
   '@storybook/linter-config',
@@ -39,7 +40,7 @@ export const legacy_getStorybookVersion = (): string | undefined => {
   const result = lines
     .map((line) => {
       if (line.startsWith('npm ')) return null;
-      const match = versionRegex.exec(line);
+      const match = legacy_versionRegex.exec(line);
       if (!match || !semver.clean(match[2])) return null;
       return {
         package: match[1],

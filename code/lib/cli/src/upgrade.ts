@@ -30,7 +30,7 @@ type Package = {
   version: string;
 };
 
-export const versionRegex = /(@storybook\/[^@]+)@(\S+)/;
+const versionRegex = /(@storybook\/[^@]+)@(\S+)/;
 export const getStorybookVersion = (line: string) => {
   if (line.startsWith('npm ')) return null;
   const match = versionRegex.exec(line);
