@@ -1,13 +1,24 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import ip from 'ip';
+import os from 'os';
 import { getServerAddresses } from '../server-address';
 
-vi.mock('ip');
-const mockedIp = vi.mocked(ip);
+vi.mock('os');
+const mockedOs = vi.mocked(os);
 
 describe('getServerAddresses', () => {
   beforeEach(() => {
-    mockedIp.address.mockReturnValue('192.168.0.5');
+    mockedOs.networkInterfaces.mockReturnValue({
+      eth0: [
+        {
+          address: '192.168.0.5',
+          netmask: '255.255.255.0',
+          family: 'IPv4',
+          mac: '01:02:03:0a:0b:0c',
+          internal: false,
+          cidr: '192.168.1.108/24',
+        },
+      ],
+    });
   });
 
   it('builds addresses with a specified host', () => {
