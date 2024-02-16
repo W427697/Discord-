@@ -13,6 +13,8 @@ interface Webpack5RunOptions {
 export const viteConfigFile = {
   id: 'viteConfigFile',
 
+  versionRange: ['<8.0.0-beta.3', '>=8.0.0-beta.3'],
+
   async check({ mainConfig, packageManager }) {
     const viteConfigPath = await findUp([
       'vite.config.js',
@@ -85,7 +87,7 @@ export const viteConfigFile = {
   prompt({ existed, plugins }) {
     if (existed) {
       return dedent`
-        Storybook 8.0.0 no longer ships with a Vite config build-in.
+        Since version 8.0.0, Storybook no longer ships with a Vite config build-in.
         We've detected you do have a Vite config, but you may be missing the following plugins in it.
 
         ${plugins.map((plugin) => `  - ${plugin}`).join('\n')}
@@ -99,7 +101,7 @@ export const viteConfigFile = {
       `;
     }
     return dedent`
-      Storybook 8.0.0 no longer ships with a Vite config build-in.
+      Since version 8.0.0, Storybook no longer ships with a Vite config build-in.
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:

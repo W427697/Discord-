@@ -3,9 +3,14 @@ import semver from 'semver';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 
+// This fix is only relevant for projects using Storybook 8.0.0-alpha.4 or later
+const minimumStorybookVersion = '8.0.0-alpha.4';
+
 export const removeReactDependency: Fix<{}> = {
   id: 'remove-react-dependency',
   promptOnly: true,
+
+  versionRange: ['>=7 <8.0.0-alpha.4', `>=${minimumStorybookVersion}`],
 
   async check({ packageManager, mainConfig, storybookVersion }) {
     // when the user is using the react renderer, we should not prompt them to remove react
@@ -25,7 +30,7 @@ export const removeReactDependency: Fix<{}> = {
     }
 
     // do not prompt to remove react for older versions of storybook
-    if (!semver.gte(storybookVersion, '8.0.0-alpha.4')) {
+    if (!semver.gte(storybookVersion, minimumStorybookVersion)) {
       return null;
     }
 
@@ -36,7 +41,7 @@ export const removeReactDependency: Fix<{}> = {
       We detected that your project has a dependency for "react" that it might not need.
       Nothing breaks by having it, you can safely ignore this message, if you wish.
 
-      Storybook asked you to add "react" as a direct dependency in the past.
+      Storybook asked you to add "react" as a direct dependency in the past when upgrading from Storybook 6 to 7.
       However, since version 8.0, Storybook no longer requires you to provide "react" as a dependency.
       Some community addons might still wrongfully list "react" and "react-dom" as required peer dependencies, but since Storybook 7.6 it should not be needed in the majority of cases.
       

@@ -16,7 +16,6 @@ import {
   isCorePackage,
   versions,
   getStorybookInfo,
-  getCoercedStorybookVersion,
   loadMainConfig,
   JsPackageManagerFactory,
 } from '@storybook/core-common';
@@ -276,7 +275,9 @@ export const doUpgrade = async ({
       packageManager,
       configDir,
       mainConfigPath,
+      beforeVersion,
       storybookVersion: currentVersion,
+      isUpgrade: true,
     });
   }
 
