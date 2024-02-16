@@ -1,4 +1,4 @@
-import { bold, gray, grey, white, yellow } from 'chalk';
+import { bold, gray, grey, white, yellow, underline } from 'chalk';
 import dedent from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
@@ -421,9 +421,9 @@ export class MainFileESMOnlyImportError extends StorybookError {
     if (this.data.line) {
       message.push(
         white(
-          `In your ${yellow(this.data.location)} file, this line threw an error: ${bold.cyan(
+          `In your ${yellow(this.data.location)} file, line ${bold.cyan(
             this.data.num
-          )}, which looks like this:`
+          )} threw an error, which looks like this:`
         ),
         grey(this.data.line)
       );
@@ -431,8 +431,10 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
     message.push(
       '',
-      white(`Convert the static import to an dynamic import where they are used.`),
-      white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`)
+      white(`Convert the static import to an dynamic import ${underline('where they are used')}.`),
+      white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`),
+      '',
+      'For more information, please read the documentation link below.'
     );
 
     return message.join('\n');
@@ -443,6 +445,8 @@ export class MainFileMissingError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
   readonly code = 6;
+
+  readonly stack = '';
 
   public readonly documentation = 'https://storybook.js.org/docs/configure';
 
@@ -460,22 +464,26 @@ export class MainFileMissingError extends StorybookError {
   }
 }
 
-export class MainFileFailedEvaluationError extends StorybookError {
+export class MainFileEvaluationError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
   readonly code = 7;
 
-  public readonly documentation = 'https://storybook.js.org/docs/configure';
+  readonly stack = '';
 
   constructor(public data: { location: string; error: Error }) {
     super();
   }
 
   template() {
+    const errorText = white(
+      (this.data.error.stack || this.data.error.message).replaceAll(process.cwd(), '')
+    );
+
     return dedent`
       Storybook couldn't evaluate your ${yellow(this.data.location)} file.
 
-      ${this.data.error.message}
+      ${errorText}
     `;
   }
 }

@@ -5,7 +5,7 @@ import { validateConfigurationFiles } from './validate-configuration-files';
 import { readFile } from 'fs/promises';
 import {
   MainFileESMOnlyImportError,
-  MainFileFailedEvaluationError,
+  MainFileEvaluationError,
 } from '@storybook/core-events/server-errors';
 
 export async function loadMainConfig({
@@ -54,7 +54,7 @@ export async function loadMainConfig({
       throw out;
     }
 
-    throw new MainFileFailedEvaluationError({
+    throw new MainFileEvaluationError({
       location: relative(process.cwd(), mainJsPath),
       error: e,
     });
