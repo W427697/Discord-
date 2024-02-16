@@ -333,7 +333,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 
 <Callout variant="info">
 
-If you have stories written with the older `storiesOf` format, it was removed in Storybook 8.0 and is no longer maintained. We recommend that you migrate your stories to CSF. See the [migration guide](./migration-guide.md#storiesof-to-csf) for more information. However, if you need, you can still access the old documentation for `storiesOf` [here](https://github.com/storybookjs/storybook/blob/release/5.3/docs/src/pages/formats/storiesof-api/index.md).
+If you have stories written with the older `storiesOf` format, it was removed in Storybook 8.0 and is no longer maintained. We recommend that you migrate your stories to CSF. See the [migration guide](./migration-guide.md#storiesof-to-csf) for more information. However, if you need, you can still access the old `storiesOf` [documentation](https://github.com/storybookjs/storybook/blob/release/5.3/docs/src/pages/formats/storiesof-api/index.md) for reference.
 
 </Callout>
 
