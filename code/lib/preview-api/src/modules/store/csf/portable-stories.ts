@@ -150,3 +150,39 @@ export function composeStories<TModule extends Store_CSFExports>(
 
   return composedStories;
 }
+
+declare global {
+  // eslint-disable-next-line no-var, @typescript-eslint/naming-convention
+  var __pwUnwrapObject: (storyRef: any) => { type: ComposedStoryFn };
+}
+export function createPlaywrightTest<TFixture extends { extend: any }>(
+  baseTest: TFixture
+): TFixture {
+  return baseTest.extend({
+    mount: async ({ mount, page }: any, use: any) => {
+      await use(async (storyRef: any) => {
+        // load the story in the browser
+        await page.evaluate(async (innerStoryRef: any) => {
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(innerStoryRef);
+
+          const story = unwrappedStoryRef.type;
+          return story?.load?.();
+        }, storyRef);
+
+        // mount the story
+        const mountResult = await mount(storyRef);
+
+        // play the story in the browser
+        await page.evaluate(async (innerStoryRef: any) => {
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(innerStoryRef);
+          const story = unwrappedStoryRef.type;
+
+          const canvasElement = document.querySelector('#root');
+          return story?.play?.({ canvasElement });
+        }, storyRef);
+
+        return mountResult;
+      });
+    },
+  });
+}
