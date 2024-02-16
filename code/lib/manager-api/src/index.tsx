@@ -28,6 +28,7 @@ import type {
   API_StoryEntry,
   Parameters,
   StoryId,
+  Globals,
 } from '@storybook/types';
 
 import {
@@ -502,6 +503,10 @@ export function useGlobals(): [Args, (newGlobals: Args) => void] {
 
 export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
+}
+
+export function useGlobalOverrides(): Globals | void {
+  return useStorybookApi().getGlobalOverrides();
 }
 
 function useCurrentStory(): API_StoryEntry | API_DocsEntry {

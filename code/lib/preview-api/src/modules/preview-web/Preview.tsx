@@ -267,7 +267,15 @@ export class Preview<TRenderer extends Renderer> {
     await this.storyStoreValue.onStoriesChanged({ importFn, storyIndex });
   }
 
-  async onUpdateGlobals({ globals, rerender = true }: { globals: Globals; rerender?: boolean }) {
+  async onUpdateGlobals({
+    globals,
+    globalOverrides,
+    rerender = true,
+  }: {
+    globals: Globals;
+    globalOverrides?: Globals;
+    rerender?: boolean;
+  }) {
     if (!this.storyStoreValue)
       throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateGlobals' });
     this.storyStoreValue.globals.update(globals);
@@ -278,6 +286,7 @@ export class Preview<TRenderer extends Renderer> {
 
     this.channel.emit(GLOBALS_UPDATED, {
       globals: this.storyStoreValue.globals.get(),
+      globalOverrides: this.storyStoreValue.globals.get(),
       initialGlobals: this.storyStoreValue.globals.initialGlobals,
     });
   }

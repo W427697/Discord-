@@ -10,6 +10,7 @@ import { getEventMetadata } from '../lib/events';
 export interface SubState {
   globals?: Globals;
   globalTypes?: GlobalTypes;
+  globalOverrides?: Globals;
 }
 
 export interface SubAPI {
@@ -23,6 +24,11 @@ export interface SubAPI {
    * @returns {GlobalTypes} The current global types object.
    */
   getGlobalTypes: () => GlobalTypes;
+  /**
+   * Returns the current global overrides object.
+   * @returns {Globals} The current global overrides object.
+   */
+  getGlobalOverrides: () => Globals | void;
   /**
    * Updates the current global data object with the provided new global data object.
    * @param {Globals} newGlobals - The new global data object to update with.
@@ -39,6 +45,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
     getGlobalTypes() {
       return store.getState().globalTypes as GlobalTypes;
     },
+    getGlobalOverrides() {
+      const { globalOverrides } = fullAPI.getCurrentStoryData();
+      return globalOverrides;
+    },
     updateGlobals(newGlobals) {
       // Only emit the message to the local ref
       provider.channel?.emit(UPDATE_GLOBALS, {
@@ -54,20 +64,27 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
     globals: {},
     globalTypes: {},
   };
-  const updateGlobals = (globals: Globals) => {
+  const updateGlobals = (globals: Globals, globalOverrides?: Globals) => {
     const currentGlobals = store.getState()?.globals;
-    if (!deepEqual(globals, currentGlobals)) {
-      store.setState({ globals });
+    const currentGlobalOverrides = store.getState()?.globalOverrides;
+    if (
+      !deepEqual(globals, currentGlobals) ||
+      !deepEqual(currentGlobalOverrides, globalOverrides)
+    ) {
+      store.setState({ globals, globalOverrides });
     }
   };
 
   provider.channel?.on(
     GLOBALS_UPDATED,
-    function handleGlobalsUpdated(this: any, { globals }: { globals: Globals }) {
+    function handleGlobalsUpdated(
+      this: any,
+      { globals, globalOverrides }: { globals: Globals; globalOverrides: Globals }
+    ) {
       const { ref } = getEventMetadata(this, fullAPI)!;
 
       if (!ref) {
-        updateGlobals(globals);
+        updateGlobals(globals, globalOverrides);
       } else {
         logger.warn(
           'received a GLOBALS_UPDATED from a non-local ref. This is not currently supported.'

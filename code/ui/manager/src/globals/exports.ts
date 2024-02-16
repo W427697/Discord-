@@ -477,6 +477,7 @@ export default {
     'useArgTypes',
     'useArgs',
     'useChannel',
+    'useGlobalOverrides',
     'useGlobalTypes',
     'useGlobals',
     'useParameter',

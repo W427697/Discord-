@@ -238,8 +238,16 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     this.selectionStore.setQueryParams(queryParams);
   }
 
-  async onUpdateGlobals({ globals, rerender = true }: { globals: Globals; rerender?: boolean }) {
-    super.onUpdateGlobals({ globals });
+  async onUpdateGlobals({
+    globals,
+    globalOverrides,
+    rerender = true,
+  }: {
+    globals: Globals;
+    globalOverrides?: Globals;
+    rerender?: boolean;
+  }) {
+    super.onUpdateGlobals({ globals, globalOverrides });
     if (
       rerender &&
       (this.currentRender instanceof MdxDocsRender || this.currentRender instanceof CsfDocsRender)
@@ -406,10 +414,6 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
         args: unmappedArgs,
         globalOverrides,
       });
-
-      if (globalOverrides && Object.keys(globalOverrides).length) {
-        this.onUpdateGlobals({ globals, rerender: false });
-      }
 
       // For v6 mode / compatibility
       // If the implementation changed, or args were persisted, the args may have changed,
