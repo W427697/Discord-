@@ -692,6 +692,11 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'portable-stories',
+          title: 'Portable stories',
+          type: 'link',
+        },
+        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
