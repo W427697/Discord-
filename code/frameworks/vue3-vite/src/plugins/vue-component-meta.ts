@@ -1,10 +1,12 @@
 import findPackageJson from 'find-package-json';
+import fs from 'fs/promises';
 import MagicString from 'magic-string';
 import path from 'path';
 import type { PluginOption } from 'vite';
 import {
   TypeMeta,
   createComponentMetaChecker,
+  createComponentMetaCheckerByJsonConfig,
   type ComponentMeta,
   type MetaCheckerOptions,
 } from 'vue-component-meta';
@@ -30,10 +32,19 @@ export async function vueComponentMeta(): Promise<PluginOption> {
     printer: { newLine: 1 },
   };
 
-  const checker = createComponentMetaChecker(
-    path.join(getProjectRoot(), 'tsconfig.json'),
-    checkerOptions
-  );
+  const projectRoot = getProjectRoot();
+  const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
+  const tsConfigExists = await fileExists(projectTsConfigPath);
+
+  // prefer the tsconfig.json file of the project to support alias etc.
+  // if no tsconfig.json file exists, a fallback will be used
+  const checker = tsConfigExists
+    ? createComponentMetaChecker(projectTsConfigPath, checkerOptions)
+    : createComponentMetaCheckerByJsonConfig(
+        projectRoot,
+        { extends: '../../tsconfig.json', include: ['src/**/*'] },
+        checkerOptions
+      );
 
   return {
     name: 'storybook:vue-component-meta-plugin',
@@ -141,4 +152,16 @@ function getFilenameWithoutExtension(filename: string) {
  */
 function lowercaseFirstLetter(string: string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+/**
+ * Checks whether the given file path exists.
+ */
+async function fileExists(fullPath: string) {
+  try {
+    await fs.stat(fullPath);
+    return true;
+  } catch {
+    return false;
+  }
 }
