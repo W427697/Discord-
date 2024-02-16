@@ -565,7 +565,7 @@ jobs:
                   STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
   test-portable-stories:
-      executor:
+    executor:
       class: medium
       name: sb_playwright
     steps:
@@ -573,21 +573,20 @@ jobs:
           clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
-      steps:
-        - run:
-            name: Install dependencies
-            command: |
-              cd test-storybooks/portable-stories-react
-              yarn install
-        - run:
-            name: Run Playwright CT tests
-            command: |
-              yarn test:pw
-        - run:
-            name: Run Cypress CT tests
-            command: |
-              yarn test:cy
-        - report-workflow-on-failure
+      - run:
+          name: Install dependencies
+          command: |
+            cd test-storybooks/portable-stories-react
+            yarn install
+      - run:
+          name: Run Playwright CT tests
+          command: |
+            yarn test:pw
+      - run:
+          name: Run Cypress CT tests
+          command: |
+            yarn test:cy
+      - report-workflow-on-failure
 workflows:
   docs:
     when:
