@@ -11,7 +11,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test:pw": "playwright test -c playwright-ct.config.ts",
-    "test:cy": "cypress open --component"
+    "test:cy": "cypress open --component",
+    "test:cy-ci": "cypress run --component"
   },
   "dependencies": {
     "react": "^18.2.0",

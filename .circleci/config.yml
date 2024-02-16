@@ -564,7 +564,30 @@ jobs:
                   STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
                   STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
-
+  test-portable-stories:
+      executor:
+      class: medium
+      name: sb_playwright
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
+      steps:
+        - run:
+            name: Install dependencies
+            command: |
+              cd test-storybooks/portable-stories-react
+              yarn install
+        - run:
+            name: Run Playwright CT tests
+            command: |
+              yarn test:pw
+        - run:
+            name: Run Cypress CT tests
+            command: |
+              yarn test:cy
+        - report-workflow-on-failure
 workflows:
   docs:
     when:
@@ -623,6 +646,9 @@ workflows:
           parallelism: 5
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -675,6 +701,9 @@ workflows:
           parallelism: 14
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
       - bench:
           parallelism: 5
           requires:
@@ -732,7 +761,9 @@ workflows:
           parallelism: 29
           requires:
             - build-sandboxes
-
+      - test-portable-stories:
+          requires:
+            - build
       - test-empty-init:
           requires:
             - build
