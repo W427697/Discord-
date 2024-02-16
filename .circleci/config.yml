@@ -589,15 +589,23 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn install
-          working_directory: test-storybooks/portable-stories-react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
       - run:
-          name: Run Playwright CT tests
-          command: yarn test:pw
-          working_directory: test-storybooks/portable-stories-react
+          name: Run Playwright CT tests for React
+          command: yarn pw:react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
       - run:
-          name: Run Cypress CT tests
-          command: yarn test:cy
-          working_directory: test-storybooks/portable-stories-react
+          name: Run Cypress CT tests for React
+          command: yarn cy:react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Playwright CT tests for Vue
+          command: yarn pw:vue3
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Cypress CT tests for Vue
+          command: yarn cy:vue3
+          working_directory: test-storybooks/portable-stories-kitchen-sink
       - report-workflow-on-failure
 workflows:
   docs:
