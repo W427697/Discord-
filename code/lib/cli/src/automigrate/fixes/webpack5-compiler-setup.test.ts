@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, afterEach, beforeEach } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager } from '@storybook/core-common';
 import { webpack5CompilerSetup } from './webpack5-compiler-setup';
@@ -46,17 +46,30 @@ vi.mock('chalk', () => {
 
 describe('check function', () => {
   describe('webpack5Migration check function', () => {
-    beforeEach(() => {
-      promptMocks.default.mockResolvedValue({
-        compiler: 'swc',
-      });
-    });
-
-    afterEach(() => {
-      vi.resetAllMocks();
-    });
-
     describe('return null', async () => {
+      it('should return null if one of the addons is already installed', async () => {
+        const result = check({
+          packageManager: {
+            getPackageVersion: (name) => {
+              return Promise.resolve(null);
+            },
+          },
+          mainConfig: {
+            addons: ['@storybook/addon-webpack5-compiler-swc'],
+            framework: {
+              name: '@storybook/react-webpack5',
+              options: {
+                builder: {
+                  useSWC: true,
+                },
+              },
+            },
+          },
+        });
+
+        expect(result).resolves.toBeNull();
+      });
+
       it('should return null if the builder is not webpack5', async () => {
         const result = check({
           mainConfig: {
@@ -256,8 +269,8 @@ describe('check function', () => {
         });
 
         expect(result).contains({
-          shouldRemoveSWCFlag: true,
           isNextJs: true,
+          shouldRemoveSWCFlag: true,
         });
       });
 
@@ -282,11 +295,7 @@ describe('check function', () => {
     });
 
     describe('return options', () => {
-      it('should return compiler: babel when useSWC flag is not set and the user selects babel during prompt', async () => {
-        promptMocks.default.mockResolvedValue({
-          compiler: 'babel',
-        });
-
+      it('should return defaultCompiler: babel when useSWC flag is not set', async () => {
         const result = await check({
           packageManager: {
             getPackageVersion: (name) => {
@@ -301,17 +310,12 @@ describe('check function', () => {
         });
 
         expect(result).contains({
-          compiler: 'babel',
-          compilerPackageName: '@storybook/addon-webpack5-compiler-babel',
+          defaultCompiler: CoreWebpackCompilers.Babel,
         });
       });
 
       describe('user selects swc', () => {
-        it('should return compiler: swc when useSWC flag is not set and the user selects swc during prompt', async () => {
-          promptMocks.default.mockResolvedValue({
-            compiler: 'swc',
-          });
-
+        it('should return defaultCompiler: swc when useSWC flag is set', async () => {
           const result = await check({
             packageManager: {
               getPackageVersion: (name) => {
@@ -321,39 +325,18 @@ describe('check function', () => {
             mainConfig: {
               framework: {
                 name: '@storybook/react-webpack5',
+                options: {
+                  builder: {
+                    useSWC: true,
+                  },
+                },
               },
             },
           });
 
           expect(result).contains({
-            compiler: 'swc',
-            compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
+            defaultCompiler: CoreWebpackCompilers.SWC,
           });
-        });
-      });
-
-      it('should return compiler: swc when useSWC flag is set', async () => {
-        const result = await check({
-          packageManager: {
-            getPackageVersion: (name) => {
-              return Promise.resolve(null);
-            },
-          },
-          mainConfig: {
-            framework: {
-              name: '@storybook/react-webpack5',
-              options: {
-                builder: {
-                  useSWC: true,
-                },
-              },
-            },
-          },
-        });
-
-        expect(result).contains({
-          compiler: 'swc',
-          compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
         });
       });
 
@@ -385,30 +368,58 @@ describe('check function', () => {
       const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: true,
         isNextJs: false,
-        compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
-        compiler: CoreWebpackCompilers.SWC,
+        defaultCompiler: CoreWebpackCompilers.SWC,
       });
 
       expect(prompt).toMatchInlineSnapshot(`
-          "We need to update your Storybook configuration for Webpack 5.
-          The framework.options.builder.useSWC flag will be removed.
+        "We need to update your Storybook configuration for Webpack 5.
+        The framework.options.builder.useSWC flag will be removed.
 
-          The @storybook/addon-webpack5-compiler-swc addon will be added to your project. It adds SWC as the compiler for your Storybook.
-          After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
-          You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
-        `);
+        Storybook's Webpack5 builder is now compiler agnostic, meaning you have to install an additional addon to set up a compiler for Webpack5.
+
+        We have detected, that you want to use SWC as the compiler for Webpack5.
+
+        In the next step, Storybook will install @storybook/addon-webpack5-compiler-swc and will add it to your addons list in your Storybook config.
+
+        After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
+        You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
+      `);
     });
 
     it('shouldRemoveSWCFlag = false', async () => {
       const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
-        compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
-        compiler: CoreWebpackCompilers.SWC,
+        defaultCompiler: CoreWebpackCompilers.SWC,
       });
 
       expect(prompt).toMatchInlineSnapshot(`
-        "The @storybook/addon-webpack5-compiler-swc addon will be added to your project. It adds SWC as the compiler for your Storybook.
+        "Storybook's Webpack5 builder is now compiler agnostic, meaning you have to install an additional addon to set up a compiler for Webpack5.
+
+        We have detected, that you want to use SWC as the compiler for Webpack5.
+
+        In the next step, Storybook will install @storybook/addon-webpack5-compiler-swc and will add it to your addons list in your Storybook config.
+
+        After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
+        You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
+      `);
+    });
+
+    it('defaultCompiler = babel', async () => {
+      const prompt = webpack5CompilerSetup.prompt({
+        shouldRemoveSWCFlag: false,
+        isNextJs: false,
+        defaultCompiler: CoreWebpackCompilers.Babel,
+      });
+
+      expect(prompt).toMatchInlineSnapshot(`
+        "Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:
+
+          - Babel: A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
+          - SWC:  Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.
+
+        In the next step, Storybook will ask you to choose a compiler to automatically set it up for you.
+
         After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
         You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
       `);
@@ -418,8 +429,7 @@ describe('check function', () => {
       const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: true,
         isNextJs: true,
-        compilerPackageName: undefined,
-        compiler: undefined,
+        defaultCompiler: CoreWebpackCompilers.SWC,
       });
 
       expect(prompt).toMatchInlineSnapshot(`
@@ -436,31 +446,40 @@ describe('check function', () => {
       `);
     });
 
-    it('isNextjs = false AND compilerPackageName = @storybook/addon-webpack5-compiler-swc AND compiler = swc', () => {
+    it('isNextjs = false AND defaultCompiler = swc', () => {
       const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
-        compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
-        compiler: CoreWebpackCompilers.SWC,
+        defaultCompiler: CoreWebpackCompilers.SWC,
       });
 
       expect(prompt).toMatchInlineSnapshot(`
-        "The @storybook/addon-webpack5-compiler-swc addon will be added to your project. It adds SWC as the compiler for your Storybook.
+        "Storybook's Webpack5 builder is now compiler agnostic, meaning you have to install an additional addon to set up a compiler for Webpack5.
+
+        We have detected, that you want to use SWC as the compiler for Webpack5.
+
+        In the next step, Storybook will install @storybook/addon-webpack5-compiler-swc and will add it to your addons list in your Storybook config.
+
         After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
         You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
       `);
     });
 
-    it('isNextjs = false AND compilerPackageName = @storybook/addon-webpack5-compiler-babel AND compiler = babel', () => {
+    it('isNextjs = false AND defaultCompiler = babel', () => {
       const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
-        compilerPackageName: '@storybook/addon-webpack5-compiler-babel',
-        compiler: CoreWebpackCompilers.Babel,
+        defaultCompiler: CoreWebpackCompilers.Babel,
       });
 
       expect(prompt).toMatchInlineSnapshot(`
-        "The @storybook/addon-webpack5-compiler-babel addon will be added to your project. It adds Babel as the compiler for your Storybook.
+        "Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:
+
+          - Babel: A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
+          - SWC:  Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.
+
+        In the next step, Storybook will ask you to choose a compiler to automatically set it up for you.
+
         After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
         You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support"
       `);

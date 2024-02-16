@@ -3,6 +3,7 @@ import type { SupportedFrameworks } from '@storybook/types';
 import { frameworkPackages } from '@storybook/core-common';
 import type { Fix } from '../types';
 import {
+  getAddonNames,
   getBuilderPackageName,
   getFrameworkOptions,
   getFrameworkPackageName,
@@ -20,8 +21,7 @@ import chalk from 'chalk';
 import { add } from '../../add';
 
 type Options = {
-  compiler?: CoreWebpackCompilers;
-  compilerPackageName?: keyof typeof compilerNameToCoreCompiler | undefined;
+  defaultCompiler?: CoreWebpackCompilers;
   shouldRemoveSWCFlag: boolean;
   isNextJs: boolean;
 };
@@ -30,6 +30,17 @@ export const webpack5CompilerSetup: Fix<Options> = {
   id: 'webpack5-compiler-setup',
 
   async check({ mainConfig, packageManager }) {
+    const addons = getAddonNames(mainConfig);
+
+    if (
+      addons.find(
+        (addon) =>
+          addon.includes(CoreWebpackCompilers.Babel) || addon.includes(CoreWebpackCompilers.SWC)
+      )
+    ) {
+      return null;
+    }
+
     const frameworkName = Object.entries(frameworkPackages).find(
       ([name]) => name === getFrameworkPackageName(mainConfig)
     )?.[1];
@@ -72,15 +83,6 @@ export const webpack5CompilerSetup: Fix<Options> = {
       ? CoreWebpackCompilers.SWC
       : CoreWebpackCompilers.Babel;
 
-    const compiler: CoreWebpackCompilers =
-      defaultCompiler === CoreWebpackCompilers.Babel
-        ? await askUserForCompilerChoice()
-        : CoreWebpackCompilers.SWC;
-
-    const compilerPackageName = Object.entries(compilerNameToCoreCompiler).find(
-      ([, coreCompiler]) => coreCompiler === compiler
-    )?.[0];
-
     const shouldRemoveSWCFlag = frameworkOptions?.builder
       ? 'useSWC' in frameworkOptions.builder
       : false;
@@ -95,14 +97,13 @@ export const webpack5CompilerSetup: Fix<Options> = {
     }
 
     return {
-      compiler,
-      compilerPackageName,
+      defaultCompiler,
       shouldRemoveSWCFlag,
       isNextJs: false,
     };
   },
 
-  prompt({ compiler, compilerPackageName, shouldRemoveSWCFlag, isNextJs }) {
+  prompt({ defaultCompiler, shouldRemoveSWCFlag, isNextJs }) {
     const message = [];
 
     if (shouldRemoveSWCFlag) {
@@ -126,11 +127,22 @@ export const webpack5CompilerSetup: Fix<Options> = {
           'babel.config.js'
         )} file in your project, Storybook will use SWC as the compiler.
       `);
-    } else if (compilerPackageName) {
+    } else if (defaultCompiler === CoreWebpackCompilers.Babel) {
       message.push(dedent`
-      The ${chalk.cyan(compilerPackageName)} addon will be added to your project. It adds ${
-        compiler === CoreWebpackCompilers.Babel ? 'Babel' : 'SWC'
-      } as the compiler for your Storybook.
+      Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:\n
+        - Babel: A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
+        - SWC:  Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.\n
+      In the next step, Storybook will ask you to choose a compiler to automatically set it up for you.\n
+      After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
+      You can find more information here: ${chalk.yellow(
+        'https://storybook.js.org/docs/8.0/builders/webpack#compiler-support'
+      )}
+      `);
+    } else {
+      message.push(dedent`
+      Storybook's Webpack5 builder is now compiler agnostic, meaning you have to install an additional addon to set up a compiler for Webpack5.\n
+      We have detected, that you want to use SWC as the compiler for Webpack5.\n
+      In the next step, Storybook will install @storybook/addon-webpack5-compiler-swc and will add it to your addons list in your Storybook config.\n
       After the migration, you can switch Webpack5 compilers by swapping the addon in your project.
       You can find more information here: ${chalk.yellow(
         'https://storybook.js.org/docs/8.0/builders/webpack#compiler-support'
@@ -142,7 +154,7 @@ export const webpack5CompilerSetup: Fix<Options> = {
   },
 
   async run({ result, mainConfigPath, packageManager, skipInstall, dryRun }) {
-    const { compilerPackageName, shouldRemoveSWCFlag, isNextJs } = result;
+    const { defaultCompiler, shouldRemoveSWCFlag, isNextJs } = result;
 
     if (shouldRemoveSWCFlag) {
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, (main) => {
@@ -150,7 +162,16 @@ export const webpack5CompilerSetup: Fix<Options> = {
       });
     }
 
-    if (!isNextJs && compilerPackageName) {
+    if (!isNextJs) {
+      const compiler: CoreWebpackCompilers =
+        defaultCompiler === CoreWebpackCompilers.Babel
+          ? await askUserForCompilerChoice()
+          : CoreWebpackCompilers.SWC;
+
+      const compilerPackageName = Object.entries(compilerNameToCoreCompiler).find(
+        ([, coreCompiler]) => coreCompiler === compiler
+      )![0];
+
       await add(compilerPackageName, {
         packageManager: packageManager.type,
         skipPostinstall: !!skipInstall,
@@ -163,10 +184,7 @@ async function askUserForCompilerChoice() {
   const response = await prompts<'compiler'>({
     type: 'select',
     name: 'compiler',
-    message: `Storybook's Webpack5 builder is now compiler agnostic, meaning you can choose a compiler addon that best fits your project:\n
-  - Babel: A vast ecosystem and is battle-tested. It's a robust choice if you have an extensive Babel setup or need specific Babel plugins for your project.
-  - SWC:  Fast and easy to configure. Ideal if you want faster builds and have a straightforward configuration without the need for Babel's extensibility.\n
-Which compiler would you like to use?`,
+    message: `Which compiler would you like to use?`,
     choices: [
       {
         title: 'Babel',
