@@ -12,10 +12,10 @@
     "storybook:vue3": "storybook dev -p 6006 -c ./vue3/.storybook",
     "pw:react": "playwright test -c ./react/playwright-ct.config.ts",
     "pw:vue3": "playwright test -c ./vue3/playwright-ct.config.ts",
-    "cy:react": "cypress run --component --project ./react --browser chrome",
-    "cy-open:react": "cypress open --component --project ./react --browser chrome",
-    "cy:vue3": "cypress run --component --project ./vue3 --browser chrome",
-    "cy-open:vue3": "cypress open --component --project ./vue3 --browser chrome"
+    "cy:react": "cypress run --component --project ./react",
+    "cy-open:react": "cypress open --component --project ./react",
+    "cy:vue3": "cypress run --component --project ./vue3",
+    "cy-open:vue3": "cypress open --component --project ./vue3"
   },
   "dependencies": {
     "react": "^18.2.0",
