@@ -83,7 +83,6 @@
     "express": "^4.17.3",
     "fs-extra": "^11.1.0",
     "globby": "^11.0.2",
-    "ip": "^2.0.0",
     "lodash": "^4.17.21",
     "open": "^8.4.0",
     "pretty-hrtime": "^1.0.3",
@@ -101,7 +100,6 @@
   "devDependencies": {
     "@storybook/addon-docs": "workspace:*",
     "@types/compression": "^1.7.0",
-    "@types/ip": "^1.1.0",
     "@types/node-fetch": "^2.5.7",
     "@types/ws": "^8",
     "boxen": "^7.1.1",

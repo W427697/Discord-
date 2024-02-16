@@ -5556,7 +5556,6 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/compression": "npm:^1.7.0"
     "@types/detect-port": "npm:^1.3.0"
-    "@types/ip": "npm:^1.1.0"
     "@types/node": "npm:^18.0.0"
     "@types/node-fetch": "npm:^2.5.7"
     "@types/pretty-hrtime": "npm:^1.0.0"
@@ -5571,7 +5570,6 @@ __metadata:
     express: "npm:^4.17.3"
     fs-extra: "npm:^11.1.0"
     globby: "npm:^11.0.2"
-    ip: "npm:^2.0.0"
     lodash: "npm:^4.17.21"
     node-fetch: "npm:^3.3.1"
     open: "npm:^8.4.0"
@@ -7488,15 +7486,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 06719371ece6bdf9fd28b90b03bd56e48ffca675dfaadca81ae12ca18db6e77e70a509537ebfa3b2c37810d77dc52e5a3190c09bc490668dde7e384c7b579090
-  languageName: node
-  linkType: hard
-
-"@types/ip@npm:^1.1.0":
-  version: 1.1.3
-  resolution: "@types/ip@npm:1.1.3"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: af576e33830196be01b71c48ad5f83380a1c51d62f394a5601e8c2a5b8b31cf6dc8fe71ac39c38d806bcf1d6f1c5c8205c129eca6b6d168c0df7ab3722df23b9
   languageName: node
   linkType: hard
 
