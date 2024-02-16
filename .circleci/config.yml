@@ -575,17 +575,16 @@ jobs:
           at: .
       - run:
           name: Install dependencies
-          command: |
-            cd test-storybooks/portable-stories-react
-            yarn install
+          command: yarn install
+          working_directory: test-storybooks/portable-stories-react
       - run:
           name: Run Playwright CT tests
-          command: |
-            yarn test:pw
+          command: yarn test:pw
+          working_directory: test-storybooks/portable-stories-react
       - run:
           name: Run Cypress CT tests
-          command: |
-            yarn test:cy
+          command: yarn test:cy
+          working_directory: test-storybooks/portable-stories-react
       - report-workflow-on-failure
 workflows:
   docs:
