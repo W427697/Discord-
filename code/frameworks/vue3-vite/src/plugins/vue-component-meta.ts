@@ -27,7 +27,6 @@ export async function vueComponentMeta(): Promise<PluginOption> {
   const checkerOptions: MetaCheckerOptions = {
     forceUseTs: true,
     noDeclarations: true,
-    schema: { ignore: ['MyIgnoredNestedProps'] },
     printer: { newLine: 1 },
   };
 
