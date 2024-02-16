@@ -41,7 +41,7 @@ export async function build(options: Options) {
 
   const turbosnapPluginName = 'rollup-plugin-turbosnap';
   const hasTurbosnapPlugin =
-    finalConfig.plugins && hasVitePlugins(finalConfig.plugins, [turbosnapPluginName]);
+    finalConfig.plugins && (await hasVitePlugins(finalConfig.plugins, [turbosnapPluginName]));
   if (hasTurbosnapPlugin) {
     logger.warn(dedent`Found '${turbosnapPluginName}' which is now included by default in Storybook 8.
       Removing from your plugins list. Ensure you pass \`--webpack-stats-json\` to generate stats.
