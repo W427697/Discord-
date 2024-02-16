@@ -5,18 +5,24 @@
 import * as stories from './Button.stories';
 import { composeStories } from '@storybook/react';
 
-const { CSF3InputFieldFilled } = composeStories(stories)
+const { CSF3Primary, LoaderStory } = composeStories(stories)
 
 describe('<Button />', () => {
-  it('renders', async () => {
-    cy.mount(<CSF3InputFieldFilled />)
+  it('renders primary button', async () => {
+    cy.mount(<CSF3Primary />)
+  })
+
+  it('renders with play function', async () => {
+    await LoaderStory.load();
+    cy.mount(<LoaderStory />)
     cy.get('[data-decorator]').should('exist');
-    cy.get('button').should('contain.text', 'I am not clicked');
+    cy.get('[data-testid="loaded-data"]').should('contain.text', 'bar');
+    cy.get('[data-testid="spy-data"]').should('contain.text', 'mocked');
     const $el = await cy.get('[data-cy-root]')
     const canvasElement = $el.get(0)
-    await CSF3InputFieldFilled.play({ canvasElement });
+    await LoaderStory.play({ canvasElement });
     // Anything after await is completely gone to the void. This won't cause any failures
-    cy.get('foo').should('contain.text', 'bar');
+    // cy.get('foo').should('contain.text', 'bar');
 
     // Potentially this would be the proper way, 
     // cy.mount(<CSF3InputFieldFilled />)
