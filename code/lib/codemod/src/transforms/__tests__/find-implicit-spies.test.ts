@@ -16,13 +16,30 @@ beforeEach(() => {
   warn.mockImplementation(() => {});
 });
 
-test('replace jest and testing-library with the test package', async () => {
+test('Warn for possible implicit actions', async () => {
   const input = dedent`
-    Interactions.play = async ({ args }) => {
+    export default { title: 'foo/bar', args: {onClick: fn() }, argTypes: { onHover: {action: true} } };
+    const Template = (args) => { };
+    export const A = Template.bind({});
+    A.args = { onBla: fn() };
+    A.play = async ({ args }) => {
       await userEvent.click(screen.getByRole("button"));
-      await expect(args.onButtonIconClick).toHaveBeenCalled();
+      await expect(args.onImplicit).toHaveBeenCalled();
+      await expect(args.onClick).toHaveBeenCalled();
+      await expect(args.onHover).toHaveBeenCalled();
+      await expect(args.onBla).toHaveBeenCalled();
     };
-
+    
+    export const B = { 
+      args: {onBla: fn() },
+      play: async ({ args }) => {
+        await userEvent.click(screen.getByRole("button"));
+        await expect(args.onImplicit).toHaveBeenCalled();
+        await expect(args.onClick).toHaveBeenCalled();
+        await expect(args.onHover).toHaveBeenCalled();
+        await expect(args.onBla).toHaveBeenCalled();
+      }
+    };
   `;
 
   await tsTransform(input);
@@ -31,12 +48,23 @@ test('replace jest and testing-library with the test package', async () => {
     [
       [
         "Component.stories.tsx Possible implicit spy found
-      1 | Interactions.play = async ({ args }) => {
-      2 |   await userEvent.click(screen.getByRole("button"));
-    > 3 |   await expect(args.onButtonIconClick).toHaveBeenCalled();
-        |                     ^^^^^^^^^^^^^^^^^
-      4 | };
-      5 |",
+       5 | A.play = async ({ args }) => {
+       6 |   await userEvent.click(screen.getByRole("button"));
+    >  7 |   await expect(args.onImplicit).toHaveBeenCalled();
+         |                     ^^^^^^^^^^
+       8 |   await expect(args.onClick).toHaveBeenCalled();
+       9 |   await expect(args.onHover).toHaveBeenCalled();
+      10 |   await expect(args.onBla).toHaveBeenCalled();",
+      ],
+      [
+        "Component.stories.tsx Possible implicit spy found
+      15 |   play: async ({ args }) => {
+      16 |     await userEvent.click(screen.getByRole("button"));
+    > 17 |     await expect(args.onImplicit).toHaveBeenCalled();
+         |                       ^^^^^^^^^^
+      18 |     await expect(args.onClick).toHaveBeenCalled();
+      19 |     await expect(args.onHover).toHaveBeenCalled();
+      20 |     await expect(args.onBla).toHaveBeenCalled();",
       ],
     ]
   `);
