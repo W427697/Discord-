@@ -43,7 +43,11 @@ To remove your addon's peer dependency on React, and reduce its install size, do
 
 For an example, see [the updates we've made to the addon-kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20). These changes are optional but recommended.
 
-Note: This assumes your addon is using tsup for bundling. If your addon was built with an older version of addon-kit that uses Babel for bundling, you have to first switch to tsup. For guidance, explore these [older changes implemented in the addon-kit](https://github.com/storybookjs/addon-kit/pull/45/files).
+<Callout variant="info"> 
+
+This assumes your addon is using tsup for bundling. If your addon was built with an older version of addon-kit that uses Babel for bundling, you have to first switch to tsup. For guidance, explore these [older changes implemented in the addon-kit](https://github.com/storybookjs/addon-kit/pull/45/files). 
+
+</Callout>
 
 ### @storybook/components deprecations
 
