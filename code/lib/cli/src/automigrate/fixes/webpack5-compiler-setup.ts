@@ -26,7 +26,7 @@ type Options = {
   isNextJs: boolean;
 };
 
-export const webpack5Migration: Fix<Options> = {
+export const webpack5CompilerSetup: Fix<Options> = {
   id: 'webpack5-compiler-setup',
 
   async check({ mainConfig, packageManager }) {

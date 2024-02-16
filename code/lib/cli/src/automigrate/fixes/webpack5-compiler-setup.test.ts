@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, afterEach, beforeEach } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager } from '@storybook/core-common';
-import { webpack5Migration } from './webpack5-compiler-setup';
+import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { CoreWebpackCompilers } from '../../project_types';
 
 const check = async ({
@@ -14,7 +14,7 @@ const check = async ({
   storybookVersion?: string;
   mainConfig?: Partial<StorybookConfig>;
 }) => {
-  return webpack5Migration.check({
+  return webpack5CompilerSetup.check({
     packageManager: packageManager as any,
     configDir: '',
     storybookVersion,
@@ -382,7 +382,7 @@ describe('check function', () => {
 
   describe('prompt', () => {
     it('shouldRemoveSWCFlag = true', async () => {
-      const prompt = webpack5Migration.prompt({
+      const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: true,
         isNextJs: false,
         compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
@@ -400,7 +400,7 @@ describe('check function', () => {
     });
 
     it('shouldRemoveSWCFlag = false', async () => {
-      const prompt = webpack5Migration.prompt({
+      const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
         compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
@@ -415,7 +415,7 @@ describe('check function', () => {
     });
 
     it('isNextJs = true', () => {
-      const prompt = webpack5Migration.prompt({
+      const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: true,
         isNextJs: true,
         compilerPackageName: undefined,
@@ -437,7 +437,7 @@ describe('check function', () => {
     });
 
     it('isNextjs = false AND compilerPackageName = @storybook/addon-webpack5-compiler-swc AND compiler = swc', () => {
-      const prompt = webpack5Migration.prompt({
+      const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
         compilerPackageName: '@storybook/addon-webpack5-compiler-swc',
@@ -452,7 +452,7 @@ describe('check function', () => {
     });
 
     it('isNextjs = false AND compilerPackageName = @storybook/addon-webpack5-compiler-babel AND compiler = babel', () => {
-      const prompt = webpack5Migration.prompt({
+      const prompt = webpack5CompilerSetup.prompt({
         shouldRemoveSWCFlag: false,
         isNextJs: false,
         compilerPackageName: '@storybook/addon-webpack5-compiler-babel',
