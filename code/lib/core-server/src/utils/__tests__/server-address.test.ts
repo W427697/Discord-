@@ -15,7 +15,7 @@ describe('getServerAddresses', () => {
           family: 'IPv4',
           mac: '01:02:03:0a:0b:0c',
           internal: false,
-          cidr: '192.168.1.108/24',
+          cidr: '192.168.0.5/24',
         },
       ],
     });
