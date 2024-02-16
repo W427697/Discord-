@@ -4,7 +4,7 @@ import path from 'path';
 import type { PluginOption } from 'vite';
 import {
   TypeMeta,
-  createComponentMetaCheckerByJsonConfig,
+  createComponentMetaChecker,
   type ComponentMeta,
   type MetaCheckerOptions,
 } from 'vue-component-meta';
@@ -30,12 +30,8 @@ export async function vueComponentMeta(): Promise<PluginOption> {
     printer: { newLine: 1 },
   };
 
-  const checker = createComponentMetaCheckerByJsonConfig(
-    path.resolve(getProjectRoot().absolutePathToProjectRoot),
-    {
-      extends: '../../tsconfig.json',
-      include: ['**/*'],
-    },
+  const checker = createComponentMetaChecker(
+    path.join(getProjectRoot(), 'tsconfig.json'),
     checkerOptions
   );
 
@@ -115,16 +111,16 @@ export async function vueComponentMeta(): Promise<PluginOption> {
   };
 }
 
-/** utility functions  */
-
+/**
+ * Gets the absolute path to the project root.
+ */
 function getProjectRoot() {
   const projectRoot = findPackageJson().next().value?.path ?? '';
 
   const currentFileDir = path.dirname(__filename);
   const relativePathToProjectRoot = path.relative(currentFileDir, projectRoot);
-  const absolutePathToProjectRoot = path.resolve(currentFileDir, relativePathToProjectRoot);
 
-  return { relativePathToProjectRoot, absolutePathToProjectRoot };
+  return path.resolve(currentFileDir, relativePathToProjectRoot);
 }
 
 /**
