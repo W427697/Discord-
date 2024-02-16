@@ -69,6 +69,16 @@ As a workaround, update your documentation to tell users to opt-in to Babel supp
 npx storybook@latest add @storybook/addon-webpack5-compiler-babel
 ```
 
+## Migration Example
+
+[The Addon Kit repository](https://github.com/storybookjs/addon-kit) has been migrated to support Storybook 8.0, and you can use that as a real-world example to guide your migration. The migration incorporates most of the changes listed above, including migrating the package to ESM with `type: module`. Migrating to ESM is not necessary but we recommend it as it simplifes some of the setup. If you follow the ESM migration below and update your export map in `package.json`, you can safely remove any `manager.js`, `preview.js` and `preset.js` files from the root directory.
+
+[This complete diff view](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f) shows everything changed between 7.0 and 8.0, but not all of it is relevant for your migration. You can specifically focus on:
+
+- [`package.json`](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f#diff-7ae45ad102eab3b6d7e7896acd08c427a9b25b346470d7bc6507b6481575d519): Updating dependencies, moving to ESM, updating entries
+- [tsup.config.ts](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20): Updating bundling strategy to take advantage of Storybook globals.
+- [`.storybook/local-preset.js`](https://github.com/storybookjs/addon-kit/compare/79282986..cf0875f#diff-390b53ea479b1ceffcbf31944f644ee23aa9f337b75a8a0ffd815bed50d376cb): Supporting the ESM migration.
+
 ## Releasing
 
 Release a new major version of your addon for Storybook 8.0. We recommend you to continue supporting 7.x with minor or patch versions. We also recommend releasing your own addon using the `next` tag to test it out in projects.
