@@ -1,13 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { createFilter, type PluginOption } from 'vite';
-import path from 'path';
-
 import findPackageJson from 'find-package-json';
-
 import MagicString from 'magic-string';
-
-import type { ComponentMeta, MetaCheckerOptions } from 'vue-component-meta';
-import { TypeMeta, createComponentMetaCheckerByJsonConfig } from 'vue-component-meta';
+import path from 'path';
+import type { PluginOption } from 'vite';
+import {
+  TypeMeta,
+  createComponentMetaCheckerByJsonConfig,
+  type ComponentMeta,
+  type MetaCheckerOptions,
+} from 'vue-component-meta';
 
 type MetaSource = {
   exportName: string;
@@ -16,7 +16,9 @@ type MetaSource = {
 } & ComponentMeta &
   MetaCheckerOptions['schema'];
 
-export function vueComponentMeta(): PluginOption {
+export async function vueComponentMeta(): Promise<PluginOption> {
+  const { createFilter } = await import('vite');
+
   // not stories files
   const exclude = /(\.stories\.ts|\.stories\.js|\.stories\.tsx|\.stories\.jsx)$/;
   const include = /\.(vue|ts|js|tsx|jsx)$/;
@@ -40,57 +42,68 @@ export function vueComponentMeta(): PluginOption {
 
   return {
     name: 'storybook:vue-component-meta-plugin',
-    async transform(src: string, id: string) {
-      // console.log('. ');
+    transform(src, id) {
       if (!filter(id)) return undefined;
 
-      let metaSource;
       try {
         const exportNames = checker.getExportNames(id);
-
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
 
-        const metaSources: MetaSource[] = [];
-        componentsMeta.forEach((meta) => {
-          const exportName = exportNames[componentsMeta.indexOf(meta)];
+        const metaSources = componentsMeta
+          .filter((meta) => meta.type !== TypeMeta.Unknown)
+          .map<MetaSource>((meta, index) => {
+            const exportName = exportNames[index];
 
-          if (meta.type === TypeMeta.Class || meta.type === TypeMeta.Function) {
-            metaSources.push({
+            const exposed =
+              // the meta also includes duplicated entries in the "exposed" array with "on"
+              // prefix (e.g. onClick instead of click), so we need to filter them out here
+              meta.exposed
+                .filter((expose) => {
+                  let nameWithoutOnPrefix = expose.name;
+
+                  if (nameWithoutOnPrefix.startsWith('on')) {
+                    nameWithoutOnPrefix = lowercaseFirstLetter(expose.name.replace('on', ''));
+                  }
+
+                  const hasEvent = meta.events.find((event) => event.name === nameWithoutOnPrefix);
+                  return !hasEvent;
+                })
+                // remove unwanted duplicated "$slots" expose
+                .filter((expose) => {
+                  if (expose.name === '$slots') {
+                    const slotNames = meta.slots.map((slot) => slot.name);
+                    return !slotNames.every((slotName) => expose.type.includes(slotName));
+                  }
+                  return true;
+                });
+
+            return {
               exportName,
-              displayName: exportName === 'default' ? getNameFromFile(id).name : exportName,
+              displayName: exportName === 'default' ? getFilenameWithoutExtension(id) : exportName,
               ...meta,
+              exposed,
               sourceFiles: id,
-            });
-          }
-        });
-        const s = new MagicString(src);
+            };
+          });
+
         // if there is no component meta, return undefined
         if (metaSources.length === 0) return undefined;
-        // if there is only one component meta, we add it to the default export
-        if (metaSources.length === 1) {
-          metaSource = JSON.stringify(metaSources[0]);
-          if (
-            !id.endsWith('.vue') &&
-            metaSources[0].exportName === 'default' &&
-            (metaSources[0].type === TypeMeta.Function || metaSources[0].type === TypeMeta.Class)
-          ) {
-            s.replace('export default defineComponent', 'const _sfc_main = defineComponent');
-            s.append(`\nexport default _sfc_main`);
-          } else if (metaSources[0].exportName !== 'default') {
-            s.append(`\nexport const _sfc_main = defineComponent({})`);
-            s.append(`\n;${metaSources[0].exportName}.__docgenInfo = ${metaSource}`);
+
+        const s = new MagicString(src);
+
+        metaSources.forEach((meta) => {
+          const isDefaultExport = meta.exportName === 'default';
+
+          if (!id.endsWith('.vue') && isDefaultExport) {
+            // we can not add the __docgenInfo if the component is default exported directly
+            // so we need to safe it to a variable instead and export default it instead
+            s.replace('export default defineComponent(', 'const _sfc_main = defineComponent(');
+            s.append('\nexport default _sfc_main;');
           }
-          s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);
-        }
-        // if there are multiple component meta, we add them to the named exports
-        if (metaSources.length > 1) {
-          if (!id.endsWith('.vue')) {
-            const docgenInfos = metaSources
-              .map((m) => `${m.exportName}.__docgenInfo = ${JSON.stringify(m)}`)
-              .join(';\n');
-            s.append(`\n${docgenInfos}`);
-          }
-        }
+
+          const name = isDefaultExport ? '_sfc_main' : meta.exportName;
+          s.append(`\n;${name}.__docgenInfo = ${JSON.stringify(meta)}`);
+        });
 
         return {
           code: s.toString(),
@@ -115,8 +128,16 @@ function getProjectRoot() {
   return { relativePathToProjectRoot, absolutePathToProjectRoot };
 }
 
-function getNameFromFile(filename: string) {
-  const fileName = path.basename(filename);
-  const name = fileName.replace(/\.(vue|ts|js|tsx|jsx)/, '');
-  return { fileName, name };
+/**
+ * Gets the filename without file extension.
+ */
+function getFilenameWithoutExtension(filename: string) {
+  return path.parse(filename).name;
+}
+
+/**
+ * Lowercases the first letter.
+ */
+function lowercaseFirstLetter(string: string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
 }

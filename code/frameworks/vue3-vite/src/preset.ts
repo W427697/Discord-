@@ -1,8 +1,8 @@
 import type { PresetProperty } from '@storybook/types';
-import type { PluginOption } from 'vite';
 import { dirname, join } from 'path';
-import type { StorybookConfig } from './types';
+import type { PluginOption } from 'vite';
 import { vueComponentMeta } from './plugins/vue-component-meta';
+import type { StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
@@ -19,7 +19,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (
   const plugins: PluginOption[] = [];
 
   // Add docgen plugin
-  plugins.push(vueComponentMeta());
+  plugins.push(await vueComponentMeta());
 
   const { mergeConfig } = await import('vite');
   return mergeConfig(config, {
