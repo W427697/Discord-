@@ -46,6 +46,12 @@ export async function vueComponentMeta(): Promise<PluginOption> {
 
         const metaSources = componentsMeta
           .filter((meta) => meta.type !== TypeMeta.Unknown)
+          // filter out empty meta
+          .filter((meta) => {
+            return (
+              meta.props.length || meta.events.length || meta.slots.length || meta.exposed.length
+            );
+          })
           .map<MetaSource>((meta, index) => {
             const exportName = exportNames[index];
 
