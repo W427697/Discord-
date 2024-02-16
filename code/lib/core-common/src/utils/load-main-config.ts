@@ -3,7 +3,10 @@ import type { StorybookConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
 import { readFile } from 'fs/promises';
-import { MainFileESMOnlyImportError } from '@storybook/core-events/server-errors';
+import {
+  MainFileESMOnlyImportError,
+  MainFileFailedEvaluationError,
+} from '@storybook/core-events/server-errors';
 
 export async function loadMainConfig({
   configDir = '.storybook',
@@ -50,7 +53,10 @@ export async function loadMainConfig({
 
       throw out;
     }
-    throw e;
-    //
+
+    throw new MainFileFailedEvaluationError({
+      location: relative(process.cwd(), mainJsPath),
+      error: e,
+    });
   }
 }

@@ -400,6 +400,9 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
   readonly code = 5;
 
+  public documentation =
+    'https://github.com/storybookjs/storybook/issues/23972#issuecomment-1948534058';
+
   constructor(
     public data: { location: string; line: string | undefined; num: number | undefined }
   ) {
@@ -428,11 +431,52 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
     message.push(
       '',
-      white(`Convert the dynamic import to an dynamic import where they are used.`),
+      white(`Convert the static import to an dynamic import where they are used.`),
       white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`)
     );
 
     return message.join('\n');
+  }
+}
+
+export class MainFileMissingError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 6;
+
+  public readonly documentation = 'https://storybook.js.org/docs/configure';
+
+  constructor(public data: { location: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      No configuration files have been found in your configDir: ${yellow(this.data.location)}.
+      Storybook needs "main.js" file, please add it.
+      
+      You can pass a --config-dir flag to tell Storybook, where your main.js file is located at).
+    `;
+  }
+}
+
+export class MainFileFailedEvaluationError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 7;
+
+  public readonly documentation = 'https://storybook.js.org/docs/configure';
+
+  constructor(public data: { location: string; error: Error }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Storybook couldn't evaluate your ${yellow(this.data.location)} file.
+
+      ${this.data.error.message}
+    `;
   }
 }
 
@@ -507,6 +551,21 @@ export class UpgradeStorybookToSameVersionError extends StorybookError {
       If you intended to re-run automigrations, you should run the "automigrate" command directly instead:
 
       "npx storybook@${this.data.beforeVersion} automigrate"
+    `;
+  }
+}
+
+export class UpgradeStorybookUnknownCurrentVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 5;
+
+  template() {
+    return dedent`
+      We couldn't determine the current version of Storybook in your project.
+
+      Are you running the storybook CLI in a project without Storybook?
+      It might help if you specify your Storybook config directory with the --config-dir flag.
     `;
   }
 }
