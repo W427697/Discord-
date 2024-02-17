@@ -49,10 +49,7 @@ export const getServerChannelUrl = (port: number, { https }: { https?: boolean }
 
 const getLocalIp = () => {
   const allIps = Object.values(os.networkInterfaces()).flat();
-  const allFilteredIps = allIps.filter(
-    (networkAddress) =>
-      networkAddress && networkAddress.family === 'IPv4' && !networkAddress.internal
-  );
+  const allFilteredIps = allIps.filter((ip) => ip && ip.family === 'IPv4' && !ip.internal);
 
-  return allFilteredIps[0]?.address || '127.0.0.1';
+  return allFilteredIps.length ? allFilteredIps[0]?.address : '127.0.0.1';
 };
