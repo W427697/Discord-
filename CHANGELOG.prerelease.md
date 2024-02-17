@@ -1,7 +1,7 @@
 ## 8.0.0-beta.3
 
-- Actions: Add spy to action for explicit actions - [#26033](https://github.com/storybookjs/storybook/pull/26033), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
-- Addon Themes: Make type generic less strict - [#26042](https://github.com/storybookjs/storybook/pull/26042), thanks [@yannbf](https://github.com/yannbf)!
+- Addon-actions: Add spy to action for explicit actions - [#26033](https://github.com/storybookjs/storybook/pull/26033), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Addon-themes: Make type generic less strict - [#26042](https://github.com/storybookjs/storybook/pull/26042), thanks [@yannbf](https://github.com/yannbf)!
 - Addon-docs: Fix pnpm+Vite failing to build with `@storybook/theming` Rollup error - [#26024](https://github.com/storybookjs/storybook/pull/26024), thanks [@JReinhold](https://github.com/JReinhold)!
 - CLI: Refactor to add autoblockers - [#25934](https://github.com/storybookjs/storybook/pull/25934), thanks [@ndelangen](https://github.com/ndelangen)!
 - Codemod: Migrate to test package - [#25958](https://github.com/storybookjs/storybook/pull/25958), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
