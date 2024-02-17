@@ -10,6 +10,7 @@ import {
   type ComponentMeta,
   type MetaCheckerOptions,
 } from 'vue-component-meta';
+import { parseMulti } from 'vue-docgen-api';
 
 type MetaSource = {
   exportName: string;
@@ -48,16 +49,17 @@ export async function vueComponentMeta(): Promise<PluginOption> {
 
   return {
     name: 'storybook:vue-component-meta-plugin',
-    transform(src, id) {
+    async transform(src, id) {
       if (!filter(id)) return undefined;
 
       try {
         const exportNames = checker.getExportNames(id);
-        const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
+        let componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
+        componentsMeta = await applyTempFixForEventDescriptions(id, componentsMeta);
 
         const metaSources = componentsMeta
           .filter((meta) => meta.type !== TypeMeta.Unknown)
-          // filter out empty meta
+          // filteasync r out empty meta
           .filter((meta) => {
             return (
               meta.props.length || meta.events.length || meta.slots.length || meta.exposed.length
@@ -163,5 +165,46 @@ async function fileExists(fullPath: string) {
     return true;
   } catch {
     return false;
+  }
+}
+
+/**
+ * Applies a temporary workaround/fix for missing event descriptions because
+ * Volar is currently not able to extract them.
+ * Will modify the events of the passed meta.
+ * Performance note: Based on some quick tests, calling "parseMulti" only takes a few milliseconds (8-20ms)
+ * so it should not decrease performance that much. Especially because it is only execute if the component actually
+ * has events.
+ *
+ * Check status of this Volar issue: https://github.com/vuejs/language-tools/issues/3893
+ * and update/remove this workaround once Volar supports it:
+ * - delete this function
+ * - uninstall vue-docgen-api dependency
+ */
+async function applyTempFixForEventDescriptions(filename: string, componentMeta: ComponentMeta[]) {
+  // do not apply temp fix if no events exist for performance reasons
+  const hasEvents = componentMeta.some((meta) => meta.events.length);
+  if (!hasEvents) return componentMeta;
+
+  try {
+    const parsedComponentDocs = await parseMulti(filename);
+
+    // add event descriptions to the existing Volar meta if available
+    componentMeta.map((meta, index) => {
+      const eventsWithDescription = parsedComponentDocs[index].events;
+      if (!meta.events.length || !eventsWithDescription?.length) return meta;
+
+      meta.events = meta.events.map((event) => {
+        const description = eventsWithDescription.find((i) => i.name === event.name)?.description;
+        if (description) {
+          (event as typeof event & { description: string }).description = description;
+        }
+        return event;
+      });
+
+      return meta;
+    });
+  } finally {
+    return componentMeta;
   }
 }

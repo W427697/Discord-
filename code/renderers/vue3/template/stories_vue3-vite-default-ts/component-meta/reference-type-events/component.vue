@@ -2,8 +2,11 @@
 type MyFooEvent = 'foo';
 
 interface MyEvents {
+  /** Test description foo */
   (event: MyFooEvent, data?: { foo: string }): void;
+  /** Test description bar */
   (event: 'bar', value: { year: number; title?: any }): void;
+  /** Test description baz */
   (e: 'baz'): void;
 }
 
