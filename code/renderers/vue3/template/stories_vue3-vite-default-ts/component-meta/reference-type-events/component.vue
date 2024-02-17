@@ -1,13 +1,9 @@
 <script setup lang="ts">
-/**
- * Emitted when the foo property is changed.
- */
-type MyEventsFoo = 'foo';
+type MyFooEvent = 'foo';
+
 interface MyEvents {
-  (event: MyEventsFoo, data?: { foo: string }): void;
-  /** Test description for bar event. */
+  (event: MyFooEvent, data?: { foo: string }): void;
   (event: 'bar', value: { year: number; title?: any }): void;
-  /** Test description for baz event. */
   (e: 'baz'): void;
 }
 

@@ -1,17 +1,22 @@
-import { h, defineComponent } from 'vue';
-// import type { MyProps } from './PropDefinitions';  this works on vue@3.3.0
+import { defineComponent, h } from 'vue';
 
-interface MyProps {
-  /**
-   * string foo
-   */
-  foo: string;
-  /**
-   * optional number bar
-   */
-  bar?: number;
-}
-
-export default defineComponent((props: MyProps) => () => h('Pre', `${JSON.stringify(props)}`), {
-  props: ['foo', 'bar'],
+export default defineComponent({
+  props: {
+    /**
+     * string foo
+     */
+    foo: {
+      type: String,
+      required: true,
+    },
+    /**
+     * optional number bar
+     */
+    bar: {
+      type: Number,
+    },
+  },
+  setup(props) {
+    return () => h('pre', JSON.stringify(props, null, 2));
+  },
 });
