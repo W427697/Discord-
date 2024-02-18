@@ -107,6 +107,14 @@ export async function vueComponentMeta(): Promise<PluginOption> {
 
         metaSources.forEach((meta) => {
           const isDefaultExport = meta.exportName === 'default';
+          const name = isDefaultExport ? '_sfc_main' : meta.exportName;
+
+          // we can only add the "__docgenInfo" to variables that are actually defined in the current file
+          // so e.g. re-exports like "export { default as MyComponent } from './MyComponent.vue'" must be ignored
+          // to prevent runtime errors
+          if (new RegExp(`export {.*${name}.*}`).test(src)) {
+            return;
+          }
 
           if (!id.endsWith('.vue') && isDefaultExport) {
             // we can not add the __docgenInfo if the component is default exported directly
@@ -115,7 +123,6 @@ export async function vueComponentMeta(): Promise<PluginOption> {
             s.append('\nexport default _sfc_main;');
           }
 
-          const name = isDefaultExport ? '_sfc_main' : meta.exportName;
           s.append(`\n;${name}.__docgenInfo = ${JSON.stringify(meta)}`);
         });
 
