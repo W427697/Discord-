@@ -141,11 +141,7 @@ async function createChecker() {
     return createComponentMetaChecker(projectTsConfigPath, checkerOptions);
   }
 
-  return createComponentMetaCheckerByJsonConfig(
-    projectRoot,
-    { include: ['**/*'] },
-    checkerOptions
-  );
+  return createComponentMetaCheckerByJsonConfig(projectRoot, { include: ['**/*'] }, checkerOptions);
 }
 
 /**
