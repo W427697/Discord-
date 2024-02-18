@@ -164,13 +164,47 @@ export class Preview<TRenderer extends Renderer> {
     }
   }
 
+  loadLocalJSONFileAsync(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.overrideMimeType('application/json');
+      xhr.open('GET', url, true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            try {
+              const jsonData = JSON.parse(xhr.responseText);
+              resolve(jsonData);
+            } catch (error) {
+              reject(error);
+            }
+          } else {
+            reject(new Error('Failed to load JSON file. Status: ' + xhr.status));
+          }
+        }
+      };
+      xhr.send();
+    });
+  }
+
   async getStoryIndexFromServer() {
-    const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) {
-      return result.json() as any as StoryIndex;
+    const currentUrl = window.location.href;
+    // If the storybook runs on a server, then we could use fetch
+    if (currentUrl.startsWith('http')) {
+      const result = await fetch(STORY_INDEX_PATH);
+      if (result.status === 200) {
+        return result.json() as any as StoryIndex;
+      }
+      throw new StoryIndexFetchError({ text: await result.text() });
     }
 
-    throw new StoryIndexFetchError({ text: await result.text() });
+    // If the storybook is static build result, then it could not use fetch method(starts with file://)
+    try {
+      return await this.loadLocalJSONFileAsync(STORY_INDEX_PATH);
+    } catch (error) {
+      throw new StoryIndexFetchError({ text: error.message });
+    }
   }
 
   // If initialization gets as far as the story index, this function runs.
