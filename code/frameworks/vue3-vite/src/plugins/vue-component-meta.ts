@@ -59,7 +59,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
 
         const metaSources = componentsMeta
           .filter((meta) => meta.type !== TypeMeta.Unknown)
-          // filteasync r out empty meta
+          // filter  out empty meta
           .filter((meta) => {
             return (
               meta.props.length || meta.events.length || meta.slots.length || meta.exposed.length
