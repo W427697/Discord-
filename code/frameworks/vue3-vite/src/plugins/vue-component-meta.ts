@@ -27,25 +27,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
   const include = /\.(vue|ts|js|tsx|jsx)$/;
   const filter = createFilter(include, exclude);
 
-  const checkerOptions: MetaCheckerOptions = {
-    forceUseTs: true,
-    noDeclarations: true,
-    printer: { newLine: 1 },
-  };
-
-  const projectRoot = getProjectRoot();
-  const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
-  const tsConfigExists = await fileExists(projectTsConfigPath);
-
-  // prefer the tsconfig.json file of the project to support alias etc.
-  // if no tsconfig.json file exists, a fallback will be used
-  const checker = tsConfigExists
-    ? createComponentMetaChecker(projectTsConfigPath, checkerOptions)
-    : createComponentMetaCheckerByJsonConfig(
-        projectRoot,
-        { include: ['src/**/*'] },
-        checkerOptions
-      );
+  const checker = await createChecker();
 
   return {
     name: 'storybook:vue-component-meta-plugin',
@@ -135,6 +117,35 @@ export async function vueComponentMeta(): Promise<PluginOption> {
       }
     },
   };
+}
+
+/**
+ * Creates the vue-component-meta checker to use for extracting component meta/docs.
+ */
+async function createChecker() {
+  const checkerOptions: MetaCheckerOptions = {
+    forceUseTs: true,
+    noDeclarations: true,
+    printer: { newLine: 1 },
+  };
+
+  const projectRoot = getProjectRoot();
+  const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
+
+  if (await fileExists(projectTsConfigPath)) {
+    // TODO: tsconfig that uses references is currently not supported by vue-component-meta
+    // find a temp workaround for this
+    // see: https://github.com/vuejs/language-tools/issues/3896
+
+    // prefer the tsconfig.json file of the project to support alias resolution etc.
+    return createComponentMetaChecker(projectTsConfigPath, checkerOptions);
+  }
+
+  return createComponentMetaCheckerByJsonConfig(
+    projectRoot,
+    { include: ['src/**/*'] },
+    checkerOptions
+  );
 }
 
 /**
