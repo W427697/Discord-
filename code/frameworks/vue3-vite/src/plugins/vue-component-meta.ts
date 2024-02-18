@@ -43,7 +43,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
     ? createComponentMetaChecker(projectTsConfigPath, checkerOptions)
     : createComponentMetaCheckerByJsonConfig(
         projectRoot,
-        { extends: '../../tsconfig.json', include: ['src/**/*'] },
+        { include: ['src/**/*'] },
         checkerOptions
       );
 
