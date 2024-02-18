@@ -143,7 +143,7 @@ async function createChecker() {
 
   return createComponentMetaCheckerByJsonConfig(
     projectRoot,
-    { include: ['src/**/*'] },
+    { include: ['**/*'] },
     checkerOptions
   );
 }
