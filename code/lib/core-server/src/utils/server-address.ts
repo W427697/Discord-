@@ -51,5 +51,5 @@ const getLocalIp = () => {
   const allIps = Object.values(os.networkInterfaces()).flat();
   const allFilteredIps = allIps.filter((ip) => ip && ip.family === 'IPv4' && !ip.internal);
 
-  return allFilteredIps.length ? allFilteredIps[0]?.address : '127.0.0.1';
+  return allFilteredIps.length ? allFilteredIps[0]?.address : '0.0.0.0';
 };

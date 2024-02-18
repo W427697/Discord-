@@ -33,12 +33,12 @@ describe('getServerAddresses', () => {
     expect(networkAddress).toEqual(`http://${mockedNetworkAddress.address}:9009/`);
   });
 
-  it('builds addresses with loopback IP when host is not specified and external IPv4 is not found', () => {
+  it('builds addresses with default address when host is not specified and external IPv4 is not found', () => {
     mockedOs.networkInterfaces.mockReturnValueOnce({
       eth0: [{ ...mockedNetworkAddress, internal: true }],
     });
     const { address, networkAddress } = getServerAddresses(9009, '', 'http');
     expect(address).toEqual('http://localhost:9009/');
-    expect(networkAddress).toEqual('http://127.0.0.1:9009/');
+    expect(networkAddress).toEqual('http://0.0.0.0:9009/');
   });
 });
