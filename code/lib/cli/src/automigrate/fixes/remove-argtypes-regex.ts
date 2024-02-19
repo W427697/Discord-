@@ -73,6 +73,8 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
        )}
        
       Make sure to assign an explicit ${chalk.cyan('fn')} to your args for those usages. 
+      
+      For more information please visit our migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function
     `;
   },
 };
