@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createTest } from '@storybook/react/experimental_playwright';
+import { createTest } from '@storybook/react/experimental-playwright';
 import { test as base, expect } from '@playwright/experimental-ct-react';
 import stories from './Button.stories.playwright';
 
