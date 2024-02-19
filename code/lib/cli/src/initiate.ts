@@ -10,6 +10,7 @@ import {
   JsPackageManagerFactory,
   commandLog,
   paddedLog,
+  getProjectRoot,
 } from '@storybook/core-common';
 import type { JsPackageManager } from '@storybook/core-common';
 
@@ -38,6 +39,8 @@ import serverGenerator from './generators/SERVER';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
+import findUp from 'find-up';
+import { appendFile } from 'fs/promises';
 
 const logger = console;
 
@@ -367,6 +370,12 @@ export async function doInitiate(
     `);
 
     return { shouldRunDev: false };
+  }
+
+  const foundGitIgnoreFile = await findUp('.gitignore', { cwd: process.cwd() });
+  const rootDirectory = getProjectRoot();
+  if (foundGitIgnoreFile && foundGitIgnoreFile.includes(rootDirectory)) {
+    await appendFile(foundGitIgnoreFile, '\n*storybook.log');
   }
 
   const storybookCommand =
