@@ -59,13 +59,14 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
       
       ${argTypesRegex.buildCodeFrameError(`${previewConfigPath}`).message}
 
-      In Storybook 8, we recommend removing this regex, and assigning explicit spies with the ${chalk.cyan(
-        'fn'
-      )} function instead:      
+      In Storybook 8, we recommend removing this regex.
+      Assign explicit spies with the ${chalk.cyan('fn')} function instead:      
       ${formattedSnippet}
       
-      Even if you keep using the argTypesRegex, you will need to above pattern if you want to use spies in your play function.
-      Implicit spies (based on a combination of argTypesRegex and docgen) is not supported anymore in Storybook 8.
+      The above pattern is needed when using spies in the play function, ${chalk.bold(
+        'even'
+      )} if you keep using argTypesRegex.
+      Implicit spies (based on a combination of argTypesRegex and docgen) is not supported in Storybook 8.
       
       Use the following command to check for spy usages in your play functions:
        ${chalk.cyan(
