@@ -43,7 +43,9 @@ export async function warnWhenUsingArgTypesRegex(
               'argTypesRegex'
             )} and assigning explicit action with the ${chalk.cyan(
               'fn'
-            )} function from ${chalk.cyan('@storybook/test')} instead.
+            )} function from ${chalk.cyan('@storybook/test')} instead:
+            https://storybook.js.org/docs/essentials/actions#via-storybooktest-fn-spy-function
+            
             The build used by the addon for snapshot testing doesn't take the regex into account, which can cause hard to debug problems when a snapshot depends on the presence of action props.
           `;
           console.warn(message);
