@@ -86,7 +86,8 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/entry-preview.ts",
-      "./src/entry-preview-docs.ts"
+      "./src/entry-preview-docs.ts",
+      "./src/playwright.ts"
     ],
     "platform": "browser"
   },
