@@ -1,14 +1,28 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
-import semver from 'semver';
+import { telemetry } from '@storybook/telemetry';
+import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
+import {
+  UpgradeStorybookToLowerVersionError,
+  UpgradeStorybookToSameVersionError,
+} from '@storybook/core-events/server-errors';
 
-import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
-import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
-import { commandLog } from './helpers';
-import { automigrate } from './automigrate';
-import { isCorePackage } from './utils';
+import chalk from 'chalk';
+import dedent from 'ts-dedent';
+import boxen from 'boxen';
+import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import {
+  isCorePackage,
+  versions,
+  getStorybookInfo,
+  getCoercedStorybookVersion,
+  loadMainConfig,
+  JsPackageManagerFactory,
+} from '@storybook/core-common';
+import { automigrate } from './automigrate/index';
+import { autoblock } from './autoblock/index';
+import { PreCheckFailure } from './automigrate/types';
 
 type Package = {
   package: string;
@@ -24,6 +38,18 @@ export const getStorybookVersion = (line: string) => {
     package: match[1],
     version: match[2],
   };
+};
+
+const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
+  const installations = await packageManager.findInstallations(['storybook', '@storybook/cli']);
+  if (!installations) {
+    return;
+  }
+  const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
+  if (cliVersion) {
+    return cliVersion;
+  }
+  return installations.dependencies['storybook']?.[0].version;
 };
 
 const deprecatedPackages = [
@@ -51,7 +77,7 @@ export const checkVersionConsistency = () => {
     .split('\n');
   const storybookPackages = lines
     .map(getStorybookVersion)
-    .filter(Boolean)
+    .filter((item): item is NonNullable<typeof item> => !!item)
     .filter((pkg) => isCorePackage(pkg.package));
   if (!storybookPackages.length) {
     logger.warn('No storybook core packages found.');
@@ -83,150 +109,215 @@ export const checkVersionConsistency = () => {
   });
 };
 
-type ExtraFlags = Record<string, string[]>;
-const EXTRA_FLAGS: ExtraFlags = {
-  'react-scripts@<5': ['--reject', '/preset-create-react-app/'],
-};
-
-export const addExtraFlags = (
-  extraFlags: ExtraFlags,
-  flags: string[],
-  { dependencies, devDependencies }: PackageJsonWithMaybeDeps
-) => {
-  return Object.entries(extraFlags).reduce(
-    (acc, entry) => {
-      const [pattern, extra] = entry;
-      const [pkg, specifier] = getPackageDetails(pattern);
-      const pkgVersion = dependencies[pkg] || devDependencies[pkg];
-
-      if (pkgVersion && semver.satisfies(semver.coerce(pkgVersion), specifier)) {
-        return [...acc, ...extra];
-      }
-
-      return acc;
-    },
-    [...flags]
-  );
-};
-
-export const addNxPackagesToReject = (flags: string[]) => {
-  const newFlags = [...flags];
-  const index = flags.indexOf('--reject');
-  if (index > -1) {
-    // Try to understand if it's in the format of a regex pattern
-    if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
-      // Remove last and first slash so that I can add the parentheses
-      newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
-      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
-    } else {
-      // Adding the two packages as comma-separated values
-      // If the existing rejects are in regex format, they will be ignored.
-      // Maybe we need to find a more robust way to treat rejects?
-      newFlags[index + 1] = `${newFlags[index + 1]},@nrwl/storybook,@nx/storybook`;
-    }
-  } else {
-    newFlags.push('--reject');
-    newFlags.push('@nrwl/storybook,@nx/storybook');
-  }
-  return newFlags;
-};
-
 export interface UpgradeOptions {
-  tag: string;
-  prerelease: boolean;
   skipCheck: boolean;
-  useNpm: boolean;
-  packageManager: PackageManagerName;
+  packageManager?: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
+  force: boolean;
   disableTelemetry: boolean;
   configDir?: string;
 }
 
 export const doUpgrade = async ({
-  tag,
-  prerelease,
   skipCheck,
-  useNpm,
-  packageManager: pkgMgr,
+  packageManager: packageManagerName,
   dryRun,
-  configDir,
+  configDir: userSpecifiedConfigDir,
   yes,
   ...options
 }: UpgradeOptions) => {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: packageManagerName });
+
+  // If we can't determine the existing version fallback to v0.0.0 to not block the upgrade
+  const beforeVersion = (await getInstalledStorybookVersion(packageManager)) ?? '0.0.0';
+
+  const currentVersion = versions['@storybook/cli'];
+  const isCanary =
+    currentVersion.startsWith('0.0.0') ||
+    beforeVersion.startsWith('portal:') ||
+    beforeVersion.startsWith('workspace:');
+
+  if (!isCanary && lt(currentVersion, beforeVersion)) {
+    throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-
-  const beforeVersion = await getStorybookCoreVersion();
-
-  commandLog(`Checking for latest versions of '@storybook/*' packages`);
-
-  if (tag && prerelease) {
-    throw new Error(
-      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
-    );
-  }
-
-  let target = 'latest';
-  if (prerelease) {
-    // '@next' is storybook's convention for the latest prerelease tag.
-    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
-    // and random releases of other packages with storybook in their name.
-    target = '@next';
-  } else if (tag) {
-    target = `@${tag}`;
+  if (!isCanary && eq(currentVersion, beforeVersion)) {
+    throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  let flags = [];
-  if (!dryRun) flags.push('--upgrade');
-  flags.push('--target');
-  flags.push(target);
-  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
-  flags = addNxPackagesToReject(flags);
-  const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
-    stdio: 'pipe',
-    shell: true,
+  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
+    //
+    packageManager.latestVersion('@storybook/cli'),
+    packageManager.retrievePackageJson(),
+    getCoercedStorybookVersion(packageManager),
+  ]);
+
+  const isOutdated = lt(currentVersion, latestVersion);
+  const isPrerelease = prerelease(currentVersion) !== null;
+
+  const borderColor = isOutdated ? '#FC521F' : '#F1618C';
+
+  const messages = {
+    welcome: `Upgrading Storybook from version ${chalk.bold(beforeVersion)} to version ${chalk.bold(
+      currentVersion
+    )}..`,
+    notLatest: chalk.red(dedent`
+      This version is behind the latest release, which is: ${chalk.bold(latestVersion)}!
+      You likely ran the upgrade command through npx, which can use a locally cached version, to upgrade to the latest version please run:
+      ${chalk.bold('npx storybook@latest upgrade')}
+      
+      You may want to CTRL+C to stop, and run with the latest version instead.
+    `),
+    prelease: chalk.yellow('This is a pre-release version.'),
+  };
+
+  logger.plain(
+    boxen(
+      [messages.welcome]
+        .concat(isOutdated && !isPrerelease ? [messages.notLatest] : [])
+        .concat(isPrerelease ? [messages.prelease] : [])
+        .join('\n'),
+      { borderStyle: 'round', padding: 1, borderColor }
+    )
+  );
+
+  let results;
+
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    packageJson,
+    userSpecifiedConfigDir
+  );
+  const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
+
+  let mainConfigLoadingError = '';
+
+  const mainConfig = await loadMainConfig({ configDir }).catch((err) => {
+    mainConfigLoadingError = String(err);
+    return false;
   });
-  logger.info(check.stdout.toString());
-  logger.info(check.stderr.toString());
 
-  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
-    stdio: 'pipe',
-    shell: true,
-  });
-  logger.info(checkSb.stdout.toString());
-  logger.info(checkSb.stderr.toString());
+  // GUARDS
+  if (!storybookVersion) {
+    logger.info(missingStorybookVersionMessage());
+    results = { preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION };
+  } else if (
+    typeof mainConfigPath === 'undefined' ||
+    mainConfigLoadingError.includes('No configuration files have been found')
+  ) {
+    logger.info(mainjsNotFoundMessage(configDir));
+    results = { preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND };
+  } else if (typeof mainConfig === 'boolean') {
+    logger.info(mainjsExecutionFailureMessage(mainConfigPath, mainConfigLoadingError));
+    results = { preCheckFailure: PreCheckFailure.MAINJS_EVALUATION };
+  }
 
-  if (!dryRun) {
-    commandLog(`Installing upgrades`);
+  // BLOCKERS
+  if (
+    !results &&
+    typeof mainConfig !== 'boolean' &&
+    typeof mainConfigPath !== 'undefined' &&
+    !options.force
+  ) {
+    const blockResult = await autoblock({
+      packageManager,
+      configDir,
+      packageJson,
+      mainConfig,
+      mainConfigPath,
+    });
+    if (blockResult) {
+      results = { preCheckFailure: blockResult };
+    }
+  }
+
+  // INSTALL UPDATED DEPENDENCIES
+  if (!dryRun && !results) {
+    const toUpgradedDependencies = (deps: Record<string, any>) => {
+      const monorepoDependencies = Object.keys(deps || {}).filter((dependency) => {
+        // only upgrade packages that are in the monorepo
+        return dependency in versions;
+      }) as Array<keyof typeof versions>;
+      return monorepoDependencies.map((dependency) => {
+        /* add ^ modifier to the version if this is the latest stable or prerelease version
+           example outputs: @storybook/react@^8.0.0 */
+        const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
+        return `${dependency}@${maybeCaret}${versions[dependency]}`;
+      });
+    };
+
+    const upgradedDependencies = toUpgradedDependencies(packageJson.dependencies);
+    const upgradedDevDependencies = toUpgradedDependencies(packageJson.devDependencies);
+
+    logger.info(`Updating dependencies in ${chalk.cyan('package.json')}..`);
+    if (upgradedDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: false, skipInstall: true, packageJson },
+        upgradedDependencies
+      );
+    }
+    if (upgradedDevDependencies.length > 0) {
+      await packageManager.addDependencies(
+        { installAsDevDependencies: true, skipInstall: true, packageJson },
+        upgradedDevDependencies
+      );
+    }
     await packageManager.installDependencies();
   }
 
-  let automigrationResults;
-  if (!skipCheck) {
+  // AUTOMIGRATIONS
+  if (!skipCheck && !results && mainConfigPath && storybookVersion) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
+    results = await automigrate({
+      dryRun,
+      yes,
+      packageManager,
+      configDir,
+      mainConfigPath,
+      storybookVersion,
+    });
   }
+
+  // TELEMETRY
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
-    const { preCheckFailure, fixResults } = automigrationResults || {};
+    const { preCheckFailure, fixResults } = results || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,
       automigrationPreCheckFailure: preCheckFailure || null,
     };
-    telemetry('upgrade', {
-      prerelease,
-      tag,
+
+    await telemetry('upgrade', {
       beforeVersion,
-      afterVersion,
+      afterVersion: currentVersion,
       ...automigrationTelemetry,
     });
   }
 };
+
+function missingStorybookVersionMessage(): string {
+  return dedent`
+      [Storybook automigrate] ❌ Unable to determine Storybook version so that the automigrations will be skipped.
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
+      `;
+}
+
+function mainjsExecutionFailureMessage(
+  mainConfigPath: string,
+  mainConfigLoadingError: string
+): string {
+  return dedent`
+    [Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
+      mainConfigPath
+    )} with the following error: ${mainConfigLoadingError}
+    
+    Please fix the error and try again.
+  `;
+}
+
+function mainjsNotFoundMessage(configDir: string): string {
+  return dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
+    configDir
+  )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`;
+}
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));

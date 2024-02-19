@@ -71,7 +71,6 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
       if (storyRenderer) {
         const deprecated = !window?.FEATURES?.disallowImplicitActionsInRenderV8;
         const error = new ImplicitActionsDuringRendering({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           phase: storyRenderer.phase!,
           name,
           deprecated,
@@ -104,6 +103,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     channel.emit(EVENT_ID, actionDisplayToEmit);
   };
   handler.isAction = true;
+  handler.implicit = options.implicit;
 
   return handler;
 }

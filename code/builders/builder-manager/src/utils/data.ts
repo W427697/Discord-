@@ -1,9 +1,9 @@
 import { basename } from 'path';
-import type { DocsOptions, Options } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getRefs } from '@storybook/core-common';
 
 import { readTemplate } from './template';
-// eslint-disable-next-line import/no-cycle
+
 import { executor, getConfig } from '../index';
 
 export const getData = async (options: Options) => {
@@ -13,7 +13,8 @@ export const getData = async (options: Options) => {
   const features = options.presets.apply<Record<string, string | boolean>>('features');
   const logLevel = options.presets.apply<string>('logLevel');
   const title = options.presets.apply<string>('title');
-  const docsOptions = options.presets.apply<DocsOptions>('docs', {});
+  const docsOptions = options.presets.apply('docs', {});
+  const tagsOptions = options.presets.apply('tags', {});
   const template = readTemplate('template.ejs');
   const customHead = options.presets.apply<string>('managerHead');
 
@@ -35,5 +36,6 @@ export const getData = async (options: Options) => {
     config,
     logLevel,
     favicon,
+    tagsOptions,
   };
 };

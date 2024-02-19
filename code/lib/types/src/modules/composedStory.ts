@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { Renderer, StoryId } from '@storybook/csf';
+import type { Renderer, StoryId, StrictArgTypes } from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -53,13 +53,14 @@ export type PartialArgsStoryFn<TRenderer extends Renderer = Renderer, TArgs = Ar
  */
 export type ComposedStoryFn<
   TRenderer extends Renderer = Renderer,
-  TArgs = Args
+  TArgs = Args,
 > = PartialArgsStoryFn<TRenderer, TArgs> & {
-  play: ComposedStoryPlayFn<TRenderer, TArgs>;
+  play: ComposedStoryPlayFn<TRenderer, TArgs> | undefined;
   args: TArgs;
   id: StoryId;
   storyName: string;
   parameters: Parameters;
+  argTypes: StrictArgTypes<TArgs>;
 };
 /**
  * Based on a module of stories, it returns all stories within it, filtering non-stories

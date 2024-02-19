@@ -1,22 +1,31 @@
-/* eslint-disable no-await-in-loop */
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
-import dedent from 'ts-dedent';
-
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
-import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
-import type { PackageManagerName } from '../js-package-manager';
+import invariant from 'tiny-invariant';
 
-import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
-import { FixStatus, PreCheckFailure, allFixes } from './fixes';
+import {
+  JsPackageManagerFactory,
+  type JsPackageManager,
+  getCoercedStorybookVersion,
+  getStorybookInfo,
+} from '@storybook/core-common';
+
+import type {
+  Fix,
+  FixId,
+  AutofixOptions,
+  FixSummary,
+  PreCheckFailure,
+  AutofixOptionsFromCLI,
+  Prompt,
+} from './fixes';
+import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
-import { getStorybookVersion } from '../utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -49,22 +58,50 @@ const logAvailableMigrations = () => {
   logger.info(`\nThe following migrations are available: ${availableFixes}`);
 };
 
+export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
+  const packageManager = JsPackageManagerFactory.getPackageManager({
+    force: options.packageManager,
+  });
+
+  const [packageJson, storybookVersion] = await Promise.all([
+    packageManager.retrievePackageJson(),
+    getCoercedStorybookVersion(packageManager),
+  ]);
+
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    packageJson,
+    options.configDir
+  );
+  const configDir = options.configDir || inferredConfigDir || '.storybook';
+
+  if (!storybookVersion) {
+    throw new Error('Could not determine Storybook version');
+  }
+
+  if (!mainConfigPath) {
+    throw new Error('Could not determine main config path');
+  }
+
+  return automigrate({ ...options, packageManager, storybookVersion, mainConfigPath, configDir });
+};
+
 export const automigrate = async ({
   fixId,
   fixes: inputFixes,
   dryRun,
   yes,
-  useNpm,
-  packageManager: pkgMgr,
+  packageManager,
   list,
-  configDir: userSpecifiedConfigDir,
+  configDir,
+  mainConfigPath,
+  storybookVersion,
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
-}: FixOptions = {}): Promise<{
+}: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
-  preCheckFailure: PreCheckFailure;
-}> => {
+  preCheckFailure?: PreCheckFailure;
+} | null> => {
   if (list) {
     logAvailableMigrations();
     return null;
@@ -85,11 +122,12 @@ export const automigrate = async ({
 
   const { fixResults, fixSummary, preCheckFailure } = await runFixes({
     fixes,
-    useNpm,
-    pkgMgr,
-    userSpecifiedConfigDir,
+    packageManager,
     rendererPackage,
     skipInstall,
+    configDir,
+    mainConfigPath,
+    storybookVersion,
     dryRun,
     yes,
   });
@@ -106,7 +144,6 @@ export const automigrate = async ({
   }
 
   if (!hideMigrationSummary) {
-    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
     const installationMetadata = await packageManager.findInstallations([
       '@storybook/*',
       'storybook',
@@ -128,84 +165,29 @@ export async function runFixes({
   fixes,
   dryRun,
   yes,
-  useNpm,
-  pkgMgr,
-  userSpecifiedConfigDir,
   rendererPackage,
   skipInstall,
+  configDir,
+  packageManager,
+  mainConfigPath,
+  storybookVersion,
 }: {
   fixes: Fix[];
   yes?: boolean;
   dryRun?: boolean;
-  useNpm?: boolean;
-  pkgMgr?: PackageManagerName;
-  userSpecifiedConfigDir?: string;
   rendererPackage?: string;
   skipInstall?: boolean;
+  configDir: string;
+  packageManager: JsPackageManager;
+  mainConfigPath: string;
+  storybookVersion: string;
 }): Promise<{
   preCheckFailure?: PreCheckFailure;
   fixResults: Record<FixId, FixStatus>;
   fixSummary: FixSummary;
 }> {
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
-
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
-
-  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
-    await packageManager.retrievePackageJson(),
-    userSpecifiedConfigDir
-  );
-
-  const storybookVersion = await getStorybookVersion(packageManager);
-
-  if (!storybookVersion) {
-    logger.info(dedent`
-      [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `);
-    return {
-      fixResults,
-      fixSummary,
-      preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION,
-    };
-  }
-
-  const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
-  try {
-    await loadMainConfig({ configDir });
-  } catch (err) {
-    if (err.message.includes('No configuration files have been found')) {
-      logger.info(
-        dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
-          configDir
-        )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`
-      );
-      return {
-        fixResults,
-        fixSummary,
-        preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND,
-      };
-    }
-    logger.info(
-      dedent`[Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
-        mainConfigPath
-      )} with the following error: ${err.message}`
-    );
-    logger.info('Please fix the error and try again.');
-
-    return {
-      fixResults,
-      fixSummary,
-      preCheckFailure: PreCheckFailure.MAINJS_EVALUATION,
-    };
-  }
 
   for (let i = 0; i < fixes.length; i += 1) {
     const f = fixes[i] as Fix;
@@ -228,36 +210,52 @@ export async function runFixes({
       });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
-      logger.error(`\n${error.stack}`);
-      fixSummary.failed[f.id] = error.message;
+      if (error instanceof Error) {
+        logger.error(`\n${error.stack}`);
+        fixSummary.failed[f.id] = error.message;
+      }
       fixResults[f.id] = FixStatus.CHECK_FAILED;
     }
 
     if (result) {
+      const promptType: Prompt =
+        typeof f.promptType === 'function' ? await f.promptType(result) : f.promptType ?? 'auto';
+
       logger.info(`\n🔎 found a '${chalk.cyan(f.id)}' migration:`);
       const message = f.prompt(result);
+
+      const getTitle = () => {
+        switch (promptType) {
+          case 'auto':
+            return 'Automigration detected';
+          case 'manual':
+            return 'Manual migration detected';
+          case 'notification':
+            return 'Migration notification';
+        }
+      };
 
       logger.info(
         boxen(message, {
           borderStyle: 'round',
           padding: 1,
           borderColor: '#F1618C',
-          title: f.promptOnly ? 'Manual migration detected' : 'Automigration detected',
+          title: getTitle(),
         })
       );
 
-      let runAnswer: { fix: boolean };
+      let runAnswer: { fix: boolean } | undefined;
 
       try {
         if (dryRun) {
           runAnswer = { fix: false };
         } else if (yes) {
           runAnswer = { fix: true };
-          if (f.promptOnly) {
+          if (promptType === 'manual') {
             fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
             fixSummary.manual.push(f.id);
           }
-        } else if (f.promptOnly) {
+        } else if (promptType === 'manual') {
           fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
           fixSummary.manual.push(f.id);
 
@@ -283,7 +281,7 @@ export async function runFixes({
             fixResults[f.id] = FixStatus.MANUAL_SKIPPED;
             break;
           }
-        } else {
+        } else if (promptType === 'auto') {
           runAnswer = await prompts(
             {
               type: 'confirm',
@@ -297,14 +295,31 @@ export async function runFixes({
               },
             }
           );
+        } else if (promptType === 'notification') {
+          runAnswer = await prompts(
+            {
+              type: 'confirm',
+              name: 'fix',
+              message: `Do you want to continue?`,
+              initial: true,
+            },
+            {
+              onCancel: () => {
+                throw new Error();
+              },
+            }
+          );
         }
       } catch (err) {
         break;
       }
 
-      if (!f.promptOnly) {
+      if (promptType === 'auto') {
+        invariant(runAnswer, 'runAnswer must be defined if not promptOnly');
         if (runAnswer.fix) {
           try {
+            invariant(typeof f.run === 'function', 'run method should be available in fix.');
+            invariant(mainConfigPath, 'Main config path should be defined to run migration.');
             await f.run({
               result,
               packageManager,
@@ -318,7 +333,8 @@ export async function runFixes({
             fixSummary.succeeded.push(f.id);
           } catch (error) {
             fixResults[f.id] = FixStatus.FAILED;
-            fixSummary.failed[f.id] = error.message;
+            fixSummary.failed[f.id] =
+              error instanceof Error ? error.message : 'Failed to run migration';
 
             logger.info(`❌ error when running ${chalk.cyan(f.id)} migration`);
             logger.info(error);

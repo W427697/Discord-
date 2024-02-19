@@ -1,11 +1,11 @@
-import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageManagerName } from '../js-package-manager';
+import type { StorybookConfigRaw } from '@storybook/types';
+import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
   rendererPackage?: string;
   configDir?: string;
-  mainConfig: StorybookConfig;
+  mainConfig: StorybookConfigRaw;
   storybookVersion: string;
   previewConfigPath?: string;
   mainConfigPath?: string;
@@ -15,14 +15,22 @@ export interface RunOptions<ResultType> {
   packageManager: JsPackageManager;
   result: ResultType;
   dryRun?: boolean;
-  mainConfigPath?: string;
+  mainConfigPath: string;
   skipInstall?: boolean;
 }
 
+/**
+ * promptType defines how the user will be prompted to apply an automigration fix
+ * - auto: the fix will be applied automatically
+ * - manual: the user will be prompted to apply the fix
+ * - notification: the user will be notified about the some changes. A fix isn't required
+ */
+export type Prompt = 'auto' | 'manual' | 'notification';
+
 export interface Fix<ResultType = any> {
   id: string;
-  promptOnly?: boolean;
-  check: (options: CheckOptions) => Promise<ResultType | void>;
+  promptType?: Prompt | ((result: ResultType) => Promise<Prompt> | Prompt);
+  check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
   run?: (options: RunOptions<ResultType>) => Promise<void>;
 }
@@ -35,15 +43,19 @@ export enum PreCheckFailure {
   MAINJS_EVALUATION = 'mainjs_evaluation_error',
 }
 
-export interface FixOptions {
+export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageManager'> {
+  packageManager: JsPackageManager;
+  mainConfigPath: string;
+  storybookVersion: string;
+}
+export interface AutofixOptionsFromCLI {
   fixId?: FixId;
   list?: boolean;
   fixes?: Fix[];
   yes?: boolean;
-  dryRun?: boolean;
-  useNpm?: boolean;
   packageManager?: PackageManagerName;
-  configDir?: string;
+  dryRun?: boolean;
+  configDir: string;
   renderer?: string;
   skipInstall?: boolean;
   hideMigrationSummary?: boolean;

@@ -1,13 +1,9 @@
 import { getProjectRoot } from '@storybook/core-common';
-import { getVirtualModuleMapping } from '@storybook/core-webpack';
+import { getVirtualModules } from '@storybook/builder-webpack5';
 import type { Options } from '@storybook/types';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { NextConfig } from 'next';
 import path from 'path';
-import type { RuleSetRule } from 'webpack';
-import semver from 'semver';
-import { NextjsSWCNotSupportedError } from '@storybook/core-events/server-errors';
-import { getNextjsVersion } from '../utils';
+import loadJsConfig from 'next/dist/build/load-jsconfig';
 
 export const configureSWCLoader = async (
   baseConfig: any,
@@ -15,32 +11,17 @@ export const configureSWCLoader = async (
   nextConfig: NextConfig
 ) => {
   const isDevelopment = options.configType !== 'PRODUCTION';
-  const version = getNextjsVersion();
-
-  if (semver.lt(version, '14.0.0')) {
-    throw new NextjsSWCNotSupportedError();
-  }
 
   const dir = getProjectRoot();
 
-  baseConfig.plugins = [
-    ...baseConfig.plugins,
-    new ReactRefreshWebpackPlugin({
-      overlay: {
-        sockIntegration: 'whm',
-      },
-    }),
-  ];
+  const { virtualModules } = await getVirtualModules(options);
 
-  const virtualModules = await getVirtualModuleMapping(options);
+  const { jsConfig } = await loadJsConfig(dir, nextConfig as any);
 
   baseConfig.module.rules = [
-    // TODO: Remove filtering in Storybook 8.0
-    ...baseConfig.module.rules.filter((r: RuleSetRule) => {
-      return !r.loader?.includes('swc-loader');
-    }),
+    ...baseConfig.module.rules,
     {
-      test: /\.(m?(j|t)sx?)$/,
+      test: /\.((c|m)?(j|t)sx?)$/,
       include: [getProjectRoot()],
       exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
       enforce: 'post',
@@ -54,6 +35,7 @@ export const configureSWCLoader = async (
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
           hasReactRefresh: isDevelopment,
+          jsConfig,
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,

@@ -17,31 +17,31 @@ The actions addon is used to display data received by event handler (callback) a
 
 Actions work via supplying special Storybook-generated “action” arguments (referred to as "args" for short) to your stories. There are two ways to get an action arg:
 
-### Action argType annotation
+### Via @storybook/test fn spy function
 
-You can use [argTypes](../api/argtypes.md) to tell Storybook that an arg to your story should be an action. Usually, it makes sense to do this at the component level (although you can apply it per individual story):
+The recommended way to write actions is to use the `fn` utility from `@storybook/test` to mock and spy args. This is very useful for writing [interaction tests](../writing-tests/interaction-testing.md). You can mock your component's methods by assigning them to the `fn()` function:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'angular/button-story-onclick-action-argtype.ts.mdx',
-    'web-components/button-story-onclick-action-argtype.js.mdx',
-    'web-components/button-story-onclick-action-argtype.ts.mdx',
-    'common/button-story-onclick-action-argtype.js.mdx',
-    'common/button-story-onclick-action-argtype.ts.mdx',
+    'angular/button-story-onclick-action-spy.ts.mdx',
+    'common/button-story-onclick-action-spy.js.mdx',
+    'common/button-story-onclick-action-spy.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-When Storybook sees this argType, it will create an arg set to a special “action” callback. If your component calls this arg (based on the user's interaction or through the `play` function), the event will show up in the action panel:
+If your component calls an arg (because of either the user's interaction or the `play` function) and that arg is spied on , the event will show up in the action panel:
 
 ![Essential Actions addon usage](./addon-actions-screenshot.png)
 
 ### Automatically matching args
 
-Another option is to use a global parameter to match all [argTypes](../api/argtypes.md) that match a certain pattern. The following configuration automatically creates actions for each `on` argType (which you can either specify manually or can be [inferred automatically](../api/argtypes.md#automatic-argtype-inference)).
+Another option is to use a global parameter to match all [argTypes](../api/arg-types.md) that match a certain pattern. The following configuration automatically creates actions for each `on` argType (which you can either specify manually or can be [inferred automatically](../api/arg-types.md#automatic-argtype-inference)).
+
+This is quite useful when your component has dozens (or hundreds) of methods and you do not want to manually apply the `fn` utility for each of those methods. However, **this is not the recommended** way of writing actions. That's because automatically inferred args **are not available as spies in your play function**. If you use `argTypesRegex` and your stories have play functions, you will need to also define args with the `fn` utility to test them in your play function.
 
 <!-- prettier-ignore-start -->
 
@@ -54,7 +54,7 @@ Another option is to use a global parameter to match all [argTypes](../api/argty
 
 <!-- prettier-ignore-end -->
 
-If you need more granular control over which `argTypes` are matched, you can adjust your stories and include the `argTypes` parameter. For example:
+If you need more granular control over which `argTypes` are matched, you can adjust your stories and include the `argTypesRegex` parameter. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -72,7 +72,7 @@ If you need more granular control over which `argTypes` are matched, you can adj
 
 <Callout variant="info" icon="💡">
 
-If you're generating argTypes with another addon (like [docs](../writing-docs/introduction.md), which is the common behavior), ensure the actions addon **AFTER** the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering). This is default in [essentials](./introduction.md).
+If you're generating argTypes with another addon (like [docs](../writing-docs/index.md), which is the common behavior), ensure the actions addon **AFTER** the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/index.md#configure-story-rendering). This is default in [essentials](./index.md).
 
 </Callout>
 
@@ -96,6 +96,62 @@ It is also possible to detect if your component is emitting the correct HTML eve
 <!-- prettier-ignore-end -->
 
 This will bind a standard HTML event handler to the outermost HTML element rendered by your component and trigger an action when the event is called for a given selector. The format is `<eventname> <selector>`. The selector is optional; it defaults to all elements.
+
+## API
+
+### Parameters
+
+This addon contributes the following [parameters](../writing-stories/parameters.md) to Storybook, under the `actions` namespace:
+
+#### `argTypesRegex`
+
+Type: `string`
+
+Create actions for each arg that matches the regex. Please note the significant [limitations of this approach](#automatically-matching-args), as described above.
+
+#### `disable`
+
+Type: `boolean`
+
+Disable this addon's behavior. If you wish to disable this addon for the entire Storybook, you should do so when registering `addon-essentials`. See the [essential addon's docs](../essentials/index.md#disabling-addons) for more information.
+
+This parameter is most useful to allow overriding at more specific levels. For example, if this parameter is set to `true` at the project level, it could then be re-enabled by setting it to `false` at the meta (component) or story level.
+
+#### `handles`
+
+Type: `string[]`
+
+Binds a standard HTML event handler to the outermost HTML element rendered by your component and triggers an action when the event is called for a given selector. The format is `<eventname> <selector>`. The selector is optional; it defaults to all elements.
+
+See the [action event handlers](#action-event-handlers) section, above, for more information.
+
+### Exports
+
+This addon contributes the following exports to Storybook:
+
+```js
+import { action } from '@storybook/addon-actions';
+```
+
+#### `action`
+
+Type: `(name?: string) => void`
+
+Allows you to create an action that appears in the actions panel of the Storybook UI when clicked. The action function takes an optional name parameter, which is used to identify the action in the UI.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'angular/addon-actions-action-function.ts.mdx',
+    'web-components/addon-actions-action-function.js.mdx',
+    'web-components/addon-actions-action-function.ts.mdx',
+    'common/addon-actions-action-function.js.mdx',
+    'common/addon-actions-action-function.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Advanced / legacy usage
 

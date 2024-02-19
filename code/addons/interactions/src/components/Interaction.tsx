@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { IconButton, Icons, TooltipNote, WithTooltip } from '@storybook/components';
+import { IconButton, TooltipNote, WithTooltip } from '@storybook/components';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
+import { ListUnorderedIcon } from '@storybook/icons';
 import { Expected, MatcherResult, Received } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
 
 import type { Controls } from './InteractionsPanel';
+import { isJestError } from '../utils';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,
@@ -111,8 +113,8 @@ const RowMessage = styled('div')(({ theme }) => ({
   },
 }));
 
-const Exception = ({ exception }: { exception: Call['exception'] }) => {
-  if (exception.message.startsWith('expect(')) {
+export const Exception = ({ exception }: { exception: Call['exception'] }) => {
+  if (isJestError(exception)) {
     return <MatcherResult {...exception} />;
   }
   const paragraphs = exception.message.split('\n\n');
@@ -120,7 +122,6 @@ const Exception = ({ exception }: { exception: Call['exception'] }) => {
   return (
     <RowMessage>
       <pre>{paragraphs[0]}</pre>
-
       {exception.showDiff && exception.diff ? (
         <>
           <br />
@@ -197,7 +198,7 @@ export const Interaction = ({
               tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
-                <Icons icon="listunordered" />
+                <ListUnorderedIcon />
               </StyledIconButton>
             </WithTooltip>
           )}

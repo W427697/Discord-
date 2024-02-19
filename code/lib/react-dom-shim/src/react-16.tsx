@@ -1,3 +1,4 @@
+/* eslint-disable react/no-deprecated */
 import type { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 
