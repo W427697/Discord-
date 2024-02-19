@@ -295,7 +295,7 @@ export async function runFixes({
               },
             }
           );
-        } else if (promptType === 'notified') {
+        } else if (promptType === 'notification') {
           runAnswer = await prompts(
             {
               type: 'confirm',

@@ -23,7 +23,7 @@ export interface RunOptions<ResultType> {
  * promptType defines how the user will be prompted to apply an automigration fix
  * - auto: the fix will be applied automatically
  * - manual: the user will be prompted to apply the fix
- * - notified: the user will be notified about the some changes. A fix isn't required
+ * - notification: the user will be notified about the some changes. A fix isn't required
  */
 export type Prompt = 'auto' | 'manual' | 'notification';
 

@@ -30,7 +30,7 @@ export const webpack5CompilerSetup = {
   id: 'webpack5-compiler-setup',
 
   promptType(result) {
-    return result.isNextJs && !result.shouldRemoveSWCFlag ? 'notified' : 'auto';
+    return result.isNextJs && !result.shouldRemoveSWCFlag ? 'notification' : 'auto';
   },
 
   async check({ mainConfig, packageManager }) {

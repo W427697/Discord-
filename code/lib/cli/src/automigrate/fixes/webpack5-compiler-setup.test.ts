@@ -363,14 +363,14 @@ describe('webpack5Migration check function', () => {
 });
 
 describe('promptOnly', () => {
-  it('should return notified if isNextJs = true and shouldRemoveSWCFlag = false', () => {
+  it('should return notification if isNextJs = true and shouldRemoveSWCFlag = false', () => {
     const promptType = webpack5CompilerSetup.promptType({
       isNextJs: true,
       shouldRemoveSWCFlag: false,
       defaultCompiler: undefined,
     });
 
-    expect(promptType).toBe('notified');
+    expect(promptType).toBe('notification');
   });
 
   it('should return auto if isNextJs = false', () => {
