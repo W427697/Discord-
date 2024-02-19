@@ -25,7 +25,7 @@ export interface RunOptions<ResultType> {
  * - manual: the user will be prompted to apply the fix
  * - notified: the user will be notified about the some changes. A fix isn't required
  */
-export type Prompt = 'auto' | 'manual' | 'notified';
+export type Prompt = 'auto' | 'manual' | 'notification';
 
 export interface Fix<ResultType = any> {
   id: string;

@@ -230,7 +230,7 @@ export async function runFixes({
             return 'Automigration detected';
           case 'manual':
             return 'Manual migration detected';
-          case 'notified':
+          case 'notification':
             return 'Migration notification';
         }
       };
