@@ -26,7 +26,7 @@ type Options = {
   isNextJs: boolean;
 };
 
-export const webpack5CompilerSetup: Fix<Options> = {
+export const webpack5CompilerSetup = {
   id: 'webpack5-compiler-setup',
 
   promptType(result) {
@@ -182,7 +182,7 @@ export const webpack5CompilerSetup: Fix<Options> = {
       });
     }
   },
-};
+} satisfies Fix<Options>;
 
 async function askUserForCompilerChoice() {
   const response = await prompts<'compiler'>({
