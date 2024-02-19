@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import { vi, expect } from 'vitest';
 
 import { dedent } from 'ts-dedent';
 
@@ -16,6 +16,7 @@ const ignoreList = [
     error.message.match(
       /React will try to recreate this component tree from scratch using the error boundary you provided/
     ),
+  (error: any) => error.message.includes('Lit is in dev mode. Not recommended for production!'),
 ];
 
 const throwMessage = (type: any, message: any) => {
