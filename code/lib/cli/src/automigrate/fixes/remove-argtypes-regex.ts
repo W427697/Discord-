@@ -8,7 +8,7 @@ import chalk from 'chalk';
 
 export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPath: string }> = {
   id: 'remove-argtypes-regex',
-  promptOnly: true,
+  promptType: 'manual',
   async check({ previewConfigPath }) {
     if (!previewConfigPath) return null;
 
