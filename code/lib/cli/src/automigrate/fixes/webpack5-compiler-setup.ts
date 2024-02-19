@@ -119,9 +119,9 @@ export const webpack5CompilerSetup = {
     if (isNextJs) {
       message.push(dedent`
       Storybook now detects whether it should use Babel or SWC as a compiler by applying the same logic as Next.js itself:\n
-        - If you have a ${chalk.yellow(
-          '.babelrc'
-        )} file in your project, Storybook will use Babel as the compiler.
+        - If you have a ${chalk.yellow('.babelrc')} (or ${chalk.yellow(
+          'babel.config.js'
+        )}) file in your project, Storybook will use Babel as the compiler.
         - If you have a ${chalk.yellow('.babelrc')} (or ${chalk.yellow(
           'babel.config.js'
         )}) file in your project and you have set 
