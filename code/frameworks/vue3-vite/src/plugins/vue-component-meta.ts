@@ -2,6 +2,7 @@ import findPackageJson from 'find-package-json';
 import fs from 'fs/promises';
 import MagicString from 'magic-string';
 import path from 'path';
+import ts from 'typescript';
 import type { PluginOption } from 'vite';
 import {
   TypeMeta,
@@ -132,16 +133,27 @@ async function createChecker() {
   const projectRoot = getProjectRoot();
   const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
 
-  if (await fileExists(projectTsConfigPath)) {
-    // TODO: tsconfig that uses references is currently not supported by vue-component-meta
-    // find a temp workaround for this
-    // see: https://github.com/vuejs/language-tools/issues/3896
+  const defaultChecker = createComponentMetaCheckerByJsonConfig(
+    projectRoot,
+    { include: ['**/*'] },
+    checkerOptions
+  );
 
-    // prefer the tsconfig.json file of the project to support alias resolution etc.
+  // prefer the tsconfig.json file of the project to support alias resolution etc.
+  if (await fileExists(projectTsConfigPath)) {
+    // tsconfig that uses references is currently not supported by vue-component-meta
+    // see: https://github.com/vuejs/language-tools/issues/3896
+    // so we return the no-tsconfig defaultChecker if tsconfig references are found
+    // remove this workaround once the above issue is fixed
+    const references = getTsConfigReferences(projectTsConfigPath);
+    if (references?.length) {
+      // TODO: paths/aliases are not resolvable, find workaround for this
+      return defaultChecker;
+    }
     return createComponentMetaChecker(projectTsConfigPath, checkerOptions);
   }
 
-  return createComponentMetaCheckerByJsonConfig(projectRoot, { include: ['**/*'] }, checkerOptions);
+  return defaultChecker;
 }
 
 /**
@@ -218,7 +230,24 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
 
       return meta;
     });
-  } finally {
-    return componentMeta;
+  } catch {
+    // noop
   }
+
+  return componentMeta;
+}
+
+/**
+ * Gets a list of tsconfig references for the given tsconfig path.
+ * This is only needed for the temporary workaround/fix for:
+ * https://github.com/vuejs/language-tools/issues/3896
+ */
+function getTsConfigReferences(tsConfigPath: string) {
+  const fileContent = ts.readJsonConfigFile(tsConfigPath, ts.sys.readFile);
+  const parsedConfig = ts.parseJsonSourceFileConfigFileContent(
+    fileContent,
+    ts.sys,
+    path.dirname(tsConfigPath)
+  );
+  return parsedConfig.projectReferences;
 }
