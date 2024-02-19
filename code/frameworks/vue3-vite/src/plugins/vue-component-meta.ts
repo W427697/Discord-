@@ -241,7 +241,12 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
  * https://github.com/vuejs/language-tools/issues/3896
  */
 async function getTsConfigReferences(tsConfigPath: string) {
-  const content = JSON.parse(await fs.readFile(tsConfigPath, 'utf-8'));
-  if (!('references' in content) || !Array.isArray(content.references)) return [];
-  return content.references as unknown[];
+  try {
+    const content = JSON.parse(await fs.readFile(tsConfigPath, 'utf-8'));
+    if (!('references' in content) || !Array.isArray(content.references)) return [];
+    return content.references as unknown[];
+  } catch {
+    // invalid project tsconfig
+    return [];
+  }
 }
