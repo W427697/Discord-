@@ -29,6 +29,10 @@ type Options = {
 export const webpack5CompilerSetup: Fix<Options> = {
   id: 'webpack5-compiler-setup',
 
+  promptType(result) {
+    return result.isNextJs && !result.shouldRemoveSWCFlag ? 'notified' : 'auto';
+  },
+
   async check({ mainConfig, packageManager }) {
     const addons = getAddonNames(mainConfig);
 
