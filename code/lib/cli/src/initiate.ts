@@ -1,4 +1,6 @@
+import { appendFile, readFile } from 'fs/promises';
 import type { PackageJson } from 'read-pkg-up';
+import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -39,8 +41,6 @@ import serverGenerator from './generators/SERVER';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
-import findUp from 'find-up';
-import { appendFile } from 'fs/promises';
 
 const logger = console;
 
@@ -375,7 +375,10 @@ export async function doInitiate(
   const foundGitIgnoreFile = await findUp('.gitignore', { cwd: process.cwd() });
   const rootDirectory = getProjectRoot();
   if (foundGitIgnoreFile && foundGitIgnoreFile.includes(rootDirectory)) {
-    await appendFile(foundGitIgnoreFile, '\n*storybook.log');
+    const contents = await readFile(foundGitIgnoreFile, 'utf-8');
+    if (!contents.includes('*storybook.log')) {
+      await appendFile(foundGitIgnoreFile, '\n*storybook.log');
+    }
   }
 
   const storybookCommand =
