@@ -2,7 +2,7 @@ import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
-//@ts-expect-error our tsconfig.jsn#moduleResulution is set to 'node', which doesn't support this import
+//@ts-expect-error our tsconfig.jsn#moduleResolution is set to 'node', which doesn't support this import
 import * as addonInteractionsPreview from '@storybook/addon-interactions/preview';
 import * as addonActionsPreview from '@storybook/addon-actions/preview';
 import type { Meta } from '@storybook/react';
@@ -85,7 +85,7 @@ describe('projectAnnotations', () => {
     expect(Story.parameters?.injected).toBe(true);
   });
 
-  it.only('has spies when addon-interactions annotations are added', async () => {
+  it('has spies when addon-interactions annotations are added', async () => {
     const Story = composeStory(stories.WithActionArg, stories.default, addonInteractionsPreview);
     expect(vi.mocked(Story.args.someActionArg!).mock).toBeDefined();
 
