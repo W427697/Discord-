@@ -126,5 +126,6 @@ declare global {
 }
 const render: ArgsStoryFn<VueRenderer> = (...params) => {
   const renderFn = defaultProjectAnnotations.render(...params);
-  return globalThis.playwright ? renderFn() : renderFn;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  return globalThis.playwright ? (renderFn as Function)() : renderFn;
 };
