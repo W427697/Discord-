@@ -2,7 +2,8 @@ import { expect, test, vi } from 'vitest';
 import { autoblock } from './index';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import { createBlocker } from './types';
-import { logger } from '@storybook/node-logger';
+import { logger as loggerRaw } from '@storybook/node-logger';
+import stripAnsi from 'strip-ansi';
 
 vi.mock('node:fs/promises', () => ({
   writeFile: vi.fn(),
@@ -17,6 +18,8 @@ vi.mock('@storybook/node-logger', () => ({
     plain: vi.fn(),
   },
 }));
+
+const logger = vi.mocked(loggerRaw);
 
 const blockers = {
   alwaysPass: createBlocker({
@@ -72,12 +75,12 @@ test('1 fail', async () => {
 
   expect(result).toBe('alwaysFail');
   expect(logger.plain).toHaveBeenCalledWith(expect.stringContaining('Oh no..'));
-  expect(logger.plain.mock.calls[1][0]).toMatchInlineSnapshot(`
+  expect(stripAnsi(logger.plain.mock.calls[1][0])).toMatchInlineSnapshot(`
     "Blocking your upgrade because of the following issues:
 
     Always fail
 
-    [33mFix the above issues and try running the upgrade command again.[39m"
+    Fix the above issues and try running the upgrade command again."
   `);
 });
 
@@ -87,14 +90,14 @@ test('multiple fails', async () => {
     Promise.resolve({ blocker: blockers.alwaysFail }),
     Promise.resolve({ blocker: blockers.alwaysFail2 }),
   ]);
-  expect(logger.plain.mock.calls[1][0]).toMatchInlineSnapshot(`
+  expect(stripAnsi(logger.plain.mock.calls[1][0])).toMatchInlineSnapshot(`
     "Blocking your upgrade because of the following issues:
 
     Always fail
 
     Always fail 2
 
-    [33mFix the above issues and try running the upgrade command again.[39m"
+    Fix the above issues and try running the upgrade command again."
   `);
 
   expect(result).toBe('alwaysFail');
