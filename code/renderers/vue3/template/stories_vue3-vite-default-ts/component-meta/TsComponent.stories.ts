@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-
 import Component from './ts-component/component';
 
 const meta = {
@@ -10,4 +9,9 @@ const meta = {
 type Story = StoryObj<typeof meta>;
 export default meta;
 
-export const Default: Story = { args: { foo: 'bar', bar: 20 } };
+export const Default: Story = {
+  args: {
+    foo: 'bar',
+    bar: 20,
+  },
+};

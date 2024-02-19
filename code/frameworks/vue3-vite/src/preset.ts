@@ -12,13 +12,10 @@ export const core: PresetProperty<'core'> = {
   renderer: getAbsolutePath('@storybook/vue3'),
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (
-  config: Record<string, any>,
-  { _ }: any
-) => {
+export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
   const plugins: PluginOption[] = [];
 
-  // Add docgen plugin
+  // Add vue-component-meta plugin
   plugins.push(await vueComponentMeta());
 
   const { mergeConfig } = await import('vite');

@@ -12,6 +12,7 @@ interface MyEvents {
 
 const emit = defineEmits<MyEvents>();
 </script>
+
 <template>
   <div>
     foo:

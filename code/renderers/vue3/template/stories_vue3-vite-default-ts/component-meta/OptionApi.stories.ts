@@ -1,11 +1,11 @@
-import type { StoryObj, Meta } from '@storybook/vue3';
-
+import type { Meta, StoryObj } from '@storybook/vue3';
 import Component from './options-api/component';
 
 const meta = {
   component: Component,
   tags: ['autodocs'],
 } satisfies Meta<typeof Component>;
+
 type Story = StoryObj<typeof meta>;
 export default meta;
 

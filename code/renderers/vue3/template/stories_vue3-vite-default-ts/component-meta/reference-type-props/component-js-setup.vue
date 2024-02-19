@@ -10,22 +10,22 @@ defineProps({
    */
   foo: {
     type: String,
-    required: true
+    required: true,
   },
   /**
    * The bar property has default value
    */
   bar: {
     type: String,
-    default: 'BAR'
+    default: 'BAR',
   },
   /**
    * The baz property is optional.
    */
   baz: {
-    type: String
+    type: String,
   },
-  /** 
+  /**
    * The xfoo property is required.
    */
   xfoo: StringRequired,
@@ -44,15 +44,15 @@ defineProps({
    */
   hello: {
     type: String,
-    default: 'Hello'
+    default: 'Hello',
   },
   numberOrStringProp: {
     type: [Number, String],
-    default: 42
+    default: 42,
   },
   arrayProps: {
     type: Array,
-    default: () => [42, 43, 44]
-  }
-})
+    default: () => [42, 43, 44],
+  },
+});
 </script>
