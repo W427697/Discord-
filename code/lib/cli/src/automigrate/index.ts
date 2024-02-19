@@ -108,7 +108,6 @@ export const automigrate = async ({
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
-  isUpgrade,
 }: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
