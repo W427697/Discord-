@@ -14,7 +14,7 @@ export const viteConfigFile = {
   id: 'viteConfigFile',
 
   async check({ mainConfig, packageManager }) {
-    const viteConfigPath = await findUp([
+    let viteConfigPath = await findUp([
       'vite.config.js',
       'vite.config.mjs',
       'vite.config.cjs',
@@ -44,6 +44,15 @@ export const viteConfigFile = {
       frameworkPackageName === 'sveltekit';
 
     const rendererName = frameworkToRenderer[frameworkName as keyof typeof frameworkToRenderer];
+
+    if (
+      !viteConfigFile &&
+      mainConfig.core?.builder &&
+      typeof mainConfig.core?.builder !== 'string' &&
+      mainConfig.core?.builder.options
+    ) {
+      viteConfigPath = mainConfig.core?.builder.options.viteConfigPath;
+    }
 
     if (!viteConfigPath && isUsingViteBuilder) {
       const plugins = [];
