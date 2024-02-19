@@ -2,7 +2,6 @@ import findPackageJson from 'find-package-json';
 import fs from 'fs/promises';
 import MagicString from 'magic-string';
 import path from 'path';
-import ts from 'typescript';
 import type { PluginOption } from 'vite';
 import {
   TypeMeta,
@@ -144,8 +143,8 @@ async function createChecker() {
     // see: https://github.com/vuejs/language-tools/issues/3896
     // so we return the no-tsconfig defaultChecker if tsconfig references are found
     // remove this workaround once the above issue is fixed
-    const references = getTsConfigReferences(projectTsConfigPath);
-    if (references?.length) {
+    const references = await getTsConfigReferences(projectTsConfigPath);
+    if (references.length > 0) {
       // TODO: paths/aliases are not resolvable, find workaround for this
       return defaultChecker;
     }
@@ -241,12 +240,8 @@ async function applyTempFixForEventDescriptions(filename: string, componentMeta:
  * This is only needed for the temporary workaround/fix for:
  * https://github.com/vuejs/language-tools/issues/3896
  */
-function getTsConfigReferences(tsConfigPath: string) {
-  const fileContent = ts.readJsonConfigFile(tsConfigPath, ts.sys.readFile);
-  const parsedConfig = ts.parseJsonSourceFileConfigFileContent(
-    fileContent,
-    ts.sys,
-    path.dirname(tsConfigPath)
-  );
-  return parsedConfig.projectReferences;
+async function getTsConfigReferences(tsConfigPath: string) {
+  const content = JSON.parse(await fs.readFile(tsConfigPath, 'utf-8'));
+  if (!('references' in content) || !Array.isArray(content.references)) return [];
+  return content.references as unknown[];
 }
