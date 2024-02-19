@@ -47,6 +47,19 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
+  sb_latest_playwright:
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
+    working_directory: /tmp/storybook
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.41.1-jammy
+        environment:
+          NODE_OPTIONS: --max_old_space_size=6144
+    resource_class: <<parameters.class>>
 
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.5.0
@@ -564,7 +577,36 @@ jobs:
                   STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
                   STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
-
+  test-portable-stories:
+    executor:
+      class: medium
+      name: sb_latest_playwright
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install dependencies
+          command: yarn install
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Playwright CT tests for React
+          command: yarn pw:react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Cypress CT tests for React
+          command: yarn cy:react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Playwright CT tests for Vue
+          command: yarn pw:vue3
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
+          name: Run Cypress CT tests for Vue
+          command: yarn cy:vue3
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - report-workflow-on-failure
 workflows:
   docs:
     when:
@@ -623,6 +665,9 @@ workflows:
           parallelism: 5
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -675,6 +720,9 @@ workflows:
           parallelism: 14
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
       - bench:
           parallelism: 5
           requires:
@@ -732,7 +780,9 @@ workflows:
           parallelism: 29
           requires:
             - build-sandboxes
-
+      - test-portable-stories:
+          requires:
+            - build
       - test-empty-init:
           requires:
             - build
