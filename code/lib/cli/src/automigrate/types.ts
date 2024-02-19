@@ -19,9 +19,17 @@ export interface RunOptions<ResultType> {
   skipInstall?: boolean;
 }
 
+/**
+ * promptType defines how the user will be prompted to apply an automigration fix
+ * - auto: the fix will be applied automatically
+ * - manual: the user will be prompted to apply the fix
+ * - notification: the user will be notified about the some changes. A fix isn't required
+ */
+export type Prompt = 'auto' | 'manual' | 'notification';
+
 export interface Fix<ResultType = any> {
   id: string;
-  promptOnly?: boolean;
+  promptType?: Prompt | ((result: ResultType) => Promise<Prompt> | Prompt);
   /**
    * The from/to version range of Storybook that this fix applies to. The strings are semver ranges.
    * The versionRange will only be checked if the automigration is part of an upgrade.

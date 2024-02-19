@@ -8,7 +8,7 @@ const minimumStorybookVersion = '8.0.0-alpha.4';
 
 export const removeReactDependency: Fix<{}> = {
   id: 'remove-react-dependency',
-  promptOnly: true,
+  promptType: 'manual',
 
   versionRange: ['>=7 <8.0.0-alpha.4', `>=${minimumStorybookVersion}`],
 

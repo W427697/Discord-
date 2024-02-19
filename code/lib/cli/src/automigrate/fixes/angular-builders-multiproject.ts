@@ -10,7 +10,7 @@ interface AngularBuildersMultiprojectRunOptions {}
 
 export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOptions> = {
   id: 'angular-builders-multiproject',
-  promptOnly: true,
+  promptType: 'manual',
 
   versionRange: ['<7', '>=7'],
 

@@ -9,7 +9,7 @@ interface IncompatibleAddonsOptions {
 
 export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
   id: 'incompatible-addons',
-  promptOnly: true,
+  promptType: 'manual',
   versionRange: ['*', '*'],
 
   async check({ mainConfig, packageManager }) {

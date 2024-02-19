@@ -5,7 +5,7 @@ import type { Fix } from '../types';
 export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> = {
   id: 'remove-jest-testing-library',
   versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
-  promptOnly: true,
+  promptType: 'manual',
   async check({ packageManager }) {
     const deps = await packageManager.getAllDependencies();
 
