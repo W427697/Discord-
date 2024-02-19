@@ -5,7 +5,7 @@ import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import { frameworkToRenderer } from '../../helpers';
 import { frameworkPackages } from '@storybook/core-common';
 
-interface Webpack5RunOptions {
+interface ViteConfigFileRunOptions {
   plugins: string[];
   existed: boolean;
 }
@@ -110,4 +110,4 @@ export const viteConfigFile = {
       This change was necessary to support newer versions of Vite.
     `;
   },
-} satisfies Fix<Webpack5RunOptions>;
+} satisfies Fix<ViteConfigFileRunOptions>;
