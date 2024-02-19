@@ -43,6 +43,9 @@ export const blocker = createBlocker({
       return acc;
     }, false);
   },
+  message(options, data) {
+    return `Found ${data.packageName} version: ${data.installedVersion}, please upgrade to ${data.minimumVersion} or higher.`;
+  },
   log(options, data) {
     switch (data.packageName) {
       case 'react-scripts':

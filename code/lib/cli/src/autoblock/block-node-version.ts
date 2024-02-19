@@ -11,6 +11,9 @@ export const blocker = createBlocker({
     }
     return false;
   },
+  message(options, data) {
+    return `Please use Node.js v18 or higher.`;
+  },
   log(options, data) {
     return dedent`
       We've detected you're using Node.js v${data.nodeVersion}.
