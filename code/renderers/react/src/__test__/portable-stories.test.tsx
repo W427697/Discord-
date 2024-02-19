@@ -2,6 +2,9 @@ import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
+//@ts-expect-error our tsconfig.jsn#moduleResulution is set to 'node', which doesn't support this import
+import * as addonInteractionsPreview from '@storybook/addon-interactions/preview';
+import * as addonActionsPreview from '@storybook/addon-actions/preview';
 import type { Meta } from '@storybook/react';
 import { expectTypeOf } from 'expect-type';
 
@@ -80,6 +83,25 @@ describe('projectAnnotations', () => {
     setProjectAnnotations([{ parameters: { injected: true } }]);
     const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
     expect(Story.parameters?.injected).toBe(true);
+  });
+
+  it.only('has spies when addon-interactions annotations are added', async () => {
+    const Story = composeStory(stories.WithActionArg, stories.default, addonInteractionsPreview);
+    expect(vi.mocked(Story.args.someActionArg!).mock).toBeDefined();
+
+    const { container } = render(<Story />);
+    expect(Story.args.someActionArg).toHaveBeenCalledOnce();
+    expect(Story.args.someActionArg).toHaveBeenCalledWith('in render');
+
+    await Story.play!({ canvasElement: container });
+    expect(Story.args.someActionArg).toHaveBeenCalledTimes(2);
+    expect(Story.args.someActionArg).toHaveBeenCalledWith('on click');
+  });
+
+  it('has action arg from argTypes when addon-actions annotations are added', () => {
+    //@ts-expect-error our tsconfig.jsn#moduleResulution is set to 'node', which doesn't support this import
+    const Story = composeStory(stories.WithActionArgType, stories.default, addonActionsPreview);
+    expect(Story.args.someActionArg).toHaveProperty('isAction', true);
   });
 });
 
