@@ -2,7 +2,6 @@ import { expect, test, vi } from 'vitest';
 import { autoblock } from './index';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import { createBlocker } from './types';
-import { writeFile as writeFileRaw } from 'node:fs/promises';
 import { logger } from '@storybook/node-logger';
 
 vi.mock('node:fs/promises', () => ({
@@ -19,26 +18,21 @@ vi.mock('@storybook/node-logger', () => ({
   },
 }));
 
-const writeFile = vi.mocked(writeFileRaw);
-
 const blockers = {
   alwaysPass: createBlocker({
     id: 'alwaysPass',
     check: async () => false,
-    message: () => 'Always pass',
     log: () => 'Always pass',
   }),
   alwaysFail: createBlocker({
     id: 'alwaysFail',
     check: async () => ({ bad: true }),
-    message: () => 'Always fail',
-    log: () => '...',
+    log: () => 'Always fail',
   }),
   alwaysFail2: createBlocker({
     id: 'alwaysFail2',
     check: async () => ({ disaster: true }),
-    message: () => 'Always fail 2',
-    log: () => '...',
+    log: () => 'Always fail 2',
   }),
 } as const;
 
@@ -75,17 +69,15 @@ test('1 fail', async () => {
     Promise.resolve({ blocker: blockers.alwaysPass }),
     Promise.resolve({ blocker: blockers.alwaysFail }),
   ]);
-  expect(writeFile).toHaveBeenCalledWith(
-    expect.any(String),
-    expect.stringContaining('alwaysFail'),
-    expect.any(Object)
-  );
+
   expect(result).toBe('alwaysFail');
   expect(logger.plain).toHaveBeenCalledWith(expect.stringContaining('Oh no..'));
+  expect(logger.plain.mock.calls[1][0]).toMatchInlineSnapshot(`
+    "Blocking your upgrade because of the following issues:
 
-  expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
-    "(alwaysFail):
-    ..."
+    Always fail
+
+    [33mFix the above issues and try running the upgrade command again.[39m"
   `);
 });
 
@@ -95,14 +87,14 @@ test('multiple fails', async () => {
     Promise.resolve({ blocker: blockers.alwaysFail }),
     Promise.resolve({ blocker: blockers.alwaysFail2 }),
   ]);
-  expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
-    "(alwaysFail):
-    ...
+  expect(logger.plain.mock.calls[1][0]).toMatchInlineSnapshot(`
+    "Blocking your upgrade because of the following issues:
 
-    ----
+    Always fail
 
-    (alwaysFail2):
-    ..."
+    Always fail 2
+
+    [33mFix the above issues and try running the upgrade command again.[39m"
   `);
 
   expect(result).toBe('alwaysFail');
