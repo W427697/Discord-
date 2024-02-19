@@ -9,6 +9,7 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
+  ArgsStoryFn,
 } from '@storybook/types';
 
 import * as defaultProjectAnnotations from './render';
@@ -73,7 +74,10 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<VueRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    defaultProjectAnnotations,
+    {
+      ...defaultProjectAnnotations,
+      render,
+    },
     exportsName
   );
 }
@@ -115,3 +119,12 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
     keyof Store_CSFExports
   >;
 }
+
+declare global {
+  // eslint-disable-next-line no-var
+  var playwright: any;
+}
+const render: ArgsStoryFn<VueRenderer> = (...params) => {
+  const renderFn = defaultProjectAnnotations.render(...params);
+  return globalThis.playwright ? renderFn() : renderFn;
+};
