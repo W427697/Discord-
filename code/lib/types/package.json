@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "description": "Core Storybook TS Types",
   "keywords": [
     "storybook"
@@ -58,6 +58,7 @@
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-available-frameworks.js",
     "entries": [
       "./src/index.ts"
     ]
