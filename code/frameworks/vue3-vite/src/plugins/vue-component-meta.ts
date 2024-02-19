@@ -40,48 +40,47 @@ export async function vueComponentMeta(): Promise<PluginOption> {
         let componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
         componentsMeta = await applyTempFixForEventDescriptions(id, componentsMeta);
 
-        const metaSources = componentsMeta
-          .filter((meta) => meta.type !== TypeMeta.Unknown)
-          // filter  out empty meta
-          .filter((meta) => {
-            return (
-              meta.props.length || meta.events.length || meta.slots.length || meta.exposed.length
-            );
-          })
-          .map<MetaSource>((meta, index) => {
-            const exportName = exportNames[index];
+        const metaSources: MetaSource[] = [];
 
-            const exposed =
-              // the meta also includes duplicated entries in the "exposed" array with "on"
-              // prefix (e.g. onClick instead of click), so we need to filter them out here
-              meta.exposed
-                .filter((expose) => {
-                  let nameWithoutOnPrefix = expose.name;
+        componentsMeta.forEach((meta, index) => {
+          // filter out empty meta
+          const isEmpty =
+            !meta.props.length && !meta.events.length && !meta.slots.length && !meta.exposed.length;
+          if (isEmpty || meta.type === TypeMeta.Unknown) return;
 
-                  if (nameWithoutOnPrefix.startsWith('on')) {
-                    nameWithoutOnPrefix = lowercaseFirstLetter(expose.name.replace('on', ''));
-                  }
+          const exportName = exportNames[index];
 
-                  const hasEvent = meta.events.find((event) => event.name === nameWithoutOnPrefix);
-                  return !hasEvent;
-                })
-                // remove unwanted duplicated "$slots" expose
-                .filter((expose) => {
-                  if (expose.name === '$slots') {
-                    const slotNames = meta.slots.map((slot) => slot.name);
-                    return !slotNames.every((slotName) => expose.type.includes(slotName));
-                  }
-                  return true;
-                });
+          const exposed =
+            // the meta also includes duplicated entries in the "exposed" array with "on"
+            // prefix (e.g. onClick instead of click), so we need to filter them out here
+            meta.exposed
+              .filter((expose) => {
+                let nameWithoutOnPrefix = expose.name;
 
-            return {
-              exportName,
-              displayName: exportName === 'default' ? getFilenameWithoutExtension(id) : exportName,
-              ...meta,
-              exposed,
-              sourceFiles: id,
-            };
+                if (nameWithoutOnPrefix.startsWith('on')) {
+                  nameWithoutOnPrefix = lowercaseFirstLetter(expose.name.replace('on', ''));
+                }
+
+                const hasEvent = meta.events.find((event) => event.name === nameWithoutOnPrefix);
+                return !hasEvent;
+              })
+              // remove unwanted duplicated "$slots" expose
+              .filter((expose) => {
+                if (expose.name === '$slots') {
+                  const slotNames = meta.slots.map((slot) => slot.name);
+                  return !slotNames.every((slotName) => expose.type.includes(slotName));
+                }
+                return true;
+              });
+
+          metaSources.push({
+            exportName,
+            displayName: exportName === 'default' ? getFilenameWithoutExtension(id) : exportName,
+            ...meta,
+            exposed,
+            sourceFiles: id,
           });
+        });
 
         // if there is no component meta, return undefined
         if (metaSources.length === 0) return undefined;
@@ -102,7 +101,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
           if (!id.endsWith('.vue') && isDefaultExport) {
             // we can not add the __docgenInfo if the component is default exported directly
             // so we need to safe it to a variable instead and export default it instead
-            s.replace('export default defineComponent(', 'const _sfc_main = defineComponent(');
+            s.replace('export default ', 'const _sfc_main = ');
             s.append('\nexport default _sfc_main;');
           }
 
