@@ -115,12 +115,6 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         : undefined,
     }
   );
-  console.log('Setting globals');
-  (globalThis as any).__STORYBOOK_PORTABLE_STORIES =
-    (globalThis as any).__STORYBOOK_PORTABLE_STORIES || {};
-  Object.assign((globalThis as any).__STORYBOOK_PORTABLE_STORIES, {
-    [storyName]: composedStory,
-  });
 
   return composedStory;
 }
