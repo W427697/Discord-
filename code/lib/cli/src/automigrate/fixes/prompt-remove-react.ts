@@ -1,5 +1,4 @@
 import dedent from 'ts-dedent';
-import semver from 'semver';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 
@@ -10,27 +9,20 @@ export const removeReactDependency: Fix<{}> = {
   id: 'remove-react-dependency',
   promptType: 'manual',
 
-  versionRange: ['>=7 <8.0.0-alpha.4', `>=${minimumStorybookVersion}`],
+  versionRange: [`^7 || <${minimumStorybookVersion}`, `>=${minimumStorybookVersion}`],
 
   async check({ packageManager, mainConfig, storybookVersion }) {
     // when the user is using the react renderer, we should not prompt them to remove react
     const frameworkPackageName = getFrameworkPackageName(mainConfig);
+
     if (frameworkPackageName?.includes('react') || frameworkPackageName?.includes('nextjs')) {
       return null;
     }
 
     // if the user has no dependency on react, we can skip this fix
-    const packageJson = await packageManager.retrievePackageJson();
-    if (
-      !packageJson?.dependencies?.['react'] &&
-      !packageJson?.peerDependencies?.['react'] &&
-      !packageJson?.devDependencies?.['react']
-    ) {
-      return null;
-    }
+    const { react } = await packageManager.getAllDependencies();
 
-    // do not prompt to remove react for older versions of storybook
-    if (!semver.gte(storybookVersion, minimumStorybookVersion)) {
+    if (!react) {
       return null;
     }
 
