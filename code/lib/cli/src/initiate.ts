@@ -372,7 +372,7 @@ export async function doInitiate(
     return { shouldRunDev: false };
   }
 
-  const foundGitIgnoreFile = await findUp('.gitignore', { cwd: process.cwd() });
+  const foundGitIgnoreFile = await findUp('.gitignore');
   const rootDirectory = getProjectRoot();
   if (foundGitIgnoreFile && foundGitIgnoreFile.includes(rootDirectory)) {
     const contents = await readFile(foundGitIgnoreFile, 'utf-8');
