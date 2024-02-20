@@ -71,6 +71,10 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     if (!this.exportsToCSFFile.has(csfFile.moduleExports)) {
       throw new Error('Cannot attach a CSF file that has not been referenced');
     }
+    if (this.attachedCSFFile === csfFile) {
+      // this CSF file is already attached, don't do anything
+      return;
+    }
 
     this.attachedCSFFile = csfFile;
 
