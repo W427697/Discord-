@@ -40,14 +40,7 @@ export const getStorybookVersion = (line: string) => {
 };
 
 const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
-  const installations = await packageManager.findInstallations([
-    // Storybook 3.0.0+ | the installation wasn't required though in Storybook < 7.0.0
-    '@storybook/cli',
-    // Storybook 3.3.3 - 6.5.16
-    '@storybook/core',
-    // Storybook 6.2+
-    '@storybook/core-common',
-  ]);
+  const installations = await packageManager.findInstallations(Object.keys(versions));
   if (!installations) {
     return;
   }
