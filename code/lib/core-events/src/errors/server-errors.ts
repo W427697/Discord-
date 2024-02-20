@@ -411,10 +411,10 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
   template() {
     const message = [
-      `Storybook failed to load ${this.data.location}..`,
+      `Storybook failed to load ${this.data.location}`,
       '',
       `It looks like the file tried to load/import an ESM only module.`,
-      `Support for this is currently limited in ${this.data.location}.`,
+      `Support for this is currently limited in ${this.data.location}`,
       `You can import ESM modules in your main file, but only as dynamic import.`,
       '',
     ];
@@ -423,7 +423,7 @@ export class MainFileESMOnlyImportError extends StorybookError {
         white(
           `In your ${yellow(this.data.location)} file, line ${bold.cyan(
             this.data.num
-          )} threw an error, which looks like this:`
+          )} threw an error:`
         ),
         grey(this.data.line)
       );
@@ -431,10 +431,9 @@ export class MainFileESMOnlyImportError extends StorybookError {
 
     message.push(
       '',
-      white(`Convert the static import to an dynamic import ${underline('where they are used')}.`),
+      white(`Convert the static import to a dynamic import ${underline('where they are used')}.`),
       white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`),
       '',
-      'For more information, please read the documentation link below.'
     );
 
     return message.join('\n');
@@ -457,7 +456,7 @@ export class MainFileMissingError extends StorybookError {
   template() {
     return dedent`
       No configuration files have been found in your configDir: ${yellow(this.data.location)}.
-      Storybook needs "main.js" file, please add it.
+      Storybook needs a "main.js" file, please add it.
       
       You can pass a --config-dir flag to tell Storybook, where your main.js file is located at).
     `;
@@ -572,7 +571,7 @@ export class UpgradeStorybookUnknownCurrentVersionError extends StorybookError {
     return dedent`
       We couldn't determine the current version of Storybook in your project.
 
-      Are you running the storybook CLI in a project without Storybook?
+      Are you running the Storybook CLI in a project without Storybook?
       It might help if you specify your Storybook config directory with the --config-dir flag.
     `;
   }
