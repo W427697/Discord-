@@ -74,10 +74,7 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<VueRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    {
-      ...defaultProjectAnnotations,
-      render,
-    },
+    defaultProjectAnnotations,
     exportsName
   );
 }
@@ -124,8 +121,3 @@ declare global {
   // eslint-disable-next-line no-var
   var playwright: any;
 }
-const render: ArgsStoryFn<VueRenderer> = (...params) => {
-  const renderFn = defaultProjectAnnotations.render(...params);
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  return globalThis.playwright ? (renderFn as Function)() : renderFn;
-};

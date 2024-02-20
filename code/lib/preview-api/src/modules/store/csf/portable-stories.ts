@@ -158,20 +158,17 @@ declare global {
   ): UnwrappedJSXStoryRef | UnwrappedImportStoryRef;
 }
 
-const unwrapStory = async (storyRef: WrappedStoryRef) => {
-  const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(storyRef);
-  return '__pw_type' in unwrappedStoryRef ? unwrappedStoryRef.type : unwrappedStoryRef;
-};
-
 export function createPlaywrightTest<TFixture extends { extend: any }>(
   baseTest: TFixture
 ): TFixture {
   return baseTest.extend({
     mount: async ({ mount, page }: any, use: any) => {
-      await use(async (storyRef: any) => {
+      await use(async (storyRef: WrappedStoryRef) => {
         // load the story in the browser
         await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
-          const story = await unwrapStory(wrappedStoryRef);
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
+          const story =
+            '__pw_type' in unwrappedStoryRef ? unwrappedStoryRef.type : unwrappedStoryRef;
           return story?.load?.();
         }, storyRef);
 
@@ -179,8 +176,10 @@ export function createPlaywrightTest<TFixture extends { extend: any }>(
         const mountResult = await mount(storyRef);
 
         // play the story in the browser
-        await page.evaluate(async (wrappedStoryRef: any) => {
-          const story = await unwrapStory(wrappedStoryRef);
+        await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
+          const story =
+            '__pw_type' in unwrappedStoryRef ? unwrappedStoryRef.type : unwrappedStoryRef;
           const canvasElement = document.querySelector('#root');
           return story?.play?.({ canvasElement });
         }, storyRef);
