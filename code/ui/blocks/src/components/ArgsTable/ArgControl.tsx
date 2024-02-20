@@ -13,10 +13,11 @@ import {
   RangeControl,
   TextControl,
 } from '../../controls';
-import type { Args, ArgType } from './types';
+import type { Args } from './types';
+import type { InputType } from '@storybook/types';
 
 export interface ArgControlProps {
-  row: ArgType;
+  row: InputType;
   arg: any;
   updateArgs: (args: Args) => void;
   isHovered: boolean;
@@ -65,7 +66,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs, isHovere
   const onBlur = useCallback(() => setFocused(false), []);
   const onFocus = useCallback(() => setFocused(true), []);
 
-  if (!control || control.disable)
+  if (!control && row.type !== 'function')
     return isHovered ? (
       <Link
         href="https://storybook.js.org/docs/react/essentials/controls"
