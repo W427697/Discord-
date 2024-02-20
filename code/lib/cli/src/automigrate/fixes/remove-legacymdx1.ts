@@ -32,9 +32,9 @@ export const removeLegacyMDX1: Fix<RemoveLegacyMDX1Options> = {
 
   prompt({}) {
     return dedent`
-      You have features.legacyMdx1 in your Storybook main config file, this feature has been removed, shall we remove it from you main.ts file?
+      You have features.legacyMdx1 in your Storybook main config file. This feature has been removed. Shall we remove it from your Storybook main config file?
 
-      Link: https://storybook.js.org/docs/7.6/migration-guide
+      Link: https://storybook.js.org/docs/8.0/migration-guide
     `;
   },
 
