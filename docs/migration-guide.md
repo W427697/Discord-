@@ -8,6 +8,7 @@ Storybook 7 is our first major release in over 2 years. A lot has changed during
 
 The rest of this guide will help you upgrade successfully, either automatically or manually. But first, we’ve accumulated a lot of [breaking changes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#70-breaking-changes) in Storybook 7. Here are the most impactful changes you should know about before you go further:
 
+- [`framework` field is now mandatory](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api)
 - [Webpack4 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued)
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
 - [Minimum supported version of node is 16](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-support-for-node-15-and-below)
@@ -15,7 +16,9 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [Start and build CLI binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
 - [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
 
-If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 6.x.
+If any of these apply to your project, please read through the linked migration notes before continuing. If any of these new requirements or changes do not fit your project, you should probably continue using Storybook 6.x.
+
+You may wish to read the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before migrating. Or you can follow the instructions below and we’ll try to take care of everything for you!
 
 ## Automatic upgrade
 
