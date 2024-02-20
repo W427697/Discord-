@@ -8,6 +8,12 @@
   - [Removal of `storiesOf`-API](#removal-of-storiesof-api)
   - [Removed deprecated shim packages](#removed-deprecated-shim-packages)
   - [Framework-specific Vite plugins have to be explicitly added](#framework-specific-vite-plugins-have-to-be-explicitly-added)
+    - [For React:](#for-react)
+    - [For Vue:](#for-vue)
+    - [For Svelte (without Sveltekit):](#for-svelte-without-sveltekit)
+    - [For Preact:](#for-preact)
+    - [For Solid:](#for-solid)
+    - [For Qwik:](#for-qwik)
   - [TurboSnap Vite plugin is no longer needed](#turbosnap-vite-plugin-is-no-longer-needed)
   - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [MDX related changes](#mdx-related-changes)
@@ -121,6 +127,7 @@
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
     - [Dark mode detection](#dark-mode-detection)
+    - [`addons.setConfig` should now be imported from `@storybook/manager-api`.](#addonssetconfig-should-now-be-imported-from-storybookmanager-api)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -462,20 +469,79 @@ In Storybook 7, these packages existed for backwards compatibility, but were mar
 - `@storybook/store` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/api` - this package has been replaced with `@storybook/manager-api`.
 
-This section explains the rationale, and the required changed you might have to make: [New Addons API](#new-addons-api)
+These sections explain the rationale, and the required changes you might have to make:
+
+- [New Addons API](#new-addons-api)
+- [`addons.setConfig` should now be imported from `@storybook/manager-api`.](#addonssetconfig-should-now-be-imported-from-storybookmanager-api)
 
 ### Framework-specific Vite plugins have to be explicitly added
 
 In Storybook 7, we would automatically add frameworks-specific Vite plugins, e.g. `@vitejs/plugin-react` if not installed.
 In Storybook 8 those plugins have to be added explicitly in the user's `vite.config.ts`:
 
+#### For React:
+
 ```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+});
+```
+
+#### For Vue:
+
+```ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+export default defineConfig({
+  plugins: [vue()],
+});
+```
+
+#### For Svelte (without Sveltekit):
+
+```ts
+import { defineConfig } from "vite";
+import svelte from "@sveltejs/vite-plugin-svelte";
+
+export default defineConfig({
+  plugins: [svelte()],
+});
+```
+
+#### For Preact:
+
+```ts
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+
+export default defineConfig({
+  plugins: [preact()],
+});
+```
+
+#### For Solid:
+
+```ts
+import { defineConfig } from "vite";
+import solid from "vite-plugin-solid";
+
+export default defineConfig({
+  plugins: [solid()],
+});
+```
+
+#### For Qwik:
+
+```ts
+import { defineConfig } from "vite";
+import qwik from "vite-plugin-qwik";
+
+export default defineConfig({
+  plugins: [qwik()],
 });
 ```
 
@@ -1966,6 +2032,19 @@ Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode prefe
 Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
 
 To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
+
+#### `addons.setConfig` should now be imported from `@storybook/manager-api`.
+
+The previous package, `@storybook/addons`, is now deprecated and will be removed in 8.0.
+
+```diff
+- import { addons } from '@storybook/addons';
++ import { addons } from '@storybook/manager-api';
+
+addons.setConfig({
+  // ...
+})
+```
 
 ### 7.0 core addons changes
 

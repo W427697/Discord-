@@ -36,4 +36,10 @@ declare global {
 
 Cypress.Commands.add('mount', mount)
 
+// This is needed because Cypress defines process but not process.env
+// And if the play function fails, testing library's internals have a check
+// for typeof process !== "undefined" && process.env.DEBUG_PRINT_LIMIT;
+// which will break
+process.env = {};
+
 setProjectAnnotations(previewAnnotations);
