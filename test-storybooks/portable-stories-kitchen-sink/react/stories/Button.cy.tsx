@@ -1,11 +1,8 @@
 /// <reference types="cypress" />
-// it also works with the Playwright CT workaround format
-// import composed from './Button.portable';
-// const { CSF3InputFieldFilled } = composed
 import * as stories from './Button.stories';
 import { composeStories } from '@storybook/react';
 
-const { CSF3Primary, LoaderStory } = composeStories(stories)
+const { CSF3Primary, LoaderStory, CSF3InputFieldFilled, Modal } = composeStories(stories)
 
 describe('<Button />', () => {
   it('renders primary button', async () => {
@@ -13,28 +10,40 @@ describe('<Button />', () => {
     cy.get('[data-decorator]').should('exist');
   })
 
-  it.skip('renders with play function', async () => {
-    await LoaderStory.load();
-    cy.mount(<LoaderStory />)
-    cy.get('[data-decorator]').should('exist');
-    cy.get('[data-testid="loaded-data"]').should('contain.text', 'bar');
-    cy.get('[data-testid="spy-data"]').should('contain.text', 'mocked');
-    const $el = await cy.get('[data-cy-root]')
-    const canvasElement = $el.get(0)
-    await LoaderStory.play({ canvasElement });
-    // Anything after await is completely gone to the void. This won't cause any failures
-    // cy.get('foo').should('contain.text', 'bar');
+  it('renders primary button with custom args', async () => {
+    cy.mount(<CSF3Primary>bar</CSF3Primary>)
+    cy.get('button').should('contain.text', 'bar');
+  })
 
-    // Potentially this would be the proper way, 
-    // cy.mount(<CSF3InputFieldFilled />)
-    // cy.get('[data-decorator]').should('exist');
-    // cy.get('button').should('contain.text', 'I am not clicked');
-    // cy.get('[data-cy-root]').then(async ($el) => {
-    //   const playPromise = CSF3InputFieldFilled.play({ canvasElement: $el.get(0) });
-    //   cy.wrap(playPromise).then(() => {
-    //     console.log('resolve play')
-    //     cy.get('button').should('contain.text', 'I am clicked');
-    //   });
-    // });
+  it('renders with loaders and play function', () => {
+    cy.then(async() => {
+      await LoaderStory.load();
+    });
+
+    cy.mount(<LoaderStory />);
+
+    cy.then(async() => {
+      await LoaderStory.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
+      cy.get('[data-testid="loaded-data"]').should('contain.text', 'bar');
+      cy.get('[data-testid="spy-data"]').should('contain.text', 'mocked');
+    });
+  })
+
+  it('renders with play function', () => {
+    cy.mount(<CSF3InputFieldFilled />);
+
+    cy.then(async() => {
+      await CSF3InputFieldFilled.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
+      cy.get('[data-testid="input"]').should('contain.value', 'Hello world!');
+    });
+  })
+
+  it('renders modal story', () => {
+    cy.mount(<Modal />);
+
+    cy.then(async() => {
+      await Modal.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
+      cy.get('[role="dialog"]').should('exist');
+    });
   })
 })
