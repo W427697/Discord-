@@ -433,7 +433,7 @@ export class MainFileESMOnlyImportError extends StorybookError {
       '',
       white(`Convert the static import to a dynamic import ${underline('where they are used')}.`),
       white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`),
-      '',
+      ''
     );
 
     return message.join('\n');
