@@ -152,9 +152,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
   if (previewEntries.length > 0) {
+    const { dtsConfig, tsConfigExists } = await getDTSConfigs({
+      formats,
+      entries: previewEntries,
+      optimized,
+    });
     tasks.push(
       build({
         ...commonOptions,
+        ...(optimized ? dtsConfig : {}),
         ...browserOptions,
         entry: previewEntries.map((e: string) => slash(join(cwd, e))),
         outExtension: () => ({
@@ -163,6 +169,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         external: [...commonExternals, ...globalPreviewPackages],
       })
     );
+
+    if (tsConfigExists && !optimized) {
+      tasks.push(...previewEntries.map(generateDTSMapperFile));
+    }
   }
   if (nodeEntries.length > 0) {
     tasks.push(
