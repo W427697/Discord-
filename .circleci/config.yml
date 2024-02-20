@@ -591,6 +591,10 @@ jobs:
           command: yarn install
           working_directory: test-storybooks/portable-stories-kitchen-sink
       - run:
+          name: Run Jest tests for React
+          command: yarn jest:react
+          working_directory: test-storybooks/portable-stories-kitchen-sink
+      - run:
           name: Run Playwright CT tests for React
           command: yarn pw:react
           working_directory: test-storybooks/portable-stories-kitchen-sink
