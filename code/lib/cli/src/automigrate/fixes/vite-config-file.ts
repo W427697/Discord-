@@ -14,12 +14,12 @@ export const viteConfigFile = {
   id: 'viteConfigFile',
 
   async check({ mainConfig, packageManager }) {
-    const viteConfigPath = await findUp([
+    let isViteConfigFileFound = !!(await findUp([
       'vite.config.js',
       'vite.config.mjs',
       'vite.config.cjs',
       'vite.config.ts',
-    ]);
+    ]));
 
     const rendererToVitePluginMap: Record<string, string> = {
       preact: '@preact/preset-vite',
@@ -45,7 +45,16 @@ export const viteConfigFile = {
 
     const rendererName = frameworkToRenderer[frameworkName as keyof typeof frameworkToRenderer];
 
-    if (!viteConfigPath && isUsingViteBuilder) {
+    if (
+      !isViteConfigFileFound &&
+      mainConfig.core?.builder &&
+      typeof mainConfig.core?.builder !== 'string' &&
+      mainConfig.core?.builder.options
+    ) {
+      isViteConfigFileFound = !!mainConfig.core?.builder.options.viteConfigPath;
+    }
+
+    if (!isViteConfigFileFound && isUsingViteBuilder) {
       const plugins = [];
 
       if (rendererToVitePluginMap[rendererName]) {
@@ -54,7 +63,7 @@ export const viteConfigFile = {
 
       return {
         plugins,
-        existed: !!viteConfigPath,
+        existed: isViteConfigFileFound,
       };
     }
 
@@ -66,7 +75,7 @@ export const viteConfigFile = {
 
     const pluginVersion = await packageManager.getPackageVersion(plugin);
 
-    if (viteConfigPath && isUsingViteBuilder && !pluginVersion) {
+    if (isViteConfigFileFound && isUsingViteBuilder && !pluginVersion) {
       const plugins = [];
 
       if (plugin) {
@@ -75,7 +84,7 @@ export const viteConfigFile = {
 
       return {
         plugins,
-        existed: !viteConfigPath,
+        existed: !isViteConfigFileFound,
       };
     }
 
