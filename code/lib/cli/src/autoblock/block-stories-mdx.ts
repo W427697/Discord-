@@ -5,7 +5,10 @@ import { glob } from 'glob';
 export const blocker = createBlocker({
   id: 'storiesMdxUsage',
   async check() {
-    const files = await glob('**/*.stories.mdx', { cwd: process.cwd() });
+    const files = await glob('**/*.stories.mdx', {
+      cwd: process.cwd(),
+      ignore: ['node_modules/**'],
+    });
     if (files.length === 0) {
       return false;
     }
