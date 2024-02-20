@@ -53,6 +53,9 @@ export async function build(options: Options) {
 
   await viteBuild(await sanitizeEnvVars(options, finalConfig));
 
-  const statsPlugin = findPlugin(finalConfig, 'rollup-plugin-webpack-stats') as WebpackStatsPlugin;
+  const statsPlugin = findPlugin(
+    finalConfig,
+    'storybook:rollup-plugin-webpack-stats'
+  ) as WebpackStatsPlugin;
   return statsPlugin?.storybookGetStats();
 }
