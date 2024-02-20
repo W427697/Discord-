@@ -126,8 +126,6 @@ it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
   await Story.load();
   const { container, baseElement } = await render(<Story />);
-  if(Story.play) {
-    await Story.play({ canvasElement: container });
-  }
+  await Story.play?.({ canvasElement: container });
   expect(baseElement).toMatchSnapshot();
 });
