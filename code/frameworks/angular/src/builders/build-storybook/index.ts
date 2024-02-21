@@ -51,7 +51,6 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'quiet'
     | 'test'
     | 'webpackStatsJson'
-    | 'statsJson'
     | 'disableTelemetry'
     | 'debugWebpack'
     | 'previewUrl'
@@ -94,7 +93,6 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         quiet,
         enableProdMode = true,
         webpackStatsJson,
-        statsJson,
         debugWebpack,
         disableTelemetry,
         assets,
@@ -122,7 +120,6 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         },
         tsConfig,
         webpackStatsJson,
-        statsJson,
         debugWebpack,
         previewUrl,
       };

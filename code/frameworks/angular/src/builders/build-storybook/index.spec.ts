@@ -104,7 +104,7 @@ describe.skip('Build Storybook Builder', () => {
         packageJson: expect.any(Object),
         mode: 'static',
         tsConfig: './storybook/tsconfig.ts',
-        statsJson: false,
+        webpackStatsJson: false,
       })
     );
   });
@@ -133,7 +133,7 @@ describe.skip('Build Storybook Builder', () => {
         packageJson: expect.any(Object),
         mode: 'static',
         tsConfig: 'path/to/tsConfig.json',
-        statsJson: false,
+        webpackStatsJson: false,
       })
     );
   });
@@ -142,7 +142,7 @@ describe.skip('Build Storybook Builder', () => {
     const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
       tsConfig: 'path/to/tsConfig.json',
       compodoc: false,
-      statsJson: true,
+      webpackStatsJson: true,
     });
 
     const output = await run.result;
@@ -162,7 +162,7 @@ describe.skip('Build Storybook Builder', () => {
         packageJson: expect.any(Object),
         mode: 'static',
         tsConfig: 'path/to/tsConfig.json',
-        statsJson: true,
+        webpackStatsJson: true,
       })
     );
   });
@@ -212,7 +212,7 @@ describe.skip('Build Storybook Builder', () => {
         packageJson: expect.any(Object),
         mode: 'static',
         tsConfig: './storybook/tsconfig.ts',
-        statsJson: false,
+        webpackStatsJson: false,
       })
     );
   });
@@ -242,7 +242,7 @@ describe.skip('Build Storybook Builder', () => {
         packageJson: expect.any(Object),
         mode: 'static',
         tsConfig: 'path/to/tsConfig.json',
-        statsJson: false,
+        webpackStatsJson: false,
       })
     );
   });

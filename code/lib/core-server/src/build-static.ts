@@ -180,9 +180,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
             .then(async (previewStats) => {
               logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
 
-              const statsOption = options.webpackStatsJson || options.statsJson;
-              if (statsOption) {
-                const target = statsOption === true ? options.outputDir : statsOption;
+              if (options.webpackStatsJson) {
+                const target =
+                  options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
                 await outputStats(target, previewStats);
               }
             })
