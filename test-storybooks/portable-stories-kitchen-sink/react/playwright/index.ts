@@ -1,8 +1,8 @@
+import type { ProjectAnnotations } from '@storybook/types';
 import { ReactRenderer, setProjectAnnotations } from '@storybook/react';
 import sbAnnotations from '../.storybook/preview';
 import * as addonInteractions from '@storybook/addon-interactions/preview';
 import * as addonActions from '@storybook/addon-essentials/actions/preview';
-import { ProjectAnnotations } from '../../../../code/lib/types/src';
 
 setProjectAnnotations([
   sbAnnotations,
