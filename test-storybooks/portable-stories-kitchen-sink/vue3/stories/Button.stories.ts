@@ -45,8 +45,10 @@ const getCaptionForLocale = (locale: string) => {
       return '안녕하세요!';
     case 'pt':
       return 'Olá!';
-    default:
+    case 'en':
       return 'Hello!';
+    default:
+      return undefined;
   }
 };
 
@@ -58,7 +60,7 @@ export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
   },
   template: `<div>
     <p>locale: ${globals.locale}</p>
-    <Button v-bind="args" />
+    <Button v-bind="args" label="${getCaptionForLocale(globals.locale)}" />
   </div>`,
 });
 CSF2StoryWithLocale.storyName = 'WithLocale';

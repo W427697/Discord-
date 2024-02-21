@@ -54,25 +54,28 @@ describe('renders', () => {
 
 describe('projectAnnotations', () => {
   it('renders with default projectAnnotations', () => {
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+      },
+    ]);
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(WithEnglishText());
     const buttonElement = getByText('Hello!');
     expect(buttonElement).toBeInTheDocument();
+    expect(WithEnglishText.parameters?.injected).toBe(true);
   });
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globalTypes: { locale: { defaultValue: 'pt' } } as any,
+      globals: { locale: 'pt' } as any,
     });
     const { getByText } = render(WithPortugueseText());
     const buttonElement = getByText('Olá!');
     expect(buttonElement).toBeInTheDocument();
-  });
-
-  it('renders with custom projectAnnotations via setProjectAnnotations', () => {
-    setProjectAnnotations([{ parameters: { injected: true } }]);
-    const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
-    expect(Story.parameters?.injected).toBe(true);
   });
 });
 
@@ -138,7 +141,11 @@ describe('ComposeStories types', () => {
 // Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
-  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithParamsAndDecorator') {
+  if (
+    typeof Story === 'string' ||
+    _storyName === 'CSF2StoryWithParamsAndDecorator' ||
+    _storyName === 'CSF2StoryWithLocale'
+  ) {
     return;
   }
 

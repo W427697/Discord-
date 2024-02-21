@@ -35,14 +35,21 @@ const getCaptionForLocale = (locale: string) => {
       return '안녕하세요!';
     case 'pt':
       return 'Olá!';
-    default:
+    case 'en':
       return 'Hello!';
+    default:
+      return undefined;
   }
 };
 
 export const CSF2StoryWithLocale: CSF2Story = (args, { globals: { locale } }) => {
   const caption = getCaptionForLocale(locale);
-  return <Button>{caption}</Button>;
+  return (
+    <>
+      <p>locale: {locale}</p>
+      <Button>{caption}</Button>
+    </>
+  );
 };
 CSF2StoryWithLocale.storyName = 'WithLocale';
 

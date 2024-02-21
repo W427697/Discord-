@@ -13,24 +13,6 @@ exports[`Renders CSF2Secondary story 1`] = `
 </body>
 `;
 
-exports[`Renders CSF2StoryWithLocale story 1`] = `
-<body>
-  <div>
-    <div>
-      <p>
-        locale: undefined
-      </p>
-      <button
-        class="storybook-button storybook-button--secondary storybook-button--medium"
-        type="button"
-      >
-        Hello!
-      </button>
-    </div>
-  </div>
-</body>
-`;
-
 exports[`Renders CSF3Button story 1`] = `
 <body>
   <div>

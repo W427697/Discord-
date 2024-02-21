@@ -79,7 +79,10 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   const context: StoryContext<TRenderer> = {
     hooks: new HooksContext(),
-    globals: defaultGlobals,
+    globals: {
+      ...defaultGlobals,
+      ...projectAnnotations.globals,
+    },
     args: { ...story.initialArgs },
     viewMode: 'story',
     loaded: {},

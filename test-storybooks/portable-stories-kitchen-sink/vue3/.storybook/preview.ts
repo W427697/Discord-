@@ -15,6 +15,17 @@ const preview: Preview = {
   //     `
   //   })
   // ],
+  globalTypes: {
+    locale: {
+      description: 'Locale for components',
+      defaultValue: 'en',
+      toolbar: {
+        title: 'Locale',
+        icon: 'circlehollow',
+        items: ['es', 'en'],
+      },
+    },
+  },
 };
 
 export default preview;

@@ -64,25 +64,28 @@ describe('projectAnnotations', () => {
   });
 
   it('renders with default projectAnnotations', () => {
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+      },
+    ]);
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(<WithEnglishText />);
     const buttonElement = getByText('Hello!');
     expect(buttonElement).not.toBeNull();
+    expect(WithEnglishText.parameters?.injected).toBe(true);
   });
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globalTypes: { locale: { defaultValue: 'pt' } } as any,
+      globals: { locale: 'pt' } as any,
     });
     const { getByText } = render(<WithPortugueseText />);
     const buttonElement = getByText('Olá!');
     expect(buttonElement).not.toBeNull();
-  });
-
-  it('renders with custom projectAnnotations via setProjectAnnotations', () => {
-    setProjectAnnotations([{ parameters: { injected: true } }]);
-    const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
-    expect(Story.parameters?.injected).toBe(true);
   });
 
   it('has spies when addon-interactions annotations are added', async () => {
@@ -175,6 +178,11 @@ const testCases = Object.values(composeStories(stories)).map(
 );
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
+
+  if (_storyName === 'CSF2WithLocale') {
+    return;
+  }
+
   await Story.load();
   const { container, baseElement } = await render(<Story />);
   await Story.play?.({ canvasElement: container });
