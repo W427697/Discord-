@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
 import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
@@ -123,7 +125,6 @@ export function composeStories<TModule extends Store_CSFExports>(
   globalConfig: ProjectAnnotations<Renderer>,
   composeStoryFn: ComposeStoryFn
 ) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {
@@ -142,4 +143,49 @@ export function composeStories<TModule extends Store_CSFExports>(
   }, {});
 
   return composedStories;
+}
+
+type WrappedStoryRef = { __pw_type: 'jsx' | 'importRef' };
+type UnwrappedJSXStoryRef = {
+  __pw_type: 'jsx';
+  type: ComposedStoryFn;
+};
+type UnwrappedImportStoryRef = ComposedStoryFn;
+
+declare global {
+  function __pwUnwrapObject(
+    storyRef: WrappedStoryRef
+  ): Promise<UnwrappedJSXStoryRef | UnwrappedImportStoryRef>;
+}
+
+export function createPlaywrightTest<TFixture extends { extend: any }>(
+  baseTest: TFixture
+): TFixture {
+  return baseTest.extend({
+    mount: async ({ mount, page }: any, use: any) => {
+      await use(async (storyRef: WrappedStoryRef) => {
+        // load the story in the browser
+        await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
+          const story =
+            '__pw_type' in unwrappedStoryRef ? unwrappedStoryRef.type : unwrappedStoryRef;
+          return story?.load?.();
+        }, storyRef);
+
+        // mount the story
+        const mountResult = await mount(storyRef);
+
+        // play the story in the browser
+        await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
+          const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
+          const story =
+            '__pw_type' in unwrappedStoryRef ? unwrappedStoryRef.type : unwrappedStoryRef;
+          const canvasElement = document.querySelector('#root');
+          return story?.play?.({ canvasElement });
+        }, storyRef);
+
+        return mountResult;
+      });
+    },
+  });
 }

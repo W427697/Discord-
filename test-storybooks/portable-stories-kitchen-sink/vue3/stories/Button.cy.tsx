@@ -2,7 +2,7 @@
 import * as stories from './Button.stories';
 import { composeStories } from '@storybook/vue3';
 
-const { CSF3Primary, LoaderStory, CSF3InputFieldFilled } = composeStories(stories)
+const { CSF3Primary, WithLoader, CSF3InputFieldFilled } = composeStories(stories)
 
 describe('<Button()', () => {
   it('renders primary button', async () => {
@@ -19,17 +19,17 @@ describe('<Button()', () => {
 
   it.skip('renders with loaders and play function', () => {
     cy.then(async() => {
-      await LoaderStory.load();
+      await WithLoader.load();
     });
 
-    cy.mount(LoaderStory());
+    cy.mount(WithLoader());
 
     cy.then(async() => {
-      await LoaderStory.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
+      await WithLoader.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
     });
 
     cy.get('[data-testid="loaded-data"]').should('contain.text', 'bar');
-    cy.get('[data-testid="spy-data"]').should('contain.text', 'mocked');
+    cy.get('[data-testid="mock-data"]').should('contain.text', 'mockFn return value');
   })
 
   it.skip('renders with play function', () => {

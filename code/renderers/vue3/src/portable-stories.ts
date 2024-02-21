@@ -115,3 +115,8 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
     keyof Store_CSFExports
   >;
 }
+
+declare global {
+  // eslint-disable-next-line no-var
+  var playwright: any;
+}
