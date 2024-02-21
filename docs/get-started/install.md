@@ -74,13 +74,6 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 </Callout>
 
-<Callout variant="info">
-
-If your repo is in PnP (Plug And Play) mode, node_modules may be installed when run.
-because Storybook's cache directory is located in the node_modules folder, since it is normally not checked in via version control.
-
-</Callout>
-
 ![Storybook welcome screen](./example-welcome.png)
 
 There are some noteworthy items here:
@@ -138,6 +131,10 @@ If you're working with a custom environment set up or need set up Storybook manu
 />
 
 <!-- prettier-ignore-end -->
+
+#### Yarn Plug'n'Play (PnP) support with Storybook
+
+If you've enabled Storybook in a project running on a new version of Yarn with [Plug'n'Play](https://yarnpkg.com/features/pnp) (PnP) enabled, you may notice that it will generate `node_modules` with some additional files and folders. This is a known constraint as Storybook relies on some directories (e.g., `.cache`) to store cache files and other data to improve performance and faster builds. You can safely ignore these files and folders, adjusting your `.gitignore` file to exclude them from the version control you're using.
 
 #### Run Storybook with Webpack 4
 
