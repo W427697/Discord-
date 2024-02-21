@@ -9,7 +9,6 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
-  ArgsStoryFn,
 } from '@storybook/types';
 
 import * as defaultProjectAnnotations from './render';
