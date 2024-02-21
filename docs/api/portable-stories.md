@@ -223,7 +223,7 @@ You execute the loaders for a given story, and pass the data down to it. This on
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed Story will return a `load` method to be called **before** it is rendered.
 
-For example, your story might have a loader that prepares data for your story, such as setting up some mocks or fetching data which is available via the `loaded` property in the story context. In portable stories, the loaders aren not applied automatically – you have to apply them yourself. To do so, you call the `load` method from your composed story before rendering your story.
+For example, your story might have a loader that prepares data for your story, such as setting up some mocks or fetching data which is available via the `loaded` property in the story context. In portable stories, the loaders are not applied automatically – you have to apply them yourself. To do so, you call the `load` method from your composed story before rendering your story.
 
 ```tsx
 // Button.test.tsx
