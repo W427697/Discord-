@@ -18,8 +18,12 @@
 import './commands'
 
 import { mount } from 'cypress/vue'
-import { setProjectAnnotations } from "@storybook/vue3";
-import previewAnnotations from "../../.storybook/preview";
+
+import type { ProjectAnnotations } from '@storybook/types';
+import { VueRenderer, setProjectAnnotations } from '@storybook/vue3';
+import sbAnnotations from '../../.storybook/preview';
+import * as addonInteractions from '@storybook/addon-interactions/preview';
+import * as addonActions from '@storybook/addon-essentials/actions/preview';
 
 
 // Augment the Cypress namespace to include type definitions for
@@ -42,4 +46,8 @@ Cypress.Commands.add('mount', mount)
 // which will break
 process.env = {};
 
-setProjectAnnotations(previewAnnotations);
+setProjectAnnotations([
+  sbAnnotations,
+  addonInteractions as ProjectAnnotations<VueRenderer>, // instruments actions as spies
+  addonActions as ProjectAnnotations<VueRenderer>, // creates actions from argTypes
+]);

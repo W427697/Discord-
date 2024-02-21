@@ -19,8 +19,11 @@ import './commands'
 
 import { mount } from 'cypress/react18'
 
-import { setProjectAnnotations } from "@storybook/react";
-import previewAnnotations from "../../.storybook/preview";
+import type { ProjectAnnotations } from '@storybook/types';
+import { ReactRenderer, setProjectAnnotations } from '@storybook/react';
+import sbAnnotations from '../../.storybook/preview';
+import * as addonInteractions from '@storybook/addon-interactions/preview';
+import * as addonActions from '@storybook/addon-essentials/actions/preview';
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -42,4 +45,8 @@ process.env = {};
 
 Cypress.Commands.add('mount', mount)
 
-setProjectAnnotations(previewAnnotations);
+setProjectAnnotations([
+  sbAnnotations,
+  addonInteractions as ProjectAnnotations<ReactRenderer>, // instruments actions as spies
+  addonActions as ProjectAnnotations<ReactRenderer>, // creates actions from argTypes
+]);
