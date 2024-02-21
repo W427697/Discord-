@@ -5,7 +5,6 @@ import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
-import { NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
@@ -69,11 +68,7 @@ export const start: ViteBuilder['start'] = async ({
 
   return {
     bail,
-    stats: {
-      toJson: () => {
-        throw new NoStatsForViteDevError();
-      },
-    },
+    stats: { toJson: () => null },
     totalTime: process.hrtime(startTime),
   };
 };
