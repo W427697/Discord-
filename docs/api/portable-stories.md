@@ -160,11 +160,10 @@ This API should be called once and before the tests run. This will make sure tha
 ```ts
 // setup-tests.ts
 import { setProjectAnnotations } from '@storybook/react';
-import * as frameworkAnnotations from '@storybook/nextjs/preview';
 import * as addonAnnotations from 'my-addon/preview';
 import * as previewAnnotations from './.storybook/preview';
 
-setProjectAnnotations([previewAnnotations, frameworkAnnotations, addonAnnotations]);
+setProjectAnnotations([previewAnnotations, addonAnnotations]);
 ```
 
 ### Type
