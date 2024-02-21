@@ -2,7 +2,22 @@
 title: 'Portable stories'
 ---
 
-Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments such as in a test (with Vitest, for instance). You can use the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions to compose stories and their [annotations](#story-annotations), making them portable.
+export const SUPPORTED_RENDERERS = ['react', 'vue'];
+
+<If notRenderer={SUPPORTED_RENDERERS}>
+
+<Callout variant="info">
+
+Portable stories are currently only supported in [React](?renderer=react) and [Vue](?renderer=vue) projects.
+
+</Callout>
+
+</If>
+{/* End non-supported renderers */}
+
+<If renderer={SUPPORTED_RENDERERS}>
+
+Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments such as in a test (with Vitest, for instance). You can use the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions to compose stories and their [annotations](#annotations), making them portable.
 
 Normally, Storybok composes a story and its annotations automatically, as part of the [story pipeline](#story-pipeline). When using stories outside of Storybook, you must handle the story pipeline yourself.
 
@@ -12,32 +27,16 @@ Normally, Storybok composes a story and its annotations automatically, as part o
 
 If you use the composed story (e.g. Primary button), the component will render with the args that are passed in the story. However, you are free to pass any props on top of the component, and those props will override the default values passed in the story's args.
 
-```tsx
-// Button.test.ts|tsx
-import { test, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { composeStories } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-// import all stories from the stories file
-import * as stories from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-compose-stories.ts.mdx',
+    'vue/portable-stories-compose-stories.ts.mdx',
+  ]}
+/>
 
-// Every component that is returned maps 1:1 with the stories,
-// but they already contain all decorators from story level, meta level and project level.
-const { Primary, Secondary } = composeStories(stories);
-
-test('renders primary button with default args', () => {
-  render(<Primary />);
-  const buttonElement = screen.getByText('Text coming from args in stories file!');
-  expect(buttonElement).not.toBeNull();
-});
-
-test('renders primary button with overriden props', () => {
-  // You can override props and they will get merged with values from the Story's args
-  render(<Primary>Hello world</Primary>);
-  const buttonElement = screen.getByText(/Hello world/i);
-  expect(buttonElement).not.toBeNull();
-});
-```
+<!-- prettier-ignore-end -->
 
 ### Type
 
@@ -76,39 +75,30 @@ An object where the keys are the names of the stories and the values are the com
 
 Additionally, the composed story will have the following properties:
 
-| Property   | Type                                       | Description                                 |
-| ---------- | ------------------------------------------ | ------------------------------------------- |
-| storyName  | `string`                                   | The story's name                            |
-| args       | `Record<string, any>`                      | The story's args                            |
-| argTypes   | `ArgType`                                  | The story's argTypes                        |
-| id         | `string`                                   | The story's id                              |
-| parameters | `Record<string, any>`                      | The story's parameters                      |
-| load       | `() => Promise<void>`                      | Executes all the loaders for a given story  |
-| play       | `(context) => Promise<void>  \| undefined` | Executes the play function of a given story |
+| Property   | Type                                      | Description                                                     |
+| ---------- | ----------------------------------------- | --------------------------------------------------------------- |
+| storyName  | `string`                                  | The story's name                                                |
+| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                  |
+| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                          |
+| id         | `string`                                  | The story's id                                                  |
+| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                       |
+| load       | `() => Promise<void>`                     | Executes all the [loaders](#2-load-optional) for a given story  |
+| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story |
 
 ## composeStory
 
 You can use `composeStory` if you wish to compose a single story for a component.
 
-```tsx
-// Button.test.ts|tsx
-import { vi, test, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { composeStory } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import meta, { Primary } from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-compose-story.ts.mdx',
+    'vue/portable-stories-compose-story.ts.mdx',
+  ]}
+/>
 
-test('onclick handler is called', () => {
-  // Returns a component that already contain all decorators from story level, meta level and global level.
-  const PrimaryStory = composeStory(Primary, meta);
-
-  const onClickSpy = vi.fn();
-  render(<PrimaryStory onClick={onClickSpy} />);
-  const buttonElement = screen.getByRole('button');
-  buttonElement.click();
-  expect(onClickSpy).toHaveBeenCalled();
-});
-```
+<!-- prettier-ignore-end -->
 
 ### Type
 
@@ -167,7 +157,8 @@ This API should be called once and before the tests run, typically in your testi
 
 ```ts
 // setup-tests.ts
-import { setProjectAnnotations } from '@storybook/react';
+// Replace <your-renderer> with your renderer, e.g. react, vue3
+import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import * as addonAnnotations from 'my-addon/preview';
 import * as previewAnnotations from './.storybook/preview';
 
@@ -188,9 +179,9 @@ setProjectAnnotations([previewAnnotations, addonAnnotations]);
 
 Type: `ProjectAnnotation | ProjectAnnotation[]`
 
-A set of project [annotations](#story-annotations) (those defined in `.storybook/preview.js|ts`) or an array of sets of project annotations, which will be applied to all composed stories.
+A set of project [annotations](#annotations) (those defined in `.storybook/preview.js|ts`) or an array of sets of project annotations, which will be applied to all composed stories.
 
-## Story annotations
+## Annotations
 
 Annotations are the metadata like [args](../writing-stories/args.md), [decorators](../writing-stories/decorators.md), [loaders](../writing-stories/loaders.md), and [play functions](../writing-stories/play-function.md) that are applied to a story. They can be defined for a specific story, all stories for a component, or for all stories in the project.
 
@@ -225,21 +216,16 @@ You execute the loaders for a given story, and pass the data down to it. This on
 
 For example, your story might have a loader that prepares data for your story, such as setting up some mocks or fetching data which is available via the `loaded` property in the story context. In portable stories, the loaders are not applied automatically – you have to apply them yourself. To do so, you call the `load` method from your composed story before rendering your story.
 
-```tsx
-// Button.test.tsx
-import { test } from 'vitest';
-import { render } from '@testing-library/react';
-import { composeStory } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import meta, { Primary as PrimaryStory } from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-with-loaders.ts.mdx',
+    'vue/portable-stories-with-loaders.ts.mdx',
+  ]}
+/>
 
-test('applies the loaders and renders', async () => {
-  const Primary = composeStory(PrimaryStory, meta);
-
-  await Primary.load();
-  render(<Primary />);
-});
-```
+<!-- prettier-ignore-end -->
 
 ### 3. Render
 
@@ -255,25 +241,20 @@ Once the component is rendered, you execute the play function which will contain
 
 For example, your story might have a play function that prepares your component's desired state: in this case, clicking on a button to display a modal. In portable stories, the play function does not run automatically – you have to call it yourself. The play function needs a `canvasElement`, which should be passed by you. A `canvasElement` is the HTML element which wraps your component. Each testing utility provides different ways to retrieve such element, but here's how to do it with Testing Library:
 
-```tsx
-// Button.test.tsx
-import { test } from 'vitest';
-import { render } from '@testing-library/react';
-import { composeStory } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import meta, { Primary as PrimaryStory } from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-with-play-function.ts.mdx',
+    'vue/portable-stories-with-play-function.ts.mdx',
+  ]}
+/>
 
-test('renders and executes the play function', async () => {
-  const Primary = composeStory(PrimaryStory, meta);
-
-  const { container } = render(<Primary />);
-  await Primary.play({ canvasElement: container });
-});
-```
+<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
-If your play function contains assertions (e.g. expect calls), if they fail, your tests will fail accordingly.
+If your play function contains assertions (e.g. `expect` calls), your test will fail when those assertions fail.
 
 </Callout>
 
@@ -281,30 +262,16 @@ If your play function contains assertions (e.g. expect calls), if they fail, you
 
 If your stories behave differently based on [globals](../essentials/toolbars-and-globals.md#globals), such as they render text in English or Spanish, and such behavior can be changed via the toolbar items, you can achieve similar functionality in portable stories by overriding project annotations when composing a story:
 
-```tsx
-// Button.test.tsx
-import { test } from 'vitest';
-import { render } from '@testing-library/react';
-import { composeStory } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import meta, { Primary } from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-override-globals.ts.mdx',
+    'vue/portable-stories-override-globals.ts.mdx',
+  ]}
+/>
 
-test('renders in English', async () => {
-  const PrimaryStory = composeStory(
-    Primary,
-    meta,
-    { globals: { locale: 'en' } } // 👈 Project annotations to override the locale
-  );
-
-  render(<PrimaryStory />);
-});
-
-test('renders in Spanish', async () => {
-  const PrimaryStory = composeStory(Primary, meta, { globals: { locale: 'es' } });
-
-  render(<PrimaryStory />);
-});
-```
+<!-- prettier-ignore-end -->
 
 ## Component testing integrations
 
@@ -316,7 +283,8 @@ To set the annotations, you use the `playwright/index.ts` file:
 
 ```ts
 // playwright/index.ts
-import { setProjectAnnotations } from '@storybook/react';
+// Replace <your-renderer> with your renderer, e.g. react, vue3
+import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import sbAnnotations from '../.storybook/preview';
 
 setProjectAnnotations(sbAnnotations);
@@ -326,7 +294,8 @@ To compose stories, however, due to Playwright's limitations\*, you have to comp
 
 ```ts
 // Button.playwright.stories.ts
-import { composeStories } from '@storybook/react';
+// Replace <your-renderer> with your renderer, e.g. react, vue3
+import { composeStories } from '@storybook/<your-renderer>';
 
 import * as stories from './Button.stories';
 
@@ -345,21 +314,16 @@ export default composeStories(stories);
 
 When writing tests, instead of using Playwright's own `test` function, you can use Storybook's special `createTest` function which will extend Playwright's test functionality to add a custom `mount` mechanism which will load, render and play the story. This function is experimental and is subject to changes.
 
-```tsx
-// Button.playwright.test.ts
-import { createTest } from '@storybook/react/experimental-playwright';
-import { test as base } from '@playwright/experimental-ct-react';
+<!-- prettier-ignore-start -->
 
-import stories from './Button.portable';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-playwright-ct.ts.mdx',
+    'vue/portable-stories-playwright-ct.ts.mdx',
+  ]}
+/>
 
-const test = createTest(base);
-
-test('renders primary button', async ({ mount }) => {
-  // The mount function will execute all the necessary steps in the story,
-  // such as loaders, render, and play function
-  await mount(<stories.CSF3Primary />);
-});
-```
+<!-- prettier-ignore-end -->
 
 ### Cypress CT
 
@@ -367,9 +331,10 @@ Portable stories work in [Cypress CT](https://docs.cypress.io/guides/component-t
 
 To set the annotations, you use the `cypress/support/component.ts` file:
 
-```jsx
+```ts
 // cypress/support/component.ts
-import { setProjectAnnotations } from '@storybook/react';
+// Replace <your-renderer> with your renderer, e.g. react, vue3
+import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import sbAnnotations from '../.storybook/preview';
 
 setProjectAnnotations(sbAnnotations);
@@ -377,20 +342,16 @@ setProjectAnnotations(sbAnnotations);
 
 You can compose stories in your Cypress test file pretty much the same way as in Vitest/Jest:
 
-```jsx
-// Button.test.tsx
-import { composeStories } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import * as stories from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-cypress-ct.ts.mdx',
+    'vue/portable-stories-cypress-ct.ts.mdx',
+  ]}
+/>
 
-const { CSF3Primary } = composeStories(stories);
-
-describe('<Button />', () => {
-  it('renders primary button', async () => {
-    cy.mount(<CSF3Primary />);
-  });
-});
-```
+<!-- prettier-ignore-end -->
 
 The same goes for loaders/play function, you'd have to manually invoke them as such.
 
@@ -400,31 +361,16 @@ Cypress doesn't use a normal Promise mechanism so we need to use `cy.then` in or
 
 </Callout>
 
-```jsx
-// Button.test.tsx
-import { composeStories } from '@storybook/react';
+<!-- prettier-ignore-start -->
 
-import * as stories from './Button.stories';
+<CodeSnippets
+  paths={[
+    'react/portable-stories-cypress-ct-async.ts.mdx',
+    'vue/portable-stories-cypress-ct-async.ts.mdx',
+  ]}
+/>
 
-const { CSF3Primary } = composeStories(stories);
+<!-- prettier-ignore-end -->
 
-describe('<Button />', () => {
-  it('renders with loaders and play function', () => {
-    cy.then(async () => {
-      await CSF3Primary.load();
-    });
-
-    cy.mount(<CSF3Primary />);
-
-    cy.then(async () => {
-      await CSF3Primary.play({
-        // data-cy-root is Cypress "App". The topmost wrapping element
-        canvasElement: document.querySelector('[data-cy-root]'),
-      });
-      // Cypress assertions happen inside of this scope, after play
-    });
-  });
-});
-```
-
-## Open
+</If>
+{/* End supported renderers */}

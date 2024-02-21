@@ -1,0 +1,15 @@
+```tsx
+// Button.test.tsx
+import { test } from 'vitest';
+import { render } from '@testing-library/react';
+import { composeStory } from '@storybook/react';
+
+import meta, { Primary } from './Button.stories';
+
+test('renders and executes the play function', async () => {
+  const PrimaryStory = composeStory(Primary, meta);
+
+  const { container } = render(<PrimaryStory />);
+  await PrimaryStory.play({ canvasElement: container });
+});
+```

@@ -1,0 +1,26 @@
+```tsx
+// Button.test.tsx
+import { composeStories } from '@storybook/react';
+
+import * as stories from './Button.stories';
+
+const { CSF3Primary } = composeStories(stories);
+
+describe('<Button />', () => {
+  it('renders with loaders and play function', () => {
+    cy.then(async () => {
+      await CSF3Primary.load();
+    });
+
+    cy.mount(<CSF3Primary />);
+
+    cy.then(async () => {
+      await CSF3Primary.play({
+        // data-cy-root is Cypress "App". The top-most wrapping element
+        canvasElement: document.querySelector('[data-cy-root]'),
+      });
+      // Cypress assertions happen inside of this scope, after play
+    });
+  });
+});
+```

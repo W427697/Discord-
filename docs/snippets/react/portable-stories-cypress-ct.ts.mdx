@@ -1,0 +1,14 @@
+```tsx
+// Button.test.tsx
+import { composeStories } from '@storybook/react';
+
+import * as stories from './Button.stories';
+
+const { CSF3Primary } = composeStories(stories);
+
+describe('<Button />', () => {
+  it('renders primary button', async () => {
+    cy.mount(<CSF3Primary />);
+  });
+});
+```

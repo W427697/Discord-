@@ -1,0 +1,14 @@
+```ts
+// Button.test.ts
+import { composeStories } from '@storybook/vue3';
+
+import * as stories from './Button.stories';
+
+const { CSF3Primary } = composeStories(stories);
+
+describe('<Button />', () => {
+  it('renders primary button', async () => {
+    cy.mount(CSF3Primary());
+  });
+});
+```
