@@ -145,18 +145,16 @@ export function composeStories<TModule extends Store_CSFExports>(
   return composedStories;
 }
 
-declare global {
-  type WrappedStoryRef = { __pw_type: 'jsx' | 'importRef' };
-  type UnwrappedJSXStoryRef = {
-    __pw_type: 'jsx';
-    type: ComposedStoryFn;
-  };
-  type UnwrappedImportStoryRef = ComposedStoryFn;
+type WrappedStoryRef = { __pw_type: 'jsx' | 'importRef' };
+type UnwrappedJSXStoryRef = {
+  __pw_type: 'jsx';
+  type: ComposedStoryFn;
+};
+type UnwrappedImportStoryRef = ComposedStoryFn;
 
-  function __pwUnwrapObject(
-    storyRef: WrappedStoryRef
-  ): UnwrappedJSXStoryRef | UnwrappedImportStoryRef;
-}
+declare function __pwUnwrapObject(
+  storyRef: WrappedStoryRef
+): Promise<UnwrappedJSXStoryRef | UnwrappedImportStoryRef>;
 
 export function createPlaywrightTest<TFixture extends { extend: any }>(
   baseTest: TFixture
