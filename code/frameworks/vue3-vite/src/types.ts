@@ -11,10 +11,10 @@ export type FrameworkOptions = {
    * Since Storybook 8, the official vue plugin "volar" can be used which supports
    * more complex types, better type docs, support for js(x)/ts(x) components and more.
    *
-   * "volar" will become the new default in the future and "docgen-api" will be removed.
-   * @default "docgen-api"
+   * "volar" will become the new default in the future and "vue-docgen-api" will be removed.
+   * @default "vue-docgen-api"
    */
-  docgen?: 'docgen-api' | 'volar';
+  docgen?: 'vue-docgen-api' | 'volar';
 };
 
 type StorybookConfigFramework = {
