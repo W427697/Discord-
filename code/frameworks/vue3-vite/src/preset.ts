@@ -13,11 +13,13 @@ export const core: PresetProperty<'core'> = {
   renderer: getAbsolutePath('@storybook/vue3'),
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
+export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {
   const plugins: PluginOption[] = [];
 
-  // TODO: get actual framework options
-  const frameworkOptions: FrameworkOptions = {};
+  const framework = await options.presets.apply('framework');
+  const frameworkOptions: FrameworkOptions =
+    typeof framework === 'string' ? {} : framework.options ?? {};
+
   const docgenPlugin = frameworkOptions.docgen ?? 'vue-docgen-api';
 
   // add docgen plugin depending on framework option
