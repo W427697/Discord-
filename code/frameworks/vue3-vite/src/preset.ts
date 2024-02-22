@@ -18,7 +18,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
 
   // TODO: get actual framework options
   const frameworkOptions: FrameworkOptions = {};
-  const docgenPlugin = frameworkOptions.docgen ?? 'docgen-api';
+  const docgenPlugin = frameworkOptions.docgen ?? 'vue-docgen-api';
 
   // add docgen plugin depending on framework option
   if (docgenPlugin === 'volar') {
