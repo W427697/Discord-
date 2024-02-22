@@ -120,7 +120,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
         format: ['cjs'],
-        target: 'chrome100',
+        target: browserOptions.target,
         platform: 'neutral',
         external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
