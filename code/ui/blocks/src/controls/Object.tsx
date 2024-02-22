@@ -312,7 +312,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
       {!showRaw ? (
         <JsonTree
           readOnly={!isObjectOrArray}
-          isCollapsed={() => !isObjectOrArray}
+          isCollapsed={isObjectOrArray ? /* default value */ undefined : () => true}
           data={data}
           rootName={name}
           onFullyUpdate={onChange}
