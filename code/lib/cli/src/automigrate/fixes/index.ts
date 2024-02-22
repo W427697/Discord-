@@ -20,6 +20,7 @@ import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
 import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
+import { mdx1to3 } from './mdx-1-to-3';
 
 export * from '../types';
 
@@ -44,6 +45,7 @@ export const allFixes: Fix[] = [
   storyshotsMigration,
   removeReactDependency,
   webpack5CompilerSetup,
+  mdx1to3,
 ];
 
 export const initFixes: Fix[] = [eslintPlugin];
