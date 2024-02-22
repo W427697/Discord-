@@ -93,11 +93,6 @@ export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, p
     }
   }
 
-  if (!renameParts && codemod === 'mdx-to-csf') {
-    renameParts = ['.stories.mdx', '.mdx'];
-    rename = '.stories.mdx:.mdx;';
-  }
-
   if (renameParts) {
     const [from, to] = renameParts;
     logger.log(`=> Renaming ${rename}: ${files.length} files`);

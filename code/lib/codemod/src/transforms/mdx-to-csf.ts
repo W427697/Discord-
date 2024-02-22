@@ -24,6 +24,8 @@ import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
+const renameList: { original: string; baseName: string }[] = [];
+
 export default async function jscodeshift(info: FileInfo) {
   const parsed = path.parse(info.path);
 
@@ -39,14 +41,19 @@ export default async function jscodeshift(info: FileInfo) {
 
   const result = await transform(info, path.basename(baseName));
 
-  const [mdx, csf] = result;
-
-  if (csf != null) {
-    fs.writeFileSync(`${baseName}.stories.js`, csf);
+  if (result[1] != null) {
+    fs.writeFileSync(`${baseName}.stories.js`, result[1]);
+    renameList.push({ original: info.path, baseName });
   }
 
-  return mdx;
+  return result[0];
 }
+
+process.on('exit', () => {
+  renameList.forEach((file) => {
+    fs.renameSync(file.original, `${file.baseName}.mdx`);
+  });
+});
 
 export async function transform(info: FileInfo, baseName: string): Promise<[string, string]> {
   const root = mdxProcessor.parse(info.source);
