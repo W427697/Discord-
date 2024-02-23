@@ -34,7 +34,7 @@
     },
     "./preview": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
+      "require": "./dist/preview.cjs",
       "import": "./dist/preview.js"
     },
     "./manager": "./dist/manager.js",

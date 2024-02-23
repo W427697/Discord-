@@ -85,11 +85,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ],
     format: ['esm'],
     esbuildOptions: (options) => {
-      /* eslint-disable no-param-reassign */
       options.conditions = ['module'];
       options.platform = 'browser';
       Object.assign(options, getESBuildOptions(optimized));
-      /* eslint-enable no-param-reassign */
     },
   };
 
@@ -124,11 +122,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
           options.conditions = ['module'];
           options.platform = 'node';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -151,6 +147,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       })
     );
   }
+
   if (previewEntries.length > 0) {
     const { dtsConfig, tsConfigExists } = await getDTSConfigs({
       formats,
@@ -162,9 +159,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...commonOptions,
         ...(optimized ? dtsConfig : {}),
         ...browserOptions,
+        format: ['esm', 'cjs'],
         entry: previewEntries.map((e: string) => slash(join(cwd, e))),
-        outExtension: () => ({
-          js: '.js',
+        outExtension: ({ format }) => ({
+          // CJS is needed for portable stories, used to import addon annotations
+          js: format === 'esm' ? '.js' : '.cjs',
         }),
         external: [...commonExternals, ...globalPreviewPackages],
       })
@@ -174,6 +173,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       tasks.push(...previewEntries.map(generateDTSMapperFile));
     }
   }
+
   if (nodeEntries.length > 0) {
     tasks.push(
       build({
@@ -184,10 +184,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
