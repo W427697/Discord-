@@ -6,10 +6,13 @@ import { composeStory } from '@storybook/react';
 
 import meta, { Primary } from './Button.stories';
 
-test('applies the loaders and renders', async () => {
+test('renders and executes the play function', async () => {
   const PrimaryStory = composeStory(Primary, meta);
 
-  await PrimaryStory.load();
-  render(<PrimaryStory />);
+  // First, render the story
+  const { container } = render(<PrimaryStory />);
+
+  // Then, execute the play function
+  await PrimaryStory.play({ canvasElement: container });
 });
 ```

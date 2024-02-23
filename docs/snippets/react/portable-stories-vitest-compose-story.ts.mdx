@@ -7,7 +7,7 @@ import { composeStory } from '@storybook/react';
 import meta, { Primary } from './Button.stories';
 
 test('onclick handler is called', () => {
-  // Returns a component that already contain all decorators from story level, meta level and global level.
+  // Returns a story which already contains all annotations from story, meta and global levels
   const PrimaryStory = composeStory(Primary, meta);
 
   const onClickSpy = vi.fn();
