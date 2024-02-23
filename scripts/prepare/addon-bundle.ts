@@ -116,13 +116,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
         format: ['cjs'],
-        target: 'node16',
-        platform: 'node',
-        external: commonExternals,
+        target: ['chrome100', 'safari15', 'firefox91'],
+        platform: 'neutral',
+        external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
           /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
-          options.platform = 'node';
+          options.platform = 'neutral';
           Object.assign(options, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
