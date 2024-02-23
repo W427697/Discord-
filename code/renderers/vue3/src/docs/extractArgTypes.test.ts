@@ -9,9 +9,17 @@ import {
   referenceTypeEvents,
   referenceTypeProps,
   templateSlots,
+  vueDocgenMocks,
 } from './tests-meta-components/meta-components';
 
-vitest.mock('@storybook/docs-tools');
+vitest.mock('@storybook/docs-tools', async (importOriginal) => {
+  const module: Record<string, unknown> = await importOriginal();
+  return {
+    ...module,
+    extractComponentProps: vi.fn(),
+    hasDocgen: vi.fn(),
+  };
+});
 
 describe('extractArgTypes', () => {
   beforeEach(() => {
@@ -19,16 +27,19 @@ describe('extractArgTypes', () => {
   });
 
   it('should return null if component does not contain docs', () => {
-    (hasDocgen as Mock).mockReturnValueOnce(false);
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(false);
     (extractComponentProps as Mock).mockReturnValueOnce([] as any);
 
     expect(extractArgTypes({} as any)).toBeNull();
   });
 
-  it('should extract arg types for component', () => {
+  it('should extract props for component', () => {
     const component = referenceTypeProps;
-    (hasDocgen as Mock).mockReturnValueOnce(true);
-    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentPropsReturn);
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'props' ? mockExtractComponentPropsReturn : [];
+    });
 
     const argTypes = extractArgTypes(component);
 
@@ -38,17 +49,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description required array object",
           "name": "array",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedProps[]",
             },
@@ -72,17 +78,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description optional array object",
           "name": "arrayOptional",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedProps[]",
             },
@@ -116,7 +117,6 @@ describe('extractArgTypes', () => {
             "defaultValue": {
               "summary": "1",
             },
-            "jsDocTags": [],
             "type": {
               "summary": "number",
             },
@@ -130,17 +130,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description baz is required boolean",
           "name": "baz",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "boolean",
             },
@@ -154,17 +149,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description enum value",
           "name": "enumValue",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyEnum",
             },
@@ -183,34 +173,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "@default: "rounded"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo",
           "name": "foo",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [
-              {
-                "name": "default",
-                "text": ""rounded"",
-              },
-              {
-                "name": "since",
-                "text": "v1.0.0",
-              },
-              {
-                "name": "see",
-                "text": "https://vuejs.org/",
-              },
-              {
-                "name": "deprecated",
-                "text": "v1.1.0",
-              },
-            ],
+            "defaultValue": undefined,
             "type": {
               "summary": "string",
             },
@@ -224,17 +192,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "",
           "name": "inlined",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "{ foo: string; }",
             },
@@ -254,17 +217,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description literal type alias that require context",
           "name": "literalFromContext",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": ""Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"",
             },
@@ -286,17 +244,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description nested is required nested object",
           "name": "nested",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedProps",
             },
@@ -316,17 +269,12 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description required nested object with intersection",
           "name": "nestedIntersection",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedProps & { additionalProp: string; }",
             },
@@ -350,79 +298,53 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description optional nested object",
           "name": "nestedOptional",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedProps | MyIgnoredNestedProps",
             },
           },
           "type": {
-            "name": {
-              "kind": "enum",
-              "schema": [
-                "undefined",
-                {
-                  "kind": "object",
-                  "schema": {
-                    "nestedProp": {
-                      "declarations": [],
-                      "description": "nested prop documentation",
-                      "global": false,
-                      "name": "nestedProp",
-                      "required": true,
-                      "schema": "string",
-                      "tags": [],
-                      "type": "string",
-                    },
-                  },
-                  "type": "MyNestedProps",
-                },
-                {
-                  "kind": "object",
-                  "schema": {
-                    "nestedProp": {
-                      "declarations": [],
-                      "description": "",
-                      "global": false,
-                      "name": "nestedProp",
-                      "required": true,
-                      "schema": "string",
-                      "tags": [],
-                      "type": "string",
-                    },
-                  },
-                  "type": "MyIgnoredNestedProps",
-                },
-              ],
-              "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
-            },
+            "name": "union",
             "required": false,
+            "value": [
+              {
+                "name": "object",
+                "required": false,
+                "value": {
+                  "nestedProp": {
+                    "name": "string",
+                    "required": true,
+                  },
+                },
+              },
+              {
+                "name": "object",
+                "required": false,
+                "value": {
+                  "nestedProp": {
+                    "name": "string",
+                    "required": true,
+                  },
+                },
+              },
+            ],
           },
         },
         "recursive": {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "",
           "name": "recursive",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "MyNestedRecursiveProps",
             },
@@ -432,8 +354,9 @@ describe('extractArgTypes', () => {
             "required": false,
             "value": {
               "recursive": {
-                "name": "MyNestedRecursiveProps",
+                "name": "other",
                 "required": true,
+                "value": "MyNestedRecursiveProps",
               },
             },
           },
@@ -452,7 +375,6 @@ describe('extractArgTypes', () => {
             "defaultValue": {
               "summary": "["foo", "bar"]",
             },
-            "jsDocTags": [],
             "type": {
               "summary": "string[]",
             },
@@ -470,48 +392,62 @@ describe('extractArgTypes', () => {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description union is required union type",
           "name": "union",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "string | number",
             },
           },
           "type": {
-            "name": "string",
+            "name": "union",
             "required": true,
+            "value": [
+              {
+                "name": "string",
+                "required": false,
+              },
+              {
+                "name": "number",
+                "required": false,
+              },
+            ],
           },
         },
         "unionOptional": {
           "control": {
             "disabled": false,
           },
-          "defaultValue": {
-            "summary": undefined,
-          },
+          "defaultValue": undefined,
           "description": "description unionOptional is optional union type",
           "name": "unionOptional",
           "table": {
             "category": "props",
-            "defaultValue": {
-              "summary": undefined,
-            },
-            "jsDocTags": [],
+            "defaultValue": undefined,
             "type": {
               "summary": "string | number | boolean",
             },
           },
           "type": {
-            "name": "string",
+            "name": "union",
             "required": false,
+            "value": [
+              {
+                "name": "string",
+                "required": false,
+              },
+              {
+                "name": "number",
+                "required": false,
+              },
+              {
+                "name": "boolean",
+                "required": false,
+              },
+            ],
           },
         },
       }
@@ -520,8 +456,10 @@ describe('extractArgTypes', () => {
 
   it('should extract events for Vue component', () => {
     const component = referenceTypeEvents;
-    (hasDocgen as Mock).mockReturnValueOnce(true);
-    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentEventsReturn);
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'events' ? mockExtractComponentEventsReturn : [];
+    });
 
     const argTypes = extractArgTypes(component);
 
@@ -530,8 +468,68 @@ describe('extractArgTypes', () => {
 
   it('should extract slots type for Vue component', () => {
     const component = templateSlots;
-    (hasDocgen as Mock).mockReturnValueOnce(true);
-    (extractComponentProps as Mock).mockReturnValue(mockExtractComponentSlotsReturn);
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'slots' ? mockExtractComponentSlotsReturn : [];
+    });
+
+    const argTypes = extractArgTypes(component);
+
+    expect(argTypes).toMatchSnapshot();
+  });
+});
+
+describe('extractArgTypes (vue-docgen-api)', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('should extract props for component', async () => {
+    const component = vueDocgenMocks.props.component;
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'props' ? vueDocgenMocks.props.extractedProps : [];
+    });
+
+    const argTypes = extractArgTypes(component);
+
+    expect(argTypes).toMatchSnapshot();
+  });
+
+  it('should extract events for component', async () => {
+    const component = vueDocgenMocks.events.component;
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'events' ? vueDocgenMocks.events.extractedProps : [];
+    });
+
+    const argTypes = extractArgTypes(component);
+
+    expect(argTypes).toMatchSnapshot();
+  });
+
+  it('should extract slots for component', async () => {
+    const component = vueDocgenMocks.slots.component;
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'slots' ? vueDocgenMocks.slots.extractedProps : [];
+    });
+
+    const argTypes = extractArgTypes(component);
+
+    expect(argTypes).toMatchSnapshot();
+  });
+
+  it('should extract expose for component', async () => {
+    const component = vueDocgenMocks.expose.component;
+    (hasDocgen as unknown as Mock).mockReturnValueOnce(true);
+
+    (extractComponentProps as Mock).mockImplementation((_, section) => {
+      return section === 'expose' ? vueDocgenMocks.expose.extractedProps : [];
+    });
 
     const argTypes = extractArgTypes(component);
 
