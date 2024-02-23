@@ -8,13 +8,13 @@ export type FrameworkOptions = {
   builder?: BuilderOptions;
   /**
    * Plugin to use for generation docs for component props, events, slots and exposes.
-   * Since Storybook 8, the official vue plugin "volar" can be used which supports
+   * Since Storybook 8, the official vue plugin "vue-component-meta" (Volar) can be used which supports
    * more complex types, better type docs, support for js(x)/ts(x) components and more.
    *
-   * "volar" will become the new default in the future and "vue-docgen-api" will be removed.
+   * "vue-component-meta" will become the new default in the future and "vue-docgen-api" will be removed.
    * @default "vue-docgen-api"
    */
-  docgen?: 'vue-docgen-api' | 'volar';
+  docgen?: 'vue-docgen-api' | 'vue-component-meta';
 };
 
 type StorybookConfigFramework = {

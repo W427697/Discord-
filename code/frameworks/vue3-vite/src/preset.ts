@@ -23,7 +23,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) =
   const docgenPlugin = frameworkOptions.docgen ?? 'vue-docgen-api';
 
   // add docgen plugin depending on framework option
-  if (docgenPlugin === 'volar') {
+  if (docgenPlugin === 'vue-component-meta') {
     plugins.push(await vueComponentMeta());
   } else {
     plugins.push(await vueDocgen());
