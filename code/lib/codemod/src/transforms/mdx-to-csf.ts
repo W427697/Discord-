@@ -56,6 +56,8 @@ export default async function jscodeshift(info: FileInfo) {
   }
 }
 
+// The JSCodeshift CLI doesn't return a list of files that were transformed or skipped.
+// This is a workaround to rename the files after the transformation, which we can remove after we switch from jscodeshift to another solution.
 process.on('exit', () => {
   renameList.forEach((file) => {
     fs.renameSync(file.original, `${file.baseName}.mdx`);
