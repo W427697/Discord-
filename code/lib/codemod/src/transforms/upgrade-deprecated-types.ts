@@ -35,14 +35,26 @@ export default async function transform(info: FileInfo, api: API, options: { par
 
   let output = printCsf(csf).code;
 
-  try {
-    output = await prettier.format(output, {
-      ...(await prettier.resolveConfig(info.path)),
-      filepath: info.path,
-    });
-  } catch (e) {
-    logger.log(`Failed applying prettier to ${info.path}.`);
-  }
+  await Promise.race([
+    new Promise<void>(async (resolve) => {
+      try {
+        output = await prettier.format(output, {
+          ...(await prettier.resolveConfig(info.path)),
+          filepath: info.path,
+        });
+      } catch (e) {
+        logger.log(`Failed applying prettier to ${info.path}.`);
+      }
+
+      resolve();
+    }),
+    new Promise<void>((resolve) => {
+      setTimeout(() => {
+        logger.log(`Prettier is taking a long time, skipping formatting for ${info.path}`);
+        resolve();
+      }, 4000);
+    }),
+  ]);
 
   return output;
 }
