@@ -71,9 +71,13 @@ export default function App({ api }: { api: API }) {
     // 1. Selected story is primary button
     // 2. The addon panel is opened, in the bottom and the controls tab is selected
     if (storyId !== 'example-button--primary') {
-      api.selectStory('example-button--primary', undefined, {
-        ref: undefined,
-      });
+      try {
+        api.selectStory('example-button--primary', undefined, {
+          ref: undefined,
+        });
+      } catch (e) {
+        //
+      }
     }
   }, []);
 
@@ -89,7 +93,7 @@ export default function App({ api }: { api: API }) {
           recycle={false}
           tweenDuration={20000}
           onConfettiComplete={(confetti) => {
-            confetti.reset();
+            confetti?.reset();
             setShowConfetti(false);
           }}
         />
@@ -119,7 +123,11 @@ export default function App({ api }: { api: API }) {
           }}
           codeSnippets={codeSnippets}
           onLastTourDone={() => {
-            api.selectStory('configure-your-project--docs');
+            try {
+              api.selectStory('configure-your-project--docs');
+            } catch (e) {
+              //
+            }
             api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
               step: '6:FinishedOnboarding',
               type: 'telemetry',
@@ -134,7 +142,12 @@ export default function App({ api }: { api: API }) {
           codeSnippets={codeSnippets}
           addonsStore={addons}
           onFinish={() => {
-            api.selectStory('example-button--warning');
+            try {
+              api.selectStory('example-button--primary');
+            } catch (e) {
+              //
+            }
+
             setStep('4:VisitNewStory');
           }}
           skipOnboarding={skipOnboarding}
