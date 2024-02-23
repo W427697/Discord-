@@ -30,6 +30,8 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
     props.forEach((extractedProp) => {
       let argType: StrictInputType | undefined;
 
+      // use the corresponding extractor whether vue-docgen-api or vue-component-meta
+      // was used for the docinfo
       if (usedDocgenPlugin === 'vue-docgen-api') {
         const docgenInfo = extractedProp.docgenInfo as VueDocgenInfoEntry<'vue-docgen-api'>;
         argType = extractFromVueDocgenApi(docgenInfo, section, extractedProp);
@@ -41,6 +43,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 
       // skip duplicate and global props
       if (!argType || argTypes[argType.name]) return;
+
       argTypes[argType.name] = {
         ...argType,
         control: { disabled: !['props', 'slots'].includes(section) },
@@ -223,6 +226,7 @@ export const convertVueComponentMetaProp = (
         definedSchemas.push('boolean');
       }
 
+      // recursively convert every type of the union
       return {
         name: 'union',
         value: definedSchemas.map((i) => {
@@ -257,6 +261,8 @@ export const convertVueComponentMetaProp = (
         };
       }
 
+      // recursively convert every type of the array
+      // e.g. "(string | number)[]"
       return {
         name: 'union',
         value: definedSchemas.map((i) => {
@@ -274,6 +280,7 @@ export const convertVueComponentMetaProp = (
       };
     }
 
+    // recursively/deeply convert all properties of the object
     case 'object':
       return {
         name: 'object',
