@@ -9,11 +9,13 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
+  ComposedStoryFn,
 } from '@storybook/types';
 
 import * as defaultProjectAnnotations from './render';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
+import { h } from 'vue';
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
@@ -69,13 +71,43 @@ export function composeStory<TArgs extends Args = Args>(
   projectAnnotations?: ProjectAnnotations<VueRenderer>,
   exportsName?: string
 ) {
-  return originalComposeStory<VueRenderer, TArgs>(
+  const composedStory = originalComposeStory<VueRenderer, TArgs>(
     story as StoryAnnotationsOrFn<VueRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
     exportsName
   );
+  console.log('LOG: when calling original composedStory()', {
+    name: composedStory.storyName,
+    reference: composedStory,
+    called: h(composedStory()),
+    typeof: typeof composedStory,
+    typeofCalled: typeof composedStory(),
+  });
+
+  const renderable: ComposedStoryFn<VueRenderer, Partial<TArgs>> = (
+    ...args: Parameters<typeof composedStory>
+  ) => {
+    // return h(composedStory(...args));
+    const rendered = composedStory(...args);
+    let result;
+    if (typeof rendered === 'function') {
+      result = h(rendered);
+    } else {
+      result = h(() => h(rendered));
+    }
+    console.log('LOG: in composedComponent', {
+      rendered,
+      typeofRendered: typeof rendered,
+      result: result,
+      typeofResult: typeof result,
+    });
+    return result;
+  };
+  Object.assign(renderable, composedStory);
+
+  return renderable;
 }
 
 /**
