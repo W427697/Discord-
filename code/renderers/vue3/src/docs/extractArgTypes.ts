@@ -81,7 +81,7 @@ export const extractFromVueDocgenApi = (
       .map((binding) => {
         return `${binding.name}: ${binding.type?.name ?? 'unknown'}`;
       })
-      .join(', ');
+      .join('; ');
 
     type = slotParams ? `{ ${slotParams} }` : undefined;
     sbType = { name: 'other', value: type ?? '', required: false };

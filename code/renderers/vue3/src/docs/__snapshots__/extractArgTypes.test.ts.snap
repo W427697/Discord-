@@ -490,13 +490,13 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
       "defaultValue": null,
       "jsDocTags": undefined,
       "type": {
-        "summary": "{ num: unknown, str: unknown }",
+        "summary": "{ num: unknown; str: unknown }",
       },
     },
     "type": {
       "name": "other",
       "required": false,
-      "value": "{ num: unknown, str: unknown }",
+      "value": "{ num: unknown; str: unknown }",
     },
   },
 }
