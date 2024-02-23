@@ -57,7 +57,7 @@ export const DefaultPlayed: Story = {
     ...Default.args,
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const importsText = await canvas.findByText('Imports');
     await step('Wait for modal to be visible', async () => {
       const modal = await canvas.findByRole('dialog');

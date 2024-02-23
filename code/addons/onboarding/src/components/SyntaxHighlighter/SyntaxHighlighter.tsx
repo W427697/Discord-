@@ -1,11 +1,5 @@
 import React, { createRef, useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import {
-  Backdrop,
-  Code,
-  Container,
-  SnippetWrapper,
-  SnippetWrapperFirst,
-} from './SyntaxHighlighter.styled';
+import { Backdrop, Code, Container, SnippetWrapperFirst } from './SyntaxHighlighter.styled';
 import { Snippet } from './Snippet/Snippet';
 import { ThemeProvider, ensure, themes } from '@storybook/theming';
 import { SyntaxHighlighter as StorybookSyntaxHighlighter } from '@storybook/components';

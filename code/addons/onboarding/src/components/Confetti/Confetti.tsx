@@ -76,7 +76,7 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function draw(context: CanvasRenderingContext2D) {
+function draw(this: any, context: CanvasRenderingContext2D) {
   this.shape = this.shape || getRandomInt(1, 6);
 
   switch (this.shape) {

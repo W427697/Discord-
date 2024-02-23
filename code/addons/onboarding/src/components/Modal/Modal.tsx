@@ -35,8 +35,8 @@ export function Modal({
           <StyledOverlay />
         </Dialog.Overlay>
         <ContentWrapper
-          width={width}
-          height={height}
+          width={width!}
+          height={height!}
           onInteractOutside={onInteractOutside}
           onEscapeKeyDown={onEscapeKeyDown}
         >

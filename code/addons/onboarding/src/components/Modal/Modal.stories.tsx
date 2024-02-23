@@ -37,7 +37,7 @@ export const Default: Story = {
     );
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByText('Open modal');
     await userEvent.click(button);
     await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
@@ -67,7 +67,7 @@ export const FixedWidth: Story = {
     );
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByText('Open modal');
     await userEvent.click(button);
     await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
@@ -97,7 +97,7 @@ export const FixedHeight: Story = {
     );
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByText('Open modal');
     await userEvent.click(button);
     await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
@@ -128,7 +128,7 @@ export const FixedWidthAndHeight: Story = {
     );
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByText('Open modal');
     await userEvent.click(button);
     await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();

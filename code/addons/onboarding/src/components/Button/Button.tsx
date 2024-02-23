@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 

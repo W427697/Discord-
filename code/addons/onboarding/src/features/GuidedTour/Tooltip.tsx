@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import type { Step, TooltipRenderProps } from 'react-joyride';
@@ -40,16 +41,33 @@ const TooltipFooter = styled.div`
   margin-top: 15px;
 `;
 
-export type TooltipProps = {
-  step: Step & {
-    hideNextButton?: boolean;
-    onNextButtonClick?: () => void;
-  };
+type TooltipProps = {
+  step: Partial<
+    Pick<
+      // this only seems to happen during the check task, nos in vsCode..
+      // this seems to be 'any' in vsCode because of it?
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore (hide property 'input' circularly references itself in mapped type)
+      Step,
+      | 'title'
+      | 'content'
+      | 'target'
+      | 'placement'
+      | 'disableOverlay'
+      | 'disableBeacon'
+      | 'floaterProps'
+      | 'spotlightClicks'
+      | 'styles'
+    > & {
+      hideNextButton: boolean;
+      onNextButtonClick: () => void;
+    }
+  >;
   primaryProps: TooltipRenderProps['primaryProps'];
   tooltipProps: TooltipRenderProps['tooltipProps'];
 };
 
-export const Tooltip = ({ step, primaryProps, tooltipProps }: TooltipProps) => {
+export const Tooltip: FC<TooltipProps> = ({ step, primaryProps, tooltipProps }) => {
   return (
     <TooltipBody {...tooltipProps}>
       <Wrapper>

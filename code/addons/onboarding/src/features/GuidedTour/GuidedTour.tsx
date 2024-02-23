@@ -1,18 +1,18 @@
+import type { ComponentProps } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CallBackProps } from 'react-joyride';
-import Joyride, { STATUS, Step } from 'react-joyride';
+import Joyride, { STATUS } from 'react-joyride';
 import type { API } from '@storybook/manager-api';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { useTheme } from '@storybook/theming';
 
 import { PulsatingEffect } from '../../components/PulsatingEffect/PulsatingEffect';
 import { Confetti } from '../../components/Confetti/Confetti';
-import type { TooltipProps } from './Tooltip';
 import { Tooltip } from './Tooltip';
 import { SpanHighlight } from '../WriteStoriesModal/WriteStoriesModal.styled';
 import type { CodeSnippets } from '../WriteStoriesModal/code/types';
 
-type GuidedTourStep = TooltipProps['step'];
+type GuidedTourStep = ComponentProps<typeof Tooltip>['step'];
 
 export function GuidedTour({
   api,

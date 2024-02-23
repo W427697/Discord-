@@ -14,7 +14,7 @@ export function textContentMatcher(textMatch: string | RegExp) {
   const hasText =
     typeof textMatch === 'string'
       ? (node: Element) => node.textContent === textMatch
-      : (node: Element) => textMatch.test(node.textContent);
+      : (node: Element) => textMatch.test(node.textContent!);
 
   const matcher = (_content: string, node: Element) => {
     if (!hasText(node)) {

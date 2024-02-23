@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 
-export function PulsatingEffect({ targetSelector }: { targetSelector: string }): JSX.Element {
+export function PulsatingEffect({
+  targetSelector,
+}: {
+  targetSelector: string;
+}): JSX.Element | null {
   useEffect(() => {
     const element = document.querySelector<HTMLElement>(targetSelector);
 

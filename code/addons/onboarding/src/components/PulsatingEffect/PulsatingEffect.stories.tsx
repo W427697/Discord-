@@ -35,7 +35,7 @@ export const Default: Story = {
     </>
   ),
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByRole('button');
     await expect(button).toHaveStyle(
       'animation: 3s ease-in-out 0s infinite normal none running pulsate'

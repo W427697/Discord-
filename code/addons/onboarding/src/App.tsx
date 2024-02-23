@@ -27,7 +27,7 @@ export default function App({ api }: { api: API }) {
   const skipOnboarding = useCallback(() => {
     // remove onboarding query parameter from current url
     const url = new URL(window.location.href);
-    const path = decodeURIComponent(url.searchParams.get('path'));
+    const path = decodeURIComponent(url.searchParams.get('path') as any);
     url.search = `?path=${path}&onboarding=false`;
     history.replaceState({}, '', url.href);
     api.setQueryParams({ onboarding: 'false' });
@@ -121,7 +121,7 @@ export default function App({ api }: { api: API }) {
           onFirstTourDone={() => {
             setStep('3:WriteYourStory');
           }}
-          codeSnippets={codeSnippets}
+          codeSnippets={codeSnippets as any}
           onLastTourDone={() => {
             try {
               api.selectStory('configure-your-project--docs');
@@ -139,7 +139,7 @@ export default function App({ api }: { api: API }) {
       {enabled && step === '3:WriteYourStory' && (
         <WriteStoriesModal
           api={api}
-          codeSnippets={codeSnippets}
+          codeSnippets={codeSnippets as any}
           addonsStore={addons}
           onFinish={() => {
             try {

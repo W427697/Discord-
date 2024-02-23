@@ -45,7 +45,7 @@ export const OneTimeConfetti: Story = {
     recycle: false,
     tweenDuration: 20000,
     onConfettiComplete: (confetti) => {
-      confetti.reset();
+      confetti?.reset();
     },
   },
 };

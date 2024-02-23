@@ -13,7 +13,7 @@ export const ListItem = ({ children, index, isCompleted }: ListItemProps) => {
     <ListItemWrapper>
       <ListItemIndexWrapper
         aria-label={isCompleted ? 'complete' : 'not complete'}
-        isCompleted={isCompleted}
+        isCompleted={isCompleted!}
       >
         {isCompleted ? <CheckIcon width={10} height={10} color="white" /> : index}
       </ListItemIndexWrapper>

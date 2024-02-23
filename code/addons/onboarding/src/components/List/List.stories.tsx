@@ -37,7 +37,7 @@ export const Default: StoryObj<typeof meta> = {
     );
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement.parentElement);
+    const canvas = within(canvasElement.parentElement!);
     const button = canvas.getByText('Complete');
 
     await expect(canvas.getAllByLabelText('complete')).toHaveLength(1);
