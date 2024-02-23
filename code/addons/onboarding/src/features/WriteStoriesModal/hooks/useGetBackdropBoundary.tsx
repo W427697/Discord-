@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 // get an element and return its boundary. It accepts a classname as argument
 export const useGetBackdropBoundary = (className: string, active: boolean) => {

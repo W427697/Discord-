@@ -1,13 +1,14 @@
-import React, { ComponentProps, FC, forwardRef } from "react";
-import { styled } from "@storybook/theming";
+import type { ComponentProps, FC } from 'react';
+import React, { forwardRef } from 'react';
+import { styled } from '@storybook/theming';
 
-export interface ButtonProps extends ComponentProps<"button"> {
+export interface ButtonProps extends ComponentProps<'button'> {
   children: string;
   onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: 'primary' | 'secondary' | 'outline';
 }
 
-const StyledButton = styled.button<{ variant: ButtonProps["variant"] }>`
+const StyledButton = styled.button<{ variant: ButtonProps['variant'] }>`
   all: unset;
   box-sizing: border-box;
   border: 0;
@@ -18,22 +19,22 @@ const StyledButton = styled.button<{ variant: ButtonProps["variant"] }>`
   justify-content: center;
   padding: 0 0.75rem;
   background: ${({ theme, variant }) => {
-    if (variant === "primary") return theme.color.secondary;
-    if (variant === "secondary") return theme.color.lighter;
-    if (variant === "outline") return "transparent";
+    if (variant === 'primary') return theme.color.secondary;
+    if (variant === 'secondary') return theme.color.lighter;
+    if (variant === 'outline') return 'transparent';
     return theme.color.secondary;
   }};
   color: ${({ theme, variant }) => {
-    if (variant === "primary") return theme.color.lightest;
-    if (variant === "secondary") return theme.darkest;
-    if (variant === "outline") return theme.darkest;
+    if (variant === 'primary') return theme.color.lightest;
+    if (variant === 'secondary') return theme.darkest;
+    if (variant === 'outline') return theme.darkest;
     return theme.color.lightest;
   }};
   box-shadow: ${({ variant }) => {
-    if (variant === "primary") return "none";
-    if (variant === "secondary") return "#D9E8F2 0 0 0 1px inset";
-    if (variant === "outline") return "#D9E8F2 0 0 0 1px inset";
-    return "none";
+    if (variant === 'primary') return 'none';
+    if (variant === 'secondary') return '#D9E8F2 0 0 0 1px inset';
+    if (variant === 'outline') return '#D9E8F2 0 0 0 1px inset';
+    return 'none';
   }};
   height: 32px;
   font-size: 0.8125rem;
@@ -46,27 +47,27 @@ const StyledButton = styled.button<{ variant: ButtonProps["variant"] }>`
 
   &:hover {
     background-color: ${({ variant }) => {
-      if (variant === "primary") return "#0b94eb";
-      if (variant === "secondary") return "#eef4f9";
-      if (variant === "outline") return "transparent";
-      return "#0b94eb";
+      if (variant === 'primary') return '#0b94eb';
+      if (variant === 'secondary') return '#eef4f9';
+      if (variant === 'outline') return 'transparent';
+      return '#0b94eb';
     }};
   }
 
   &:focus {
     box-shadow: ${({ variant }) => {
-      if (variant === "primary") return "inset 0 0 0 1px rgba(0, 0, 0, 0.2)";
-      if (variant === "secondary") return "inset 0 0 0 1px #0b94eb";
-      if (variant === "outline") return "inset 0 0 0 1px #0b94eb";
-      return "inset 0 0 0 2px rgba(0, 0, 0, 0.1)";
+      if (variant === 'primary') return 'inset 0 0 0 1px rgba(0, 0, 0, 0.2)';
+      if (variant === 'secondary') return 'inset 0 0 0 1px #0b94eb';
+      if (variant === 'outline') return 'inset 0 0 0 1px #0b94eb';
+      return 'inset 0 0 0 2px rgba(0, 0, 0, 0.1)';
     }};
   }
 `;
 
-export const Button: FC<ButtonProps> = forwardRef<
-  HTMLButtonElement,
-  ButtonProps
->(({ children, onClick, variant = "primary", ...rest }, ref) => {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { children, onClick, variant = 'primary', ...rest },
+  ref
+) {
   return (
     <StyledButton ref={ref} onClick={onClick} variant={variant} {...rest}>
       {children}

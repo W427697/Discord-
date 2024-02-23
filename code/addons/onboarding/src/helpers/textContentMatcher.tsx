@@ -12,7 +12,7 @@
  */
 export function textContentMatcher(textMatch: string | RegExp) {
   const hasText =
-    typeof textMatch === "string"
+    typeof textMatch === 'string'
       ? (node: Element) => node.textContent === textMatch
       : (node: Element) => textMatch.test(node.textContent);
 

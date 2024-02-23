@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
-import { userEvent, within } from "@storybook/testing-library";
-import { expect } from "@storybook/jest";
+import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
 
-import { Modal } from "./Modal";
+import { Modal } from './Modal';
 
 const meta: Meta<typeof Modal> = {
   component: Modal,
-  decorators: [
-    (storyFn) => (
-      <div style={{ width: "1200px", height: "800px" }}>{storyFn()}</div>
-    ),
-  ],
+  decorators: [(storyFn) => <div style={{ width: '1200px', height: '800px' }}>{storyFn()}</div>],
 };
 
 export default meta;
@@ -42,11 +38,9 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.parentElement);
-    const button = canvas.getByText("Open modal");
+    const button = canvas.getByText('Open modal');
     await userEvent.click(button);
-    await expect(
-      canvas.findByText("Hello world!")
-    ).resolves.toBeInTheDocument();
+    await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
   },
 };
 
@@ -74,11 +68,9 @@ export const FixedWidth: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.parentElement);
-    const button = canvas.getByText("Open modal");
+    const button = canvas.getByText('Open modal');
     await userEvent.click(button);
-    await expect(
-      canvas.findByText("Hello world!")
-    ).resolves.toBeInTheDocument();
+    await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
   },
 };
 
@@ -106,11 +98,9 @@ export const FixedHeight: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.parentElement);
-    const button = canvas.getByText("Open modal");
+    const button = canvas.getByText('Open modal');
     await userEvent.click(button);
-    await expect(
-      canvas.findByText("Hello world!")
-    ).resolves.toBeInTheDocument();
+    await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
   },
 };
 
@@ -139,10 +129,8 @@ export const FixedWidthAndHeight: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.parentElement);
-    const button = canvas.getByText("Open modal");
+    const button = canvas.getByText('Open modal');
     await userEvent.click(button);
-    await expect(
-      canvas.findByText("Hello world!")
-    ).resolves.toBeInTheDocument();
+    await expect(canvas.findByText('Hello world!')).resolves.toBeInTheDocument();
   },
 };

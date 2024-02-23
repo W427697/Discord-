@@ -1,6 +1,6 @@
 export type CodeSnippets = {
   framework?: string;
-  language: "javascript" | "typescript";
+  language: 'javascript' | 'typescript';
   filename: string;
   code: { snippet: string; toggle?: boolean }[][];
 };

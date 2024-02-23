@@ -1,15 +1,11 @@
-import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { WelcomeModal } from "./WelcomeModal";
+import { WelcomeModal } from './WelcomeModal';
 
 const meta: Meta<typeof WelcomeModal> = {
   component: WelcomeModal,
-  decorators: [
-    (storyFn) => (
-      <div style={{ width: "1200px", height: "800px" }}>{storyFn()}</div>
-    ),
-  ],
+  decorators: [(storyFn) => <div style={{ width: '1200px', height: '800px' }}>{storyFn()}</div>],
 };
 
 export default meta;

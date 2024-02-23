@@ -1,5 +1,5 @@
-import React from "react";
-import { ListWrapper } from "./List.styled";
+import React from 'react';
+import { ListWrapper } from './List.styled';
 
 interface ListProps {
   children: React.ReactNode;

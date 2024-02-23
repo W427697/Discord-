@@ -1,27 +1,35 @@
 {
   "name": "@storybook/addon-onboarding",
-  "version": "1.0.11",
+  "version": "8.0.0-beta.4",
   "description": "Storybook Addon Onboarding - Introduces a new onboarding experience",
   "keywords": [
     "storybook-addons",
     "addon-onboarding"
   ],
-  "homepage": "https://github.com/storybookjs/addon-onboarding#readme",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/onboarding",
   "bugs": {
-    "url": "https://github.com/storybookjs/addon-onboarding/issues"
+    "url": "https://github.com/storybookjs/storybook/issues"
   },
-  "repository": "git+https://github.com/storybookjs/addon-onboarding.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/addons/onboarding"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
-  "author": "@storybookjs/core",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./package.json": "./package.json",
-    "./manager": "./dist/manager.mjs",
-    "./preset": "./dist/preset.js"
+    "./manager": "./dist/manager.js",
+    "./preset": "./dist/preset.js",
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,75 +38,43 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "prebuild": "rimraf ./dist",
-    "build": "tsup",
-    "build-storybook": "storybook build",
-    "build:watch": "pnpm run build --watch",
-    "chromatic": "npx chromatic",
-    "release": "pnpm run build && auto shipit",
-    "start": "run-p build:watch 'storybook --quiet'",
-    "storybook": "storybook dev -p 6006",
-    "storybook:watch": "nodemon"
-  },
-  "nodemonConfig": {
-    "exec": "pnpm run storybook --ci",
-    "ext": "js,jsx,ts,tsx",
-    "ignore": [
-      "src/stories",
-      "src/**/*.stories.*"
-    ],
-    "watch": [
-      "src",
-      ".storybook/main.ts",
-      "vite.config.ts"
-    ]
-  },
-  "dependencies": {
-    "@storybook/telemetry": "next",
-    "@storybook/icons": "^1.2.3",
-    "react-confetti": "^6.1.0"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/addon-bundle.ts"
   },
   "devDependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
-    "@storybook/addon-essentials": "next",
-    "@storybook/addon-interactions": "next",
-    "@storybook/addon-links": "next",
-    "@storybook/blocks": "next",
-    "@storybook/channels": "next",
-    "@storybook/components": "next",
-    "@storybook/core-events": "next",
-    "@storybook/jest": "^0.2.3",
-    "@storybook/manager": "next",
-    "@storybook/manager-api": "next",
-    "@storybook/preview": "next",
-    "@storybook/react": "next",
-    "@storybook/react-vite": "next",
+    "@storybook/addon-essentials": "workspace:*",
+    "@storybook/addon-interactions": "workspace:*",
+    "@storybook/addon-links": "workspace:*",
+    "@storybook/blocks": "workspace:*",
+    "@storybook/channels": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/icons": "^1.2.5",
+    "@storybook/manager": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview": "workspace:*",
+    "@storybook/react": "workspace:*",
+    "@storybook/react-vite": "workspace:*",
+    "@storybook/telemetry": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@storybook/testing-library": "^0.2.2",
-    "@storybook/theming": "next",
-    "@storybook/types": "next",
-    "@types/node": "^18",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "@vitejs/plugin-react": "^4.2.1",
-    "auto": "^11.0.4",
-    "chromatic": "^10.5.0",
-    "dedent": "^1.5.1",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "framer-motion": "^11.0.3",
-    "nodemon": "^3.0.3",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.2.4",
     "react": "^18.2.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-joyride": "^2.7.2",
     "react-use-measure": "^2.1.1",
-    "rimraf": "^5.0.5",
-    "storybook": "next",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "typescript": "^5.3.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bundler": {
     "exportEntries": [
@@ -110,8 +86,5 @@
     "nodeEntries": [
       "./src/preset.ts"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

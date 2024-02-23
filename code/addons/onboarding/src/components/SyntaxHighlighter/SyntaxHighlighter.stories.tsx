@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { SyntaxHighlighter } from "./SyntaxHighlighter";
-import React from "react";
-import { CodeSnippets } from "../../features/WriteStoriesModal/code/types";
+import type { Meta, StoryObj } from '@storybook/react';
+import { SyntaxHighlighter } from './SyntaxHighlighter';
+import React from 'react';
+import type { CodeSnippets } from '../../features/WriteStoriesModal/code/types';
 
 const meta: Meta<typeof SyntaxHighlighter> = {
   component: SyntaxHighlighter,
@@ -14,7 +14,7 @@ export default meta;
 
 type Story = StoryObj<typeof SyntaxHighlighter>;
 
-const data: CodeSnippets["code"] = [
+const data: CodeSnippets['code'] = [
   [
     {
       snippet: `import type { Meta, StoryObj } from '@storybook/react';
@@ -68,11 +68,7 @@ export const Default: Story = {
       <div>
         <SyntaxHighlighter {...args} activeStep={activeStep} />
         <button onClick={() => setActiveStep(0)}>Reset</button>
-        <button
-          onClick={() =>
-            setActiveStep((step) => (activeStep > 0 ? step - 1 : 0))
-          }
-        >
+        <button onClick={() => setActiveStep((step) => (activeStep > 0 ? step - 1 : 0))}>
           Previous
         </button>
         <button onClick={() => setActiveStep((step) => step + 1)}>Next</button>
@@ -83,6 +79,6 @@ export const Default: Story = {
     data: data,
     activeStep: 0,
     width: 480,
-    filename: "Button.stories.tsx",
+    filename: 'Button.stories.tsx',
   },
 };

@@ -1,11 +1,10 @@
-import ReactConfetti from "react-confetti";
-import React, { useEffect } from "react";
-import { styled } from "@storybook/theming";
-import { createPortal } from "react-dom";
-import { useState } from "react";
+import ReactConfetti from 'react-confetti';
+import React, { useEffect } from 'react';
+import { styled } from '@storybook/theming';
+import { createPortal } from 'react-dom';
+import { useState } from 'react';
 
-interface ConfettiProps
-  extends Omit<React.ComponentProps<typeof ReactConfetti>, "drawShape"> {
+interface ConfettiProps extends Omit<React.ComponentProps<typeof ReactConfetti>, 'drawShape'> {
   top?: number;
   left?: number;
   width?: number;
@@ -25,8 +24,8 @@ const Wrapper = styled.div<{
   height: `${height}px`,
   left: `${left}px`,
   top: `${top}px`,
-  position: "relative",
-  overflow: "hidden",
+  position: 'relative',
+  overflow: 'hidden',
 }));
 
 export function Confetti({
@@ -34,15 +33,15 @@ export function Confetti({
   left = 0,
   width = window.innerWidth,
   height = window.innerHeight,
-  colors = ["#CA90FF", "#FC521F", "#66BF3C", "#FF4785", "#FFAE00", "#1EA7FD"],
+  colors = ['#CA90FF', '#FC521F', '#66BF3C', '#FF4785', '#FFAE00', '#1EA7FD'],
   ...confettiProps
 }: ConfettiProps): React.ReactPortal {
   const [confettiContainer] = useState(() => {
-    const container = document.createElement("div");
-    container.setAttribute("id", "confetti-container");
+    const container = document.createElement('div');
+    container.setAttribute('id', 'confetti-container');
     container.setAttribute(
-      "style",
-      "position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"
+      'style',
+      'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;'
     );
 
     return container;
@@ -88,31 +87,13 @@ function draw(context: CanvasRenderingContext2D) {
 
       context.moveTo(-width + cornerRadius, -height);
       context.lineTo(width - cornerRadius, -height);
-      context.arcTo(
-        width,
-        -height,
-        width,
-        -height + cornerRadius,
-        cornerRadius
-      );
+      context.arcTo(width, -height, width, -height + cornerRadius, cornerRadius);
       context.lineTo(width, height - cornerRadius);
       context.arcTo(width, height, width - cornerRadius, height, cornerRadius);
       context.lineTo(-width + cornerRadius, height);
-      context.arcTo(
-        -width,
-        height,
-        -width,
-        height - cornerRadius,
-        cornerRadius
-      );
+      context.arcTo(-width, height, -width, height - cornerRadius, cornerRadius);
       context.lineTo(-width, -height + cornerRadius);
-      context.arcTo(
-        -width,
-        -height,
-        -width + cornerRadius,
-        -height,
-        cornerRadius
-      );
+      context.arcTo(-width, -height, -width + cornerRadius, -height, cornerRadius);
 
       break;
     }

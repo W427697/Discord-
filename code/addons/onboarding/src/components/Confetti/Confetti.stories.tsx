@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Confetti } from "./Confetti";
-import React from "react";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Confetti } from './Confetti';
+import React from 'react';
 
 const meta: Meta<typeof Confetti> = {
   component: Confetti,
@@ -9,7 +9,7 @@ const meta: Meta<typeof Confetti> = {
   },
   decorators: [
     (StoryFn) => (
-      <div style={{ height: "100vh", width: "100vw" }}>
+      <div style={{ height: '100vh', width: '100vw' }}>
         <button>I am clickable</button>
         <StoryFn />
       </div>

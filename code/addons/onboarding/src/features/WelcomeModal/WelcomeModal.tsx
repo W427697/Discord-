@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import type { FC } from 'react';
+import React from 'react';
 
-import { Button } from "../../components/Button/Button";
-import { Modal } from "../../components/Modal/Modal";
-import { StorybookLogo } from "./StorybookLogo";
+import { Button } from '../../components/Button/Button';
+import { Modal } from '../../components/Modal/Modal';
+import { StorybookLogo } from './StorybookLogo';
 import {
   ModalContentWrapper,
   SkipButton,
@@ -14,17 +15,14 @@ import {
   Circle2,
   Circle3,
   TopContent,
-} from "./WelcomeModal.styled";
+} from './WelcomeModal.styled';
 
 interface WelcomeModalProps {
   onProceed: () => void;
   skipOnboarding: () => void;
 }
 
-export const WelcomeModal: FC<WelcomeModalProps> = ({
-  onProceed,
-  skipOnboarding,
-}) => {
+export const WelcomeModal: FC<WelcomeModalProps> = ({ onProceed, skipOnboarding }) => {
   return (
     <div style={{ zIndex: 10 }}>
       <Modal width={540} height={430} defaultOpen>
@@ -34,8 +32,8 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({
               <StorybookLogo />
               <Title>Welcome to Storybook</Title>
               <Description>
-                Storybook helps you develop UI components faster. Learn the
-                basics in a few simple steps.
+                Storybook helps you develop UI components faster. Learn the basics in a few simple
+                steps.
               </Description>
               <Button style={{ marginTop: 4 }} onClick={onProceed}>
                 Start your 3 minute tour

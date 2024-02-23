@@ -1,6 +1,6 @@
-import { css, styled } from "@storybook/theming";
-import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+import { css, styled } from '@storybook/theming';
+import * as Dialog from '@radix-ui/react-dialog';
+import React from 'react';
 
 export const StyledOverlay = styled.div`
   background-color: rgba(27, 28, 29, 0.48);
@@ -24,7 +24,7 @@ export const StyledContent = styled.div<{
     left: 50%;
     transform: translate(-50%, -50%);
     width: ${width ?? 740}px;
-    height: ${height ? `${height}px` : "auto"};
+    height: ${height ? `${height}px` : 'auto'};
     max-width: calc(100% - 40px);
     max-height: 85vh;
     overflow: hidden;
@@ -38,12 +38,13 @@ export const StyledContent = styled.div<{
 
 export const ContentWrapper = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof StyledContent> &
-    React.ComponentProps<typeof Dialog.Content>
->(({ width, height, children, ...contentProps }, ref) => (
-  <Dialog.Content ref={ref} asChild {...contentProps}>
-    <StyledContent width={width} height={height}>
-      {children}
-    </StyledContent>
-  </Dialog.Content>
-));
+  React.ComponentProps<typeof StyledContent> & React.ComponentProps<typeof Dialog.Content>
+>(function ContentWrapper({ width, height, children, ...contentProps }, ref) {
+  return (
+    <Dialog.Content ref={ref} asChild {...contentProps}>
+      <StyledContent width={width} height={height}>
+        {children}
+      </StyledContent>
+    </Dialog.Content>
+  );
+});

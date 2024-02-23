@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, waitFor, within } from "@storybook/testing-library";
-import { expect } from "@storybook/jest";
+import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
 
-import { List } from "./List";
-import { ListItem } from "./ListItem/ListItem";
+import { List } from './List';
+import { ListItem } from './ListItem/ListItem';
 
 const meta: Meta<typeof List> = {
   component: List,
@@ -38,14 +38,12 @@ export const Default: StoryObj<typeof meta> = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement.parentElement);
-    const button = canvas.getByText("Complete");
+    const button = canvas.getByText('Complete');
 
-    await expect(canvas.getAllByLabelText("complete")).toHaveLength(1);
+    await expect(canvas.getAllByLabelText('complete')).toHaveLength(1);
 
     await userEvent.click(button);
 
-    await waitFor(() =>
-      expect(canvas.getAllByLabelText("complete")).toHaveLength(2)
-    );
+    await waitFor(() => expect(canvas.getAllByLabelText('complete')).toHaveLength(2));
   },
 };

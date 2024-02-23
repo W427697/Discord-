@@ -1,43 +1,43 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { ThemeProvider, convert } from "@storybook/theming";
-import { addons, type API } from "@storybook/manager-api";
+import React, { useCallback, useEffect, useState } from 'react';
+import { ThemeProvider, convert } from '@storybook/theming';
+import { addons, type API } from '@storybook/manager-api';
 
-import { GuidedTour } from "./features/GuidedTour/GuidedTour";
-import { WelcomeModal } from "./features/WelcomeModal/WelcomeModal";
-import { WriteStoriesModal } from "./features/WriteStoriesModal/WriteStoriesModal";
-import { Confetti } from "./components/Confetti/Confetti";
-import { STORYBOOK_ADDON_ONBOARDING_CHANNEL } from "./constants";
-import { useGetProject } from "./features/WriteStoriesModal/hooks/useGetProject";
+import { GuidedTour } from './features/GuidedTour/GuidedTour';
+import { WelcomeModal } from './features/WelcomeModal/WelcomeModal';
+import { WriteStoriesModal } from './features/WriteStoriesModal/WriteStoriesModal';
+import { Confetti } from './components/Confetti/Confetti';
+import { STORYBOOK_ADDON_ONBOARDING_CHANNEL } from './constants';
+import { useGetProject } from './features/WriteStoriesModal/hooks/useGetProject';
 
 type Step =
-  | "1:Welcome"
-  | "2:StorybookTour"
-  | "3:WriteYourStory"
-  | "4:VisitNewStory"
-  | "5:ConfigureYourProject";
+  | '1:Welcome'
+  | '2:StorybookTour'
+  | '3:WriteYourStory'
+  | '4:VisitNewStory'
+  | '5:ConfigureYourProject';
 
 const theme = convert();
 
 export default function App({ api }: { api: API }) {
   const [enabled, setEnabled] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [step, setStep] = useState<Step>("1:Welcome");
+  const [step, setStep] = useState<Step>('1:Welcome');
   const { data: codeSnippets } = useGetProject();
 
   const skipOnboarding = useCallback(() => {
     // remove onboarding query parameter from current url
     const url = new URL(window.location.href);
-    const path = decodeURIComponent(url.searchParams.get("path"));
+    const path = decodeURIComponent(url.searchParams.get('path'));
     url.search = `?path=${path}&onboarding=false`;
-    history.replaceState({}, "", url.href);
-    api.setQueryParams({ onboarding: "false" });
+    history.replaceState({}, '', url.href);
+    api.setQueryParams({ onboarding: 'false' });
     setEnabled(false);
   }, [setEnabled, api]);
 
   useEffect(() => {
     api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
-      step: "1:Welcome",
-      type: "telemetry",
+      step: '1:Welcome',
+      type: 'telemetry',
     });
   }, []);
 
@@ -45,17 +45,17 @@ export default function App({ api }: { api: API }) {
     if (step !== '1:Welcome') {
       api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
         step,
-        type: "telemetry",
+        type: 'telemetry',
       });
     }
   }, [api, step]);
 
   useEffect(() => {
     let stepTimeout: number;
-    if (step === "4:VisitNewStory") {
+    if (step === '4:VisitNewStory') {
       setShowConfetti(true);
       stepTimeout = window.setTimeout(() => {
-        setStep("5:ConfigureYourProject");
+        setStep('5:ConfigureYourProject');
       }, 2000);
     }
 
@@ -66,12 +66,12 @@ export default function App({ api }: { api: API }) {
 
   useEffect(() => {
     const storyId = api.getCurrentStoryData()?.id;
-    api.setQueryParams({ onboarding: "true" });
+    api.setQueryParams({ onboarding: 'true' });
     // make sure the initial state is set correctly:
     // 1. Selected story is primary button
     // 2. The addon panel is opened, in the bottom and the controls tab is selected
-    if (storyId !== "example-button--primary") {
-      api.selectStory("example-button--primary", undefined, {
+    if (storyId !== 'example-button--primary') {
+      api.selectStory('example-button--primary', undefined, {
         ref: undefined,
       });
     }
@@ -94,49 +94,48 @@ export default function App({ api }: { api: API }) {
           }}
         />
       )}
-      {enabled && step === "1:Welcome" && (
+      {enabled && step === '1:Welcome' && (
         <WelcomeModal
           onProceed={() => {
-            setStep("2:StorybookTour");
+            setStep('2:StorybookTour');
           }}
           skipOnboarding={() => {
             skipOnboarding();
 
             api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
-              step: "X:SkippedOnboarding",
-              where: "WelcomeModal",
-              type: "telemetry",
+              step: 'X:SkippedOnboarding',
+              where: 'WelcomeModal',
+              type: 'telemetry',
             });
           }}
         />
       )}
-      {enabled &&
-        (step === "2:StorybookTour" || step === "5:ConfigureYourProject") && (
-          <GuidedTour
-            api={api}
-            isFinalStep={step === "5:ConfigureYourProject"}
-            onFirstTourDone={() => {
-              setStep("3:WriteYourStory");
-            }}
-            codeSnippets={codeSnippets}
-            onLastTourDone={() => {
-              api.selectStory("configure-your-project--docs");
-              api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
-                step: "6:FinishedOnboarding",
-                type: "telemetry",
-              });
-              skipOnboarding();
-            }}
-          />
-        )}
-      {enabled && step === "3:WriteYourStory" && (
+      {enabled && (step === '2:StorybookTour' || step === '5:ConfigureYourProject') && (
+        <GuidedTour
+          api={api}
+          isFinalStep={step === '5:ConfigureYourProject'}
+          onFirstTourDone={() => {
+            setStep('3:WriteYourStory');
+          }}
+          codeSnippets={codeSnippets}
+          onLastTourDone={() => {
+            api.selectStory('configure-your-project--docs');
+            api.emit(STORYBOOK_ADDON_ONBOARDING_CHANNEL, {
+              step: '6:FinishedOnboarding',
+              type: 'telemetry',
+            });
+            skipOnboarding();
+          }}
+        />
+      )}
+      {enabled && step === '3:WriteYourStory' && (
         <WriteStoriesModal
           api={api}
           codeSnippets={codeSnippets}
           addonsStore={addons}
           onFinish={() => {
-            api.selectStory("example-button--warning");
-            setStep("4:VisitNewStory");
+            api.selectStory('example-button--warning');
+            setStep('4:VisitNewStory');
           }}
           skipOnboarding={skipOnboarding}
         />

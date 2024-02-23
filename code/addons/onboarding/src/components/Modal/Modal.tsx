@@ -1,11 +1,10 @@
-import React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { ContentWrapper, StyledOverlay } from "./Modal.styled";
+import React from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { ContentWrapper, StyledOverlay } from './Modal.styled';
 
 type ContentProps = React.ComponentProps<typeof ContentWrapper>;
 
-interface ModalProps
-  extends Omit<React.ComponentProps<typeof Dialog.Root>, "children"> {
+interface ModalProps extends Omit<React.ComponentProps<typeof Dialog.Root>, 'children'> {
   width?: number;
   height?: number;
   children: (props: {
@@ -13,8 +12,8 @@ interface ModalProps
     Description: typeof Dialog.Description;
     Close: typeof Dialog.Close;
   }) => React.ReactNode;
-  onEscapeKeyDown?: ContentProps["onEscapeKeyDown"];
-  onInteractOutside?: ContentProps["onInteractOutside"];
+  onEscapeKeyDown?: ContentProps['onEscapeKeyDown'];
+  onInteractOutside?: ContentProps['onInteractOutside'];
 }
 
 export const initial = { opacity: 0 };

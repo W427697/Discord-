@@ -1,5 +1,5 @@
-import { ArrowRightIcon } from "@storybook/icons";
-import { keyframes, styled } from "@storybook/theming";
+import { ArrowRightIcon } from '@storybook/icons';
+import { keyframes, styled } from '@storybook/theming';
 
 export const ModalContentWrapper = styled.div`
   border-radius: 5px;

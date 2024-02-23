@@ -1,5 +1,5 @@
-import { styled } from "@storybook/theming";
-import { motion } from "framer-motion";
+import { styled } from '@storybook/theming';
+import { motion } from 'framer-motion';
 
 export const SnippetWrapper = styled(motion.div)`
   position: relative;

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import dataJavascript from "../code/javascript";
-import dataTypescript from "../code/typescript";
-import { CodeSnippets } from "../code/types";
+import dataJavascript from '../code/javascript';
+import dataTypescript from '../code/typescript';
+import type { CodeSnippets } from '../code/types';
 
 type Project = {
-  language: "javascript" | "typescript";
+  language: 'javascript' | 'typescript';
   framework: {
     name: string;
   };
@@ -20,9 +20,9 @@ export function useGetProject() {
   useEffect(() => {
     const getProject = async () => {
       try {
-        const response = await fetch("/project.json");
-        const project = await response.json() as Project;
-        const data = project?.language === "javascript" ? dataJavascript : dataTypescript;
+        const response = await fetch('/project.json');
+        const projectInner = (await response.json()) as Project;
+        const data = projectInner?.language === 'javascript' ? dataJavascript : dataTypescript;
 
         setProject({
           data,
@@ -31,7 +31,7 @@ export function useGetProject() {
       } catch (e) {
         setProject({
           data: null,
-          error: e,
+          error: e as any,
         });
       }
     };

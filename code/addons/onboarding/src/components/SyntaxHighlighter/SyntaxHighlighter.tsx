@@ -1,20 +1,14 @@
-import React, {
-  createRef,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createRef, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import {
   Backdrop,
   Code,
   Container,
   SnippetWrapper,
   SnippetWrapperFirst,
-} from "./SyntaxHighlighter.styled";
-import { Snippet } from "./Snippet/Snippet";
-import { ThemeProvider, ensure, themes } from "@storybook/theming";
-import { SyntaxHighlighter as StorybookSyntaxHighlighter } from "@storybook/components";
+} from './SyntaxHighlighter.styled';
+import { Snippet } from './Snippet/Snippet';
+import { ThemeProvider, ensure, themes } from '@storybook/theming';
+import { SyntaxHighlighter as StorybookSyntaxHighlighter } from '@storybook/components';
 
 type SyntaxHighlighterProps = {
   data: { snippet: string; toggle?: boolean }[][];
@@ -38,10 +32,7 @@ export const SyntaxHighlighter = ({
 }: SyntaxHighlighterProps) => {
   const [steps, setSteps] = useState<StepsProps[]>([]);
 
-  const refs = useMemo(
-    () => data.map(() => createRef<HTMLDivElement>()),
-    [data]
-  );
+  const refs = useMemo(() => data.map(() => createRef<HTMLDivElement>()), [data]);
 
   const getYPos = (idx: number) => {
     let yPos = 0;
@@ -94,8 +85,8 @@ export const SyntaxHighlighter = ({
   }, []);
 
   const customStyle = {
-    fontSize: "0.8125rem",
-    lineHeight: "1.1875rem",
+    fontSize: '0.8125rem',
+    lineHeight: '1.1875rem',
   };
 
   return (
@@ -103,14 +94,11 @@ export const SyntaxHighlighter = ({
       <ThemeProvider theme={ensure(themes.dark)}>
         <Code
           animate={{ y: steps[activeStep]?.yPos ?? 0 }}
-          transition={{ ease: "easeInOut", duration: 0.4 }}
+          transition={{ ease: 'easeInOut', duration: 0.4 }}
         >
           <SnippetWrapperFirst>
-            <StorybookSyntaxHighlighter
-              language="typescript"
-              customStyle={customStyle}
-            >
-              {"// " + filename}
+            <StorybookSyntaxHighlighter language="typescript" customStyle={customStyle}>
+              {'// ' + filename}
             </StorybookSyntaxHighlighter>
           </SnippetWrapperFirst>
           {data.map((content, idx: number) => (
@@ -118,11 +106,7 @@ export const SyntaxHighlighter = ({
               key={idx}
               ref={refs[idx]}
               active={steps[activeStep]?.index === idx}
-              open={
-                steps[activeStep]?.index > idx
-                  ? true
-                  : steps[activeStep]?.open ?? false
-              }
+              open={steps[activeStep]?.index > idx ? true : steps[activeStep]?.open ?? false}
               content={content}
             />
           ))}
@@ -131,7 +115,7 @@ export const SyntaxHighlighter = ({
       <Backdrop
         initial={{ height: 81 }}
         animate={{ height: steps[activeStep]?.backdropHeight ?? 81 }}
-        transition={{ ease: "easeInOut", duration: 0.4 }}
+        transition={{ ease: 'easeInOut', duration: 0.4 }}
         className="syntax-highlighter-backdrop"
       />
     </Container>

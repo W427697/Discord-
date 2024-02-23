@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Response } from "../../../types/response";
+import { useEffect, useState } from 'react';
+import type { Response } from '../../../types/response';
 
 export function useGetButtonPath() {
   const [buttonPath, setButtonPath] = useState<Response<string>>(null);
@@ -7,11 +7,11 @@ export function useGetButtonPath() {
   useEffect(() => {
     const getButtonPath = async () => {
       try {
-        const response = await fetch("/index.json");
+        const response = await fetch('/index.json');
         const json = await response.json();
-        const buttonPath = json.entries["example-button--primary"].importPath;
+        const buttonPathInner = json.entries['example-button--primary'].importPath;
         setButtonPath({
-          data: buttonPath,
+          data: buttonPathInner,
           error: null,
         });
       } catch (e) {

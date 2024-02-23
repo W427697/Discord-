@@ -1,11 +1,11 @@
-import React from "react";
-import { styled } from "@storybook/theming";
-import { Step, TooltipRenderProps } from "react-joyride";
-import { Button } from "../../components/Button/Button";
+import React from 'react';
+import { styled } from '@storybook/theming';
+import type { Step, TooltipRenderProps } from 'react-joyride';
+import { Button } from '../../components/Button/Button';
 
 const TooltipBody = styled.div`
   background: ${({ theme }) => {
-    return theme.base === "dark" ? "#292A2C" : theme.color.lightest;
+    return theme.base === 'dark' ? '#292A2C' : theme.color.lightest;
   }};
   width: 260px;
   padding: 15px;
@@ -45,8 +45,8 @@ export type TooltipProps = {
     hideNextButton?: boolean;
     onNextButtonClick?: () => void;
   };
-  primaryProps: TooltipRenderProps["primaryProps"]
-  tooltipProps: TooltipRenderProps["tooltipProps"]
+  primaryProps: TooltipRenderProps['primaryProps'];
+  tooltipProps: TooltipRenderProps['tooltipProps'];
 };
 
 export const Tooltip = ({ step, primaryProps, tooltipProps }: TooltipProps) => {
@@ -61,9 +61,7 @@ export const Tooltip = ({ step, primaryProps, tooltipProps }: TooltipProps) => {
           <Button
             {...{
               ...primaryProps,
-              ...(step.onNextButtonClick
-                ? { onClick: step.onNextButtonClick }
-                : {}),
+              ...(step.onNextButtonClick ? { onClick: step.onNextButtonClick } : {}),
             }}
           >
             Next

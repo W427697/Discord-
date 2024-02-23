@@ -1,4 +1,4 @@
-import { keyframes, styled } from "@storybook/theming";
+import { keyframes, styled } from '@storybook/theming';
 
 export const ModalContent = styled.div`
   display: flex;
