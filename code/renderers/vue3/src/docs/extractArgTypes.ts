@@ -31,8 +31,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       let argType: StrictInputType | undefined;
 
       if (usedDocgenPlugin === 'vue-docgen-api') {
-        const docgenInfo =
-          extractedProp.docgenInfo as unknown as VueDocgenInfoEntry<'vue-docgen-api'>;
+        const docgenInfo = extractedProp.docgenInfo as VueDocgenInfoEntry<'vue-docgen-api'>;
         argType = extractFromVueDocgenApi(docgenInfo, section, extractedProp);
       } else {
         const docgenInfo =
@@ -76,14 +75,15 @@ export const extractFromVueDocgenApi = (
   if (section === 'slots') {
     const slotInfo = docgenInfo as VueDocgenInfoEntry<'vue-docgen-api', 'slots'>;
 
-    const slotParams = slotInfo.bindings
+    // extract type of slot bindings/props
+    const slotBindings = slotInfo.bindings
       ?.filter((binding) => !!binding.name)
       .map((binding) => {
         return `${binding.name}: ${binding.type?.name ?? 'unknown'}`;
       })
       .join('; ');
 
-    type = slotParams ? `{ ${slotParams} }` : undefined;
+    type = slotBindings ? `{ ${slotBindings} }` : undefined;
     sbType = { name: 'other', value: type ?? '', required: false };
   }
 
@@ -94,6 +94,7 @@ export const extractFromVueDocgenApi = (
     sbType = extractedProp ? convert(extractedProp.docgenInfo) : { name: 'other', value: type };
 
     // try to get more specific types for array, union and intersection
+    // e.g. "string[]" instead of "Array"
     if (
       propInfo.type &&
       'elements' in propInfo.type &&
@@ -107,25 +108,17 @@ export const extractFromVueDocgenApi = (
         type = `${arrayElements}[]`;
       }
 
-      if (type === 'union') {
-        type = elements.join(' | ');
-      }
-
-      if (type === 'intersection') {
-        type = elements.join(' & ');
-      }
+      if (type === 'union') type = elements.join(' | ');
+      else if (type === 'intersection') type = elements.join(' & ');
     }
   }
+
+  const required = 'required' in docgenInfo ? docgenInfo.required ?? false : false;
 
   return {
     name: docgenInfo.name,
     description: docgenInfo.description,
-    type: sbType
-      ? {
-          ...sbType,
-          required: 'required' in docgenInfo ? docgenInfo.required ?? false : false,
-        }
-      : { name: 'other', value: type ?? '' },
+    type: sbType ? { ...sbType, required } : { name: 'other', value: type ?? '' },
     table: {
       type: type ? { summary: type } : undefined,
       defaultValue: extractedProp?.propDef.defaultValue,
@@ -145,6 +138,7 @@ export const extractFromVueComponentMeta = (
   docgenInfo: VueDocgenInfoEntry<'vue-component-meta'>,
   section: (typeof ARG_TYPE_SECTIONS)[number]
 ): StrictInputType | undefined => {
+  // ignore global props
   if ('global' in docgenInfo && docgenInfo.global) return;
 
   const tableType = { summary: docgenInfo.type.replace(' | undefined', '') };
@@ -157,7 +151,7 @@ export const extractFromVueComponentMeta = (
       name: propInfo.name,
       description: formatDescriptionWithTags(propInfo.description, propInfo.tags),
       defaultValue,
-      type: getStorybookTypeFromVueComponentMeta(propInfo),
+      type: convertVueComponentMetaProp(propInfo),
       table: {
         type: tableType,
         defaultValue,
@@ -169,10 +163,7 @@ export const extractFromVueComponentMeta = (
       name: docgenInfo.name,
       description: 'description' in docgenInfo ? docgenInfo.description : '',
       type: { name: 'other', value: docgenInfo.type },
-      table: {
-        type: tableType,
-        category: section,
-      },
+      table: { type: tableType, category: section },
     };
   }
 };
@@ -180,7 +171,7 @@ export const extractFromVueComponentMeta = (
 /**
  * Converts the given prop info that was generated with "vue-component-meta" into a SBType.
  */
-export const getStorybookTypeFromVueComponentMeta = (
+export const convertVueComponentMetaProp = (
   propInfo: Pick<VueDocgenInfoEntry<'vue-component-meta', 'props'>, 'schema' | 'required' | 'type'>
 ): SBType => {
   const schema = propInfo.schema;
@@ -213,7 +204,7 @@ export const getStorybookTypeFromVueComponentMeta = (
       }
 
       if (definedSchemas.length === 1) {
-        return getStorybookTypeFromVueComponentMeta({
+        return convertVueComponentMetaProp({
           schema: definedSchemas[0],
           type: propInfo.type,
           required,
@@ -236,13 +227,13 @@ export const getStorybookTypeFromVueComponentMeta = (
         name: 'union',
         value: definedSchemas.map((i) => {
           if (typeof i === 'object') {
-            return getStorybookTypeFromVueComponentMeta({
+            return convertVueComponentMetaProp({
               schema: i,
               type: i.type,
               required: false,
             });
           } else {
-            return getStorybookTypeFromVueComponentMeta({ schema: i, type: i, required: false });
+            return convertVueComponentMetaProp({ schema: i, type: i, required: false });
           }
         }),
         required,
@@ -257,7 +248,7 @@ export const getStorybookTypeFromVueComponentMeta = (
       if (definedSchemas.length === 1) {
         return {
           name: 'array',
-          value: getStorybookTypeFromVueComponentMeta({
+          value: convertVueComponentMetaProp({
             schema: definedSchemas[0],
             type: propInfo.type,
             required: false,
@@ -270,13 +261,13 @@ export const getStorybookTypeFromVueComponentMeta = (
         name: 'union',
         value: definedSchemas.map((i) => {
           if (typeof i === 'object') {
-            return getStorybookTypeFromVueComponentMeta({
+            return convertVueComponentMetaProp({
               schema: i,
               type: i.type,
               required: false,
             });
           } else {
-            return getStorybookTypeFromVueComponentMeta({ schema: i, type: i, required: false });
+            return convertVueComponentMetaProp({ schema: i, type: i, required: false });
           }
         }),
         required,
@@ -288,7 +279,7 @@ export const getStorybookTypeFromVueComponentMeta = (
         name: 'object',
         value: Object.entries(schema.schema ?? {}).reduce<Record<string, SBType>>(
           (obj, [propName, propSchema]) => {
-            obj[propName] = getStorybookTypeFromVueComponentMeta(propSchema);
+            obj[propName] = convertVueComponentMetaProp(propSchema);
             return obj;
           },
           {}
