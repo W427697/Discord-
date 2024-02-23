@@ -4,7 +4,7 @@ exports[`extractArgTypes > should extract events for Vue component 1`] = `
 {
   "bar": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -66,12 +66,12 @@ exports[`extractArgTypes > should extract events for Vue component 1`] = `
           "type": "{ year: number; title?: any; }",
         },
       ],
-      "required": undefined,
+      "required": false,
     },
   },
   "baz": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -90,12 +90,12 @@ exports[`extractArgTypes > should extract events for Vue component 1`] = `
     },
     "type": {
       "name": [],
-      "required": undefined,
+      "required": false,
     },
   },
   "foo": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -146,7 +146,7 @@ exports[`extractArgTypes > should extract events for Vue component 1`] = `
           "type": "{ foo: string; } | undefined",
         },
       ],
-      "required": undefined,
+      "required": false,
     },
   },
 }
@@ -156,7 +156,7 @@ exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
 {
   "default": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -175,24 +175,18 @@ exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
     },
     "type": {
       "name": "object",
-      "required": undefined,
+      "required": false,
       "value": {
         "num": {
-          "declarations": [],
-          "description": "",
-          "global": false,
-          "name": "num",
+          "name": "number",
           "required": true,
-          "schema": "number",
-          "tags": [],
-          "type": "number",
         },
       },
     },
   },
   "named": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -211,24 +205,18 @@ exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
     },
     "type": {
       "name": "object",
-      "required": undefined,
+      "required": false,
       "value": {
         "str": {
-          "declarations": [],
-          "description": "",
-          "global": false,
-          "name": "str",
+          "name": "string",
           "required": true,
-          "schema": "string",
-          "tags": [],
-          "type": "string",
         },
       },
     },
   },
   "no-bind": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -247,13 +235,13 @@ exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
     },
     "type": {
       "name": "object",
-      "required": undefined,
+      "required": false,
       "value": {},
     },
   },
   "vbind": {
     "control": {
-      "disable": false,
+      "disabled": false,
     },
     "defaultValue": {
       "summary": undefined,
@@ -272,43 +260,15 @@ exports[`extractArgTypes > should extract slots type for Vue component 1`] = `
     },
     "type": {
       "name": "object",
-      "required": undefined,
+      "required": false,
       "value": {
         "num": {
-          "declarations": [
-            {
-              "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
-              "range": [
-                153,
-                161,
-              ],
-            },
-          ],
-          "description": "",
-          "global": false,
-          "name": "num",
+          "name": "number",
           "required": true,
-          "schema": "number",
-          "tags": [],
-          "type": "number",
         },
         "str": {
-          "declarations": [
-            {
-              "file": "/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/template-slots/component.vue",
-              "range": [
-                163,
-                173,
-              ],
-            },
-          ],
-          "description": "",
-          "global": false,
-          "name": "str",
+          "name": "string",
           "required": true,
-          "schema": "string",
-          "tags": [],
-          "type": "string",
         },
       },
     },

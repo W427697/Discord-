@@ -1,59 +1,9 @@
 export const referenceTypeProps = {
   __name: 'component',
-  props: {
-    foo: {
-      required: true,
-    },
-    bar: {
-      required: false,
-      default: 1,
-    },
-    baz: {
-      required: false,
-    },
-    union: {
-      type: [null, null],
-      required: true,
-    },
-    unionOptional: {
-      type: [null, null],
-      required: false,
-    },
-    nested: {
-      required: true,
-    },
-    nestedIntersection: {
-      required: true,
-    },
-    nestedOptional: {
-      required: false,
-    },
-    array: {
-      required: true,
-    },
-    arrayOptional: {
-      required: false,
-    },
-    enumValue: {
-      required: true,
-    },
-    literalFromContext: {
-      type: null,
-      required: true,
-    },
-    inlined: {
-      required: true,
-    },
-    recursive: {
-      required: true,
-    },
-  },
-  __hmrId: '219b7352',
-  __file:
-    '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
   __docgenInfo: {
     exportName: 'default',
     displayName: 'component',
+    type: 1,
     props: [
       {
         name: 'bar',
@@ -62,12 +12,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'number | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [661, 674],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'number | undefined',
@@ -76,18 +21,13 @@ export const referenceTypeProps = {
         default: '1',
       },
       {
-        name: 'baz',
+        name: 'stringArray',
         global: false,
-        description: 'description baz is string array',
+        description: 'description stringArray is string array',
         tags: [],
         required: false,
         type: 'string[] | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [723, 738],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'string[] | undefined',
@@ -109,12 +49,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'string | number | symbol | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47082, 47113],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'string | number | symbol | undefined',
@@ -128,12 +63,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'VNodeRef | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47118, 47133],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'VNodeRef | undefined',
@@ -156,12 +86,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'boolean | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47138, 47156],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'boolean | undefined',
@@ -175,12 +100,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'string | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [47161, 47178],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'string | undefined',
@@ -194,12 +114,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52888, 52904],
-          },
-        ],
+        declarations: [],
         schema: 'unknown',
       },
       {
@@ -209,12 +124,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'unknown',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-            range: [52909, 52925],
-          },
-        ],
+        declarations: [],
         schema: 'unknown',
       },
       {
@@ -241,13 +151,22 @@ export const referenceTypeProps = {
         ],
         required: true,
         type: 'string',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [597, 609],
-          },
-        ],
+        declarations: [],
         schema: 'string',
+      },
+      {
+        name: 'baz',
+        global: false,
+        description: 'description baz is required boolean',
+        tags: [],
+        required: true,
+        type: 'boolean',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: 'boolean',
+          schema: ['false', 'true'],
+        },
       },
       {
         name: 'union',
@@ -256,12 +175,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: 'string | number',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [795, 818],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'string | number',
@@ -274,17 +188,12 @@ export const referenceTypeProps = {
         description: 'description unionOptional is optional union type',
         tags: [],
         required: false,
-        type: 'string | number | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [883, 915],
-          },
-        ],
+        type: 'string | number | boolean | undefined',
+        declarations: [],
         schema: {
           kind: 'enum',
-          type: 'string | number | undefined',
-          schema: ['undefined', 'string', 'number'],
+          type: 'string | number | boolean | undefined',
+          schema: ['undefined', 'string', 'number', 'false', 'true'],
         },
       },
       {
@@ -294,12 +203,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: 'MyNestedProps',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [976, 998],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'object',
           type: 'MyNestedProps',
@@ -311,12 +215,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [99, 118],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
@@ -329,12 +228,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: 'MyNestedProps & { additionalProp: string; }',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1067, 1192],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'object',
           type: 'MyNestedProps & { additionalProp: string; }',
@@ -346,12 +240,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [99, 118],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
             additionalProp: {
@@ -361,12 +250,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [1165, 1188],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
@@ -379,12 +263,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1243, 1297],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
@@ -401,17 +280,27 @@ export const referenceTypeProps = {
                   tags: [],
                   required: true,
                   type: 'string',
-                  declarations: [
-                    {
-                      file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                      range: [99, 118],
-                    },
-                  ],
+                  declarations: [],
                   schema: 'string',
                 },
               },
             },
-            'MyIgnoredNestedProps',
+            {
+              kind: 'object',
+              type: 'MyIgnoredNestedProps',
+              schema: {
+                nestedProp: {
+                  name: 'nestedProp',
+                  global: false,
+                  description: '',
+                  tags: [],
+                  required: true,
+                  type: 'string',
+                  declarations: [],
+                  schema: 'string',
+                },
+              },
+            },
           ],
         },
       },
@@ -422,12 +311,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: 'MyNestedProps[]',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1347, 1370],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'array',
           type: 'MyNestedProps[]',
@@ -443,12 +327,7 @@ export const referenceTypeProps = {
                   tags: [],
                   required: true,
                   type: 'string',
-                  declarations: [
-                    {
-                      file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                      range: [99, 118],
-                    },
-                  ],
+                  declarations: [],
                   schema: 'string',
                 },
               },
@@ -463,12 +342,7 @@ export const referenceTypeProps = {
         tags: [],
         required: false,
         type: 'MyNestedProps[] | undefined',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1420, 1452],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'MyNestedProps[] | undefined',
@@ -489,12 +363,7 @@ export const referenceTypeProps = {
                       tags: [],
                       required: true,
                       type: 'string',
-                      declarations: [
-                        {
-                          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                          range: [99, 118],
-                        },
-                      ],
+                      declarations: [],
                       schema: 'string',
                     },
                   },
@@ -511,12 +380,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: 'MyEnum',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1491, 1509],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'MyEnum',
@@ -530,12 +394,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1577, 1610],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
@@ -556,12 +415,7 @@ export const referenceTypeProps = {
         tags: [],
         required: true,
         type: '{ foo: string; }',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1612, 1638],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'object',
           type: '{ foo: string; }',
@@ -573,12 +427,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [1623, 1635],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
@@ -589,34 +438,31 @@ export const referenceTypeProps = {
         global: false,
         description: '',
         tags: [],
-        required: true,
-        type: 'MyNestedRecursiveProps',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1640, 1673],
-          },
-        ],
+        required: false,
+        type: 'MyNestedRecursiveProps | undefined',
+        declarations: [],
         schema: {
-          kind: 'object',
-          type: 'MyNestedRecursiveProps',
-          schema: {
-            recursive: {
-              name: 'recursive',
-              global: false,
-              description: '',
-              tags: [],
-              required: true,
+          kind: 'enum',
+          type: 'MyNestedRecursiveProps | undefined',
+          schema: [
+            'undefined',
+            {
+              kind: 'object',
               type: 'MyNestedRecursiveProps',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [215, 248],
+              schema: {
+                recursive: {
+                  name: 'recursive',
+                  global: false,
+                  description: '',
+                  tags: [],
+                  required: true,
+                  type: 'MyNestedRecursiveProps',
+                  declarations: [],
+                  schema: 'MyNestedRecursiveProps',
                 },
-              ],
-              schema: 'MyNestedRecursiveProps',
+              },
             },
-          },
+          ],
         },
       },
     ],
@@ -627,36 +473,32 @@ export const referenceTypeProps = {
         name: 'foo',
         type: 'string',
         description: 'string foo',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [597, 609],
-          },
-        ],
+        declarations: [],
         schema: 'string',
       },
       {
         name: 'bar',
         type: 'number',
         description: 'description bar is optional number',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [661, 674],
-          },
-        ],
+        declarations: [],
         schema: 'number',
       },
       {
         name: 'baz',
+        type: 'boolean',
+        description: 'description baz is required boolean',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: 'boolean',
+          schema: ['false', 'true'],
+        },
+      },
+      {
+        name: 'stringArray',
         type: 'string[]',
-        description: 'description baz is string array',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [723, 738],
-          },
-        ],
+        description: 'description stringArray is string array',
+        declarations: [],
         schema: {
           kind: 'array',
           type: 'string[]',
@@ -667,12 +509,7 @@ export const referenceTypeProps = {
         name: 'union',
         type: 'string | number',
         description: 'description union is required union type',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [795, 818],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'string | number',
@@ -680,15 +517,21 @@ export const referenceTypeProps = {
         },
       },
       {
+        name: 'unionOptional',
+        type: 'string | number | boolean | undefined',
+        description: 'description unionOptional is optional union type',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: 'string | number | boolean | undefined',
+          schema: ['undefined', 'string', 'number', 'false', 'true'],
+        },
+      },
+      {
         name: 'nested',
         type: 'MyNestedProps',
         description: 'description nested is required nested object',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [976, 998],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'object',
           type: 'MyNestedProps',
@@ -700,12 +543,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [99, 118],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
@@ -715,12 +553,7 @@ export const referenceTypeProps = {
         name: 'nestedIntersection',
         type: 'MyNestedProps & { additionalProp: string; }',
         description: 'description required nested object with intersection',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1067, 1192],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'object',
           type: 'MyNestedProps & { additionalProp: string; }',
@@ -732,12 +565,7 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [99, 118],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
             additionalProp: {
@@ -747,184 +575,17 @@ export const referenceTypeProps = {
               tags: [],
               required: true,
               type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [1165, 1188],
-                },
-              ],
+              declarations: [],
               schema: 'string',
             },
           },
-        },
-      },
-      {
-        name: 'array',
-        type: 'MyNestedProps[]',
-        description: 'description required array object',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1347, 1370],
-          },
-        ],
-        schema: {
-          kind: 'array',
-          type: 'MyNestedProps[]',
-          schema: [
-            {
-              kind: 'object',
-              type: 'MyNestedProps',
-              schema: {
-                nestedProp: {
-                  name: 'nestedProp',
-                  global: false,
-                  description: 'nested prop documentation',
-                  tags: [],
-                  required: true,
-                  type: 'string',
-                  declarations: [
-                    {
-                      file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                      range: [99, 118],
-                    },
-                  ],
-                  schema: 'string',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        name: 'enumValue',
-        type: 'MyEnum',
-        description: 'description enum value',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1491, 1509],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'MyEnum',
-          schema: ['MyEnum.Small', 'MyEnum.Medium', 'MyEnum.Large'],
-        },
-      },
-      {
-        name: 'literalFromContext',
-        type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-        description: 'description literal type alias that require context',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1577, 1610],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-          schema: [
-            '"Uncategorized"',
-            '"Content"',
-            '"Interaction"',
-            '"Display"',
-            '"Forms"',
-            '"Addons"',
-          ],
-        },
-      },
-      {
-        name: 'inlined',
-        type: '{ foo: string; }',
-        description: '',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1612, 1638],
-          },
-        ],
-        schema: {
-          kind: 'object',
-          type: '{ foo: string; }',
-          schema: {
-            foo: {
-              name: 'foo',
-              global: false,
-              description: '',
-              tags: [],
-              required: true,
-              type: 'string',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [1623, 1635],
-                },
-              ],
-              schema: 'string',
-            },
-          },
-        },
-      },
-      {
-        name: 'recursive',
-        type: 'MyNestedRecursiveProps',
-        description: '',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1640, 1673],
-          },
-        ],
-        schema: {
-          kind: 'object',
-          type: 'MyNestedRecursiveProps',
-          schema: {
-            recursive: {
-              name: 'recursive',
-              global: false,
-              description: '',
-              tags: [],
-              required: true,
-              type: 'MyNestedRecursiveProps',
-              declarations: [
-                {
-                  file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                  range: [215, 248],
-                },
-              ],
-              schema: 'MyNestedRecursiveProps',
-            },
-          },
-        },
-      },
-      {
-        name: 'unionOptional',
-        type: 'string | number | undefined',
-        description: 'description unionOptional is optional union type',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [883, 915],
-          },
-        ],
-        schema: {
-          kind: 'enum',
-          type: 'string | number | undefined',
-          schema: ['undefined', 'string', 'number'],
         },
       },
       {
         name: 'nestedOptional',
         type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
         description: 'description optional nested object',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1243, 1297],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
@@ -941,17 +602,55 @@ export const referenceTypeProps = {
                   tags: [],
                   required: true,
                   type: 'string',
-                  declarations: [
-                    {
-                      file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                      range: [99, 118],
-                    },
-                  ],
+                  declarations: [],
                   schema: 'string',
                 },
               },
             },
-            'MyIgnoredNestedProps',
+            {
+              kind: 'object',
+              type: 'MyIgnoredNestedProps',
+              schema: {
+                nestedProp: {
+                  name: 'nestedProp',
+                  global: false,
+                  description: '',
+                  tags: [],
+                  required: true,
+                  type: 'string',
+                  declarations: [],
+                  schema: 'string',
+                },
+              },
+            },
+          ],
+        },
+      },
+      {
+        name: 'array',
+        type: 'MyNestedProps[]',
+        description: 'description required array object',
+        declarations: [],
+        schema: {
+          kind: 'array',
+          type: 'MyNestedProps[]',
+          schema: [
+            {
+              kind: 'object',
+              type: 'MyNestedProps',
+              schema: {
+                nestedProp: {
+                  name: 'nestedProp',
+                  global: false,
+                  description: 'nested prop documentation',
+                  tags: [],
+                  required: true,
+                  type: 'string',
+                  declarations: [],
+                  schema: 'string',
+                },
+              },
+            },
           ],
         },
       },
@@ -959,12 +658,7 @@ export const referenceTypeProps = {
         name: 'arrayOptional',
         type: 'MyNestedProps[] | undefined',
         description: 'description optional array object',
-        declarations: [
-          {
-            file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-            range: [1420, 1452],
-          },
-        ],
+        declarations: [],
         schema: {
           kind: 'enum',
           type: 'MyNestedProps[] | undefined',
@@ -985,12 +679,7 @@ export const referenceTypeProps = {
                       tags: [],
                       required: true,
                       type: 'string',
-                      declarations: [
-                        {
-                          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                          range: [99, 118],
-                        },
-                      ],
+                      declarations: [],
                       schema: 'string',
                     },
                   },
@@ -1000,9 +689,89 @@ export const referenceTypeProps = {
           ],
         },
       },
+      {
+        name: 'enumValue',
+        type: 'MyEnum',
+        description: 'description enum value',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: 'MyEnum',
+          schema: ['MyEnum.Small', 'MyEnum.Medium', 'MyEnum.Large'],
+        },
+      },
+      {
+        name: 'literalFromContext',
+        type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
+        description: 'description literal type alias that require context',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
+          schema: [
+            '"Uncategorized"',
+            '"Content"',
+            '"Interaction"',
+            '"Display"',
+            '"Forms"',
+            '"Addons"',
+          ],
+        },
+      },
+      {
+        name: 'inlined',
+        type: '{ foo: string; }',
+        description: '',
+        declarations: [],
+        schema: {
+          kind: 'object',
+          type: '{ foo: string; }',
+          schema: {
+            foo: {
+              name: 'foo',
+              global: false,
+              description: '',
+              tags: [],
+              required: true,
+              type: 'string',
+              declarations: [],
+              schema: 'string',
+            },
+          },
+        },
+      },
+      {
+        name: 'recursive',
+        type: 'MyNestedRecursiveProps | undefined',
+        description: '',
+        declarations: [],
+        schema: {
+          kind: 'enum',
+          type: 'MyNestedRecursiveProps | undefined',
+          schema: [
+            'undefined',
+            {
+              kind: 'object',
+              type: 'MyNestedRecursiveProps',
+              schema: {
+                recursive: {
+                  name: 'recursive',
+                  global: false,
+                  description: '',
+                  tags: [],
+                  required: true,
+                  type: 'MyNestedRecursiveProps',
+                  declarations: [],
+                  schema: 'MyNestedRecursiveProps',
+                },
+              },
+            },
+          ],
+        },
+      },
     ],
     sourceFiles:
-      '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
+      '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3_vue3-vite-default-ts/component-meta/reference-type-props/component.vue',
   },
 };
 
@@ -1025,12 +794,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'number | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [661, 674],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'number | undefined',
@@ -1042,28 +806,23 @@ export const mockExtractComponentPropsReturn = [
   },
   {
     propDef: {
-      name: 'baz',
+      name: 'stringArray',
       type: {},
       required: false,
-      description: 'description baz is string array',
+      description: 'description stringArray is string array',
       defaultValue: null,
       sbType: {
         name: 'other',
       },
     },
     docgenInfo: {
-      name: 'baz',
+      name: 'stringArray',
       global: false,
-      description: 'description baz is string array',
+      description: 'description stringArray is string array',
       tags: [],
       required: false,
       type: 'string[] | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [723, 738],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'string[] | undefined',
@@ -1098,12 +857,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'string | number | symbol | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [47082, 47113],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'string | number | symbol | undefined',
@@ -1130,12 +884,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'VNodeRef | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [47118, 47133],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'VNodeRef | undefined',
@@ -1171,12 +920,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'boolean | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [47138, 47156],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'boolean | undefined',
@@ -1203,12 +947,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'string | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [47161, 47178],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'string | undefined',
@@ -1235,12 +974,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'unknown',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [52888, 52904],
-        },
-      ],
+      declarations: [],
       schema: 'unknown',
     },
     typeSystem: 'JavaScript',
@@ -1263,12 +997,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'unknown',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/node_modules/@vue/runtime-core/dist/runtime-core.d.ts',
-          range: [52909, 52925],
-        },
-      ],
+      declarations: [],
       schema: 'unknown',
     },
     typeSystem: 'JavaScript',
@@ -1308,13 +1037,35 @@ export const mockExtractComponentPropsReturn = [
       ],
       required: true,
       type: 'string',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [597, 609],
-        },
-      ],
+      declarations: [],
       schema: 'string',
+    },
+    typeSystem: 'JavaScript',
+  },
+  {
+    propDef: {
+      name: 'baz',
+      type: {},
+      required: true,
+      description: 'description baz is required boolean',
+      defaultValue: null,
+      sbType: {
+        name: 'other',
+      },
+    },
+    docgenInfo: {
+      name: 'baz',
+      global: false,
+      description: 'description baz is required boolean',
+      tags: [],
+      required: true,
+      type: 'boolean',
+      declarations: [],
+      schema: {
+        kind: 'enum',
+        type: 'boolean',
+        schema: ['false', 'true'],
+      },
     },
     typeSystem: 'JavaScript',
   },
@@ -1336,12 +1087,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: 'string | number',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [795, 818],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'string | number',
@@ -1367,17 +1113,12 @@ export const mockExtractComponentPropsReturn = [
       description: 'description unionOptional is optional union type',
       tags: [],
       required: false,
-      type: 'string | number | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [883, 915],
-        },
-      ],
+      type: 'string | number | boolean | undefined',
+      declarations: [],
       schema: {
         kind: 'enum',
-        type: 'string | number | undefined',
-        schema: ['undefined', 'string', 'number'],
+        type: 'string | number | boolean | undefined',
+        schema: ['undefined', 'string', 'number', 'false', 'true'],
       },
     },
     typeSystem: 'JavaScript',
@@ -1400,12 +1141,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: 'MyNestedProps',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [976, 998],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'object',
         type: 'MyNestedProps',
@@ -1417,12 +1153,7 @@ export const mockExtractComponentPropsReturn = [
             tags: [],
             required: true,
             type: 'string',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                range: [99, 118],
-              },
-            ],
+            declarations: [],
             schema: 'string',
           },
         },
@@ -1448,12 +1179,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: 'MyNestedProps & { additionalProp: string; }',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1067, 1192],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'object',
         type: 'MyNestedProps & { additionalProp: string; }',
@@ -1465,12 +1191,7 @@ export const mockExtractComponentPropsReturn = [
             tags: [],
             required: true,
             type: 'string',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                range: [99, 118],
-              },
-            ],
+            declarations: [],
             schema: 'string',
           },
           additionalProp: {
@@ -1480,12 +1201,7 @@ export const mockExtractComponentPropsReturn = [
             tags: [],
             required: true,
             type: 'string',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                range: [1165, 1188],
-              },
-            ],
+            declarations: [],
             schema: 'string',
           },
         },
@@ -1511,12 +1227,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1243, 1297],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'MyNestedProps | MyIgnoredNestedProps | undefined',
@@ -1533,17 +1244,27 @@ export const mockExtractComponentPropsReturn = [
                 tags: [],
                 required: true,
                 type: 'string',
-                declarations: [
-                  {
-                    file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                    range: [99, 118],
-                  },
-                ],
+                declarations: [],
                 schema: 'string',
               },
             },
           },
-          'MyIgnoredNestedProps',
+          {
+            kind: 'object',
+            type: 'MyIgnoredNestedProps',
+            schema: {
+              nestedProp: {
+                name: 'nestedProp',
+                global: false,
+                description: '',
+                tags: [],
+                required: true,
+                type: 'string',
+                declarations: [],
+                schema: 'string',
+              },
+            },
+          },
         ],
       },
     },
@@ -1567,12 +1288,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: 'MyNestedProps[]',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1347, 1370],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'array',
         type: 'MyNestedProps[]',
@@ -1588,12 +1304,7 @@ export const mockExtractComponentPropsReturn = [
                 tags: [],
                 required: true,
                 type: 'string',
-                declarations: [
-                  {
-                    file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                    range: [99, 118],
-                  },
-                ],
+                declarations: [],
                 schema: 'string',
               },
             },
@@ -1621,12 +1332,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: false,
       type: 'MyNestedProps[] | undefined',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1420, 1452],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'MyNestedProps[] | undefined',
@@ -1647,12 +1353,7 @@ export const mockExtractComponentPropsReturn = [
                     tags: [],
                     required: true,
                     type: 'string',
-                    declarations: [
-                      {
-                        file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                        range: [99, 118],
-                      },
-                    ],
+                    declarations: [],
                     schema: 'string',
                   },
                 },
@@ -1682,12 +1383,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: 'MyEnum',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1491, 1509],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: 'MyEnum',
@@ -1714,12 +1410,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1577, 1610],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'enum',
         type: '"Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"',
@@ -1753,12 +1444,7 @@ export const mockExtractComponentPropsReturn = [
       tags: [],
       required: true,
       type: '{ foo: string; }',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1612, 1638],
-        },
-      ],
+      declarations: [],
       schema: {
         kind: 'object',
         type: '{ foo: string; }',
@@ -1770,12 +1456,7 @@ export const mockExtractComponentPropsReturn = [
             tags: [],
             required: true,
             type: 'string',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                range: [1623, 1635],
-              },
-            ],
+            declarations: [],
             schema: 'string',
           },
         },
@@ -1787,7 +1468,7 @@ export const mockExtractComponentPropsReturn = [
     propDef: {
       name: 'recursive',
       type: {},
-      required: true,
+      required: false,
       description: '',
       defaultValue: null,
       sbType: {
@@ -1799,34 +1480,31 @@ export const mockExtractComponentPropsReturn = [
       global: false,
       description: '',
       tags: [],
-      required: true,
-      type: 'MyNestedRecursiveProps',
-      declarations: [
-        {
-          file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-          range: [1640, 1673],
-        },
-      ],
+      required: false,
+      type: 'MyNestedRecursiveProps | undefined',
+      declarations: [],
       schema: {
-        kind: 'object',
-        type: 'MyNestedRecursiveProps',
-        schema: {
-          recursive: {
-            name: 'recursive',
-            global: false,
-            description: '',
-            tags: [],
-            required: true,
+        kind: 'enum',
+        type: 'MyNestedRecursiveProps | undefined',
+        schema: [
+          'undefined',
+          {
+            kind: 'object',
             type: 'MyNestedRecursiveProps',
-            declarations: [
-              {
-                file: '/storybook/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/component-meta/reference-type-props/component.vue',
-                range: [215, 248],
+            schema: {
+              recursive: {
+                name: 'recursive',
+                global: false,
+                description: '',
+                tags: [],
+                required: true,
+                type: 'MyNestedRecursiveProps',
+                declarations: [],
+                schema: 'MyNestedRecursiveProps',
               },
-            ],
-            schema: 'MyNestedRecursiveProps',
+            },
           },
-        },
+        ],
       },
     },
     typeSystem: 'JavaScript',

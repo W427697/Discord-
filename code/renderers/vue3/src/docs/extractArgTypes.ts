@@ -48,13 +48,10 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         name: docgenInfo.name,
         description: formatDescriptionWithTags(docgenInfo.description, docgenInfo.tags),
         defaultValue,
-        type: {
-          ...sbType,
-          required: docgenInfo.required,
-        },
+        type: sbType,
         table: {
           type: { summary: type.replace(' | undefined', '') },
-          jsDocTags: docgenInfo.tags,
+          jsDocTags: docgenInfo.tags ?? [],
           defaultValue,
           category: section,
         },
@@ -71,7 +68,8 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
  */
 export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
   const schema = propInfo.schema;
-  const fallbackSbType = { name: schema } as SBType;
+  const required = propInfo.required ?? false;
+  const fallbackSbType = { name: schema, required } as SBType;
 
   if (!schema) return genericConvert(propInfo) ?? fallbackSbType;
   if (typeof schema === 'string') return fallbackSbType;
@@ -79,17 +77,22 @@ export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
   // convert enum schemas (e.g. union or enum type to corresponding SBType)
   //  so the enum values can be selected via radio/dropdown in the UI
   if (schema.kind === 'enum' && Array.isArray(schema.schema)) {
-    const values = schema.schema
-      // filter out empty or "undefined" for optional props
-      .filter((item) => item != null && item !== 'undefined')
-      .filter((item: Schema) => typeof item === 'string' || item.kind !== 'array')
+    // filter out empty or "undefined" for optional props
+    const definedValues = schema.schema.filter((item) => item != null && item !== 'undefined');
+
+    if (definedValues.length === 1 && typeof definedValues[0] === 'object') {
+      return convertPropType({ schema: definedValues[0] } as MetaDocgenInfo);
+    }
+
+    const values = definedValues
+      .filter((item: Schema) => typeof item === 'string')
       .map((item: Schema) => (typeof item !== 'string' ? item.schema.toString() : item))
       .map((item: string) => item.replace(/'/g, '"'));
 
     if (values.length === 0) return fallbackSbType;
 
     const isBoolean = values.length === 2 && values.includes('true') && values.includes('false');
-    if (isBoolean) return { name: 'boolean' };
+    if (isBoolean) return { name: 'boolean', required };
 
     const isLateralUnion =
       values.length > 1 && values.every((item) => item.startsWith('"') && item.endsWith('"'));
@@ -100,10 +103,10 @@ export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
 
     if (isLateralUnion || isEnum) {
       const valuesWithoutQuotes = values.map((item: string) => item.replace(/"/g, ''));
-      return { name: 'enum', value: valuesWithoutQuotes };
+      return { name: 'enum', value: valuesWithoutQuotes, required };
     }
 
-    return { name: values[0] } as SBType;
+    return { name: values[0], required } as SBType;
   }
 
   // recursively convert object properties to SBType
@@ -112,10 +115,19 @@ export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
 
     return {
       name: 'object',
+      required,
       value: Object.entries(schemaObject).reduce<Record<string, SBType>>((obj, [key, value]) => {
         obj[key] = convertPropType(value);
         return obj;
       }, {}),
+    };
+  }
+
+  if (schema.kind === 'array' && Array.isArray(schema.schema)) {
+    return {
+      name: 'array',
+      value: convertPropType({ schema: schema.schema[0] } as MetaDocgenInfo),
+      required,
     };
   }
 
@@ -126,7 +138,7 @@ export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
  * Adds the descriptions for the given tags if available.
  */
 const formatDescriptionWithTags = (description: string, tags: MetaDocgenInfo['tags']): string => {
-  if (!tags?.length) return description;
+  if (!tags?.length || !description) return description ?? '';
   const tagDescriptions = tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>');
   return `${tagDescriptions}<br><br>${description}`;
 };

@@ -1,19 +1,23 @@
-import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
+import { extractComponentProps, hasDocgen } from '@storybook/docs-tools';
+import type { Mock } from 'vitest';
+import { beforeEach, describe, expect, it, vi, vitest } from 'vitest';
 import { extractArgTypes } from './extractArgTypes';
 import {
-  mockExtractComponentPropsReturn,
-  referenceTypeProps,
   mockExtractComponentEventsReturn,
-  referenceTypeEvents,
-  templateSlots,
+  mockExtractComponentPropsReturn,
   mockExtractComponentSlotsReturn,
+  referenceTypeEvents,
+  referenceTypeProps,
+  templateSlots,
 } from './tests-meta-components/meta-components';
-import type { Mock } from 'vitest';
-import { describe, expect, it, vitest } from 'vitest';
 
 vitest.mock('@storybook/docs-tools');
 
 describe('extractArgTypes', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
   it('should return null if component does not contain docs', () => {
     (hasDocgen as Mock).mockReturnValueOnce(false);
     (extractComponentProps as Mock).mockReturnValueOnce([] as any);
@@ -32,7 +36,7 @@ describe('extractArgTypes', () => {
       {
         "array": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -40,7 +44,7 @@ describe('extractArgTypes', () => {
           "description": "description required array object",
           "name": "array",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -50,13 +54,23 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedProps[]",
+            "name": "array",
             "required": true,
+            "value": {
+              "name": "object",
+              "required": false,
+              "value": {
+                "nestedProp": {
+                  "name": "string",
+                  "required": true,
+                },
+              },
+            },
           },
         },
         "arrayOptional": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -64,7 +78,7 @@ describe('extractArgTypes', () => {
           "description": "description optional array object",
           "name": "arrayOptional",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -74,13 +88,23 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedProps[] | undefined",
+            "name": "array",
             "required": false,
+            "value": {
+              "name": "object",
+              "required": false,
+              "value": {
+                "nestedProp": {
+                  "name": "string",
+                  "required": true,
+                },
+              },
+            },
           },
         },
         "bar": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": "1",
@@ -88,7 +112,7 @@ describe('extractArgTypes', () => {
           "description": "description bar is optional number",
           "name": "bar",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": "1",
             },
@@ -98,37 +122,37 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "number | undefined",
+            "name": "number",
             "required": false,
           },
         },
         "baz": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
-            "summary": "["foo", "bar"]",
+            "summary": undefined,
           },
-          "description": "description baz is string array",
+          "description": "description baz is required boolean",
           "name": "baz",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
-              "summary": "["foo", "bar"]",
+              "summary": undefined,
             },
             "jsDocTags": [],
             "type": {
-              "summary": "string[]",
+              "summary": "boolean",
             },
           },
           "type": {
-            "name": "string[] | undefined",
-            "required": false,
+            "name": "boolean",
+            "required": true,
           },
         },
         "enumValue": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -136,7 +160,7 @@ describe('extractArgTypes', () => {
           "description": "description enum value",
           "name": "enumValue",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -146,13 +170,18 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyEnum",
+            "name": "enum",
             "required": true,
+            "value": [
+              "MyEnum.Small",
+              "MyEnum.Medium",
+              "MyEnum.Large",
+            ],
           },
         },
         "foo": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -160,7 +189,7 @@ describe('extractArgTypes', () => {
           "description": "@default: "rounded"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo",
           "name": "foo",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -193,7 +222,7 @@ describe('extractArgTypes', () => {
         },
         "inlined": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -201,7 +230,7 @@ describe('extractArgTypes', () => {
           "description": "",
           "name": "inlined",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -211,13 +240,19 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "{ foo: string; }",
+            "name": "object",
             "required": true,
+            "value": {
+              "foo": {
+                "name": "string",
+                "required": true,
+              },
+            },
           },
         },
         "literalFromContext": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -225,7 +260,7 @@ describe('extractArgTypes', () => {
           "description": "description literal type alias that require context",
           "name": "literalFromContext",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -235,13 +270,21 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": ""Uncategorized" | "Content" | "Interaction" | "Display" | "Forms" | "Addons"",
+            "name": "enum",
             "required": true,
+            "value": [
+              "Uncategorized",
+              "Content",
+              "Interaction",
+              "Display",
+              "Forms",
+              "Addons",
+            ],
           },
         },
         "nested": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -249,7 +292,7 @@ describe('extractArgTypes', () => {
           "description": "description nested is required nested object",
           "name": "nested",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -259,13 +302,19 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedProps",
+            "name": "object",
             "required": true,
+            "value": {
+              "nestedProp": {
+                "name": "string",
+                "required": true,
+              },
+            },
           },
         },
         "nestedIntersection": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -273,7 +322,7 @@ describe('extractArgTypes', () => {
           "description": "description required nested object with intersection",
           "name": "nestedIntersection",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -283,13 +332,23 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedProps & { additionalProp: string; }",
+            "name": "object",
             "required": true,
+            "value": {
+              "additionalProp": {
+                "name": "string",
+                "required": true,
+              },
+              "nestedProp": {
+                "name": "string",
+                "required": true,
+              },
+            },
           },
         },
         "nestedOptional": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -297,7 +356,7 @@ describe('extractArgTypes', () => {
           "description": "description optional nested object",
           "name": "nestedOptional",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -307,13 +366,51 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedProps | MyIgnoredNestedProps | undefined",
+            "name": {
+              "kind": "enum",
+              "schema": [
+                "undefined",
+                {
+                  "kind": "object",
+                  "schema": {
+                    "nestedProp": {
+                      "declarations": [],
+                      "description": "nested prop documentation",
+                      "global": false,
+                      "name": "nestedProp",
+                      "required": true,
+                      "schema": "string",
+                      "tags": [],
+                      "type": "string",
+                    },
+                  },
+                  "type": "MyNestedProps",
+                },
+                {
+                  "kind": "object",
+                  "schema": {
+                    "nestedProp": {
+                      "declarations": [],
+                      "description": "",
+                      "global": false,
+                      "name": "nestedProp",
+                      "required": true,
+                      "schema": "string",
+                      "tags": [],
+                      "type": "string",
+                    },
+                  },
+                  "type": "MyIgnoredNestedProps",
+                },
+              ],
+              "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
+            },
             "required": false,
           },
         },
         "recursive": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -321,7 +418,7 @@ describe('extractArgTypes', () => {
           "description": "",
           "name": "recursive",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -331,13 +428,47 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "MyNestedRecursiveProps",
-            "required": true,
+            "name": "object",
+            "required": false,
+            "value": {
+              "recursive": {
+                "name": "MyNestedRecursiveProps",
+                "required": true,
+              },
+            },
+          },
+        },
+        "stringArray": {
+          "control": {
+            "disabled": false,
+          },
+          "defaultValue": {
+            "summary": "["foo", "bar"]",
+          },
+          "description": "description stringArray is string array",
+          "name": "stringArray",
+          "table": {
+            "category": "props",
+            "defaultValue": {
+              "summary": "["foo", "bar"]",
+            },
+            "jsDocTags": [],
+            "type": {
+              "summary": "string[]",
+            },
+          },
+          "type": {
+            "name": "array",
+            "required": false,
+            "value": {
+              "name": "string",
+              "required": false,
+            },
           },
         },
         "union": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -345,7 +476,7 @@ describe('extractArgTypes', () => {
           "description": "description union is required union type",
           "name": "union",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
@@ -355,13 +486,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": {
-            "name": "string | number",
+            "name": "string",
             "required": true,
           },
         },
         "unionOptional": {
           "control": {
-            "disable": true,
+            "disabled": false,
           },
           "defaultValue": {
             "summary": undefined,
@@ -369,17 +500,17 @@ describe('extractArgTypes', () => {
           "description": "description unionOptional is optional union type",
           "name": "unionOptional",
           "table": {
-            "category": "events",
+            "category": "props",
             "defaultValue": {
               "summary": undefined,
             },
             "jsDocTags": [],
             "type": {
-              "summary": "string | number",
+              "summary": "string | number | boolean",
             },
           },
           "type": {
-            "name": "string | number | undefined",
+            "name": "string",
             "required": false,
           },
         },
