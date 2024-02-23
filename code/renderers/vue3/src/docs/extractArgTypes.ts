@@ -1,8 +1,9 @@
 import type { SBType, StrictArgTypes } from '@storybook/types';
 
 import {
-  hasDocgen,
   extractComponentProps,
+  convert as genericConvert,
+  hasDocgen,
   type ArgTypesExtractor,
   type DocgenInfo,
 } from '@storybook/docs-tools';
@@ -13,13 +14,14 @@ type MetaDocgenInfo = DocgenInfo & {
   default: string;
   global: boolean;
   name: string;
-  schema: Schema;
-  tags: { name: string; text: string }[];
+  schema?: Schema;
+  tags?: { name: string; text: string }[];
 };
 
-const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed'];
+// "exposed" is used by the vue-component-meta plugin while "expose" is used by vue-docgen-api
+const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed', 'expose'] as const;
 
-export const extractArgTypes: ArgTypesExtractor = (component: any) => {
+export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (!hasDocgen(component)) {
     return null;
   }
@@ -29,49 +31,34 @@ export const extractArgTypes: ArgTypesExtractor = (component: any) => {
   ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
 
-    props.forEach(({ docgenInfo }: any) => {
-      const {
-        name,
-        description,
-        type,
-        default: defaultSummary,
-        required,
-        tags = [],
-        global,
-      } = docgenInfo as MetaDocgenInfo;
+    props.forEach((extractedProp) => {
+      const docgenInfo = extractedProp.docgenInfo as MetaDocgenInfo;
 
-      if (argTypes[name] || global) {
+      if (argTypes[docgenInfo.name] || docgenInfo.global) {
         return; // skip duplicate and global props
       }
 
-      const sbType =
-        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type?.toString() };
+      const type =
+        typeof docgenInfo.type === 'string' ? docgenInfo.type : docgenInfo.type?.name ?? '';
+      const sbType = section === 'props' ? convertPropType(docgenInfo) : ({ name: type } as SBType);
 
-      const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
-        ' | undefined',
-        ''
-      )}`;
+      const defaultValue = { summary: docgenInfo.default };
 
-      const descriptions = `${
-        tags.length
-          ? `${tags
-              .map((tag: { name: any; text: any }) => `@${tag.name}: ${tag.text}`)
-              .join('<br>')}<br><br>`
-          : ''
-      }${description}`; // nestedTypes
-
-      argTypes[name] = {
-        name,
-        description: descriptions.replace('undefined', ''),
-        defaultValue: { summary: defaultSummary },
-        type: { required, ...sbType } as SBType,
+      argTypes[docgenInfo.name] = {
+        name: docgenInfo.name,
+        description: formatDescriptionWithTags(docgenInfo.description, docgenInfo.tags),
+        defaultValue,
+        type: {
+          ...sbType,
+          required: docgenInfo.required,
+        },
         table: {
-          type: { summary: definedTypes },
-          jsDocTags: tags,
-          defaultValue: { summary: defaultSummary },
+          type: { summary: type.replace(' | undefined', '') },
+          jsDocTags: docgenInfo.tags,
+          defaultValue,
           category: section,
         },
-        control: { disable: !['props', 'slots'].includes(section) },
+        control: { disabled: !['props', 'slots'].includes(section) },
       };
     });
   });
@@ -79,59 +66,67 @@ export const extractArgTypes: ArgTypesExtractor = (component: any) => {
   return argTypes;
 };
 
-export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
-  if (
-    typeof schemaType === 'object' &&
-    schemaType.kind === 'enum' &&
-    Array.isArray(schemaType.schema)
-  ) {
-    const values: string[] =
-      schemaType.schema
-        .filter(
-          (item: Schema) =>
-            item !== 'undefined' &&
-            ((item !== null && typeof item === 'object' && item.kind !== 'array') ||
-              typeof item === 'string')
-        )
-        .map((item: Schema) => (typeof item !== 'string' ? item.schema.toString() : item))
-        .map((item: string) => item.replace(/'/g, '"')) || [];
+/**
+ * Converts the given prop type into a SBType so it can be correctly displayed in the UI (controls etc.).
+ */
+export const convertPropType = (propInfo: MetaDocgenInfo): SBType => {
+  const schema = propInfo.schema;
+  const fallbackSbType = { name: schema } as SBType;
 
-    const isSingle = values.length === 1;
-    const isBoolean =
-      values.length === 2 && values.every((item: string) => item === 'true' || item === 'false');
+  if (!schema) return genericConvert(propInfo) ?? fallbackSbType;
+  if (typeof schema === 'string') return fallbackSbType;
+
+  // convert enum schemas (e.g. union or enum type to corresponding SBType)
+  //  so the enum values can be selected via radio/dropdown in the UI
+  if (schema.kind === 'enum' && Array.isArray(schema.schema)) {
+    const values = schema.schema
+      // filter out empty or "undefined" for optional props
+      .filter((item) => item != null && item !== 'undefined')
+      .filter((item: Schema) => typeof item === 'string' || item.kind !== 'array')
+      .map((item: Schema) => (typeof item !== 'string' ? item.schema.toString() : item))
+      .map((item: string) => item.replace(/'/g, '"'));
+
+    if (values.length === 0) return fallbackSbType;
+
+    const isBoolean = values.length === 2 && values.includes('true') && values.includes('false');
+    if (isBoolean) return { name: 'boolean' };
+
     const isLateralUnion =
-      values.length > 1 &&
-      values.every((item: string) => item.startsWith('"') && item.endsWith('"'));
+      values.length > 1 && values.every((item) => item.startsWith('"') && item.endsWith('"'));
     const isEnum =
+      !isLateralUnion &&
       values.length > 1 &&
-      values.every(
-        (item: string) => !item.startsWith('"') && typeof item === 'string' && item.includes('.')
-      );
+      values.every((item) => typeof item === 'string' && item.includes('.'));
 
-    const sbType = { name: 'enum', value: values.map((item: string) => item.replace(/"/g, '')) };
-    if (isSingle) return { name: values[0] };
-    if (isBoolean) return { ...sbType, name: 'boolean' };
-    if (isLateralUnion || isEnum) return { ...sbType, name: 'enum' };
+    if (isLateralUnion || isEnum) {
+      const valuesWithoutQuotes = values.map((item: string) => item.replace(/"/g, ''));
+      return { name: 'enum', value: valuesWithoutQuotes };
+    }
 
-    return {
-      name: values.length ? values[0] : 'array',
-    };
+    return { name: values[0] } as SBType;
   }
-  if (
-    typeof schemaType === 'object' &&
-    schemaType.kind === 'object' &&
-    typeof schemaType.schema === 'object'
-  ) {
-    const schemaObject = schemaType.schema as { [key: string]: MetaDocgenInfo };
-    const props = Object.fromEntries(
-      Object.entries(schemaObject).map(([key, value]) => {
-        return [key, value as MetaDocgenInfo];
-      })
-    );
+
+  // recursively convert object properties to SBType
+  if (schema.kind === 'object' && typeof schema.schema === 'object') {
+    const schemaObject = schema.schema as Record<string, MetaDocgenInfo>;
+
     return {
       name: 'object',
-      value: props,
+      value: Object.entries(schemaObject).reduce<Record<string, SBType>>((obj, [key, value]) => {
+        obj[key] = convertPropType(value);
+        return obj;
+      }, {}),
     };
   }
-  return { name: schemaType };
+
+  return fallbackSbType;
+};
+
+/**
+ * Adds the descriptions for the given tags if available.
+ */
+const formatDescriptionWithTags = (description: string, tags: MetaDocgenInfo['tags']): string => {
+  if (!tags?.length) return description;
+  const tagDescriptions = tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>');
+  return `${tagDescriptions}<br><br>${description}`;
 };
