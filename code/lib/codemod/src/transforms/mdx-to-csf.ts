@@ -41,15 +41,15 @@ export default async function jscodeshift(info: FileInfo) {
   }
 
   try {
-    const result = await transform(info, path.basename(baseName));
+    const { csf, mdx } = await transform(info, path.basename(baseName));
 
-    if (result[1] != null) {
-      fs.writeFileSync(`${baseName}.stories.js`, result[1]);
+    if (csf != null) {
+      fs.writeFileSync(`${baseName}.stories.js`, csf);
     }
 
     renameList.push({ original: info.path, baseName });
 
-    return result[0];
+    return mdx;
   } catch (e) {
     brokenList.push({ original: info.path, baseName });
     throw e;
@@ -68,7 +68,7 @@ process.on('exit', () => {
 export async function transform(
   info: FileInfo,
   baseName: string
-): Promise<[string, string | null]> {
+): Promise<{ mdx: string; csf: string | null }> {
   const root = mdxProcessor.parse(info.source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
@@ -220,7 +220,10 @@ export async function transform(
 
   if (storiesMap.size === 0) {
     // A CSF file must have at least one story, so skip migrating if this is the case.
-    return [mdxProcessor.stringify(root), null];
+    return {
+      csf: null,
+      mdx: mdxProcessor.stringify(root),
+    };
   }
 
   // Rewrites the Meta tag to use the new story namespace
@@ -354,7 +357,10 @@ export async function transform(
     filepath: path,
   });
 
-  return [newMdx, output];
+  return {
+    csf: output,
+    mdx: newMdx,
+  };
 }
 
 function getEsmAst(root: ReturnType<typeof mdxProcessor.parse>) {
