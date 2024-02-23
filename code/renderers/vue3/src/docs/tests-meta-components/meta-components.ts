@@ -1,4 +1,3 @@
-import type { ExtractedProp } from '@storybook/docs-tools';
 import { TypeSystem } from '@storybook/docs-tools';
 import type { VueDocgenInfo } from 'frameworks/vue3-vite/src';
 
@@ -2608,7 +2607,4 @@ export const vueDocgenMocks = {
       },
     ],
   },
-} satisfies Record<
-  string,
-  { component: { __docgenInfo: VueDocgenInfo<'vue-docgen-api'> }; extractedProps: ExtractedProp[] }
->;
+};
