@@ -13,7 +13,7 @@ export const chromatic: Task = {
     const token = process.env[tokenEnvVarName];
 
     await exec(
-      `npx chromatic \
+      `npx chromatic@latest \
           --debug \
           --exit-zero-on-changes \
           --storybook-build-dir=${builtSandboxDir} \
