@@ -87,7 +87,9 @@ setProjectAnnotations([sbAnnotations, addonAnnotations]);
 
 <Callout variant="warning">
 
-Sometimes a story can require an addon's [decorator](../writing-stories/decorators.md) to render properly. For example, an addon can apply a decorator that wraps your story in the necessary router context. In this case, you must include that addon's `preview` export in the project annotations set.
+Sometimes a story can require an addon's [decorator](../writing-stories/decorators.md) or [loader](../writing-stories/loaders.md) to render properly. For example, an addon can apply a decorator that wraps your story in the necessary router context. In this case, you must include that addon's `preview` export in the project annotations set. See `addonAnnotations` in the example above.
+
+Note: If the addon doesn't automatically apply the decorator or loader itself, but instead exports them for you to apply manually in `.storybook/preview.js|ts` (e.g. using `withThemeFromJSXProvider` from [@storybook/addon-themes](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#withthemefromjsxprovider)), then you do not need to do anything else. They are already included in the `previewAnnotations` in the example above.
 
 </Callout>
 
@@ -169,12 +171,25 @@ If your stories behave differently based on [globals](../essentials/toolbars-and
 
 <!-- prettier-ignore-start -->
 
-<CodeSnippets
-  paths={[
-    'react/portable-stories-override-globals.ts.mdx',
-    'vue/portable-stories-override-globals.ts.mdx',
-  ]}
-/>
+```tsx
+// Button.portable.ts
+import { test } from 'vitest';
+import { render } from '@testing-library/react';
+import { composeStory } from '@storybook/react';
+
+import meta, { Primary } from './Button.stories';
+
+export const PrimaryEnglish = composeStory(
+  Primary,
+  meta,
+  { globals: { locale: 'en' } } // 👈 Project annotations to override the locale
+);
+
+export const PrimarySpanish =
+  composeStory(Primary, meta, { globals: { locale: 'es' } });
+```
+
+You can then use those composed stories in your Playwright test file using the [`createTest`](#createtest) function.
 
 <!-- prettier-ignore-end -->
 

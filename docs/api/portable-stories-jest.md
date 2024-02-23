@@ -172,7 +172,9 @@ setProjectAnnotations([previewAnnotations, addonAnnotations]);
 
 <Callout variant="warning">
 
-Sometimes a story can require an addon's [decorator](../writing-stories/decorators.md) to render properly. For example, an addon can apply a decorator that wraps your story in the necessary router context. In this case, you must include that addon's `preview` export in the project annotations set.
+Sometimes a story can require an addon's [decorator](../writing-stories/decorators.md) or [loader](../writing-stories/loaders.md) to render properly. For example, an addon can apply a decorator that wraps your story in the necessary router context. In this case, you must include that addon's `preview` export in the project annotations set. See `addonAnnotations` in the example above.
+
+Note: If the addon doesn't automatically apply the decorator or loader itself, but instead exports them for you to apply manually in `.storybook/preview.js|ts` (e.g. using `withThemeFromJSXProvider` from [@storybook/addon-themes](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#withthemefromjsxprovider)), then you do not need to do anything else. They are already included in the `previewAnnotations` in the example above.
 
 </Callout>
 
