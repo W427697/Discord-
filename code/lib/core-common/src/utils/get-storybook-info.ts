@@ -94,7 +94,7 @@ export const findConfigFile = (prefix: string, configDir: string) => {
   return extension ? `${filePrefix}.${extension}` : null;
 };
 
-const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
+export const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
   let storybookConfigDir = configDir ?? '.storybook';
   const storybookScript = packageJson.scripts?.['storybook'];
   if (storybookScript && !configDir) {

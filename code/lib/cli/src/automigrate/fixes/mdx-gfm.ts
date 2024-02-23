@@ -51,6 +51,7 @@ export const mdxgfm: Fix<Options> = {
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));
 
+    // @ts-expect-error (user might be upgrading from an older version that still had it)
     const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;
     const skip =
       usesMDX1 ||
