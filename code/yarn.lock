@@ -5286,7 +5286,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-onboarding@workspace:addons/onboarding":
+"@storybook/addon-onboarding@workspace:*, @storybook/addon-onboarding@workspace:addons/onboarding":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-onboarding@workspace:addons/onboarding"
   dependencies:
@@ -6668,6 +6668,7 @@ __metadata:
     "@storybook/addon-links": "workspace:*"
     "@storybook/addon-mdx-gfm": "workspace:*"
     "@storybook/addon-measure": "workspace:*"
+    "@storybook/addon-onboarding": "workspace:*"
     "@storybook/addon-outline": "workspace:*"
     "@storybook/addon-storysource": "workspace:*"
     "@storybook/addon-toolbars": "workspace:*"

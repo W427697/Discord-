@@ -78,10 +78,10 @@
   },
   "bundler": {
     "exportEntries": [
-      "src/index.ts"
+      "./src/index.ts"
     ],
     "managerEntries": [
-      "src/manager.tsx"
+      "./src/manager.tsx"
     ],
     "nodeEntries": [
       "./src/preset.ts"
