@@ -361,16 +361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.22.15, @babel/parser@npm:^7.23.0, @babel/parser@npm:^7.23.4, @babel/parser@npm:^7.7.0":
-  version: 7.23.5
-  resolution: "@babel/parser@npm:7.23.5"
-  bin:
-    parser: ./bin/babel-parser.js
-  checksum: 3356aa90d7bafb4e2c7310e7c2c3d443c4be4db74913f088d3d577a1eb914ea4188e05fd50a47ce907a27b755c4400c4e3cbeee73dbeb37761f6ca85954f5a20
-  languageName: node
-  linkType: hard
-
-"@babel/parser@npm:^7.23.6":
+"@babel/parser@npm:^7.22.15, @babel/parser@npm:^7.23.0, @babel/parser@npm:^7.23.4, @babel/parser@npm:^7.23.6, @babel/parser@npm:^7.7.0":
   version: 7.23.9
   resolution: "@babel/parser@npm:7.23.9"
   bin:
@@ -1481,18 +1472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.22.15, @babel/types@npm:^7.22.19, @babel/types@npm:^7.22.5, @babel/types@npm:^7.23.0, @babel/types@npm:^7.23.4, @babel/types@npm:^7.4.4, @babel/types@npm:^7.7.0, @babel/types@npm:^7.8.3":
-  version: 7.23.5
-  resolution: "@babel/types@npm:7.23.5"
-  dependencies:
-    "@babel/helper-string-parser": "npm:^7.23.4"
-    "@babel/helper-validator-identifier": "npm:^7.22.20"
-    to-fast-properties: "npm:^2.0.0"
-  checksum: 7dd5e2f59828ed046ad0b06b039df2524a8b728d204affb4fc08da2502b9dd3140b1356b5166515d229dc811539a8b70dcd4bc507e06d62a89f4091a38d0b0fb
-  languageName: node
-  linkType: hard
-
-"@babel/types@npm:^7.23.6":
+"@babel/types@npm:^7.22.15, @babel/types@npm:^7.22.19, @babel/types@npm:^7.22.5, @babel/types@npm:^7.23.0, @babel/types@npm:^7.23.4, @babel/types@npm:^7.23.6, @babel/types@npm:^7.4.4, @babel/types@npm:^7.7.0, @babel/types@npm:^7.8.3":
   version: 7.23.9
   resolution: "@babel/types@npm:7.23.9"
   dependencies:
@@ -3051,14 +3031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:*":
-  version: 1.0.4
-  resolution: "@types/estree@npm:1.0.4"
-  checksum: de2abd990fb9b36583ab25d6a5898938eac076cf3e47f11ffc8cf9e3fdca1245807e0f166b6bf0924c7dab0676cc314ca8f749679ee5ea8a45771466ded25dd1
-  languageName: node
-  linkType: hard
-
-"@types/estree@npm:^1.0.0":
+"@types/estree@npm:*, @types/estree@npm:^1.0.0":
   version: 1.0.5
   resolution: "@types/estree@npm:1.0.5"
   checksum: b3b0e334288ddb407c7b3357ca67dbee75ee22db242ca7c56fe27db4e1a31989cb8af48a84dd401deb787fe10cc6b2ab1ee82dc4783be87ededbe3d53c79c70d
