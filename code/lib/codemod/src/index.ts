@@ -87,7 +87,12 @@ export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, p
         shell: true,
       }
     );
-    if (result.status === 1) {
+
+    if (codemod === 'mdx-to-csf' && result.status === 1) {
+      logger.log(
+        'The codemod was not able to transform the files mentioned above. We have renamed the files to .mdx.broken. Please check the files and rename them back to .mdx after you have either manually transformed them to mdx + csf or fixed the issues so that the codemod can transform them.'
+      );
+    } else if (result.status === 1) {
       logger.log('Skipped renaming because of errors.');
       return;
     }

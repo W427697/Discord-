@@ -25,6 +25,7 @@ import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
 const renameList: { original: string; baseName: string }[] = [];
+const brokenList: { original: string; baseName: string }[] = [];
 
 export default async function jscodeshift(info: FileInfo) {
   const parsed = path.parse(info.path);
@@ -39,19 +40,28 @@ export default async function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const result = await transform(info, path.basename(baseName));
+  try {
+    const result = await transform(info, path.basename(baseName));
 
-  if (result[1] != null) {
-    fs.writeFileSync(`${baseName}.stories.js`, result[1]);
+    if (result[1] != null) {
+      fs.writeFileSync(`${baseName}.stories.js`, result[1]);
+    }
+
     renameList.push({ original: info.path, baseName });
-  }
 
-  return result[0];
+    return result[0];
+  } catch (e) {
+    brokenList.push({ original: info.path, baseName });
+    throw e;
+  }
 }
 
 process.on('exit', () => {
   renameList.forEach((file) => {
     fs.renameSync(file.original, `${file.baseName}.mdx`);
+  });
+  brokenList.forEach((file) => {
+    fs.renameSync(file.original, `${file.original}.broken`);
   });
 });
 
@@ -220,7 +230,6 @@ export async function transform(
       is(node, { name: 'Meta' })
     ) {
       metaAttributes.push(...node.attributes);
-      console.log({ storyNamespaceName });
       node.attributes = [
         {
           type: 'mdxJsxAttribute',
