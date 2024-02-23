@@ -1,12 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import prettier from 'prettier';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
 import { loadCsf, printCsf } from '@storybook/csf-tools';
 import * as t from '@babel/types';
-
-const logger = console;
+import { abortablePrettierFormat } from '../lib/utils';
 
 const deprecatedTypes = [
   'ComponentStory',
@@ -33,34 +31,10 @@ export default async function transform(info: FileInfo, api: API, options: { par
 
   upgradeDeprecatedTypes(file);
 
-  let output = printCsf(csf).code;
-
-  await Promise.race([
-    new Promise<void>(async (resolve) => {
-      try {
-        output = await prettier.format(output, {
-          ...(await prettier.resolveConfig(info.path)),
-          filepath: info.path,
-        });
-      } catch (e) {
-        logger.log(`Failed applying prettier to ${info.path}.`);
-      }
-
-      resolve();
-    }),
-    new Promise<void>((resolve) => {
-      setTimeout(() => {
-        logger.log(`Prettier is taking a long time, skipping formatting for ${info.path}`);
-        resolve();
-      }, 4000);
-    }),
-  ]);
-
-  return output;
+  return abortablePrettierFormat(printCsf(csf).code, info.path);
 }
 
 export const parser = 'tsx';
-
 export function upgradeDeprecatedTypes(file: BabelFile) {
   const importedNamespaces: Set<string> = new Set();
   const typeReferencesToUpdate: Set<string> = new Set();

@@ -4,7 +4,7 @@ import { loadCsf, printCsf } from '@storybook/csf-tools';
 import type { BabelFile } from '@babel/core';
 import * as babel from '@babel/core';
 import * as t from '@babel/types';
-import prettier from 'prettier';
+import { abortablePrettierFormat } from '../lib/utils';
 
 export default async function transform(info: FileInfo) {
   const csf = loadCsf(info.source, { makeTitle: (title) => title });
@@ -48,16 +48,7 @@ export default async function transform(info: FileInfo) {
     },
   });
 
-  let output = printCsf(csf).code;
-  try {
-    output = await prettier.format(output, {
-      ...(await prettier.resolveConfig(info.path)),
-      filepath: info.path,
-    });
-  } catch (e) {
-    console.warn(`Failed applying prettier to ${info.path}.`);
-  }
-  return output;
+  return abortablePrettierFormat(printCsf(csf).code, info.path);
 }
 
 export const parser = 'tsx';

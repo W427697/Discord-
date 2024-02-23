@@ -1,7 +1,6 @@
-import prettier from 'prettier';
 import { logger } from '@storybook/node-logger';
 import { storyNameFromExport } from '@storybook/csf';
-import { sanitizeName, jscodeshiftToPrettierParser } from '../lib/utils';
+import { sanitizeName, jscodeshiftToPrettierParser, abortablePrettierFormat } from '../lib/utils';
 
 /**
  * Convert a legacy story API to component story format
@@ -262,17 +261,5 @@ export default async function transformer(file, api, options) {
     return source;
   }
 
-  let output = source;
-
-  try {
-    const prettierConfig = await prettier.resolveConfig(file.path);
-    output = prettier.format(source, {
-      ...prettierConfig,
-      parser: jscodeshiftToPrettierParser(options.parser),
-    });
-  } catch (e) {
-    logger.warn(`Failed to format ${file.path} with prettier`);
-  }
-
-  return output;
+  return abortablePrettierFormat(source, file.path);
 }

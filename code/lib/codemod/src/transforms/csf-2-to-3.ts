@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import prettier from 'prettier';
 import * as t from '@babel/types';
 import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
@@ -9,6 +8,7 @@ import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
 import invariant from 'tiny-invariant';
 import { upgradeDeprecatedTypes } from './upgrade-deprecated-types';
+import { abortablePrettierFormat } from '../lib/utils';
 
 const logger = console;
 
@@ -201,18 +201,7 @@ export default async function transform(info: FileInfo, api: API, options: { par
   importHelper.removeDeprecatedStoryImport();
   removeUnusedTemplates(csf);
 
-  let output = printCsf(csf).code;
-
-  try {
-    output = await prettier.format(output, {
-      ...(await prettier.resolveConfig(info.path)),
-      filepath: info.path,
-    });
-  } catch (e) {
-    logger.log(`Failed applying prettier to ${info.path}.`);
-  }
-
-  return output;
+  return abortablePrettierFormat(printCsf(csf).code, info.path);
 }
 
 class StorybookImportHelper {

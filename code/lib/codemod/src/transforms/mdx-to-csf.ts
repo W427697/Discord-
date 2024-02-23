@@ -17,10 +17,10 @@ import type { BabelFile } from '@babel/core';
 import * as babel from '@babel/core';
 import * as recast from 'recast';
 import * as path from 'node:path';
-import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
 import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
+import { abortablePrettierFormat } from '../lib/utils';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
@@ -289,13 +289,10 @@ export async function transform(info: FileInfo, baseName: string): Promise<[stri
   file.path.node.body = [...file.path.node.body, ...newStatements];
 
   const newMdx = mdxProcessor.stringify(root);
-  let output = recast.print(file.path.node).code;
-
+  const source = recast.print(file.path.node).code;
   const path = `${info.path}.jsx`;
-  output = await prettier.format(output.trim(), {
-    ...(await prettier.resolveConfig(path)),
-    filepath: path,
-  });
+
+  const output = await abortablePrettierFormat(source.trim(), path);
 
   return [newMdx, output];
 }
