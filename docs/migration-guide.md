@@ -16,7 +16,9 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [Start and build CLI binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
 - [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
 
-If any of these apply to your project, please read through the linked migration notes before continuing. If any of these new requirements or changes do not fit your project, you should probably continue using Storybook 6.x.
+If any of these changes apply to your project, please read through the linked migration notes before continuing.
+
+If any of these new requirements or changes are blockers for your project, we recommend to continue using Storybook 6.x.
 
 You may wish to read the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before migrating. Or you can follow the instructions below and we’ll try to take care of everything for you!
 
@@ -38,8 +40,10 @@ To upgrade your Storybook:
 
 This will:
 
-1. Upgrade your Storybook dependencies to the latest version
-2. Run a collection of _automigrations_, which will:
+1. Determine that none of the [breaking changes](#major-breaking-changes) apply to your project
+   - If they do, you will receive instructions on how to resolve them before continuing
+2. Upgrade your Storybook dependencies to the latest version
+3. Run a collection of _automigrations_, which will:
    - Check for common upgrade tasks
    - Explain the necessary changes with links to more information
    - Ask for approval, then perform the task on your behalf
