@@ -11,28 +11,13 @@ Storybook 8 focuses on performance and stability.
 
 This guide is meant to help you **upgrade from Storybook 7.x to 8.0** successfully!
 
-<details>
-<summary>ℹ️ Migrating from Storybook 6.x?</summary>
+<Callout variant="info">
 
-We recommend first upgrading to Storybook 7, then upgrading to Storybook 8.
+**Migrating from Storybook 6.x?**
 
-To upgrade your project to Storybook 7, run:
+We have a dedicated [migration guide for Storybook 6 to 8](./from-older-version.md).
 
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-upgrade-to-prior-major.npm.js.mdx',
-    'common/storybook-upgrade-to-prior-major.pnpm.js.mdx',
-    'common/storybook-upgrade-to-prior-major.yarn.js.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Then reference the [Storybook 7 migration guide](../../release-7-6/docs/migration-guide) to ensure you address any relevant breaking changes or manual migrations.
-
-</details>
+</Callout>
 
 ## Major breaking changes
 
@@ -52,7 +37,9 @@ The rest of this guide will help you upgrade successfully, either automatically 
   - [Svelte 4+ is now required](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#require-svelte-4-and-up)
   - [Yarn 1 is no longer supported](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-yarn-1)
 
-If any of these apply to your project, please read through the the linked migration notes before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 7.x.
+If any of these changes apply to your project, please read through the linked migration notes before continuing.
+
+If any of these new requirements or changes are blockers for your project, we recommend to continue using Storybook 7.x.
 
 You may wish to read the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) before migrating. Or you can follow the instructions below and we’ll try to take care of everything for you!
 
@@ -74,8 +61,10 @@ To upgrade your Storybook:
 
 This will:
 
-1. Upgrade your Storybook dependencies to the latest version
-2. Run a collection of _automigrations_, which will:
+1. Determine that none of the [breaking changes](#major-breaking-changes) apply to your project
+   - If they do, you will receive instructions on how to resolve them before continuing
+2. Upgrade your Storybook dependencies to the latest version
+3. Run a collection of _automigrations_, which will:
    - Check for common upgrade tasks
    - Explain the necessary changes with links to more information
    - Ask for approval, then perform the task on your behalf
@@ -119,13 +108,13 @@ Storybook architecture is focused on performance and now needs code that is stat
 
 <!-- prettier-ignore-end -->
 
-This will transform your stories into [CSF 1](/blog/component-story-format/) stories, which are story functions that don't accept [args](./writing-stories/args.md). These are fully supported in Storybook 8, and will continue to be for the foreseeable future.
+This will transform your stories into [CSF 1](/blog/component-story-format/) stories, which are story functions that don't accept [args](../writing-stories/args.md). These are fully supported in Storybook 8, and will continue to be for the foreseeable future.
 
-However, we recommend [writing all **new** stories in CSF 3](./writing-stories/index.md), which are story objects that are easier to write, reuse, and maintain.
+However, we recommend [writing all **new** stories in CSF 3](../writing-stories/index.md), which are story objects that are easier to write, reuse, and maintain.
 
 ### `storiesOf` to dynamically created stories
 
-If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](/docs/api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
+If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
 
 ### `*.stories.mdx` to MDX+CSF
 
@@ -151,7 +140,7 @@ You’ll also need to update your stories glob in `.storybook/main.js` to includ
 
 The automatic upgrade should get your Storybook into a working state. If you encounter an error running Storybook after upgrading, here’s what to do:
 
-1. Try running the [`doctor` command](./api/cli-options.md#doctor) to check for common issues (such as duplicate dependencies, incompatible addons, or mismatched versions) and see suggestions for fixing them.
+1. Try running the [`doctor` command](../api/cli-options.md#doctor) to check for common issues (such as duplicate dependencies, incompatible addons, or mismatched versions) and see suggestions for fixing them.
 2. If you’re running `storybook` with the `dev` command, try using the `build` command instead. Sometimes `build` errors are more legible than `dev` errors!
 3. Check [the full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800), which contains an exhaustive list of noteworthy changes in Storybook 8. Many of these are already handled by automigrations when you upgrade, but not all are. It’s also possible that you’re experiencing a corner case that we’re not aware of.
 4. Search [Storybook issues on GitHub](https://github.com/storybookjs/storybook/issues). If you’re seeing a problem, there’s a good chance other people are too. If so, upvote the issue, try out any workarounds described in the comments, and comment back if you have useful info to contribute.
