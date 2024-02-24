@@ -176,8 +176,8 @@ export const Search = React.memo<{
     [api, inputRef, showAllComponents, DEFAULT_REF_ID]
   );
 
-  const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
+  const makeFuse = useCallback(() => {
+    const list = dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index || {}, status);
 
       if (index) {
@@ -196,12 +196,12 @@ export const Search = React.memo<{
       }
       return acc;
     }, []);
+    return new Fuse(list, options);
   }, [dataset]);
-
-  const fuse = useMemo(() => new Fuse(list, options), [list]);
 
   const getResults = useCallback(
     (input: string) => {
+      const fuse = makeFuse();
       if (!input) return [];
 
       let results: DownshiftItem[] = [];
@@ -229,7 +229,7 @@ export const Search = React.memo<{
 
       return results;
     },
-    [allComponents, fuse]
+    [allComponents, makeFuse]
   );
 
   const stateReducer = useCallback(
