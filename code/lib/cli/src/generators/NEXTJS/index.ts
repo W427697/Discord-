@@ -3,7 +3,6 @@ import { existsSync } from 'fs';
 import { CoreBuilder } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
-import { versions } from '@storybook/core-common';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   let staticDir;
@@ -16,7 +15,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     'react',
     {
       staticDir,
-      extraAddons: [`@storybook/addon-onboarding@^${versions['@storybook/addon-onboarding']}`],
+      extraAddons: [`@storybook/addon-onboarding`],
       webpackCompiler: ({ builder }) => undefined,
     },
     'nextjs'

@@ -1,4 +1,3 @@
-import { versions } from '@storybook/core-common';
 import { detectLanguage } from '../../detect';
 import { CoreBuilder, SupportedLanguage } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
@@ -12,7 +11,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   await baseGenerator(packageManager, npmOptions, options, 'react', {
     extraPackages,
     webpackCompiler: ({ builder }) => (builder === CoreBuilder.Webpack5 ? 'swc' : undefined),
-    extraAddons: [`@storybook/addon-onboarding@^${versions['@storybook/addon-onboarding']}`],
+    extraAddons: [`@storybook/addon-onboarding`],
   });
 };
 
