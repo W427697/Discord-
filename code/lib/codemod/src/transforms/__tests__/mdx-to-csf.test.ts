@@ -20,6 +20,7 @@ vi.mock('prettier', async (importOriginal) => {
       bracketSpacing: true,
       trailingComma: 'es5',
       singleQuote: true,
+      parser: 'babel-ts',
     }),
   };
 });
