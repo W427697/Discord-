@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "jest": "jest"
+    "jest": "jest",
+    "cypress": "echo 'No cypress setup yet'",
+    "playwright": "echo 'No playwright setup yet'"
   },
   "dependencies": {
     "next": "14.1.0",
