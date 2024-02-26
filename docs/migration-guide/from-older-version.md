@@ -120,26 +120,6 @@ However, we recommend [writing all **new** stories in CSF 3](../writing-stories/
 
 If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
 
-### `*.stories.mdx` to MDX+CSF
-
-Storybook now requires that MDX pages reference stories written in CSF, rather than the previous `.stories.mdx` hybrid approach. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-migrate-mdx-to-csf.npm.js.mdx',
-    'common/storybook-migrate-mdx-to-csf.pnpm.js.mdx',
-    'common/storybook-migrate-mdx-to-csf.yarn.js.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-You’ll also need to update your stories glob in `.storybook/main.js` to include the newly created .mdx and .stories.js files if it doesn’t already.
-
-**Note:** this migration supports the Storybook 6 ["CSF stories with MDX docs"](https://github.com/storybookjs/storybook/blob/6e19f0fe426d58f0f7981a42c3d0b0384fab49b1/code/addons/docs/docs/recipes.md#csf-stories-with-mdx-docs) recipe.
-
 ## Troubleshooting
 
 The automatic upgrade should get your Storybook into a working state. If you encounter an error running Storybook after upgrading, here’s what to do:
