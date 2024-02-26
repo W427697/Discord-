@@ -76,7 +76,7 @@ In addition to the automated upgrades above, there are manual migrations that mi
 
 ### Upgrade MDX1 to MDX2
 
-Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/index.md). The upgrade from MDX1 to MDX2 is not fully automated, due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
+Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/index.md). The upgrade from MDX1 to MDX2 is not fully automated due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
 
 #### Automatically detect MDX2 errors with a CLI tool
 
@@ -155,12 +155,12 @@ The automatic upgrade should get your Storybook into a working state. If you enc
 
 If you prefer to debug yourself, here are a few useful things you can do to help narrow down the problem:
 
-1. Try removing all addons that are not in the `@storybook` npm namespace. Community addons that work well with 6.x might not yet be compatible with 7.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 7, please post an issue on the addon’s repository, or better yet, a PR to upgrade it!
-2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `7.0.0-beta.56`, you could set the version to `7.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (alpha.0 should be nearly identical to `6.5.x`). If it works, you could then try `7.0.0-beta.0`, then `7.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or PR to the Storybook repo and we’ll do our best to take care of it quickly.
+1. Try removing all addons that are not in the `@storybook` npm namespace. Community addons that work well with 6.x might not yet be compatible with 7.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 7, please post an issue on the addon’s repository, or better yet, a pull request to upgrade it!
+2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `7.0.0-beta.56`, you could set the version to `7.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (alpha.0 should be nearly identical to `6.5.x`). If it works, you could then try `7.0.0-beta.0`, then `7.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or pull request to the Storybook monorepo and we’ll do our best to take care of it quickly.
 
 ## Optional migrations
 
-In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are things that we’ve deprecated in Storybook 7 (but remain backwards compatible), or best practices that should help you be more productive in the future.
+In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are features that we’ve deprecated in Storybook 7 (but remain backwards compatible), or best practices that should help you be more productive in the future.
 
 These include:
 
@@ -179,17 +179,21 @@ If you want to just skip to the migration, we provide a codemod for your conveni
 npx storybook@latest migrate csf-2-to-3 --glob="src/**/*.stories.js"
 ```
 
-### storiesOf to CSF
+### `storiesOf` to CSF
 
-Storybook 7's architecture is focused on performance and needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
+Storybook 7's architecture focuses on performance and needs statically analyzable code. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 ```
 
-### .stories.mdx to MDX+CSF
+### `storiesOf` to dynamically created stories
 
-Storybook 7 provides a cleaner [docs](./writing-docs/index.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
+If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](./api/main-config-indexers). A proof of concept (with a deeper explanation of the implementation) can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md).
+
+### `.stories.mdx` to MDX+CSF
+
+Storybook 7 provides a cleaner [docs](./writing-docs/index.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `*.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
