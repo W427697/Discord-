@@ -10,9 +10,9 @@ test('renders and executes the play function', async () => {
   const PrimaryStory = composeStory(Primary, meta);
 
   // First, render the story
-  const { container } = render(<PrimaryStory />);
+  render(<PrimaryStory />);
 
   // Then, execute the play function
-  await PrimaryStory.play({ canvasElement: container });
+  await PrimaryStory.play();
 });
 ```
