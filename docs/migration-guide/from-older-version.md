@@ -98,7 +98,7 @@ This shows the errors visually in your editor, which speeds things up a lot. Her
 
 ### `storiesOf` to CSF
 
-Storybook architecture is focused on performance and now needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
+Storybook architecture focuses on performance and now needs statically analyzable code. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 <!-- prettier-ignore-start -->
 
@@ -118,7 +118,7 @@ However, we recommend [writing all **new** stories in CSF 3](../writing-stories/
 
 ### `storiesOf` to dynamically created stories
 
-If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
+If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
 
 ### `*.stories.mdx` to MDX+CSF
 
