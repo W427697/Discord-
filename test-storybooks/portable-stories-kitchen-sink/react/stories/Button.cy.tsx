@@ -14,7 +14,7 @@ describe('<Button />', () => {
 
     cy.then(async() => {
       await WithLoader.play!({ canvasElement: document.querySelector('[data-cy-root]') as HTMLElement });
-      cy.get('[data-testid="loaded-data"]').should('contain.text', 'bar');
+      cy.get('[data-testid="loaded-data"]').should('contain.text', 'loaded data');
       cy.get('[data-testid="mock-data"]').should('contain.text', 'mockFn return value');
     });
   })
