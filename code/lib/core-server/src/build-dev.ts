@@ -196,8 +196,8 @@ export async function buildDevStandalone(
       warnings.push(...(previewStats?.toJson()?.warnings || []));
     } catch (err) {
       if (err instanceof NoStatsForViteDevError) {
-        // pass, the Vite builder has no warnings in the stats object anyway, but not stats at all
-        // in dev.
+        // pass, the Vite builder has no warnings in the stats object anyway,
+        // but no stats at all in dev mode
       } else {
         throw err;
       }
