@@ -26,7 +26,7 @@ import type { ReactRenderer, Meta } from '@storybook/react';
  * Example:
  *```jsx
  * // setup.js (for jest)
- * import { setProjectAnnotations } from '@storybook/react';
+ * import { setProjectAnnotations } from '@storybook/nextjs';
  * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);
@@ -61,7 +61,7 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStory } from '@storybook/react';
+ * import { composeStory } from '@storybook/nextjs';
  * import Meta, { Primary as PrimaryStory } from './Button.stories';
  *
  * const Primary = composeStory(PrimaryStory, Meta);
@@ -103,7 +103,7 @@ export function composeStory<TArgs extends Args = Args>(
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStories } from '@storybook/react';
+ * import { composeStories } from '@storybook/nextjs';
  * import * as stories from './Button.stories';
  *
  * const { Primary, Secondary } = composeStories(stories);
