@@ -94,7 +94,7 @@ In addition to the automated upgrades above, there are manual migrations that mi
 
 ### `storiesOf` to CSF
 
-Storybook architecture is focused on performance and now needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
+Storybook architecture focuses on performance and now needs statically analyzable code. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 <!-- prettier-ignore-start -->
 
@@ -114,7 +114,7 @@ However, we recommend [writing all **new** stories in CSF 3](../writing-stories/
 
 ### `storiesOf` to dynamically created stories
 
-If you are using `storiesOf` for its ability to dynamically create stories, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
+If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept (with a deeper explanation of the implementation) can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md).
 
 ### `*.stories.mdx` to MDX+CSF
 
@@ -148,12 +148,12 @@ The automatic upgrade should get your Storybook into a working state. If you enc
 
 If you prefer to debug yourself, here are a few useful things you can do to help narrow down the problem:
 
-1. Try removing all addons that are not in the `@storybook` npm namespace (make sure you don't remove the `storybook` package). Community addons that work well with 7.x might not yet be compatible with 8.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 8, please post an issue on the addon’s repository, or better yet, a PR to upgrade it!
-2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `8.0.0-beta.56`, you could set the version to `8.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (`alpha.0` should be nearly identical to `7.6.x`). If it works, you could then try `8.0.0-beta.0`, then `8.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or PR to the Storybook repo and we’ll do our best to take care of it quickly.
+1. Try removing all addons that are not in the `@storybook` npm namespace (make sure you don't remove the `storybook` package). Community addons that work well with 7.x might not yet be compatible with 8.0, and this is the fastest way to isolate that possibility. If you find an addon that needs to be upgraded to work with Storybook 8, please post an issue on the addon’s repository, or better yet, a pull request to upgrade it!
+2. Another debugging technique is to bisect to older prerelease versions of Storybook to figure out which release broke your Storybook. For example, assuming that the current prerelease of Storybook is `8.0.0-beta.56`, you could set the version to `8.0.0-alpha.0` in your `package.json` and reinstall to verify that it still works (`alpha.0` should be nearly identical to `7.6.x`). If it works, you could then try `8.0.0-beta.0`, then `8.0.0-beta.28` and so forth. Once you’ve isolated the bad release, read through its [CHANGELOG](https://github.com/storybookjs/storybook/blob/next/CHANGELOG.md) entry and perhaps there’s a change that jumps out as the culprit. If you find the problem, please submit an issue or pull request to the Storybook monorepo and we’ll do our best to take care of it quickly.
 
 ## Optional migrations
 
-In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are things that we’ve deprecated in Storybook 8 (but remain backwards compatible), or best practices that should help you be more productive in the future.
+In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are features that we’ve deprecated in Storybook 8 (but remain backwards compatible), or best practices that should help you be more productive in the future.
 
 These include:
 

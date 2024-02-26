@@ -118,7 +118,7 @@ However, we recommend [writing all **new** stories in CSF 3](../writing-stories/
 
 ### `storiesOf` to dynamically created stories
 
-If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's README.md for a deeper explanation of the implementation.
+If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept (with a deeper explanation of the implementation) can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md).
 
 ## Troubleshooting
 
