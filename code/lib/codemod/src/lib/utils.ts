@@ -49,11 +49,16 @@ export function abortablePrettierFormat(
     new Promise<string>(async (resolve) => {
       try {
         const prettier = await import('prettier');
-        const output = await prettier.format(code, {
+
+        const config = {
           ...(await prettier.resolveConfig(codePath)),
           ...prettierConfig,
           filepath: codePath,
-        });
+        };
+
+        console.log({ config });
+
+        const output = await prettier.format(code, config);
         resolve(output);
       } catch (e) {
         logger.log(`Failed applying prettier to ${codePath}.`);
