@@ -1,10 +1,12 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-// ! DO NOT change this SlotDecorator import to a relative path, it will break it.
-// ! A relative import will be compiled at build time, and Svelte will be unable to
-// ! render the component together with the user's Svelte components
-// ! importing from @storybook/svelte will make sure that it is compiled at runtime
-// ! with the same bundle as the user's Svelte components
+/*
+! DO NOT change this SlotDecorator import to a relative path, it will break it.
+! A relative import will be compiled at build time, and Svelte will be unable to
+! render the component together with the user's Svelte components
+! importing from @storybook/svelte will make sure that it is compiled at runtime
+! with the same bundle as the user's Svelte components
+*/
 import SlotDecorator from '@storybook/svelte/internal/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
 

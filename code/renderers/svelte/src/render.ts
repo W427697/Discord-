@@ -1,8 +1,10 @@
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import { RESET_STORY_ARGS } from '@storybook/core-events';
-// ! DO NOT change these PreviewRender and createSvelte5Props imports to relative paths, it will break them.
-// ! Relative imports will be compiled at build time by tsup, but we need Svelte to compile them
-// ! when compiling the rest of the Svelte files.
+/*
+! DO NOT change these PreviewRender and createSvelte5Props imports to relative paths, it will break them.
+! Relative imports will be compiled at build time by tsup, but we need Svelte to compile them
+! when compiling the rest of the Svelte files.
+*/
 import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
 // @ts-expect-error Don't know why TS doesn't pick up the types export here
 import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
