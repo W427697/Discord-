@@ -36,15 +36,12 @@ export function renderToCanvas(
  *
  * We listen for the RESET_STORY_ARGS event and store the storyId to be reset
  * We then use this in the renderToCanvas function to force remount the story
- *
- * This is only necessary in Svelte v4
  */
 const storyIdsToRemountFromResetArgsEvent = new Set<string>();
-if (IS_SVELTE_V4) {
-  addons.getChannel().on(RESET_STORY_ARGS, ({ storyId }) => {
-    storyIdsToRemountFromResetArgsEvent.add(storyId);
-  });
-}
+addons.getChannel().on(RESET_STORY_ARGS, ({ storyId }) => {
+  storyIdsToRemountFromResetArgsEvent.add(storyId);
+});
+
 const componentsByDomElementV4 = new Map<SvelteRenderer['canvasElement'], svelte.SvelteComponent>();
 
 function renderToCanvasV4(
@@ -137,11 +134,17 @@ function renderToCanvasV5(
 
   const existingComponent = componentsByDomElementV5.get(canvasElement);
 
-  if (forceRemount) {
+  let remount = forceRemount;
+  if (storyIdsToRemountFromResetArgsEvent.has(storyContext.id)) {
+    remount = true;
+    storyIdsToRemountFromResetArgsEvent.delete(storyContext.id);
+  }
+
+  if (remount) {
     unmount(canvasElement);
   }
 
-  if (!existingComponent || forceRemount) {
+  if (!existingComponent || remount) {
     const props = createSvelte5Props({
       storyFn,
       storyContext,
