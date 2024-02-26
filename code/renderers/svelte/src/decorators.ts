@@ -5,8 +5,7 @@ import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 // ! render the component together with the user's Svelte components
 // ! importing from @storybook/svelte will make sure that it is compiled at runtime
 // ! with the same bundle as the user's Svelte components
-// eslint-disable-next-line import/no-extraneous-dependencies
-import SlotDecorator from '@storybook/svelte/templates/SlotDecorator.svelte';
+import SlotDecorator from '@storybook/svelte/internal/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
 
 /**

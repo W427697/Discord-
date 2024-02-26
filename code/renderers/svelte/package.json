@@ -30,9 +30,8 @@
     "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json",
-    "./templates/HOC.svelte": "./templates/HOC.svelte",
-    "./templates/PreviewRender.svelte": "./templates/PreviewRender.svelte",
-    "./templates/SlotDecorator.svelte": "./templates/SlotDecorator.svelte",
+    "./internal/PreviewRender.svelte": "./src/components/PreviewRender.svelte",
+    "./internal/SlotDecorator.svelte": "./src/components/SlotDecorator.svelte",
     "./internal/createSvelte5Props": "./src/createSvelte5Props.svelte.js"
   },
   "main": "dist/index.js",
