@@ -27,6 +27,10 @@ exports[`Renders CSF2StoryWithLocale story 1`] = `
     >
       Global Decorator
       <br />
+      <p>
+        locale: 
+        en
+      </p>
       <button
         class="storybook-button storybook-button--medium storybook-button--secondary"
         type="button"
