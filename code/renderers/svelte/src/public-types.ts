@@ -23,17 +23,19 @@ export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<CmpOrArgs = Args> = CmpOrArgs extends SvelteComponent<infer Props>
-  ? ComponentAnnotations<SvelteRenderer<CmpOrArgs>, Props>
-  : ComponentAnnotations<SvelteRenderer, CmpOrArgs>;
+export type Meta<CmpOrArgs = Args> =
+  CmpOrArgs extends SvelteComponent<infer Props>
+    ? ComponentAnnotations<SvelteRenderer<CmpOrArgs>, Props>
+    : ComponentAnnotations<SvelteRenderer, CmpOrArgs>;
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponent<infer Props>
-  ? AnnotatedStoryFn<SvelteRenderer, Props>
-  : AnnotatedStoryFn<SvelteRenderer, TCmpOrArgs>;
+export type StoryFn<TCmpOrArgs = Args> =
+  TCmpOrArgs extends SvelteComponent<infer Props>
+    ? AnnotatedStoryFn<SvelteRenderer, Props>
+    : AnnotatedStoryFn<SvelteRenderer, TCmpOrArgs>;
 
 /**
  * Story object that represents a CSFv3 component example.
