@@ -16,7 +16,6 @@ This guide is meant to help you **upgrade from Storybook 6.x to 8.0** successful
 The rest of this guide will help you upgrade successfully, either automatically or manually. But first, we’ve accumulated a lot of breaking changes in both [Storybook 7](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#70-breaking-changes) and [Storybook 8](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800). Here are the most impactful changes you should know about before you go further:
 
 - [`framework` field is now mandatory](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api)
-- [Babel mode v7 exclusively](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively)
 - [Start and build CLI binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
 - [`storiesOf` API has been removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removal-of-storiesof-api)
 - [`*.stories.mdx` format has been removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropping-support-for-storiesmdx-csf-in-mdx-format-and-mdx1-support)
