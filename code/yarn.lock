@@ -6230,7 +6230,7 @@ __metadata:
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6536,7 +6536,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     semver: "npm:^7.3.7"
     serve-static: "npm:^1.14.1"
-    svelte: "npm:^5.0.0-next.28"
+    svelte: "npm:^5.0.0-next.65"
     trash: "npm:^7.0.0"
     ts-dedent: "npm:^2.0.0"
     ts-node: "npm:^10.9.1"
@@ -6636,7 +6636,7 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
-    svelte: "npm:^5.0.0-next.28"
+    svelte: "npm:^5.0.0-next.65"
     svelte-preprocess: "npm:^5.1.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.2.0"
@@ -6644,7 +6644,7 @@ __metadata:
     vite: "npm:^4.0.0"
   peerDependencies:
     "@sveltejs/vite-plugin-svelte": ^2.0.0 || ^3.0.0
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -6661,7 +6661,7 @@ __metadata:
     svelte-loader: "npm:^3.1.9"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6678,6 +6678,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.2"
     expect-type: "npm:^0.15.0"
+    fs-extra: "npm:^11.1.0"
     svelte: "npm:^5.0.0-next.65"
     svelte-check: "npm:^3.6.4"
     sveltedoc-parser: "npm:^4.2.1"
@@ -6701,7 +6702,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.16
+    svelte: ^4.0.0 || ^5.0.0-next.65
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -9279,15 +9280,6 @@ __metadata:
   peerDependencies:
     acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
   checksum: 4c54868fbef3b8d58927d5e33f0a4de35f59012fe7b12cf9dfbb345fb8f46607709e1c4431be869a23fb63c151033d84c4198fa9f79385cec34fcb1dd53974c1
-  languageName: node
-  linkType: hard
-
-"acorn-typescript@npm:^1.4.11":
-  version: 1.4.12
-  resolution: "acorn-typescript@npm:1.4.12"
-  peerDependencies:
-    acorn: ">=8.9.0"
-  checksum: a3b33ed0dc321e3364da507a3decec96423736384068c88fea5ea57aeae864ea115a6c4a20b3ace71b75f4901b0657bec82d83aab30a8ad0dfc4bfc0d8337546
   languageName: node
   linkType: hard
 
@@ -27256,26 +27248,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^5.0.0-next.28":
-  version: 5.0.0-next.28
-  resolution: "svelte@npm:5.0.0-next.28"
-  dependencies:
-    "@ampproject/remapping": "npm:^2.2.1"
-    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
-    acorn: "npm:^8.10.0"
-    acorn-typescript: "npm:^1.4.11"
-    aria-query: "npm:^5.3.0"
-    axobject-query: "npm:^4.0.0"
-    esm-env: "npm:^1.0.0"
-    esrap: "npm:^1.2.1"
-    is-reference: "npm:^3.0.1"
-    locate-character: "npm:^3.0.0"
-    magic-string: "npm:^0.30.4"
-    zimmerframe: "npm:^1.1.0"
-  checksum: d309cd3d1a9fe16c67a626af867288b02f6e7c49311c851aeb0f36feb5ab9603ca5594338fb933dbbada41b26faea6dcef52ed6ab3e86f54626545e53059eb28
-  languageName: node
-  linkType: hard
-
 "svelte@npm:^5.0.0-next.65":
   version: 5.0.0-next.65
   resolution: "svelte@npm:5.0.0-next.65"
@@ -30315,13 +30287,6 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 856117aa15cf5103d2a2fb173f0ab4acb12b4b4d0ed3ab249fdbbf612e55d1cadfd27a6110940e24746fb0a78cf640b522cc8bca76f30a3b00b66e90cf82abe0
-  languageName: node
-  linkType: hard
-
-"zimmerframe@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "zimmerframe@npm:1.1.0"
-  checksum: dffe3f555bb000176ed9c7577e0fb0c3eddeceb6df9bb3ff870995bac3a51b40fab5443bd3dc47ce91c1f8ecf07282742efb80771ae6a088edc0340bb217f93d
   languageName: node
   linkType: hard
 
