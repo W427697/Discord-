@@ -117,7 +117,6 @@ export const WithLoader: CSF3Story<{ mockFn: (val: string) => string }> = {
   },
   loaders: [
     async () => {
-      console.log('loading...')
       mockFn.mockReturnValueOnce('mockFn return value');
       return {
         value: 'loaded data',
@@ -126,7 +125,6 @@ export const WithLoader: CSF3Story<{ mockFn: (val: string) => string }> = {
   ],
   render: (args, { loaded }) => {
     const data = args.mockFn('render');
-    console.log('rendering...')
     return (
       <div>
         <div data-testid="loaded-data">{loaded.value}</div>
@@ -135,7 +133,6 @@ export const WithLoader: CSF3Story<{ mockFn: (val: string) => string }> = {
     );
   },
   play: async () => {
-    console.log('playing...')
     expect(mockFn).toHaveBeenCalledWith('render');
   },
 };
