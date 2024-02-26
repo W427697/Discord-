@@ -2,6 +2,7 @@ import React from 'react';
 import { addons, types, useArgTypes } from '@storybook/manager-api';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
 import { ControlsPanel } from './ControlsPanel';
+import { SaveButton } from './SaveButton';
 import { ADDON_ID, PARAM_KEY } from './constants';
 
 function Title() {
@@ -36,5 +37,12 @@ addons.register(ADDON_ID, (api) => {
         </AddonPanel>
       );
     },
+  });
+
+  addons.add(ADDON_ID, {
+    title: 'Save controls',
+    type: types.TOOL,
+    match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
+    render: () => <SaveButton />,
   });
 });
