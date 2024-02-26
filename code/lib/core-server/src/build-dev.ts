@@ -17,11 +17,7 @@ import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
 import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
-import {
-  Category,
-  MissingBuilderError,
-  NoStatsForViteDevError,
-} from '@storybook/core-events/server-errors';
+import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
