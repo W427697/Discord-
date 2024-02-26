@@ -10,11 +10,14 @@ import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;
 
-export async function migrate(migration: any, { glob, dryRun, list, rename, parser }: any) {
+export async function migrate(
+  migration: any,
+  { glob, dryRun, list, rename, parser, runAutomigration = true }: any
+) {
   if (list) {
     listCodemods().forEach((key: any) => logger.log(key));
   } else if (migration) {
-    if (migration === 'mdx-to-csf' && !dryRun) {
+    if (migration === 'mdx-to-csf' && !dryRun && runAutomigration) {
       const packageManager = JsPackageManagerFactory.getPackageManager();
 
       const [packageJson, storybookVersion] = await Promise.all([
@@ -44,6 +47,7 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
       });
       await addStorybookBlocksPackage();
     }
+
     await runCodemod(migration, { glob, dryRun, logger, rename, parser });
   } else {
     throw new Error('Migrate: please specify a migration name or --list');

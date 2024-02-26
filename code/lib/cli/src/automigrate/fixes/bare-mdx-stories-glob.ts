@@ -4,6 +4,8 @@ import semver from 'semver';
 import type { StoriesEntry } from '@storybook/types';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
+import { migrate } from '../../migrate';
+import { prompt } from 'prompts';
 
 const logger = console;
 
@@ -96,29 +98,48 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       .map((entry) => JSON.stringify(entry, null, 2))
       .join('\n');
     return dedent`
-    We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
-      ${chalk.cyan(prettyExistingStoriesEntries)}
-    
-    In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
+      We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
+        ${chalk.cyan(prettyExistingStoriesEntries)}
+      
+      In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
 
-    We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
-    That would result in the following 'stories' config:
-      ${chalk.cyan(prettyNextStoriesEntries)}
+      We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
+      That would result in the following 'stories' config:
+        ${chalk.cyan(prettyNextStoriesEntries)}
 
-    To learn more about this change, see: ${chalk.yellow(
-      'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
-    )}
-  `;
+      To learn more about this change, see: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
+      )}
+    `;
   },
 
-  async run({ dryRun, mainConfigPath, result: { nextStoriesEntries } }) {
+  async run({ dryRun, mainConfigPath, result: { nextStoriesEntries }, packageManager }) {
     logger.info(dedent`✅ Setting 'stories' config:
       ${JSON.stringify(nextStoriesEntries, null, 2)}`);
 
     if (!dryRun) {
+      const glob = await prompt({
+        type: 'text',
+        name: 'glob',
+        message: 'Please enter the glob for your MDX stories',
+        initial: './src/**/*.stories.mdx',
+      });
+
+      await migrate('mdx-to-csf', {
+        glob,
+        runAutomigration: false,
+      });
+
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['stories'], nextStoriesEntries);
       });
+
+      logger.info(dedent`
+        The migration successfully updated your 'stories' config to include any .mdx file instead of just .stories.mdx.
+
+        It also ran the 'mdx-to-csf' codemod to convert your MDX stories to CSF format.
+        This codemod is not perfect however, so you may need to manually fix any issues it couldn't handle.
+      `);
     }
   },
 };
