@@ -17,7 +17,7 @@ import type { StoryStore } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
-  private componentStoriesValue: Set<PreparedStory<TRenderer>>;
+  private componentStoriesValue: PreparedStory<TRenderer>[];
 
   private storyIdToCSFFile: Map<StoryId, CSFFile<TRenderer>>;
 
@@ -38,7 +38,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     /** The CSF files known (via the index) to be refererenced by this docs file */
     csfFiles: CSFFile<TRenderer>[]
   ) {
-    this.componentStoriesValue = new Set();
+    this.componentStoriesValue = [];
     this.storyIdToCSFFile = new Map();
     this.exportToStory = new Map();
     this.exportsToCSFFile = new Map();
@@ -83,7 +83,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
     stories.forEach((story) => {
       this.nameToStoryId.set(story.name, story.id);
-      this.componentStoriesValue.add(story);
+      this.componentStoriesValue.push(story);
       if (!this.primaryStory) this.primaryStory = story;
     });
   }
@@ -207,7 +207,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   };
 
   componentStories = () => {
-    return Array.from(this.componentStoriesValue);
+    return this.componentStoriesValue;
   };
 
   componentStoriesFromCSFFile = (csfFile: CSFFile<TRenderer>) => {
