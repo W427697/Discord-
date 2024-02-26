@@ -1,6 +1,21 @@
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import transform from '../migrate-to-test-package';
 import dedent from 'ts-dedent';
+
+vi.mock('prettier', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('prettier')>();
+
+  return {
+    ...mod,
+    resolveConfig: vi.fn().mockResolvedValue({
+      printWidth: 100,
+      tabWidth: 2,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+    }),
+  };
+});
 
 expect.addSnapshotSerializer({
   serialize: (val: any) => (typeof val === 'string' ? val : val.toString()),

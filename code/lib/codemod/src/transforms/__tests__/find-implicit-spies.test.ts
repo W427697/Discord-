@@ -8,6 +8,21 @@ expect.addSnapshotSerializer({
   test: (value) => typeof value === 'string' && ansiRegex().test(value),
 });
 
+vi.mock('prettier', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('prettier')>();
+
+  return {
+    ...mod,
+    resolveConfig: vi.fn().mockResolvedValue({
+      printWidth: 100,
+      tabWidth: 2,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+    }),
+  };
+});
+
 const tsTransform = async (source: string) => transform({ source, path: 'Component.stories.tsx' });
 
 const warn = vi.spyOn(console, 'warn');

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
 import ansiRegex from 'ansi-regex';
@@ -7,6 +7,21 @@ import _transform from '../upgrade-deprecated-types';
 expect.addSnapshotSerializer({
   serialize: (val: any) => (typeof val === 'string' ? val : val.toString()),
   test: () => true,
+});
+
+vi.mock('prettier', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('prettier')>();
+
+  return {
+    ...mod,
+    resolveConfig: vi.fn().mockResolvedValue({
+      printWidth: 100,
+      tabWidth: 2,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+      singleQuote: true,
+    }),
+  };
 });
 
 const tsTransform = async (source: string) =>
