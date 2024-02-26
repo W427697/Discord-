@@ -8394,6 +8394,7 @@ __metadata:
   resolution: "portable-stories-vue3@workspace:."
   dependencies:
     "@playwright/experimental-ct-vue": "npm:^1.41.2"
+    "@storybook/addon-actions": "npm:^8.0.0-beta.2"
     "@storybook/addon-essentials": "npm:^8.0.0-beta.2"
     "@storybook/addon-interactions": "npm:^8.0.0-beta.2"
     "@storybook/test": "npm:^8.0.0-beta.2"
