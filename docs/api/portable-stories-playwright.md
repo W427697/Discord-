@@ -24,6 +24,16 @@ Portable stories are Storybook [stories](../writing-stories/index.md) which can 
 
 Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Playwright CT, you can use the [`createTest`](#createtest) function, which extends Playwright's test functionality to add a custom `mount` mechanism, to take care of the story pipeline for you.
 
+<If renderer="react">
+
+<Callout variant="warning">
+
+**Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT.
+
+</Callout>
+
+</If>
+
 ## createTest
 
 (⚠️ **Experimental**)

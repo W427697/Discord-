@@ -22,6 +22,16 @@ Portable stories are Storybook [stories](../writing-stories/index.md) which can 
 
 Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Vitest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
+<If renderer="react">
+
+<Callout variant="warning">
+
+**Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Vitest.
+
+</Callout>
+
+</If>
+
 ## composeStories
 
 `composeStories` will process the component's stories you specify, compose each of them with the necessary [annotations](#annotations), and return an object containing the composed stories.

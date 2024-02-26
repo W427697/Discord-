@@ -22,6 +22,19 @@ Portable stories are Storybook [stories](../writing-stories/index.md) which can 
 
 Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
+<If renderer="react">
+
+<Callout variant="info">
+
+**Using `Next.js`?** You need to do two things differently when using portable stories in Jest with Next.js projects:
+
+- Configure the [`next/jest.js` transformer](https://nextjs.org/docs/pages/building-your-application/testing/jest#manual-setup), which will handle all of the necessary Next.js configuration for you.
+- Import [`composeStories`](#composestories) or [`composeStory`](#composestory) from the `@storybook/nextjs` package (e.g. `import { composeStories } from '@storybook/nextjs'`).
+
+</Callout>
+
+</If>
+
 ## composeStories
 
 `composeStories` will process the component's stories you specify, compose each of them with the necessary [annotations](#annotations), and return an object containing the composed stories.
@@ -159,6 +172,20 @@ A single [composed story](#return).
 ## setProjectAnnotations
 
 This API should be called once, before the tests run, typically in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array). This will make sure that whenever `composeStories` or `composeStory` are called, the project annotations are taken into account as well.
+
+<If renderer="react">
+
+<Callout variant="info">
+
+**Using `Next.js`?** When you import [`composeStories`](#composestories) or [`composeStory`](#composestory) from the `@storybook/nextjs` package (e.g. `import { composeStories } from '@storybook/nextjs'`), you probably do not need to call `setProjectAnnotations` yourself. The Next.js framework will handle this for you.
+
+If you are using an addon that is required for your stories to render, you will still need to include that addon's `preview` export in the project annotations set. See the example and callout below.
+
+</Callout>
+
+<p></p>
+
+</If>
 
 ```ts
 // setup-portable-stories.ts
