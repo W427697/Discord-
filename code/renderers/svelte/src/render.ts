@@ -15,7 +15,7 @@ import { VERSION as SVELTE_VERSION } from 'svelte/compiler';
 
 import type { SvelteRenderer } from './types';
 
-const IS_SVELTE_V4 = Number(SVELTE_VERSION[0]) >= 4;
+const IS_SVELTE_V4 = Number(SVELTE_VERSION[0]) <= 4;
 
 export function renderToCanvas(
   renderContext: RenderContext<SvelteRenderer>,
