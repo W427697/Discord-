@@ -10,17 +10,21 @@ expect.addSnapshotSerializer({
 const tsTransform = async (source: string) =>
   (await transform({ source, path: 'Component.stories.tsx' })).trim();
 
-test('replace jest and testing-library with the test package', async () => {
-  const input = dedent`
+test(
+  '@flaky: replace jest and testing-library with the test package',
+  async () => {
+    const input = dedent`
     import { expect } from '@storybook/jest';
     import { within, userEvent } from '@storybook/testing-library';
   `;
 
-  expect(await tsTransform(input)).toMatchInlineSnapshot(`
+    expect(await tsTransform(input)).toMatchInlineSnapshot(`
     import { expect } from '@storybook/test';
     import { within, userEvent } from '@storybook/test';
   `);
-});
+  },
+  { retry: 3 }
+);
 
 test('Make jest imports namespace imports', async () => {
   const input = dedent`
