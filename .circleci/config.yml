@@ -578,9 +578,12 @@ jobs:
                   STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
   test-portable-stories:
+    parameters:
+      directory:
+        type: string
     executor:
-      class: medium
       name: sb_latest_playwright
+      class: medium
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
@@ -589,27 +592,19 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn install
-          working_directory: test-storybooks/portable-stories-kitchen-sink
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
-          name: Run Jest tests for React
-          command: yarn jest:react
-          working_directory: test-storybooks/portable-stories-kitchen-sink
+          name: Run Jest tests
+          command: yarn jest
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
-          name: Run Playwright CT tests for React
-          command: yarn pw:react
-          working_directory: test-storybooks/portable-stories-kitchen-sink
+          name: Run Playwright CT tests
+          command: yarn playwright
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
-          name: Run Cypress CT tests for React
-          command: yarn cy:react
-          working_directory: test-storybooks/portable-stories-kitchen-sink
-      - run:
-          name: Run Playwright CT tests for Vue
-          command: yarn pw:vue3
-          working_directory: test-storybooks/portable-stories-kitchen-sink
-      - run:
-          name: Run Cypress CT tests for Vue
-          command: yarn cy:vue3
-          working_directory: test-storybooks/portable-stories-kitchen-sink
+          name: Run Cypress CT tests
+          command: yarn cypress
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - report-workflow-on-failure
 workflows:
   docs:
@@ -672,6 +667,9 @@ workflows:
       - test-portable-stories:
           requires:
             - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3"]
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -727,6 +725,9 @@ workflows:
       - test-portable-stories:
           requires:
             - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3"]
       - bench:
           parallelism: 5
           requires:
@@ -787,6 +788,9 @@ workflows:
       - test-portable-stories:
           requires:
             - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3"]
       - test-empty-init:
           requires:
             - build

@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["react", "vue3"],
+  "include": ["stories", "playwright", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
