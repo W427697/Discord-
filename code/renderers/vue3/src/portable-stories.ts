@@ -9,7 +9,6 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
-  ComposedStoryFn,
 } from '@storybook/types';
 
 import * as defaultProjectAnnotations from './render';
@@ -78,36 +77,12 @@ export function composeStory<TArgs extends Args = Args>(
     defaultProjectAnnotations,
     exportsName
   );
-  console.log('LOG: when calling original composedStory()', {
-    name: composedStory.storyName,
-    reference: composedStory,
-    called: h(composedStory()),
-    typeof: typeof composedStory,
-    typeofCalled: typeof composedStory(),
-  });
 
-  const renderable: ComposedStoryFn<VueRenderer, Partial<TArgs>> = (
-    ...args: Parameters<typeof composedStory>
-  ) => {
-    // return h(composedStory(...args));
-    const rendered = composedStory(...args);
-    let result;
-    if (typeof rendered === 'function') {
-      result = h(rendered);
-    } else {
-      result = h(() => h(rendered));
-    }
-    console.log('LOG: in composedComponent', {
-      rendered,
-      typeofRendered: typeof rendered,
-      result: result,
-      typeofResult: typeof result,
-    });
-    return result;
-  };
+  // We need to wrap the composed story in an h() call to make it renderable by Vue in Playwright CT
+  const renderable = (...args: Parameters<typeof composedStory>) => h(composedStory(...args));
   Object.assign(renderable, composedStory);
 
-  return renderable;
+  return renderable as unknown as typeof composedStory;
 }
 
 /**
