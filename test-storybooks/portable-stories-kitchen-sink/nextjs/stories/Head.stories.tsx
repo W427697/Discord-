@@ -1,7 +1,7 @@
-import { expect } from '@storybook/test';
 import Head from 'next/head';
 import React from 'react';
-import { waitFor } from '@storybook/test';
+import { expect, waitFor } from '@storybook/test';
+import { StoryObj } from '@storybook/react';
 
 function Component() {
   return (
@@ -22,8 +22,8 @@ export default {
   component: Component,
 };
 
-export const Default = {
-  play: async ({ canvasElement }) => {
+export const Default: StoryObj = {
+  play: async () => {
     await waitFor(() => expect(document.title).toEqual('Next.js Head Title'));
     await expect(document.querySelectorAll('meta[property="og:title"]')).toHaveLength(1);
     await expect(document.querySelector('meta[property="og:title"]').content).toEqual(

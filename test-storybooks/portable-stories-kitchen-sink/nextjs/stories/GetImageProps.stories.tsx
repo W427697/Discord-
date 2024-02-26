@@ -1,11 +1,11 @@
 import { getImageProps } from 'next/image';
 import React from 'react';
 
-import Accessibility from '../../assets/accessibility.svg';
-import Testing from '../../assets/testing.png';
+import Accessibility from './assets/accessibility.svg';
+import Testing from './assets/testing.png';
 
 // referenced from https://nextjs.org/docs/pages/api-reference/components/image#theme-detection-picture
-const Component = (props) => {
+const Component: React.FC<any> = (props) => {
   const {
     props: { srcSet: dark },
   } = getImageProps({ src: Accessibility, ...props });

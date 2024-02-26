@@ -1,57 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders basicStories stories renders Large 1`] = `
-<body>
-  <div>
-    <button
-      class="jsx-285163056 storybook-button storybook-button--large storybook-button--secondary"
-      type="button"
-    >
-      Button
-    </button>
-  </div>
-</body>
-`;
-
-exports[`renders basicStories stories renders Primary 1`] = `
-<body>
-  <div>
-    <button
-      class="jsx-285163056 storybook-button storybook-button--medium storybook-button--primary"
-      type="button"
-    >
-      Button
-    </button>
-  </div>
-</body>
-`;
-
-exports[`renders basicStories stories renders Secondary 1`] = `
-<body>
-  <div>
-    <button
-      class="jsx-285163056 storybook-button storybook-button--medium storybook-button--secondary"
-      type="button"
-    >
-      Button
-    </button>
-  </div>
-</body>
-`;
-
-exports[`renders basicStories stories renders Small 1`] = `
-<body>
-  <div>
-    <button
-      class="jsx-285163056 storybook-button storybook-button--small storybook-button--secondary"
-      type="button"
-    >
-      Button
-    </button>
-  </div>
-</body>
-`;
-
 exports[`renders dynamicImportStories stories renders Default 1`] = `
 <body>
   <div />
@@ -318,16 +266,20 @@ exports[`renders imageStories stories renders Eager 1`] = `
 exports[`renders imageStories stories renders FilledParent 1`] = `
 <body>
   <div>
-    <img
-      alt="Accessibility"
-      data-nimg="fill"
-      decoding="async"
-      loading="lazy"
-      sizes="100vw"
-      src="/_next/image?url=%2Fimg.jpg&w=3840&q=75"
-      srcset="/_next/image?url=%2Fimg.jpg&w=640&q=75 640w, /_next/image?url=%2Fimg.jpg&w=750&q=75 750w, /_next/image?url=%2Fimg.jpg&w=828&q=75 828w, /_next/image?url=%2Fimg.jpg&w=1080&q=75 1080w, /_next/image?url=%2Fimg.jpg&w=1200&q=75 1200w, /_next/image?url=%2Fimg.jpg&w=1920&q=75 1920w, /_next/image?url=%2Fimg.jpg&w=2048&q=75 2048w, /_next/image?url=%2Fimg.jpg&w=3840&q=75 3840w"
-      style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
-    />
+    <div
+      style="width: 500px; height: 500px; position: relative;"
+    >
+      <img
+        alt="Accessibility"
+        data-nimg="fill"
+        decoding="async"
+        loading="lazy"
+        sizes="100vw"
+        src="/_next/image?url=%2Fimg.jpg&w=3840&q=75"
+        srcset="/_next/image?url=%2Fimg.jpg&w=640&q=75 640w, /_next/image?url=%2Fimg.jpg&w=750&q=75 750w, /_next/image?url=%2Fimg.jpg&w=828&q=75 828w, /_next/image?url=%2Fimg.jpg&w=1080&q=75 1080w, /_next/image?url=%2Fimg.jpg&w=1200&q=75 1200w, /_next/image?url=%2Fimg.jpg&w=1920&q=75 1920w, /_next/image?url=%2Fimg.jpg&w=2048&q=75 2048w, /_next/image?url=%2Fimg.jpg&w=3840&q=75 3840w"
+        style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+      />
+    </div>
   </div>
 </body>
 `;
@@ -356,24 +308,20 @@ exports[`renders imageStories stories renders Lazy 1`] = `
 exports[`renders imageStories stories renders Sized 1`] = `
 <body>
   <div>
-    <img
-      alt="Accessibility"
-      data-nimg="fill"
-      decoding="async"
-      decorator="(Story)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
-                    style: {
-                        width: 800,
-                        height: 800,
-                        position: "relative"
-                    },
-                    children: Story()
-                })"
-      loading="lazy"
-      sizes="(max-width: 600px) 100vw, 600px"
-      src="/_next/image?url=%2Fimg.jpg&w=3840&q=75"
-      srcset="/_next/image?url=%2Fimg.jpg&w=640&q=75 640w, /_next/image?url=%2Fimg.jpg&w=750&q=75 750w, /_next/image?url=%2Fimg.jpg&w=828&q=75 828w, /_next/image?url=%2Fimg.jpg&w=1080&q=75 1080w, /_next/image?url=%2Fimg.jpg&w=1200&q=75 1200w, /_next/image?url=%2Fimg.jpg&w=1920&q=75 1920w, /_next/image?url=%2Fimg.jpg&w=2048&q=75 2048w, /_next/image?url=%2Fimg.jpg&w=3840&q=75 3840w"
-      style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
-    />
+    <div
+      style="width: 800px; height: 800px; position: relative;"
+    >
+      <img
+        alt="Accessibility"
+        data-nimg="fill"
+        decoding="async"
+        loading="lazy"
+        sizes="(max-width: 600px) 100vw, 600px"
+        src="/_next/image?url=%2Fimg.jpg&w=3840&q=75"
+        srcset="/_next/image?url=%2Fimg.jpg&w=640&q=75 640w, /_next/image?url=%2Fimg.jpg&w=750&q=75 750w, /_next/image?url=%2Fimg.jpg&w=828&q=75 828w, /_next/image?url=%2Fimg.jpg&w=1080&q=75 1080w, /_next/image?url=%2Fimg.jpg&w=1200&q=75 1200w, /_next/image?url=%2Fimg.jpg&w=1920&q=75 1920w, /_next/image?url=%2Fimg.jpg&w=2048&q=75 2048w, /_next/image?url=%2Fimg.jpg&w=3840&q=75 3840w"
+        style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+      />
+    </div>
   </div>
 </body>
 `;
