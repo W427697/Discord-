@@ -2378,7 +2378,7 @@ __metadata:
 
 "@storybook/addon-actions@file:../../../code/addons/actions::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-actions@file:../../../code/addons/actions#../../../code/addons/actions::hash=c610dd&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-actions@file:../../../code/addons/actions#../../../code/addons/actions::hash=d50bdf&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
@@ -2386,18 +2386,18 @@ __metadata:
     dequal: "npm:^2.0.2"
     polished: "npm:^4.2.2"
     uuid: "npm:^9.0.0"
-  checksum: 0b171d5068077d8ecd5c5ea03682ddc0d75c4de15e17ac1c69a58d27d13de3e7417364a89516368cfb6adc3157223c4a71883b6372b5ea5893a3874ca9eef7c9
+  checksum: 3cc6e886b51283df4cb526c416a9f838baf7f66138b3a32f06cc80d8f536275fe51353c310b61a491b4d03ef0b540dc7be1db51df634ff861ec9580f2f4389fa
   languageName: node
   linkType: hard
 
 "@storybook/addon-backgrounds@file:../../../code/addons/backgrounds::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-backgrounds@file:../../../code/addons/backgrounds#../../../code/addons/backgrounds::hash=d1b801&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-backgrounds@file:../../../code/addons/backgrounds#../../../code/addons/backgrounds::hash=f4aa77&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     memoizerific: "npm:^1.11.3"
     ts-dedent: "npm:^2.0.0"
-  checksum: 2495e1fd088a681d8f99265070d52fb3484498388d884d6771dcd6bc6bdcabcba3d6811d45102f4aedc36b0617b66cc563a6b1f40e82e0c3910b40593e3ce1be
+  checksum: 13f068ee223265040a32e0c04b830d852b6b9e828ab9e150700f27a6d37b38f9d5bfb408a11e33778cc31fe1d362eb1a7ce4b44558fe5d137cfd21e0ac9d28ca
   languageName: node
   linkType: hard
 
@@ -2442,7 +2442,7 @@ __metadata:
 
 "@storybook/addon-essentials@file:../../../code/addons/essentials::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-essentials@file:../../../code/addons/essentials#../../../code/addons/essentials::hash=ebc803&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-essentials@file:../../../code/addons/essentials#../../../code/addons/essentials::hash=7c037b&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -2458,49 +2458,49 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     ts-dedent: "npm:^2.0.0"
-  checksum: 6f63f058fdb5fbfdbe2dbf8de6e7bd47c80b69119e6ca51736ca1da2385a940c8dcb17493067428b10aca07c998d4acc6ddc3f8ec00e848fb653530919ee02a3
+  checksum: 090ca012ba147f75e51e59bb91b0e4a92df9bf5ecb1507f509f2b99d94c962d6a4631076f7f46ff58ddf53e38c05a747d506be563d116e972179b9c7b22f989b
   languageName: node
   linkType: hard
 
 "@storybook/addon-highlight@file:../../../code/addons/highlight::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-highlight@file:../../../code/addons/highlight#../../../code/addons/highlight::hash=35865f&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-highlight@file:../../../code/addons/highlight#../../../code/addons/highlight::hash=6e590f&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
-  checksum: a975ea76ac7e6ee7fbd4d5b902fbfb007eee9656c27f028a4dfd6176102074aaf67c046d8525ba77ce454ee82a38b00b0191a8a145040e68353db7fdda674be1
+  checksum: 02d2946c2695526aff059d81999bf43d4fcd3c562380f753b456bec3e78603660681960e7d77f48caea7ce8817f4feb3588ffbbe9a21cb277445bb109e2dc16d
   languageName: node
   linkType: hard
 
 "@storybook/addon-interactions@file:../../../code/addons/interactions::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-interactions@file:../../../code/addons/interactions#../../../code/addons/interactions::hash=6a2eb4&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-interactions@file:../../../code/addons/interactions#../../../code/addons/interactions::hash=8f29de&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/types": "workspace:*"
     jest-mock: "npm:^27.0.6"
     polished: "npm:^4.2.2"
     ts-dedent: "npm:^2.2.0"
-  checksum: 3d4cb52fac086269148180d7c7f4a136fb1c39fab38910088f76250f6360bc92beb28a7556b18192a70a790419bd76d4533351efa977808887e5468e4d3939a9
+  checksum: 12f46c88e966cb11d50fc2bb091f9ca54fed095db78a7721810ca7bc8119b61e00e755802fe748888de9735b25037d7b4bb9b605169100662439da050d57938b
   languageName: node
   linkType: hard
 
 "@storybook/addon-measure@file:../../../code/addons/measure::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-measure@file:../../../code/addons/measure#../../../code/addons/measure::hash=892852&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-measure@file:../../../code/addons/measure#../../../code/addons/measure::hash=c6a734&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     tiny-invariant: "npm:^1.3.1"
-  checksum: e79988c78025daf518ef7fbefbd1cf3fcc26f8b0de1afd4bdb7e34706634492feda8612cb6da0d8ab7d43f6def2ffe55d5e2260b500a1db7824af25fa6720737
+  checksum: a59707ba6316af4e36e88e5d10a8f84b3abf2f7333e77be91ff38bc5ef866ef52b939b5c30fe50fdb68a1f5d30a9b12d8205089162c81dc2ab146568b27f000e
   languageName: node
   linkType: hard
 
 "@storybook/addon-outline@file:../../../code/addons/outline::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-outline@file:../../../code/addons/outline#../../../code/addons/outline::hash=98c5db&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-outline@file:../../../code/addons/outline#../../../code/addons/outline::hash=9fba96&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     ts-dedent: "npm:^2.0.0"
-  checksum: 590a9c3a22d0ce587bb8e126b552379f18d476e9817ee69c896266ffc16d5d4a4e4c435e212a2973393200253eda3246f490b9e7b1b4330b54f7a9f3c654eda0
+  checksum: f1421e7ca92a5bf56639522703e1cd1f41088b790e81af3cbe9db79c0e5ff975c18abfd188df6c7d24d35a92c2c9e000f421b321f384dfd7c1fed1eb3017b0c9
   languageName: node
   linkType: hard
 
@@ -2513,10 +2513,10 @@ __metadata:
 
 "@storybook/addon-viewport@file:../../../code/addons/viewport::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/addon-viewport@file:../../../code/addons/viewport#../../../code/addons/viewport::hash=973085&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-viewport@file:../../../code/addons/viewport#../../../code/addons/viewport::hash=e36759&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     memoizerific: "npm:^1.11.3"
-  checksum: c9ef379895942017277f16e9a84e0b8c5ff3e3cc2157a63f725e9d46915c23bab1da7f9b04894c1212f75ea70242c9389168843987bc7b2c1d29967dcdf8ab71
+  checksum: 88f1ee653ebc06ba19fb4606f6ec694bd0bba3e06a291d5a7613e5492060f2f6183e22d5c2ab6c62448f9a840e405947601564218ea63e0dfd2edcdd700a1cdf
   languageName: node
   linkType: hard
 
@@ -2979,7 +2979,7 @@ __metadata:
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-beta.4
-  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=6c30bb&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=49f5a3&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -3036,7 +3036,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: afb6a3cd547a96d9afd084f1b1cc52689ae9b2b5e8a38ccbfb69b05cd94afe7c479515302eee53a08b28e1cf96d871bc5014e4225afb7d0af4be2433419b5bfc
+  checksum: 56b6769d433af071091a49b313e9def82ce80b9a6ec8b9f5465f5f16c0fbeb7f807252205f20d9f07218a563d71ac1f0d4652c4a4af7fffb3c8520183aa88bff
   languageName: node
   linkType: hard
 
