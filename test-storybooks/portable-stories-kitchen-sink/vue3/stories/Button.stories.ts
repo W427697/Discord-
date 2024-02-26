@@ -60,7 +60,7 @@ export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
   },
   template: `<div>
     <p>locale: ${globals.locale}</p>
-    <Button v-bind="args">${getCaptionForLocale(globals.locale)}</Button>
+    <Button v-bind="args" label="${getCaptionForLocale(globals.locale)}" />
   </div>`,
 });
 CSF2StoryWithLocale.storyName = 'WithLocale';
