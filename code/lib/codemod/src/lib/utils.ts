@@ -1,5 +1,6 @@
 import camelCase from 'lodash/camelCase.js';
 import upperFirst from 'lodash/upperFirst.js';
+import type { Options } from 'prettier';
 
 const logger = console;
 
@@ -32,10 +33,15 @@ export function jscodeshiftToPrettierParser(parser?: string) {
 
 /**
  * Formats the code using prettier, but aborts if it takes too long and returns the original code.
+ * @param code The code to format
+ * @param codePath The path of the code
+ * @param prettierConfig The prettier configuration @default {}
+ * @param timeout The timeout in milliseconds @default 4000
  */
 export function abortablePrettierFormat(
   code: string,
   codePath: string,
+  prettierConfig: Options = {},
   timeout = 4000
 ): Promise<string> {
   let finished = false;
@@ -45,6 +51,7 @@ export function abortablePrettierFormat(
         const prettier = await import('prettier');
         const output = await prettier.format(code, {
           ...(await prettier.resolveConfig(codePath)),
+          ...prettierConfig,
           filepath: codePath,
         });
         resolve(output);

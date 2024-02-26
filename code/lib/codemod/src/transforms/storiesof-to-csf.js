@@ -261,5 +261,7 @@ export default async function transformer(file, api, options) {
     return source;
   }
 
-  return abortablePrettierFormat(source, file.path);
+  return abortablePrettierFormat(source, file.path, {
+    parser: jscodeshiftToPrettierParser(options.parser),
+  });
 }

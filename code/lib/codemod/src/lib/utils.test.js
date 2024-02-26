@@ -63,7 +63,7 @@ describe('abortablePrettierFormat', () => {
     const code = 'const foo = 123;';
     const codePath = '/path/to/code.js';
 
-    const formattedCode = await abortablePrettierFormat(code, codePath, 100);
+    const formattedCode = await abortablePrettierFormat(code, codePath, {}, 100);
 
     expect(formattedCode).toEqual(code);
   });
