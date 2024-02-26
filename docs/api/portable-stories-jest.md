@@ -229,7 +229,7 @@ Annotations are the metadata applied to a story, like [args](../writing-stories/
 
 To preview your stories, Storybook runs a story pipeline, which includes applying project annotations, loading data, rendering the story, and playing interactions. This is a simplified version of the pipeline:
 
-![TK - Proper alt text once proper image is in place](story-pipeline.png)
+![A flow diagram of the story pipeline. First, set project annotations. Storybook automatically collects decorators etc. which are exported by addons and the .storybook/preview file. .storybook/preview.js produces project annotations; some-addon/preview produces addon annotations. Second, prepare. Storybook gathers all the metadata required for a story to be composed. Select.stories.js produces component annotations from the default export and story annotations from the named export. Third, load. Storybook executes all loaders (async). Fourth, render. Storybook renders the story as a component. Illustration of the rendered Select component. Fifth, play. Storybook runs the play function (interacting with component). Illustration of the renderer Select component, now open.](story-pipeline.png)
 
 When you want to reuse a story in a different environment, however, it's crucial to understand that all these steps make a story. The portable stories API provides you with the mechanism to recreate that story pipeline in your external environment:
 
