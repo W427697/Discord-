@@ -20,7 +20,7 @@ addons.register('@storybook/addon-onboarding', async (api) => {
 
     if (!hasButtonStories) {
       console.warn(
-        `[@storybook/addon-onboarding] It seems like you have finished the onboarding experience in Storybook! Therefore this addon is not necessary anymore and will not be loaded. You are free to remove it from your project. More info: https://github.com/storybookjs/addon-onboarding#uninstalling`
+        `[@storybook/addon-onboarding] It seems like you have finished the onboarding experience in Storybook! Therefore this addon is not necessary anymore and will not be loaded. You are free to remove it from your project. More info: https://github.com/storybookjs/storybook/tree/next/code/addons/onboarding#uninstalling`
       );
       return;
     }
