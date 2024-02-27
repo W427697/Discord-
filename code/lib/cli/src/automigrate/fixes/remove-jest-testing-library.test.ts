@@ -33,7 +33,7 @@ it('should prompt to install the test package and run the codemod', async () => 
     main: { addons: ['@storybook/essentials', '@storybook/addon-info'] },
   });
 
-  await expect(options).toMatchInlineSnapshot(`
+  expect(options).toMatchInlineSnapshot(`
     {
       "incompatiblePackages": [
         "@storybook/jest",
@@ -56,9 +56,9 @@ it('should prompt to install the test package and run the codemod', async () => 
     - @storybook/jest
     - @storybook/testing-library
 
-    Install the replacement for those packages: @storybook/test
+    We will uninstall them for you and install @storybook/test instead.
 
-    And run the following codemod:
+    Also, we will apply the following codemod to your stories to automatically migrate them to the new package:
      npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"
   `);
 });

@@ -1,11 +1,14 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import type { Fix } from '../types';
+import { getStorybookVersionSpecifier } from '../../helpers';
+import { runCodemod } from '@storybook/codemod';
+import prompts from 'prompts';
 
 export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> = {
   id: 'remove-jest-testing-library',
   versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
-  promptType: 'manual',
+  promptType: 'auto',
   async check({ packageManager }) {
     const deps = await packageManager.getAllDependencies();
 
@@ -22,12 +25,36 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
 
       ${incompatiblePackages.map((name) => `- ${chalk.cyan(`${name}`)}`).join('\n')}
       
-      Install the replacement for those packages: ${chalk.cyan('@storybook/test')}
-      
-      And run the following codemod:
+      We will uninstall them for you and install ${chalk.cyan('@storybook/test')} instead.
+
+      Also, we will apply the following codemod to your stories to automatically migrate them to the new package:
        ${chalk.cyan(
          'npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"'
        )}     
     `;
+  },
+  async run({ packageManager, dryRun }) {
+    if (!dryRun) {
+      await packageManager.removeDependencies({ skipInstall: true }, [
+        '@storybook/jest',
+        '@storybook/testing-library',
+      ]);
+
+      const versionToInstall = getStorybookVersionSpecifier(
+        await packageManager.retrievePackageJson()
+      );
+
+      await packageManager.addDependencies({}, [`@storybook/test@${versionToInstall}`]);
+
+      const glob = await prompts({
+        type: 'text',
+        name: 'glob',
+        message: 'Please enter the glob for your stories to migrate to @storybook/test',
+        initial: './src/**/*.stories.*',
+      });
+
+      await runCodemod('migrate-to-test-package', { glob, dryRun });
+    }
+    // apply the migrate-to-test-package codemod
   },
 };
