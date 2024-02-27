@@ -101,7 +101,7 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
         ${chalk.cyan(prettyExistingStoriesEntries)}
       
-      In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx. Since Storybook 8, we have removed the support of story definition in MDX files entirely. Therefore `.stories.mdx` files aren't supported anymore.
+      In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx. Since Storybook 8, we have removed the support of story definition in MDX files entirely. Therefore '.stories.mdx' files aren't supported anymore.
 
       We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
       That would result in the following 'stories' config:
