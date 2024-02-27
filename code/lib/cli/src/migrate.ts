@@ -10,14 +10,11 @@ import { getStorybookVersionSpecifier } from './helpers';
 
 const logger = console;
 
-export async function migrate(
-  migration: any,
-  { glob, dryRun, list, rename, parser, runAutomigration = true }: any
-) {
+export async function migrate(migration: any, { glob, dryRun, list, rename, parser }: any) {
   if (list) {
     listCodemods().forEach((key: any) => logger.log(key));
   } else if (migration) {
-    if (migration === 'mdx-to-csf' && !dryRun && runAutomigration) {
+    if (migration === 'mdx-to-csf' && !dryRun) {
       const packageManager = JsPackageManagerFactory.getPackageManager();
 
       const [packageJson, storybookVersion] = await Promise.all([
