@@ -117,14 +117,16 @@ export const mdxToCSF: Fix<BareMdxStoriesGlobRunOptions> = {
       ${JSON.stringify(nextStoriesEntries, null, 2)}`);
 
     if (!dryRun) {
-      const globString = await prompt({
+      const { glob: globString } = await prompt({
         type: 'text',
         name: 'glob',
         message: 'Please enter the glob for your MDX stories',
         initial: './src/**/*.stories.mdx',
       });
 
-      await runCodemod('mdx-to-csf', { glob: globString });
+      if (globString) {
+        await runCodemod('mdx-to-csf', { glob: globString, dryRun, logger });
+      }
 
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['stories'], nextStoriesEntries);
