@@ -21,12 +21,12 @@ export const blocker = createBlocker({
       Please see the migration guide for more information:
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated
       
-      In your Storybook configuration file you have this code:
+      In your Storybook configuration we found storyStoryV7 feature defined. For instance:
 
       export default = {
-        features: {
-          storyStoreV7: false, <--- remove this line
-        },
+          features: {
+              storyStoreV7: false, <--- remove this line
+          },
       };
 
       You need to remove the storyStoreV7 property.
