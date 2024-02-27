@@ -6,33 +6,35 @@ import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { runCodemod } from '@storybook/codemod';
 import { prompt } from 'prompts';
+import { glob } from 'glob';
 
 const logger = console;
 
 export interface BareMdxStoriesGlobRunOptions {
   existingStoriesEntries: StoriesEntry[];
   nextStoriesEntries: StoriesEntry[];
+  files: string[];
 }
 
-const getNextGlob = (glob: string) => {
+const getNextGlob = (globString: string) => {
   // '../src/**/*.stories.@(mdx|js|jsx|ts|tsx)' -> '../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'
   const extGlobsRegex = new RegExp(/(.*\.)(stories\.@.*)(\|mdx|mdx\|)(.*)$/i);
-  if (glob.match(extGlobsRegex)) {
-    return glob.replace(extGlobsRegex, '$1@(mdx|$2$4)');
+  if (globString.match(extGlobsRegex)) {
+    return globString.replace(extGlobsRegex, '$1@(mdx|$2$4)');
   }
 
   // '../src/**/*.stories.*' -> '../src/**/*.@(mdx|stories.*)'
   const allStoriesExtensionsRegex = new RegExp(/(.*\.)(stories\.\*)$/i);
-  if (glob.match(allStoriesExtensionsRegex)) {
-    return glob.replace(allStoriesExtensionsRegex, '$1@(mdx|$2)');
+  if (globString.match(allStoriesExtensionsRegex)) {
+    return globString.replace(allStoriesExtensionsRegex, '$1@(mdx|$2)');
   }
 
   // '../src/**/*.stories.mdx' -> '../src/**/*.mdx'
-  return glob.replaceAll('.stories.mdx', '.mdx');
+  return globString.replaceAll('.stories.mdx', '.mdx');
 };
 
-export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
-  id: 'bare-mdx-stories-glob',
+export const mdxToCSF: Fix<BareMdxStoriesGlobRunOptions> = {
+  id: 'mdx-to-csf',
   async check({ storybookVersion, mainConfig }) {
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
@@ -57,37 +59,33 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       `);
     }
 
-    const nextStoriesEntries = existingStoriesEntries.map((entry) => {
-      const isSpecifier = typeof entry !== 'string';
-      const glob = isSpecifier ? entry.files : entry;
+    const files: string[] = [];
 
-      if (!glob) {
-        // storySpecifier without the 'files' property. Just add the existing to the next list
-        return entry;
-      }
+    const nextStoriesEntries = await Promise.all(
+      existingStoriesEntries.map(async (entry) => {
+        const isSpecifier = typeof entry !== 'string';
+        const globString = isSpecifier ? entry.files : entry;
 
-      const nextGlob = getNextGlob(glob);
-      return isSpecifier ? { ...entry, files: nextGlob } : nextGlob;
-    });
-
-    // bails if there are no changes
-    if (
-      existingStoriesEntries.length === nextStoriesEntries.length &&
-      existingStoriesEntries.every((entry, index) => {
-        const nextEntry = nextStoriesEntries[index];
-        if (typeof entry === 'string') {
-          return entry === nextEntry;
+        if (!globString) {
+          // storySpecifier without the 'files' property. Just add the existing to the next list
+          return entry;
         }
-        if (typeof nextEntry === 'string') {
-          return false;
-        }
-        return entry.files === nextEntry.files;
+
+        files.push(...(await glob(globString)).filter((file) => file.endsWith('.stories.mdx')));
+
+        const nextGlob = getNextGlob(globString);
+        return isSpecifier ? { ...entry, files: nextGlob } : nextGlob;
       })
-    ) {
-      return null;
+    );
+
+    const resultFromMainConfig = checkMainConfigStories(existingStoriesEntries, nextStoriesEntries);
+
+    if ((nextStoriesEntries && resultFromMainConfig) || files.length > 0) {
+      return { existingStoriesEntries, nextStoriesEntries, files };
     }
 
-    return { existingStoriesEntries, nextStoriesEntries };
+    // bails if there are no changes, no files to migrate, or if the nextStoriesEntries is empty
+    return null;
   },
 
   prompt({ existingStoriesEntries, nextStoriesEntries }) {
@@ -115,19 +113,19 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
     `;
   },
 
-  async run({ dryRun, mainConfigPath, result: { nextStoriesEntries }, packageManager }) {
+  async run({ dryRun, mainConfigPath, result: { nextStoriesEntries } }) {
     logger.info(dedent`✅ Setting 'stories' config:
       ${JSON.stringify(nextStoriesEntries, null, 2)}`);
 
     if (!dryRun) {
-      const glob = await prompt({
+      const globString = await prompt({
         type: 'text',
         name: 'glob',
         message: 'Please enter the glob for your MDX stories',
         initial: './src/**/*.stories.mdx',
       });
 
-      await runCodemod('mdx-to-csf', { glob });
+      await runCodemod('mdx-to-csf', { glob: globString });
 
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['stories'], nextStoriesEntries);
@@ -142,3 +140,24 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
     }
   },
 };
+function checkMainConfigStories(
+  existingStoriesEntries: StoriesEntry[],
+  nextStoriesEntries: StoriesEntry[]
+) {
+  if (
+    existingStoriesEntries.length === nextStoriesEntries.length &&
+    existingStoriesEntries.every((entry, index) => {
+      const nextEntry = nextStoriesEntries[index];
+      if (typeof entry === 'string') {
+        return entry === nextEntry;
+      }
+      if (typeof nextEntry === 'string') {
+        return false;
+      }
+      return entry.files === nextEntry.files;
+    })
+  ) {
+    return null;
+  }
+  return true;
+}

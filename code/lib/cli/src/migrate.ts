@@ -1,6 +1,6 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
 import { runFixes } from './automigrate';
-import { bareMdxStoriesGlob } from './automigrate/fixes/mdx-to-csf';
+import { mdxToCSF } from './automigrate/fixes/mdx-to-csf';
 import {
   JsPackageManagerFactory,
   getStorybookInfo,
@@ -36,7 +36,7 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
       }
 
       await runFixes({
-        fixes: [bareMdxStoriesGlob],
+        fixes: [mdxToCSF],
         configDir,
         mainConfigPath,
         packageManager,
