@@ -34,11 +34,41 @@ Normally, Storybok composes a story and its [annotations](#annotations) automati
 
 </If>
 
+<If renderer="vue">
+
+<Callout variant="info">
+
+You may need to alias the `vue` module to resolve correctly in the Playwright CT environment. You can do this via the [`ctViteConfig` property](https://playwright.dev/docs/test-components#i-have-a-project-that-already-uses-vite-can-i-reuse-the-config):
+
+<details>
+<summary>Example Playwright configuration</summary>
+
+```ts
+// playwright-config.ts
+import { defineConfig } from '@playwright/experimental-ct-vue';
+
+export default defineConfig({
+  ctViteConfig: {
+    resolve: {
+      alias: {
+        vue: 'vue/dist/vue.esm-bundler.js',
+      },
+    },
+  },
+});
+```
+
+</details>
+
+</Callout>
+
+</If>
+
 ## createTest
 
 (⚠️ **Experimental**)
 
-Instead of using Playwright's own `test` function, you can use Storybook's special `createTest` function which will extend Playwright's test functionality to add a custom `mount` mechanism which will load, render, and play the story. This function is experimental and is subject to changes.
+Instead of using Playwright's own `test` function, you can use Storybook's special `createTest` function to [extend Playwright's base fixture](https://playwright.dev/docs/test-fixtures#creating-a-fixture) and override the `mount` function to load, render, and play the story. This function is experimental and is subject to changes.
 
 <!-- prettier-ignore-start -->
 
@@ -61,8 +91,8 @@ Please note the [limitations of importing stories in Playwright CT](#importing-s
 
 ```ts
 createTest(
-  baseTest: TK
-) => TK
+  baseTest: PlaywrightFixture
+) => PlaywrightFixture
 ```
 
 ### Parameters
@@ -71,13 +101,13 @@ createTest(
 
 (**Required**)
 
-Type: `TK`
+Type: `PlaywrightFixture`
 
 The base test function to use, e.g. `test` from Playwright.
 
 ### Return
 
-Type: `TK`
+Type: `PlaywrightFixture`
 
 A Storybook-specific test function with the custom `mount` mechanism.
 
