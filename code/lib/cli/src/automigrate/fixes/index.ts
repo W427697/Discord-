@@ -17,6 +17,7 @@ import { angularBuilders } from './angular-builders';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
 import { wrapRequire } from './wrap-require';
 import { reactDocgen } from './react-docgen';
+import { mdxToCSF } from './mdx-to-csf';
 import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
 import { removeArgtypesRegex } from './remove-argtypes-regex';
@@ -40,6 +41,7 @@ export const allFixes: Fix[] = [
   removeJestTestingLibrary,
   removedGlobalClientAPIs,
   mdxgfm,
+  mdxToCSF,
   autodocsTrue,
   angularBuildersMultiproject,
   angularBuilders,

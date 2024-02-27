@@ -60,7 +60,7 @@ describe('bare-mdx fix', () => {
       });
     });
   });
-  describe.only('should fix', () => {
+  describe('should fix', () => {
     it.each([
       {
         existingStoriesEntries: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
