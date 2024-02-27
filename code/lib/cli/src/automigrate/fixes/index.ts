@@ -5,6 +5,7 @@ import { webpack5 } from './webpack5';
 import { vite4 } from './vite4';
 import { vue3 } from './vue3';
 import { mdxgfm } from './mdx-gfm';
+import { removeLegacyMDX1 } from './remove-legacymdx1';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
 import { viteConfigFile } from './vite-config-file';
@@ -21,6 +22,8 @@ import { wrapRequire } from './wrap-require';
 import { reactDocgen } from './react-docgen';
 import { removeReactDependency } from './prompt-remove-react';
 import { storyshotsMigration } from './storyshots-migration';
+import { removeArgtypesRegex } from './remove-argtypes-regex';
+import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
 
 export * from '../types';
@@ -37,6 +40,7 @@ export const allFixes: Fix[] = [
   sbBinary,
   sbScripts,
   incompatibleAddons,
+  removeArgtypesRegex,
   removeJestTestingLibrary,
   removedGlobalClientAPIs,
   mdx1to2,
@@ -48,6 +52,8 @@ export const allFixes: Fix[] = [
   reactDocgen,
   storyshotsMigration,
   removeReactDependency,
+  removeLegacyMDX1,
+  webpack5CompilerSetup,
 ];
 
 export const initFixes: Fix[] = [eslintPlugin];
