@@ -4,8 +4,8 @@ import type { StorybookConfigRaw } from '@storybook/types';
 import type { PackageJson } from '@storybook/core-common';
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager } from '../helpers/testing-helpers';
-import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
-import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
+import type { BareMdxStoriesGlobRunOptions } from './mdx-to-csf';
+import { bareMdxStoriesGlob } from './mdx-to-csf';
 
 const checkBareMdxStoriesGlob = async ({
   packageJson,

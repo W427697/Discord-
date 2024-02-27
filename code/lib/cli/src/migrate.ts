@@ -1,6 +1,6 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
 import { runFixes } from './automigrate';
-import { bareMdxStoriesGlob } from './automigrate/fixes/bare-mdx-stories-glob';
+import { bareMdxStoriesGlob } from './automigrate/fixes/mdx-to-csf';
 import {
   JsPackageManagerFactory,
   getStorybookInfo,
