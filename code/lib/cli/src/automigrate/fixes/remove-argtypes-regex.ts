@@ -60,23 +60,18 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
       
       ${argTypesRegex.buildCodeFrameError(`${previewConfigPath}`).message}
 
-      Since Storybook 8, we recommend removing this regex.
-      Assign explicit spies with the ${chalk.cyan('fn')} function instead:      
-      ${formattedSnippet}
-      
-      The above pattern is needed when using spies in the play function, ${chalk.bold(
-        'even'
-      )} if you keep using argTypesRegex.
-      Implicit spies (based on a combination of argTypesRegex and docgen) is not supported in Storybook 8.
+      In Storybook you can write so-called play functions, which are used to render your stories interactively.
+      Mocking action args in play functions was done implicitly by analyzing the argTypesRegex.
+
+      Since Storybook 8, implicit action args mocking isn't supported anymore.
       
       Use the following command to check for spy usages in your play functions:
        ${chalk.cyan(
          'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
        )}
        
-      Make sure to assign an explicit ${chalk.cyan('fn')} to your args for those usages. 
-      
-      For more information please visit our migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function
+      And follow the documentation to migrate your play functions:
+      https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function
     `;
   },
 };
