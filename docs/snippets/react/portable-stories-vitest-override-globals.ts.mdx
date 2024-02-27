@@ -10,7 +10,7 @@ test('renders in English', async () => {
   const PrimaryStory = composeStory(
     Primary,
     meta,
-    { globals: { locale: 'en' } } // 👈 Project annotations to override the locale
+    { globals: { locale: 'en' } }, // 👈 Project annotations to override the locale
   );
 
   render(<PrimaryStory />);
