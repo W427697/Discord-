@@ -35,7 +35,7 @@ The rest of this guide will help you upgrade successfully, either automatically 
 
 If any of these changes apply to your project, please read through the linked migration notes before continuing.
 
-If any of these new requirements or changes are blockers for your project, we recommend [migrating to Storybook 7](../../release-7-6/docs/migration-guide).
+If any of these new requirements or changes are blockers for your project, we recommend looking at the [requirements to migrate to Storybook 7](../../release-7-6/docs/migration-guide#major-breaking-changes).
 
 You may wish to read the full migration notes for [Storybook 6 to 7](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) and [Storybook 7 to 8](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-7x-to-800) before migrating. Or you can follow the instructions below and we’ll try to take care of everything for you!
 
@@ -65,60 +65,19 @@ This will:
    - Explain the necessary changes with links to more information
    - Ask for approval, then perform the task on your behalf
 
-## Manual migrations
+### Common upgrade issues
 
-In addition to the automated upgrades above, there are manual migrations that might be required to get Storybook 8 working in your project. We’ve tried to minimize this list to make it easier to upgrade. These include:
+While we'll do our best to upgrade your project automatically, there are two issues worth mentioning that you might encounter during the upgrade process:
 
-### Upgrade MDX1 to MDX3
+#### `storyStoreV7:false` and `storiesOf`
 
-Storybook 8 uses MDX3 by default for rendering [docs](./writing-docs/index.md). The upgrade from MDX1 to MDX3 is not fully automated due to the large number of changes between versions (particularly v1 to v2). Fortunately, we have some tips to help make it a lot easier.
+If you have `storyStoreV7: false` in your `.storybook/main.js`, you will need to remove it before you're able to upgrade to Storybook 8.
 
-#### Automatically detect MDX2 errors with a CLI tool
+If you are using the `storiesOf` API (which requires `storyStoreV7: false` in Storybook 7), you will need to either [migrate your stories to CSF](../../release-7-6/docs/migration-guide.md#storiesof-to-csf) or use the [new indexer API to continue creating stories dynamically](../../release-7-6/docs/migration-guide.md#storiesof-to-dynamically-created-stories).
 
-If your project contains MDX files, run the following command before starting up Storybook:
+#### MDX 1 to MDX 3
 
-```sh
-npx @hipster/mdx2-issue-checker
-```
-
-This will go through every MDX file in the current working directory, and show you which files have errors:
-
-![Terminal output of mdx2-issue-checker, showing errors found](./assets/mdx2-issue-checker-errors.png)
-
-#### Fix MDX2 errors iteratively
-
-The CLI only shows the first error per file, so you might need to run the checker iteratively. One way to streamline this process if you use VS Code is to:
-
-1. Install the [MDX VS Code extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)
-2. Enable experimental IntelliSense support for MDX files in your user settings: `"mdx.experimentalLanguageServer": true`
-
-This shows the errors visually in your editor, which speeds things up a lot. Here's what it looks like to fix multiple errors in a file using the extension:
-
-![MDX errors showing in VS Code](./assets/mdx-vs-code-extension-errors.gif)
-
-### `storiesOf` to CSF
-
-Storybook architecture focuses on performance and now needs statically analyzable code. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-migrate-stories-of-to-csf.npm.js.mdx',
-    'common/storybook-migrate-stories-of-to-csf.pnpm.js.mdx',
-    'common/storybook-migrate-stories-of-to-csf.yarn.js.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-This will transform your stories into [CSF 1](/blog/component-story-format/) stories, which are story functions that don't accept [args](../writing-stories/args.md). These are fully supported in Storybook 8, and will continue to be for the foreseeable future.
-
-However, we recommend [writing all **new** stories in CSF 3](../writing-stories/index.md), which are story objects that are easier to write, reuse, and maintain.
-
-### `storiesOf` to dynamically created stories
-
-If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept (with a deeper explanation of the implementation) can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md).
+Storybook 8 uses MDX 3. If you're coming from MDX 1 (used by Storybook 6), there were significant breaking changes in MDX 2. Please reference our [guidance on upgrading successfully](../../release-7-6/docs/migration-guide.md#upgrade-mdx1-to-mdx2).
 
 ## Troubleshooting
 
@@ -138,8 +97,6 @@ If you prefer to debug yourself, here are a few useful things you can do to help
 ## Optional migrations
 
 In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are features that we’ve deprecated in Storybook 7 and 8 (but remain backwards compatible), or best practices that should help you be more productive in the future.
-
-These include:
 
 ### CSF 2 to CSF 3
 

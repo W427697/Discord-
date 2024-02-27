@@ -69,6 +69,18 @@ This will:
    - Explain the necessary changes with links to more information
    - Ask for approval, then perform the task on your behalf
 
+### Common upgrade issues
+
+While we'll do our best to upgrade your project automatically, there is one issue worth mentioning that you might encounter during the upgrade process:
+
+#### `storyStoreV7:false` and `storiesOf`
+
+If you have `storyStoreV7: false` in your `.storybook/main.js`, you will need to remove it before you're able to upgrade to Storybook 8.
+
+If you are using the `storiesOf` API (which requires `storyStoreV7: false` in Storybook 7), you will need to either [migrate your stories to CSF](../../release-7-6/docs/migration-guide.md#storiesof-to-csf) or use the [new indexer API to continue creating stories dynamically](../../release-7-6/docs/migration-guide.md#storiesof-to-dynamically-created-stories).
+
+## New projects
+
 To add Storybook to a project that isn’t currently using Storybook:
 
 <!-- prettier-ignore-start -->
@@ -91,30 +103,6 @@ This will:
 ## Manual migrations
 
 In addition to the automated upgrades above, there are manual migrations that might be required to get Storybook 8 working in your project. We’ve tried to minimize this list to make it easier to upgrade. These include:
-
-### `storiesOf` to CSF
-
-Storybook architecture focuses on performance and now needs statically analyzable code. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-migrate-stories-of-to-csf.npm.js.mdx',
-    'common/storybook-migrate-stories-of-to-csf.pnpm.js.mdx',
-    'common/storybook-migrate-stories-of-to-csf.yarn.js.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-This will transform your stories into [CSF 1](/blog/component-story-format/) stories, which are story functions that don't accept [args](../writing-stories/args.md). These are fully supported in Storybook 8, and will continue to be for the foreseeable future.
-
-However, we recommend [writing all **new** stories in CSF 3](../writing-stories/index.md), which are story objects that are easier to write, reuse, and maintain.
-
-### `storiesOf` to dynamically created stories
-
-If you are using `storiesOf` for its ability to create stories dynamically, you can build your own "storiesOf" implementation by leveraging the new [(experimental) indexer API](../api/main-config-indexers). A proof of concept (with a deeper explanation of the implementation) can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md).
 
 ### `*.stories.mdx` to MDX+CSF
 
@@ -154,8 +142,6 @@ If you prefer to debug yourself, here are a few useful things you can do to help
 ## Optional migrations
 
 In addition to the automigrations and manual migrations above, there are also optional migrations that you should consider. These are features that we’ve deprecated in Storybook 8 (but remain backwards compatible), or best practices that should help you be more productive in the future.
-
-These include:
 
 ### CSF 2 to CSF 3
 
