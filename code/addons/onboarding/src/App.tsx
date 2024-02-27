@@ -143,7 +143,7 @@ export default function App({ api }: { api: API }) {
           codeSnippets={codeSnippets}
           addonsStore={addons}
           onFinish={() => {
-            api.selectStory('example-button--primary');
+            api.selectStory('example-button--warning');
 
             setStep('4:VisitNewStory');
           }}
