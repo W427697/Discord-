@@ -597,6 +597,8 @@ async function prepareAngularSandbox(cwd: string, templateName: string) {
   tsConfigJson.compilerOptions.noImplicitAny = false;
   tsConfigJson.compilerOptions.strict = false;
 
+  tsConfigJson.include = [...tsConfigJson.include, '../template-stories/**/*.stories.ts'];
+
   if (templateName === 'Angular CLI (Version 15)') {
     tsConfigJson.compilerOptions.paths = {
       '@angular-devkit/*': ['node_modules/@angular-devkit/*'],
