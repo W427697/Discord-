@@ -31,7 +31,8 @@ export function useGetProject() {
       } catch (e) {
         setProject({
           data: null,
-          error: e as any,
+          // @ts-expect-error (bad)
+          error: e,
         });
       }
     };

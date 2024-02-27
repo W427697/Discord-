@@ -20,10 +20,7 @@ export const useGetWarningButtonStatus = (active: boolean, api: API, addonsStore
         });
       };
 
-      const addonStoreChannel: ReturnType<typeof addonsStore.getChannel> = addonsStore.getChannel
-        ? addonsStore.getChannel()
-        : // TODO: Remove getServerChannel once we drop support for Storybook < 8
-          (addonsStore as any).getServerChannel();
+      const addonStoreChannel: ReturnType<typeof addonsStore.getChannel> = addonsStore.getChannel();
 
       // If the story already exists, we don't need to listen to any events
       if (api.getData('example-button--warning')) {

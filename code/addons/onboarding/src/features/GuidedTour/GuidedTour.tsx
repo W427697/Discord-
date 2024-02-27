@@ -23,7 +23,7 @@ export function GuidedTour({
 }: {
   api: API;
   isFinalStep?: boolean;
-  codeSnippets: CodeSnippets;
+  codeSnippets?: CodeSnippets;
   onFirstTourDone: () => void;
   onLastTourDone: () => void;
 }) {

@@ -13,10 +13,12 @@ const meta: Meta<typeof WriteStoriesModal> = {
   component: WriteStoriesModal,
   args: {
     codeSnippets: typescriptSnippet,
+    // @ts-expect-error (bad)
     api: {
       getData,
-    } as any,
+    },
     addonsStore: {
+      // @ts-expect-error (bad)
       getChannel: () => ({
         once: (type: string, cb: () => void) => {
           if (type === STORY_RENDERED) {
@@ -30,7 +32,7 @@ const meta: Meta<typeof WriteStoriesModal> = {
         },
         off: () => {},
       }),
-    } as any,
+    },
   },
   decorators: [
     (storyFn, context) => {

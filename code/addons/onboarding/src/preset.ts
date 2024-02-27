@@ -23,7 +23,8 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
 
     channel.on(STORYBOOK_ADDON_ONBOARDING_CHANNEL, ({ type, ...event }: Event) => {
       if (type === 'telemetry') {
-        telemetry('addon-onboarding' as any, {
+        // @ts-expect-error (bad string)
+        telemetry('addon-onboarding', {
           ...event,
           addonVersion,
         });
