@@ -28,6 +28,11 @@ module.exports = {
               title: 'Next.js',
               type: 'link',
             },
+            {
+              pathSegment: 'vue-vite',
+              title: 'vue-vite',
+              type: 'link',
+            },
           ],
         },
         {

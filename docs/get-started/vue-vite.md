@@ -1,0 +1,268 @@
+---
+title: Storybook for Vue & Vite
+---
+
+Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Vue](TK) applications built with [Vite](TK). It includes:
+
+- TK - Emoji feature list
+- 💫 and more!
+
+## Requirements
+
+- Vue >= 3
+- Vite >= 3.0 (4.X recommended)
+- Storybook >= 7.0
+
+## Getting started
+
+### In a project without Storybook
+
+Follow the prompts after running this command in your Next.js project's root directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/init-command.npx.js.mdx',
+   'common/init-command.yarn.js.mdx',
+   'common/init-command.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+[More on getting started with Storybook.](./install.md)
+
+### In a project with Storybook
+
+This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-upgrade.npm.js.mdx',
+    'common/storybook-upgrade.pnpm.js.mdx',
+    'common/storybook-upgrade.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+#### Automatic migration
+
+When running the `upgrade` command above, you should get a prompt asking you to migrate to `@storybook/vue3-vite`, which should handle everything for you. In case that auto-migration does not work for your project, refer to the manual migration below.
+
+#### Manual migration
+
+First, install the framework:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'vue/vue3-vite-install.npm.js.mdx',
+    'vue/vue3-vite-install.pnpm.js.mdx',
+    'vue/vue3-vite-install.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Then, update your `.storybook/main.js|ts` to change the framework property:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'vue/vue3-vite-add-framework.js.mdx',
+    'vue/vue3-vite-add-framework.ts.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+## Extending the Vue application
+
+Storybook creates a [Vue 3 application](https://vuejs.org/api/application.html#application-api) for your component preview.
+When using global custom components (`app.component`), directives (`app.directive`), extensions (`app.use`), or other application methods, you will need to configure those in the `./storybook/preview.js` file.
+
+Therefore, Storybook provides you with a `setup` function exported from this package, which receives as a callback your Storybook instance, which you can interact with and add your custom configuration.
+
+```js
+// .storybook/preview.js
+import { setup } from '@storybook/vue3';
+
+setup((app) => {
+  app.use(MyPlugin);
+  app.component('my-component', MyComponent);
+  app.mixin({
+    /* My mixin */
+  });
+});
+
+// Rest of the file...
+```
+
+## Using `vue-component-meta`
+
+[`vue-component-meta`](https://github.com/vuejs/language-tools/tree/master/packages/component-meta) is a tool that extracts metadata from Vue components. Storybook can use it to generate the [controls](../essentials/controls.md) for your stories and documentation. It's a more full-featured alternative to `vue-docgen-api` and is recommended for most projects.
+
+If you want to use `vue-component-meta`, you can configure it in your `.storybook/main.js|ts` file:
+
+```ts
+// .storybook/main.ts
+import type { StorybookConfig } from '@storybook/vue3-vite';
+
+const config: StorybookConfig = {
+  framework: {
+    name: '@storybook/vue3-vite',
+    options: {
+      docgen: 'vue-component-meta',
+    },
+  },
+};
+
+export default config;
+```
+
+`vue-component-meta` comes with many benefits and enables more documentation features, such as:
+
+### Support for multiple component types
+
+`vue-component-meta` supports from all types of Vue components, including functional, composition / options API components, and from `.vue`, `.ts`, `.tsx`, `.js`, and `.jsx` files.
+
+It also supports both default and named component exports.
+
+### Prop description and JSDoc tag annotations
+
+To provide a description for a prop, including tags, you can use JSDoc comments in your component's props definition:
+
+```html
+<!-- YourComponent.vue -->
+<script setup lang="ts">
+  interface MyComponentProps {
+    /**
+     * The name of the user
+     */
+    name: string;
+    /**
+     * The category of the component
+     * @required
+     * @default 'Uncategorized'
+     */
+    category: string;
+  }
+</script>
+```
+
+### Events types extraction
+
+<Callout variant="info">
+
+Due to technical limitations of Volar / vue language features, JSDoc descriptions for emitted events can not be extracted.
+
+</Callout>
+
+To provide a type for an emitted event, you can use TypeScript types in your component's `defineEmits` call:
+
+```html
+<!-- YourComponent.vue -->
+<script setup lang="ts">
+  type MyFooEvent = 'foo';
+
+  interface MyEvents {
+    (event: MyFooEvent, data?: { foo: string }): void;
+    (event: 'bar', value: { year: number; title?: any }): void;
+    (e: 'baz'): void;
+  }
+
+  const emit = defineEmits<MyEvents>();
+</script>
+```
+
+Which will generate the following controls:
+
+![Controls generated from events](./vue-component-meta-event-types-controls.png)
+
+### Slots types extraction
+
+The slot types are automatically extracted from your component definition and displayed in the controls panel.
+
+```html
+<!-- YourComponent.vue -->
+<template>
+  <slot name="no-bind"></slot>
+  <br />
+  <slot :num="123"></slot>
+  <br />
+  <slot name="named" str="str"></slot>
+  <br />
+  <slot name="vbind" v-bind="{ num: 123, str: 'str' }"></slot>
+</template>
+
+<script setup lang="ts"></script>
+```
+
+The definition above will generate the following controls:
+
+![Controls generated from slots](./vue-component-meta-slot-types-controls.png)
+
+### Exposed properties and methods
+
+The properties and methods exposed by your component are automatically extracted and displayed in the controls panel.
+
+```html
+<!-- YourComponent.vue -->
+<script setup lang="ts">
+  import { ref } from 'vue';
+
+  const label = ref('Button');
+  const count = ref(100);
+
+  defineExpose({
+    /**
+     * a label string
+     */
+    label,
+    /**
+     * a count number
+     */
+    count,
+  });
+</script>
+```
+
+The definition above will generate the following controls:
+
+![Controls generated from exposed properties and methods](./vue-component-meta-exposed-types-controls.png)
+
+## API
+
+### Options
+
+You can pass an options object for additional configuration if needed:
+
+```ts
+// .storybook/main.ts
+import type { StorybookConfig } from '@storybook/vue3-vite';
+
+const config: StorybookConfig = {
+  framework: {
+    name: '@storybook/vue3-vite',
+    options: {
+      docgen: 'vue-component-meta',
+    },
+  },
+};
+
+export default config;
+```
+
+#### `docgen`
+
+Type: `'vue-docgen-api' | 'vue-component-meta'`
+
+Default: `'vue-docgen-api'`
+
+Choose which docgen tool to use when generating controls for your components. See [Using `vue-component-meta`](#using-vue-component-meta) for more information.
