@@ -9,6 +9,7 @@ import chalk from 'chalk';
 export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPath: string }> = {
   id: 'remove-argtypes-regex',
   promptType: 'manual',
+  versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
   async check({ previewConfigPath }) {
     if (!previewConfigPath) return null;
 
@@ -59,7 +60,7 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
       
       ${argTypesRegex.buildCodeFrameError(`${previewConfigPath}`).message}
 
-      In Storybook 8, we recommend removing this regex.
+      Since Storybook 8, we recommend removing this regex.
       Assign explicit spies with the ${chalk.cyan('fn')} function instead:      
       ${formattedSnippet}
       
@@ -75,7 +76,8 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
        
       Make sure to assign an explicit ${chalk.cyan('fn')} to your args for those usages. 
       
-      For more information please visit our migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function
+      For more information please visit our docs: 
+      https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function
     `;
   },
 };
