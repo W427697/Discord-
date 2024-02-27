@@ -12,6 +12,7 @@ export default {
   '@storybook/addon-links': '8.0.0-beta.5',
   '@storybook/addon-mdx-gfm': '8.0.0-beta.5',
   '@storybook/addon-measure': '8.0.0-beta.5',
+  '@storybook/addon-onboarding': '8.0.0-beta.5',
   '@storybook/addon-outline': '8.0.0-beta.5',
   '@storybook/addon-storysource': '8.0.0-beta.5',
   '@storybook/addon-themes': '8.0.0-beta.5',
