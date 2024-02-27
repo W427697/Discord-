@@ -107,8 +107,10 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       That would result in the following 'stories' config:
         ${chalk.cyan(prettyNextStoriesEntries)}
 
+      Additionally, we will run the `mdx-to-csf` codemod for you, which tries to transform `*.stories.mdx` files to `*.stories.js` and `*.mdx` files.
+
       To learn more about this change, see: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
+        'https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf'
       )}
     `;
   },
