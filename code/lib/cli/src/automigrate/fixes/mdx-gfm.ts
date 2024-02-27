@@ -84,7 +84,7 @@ export const mdxgfm: Fix<Options> = {
       Because of this you need to explicitly add the GFM plugin in the addon-docs options:
       https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm
 
-      We recommend you follow the guide on the link above, however we can add a temporary Storybook addon that helps make this migration easier.
+      We recommend that you follow the guide in the link above; however, we can add a temporary Storybook addon to help make this migration easier.
       We'll install the addon and add it to your storybook config.
     `;
   },
