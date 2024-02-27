@@ -4,7 +4,7 @@ import semver from 'semver';
 import type { StoriesEntry } from '@storybook/types';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
-import { migrate } from '../../migrate';
+import { runCodemod } from '@storybook/codemod';
 import { prompt } from 'prompts';
 
 const logger = console;
@@ -127,10 +127,7 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
         initial: './src/**/*.stories.mdx',
       });
 
-      await migrate('mdx-to-csf', {
-        glob,
-        runAutomigration: false,
-      });
+      await runCodemod('mdx-to-csf', { glob });
 
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['stories'], nextStoriesEntries);
