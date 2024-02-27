@@ -59,19 +59,19 @@ export const Controls: FC<ControlsProps> = (props) => {
   const hasSubcomponents = Boolean(subcomponents) && Object.keys(subcomponents).length > 0;
 
   if (!hasSubcomponents) {
-    if (Object.keys(filteredArgTypes).length > 0 || Object.keys(args).length > 0) {
-      return (
-        <PureArgsTable
-          rows={filteredArgTypes}
-          sort={sort}
-          args={args}
-          globals={globals}
-          updateArgs={updateArgs}
-          resetArgs={resetArgs}
-        />
-      );
+    if (!(Object.keys(filteredArgTypes).length > 0 || Object.keys(args).length > 0)) {
+      return null;
     }
-    return null;
+    return (
+      <PureArgsTable
+        rows={filteredArgTypes}
+        sort={sort}
+        args={args}
+        globals={globals}
+        updateArgs={updateArgs}
+        resetArgs={resetArgs}
+      />
+    );
   }
 
   const mainComponentName = getComponentName(component);
