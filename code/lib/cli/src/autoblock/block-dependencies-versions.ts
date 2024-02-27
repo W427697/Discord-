@@ -81,7 +81,7 @@ export const blocker = createBlocker({
       default:
         return dedent`
           Support for ${data.packageName} version < ${data.minimumVersion} has been removed.
-          Since version 8, Storybook needs minimum version of ${data.minimumVersion}, but you had version ${data.installedVersion}.
+          Since version 8, Storybook needs a minimum version of ${data.minimumVersion}, but you have version ${data.installedVersion}.
 
           Please update this dependency.
         `;
