@@ -104,7 +104,6 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   public async findInstallations(pattern: string[]) {
-    console.log(['info', '--name-only', '--recursive', ...pattern].join(' '));
     const commandResult = await this.executeCommand({
       command: 'yarn',
       args: ['info', '--name-only', '--recursive', ...pattern],
