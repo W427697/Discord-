@@ -49,7 +49,7 @@ export const blocker = createBlocker({
     switch (data.packageName) {
       case 'react-scripts':
         return dedent`
-          Support react-script < 5.0.0 has been removed.
+          Support for react-script < 5.0.0 has been removed.
           Please see the migration guide for more information:
           ${chalk.yellow(
             'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#create-react-app-dropped-cra4-support'
