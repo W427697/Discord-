@@ -29,10 +29,7 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
       
       We will uninstall them for you and install ${chalk.cyan('@storybook/test')} instead.
 
-      Also, we will apply the following codemod to your stories to automatically migrate them to the new package:
-       ${chalk.cyan(
-         'npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"'
-       )}     
+      Also, we can help you migrate your stories to use the new package.
     `;
   },
   async run({ packageManager, dryRun }) {
