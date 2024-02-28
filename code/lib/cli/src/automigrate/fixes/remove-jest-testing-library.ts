@@ -37,16 +37,18 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
   },
   async run({ packageManager, dryRun }) {
     if (!dryRun) {
-      await packageManager.removeDependencies({ skipInstall: true }, [
+      const packageJson = await packageManager.retrievePackageJson();
+
+      await packageManager.removeDependencies({ skipInstall: true, packageJson }, [
         '@storybook/jest',
         '@storybook/testing-library',
       ]);
 
-      const versionToInstall = getStorybookVersionSpecifier(
-        await packageManager.retrievePackageJson()
-      );
+      const versionToInstall = getStorybookVersionSpecifier(packageJson);
 
-      await packageManager.addDependencies({}, [`@storybook/test@${versionToInstall}`]);
+      await packageManager.addDependencies({ packageJson }, [
+        `@storybook/test@${versionToInstall}`,
+      ]);
 
       const { glob: globString } = await prompts({
         type: 'text',
