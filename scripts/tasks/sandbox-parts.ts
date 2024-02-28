@@ -596,12 +596,8 @@ async function prepareAngularSandbox(cwd: string, templateName: string) {
   tsConfigJson.compilerOptions.skipLibCheck = true;
   tsConfigJson.compilerOptions.noImplicitAny = false;
   tsConfigJson.compilerOptions.strict = false;
-  tsConfigJson.include = [
-    ...tsConfigJson.include,
-    '../template-stories/**/*.stories.ts',
-    // This is necessary since template stories depend on globalThis.components, which Typescript can't look up automatically
-    '../src/stories/**/*',
-  ];
+
+  tsConfigJson.include = [...tsConfigJson.include, '../template-stories/**/*.stories.ts'];
 
   if (templateName === 'Angular CLI (Version 15)') {
     tsConfigJson.compilerOptions.paths = {
