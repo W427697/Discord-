@@ -13,8 +13,8 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
 
 ## Requirements
 
-- Next.js >= 13.5
-- Storybook >= 7.0
+- Next.js ≥ 13.5
+- Storybook ≥ 7.0
 
 ## Getting started
 

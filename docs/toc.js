@@ -29,8 +29,8 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'vue-vite',
-              title: 'vue-vite',
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
               type: 'link',
             },
           ],

@@ -9,9 +9,9 @@ Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes
 
 ## Requirements
 
-- Vue >= 3
-- Vite >= 3.0 (4.X recommended)
-- Storybook >= 7.0
+- Vue ≥ 3
+- Vite ≥ 3.0 (4.X recommended)
+- Storybook ≥ 7.0
 
 ## Getting started
 
@@ -106,9 +106,13 @@ setup((app) => {
 
 ## Using `vue-component-meta`
 
-[`vue-component-meta`](https://github.com/vuejs/language-tools/tree/master/packages/component-meta) is a tool that extracts metadata from Vue components which is maintained by the official Vue team. Storybook can use it to generate the [controls](../essentials/controls.md) for your stories and documentation. It's a more full-featured alternative to `vue-docgen-api` and is recommended for most projects.
+<Callout variant="info">
 
-It requires Storybook >= 8. `vue-component-meta` is currently opt-in but will become the default in future versions of Storybook.
+`vue-component-meta` is only available in Storybook ≥ 8. It is currently opt-in, but will become the default in a future version of Storybook.
+
+</Callout>
+
+[`vue-component-meta`](https://github.com/vuejs/language-tools/tree/master/packages/component-meta) is a tool maintained by the Vue team that extracts metadata from Vue components. Storybook can use it to generate the [controls](../essentials/controls.md) for your stories and documentation. It's a more full-featured alternative to `vue-docgen-api` and is recommended for most projects.
 
 If you want to use `vue-component-meta`, you can configure it in your `.storybook/main.js|ts` file:
 
@@ -143,44 +147,43 @@ To provide a description for a prop, including tags, you can use JSDoc comments 
 ```html
 <!-- YourComponent.vue -->
 <script setup lang="ts">
-interface MyComponentProps {
-  /**
-   * The name of the user
-   */
-  name: string;
-  /**
-   * The category of the component
-   *
-   * @since 8.0.0
-   */
-  category?: string;
-}
+  interface MyComponentProps {
+    /** The name of the user */
+    name: string;
+    /**
+     * The category of the component
+     *
+     * @since 8.0.0
+     */
+    category?: string;
+  }
 
-withDefaults(defineProps<MyComponentProps>(), {
-  category: "Uncategorized",
-});
+  withDefaults(defineProps<MyComponentProps>(), {
+    category: 'Uncategorized',
+  });
 </script>
 ```
 
+The props definition above will generate the following controls:
+
+![Controls generated from props](./vue-component-meta-prop-types-controls.png)
+
 ### Events types extraction
 
-<Callout variant="info">
-
-Due to technical limitations of Volar / vue language features, JSDoc descriptions for emitted events can not be extracted.
-
-</Callout>
-
-To provide a type for an emitted event, you can use TypeScript types in your component's `defineEmits` call:
+To provide a type for an emitted event, you can use TypeScript types (including JSDoc comments) in your component's `defineEmits` call:
 
 ```html
 <!-- YourComponent.vue -->
 <script setup lang="ts">
-  type MyFooEvent = 'foo';
+  type MyChangeEvent = 'change';
 
   interface MyEvents {
-    (event: MyFooEvent, data?: { foo: string }): void;
-    (event: 'bar', value: { year: number; title?: any }): void;
-    (e: 'baz'): void;
+    /** Fired when item is changed */
+    (event: MyChangeEvent, item?: Item): void;
+    /** Fired when item is deleted */
+    (event: 'delete', id: string): void;
+    /** Fired when item is upserted into list */
+    (e: 'upsert', id: string): void;
   }
 
   const emit = defineEmits<MyEvents>();
@@ -198,11 +201,11 @@ The slot types are automatically extracted from your component definition and di
 ```html
 <!-- YourComponent.vue -->
 <template>
-  <slot name="no-bind"></slot>
-  <br />
   <slot :num="123"></slot>
   <br />
   <slot name="named" str="str"></slot>
+  <br />
+  <slot name="no-bind"></slot>
   <br />
   <slot name="vbind" v-bind="{ num: 123, str: 'str' }"></slot>
 </template>
@@ -210,22 +213,24 @@ The slot types are automatically extracted from your component definition and di
 <script setup lang="ts"></script>
 ```
 
+If you use `defineSlots`, you can provide a description for each slot using JSDoc comments in your component's slots definition:
+
+```ts
+defineSlots<{
+  /** Example description for default */
+  default(props: { num: number }): any;
+  /** Example description for named */
+  named(props: { str: string }): any;
+  /** Example description for no-bind */
+  noBind(props: {}): any;
+  /** Example description for vbind */
+  vbind(props: { num: number; str: string }): any;
+}>();
+```
+
 The definition above will generate the following controls:
 
 ![Controls generated from slots](./vue-component-meta-slot-types-controls.png)
-
-If using `defineSlots`, the controls will even include the description:
-```ts
-defineSlots<{
-  /** Example description no-bind. */
-  noBind(props: {}): any;
-  /** Example description default. */
-  default(props: { num: number }): any;
-  /** Example description named. */
-  named(props: { str: string }): any;
-  /** Example description vbind. */
-  vbind(props: { num: number; str: string }): any;
-}>();
 
 ### Exposed properties and methods
 
@@ -240,13 +245,9 @@ The properties and methods exposed by your component are automatically extracted
   const count = ref(100);
 
   defineExpose({
-    /**
-     * a label string
-     */
+    /** A label string */
     label,
-    /**
-     * a count number
-     */
+    /** A count number */
     count,
   });
 </script>
@@ -255,6 +256,16 @@ The properties and methods exposed by your component are automatically extracted
 The definition above will generate the following controls:
 
 ![Controls generated from exposed properties and methods](./vue-component-meta-exposed-types-controls.png)
+
+### Limitations
+
+`vue-component-meta` cannot currently reference types from an import alias. You will need to replace any aliased imports with relative ones, as in the example below. See [this issue](https://github.com/vuejs/language-tools/issues/3896) for more information.
+
+```ts
+// YourComponent.ts
+import type { MyProps } from '@/types'; // ❌ Cannot be resolved
+import type { MyProps } from '../types'; // ✅ Can be resolved
+```
 
 ## API
 
@@ -283,5 +294,7 @@ export default config;
 Type: `'vue-docgen-api' | 'vue-component-meta'`
 
 Default: `'vue-docgen-api'`
+
+Since: `8.0`
 
 Choose which docgen tool to use when generating controls for your components. See [Using `vue-component-meta`](#using-vue-component-meta) for more information.
