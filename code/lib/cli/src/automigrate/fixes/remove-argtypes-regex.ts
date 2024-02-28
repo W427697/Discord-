@@ -45,12 +45,14 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
       Since Storybook 8, implicit action args mocking isn't supported anymore.
       
       Use the following command to check for spy usages in your play functions:
-       ${chalk.cyan(
-         'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
-       )}
+      ${chalk.cyan(
+        'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
+      )}
        
       And follow the documentation to migrate your play functions:
-      https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function
+      ${chalk.yellow(
+        'https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function'
+      )}
     `;
   },
 };
