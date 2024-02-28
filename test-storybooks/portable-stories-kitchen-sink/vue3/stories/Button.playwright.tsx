@@ -6,22 +6,20 @@ const test = createTest(base);
 
 test('renders with composeStories (plural)', async ({ mount }) => {
   const component = await mount(<stories.CSF3Primary />);
-  // TODO: decorators don't work
-  // await expect(component).toContainText('Global Decorator');
+  await expect(component).toContainText('Global Decorator');
   await expect(component).toContainText('foo'); // default arg for the story
 });
 
 test('renders with composeStory (singular)', async ({ mount }) => {
   const component = await mount(<SingleComposedStory />);
-  // TODO: decorators don't work
-  // await expect(component).toContainText('Global Decorator');
+  await expect(component).toContainText('Global Decorator');
   await expect(component).toContainText('foo'); // default arg for the story
 });
 
 test('renders story with props', async ({ mount }) => {
   const component = await mount(<stories.CSF3Button primary={true} label="label from test"/>);
   await expect(component).toContainText('label from test');
-  await expect(component).toHaveClass(/storybook-button--primary/);
+  await expect(component.getByRole('button')).toHaveClass(/storybook-button--primary/);
 });
 
 // TODO: test slots/children
@@ -45,5 +43,5 @@ test('calls loaders', async ({ mount }) => {
 
 test('calls play', async ({ mount }) => {
   const component = await mount(<stories.CSF3InputFieldFilled />);
-  await expect(component).toHaveValue('Hello world!');
+  await expect(component.getByTestId('input')).toHaveValue('Hello world!');
 });

@@ -11,7 +11,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import * as defaultProjectAnnotations from './render';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
 import { h } from 'vue';
