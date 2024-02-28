@@ -152,12 +152,12 @@ describe('getMigrationSummary', () => {
 
 
 
-      You can find more information for a given dependency by running yarn why <package-name>
+      Please try de-duplicating these dependencies by running yarn dedupe
 
 
 
 
-      Please try de-duplicating these dependencies by running yarn dedupe"
+      You can find more information for a given dependency by running yarn why <package-name>"
     `);
   });
 
