@@ -14,6 +14,7 @@ import {
   TextControl,
 } from '../../controls';
 import type { Args, ArgType } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface ArgControlProps {
   row: ArgType;
@@ -81,7 +82,14 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs, isHovere
   }
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
-  const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
+  const props = {
+    name: uuidv4(),
+    argType: row,
+    value: boxedValue.value,
+    onChange,
+    onBlur,
+    onFocus,
+  };
   const Control = Controls[control.type] || NoControl;
   return <Control {...props} {...control} controlType={control.type} />;
 };
