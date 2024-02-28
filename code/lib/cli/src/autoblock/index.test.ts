@@ -79,6 +79,8 @@ test('1 fail', async () => {
 
     Always fail
 
+    ─────────────────────────────────────────────────
+
     Fix the above issues and try running the upgrade command again."
   `);
 });
@@ -93,8 +95,12 @@ test('multiple fails', async () => {
     "Storybook has found potential blockers in your project that need to be resolved before upgrading:
 
     Always fail
+
     ─────────────────────────────────────────────────
+
     Always fail 2
+
+    ─────────────────────────────────────────────────
 
     Fix the above issues and try running the upgrade command again."
   `);

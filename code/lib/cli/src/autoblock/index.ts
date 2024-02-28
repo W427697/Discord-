@@ -14,7 +14,7 @@ const blockers: () => BlockerModule<any>[] = () => [
 
 type BlockerModule<T> = Promise<{ blocker: Blocker<T> }>;
 
-const segmentDivider = '\n─────────────────────────────────────────────────\n';
+const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
 
 export const autoblock = async (
   options: AutoblockOptions,
@@ -56,8 +56,7 @@ export const autoblock = async (
         [messages.welcome]
           .concat(['\n\n'])
           .concat([faults.map((i) => i.log).join(segmentDivider)])
-          .concat(['\n\n'])
-          .concat([messages.reminder])
+          .concat([segmentDivider, messages.reminder])
           .join(''),
         { borderStyle: 'round', padding: 1, borderColor }
       )
