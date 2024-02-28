@@ -34,27 +34,6 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
     return argTypesRegex ? { argTypesRegex, previewConfigPath } : null;
   },
   prompt({ argTypesRegex, previewConfigPath }) {
-    const snippet = dedent`
-      import { fn } from '@storybook/test';
-      export default {
-        args: { onClick: fn() }, // will log to the action panel when clicked
-      };`;
-
-    // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
-    const file: BabelFile = new babel.File(
-      { file: 'story.tsx' },
-      { code: snippet, ast: babelParse(snippet) }
-    );
-
-    let formattedSnippet;
-    file.path.traverse({
-      Identifier: (path) => {
-        if (path.node.name === 'fn') {
-          formattedSnippet = path.buildCodeFrameError(``).message;
-        }
-      },
-    });
-
     return dedent`
       ${chalk.bold('Attention')}: We've detected that you're using argTypesRegex:
       
