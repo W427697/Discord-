@@ -14,7 +14,7 @@ const meta: Meta<typeof Description> = {
       include: [],
     },
     // workaround for https://github.com/storybookjs/storybook/issues/20505
-    docs: { source: { type: 'code' } },
+    // docs: { source: { type: 'code' } },
     attached: false,
     docsStyles: true,
   },
@@ -109,6 +109,7 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
 };
 export const DefaultAttached: Story = {
   parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+  let string: string = toJSXString(child, opts as Options);
 };
 export const OfUndefinedAttached: Story = {
   args: {

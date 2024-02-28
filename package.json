@@ -11,7 +11,23 @@
     "start": "yarn task --task dev --template react-vite/default-ts --start-from=install",
     "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; cd ..; yarn --cwd=./scripts task",
     "test": "cd code; yarn test",
-    "upload-bench": "cd scripts; yarn upload-bench"
+    "upload-bench": "cd scripts; yarn upload-bench",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.17",
+    "@storybook/addon-interactions": "^7.6.17",
+    "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.17",
+    "@storybook/react": "^7.6.17",
+    "@storybook/react-webpack5": "^7.6.17",
+    "@storybook/test": "^7.6.17",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.6.17"
+  }
 }
