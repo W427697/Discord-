@@ -5436,6 +5436,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/color-convert": "npm:^2.0.0"
     "@types/lodash": "npm:^4.14.167"
+    "@types/uuid": "npm:9.0.1"
     color-convert: "npm:^2.0.1"
     dequal: "npm:^2.0.2"
     lodash: "npm:^4.17.21"
@@ -5447,6 +5448,7 @@ __metadata:
     tocbot: "npm:^4.20.1"
     ts-dedent: "npm:^2.0.0"
     util-deprecate: "npm:^1.0.2"
+    uuid: "npm:9.0.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8274,6 +8276,13 @@ __metadata:
   version: 1.0.3
   resolution: "@types/util-deprecate@npm:1.0.3"
   checksum: 901ae94b51c1a5a7e3c88afddf9396ba25c0d0f699ca89ea0e48f121d5880c3996e037f0c83465e8a75263a27bf29347e1a584d51152c637194614a2c15f7742
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:9.0.1":
+  version: 9.0.1
+  resolution: "@types/uuid@npm:9.0.1"
+  checksum: 234e14e053504a98532bb5d1490c8d649fe24ae04a94ba042b09b380a900094df1032aa7c3864b74b7a85a0a5e97530b2d1340048ed9d07855140cb99b2cefc8
   languageName: node
   linkType: hard
 
@@ -29301,6 +29310,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
+  languageName: node
+  linkType: hard
+
+"uuid@npm:9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8867e438990d1d33ac61093e2e4e3477a2148b844e4fa9e3c2360fa4399292429c4b6ec64537eb1659c97b2d10db349c673ad58b50e2824a11e0d3630de3c056
   languageName: node
   linkType: hard
 
