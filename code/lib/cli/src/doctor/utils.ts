@@ -17,7 +17,9 @@ export class PackageJsonNotFoundError extends Error {
   }
 }
 
-export const getPackageJsonOfDependency = async (dependency: string) => {
+export const getPackageJsonOfDependency = async (
+  dependency: string
+): Promise<readPkgUp.NormalizedPackageJson> => {
   const resolvedPath = getPackageJsonPath(dependency);
   const result = await readPkgUp({ cwd: resolvedPath });
 

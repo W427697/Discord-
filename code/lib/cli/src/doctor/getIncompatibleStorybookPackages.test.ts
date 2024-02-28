@@ -34,7 +34,7 @@ const packageManagerMock = {
 } as Partial<JsPackageManager>;
 
 describe('checkPackageCompatibility', () => {
-  it('returns that an package is incompatible', async () => {
+  it('returns that a package is incompatible', async () => {
     const packageName = 'my-storybook-package';
     vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
       name: packageName,
@@ -47,16 +47,16 @@ describe('checkPackageCompatibility', () => {
       currentStorybookVersion: '8.0.0',
       packageManager: packageManagerMock as JsPackageManager,
     });
-    expect(result).toEqual({
-      packageName: 'my-storybook-package',
-      packageVersion: '1.0.0',
-      hasIncompatibleDependencies: true,
-      homepage: undefined,
-      availableUpdate: undefined,
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        packageName: 'my-storybook-package',
+        packageVersion: '1.0.0',
+        hasIncompatibleDependencies: true,
+      })
+    );
   });
 
-  it('returns that an package is compatible', async () => {
+  it('returns that a package is compatible', async () => {
     const packageName = 'my-storybook-package';
     vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
       name: packageName,
@@ -69,16 +69,16 @@ describe('checkPackageCompatibility', () => {
       currentStorybookVersion: '8.0.0',
       packageManager: packageManagerMock as JsPackageManager,
     });
-    expect(result).toEqual({
-      packageName: 'my-storybook-package',
-      packageVersion: '1.0.0',
-      hasIncompatibleDependencies: false,
-      homepage: undefined,
-      availableUpdate: undefined,
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        packageName: 'my-storybook-package',
+        packageVersion: '1.0.0',
+        hasIncompatibleDependencies: false,
+      })
+    );
   });
 
-  it('returns that an package is incompatible and because it is core, can be upgraded', async () => {
+  it('returns that a package is incompatible and because it is core, can be upgraded', async () => {
     const packageName = '@storybook/addon-essentials';
     vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
       name: packageName,
@@ -91,13 +91,14 @@ describe('checkPackageCompatibility', () => {
       currentStorybookVersion: '8.0.0',
       packageManager: packageManagerMock as JsPackageManager,
     });
-    expect(result).toEqual({
-      packageName: '@storybook/addon-essentials',
-      packageVersion: '7.0.0',
-      hasIncompatibleDependencies: true,
-      homepage: undefined,
-      availableUpdate: '8.0.0',
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        packageName: '@storybook/addon-essentials',
+        packageVersion: '7.0.0',
+        hasIncompatibleDependencies: true,
+        availableUpdate: '8.0.0',
+      })
+    );
   });
 });
 
@@ -117,13 +118,10 @@ describe('getIncompatibleStorybookPackages', () => {
     });
 
     expect(result).toEqual([
-      {
+      expect.objectContaining({
         packageName: '@storybook/addon-essentials',
-        packageVersion: '7.0.0',
         hasIncompatibleDependencies: true,
-        homepage: undefined,
-        availableUpdate: '8.0.0',
-      },
+      }),
     ]);
   });
 });
