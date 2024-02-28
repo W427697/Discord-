@@ -4,8 +4,8 @@ import type { StorybookConfigRaw } from '@storybook/types';
 import type { PackageJson } from '@storybook/core-common';
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager } from '../helpers/testing-helpers';
-import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
-import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
+import type { BareMdxStoriesGlobRunOptions } from './mdx-to-csf';
+import { mdxToCSF } from './mdx-to-csf';
 
 const checkBareMdxStoriesGlob = async ({
   packageJson,
@@ -16,7 +16,7 @@ const checkBareMdxStoriesGlob = async ({
   main?: Partial<StorybookConfigRaw> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
-  return bareMdxStoriesGlob.check({
+  return mdxToCSF.check({
     mainConfig: mainConfig as StorybookConfigRaw,
     packageManager: makePackageManager(packageJson),
     storybookVersion,
@@ -29,16 +29,6 @@ describe('bare-mdx fix', () => {
   });
 
   describe('should no-op', () => {
-    it('in SB < v7.0.0', async () => {
-      const packageJson = {
-        dependencies: { '@storybook/react': '^6.2.0' },
-      };
-      const main = { stories: ['../**/*.stories.mdx'] };
-      await expect(
-        checkBareMdxStoriesGlob({ packageJson, main, storybookVersion: '6.5.0' })
-      ).resolves.toBeFalsy();
-    });
-
     describe('in SB >= v7.0.0', () => {
       it('without main', async () => {
         const packageJson = {
@@ -141,7 +131,7 @@ describe('bare-mdx fix', () => {
     );
 
     it('prompts', () => {
-      const result = bareMdxStoriesGlob.prompt({
+      const result = mdxToCSF.prompt({
         existingStoriesEntries: [
           '../src/**/*.stories.@(js|jsx|mdx|ts|tsx)',
           { directory: '../src/**', files: '*.stories.mdx' },
@@ -161,7 +151,9 @@ describe('bare-mdx fix', () => {
             "files": "*.stories.mdx"
           }
 
-        In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
+        In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx. Since Storybook 8, we have removed the support of story definition in MDX files entirely. Therefore '.stories.mdx' files aren't supported anymore.
+
+        Now, since Storybook 8.0, we have removed support for .stories.mdx files.
 
         We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
         That would result in the following 'stories' config:
@@ -172,7 +164,9 @@ describe('bare-mdx fix', () => {
             "files": "*.mdx"
           }
 
-        To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files"
+        Additionally, we will run the 'mdx-to-csf' codemod for you, which tries to transform '*.stories.mdx' files to '*.stories.js' and '*.mdx' files.
+
+        To learn more about this change, see: https://storybook.js.org/docs/migration-guide#storiesmdx-to-mdxcsf"
       `);
     });
   });
