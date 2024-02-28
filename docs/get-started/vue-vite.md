@@ -106,7 +106,9 @@ setup((app) => {
 
 ## Using `vue-component-meta`
 
-[`vue-component-meta`](https://github.com/vuejs/language-tools/tree/master/packages/component-meta) is a tool that extracts metadata from Vue components. Storybook can use it to generate the [controls](../essentials/controls.md) for your stories and documentation. It's a more full-featured alternative to `vue-docgen-api` and is recommended for most projects.
+[`vue-component-meta`](https://github.com/vuejs/language-tools/tree/master/packages/component-meta) is a tool that extracts metadata from Vue components which is maintained by the official Vue team. Storybook can use it to generate the [controls](../essentials/controls.md) for your stories and documentation. It's a more full-featured alternative to `vue-docgen-api` and is recommended for most projects.
+
+It requires Storybook >= 8. `vue-component-meta` is currently opt-in but will become the default in future versions of Storybook.
 
 If you want to use `vue-component-meta`, you can configure it in your `.storybook/main.js|ts` file:
 
@@ -130,7 +132,7 @@ export default config;
 
 ### Support for multiple component types
 
-`vue-component-meta` supports from all types of Vue components, including functional, composition / options API components, and from `.vue`, `.ts`, `.tsx`, `.js`, and `.jsx` files.
+`vue-component-meta` supports all types of Vue components (including SFC, functional, composition / options API components) from `.vue`, `.ts`, `.tsx`, `.js`, and `.jsx` files.
 
 It also supports both default and named component exports.
 
@@ -141,18 +143,22 @@ To provide a description for a prop, including tags, you can use JSDoc comments 
 ```html
 <!-- YourComponent.vue -->
 <script setup lang="ts">
-  interface MyComponentProps {
-    /**
-     * The name of the user
-     */
-    name: string;
-    /**
-     * The category of the component
-     * @required
-     * @default 'Uncategorized'
-     */
-    category: string;
-  }
+interface MyComponentProps {
+  /**
+   * The name of the user
+   */
+  name: string;
+  /**
+   * The category of the component
+   *
+   * @since 8.0.0
+   */
+  category?: string;
+}
+
+withDefaults(defineProps<MyComponentProps>(), {
+  category: "Uncategorized",
+});
 </script>
 ```
 
@@ -207,6 +213,19 @@ The slot types are automatically extracted from your component definition and di
 The definition above will generate the following controls:
 
 ![Controls generated from slots](./vue-component-meta-slot-types-controls.png)
+
+If using `defineSlots`, the controls will even include the description:
+```ts
+defineSlots<{
+  /** Example description no-bind. */
+  noBind(props: {}): any;
+  /** Example description default. */
+  default(props: { num: number }): any;
+  /** Example description named. */
+  named(props: { str: string }): any;
+  /** Example description vbind. */
+  vbind(props: { num: number; str: string }): any;
+}>();
 
 ### Exposed properties and methods
 
