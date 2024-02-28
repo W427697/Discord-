@@ -1,96 +1,25 @@
-import path from 'path';
-import pluginTurbosnap from 'vite-plugin-turbosnap';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { mergeConfig } from 'vite';
-import type { StorybookConfig } from '../../frameworks/react-vite';
-
-const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
-
-const allStories = [
-  {
-    directory: '../manager/src',
-    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
-    titlePrefix: '@manager',
-  },
-  {
-    directory: '../components/src/components',
-    titlePrefix: '@components',
-  },
-  {
-    directory: '../blocks/src',
-    titlePrefix: '@blocks',
-  },
-];
-
-/**
- * match all stories in blocks/src/blocks, blocks/src/controls and blocks/src/examples EXCEPT blocks/src/blocks/internal
- * Examples:
- *
- * src/blocks/Canvas.stories.tsx - MATCH
- * src/blocks/internal/InternalCanvas.stories.tsx - IGNORED, internal stories
- * src/blocks/internal/nested/InternalCanvas.stories.tsx - IGNORED, internal stories
- *
- * src/blocks/Canvas.tsx - IGNORED, not story
- * src/blocks/nested/Canvas.stories.tsx - MATCH
- * src/blocks/nested/deep/Canvas.stories.tsx - MATCH
- *
- * src/controls/Boolean.stories.tsx - MATCH
- * src/controls/Boolean.tsx - IGNORED, not story
- *
- * src/components/ColorPalette.stories.tsx - MATCH
- * src/components/ColorPalette.tsx - IGNORED, not story
- */
-const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
-  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
-];
+import type { StorybookConfig } from '@storybook/react-vite';
+import react from '@vitejs/plugin-react';
 
 const config: StorybookConfig = {
-  stories: isBlocksOnly ? blocksOnlyStories : allStories,
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-storysource',
-    '@storybook/addon-designs',
-    '@chromaui/addon-visual-tests',
-  ],
-  build: {
-    test: {
-      // we have stories for the blocks here, we can't exclude them
-      disableBlocks: false,
-      // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
-      disableDocgen: false,
-    },
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  core: {
+    builder: '@storybook/builder-vite', // 👈 The builder enabled here.
   },
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
-  core: {
-    disableTelemetry: true,
+  docs: {
+    autodocs: 'tag',
   },
-  viteFinal: (viteConfig, { configType }) =>
-    mergeConfig(viteConfig, {
-      resolve: {
-        alias: {
-          ...(configType === 'DEVELOPMENT'
-            ? { '@storybook/components': path.resolve(__dirname, '../components/src') }
-            : {}),
-        },
-      },
-      plugins: [
-        configType === 'PRODUCTION'
-          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
-          : [],
-      ],
-      optimizeDeps: { force: true },
-      build: {
-        // disable sourcemaps in CI to not run out of memory
-        sourcemap: process.env.CI !== 'true',
-      },
-    }),
-  logLevel: 'debug',
+  babel: async (options) => {
+    return {
+      ...options,
+      presets: ['@babel/preset-react'],
+      plugins: ['@babel/plugin-syntax-flow'],
+    };
+  },
 };
-
 export default config;
