@@ -6699,7 +6699,6 @@ __metadata:
     typescript: "npm:^5.3.2"
     util: "npm:^0.12.4"
     vite: "npm:^4.0.0"
-    vite-plugin-turbosnap: "npm:^1.0.1"
     vitest: "npm:^1.2.2"
     wait-on: "npm:^7.0.1"
   dependenciesMeta:
@@ -29512,13 +29511,6 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 39a5b9d9c806a012aab208eee0f59e4e12446ec19a4cf149a6459e7ff86491c289e189fda4f55a63b7e37d713f5edbda0e9efed95af4f7ebefa6d39eee093c0b
-  languageName: node
-  linkType: hard
-
-"vite-plugin-turbosnap@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "vite-plugin-turbosnap@npm:1.0.3"
-  checksum: fd4a283708e24b54442b5db05461f8302bc57094234fd5b0dae1a6f76bb79078c68a729e516f352d04b89fea7c459f8272921f788bd3cd20d1488c7e73d7238e
   languageName: node
   linkType: hard
 
