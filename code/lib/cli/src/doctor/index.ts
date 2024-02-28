@@ -14,6 +14,8 @@ import {
   getIncompatiblePackagesSummary,
   getIncompatibleStorybookPackages,
 } from './getIncompatibleStorybookPackages';
+import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
+import { isPrerelease } from './utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'doctor-storybook.log';
@@ -46,22 +48,24 @@ type DoctorOptions = {
   packageManager?: PackageManagerName;
 };
 
-const logDiagnostic = (title: string, message: string) => {
-  logger.info(
-    boxen(message, {
-      borderStyle: 'round',
-      padding: 1,
-      title,
-      borderColor: '#F1618C',
-    })
-  );
-};
-
 export const doctor = async ({
   configDir: userSpecifiedConfigDir,
   packageManager: pkgMgr,
 }: DoctorOptions = {}) => {
   augmentLogsToFile();
+
+  let foundIssues = false;
+  const logDiagnostic = (title: string, message: string) => {
+    foundIssues = true;
+    logger.info(
+      boxen(message, {
+        borderStyle: 'round',
+        padding: 1,
+        title,
+        borderColor: '#F1618C',
+      })
+    );
+  };
 
   logger.info('🩺 The doctor is checking the health of your Storybook..');
 
@@ -118,28 +122,36 @@ export const doctor = async ({
     'storybook',
   ]);
 
-  const mismatchingVersionMessage = getMismatchingVersionsWarnings(
-    installationMetadata,
-    allDependencies
-  );
-  if (mismatchingVersionMessage) {
-    logDiagnostic('Diagnostics', [mismatchingVersionMessage].join('\n\n-------\n\n'));
+  // If we found incompatible packages, we let the users fix that first
+  // If they run doctor again and there are still issues, we show the other warnings
+  if (!incompatiblePackagesMessage) {
+    const mismatchingVersionMessage = getMismatchingVersionsWarnings(
+      installationMetadata,
+      allDependencies
+    );
+    if (mismatchingVersionMessage) {
+      logDiagnostic('Diagnostics', [mismatchingVersionMessage].join('\n\n-------\n\n'));
+    } else {
+      const list = installationMetadata
+        ? getDuplicatedDepsWarnings(installationMetadata)
+        : getDuplicatedDepsWarnings();
+      if (list) {
+        logDiagnostic('Duplicated dependencies found', list?.join('\n'));
+      }
+    }
   }
-  // CHECK: Temporarily disable multiple versions warning as the incompatible packages mostly covers this
-  // else {
-  //   const list = installationMetadata
-  //     ? getDuplicatedDepsWarnings(installationMetadata)
-  //     : getDuplicatedDepsWarnings();
-  //   if (list) {
-  //     diagnosticMessages.push(list?.join('\n'));
-  //   }
-  // }
+
+  const doctorCommand = isPrerelease(storybookVersion)
+    ? 'npx storybook@next doctor'
+    : 'npx storybook@latest doctor';
+
+  logger.info(
+    `👉 You can always recheck the health of your project by running:\n${chalk.cyan(doctorCommand)}`
+  );
   logger.info();
 
-  const foundIssues = incompatiblePackagesMessage || mismatchingVersionMessage;
-
   if (foundIssues) {
-    logger.info(`You can find the full logs in ${chalk.cyan(LOG_FILE_PATH)}`);
+    logger.info(`Full logs are available in ${chalk.cyan(LOG_FILE_PATH)}`);
 
     await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
   } else {
