@@ -135,7 +135,7 @@ export const doctor = async ({
       const list = installationMetadata
         ? getDuplicatedDepsWarnings(installationMetadata)
         : getDuplicatedDepsWarnings();
-      if (list) {
+      if (Array.isArray(list) && list.length > 0) {
         logDiagnostic('Duplicated dependencies found', list?.join('\n'));
       }
     }

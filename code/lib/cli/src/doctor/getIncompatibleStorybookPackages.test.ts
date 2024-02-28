@@ -7,8 +7,6 @@ import {
 } from './getIncompatibleStorybookPackages';
 import type { JsPackageManager } from '@storybook/core-common';
 
-import * as doctorUtils from './utils';
-
 vi.mock('chalk', () => {
   return {
     default: {
@@ -31,18 +29,19 @@ const packageManagerMock = {
       '@storybook/addon-essentials': '7.0.0',
     }),
   latestVersion: vi.fn(() => Promise.resolve('8.0.0')),
-} as Partial<JsPackageManager>;
+  getPackageJSON: vi.fn(() => Promise.resolve('8.0.0')),
+} as any as JsPackageManager;
 
 describe('checkPackageCompatibility', () => {
   it('returns that a package is incompatible', async () => {
     const packageName = 'my-storybook-package';
-    vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
+    vi.mocked(packageManagerMock.getPackageJSON).mockResolvedValueOnce({
       name: packageName,
       version: '1.0.0',
       dependencies: {
         '@storybook/core-common': '7.0.0',
       },
-    } as any);
+    });
     const result = await checkPackageCompatibility(packageName, {
       currentStorybookVersion: '8.0.0',
       packageManager: packageManagerMock as JsPackageManager,
@@ -58,13 +57,13 @@ describe('checkPackageCompatibility', () => {
 
   it('returns that a package is compatible', async () => {
     const packageName = 'my-storybook-package';
-    vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
+    vi.mocked(packageManagerMock.getPackageJSON).mockResolvedValueOnce({
       name: packageName,
       version: '1.0.0',
       dependencies: {
         '@storybook/core-common': '8.0.0',
       },
-    } as any);
+    });
     const result = await checkPackageCompatibility(packageName, {
       currentStorybookVersion: '8.0.0',
       packageManager: packageManagerMock as JsPackageManager,
@@ -80,17 +79,20 @@ describe('checkPackageCompatibility', () => {
 
   it('returns that a package is incompatible and because it is core, can be upgraded', async () => {
     const packageName = '@storybook/addon-essentials';
-    vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
+
+    vi.mocked(packageManagerMock.getPackageJSON).mockResolvedValueOnce({
       name: packageName,
       version: '7.0.0',
       dependencies: {
         '@storybook/core-common': '7.0.0',
       },
-    } as any);
+    });
+
     const result = await checkPackageCompatibility(packageName, {
       currentStorybookVersion: '8.0.0',
-      packageManager: packageManagerMock as JsPackageManager,
+      packageManager: packageManagerMock,
     });
+
     expect(result).toEqual(
       expect.objectContaining({
         packageName: '@storybook/addon-essentials',
@@ -104,13 +106,13 @@ describe('checkPackageCompatibility', () => {
 
 describe('getIncompatibleStorybookPackages', () => {
   it('returns an array of incompatible packages', async () => {
-    vi.mocked(doctorUtils.getPackageJsonOfDependency).mockResolvedValueOnce({
+    vi.mocked(packageManagerMock.getPackageJSON).mockResolvedValueOnce({
       name: '@storybook/addon-essentials',
       version: '7.0.0',
       dependencies: {
         '@storybook/core-common': '7.0.0',
       },
-    } as any);
+    });
 
     const result = await getIncompatibleStorybookPackages({
       currentStorybookVersion: '8.0.0',

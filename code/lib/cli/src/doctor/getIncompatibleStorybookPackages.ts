@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import semver from 'semver';
 import type { JsPackageManager } from '@storybook/core-common';
 import { JsPackageManagerFactory, versions as storybookCorePackages } from '@storybook/core-common';
-import { PackageJsonNotFoundError, getPackageJsonOfDependency } from './utils';
 
 export type AnalysedPackage = {
   packageName: string;
@@ -21,19 +20,26 @@ type Context = {
 };
 
 const isPackageIncompatible = (installedVersion: string, currentStorybookVersion: string) => {
-  return !semver.satisfies(currentStorybookVersion, installedVersion);
+  const storybookVersion = semver.coerce(currentStorybookVersion);
+  const packageVersion = semver.coerce(installedVersion);
+  return storybookVersion?.major !== packageVersion?.major;
 };
 
 export const checkPackageCompatibility = async (dependency: string, context: Context) => {
-  const { currentStorybookVersion, skipErrors } = context;
+  const { currentStorybookVersion, skipErrors, packageManager } = context;
   try {
+    const dependencyPackageJson = await packageManager.getPackageJSON(dependency);
+    if (dependencyPackageJson === null) {
+      return { packageName: dependency };
+    }
+
     const {
       version: packageVersion,
-      name,
+      name = dependency,
       dependencies,
       peerDependencies,
       homepage,
-    } = await getPackageJsonOfDependency(dependency);
+    } = dependencyPackageJson;
 
     const hasIncompatibleDependencies = !!Object.entries({
       ...dependencies,
@@ -55,7 +61,7 @@ export const checkPackageCompatibility = async (dependency: string, context: Con
 
     // For now, we notify about updates only for core packages (which will match the currently installed storybook version)
     // In the future, we can use packageManager.latestVersion(name, constraint) for all packages
-    if (isCorePackage && semver.gt(currentStorybookVersion, packageVersion)) {
+    if (isCorePackage && semver.gt(currentStorybookVersion, packageVersion!)) {
       availableUpdate = currentStorybookVersion;
     }
 
@@ -67,7 +73,7 @@ export const checkPackageCompatibility = async (dependency: string, context: Con
       availableUpdate,
     };
   } catch (err) {
-    if (!(err instanceof PackageJsonNotFoundError) && !skipErrors) {
+    if (!skipErrors) {
       console.log(`Error checking compatibility for ${dependency}, please report an issue:\n`, err);
     }
     return { packageName: dependency };
@@ -83,7 +89,7 @@ export const getIncompatibleStorybookPackages = async (
   const storybookLikeDeps = Object.keys(allDeps).filter((dep) => dep.includes('storybook'));
 
   if (storybookLikeDeps.length === 0) {
-    throw new Error('No storybook dependencies found in the package.json');
+    throw new Error('No Storybook dependencies found in the package.json');
   }
 
   return Promise.all(
