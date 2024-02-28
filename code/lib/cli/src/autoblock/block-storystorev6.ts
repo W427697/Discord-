@@ -28,7 +28,7 @@ export const blocker = createBlocker({
 
       export default = {
           features: {
-              ${chalk.cyan(`storyStoreV7: false`)}, <--- remove this line
+              ${chalk.cyan(`storyStoreV7: false`)}, <--- ${chalk.bold('remove this line')}
           },
       };
 
