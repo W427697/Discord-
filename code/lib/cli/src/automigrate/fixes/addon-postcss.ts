@@ -35,7 +35,7 @@ export const addonPostCSS: Fix<AddonPostcssRunOptions> = {
       
       Please migrate to ${chalk.cyan(
         `@storybook/addon-styling-webpack`
-      )} once the migration is complete.
+      )} once you're done upgrading.
     `;
   },
 };
