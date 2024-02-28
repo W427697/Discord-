@@ -5,6 +5,8 @@ import { getStorybookVersionSpecifier } from '../../helpers';
 import { runCodemod } from '@storybook/codemod';
 import prompts from 'prompts';
 
+const logger = console;
+
 export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> = {
   id: 'remove-jest-testing-library',
   versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
@@ -46,15 +48,16 @@ export const removeJestTestingLibrary: Fix<{ incompatiblePackages: string[] }> =
 
       await packageManager.addDependencies({}, [`@storybook/test@${versionToInstall}`]);
 
-      const glob = await prompts({
+      const { glob: globString } = await prompts({
         type: 'text',
         name: 'glob',
         message: 'Please enter the glob for your stories to migrate to @storybook/test',
         initial: './src/**/*.stories.*',
       });
 
-      await runCodemod('migrate-to-test-package', { glob, dryRun });
+      if (globString) {
+        await runCodemod('migrate-to-test-package', { glob: globString, dryRun, logger });
+      }
     }
-    // apply the migrate-to-test-package codemod
   },
 };
