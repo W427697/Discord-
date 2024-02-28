@@ -145,17 +145,21 @@ export const doctor = async ({
     ? 'npx storybook@next doctor'
     : 'npx storybook@latest doctor';
 
-  logger.info(
-    `👉 You can always recheck the health of your project by running:\n${chalk.cyan(doctorCommand)}`
-  );
+  const commandMessage = `You can always recheck the health of your project by running:\n${chalk.cyan(
+    doctorCommand
+  )}`;
   logger.info();
 
   if (foundIssues) {
+    logger.info(commandMessage);
+    logger.info();
+
     logger.info(`Full logs are available in ${chalk.cyan(LOG_FILE_PATH)}`);
 
     await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
   } else {
-    logger.info('🥳 Your Storybook project looks good!');
+    logger.info(`🥳 Your Storybook project looks good!`);
+    logger.info(commandMessage);
     await remove(TEMP_LOG_FILE_PATH);
   }
   logger.info();

@@ -151,7 +151,7 @@ describe('getIncompatiblePackagesSummary', () => {
 
 
       Please consider updating your packages or contacting the maintainers for compatibility details.
-      For more on Storybook 8 compatibility, see the linked Github issue:
+      For more on Storybook 8 compatibility, see the linked GitHub issue:
       https://github.com/storybookjs/storybook/issues/26031"
     `);
   });

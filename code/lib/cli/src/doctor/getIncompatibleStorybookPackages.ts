@@ -45,7 +45,7 @@ export const checkPackageCompatibility = async (dependency: string, context: Con
       ...dependencies,
       ...peerDependencies,
     })
-      .filter(([dep]) => Object.keys(storybookCorePackages).includes(dep))
+      .filter(([dep]) => storybookCorePackages[dep as keyof typeof storybookCorePackages])
       .find(([, version]) => {
         // prevent issues with "tag" based versions e.g. "latest" or "next" instead of actual numbers
         return (
@@ -55,7 +55,7 @@ export const checkPackageCompatibility = async (dependency: string, context: Con
         );
       });
 
-    const isCorePackage = Object.keys(storybookCorePackages).includes(name);
+    const isCorePackage = storybookCorePackages[name as keyof typeof storybookCorePackages];
 
     let availableUpdate;
 
@@ -126,7 +126,7 @@ export const getIncompatiblePackagesSummary = (
     summaryMessage.push(
       '\n',
       'Please consider updating your packages or contacting the maintainers for compatibility details.',
-      'For more on Storybook 8 compatibility, see the linked Github issue:',
+      'For more on Storybook 8 compatibility, see the linked GitHub issue:',
       chalk.yellow('https://github.com/storybookjs/storybook/issues/26031')
     );
   }
