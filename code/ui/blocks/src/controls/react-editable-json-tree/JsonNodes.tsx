@@ -1340,7 +1340,7 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
 
     return (
       <div className="rejt-object-node">
-        <span onClick={this.handleCollapseMode}>
+        <span onClick={this.handleCollapseMode} tabIndex={0}>
           <span className="rejt-name" style={style.name}>
             {name} :{' '}
           </span>
@@ -1490,15 +1490,17 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
   }
 
   render() {
-    const { name, value, editEnabled, keyPath, deep } = this.state;
     const {
+      name,
+      value,
+      handleEditMode,
+      cancelButtonElement,
       handleRemove,
       originalValue,
       readOnly,
       dataType,
       getStyle,
       editButtonElement,
-      cancelButtonElement,
       inputElementGenerator,
       minusMenuElement,
       keyPath: comeFromKeyPath,
@@ -1534,7 +1536,7 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
 
     return (
       <li className="rejt-value-node" style={style.li}>
-        <span className="rejt-name" style={style.name}>
+        <span className="rejt-name" style={style.name} tabIndex={0}>
           {name}
           {' : '}
         </span>
@@ -1548,6 +1550,7 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
             className="rejt-value"
             style={style.value}
             onClick={isReadOnly ? null : this.handleEditMode}
+            tabIndex={isReadOnly ? -1 : 0}
           >
             {String(value)}
           </span>
