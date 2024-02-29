@@ -2,9 +2,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "types": [
-      "react-syntax-highlighter"
+      "react-syntax-highlighter",
+      "@storybook/react-vite"
     ],
     "skipLibCheck": true,
     "strict": false
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

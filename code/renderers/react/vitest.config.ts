@@ -1,14 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { defineConfig, mergeConfig } from 'vitest/config';
-import { sep, posix } from 'path';
-import { vitestCommonConfig } from '../../vitest.workspace';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-export default mergeConfig(
-  vitestCommonConfig,
-  defineConfig({
-    test: {
-      environment: 'jsdom',
-      name: __dirname.split(sep).slice(-2).join(posix.sep),
-    },
-  })
-);
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
