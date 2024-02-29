@@ -51,7 +51,7 @@ export function reactDocgen({
           importer: makeFsImporter((filename, basedir) => {
             const result = defaultLookupModule(filename, basedir);
 
-            if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext)) === undefined) {
+            if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext))) {
               return result;
             }
 
