@@ -6343,6 +6343,7 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     magic-string: "npm:^0.30.5"
     react-docgen: "npm:^7.0.0"
+    resolve: "npm:^1.22.8"
     semver: "npm:^7.3.7"
     typescript: "npm:^5.3.2"
     webpack: "npm:5"
