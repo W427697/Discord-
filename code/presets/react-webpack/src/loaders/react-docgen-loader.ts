@@ -2,7 +2,7 @@ import {
   parse,
   builtinResolvers as docgenResolver,
   builtinHandlers as docgenHandlers,
-  builtinImporters as docgenImporters,
+  makeFsImporter,
   ERROR_CODES,
   utils,
 } from 'react-docgen';
@@ -10,6 +10,11 @@ import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
 import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
 import { logger } from '@storybook/node-logger';
+
+import {
+  ReactDocgenResolveError,
+  defaultLookupModule,
+} from '../../../../frameworks/react-vite/src/plugins/docgen-resolver';
 
 const { getNameOrValue, isReactForwardRefCall } = utils;
 
@@ -54,7 +59,6 @@ type DocObj = Documentation & { actualName: string };
 
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
-const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 export default async function reactDocgenLoader(
@@ -71,7 +75,15 @@ export default async function reactDocgenLoader(
       filename: this.resourcePath,
       resolver: defaultResolver,
       handlers,
-      importer: defaultImporter,
+      importer: makeFsImporter((filename, basedir) => {
+        const result = defaultLookupModule(filename, basedir);
+
+        if (!result.match(/\.(mjs|tsx?|jsx?)$/)) {
+          throw new ReactDocgenResolveError(filename);
+        }
+
+        return result;
+      }),
       babelOptions: {
         babelrc: false,
         configFile: false,
