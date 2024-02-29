@@ -4,13 +4,15 @@ console.log('preview file is called!');
 
 const preview: Preview = {
   decorators: [
-    (StoryFn) => (
-      <div data-testid="global-decorator">
-        Global Decorator
-        <br />
-        {StoryFn()}
-      </div>
-    ),
+    function localDecorator(StoryFn) {
+      return (
+        <div data-testid="global-decorator">
+          Global Decorator
+          <br />
+          {StoryFn()}
+        </div>
+      );
+    },
   ],
   globalTypes: {
     locale: {

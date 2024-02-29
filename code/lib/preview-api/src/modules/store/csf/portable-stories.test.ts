@@ -5,7 +5,7 @@ import type {
   StoryAnnotationsOrFn as Story,
   Store_CSFExports,
 } from '@storybook/types';
-import { composeStory, composeStories } from './portable-stories';
+import { composeStory, composeStories, setProjectAnnotations } from './portable-stories';
 
 type StoriesModule = Store_CSFExports & Record<string, any>;
 
@@ -71,13 +71,26 @@ describe('composeStory', () => {
     expect(spyFn).toHaveBeenCalled();
   });
 
-  it('should return story with composed args and parameters', () => {
-    const Story: Story = () => {};
-    Story.args = { primary: true };
-    Story.parameters = {
+  it('should return story with composed annotations from story, meta and project', () => {
+    const decoratorFromProjectAnnotations = vi.fn((StoryFn) => StoryFn());
+    const decoratorFromStoryAnnotations = vi.fn((StoryFn) => StoryFn());
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+        decorators: [decoratorFromProjectAnnotations],
+      },
+    ]);
+
+    const Story: Story = {
+      render: () => {},
+      args: { primary: true },
       parameters: {
         secondAddon: true,
       },
+      decorators: [decoratorFromStoryAnnotations],
     };
 
     const composedStory = composeStory(Story, meta);
@@ -85,28 +98,11 @@ describe('composeStory', () => {
     expect(composedStory.parameters).toEqual(
       expect.objectContaining({ ...Story.parameters, ...meta.parameters })
     );
-  });
 
-  it('should compose with a play function', async () => {
-    const spy = vi.fn();
-    const Story: Story = () => {};
-    Story.args = {
-      primary: true,
-    };
-    Story.play = async (context: any) => {
-      spy(context);
-    };
+    composedStory();
 
-    const composedStory = composeStory(Story, meta);
-    await composedStory.play!({ canvasElement: null });
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        args: {
-          ...Story.args,
-          ...meta.args,
-        },
-      })
-    );
+    expect(decoratorFromProjectAnnotations).toHaveBeenCalled();
+    expect(decoratorFromStoryAnnotations).toHaveBeenCalled();
   });
 
   it('should throw an error if Story is undefined', () => {

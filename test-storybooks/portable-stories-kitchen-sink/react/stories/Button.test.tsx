@@ -96,9 +96,9 @@ describe('CSF3', () => {
   it('renders with play function', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
-    const { container } = render(<CSF3InputFieldFilled />);
+    render(<CSF3InputFieldFilled />);
 
-    await CSF3InputFieldFilled.play({ canvasElement: container });
+    await CSF3InputFieldFilled.play!();
 
     const input = screen.getByTestId('input') as HTMLInputElement;
     expect(input.value).toEqual('Hello world!');

@@ -1,7 +1,7 @@
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
-import { addons } from '@storybook/preview-api';
+import { addons, getPortableStoryWrapperId } from '@storybook/preview-api';
 //@ts-expect-error our tsconfig.jsn#moduleResolution is set to 'node', which doesn't support this import
 import * as addonInteractionsPreview from '@storybook/addon-interactions/preview';
 import * as addonActionsPreview from '@storybook/addon-actions/preview';
@@ -50,11 +50,11 @@ describe('renders', () => {
 
   it('should call and compose loaders data', async () => {
     await LoaderStory.load();
-    const { getByTestId, container } = render(<LoaderStory />);
+    const { getByTestId } = render(<LoaderStory />);
     expect(getByTestId('spy-data').textContent).toEqual('baz');
     expect(getByTestId('loaded-data').textContent).toEqual('bar');
     // spy assertions happen in the play function and should work
-    await LoaderStory.play!({ canvasElement: container as HTMLElement });
+    await LoaderStory.play!();
   });
 });
 
@@ -63,10 +63,17 @@ describe('projectAnnotations', () => {
     cleanup();
   });
 
-  it('renders with default projectAnnotations', () => {
+  it('renders with default globals from projectAnnotations', () => {
+    const Primary = composeStory(stories.CSF3Primary, stories.default, {}, 'primary');
+    render(<Primary />);
+    const wrapperId = getPortableStoryWrapperId(Primary.id);
+    const wrapperElement = document.getElementById(wrapperId);
+    expect(wrapperElement).not.toBeNull();
+  });
+
+  it('renders with default globals from projectAnnotations', () => {
     setProjectAnnotations([
       {
-        parameters: { injected: true },
         globalTypes: {
           locale: { defaultValue: 'en' },
         },
@@ -76,10 +83,9 @@ describe('projectAnnotations', () => {
     const { getByText } = render(<WithEnglishText />);
     const buttonElement = getByText('Hello!');
     expect(buttonElement).not.toBeNull();
-    expect(WithEnglishText.parameters?.injected).toBe(true);
   });
 
-  it('renders with custom projectAnnotations via composeStory params', () => {
+  it('renders with custom globals from projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
       globals: { locale: 'pt' } as any,
     });
@@ -92,11 +98,11 @@ describe('projectAnnotations', () => {
     const Story = composeStory(stories.WithActionArg, stories.default, addonInteractionsPreview);
     expect(vi.mocked(Story.args.someActionArg!).mock).toBeDefined();
 
-    const { container } = render(<Story />);
+    render(<Story />);
     expect(Story.args.someActionArg).toHaveBeenCalledOnce();
     expect(Story.args.someActionArg).toHaveBeenCalledWith('in render');
 
-    await Story.play!({ canvasElement: container });
+    await Story.play!();
     expect(Story.args.someActionArg).toHaveBeenCalledTimes(2);
     expect(Story.args.someActionArg).toHaveBeenCalledWith('on click');
   });
@@ -128,7 +134,18 @@ describe('CSF3', () => {
     expect(screen.getByTestId('custom-render')).not.toBeNull();
   });
 
-  it('renders with play function', async () => {
+  it('renders with play function without canvas element', async () => {
+    const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
+
+    render(<CSF3InputFieldFilled />);
+
+    await CSF3InputFieldFilled.play!();
+
+    const input = screen.getByTestId('input') as HTMLInputElement;
+    expect(input.value).toEqual('Hello world!');
+  });
+
+  it('renders with play function with canvas element', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
     const { container } = render(<CSF3InputFieldFilled />);

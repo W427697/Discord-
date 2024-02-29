@@ -1,5 +1,9 @@
 <h1>Migration</h1>
 
+- [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
+  - [Portable stories](#portable-stories)
+    - [The context in the play function is now optional](#the-context-in-the-play-function-is-now-optional)
+    - [Added loaders support](#added-loaders-support)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Type change in `composeStories` API](#type-change-in-composestories-api)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
@@ -399,6 +403,67 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 8.0.x to 8.1.x
+
+### Portable stories
+
+#### The context in the play function is now optional
+
+When reusing a story that has a play function, you don't have to pass the context anymore, not even the `canvasElement`. The context is built-in and if you don't pass overrides, it will still be present. It is still possible to pass overrides to the context, if you'd like.
+
+```tsx
+const { Primary } = composeStories(stories);
+test("load and render", async () => {
+  const { container } = render(<Primary />);
+  // before:
+  await Primary.play({ canvasElement: container, ...ArgsOrWhateverElse });
+
+  // after:
+  await Primary.play();
+});
+```
+
+In order for this to be possible, the portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
+
+```html
+<div data-story="true" id="#storybook-story-button--primary">
+  <!-- your story here -->
+</div>
+```
+
+This means that if you take DOM snapshots of your stories, they will be affected and you will have to update them.
+
+The id calculation is based on different heuristics based on your Meta title and Story name. When using `composeStories`, the id can be inferred automatically. However, when using `composeStory` and your story does not explicitly have a `storyName` property, the story name can't be inferred automatically. As a result, its name will be "Unnamed Story", resulting in a wrapper id like `"#storybook-story-button--unnamed-story"`. If the id matters to you and you want to fix it, you have to specify the `exportsName` property like so:
+
+```ts
+test("snapshots the story with custom id", () => {
+  const Primary = composeStory(
+    stories.Primary,
+    stories.default,
+    undefined,
+    // If you do not want the `unnamed-story` id, you have to pass the name of the story as a parameter
+    "Primary"
+  );
+
+  const { baseElement } = render(<Primary />);
+  expect(baseElement).toMatchSnapshot();
+});
+```
+
+#### Added loaders support
+
+A portable story now provides a `load` method which applies all [loaders](https://storybook.js.org/docs/writing-stories/loaders) to a story. This is useful if your addons or story have loaders, or if your story needs a `loaded` property from the story context to render correctly.
+
+```tsx
+const { Primary } = composeStories(stories);
+test("load and render", async () => {
+  // applies all loaders to the story
+  await Primary.load();
+  // when rendering, the `loaded` property will be available in the render function
+  render(<Primary />);
+});
+```
+
 ## From version 7.x to 8.0.0
 
 ### Type change in `composeStories` API
@@ -555,7 +620,6 @@ This means https://github.com/IanVS/vite-plugin-turbosnap is no longer necessary
 ### `--webpack-stats-json` option renamed `--stats-json`
 
 Now that both Vite and Webpack support the `preview-stats.json` file, the flag has been renamed. The old flag will continue to work.
-
 
 ### Implicit actions can not be used during rendering (for example in the play function)
 

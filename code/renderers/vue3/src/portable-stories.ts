@@ -2,6 +2,7 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
+  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -11,9 +12,23 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import * as defaultProjectAnnotations from './render';
+import * as vueProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
+
+const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
+  ...vueProjectAnnotations,
+  decorators: [
+    function addStorybookId(story, { id }) {
+      return {
+        components: { story },
+        template: `<div data-story="true" id="${getPortableStoryWrapperId(id)}">
+          <story />
+        </div>`,
+      };
+    },
+  ],
+};
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
@@ -114,9 +129,4 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
     StoriesWithPartialProps<VueRenderer, TModule>,
     keyof Store_CSFExports
   >;
-}
-
-declare global {
-  // eslint-disable-next-line no-var
-  var playwright: any;
 }

@@ -44,11 +44,11 @@ describe('renders', () => {
 
   it('should call and compose loaders data', async () => {
     await LoaderStory.load();
-    const { getByTestId, container } = render(LoaderStory());
+    const { getByTestId } = render(LoaderStory());
     expect(getByTestId('spy-data').textContent).toEqual('baz');
     expect(getByTestId('loaded-data').textContent).toEqual('bar');
     // spy assertions happen in the play function and should work
-    await LoaderStory.play!({ canvasElement: container as HTMLElement });
+    await LoaderStory.play!();
   });
 });
 
