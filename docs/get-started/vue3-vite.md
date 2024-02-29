@@ -289,6 +289,12 @@ const config: StorybookConfig = {
 export default config;
 ```
 
+#### `builder`
+
+Type: `Record<string, any>`
+
+Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For this framework, available options can be found in the [Vite builder docs](../builders/vite.md).
+
 #### `docgen`
 
 Type: `'vue-docgen-api' | 'vue-component-meta'`

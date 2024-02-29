@@ -920,7 +920,7 @@ The available options are:
 
 Type: `Record<string, any>`
 
-Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, that builder is Webpack 5.
+Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.md).
 
 #### `image`
 
