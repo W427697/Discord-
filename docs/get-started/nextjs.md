@@ -38,7 +38,7 @@ Follow the prompts after running this command in your Next.js project's root dir
 
 ### In a project with Storybook
 
-This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+This framework is designed to work with Storybook 7+. If you’re not already using v7, upgrade with this command:
 
 <!-- prettier-ignore-start -->
 

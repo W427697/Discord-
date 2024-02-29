@@ -2,9 +2,11 @@
 title: Storybook for Vue & Vite
 ---
 
-Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Vue](TK) applications built with [Vite](TK). It includes:
+Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Vue](https://vuejs.org/) applications built with [Vite](https://vitejs.dev/). It includes:
 
-- TK - Emoji feature list
+- 🏎️ Pre-bundled for performance
+- 🪄 Zero config
+- 🧠 Comprehensive docgen
 - 💫 and more!
 
 ## Requirements
@@ -17,7 +19,7 @@ Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes
 
 ### In a project without Storybook
 
-Follow the prompts after running this command in your Next.js project's root directory:
+Follow the prompts after running this command in your Vue project's root directory:
 
 <!-- prettier-ignore-start -->
 
@@ -35,7 +37,7 @@ Follow the prompts after running this command in your Next.js project's root dir
 
 ### In a project with Storybook
 
-This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+This framework is designed to work with Storybook 7+. If you’re not already using v7, upgrade with this command:
 
 <!-- prettier-ignore-start -->
 
