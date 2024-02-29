@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { imported } from '../imported';
+// @ts-expect-error (css import not supported in TS)
+import styles from '../imported.module.css';
 
 const local = 'local-value';
 
@@ -26,6 +28,7 @@ interface PropsWriterProps {
   importedReference?: string;
   globalReference?: any;
   stringGlobalName?: string;
+  myClass: typeof styles.foo;
 }
 
 /**
@@ -47,6 +50,7 @@ PropsWriter.defaultProps = {
   importedReference: imported,
   globalReference: Date,
   stringGlobalName: 'top',
+  myClass: styles.foo,
 };
 
 export const component = PropsWriter;
