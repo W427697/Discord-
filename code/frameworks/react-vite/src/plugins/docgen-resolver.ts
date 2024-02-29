@@ -17,7 +17,7 @@ export class ReactDocgenResolveError extends Error {
 
 // These extensions are sorted by priority
 // resolve() will check for files in the order these extensions are sorted
-const RESOLVE_EXTENSIONS = ['.js', '.ts', '.tsx', '.mjs', '.cjs', '.mts', '.cts', '.jsx'];
+export const RESOLVE_EXTENSIONS = ['.js', '.ts', '.tsx', '.mjs', '.cjs', '.mts', '.cts', '.jsx'];
 
 export function defaultLookupModule(filename: string, basedir: string): string {
   const resolveOptions = {

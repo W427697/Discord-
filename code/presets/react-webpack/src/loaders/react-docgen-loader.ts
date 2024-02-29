@@ -12,6 +12,7 @@ import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-do
 import { logger } from '@storybook/node-logger';
 
 import {
+  RESOLVE_EXTENSIONS,
   ReactDocgenResolveError,
   defaultLookupModule,
 } from '../../../../frameworks/react-vite/src/plugins/docgen-resolver';
@@ -78,11 +79,11 @@ export default async function reactDocgenLoader(
       importer: makeFsImporter((filename, basedir) => {
         const result = defaultLookupModule(filename, basedir);
 
-        if (!result.match(/\.(mjs|tsx?|jsx?)$/)) {
-          throw new ReactDocgenResolveError(filename);
+        if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext)) === undefined) {
+          return result;
         }
 
-        return result;
+        throw new ReactDocgenResolveError(filename);
       }),
       babelOptions: {
         babelrc: false,

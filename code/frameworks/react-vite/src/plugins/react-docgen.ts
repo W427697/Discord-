@@ -11,7 +11,11 @@ import {
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
-import { ReactDocgenResolveError, defaultLookupModule } from './docgen-resolver';
+import {
+  RESOLVE_EXTENSIONS,
+  ReactDocgenResolveError,
+  defaultLookupModule,
+} from './docgen-resolver';
 
 type DocObj = Documentation & { actualName: string };
 
@@ -47,11 +51,11 @@ export function reactDocgen({
           importer: makeFsImporter((filename, basedir) => {
             const result = defaultLookupModule(filename, basedir);
 
-            if (!result.match(/\.(mjs|tsx?|jsx?)$/)) {
-              throw new ReactDocgenResolveError(filename);
+            if (RESOLVE_EXTENSIONS.find((ext) => result.endsWith(ext)) === undefined) {
+              return result;
             }
 
-            return result;
+            throw new ReactDocgenResolveError(filename);
           }),
           filename: id,
         }) as DocObj[];
