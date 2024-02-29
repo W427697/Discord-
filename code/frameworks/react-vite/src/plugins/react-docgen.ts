@@ -1,4 +1,4 @@
-import path, { join } from 'path';
+import path from 'path';
 import { createFilter } from '@rollup/pluginutils';
 import type { Documentation } from 'react-docgen';
 import {
