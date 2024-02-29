@@ -45,11 +45,13 @@ export function reactDocgen({
           resolver: defaultResolver,
           handlers,
           importer: makeFsImporter((filename, basedir) => {
-            if (!filename.match(/\.(mjs|tsx?|jsx?)$/)) {
+            const result = defaultLookupModule(filename, basedir);
+
+            if (!result.match(/\.(mjs|tsx?|jsx?)$/)) {
               throw new ReactDocgenResolveError(filename);
             }
 
-            return defaultLookupModule(filename, basedir);
+            return result;
           }),
           filename: id,
         }) as DocObj[];
