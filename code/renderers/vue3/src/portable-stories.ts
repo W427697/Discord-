@@ -82,7 +82,9 @@ export function composeStory<TArgs extends Args = Args>(
   const renderable = (...args: Parameters<typeof composedStory>) => h(composedStory(...args));
   Object.assign(renderable, composedStory);
 
-  return renderable as unknown as typeof composedStory;
+  // typing this as newable means TS allows it to be used as a JSX element
+  // TODO: we should do the same for composeStories as well
+  return renderable as unknown as typeof composedStory & { new (...args: any[]): any };
 }
 
 /**
