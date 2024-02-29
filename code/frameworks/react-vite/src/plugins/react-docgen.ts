@@ -45,7 +45,7 @@ export function reactDocgen({
           resolver: defaultResolver,
           handlers,
           importer: makeFsImporter((filename, basedir) => {
-            if (!filter(path.relative(cwd, join(basedir, filename)))) {
+            if (!filename.match(/\.(mjs|tsx?|jsx?)$/)) {
               throw new ReactDocgenResolveError(filename);
             }
 
