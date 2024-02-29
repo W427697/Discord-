@@ -1,3 +1,6 @@
+## 8.0.0-rc.0
+
+
 ## 8.0.0-beta.6
 
 - Addon-onboarding: Move onboarding to monorepo - [#26176](https://github.com/storybookjs/storybook/pull/26176), thanks [@ndelangen](https://github.com/ndelangen)!
