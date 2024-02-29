@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-measure",
-  "version": "8.0.0-beta.4",
+  "version": "8.0.0-rc.0",
   "description": "Inspect layouts by visualizing the box model",
   "keywords": [
     "storybook-addons",
@@ -33,7 +33,7 @@
     },
     "./preview": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
+      "require": "./dist/preview.cjs",
       "import": "./dist/preview.js"
     },
     "./manager": "./dist/manager.js",

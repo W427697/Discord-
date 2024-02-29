@@ -33,7 +33,7 @@ it('should prompt to install the test package and run the codemod', async () => 
     main: { addons: ['@storybook/essentials', '@storybook/addon-info'] },
   });
 
-  await expect(options).toMatchInlineSnapshot(`
+  expect(options).toMatchInlineSnapshot(`
     {
       "incompatiblePackages": [
         "@storybook/jest",
@@ -51,14 +51,13 @@ it('should prompt to install the test package and run the codemod', async () => 
   });
 
   expect(await removeJestTestingLibrary.prompt(options!)).toMatchInlineSnapshot(`
-    Attention: We've detected that you're using the following packages which are known to be incompatible with Storybook 8:
+    Attention: We've detected that you're using the following packages which are known to be incompatible since Storybook 8:
 
     - @storybook/jest
     - @storybook/testing-library
 
-    Install the replacement for those packages: @storybook/test
+    We will uninstall them for you and install @storybook/test instead.
 
-    And run the following codemod:
-     npx storybook migrate migrate-to-test-package --glob="**/*.stories.@(js|jsx|ts|tsx)"
+    Also, we can help you migrate your stories to use the new package.
   `);
 });
