@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
@@ -12,7 +13,7 @@ import type {
   Parameters,
   ComposedStoryFn,
   StrictArgTypes,
-  ComposedStoryPlayContext,
+  PlayFunctionContext,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -22,14 +23,59 @@ import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
+import { normalizeArrays } from './normalizeArrays';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
+
+export function getPortableStoryWrapperId(storyId: string) {
+  return `storybook-story-${storyId}`;
+}
 
 export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
   GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
+}
+
+// TODO: we don't have any utility that merges two sets of annotations (e.g. two project annotations)
+// this should be elsewhere, probably reused
+function mergeAnnotations<TRenderer extends Renderer = Renderer>(
+  firstAnnotations: ProjectAnnotations<TRenderer>,
+  secondAnnotations: ProjectAnnotations<TRenderer>
+) {
+  return {
+    ...firstAnnotations,
+    ...secondAnnotations,
+    args: {
+      ...firstAnnotations.args,
+      ...secondAnnotations.args,
+    },
+    argTypes: {
+      ...firstAnnotations.argTypes,
+      ...secondAnnotations.argTypes,
+    },
+    parameters: {
+      ...firstAnnotations.parameters,
+      ...secondAnnotations.parameters,
+    },
+    decorators: [
+      ...normalizeArrays(firstAnnotations.decorators),
+      ...normalizeArrays(secondAnnotations.decorators),
+    ],
+    loaders: [
+      ...normalizeArrays(firstAnnotations.loaders),
+      ...normalizeArrays(secondAnnotations.loaders),
+    ],
+    argsEnhancers: [
+      ...normalizeArrays(firstAnnotations.argsEnhancers),
+      ...normalizeArrays(secondAnnotations.argsEnhancers),
+    ],
+    argTypesEnhancers: [
+      ...normalizeArrays(firstAnnotations.argTypesEnhancers),
+      ...normalizeArrays(secondAnnotations.argTypesEnhancers),
+    ],
+  };
 }
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
@@ -43,6 +89,12 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     throw new Error('Expected a story but received undefined.');
   }
 
+  // users might pass an empty object instead of undefined e.g. composeStory(story, meta, {}, exportsName)
+  // and likely they expect the default project annotations to be used instead of completely resetting them
+  if (typeof projectAnnotations === 'object' && Object.keys(projectAnnotations).length === 0) {
+    projectAnnotations = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS as ProjectAnnotations<TRenderer>;
+  }
+
   // @TODO: Support auto title
 
   componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
@@ -54,7 +106,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     storyAnnotations.storyName ||
     storyAnnotations.story?.name ||
     storyAnnotations.name ||
-    'unknown';
+    'Unnamed Story';
 
   const normalizedStory = normalizeStory<TRenderer>(
     storyName,
@@ -62,10 +114,9 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     normalizedComponentAnnotations
   );
 
-  const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>({
-    ...projectAnnotations,
-    ...defaultConfig,
-  });
+  const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
+    mergeAnnotations(projectAnnotations, defaultConfig)
+  );
 
   const story = prepareStory<TRenderer>(
     normalizedStory,
@@ -77,7 +128,10 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   const context: StoryContext<TRenderer> = {
     hooks: new HooksContext(),
-    globals: defaultGlobals,
+    globals: {
+      ...defaultGlobals,
+      ...projectAnnotations.globals,
+    },
     args: { ...story.initialArgs },
     viewMode: 'story',
     loaded: {},
@@ -86,28 +140,35 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     ...story,
   };
 
+  const playFunction = story.playFunction
+    ? async (extraContext: Partial<PlayFunctionContext<TRenderer, TArgs>>) =>
+        story.playFunction!({
+          ...context,
+          ...extraContext,
+          // if canvasElement is not provided, we default to the root element, which comes from a decorator
+          // the decorator has to be implemented in the defaultAnnotations of each integrator of portable stories
+          canvasElement:
+            extraContext?.canvasElement ??
+            globalThis.document?.getElementById(getPortableStoryWrapperId(context.id)),
+        })
+    : undefined;
+
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
-    (extraArgs?: Partial<TArgs>) => {
-      const finalContext: StoryContext<TRenderer> = {
-        ...context,
-        args: { ...context.initialArgs, ...extraArgs },
+    function storyFn(extraArgs?: Partial<TArgs>) {
+      context.args = {
+        ...context.initialArgs,
+        ...extraArgs,
       };
 
-      return story.unboundStoryFn(prepareContext(finalContext));
+      return story.unboundStoryFn(prepareContext(context));
     },
     {
+      id: story.id,
       storyName,
       args: story.initialArgs as Partial<TArgs>,
       parameters: story.parameters as Parameters,
       argTypes: story.argTypes as StrictArgTypes<TArgs>,
-      id: story.id,
-      play: story.playFunction
-        ? ((async (extraContext: ComposedStoryPlayContext<TRenderer, TArgs>) =>
-            story.playFunction!({
-              ...context,
-              ...extraContext,
-            })) as unknown as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>)
-        : undefined,
+      play: playFunction as ComposedStoryPlayFn<TRenderer, TArgs> | undefined,
     }
   );
 
@@ -119,7 +180,6 @@ export function composeStories<TModule extends Store_CSFExports>(
   globalConfig: ProjectAnnotations<Renderer>,
   composeStoryFn: ComposeStoryFn
 ) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {

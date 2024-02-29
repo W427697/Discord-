@@ -58,7 +58,7 @@ describe('projectAnnotations', () => {
     expect(buttonElement).not.toBeNull();
   });
 
-  it('renders with custom projectAnnotations via composeStory params', () => {
+  it('renders with custom globals from projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
       globalTypes: { locale: { defaultValue: 'pt' } } as any,
     });
@@ -94,7 +94,18 @@ describe('CSF3', () => {
     expect(screen.getByTestId('custom-render')).not.toBeNull();
   });
 
-  it('renders with play function', async () => {
+  it('renders with play function without canvas element', async () => {
+    const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
+
+    render(<CSF3InputFieldFilled />);
+
+    await CSF3InputFieldFilled.play!();
+
+    const input = screen.getByTestId('input') as HTMLInputElement;
+    expect(input.value).toEqual('Hello world!');
+  });
+
+  it('renders with play function with canvas element', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
     const { container } = render(<CSF3InputFieldFilled />);
