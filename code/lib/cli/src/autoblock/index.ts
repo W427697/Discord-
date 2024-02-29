@@ -8,12 +8,13 @@ const excludesFalse = <T>(x: T | false): x is T => x !== false;
 const blockers: () => BlockerModule<any>[] = () => [
   // add/remove blockers here
   import('./block-storystorev6'),
-  import('./block-stories-mdx'),
   import('./block-dependencies-versions'),
   import('./block-node-version'),
 ];
 
 type BlockerModule<T> = Promise<{ blocker: Blocker<T> }>;
+
+const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
 
 export const autoblock = async (
   options: AutoblockOptions,
@@ -45,18 +46,18 @@ export const autoblock = async (
 
   if (faults.length > 0) {
     const messages = {
-      welcome: `Blocking your upgrade because of the following issues:`,
+      welcome: `Storybook has found potential blockers in your project that need to be resolved before upgrading:`,
       reminder: chalk.yellow('Fix the above issues and try running the upgrade command again.'),
     };
     const borderColor = '#FC521F';
 
-    logger.plain('Oh no..');
     logger.plain(
       boxen(
         [messages.welcome]
-          .concat(faults.map((i) => i.log))
-          .concat([messages.reminder])
-          .join('\n\n'),
+          .concat(['\n\n'])
+          .concat([faults.map((i) => i.log).join(segmentDivider)])
+          .concat([segmentDivider, messages.reminder])
+          .join(''),
         { borderStyle: 'round', padding: 1, borderColor }
       )
     );

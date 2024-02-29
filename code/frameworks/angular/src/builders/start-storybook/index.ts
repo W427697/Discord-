@@ -57,6 +57,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'docs'
     | 'debugWebpack'
     | 'webpackStatsJson'
+    | 'statsJson'
     | 'loglevel'
     | 'previewUrl'
   >;
@@ -66,11 +67,13 @@ export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, context) => {
   const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
+      const docTSConfig = findUpSync('tsconfig.doc.json', { cwd: options.configDir });
+
       const runCompodoc$ = options.compodoc
         ? runCompodoc(
             {
               compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
-              tsconfig: tsConfig,
+              tsconfig: docTSConfig ?? tsConfig,
             },
             context
           ).pipe(mapTo({ tsConfig }))
@@ -112,6 +115,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         debugWebpack,
         loglevel,
         webpackStatsJson,
+        statsJson,
         previewUrl,
         sourceMap = false,
       } = options;
@@ -143,8 +147,9 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         initialPath,
         open,
         debugWebpack,
-        loglevel,
         webpackStatsJson,
+        statsJson,
+        loglevel,
         previewUrl,
       };
 
