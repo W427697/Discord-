@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { imported } from '../imported';
-// @ts-expect-error (css import not supported in TS)
 import styles from '../imported.module.css';
 
 const local = 'local-value';
