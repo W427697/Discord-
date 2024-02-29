@@ -24,6 +24,7 @@ import { removeArgtypesRegex } from './remove-argtypes-regex';
 import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { removeJestTestingLibrary } from './remove-jest-testing-library';
 import { mdx1to3 } from './mdx-1-to-3';
+import { addonPostCSS } from './addon-postcss';
 
 export * from '../types';
 
@@ -32,13 +33,14 @@ export const allFixes: Fix[] = [
   cra5,
   webpack5,
   vue3,
+  addonPostCSS,
   viteConfigFile,
   eslintPlugin,
   builderVite,
   sbBinary,
   sbScripts,
-  removeArgtypesRegex,
   removeJestTestingLibrary,
+  removeArgtypesRegex,
   removedGlobalClientAPIs,
   mdxgfm,
   mdxToCSF,
