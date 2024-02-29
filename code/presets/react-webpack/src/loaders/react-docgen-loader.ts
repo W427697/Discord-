@@ -15,7 +15,7 @@ import {
   RESOLVE_EXTENSIONS,
   ReactDocgenResolveError,
   defaultLookupModule,
-} from '../../../../frameworks/react-vite/src/plugins/docgen-resolver';
+} from './docgen-resolver';
 
 const { getNameOrValue, isReactForwardRefCall } = utils;
 
