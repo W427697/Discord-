@@ -45,7 +45,7 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
     function addStorybookId(StoryFn, { id }) {
       return (
         <div data-story id={getPortableStoryWrapperId(id)}>
-          {StoryFn()}
+          <StoryFn />
         </div>
       );
     },
