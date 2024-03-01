@@ -174,8 +174,10 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--shallow-since "7 days ago"'
-          fetch_options: '--shallow-since "7 days ago"'
+          # assuming we merge to main at least once every 2 weeks
+          # this is needed for nx affected
+          clone_options: '--shallow-since "14 days ago"'
+          fetch_options: '--shallow-since "14 days ago"'
       - attach_workspace:
           at: .
       - run:
