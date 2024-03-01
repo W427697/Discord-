@@ -13,6 +13,7 @@ const noLinkCommand = `nx run-many -t build -c production --parallel=${parallel}
 
 export const compile: Task = {
   description: 'Compile the source code of the monorepo',
+  dependsOn: ['install'],
   async ready({ codeDir }, { link }) {
     try {
       // To check if the code has been compiled as we need, we check the compiled output of

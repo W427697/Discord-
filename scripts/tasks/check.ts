@@ -4,7 +4,7 @@ import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 const parallel = process.env.CI ? 8 : maxConcurrentTasks;
 
-const linkCommand = `nx affected -t check --parallel=${parallel} --exclude=angular,svelte,vue3`;
+const linkCommand = `nx affected -t check --parallel=${parallel}`;
 const nolinkCommand = `nx affected -t check -c production --parallel=${parallel}`;
 
 export const check: Task = {

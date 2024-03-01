@@ -7,8 +7,8 @@
     "check": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "echo 'vue3 only does check when -c production'",
-        "description": "See code/storybook/storybook/scripts/prepare/check.ts"
+        "command": "echo '\"nx check vue3\" can only run with the parameter \"-c production\"'",
+        "description": "We need to expand code/storybook/storybook/scripts/prepare/check.ts"
       },
       "configurations": {
         "production": {
