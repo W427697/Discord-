@@ -74,7 +74,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   );
 
   const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
-    composeConfigs([projectAnnotations, defaultConfig])
+    composeConfigs([defaultConfig, projectAnnotations])
   );
 
   const story = prepareStory<TRenderer>(
