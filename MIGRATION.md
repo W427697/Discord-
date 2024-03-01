@@ -3,7 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Portable stories](#portable-stories)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
-    - [The context in the play function is now optional](#the-context-in-the-play-function-is-now-optional)
+    - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -422,23 +422,9 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
 
-#### The context in the play function is now optional
+#### DOM structure changed in portable stories
 
-When reusing a story that has a play function, you don't have to pass the context anymore, not even the `canvasElement`. The context is built-in and if you don't pass overrides, it will still be present. It is still possible to pass overrides to the context, if you'd like.
-
-```tsx
-const { Primary } = composeStories(stories);
-test("load and render", async () => {
-  const { container } = render(<Primary />);
-  // before:
-  await Primary.play({ canvasElement: container, ...ArgsOrWhateverElse });
-
-  // after:
-  await Primary.play();
-});
-```
-
-In order for this to be possible, the portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
+The portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
 
 ```html
 <div data-story="true" id="#storybook-story-button--primary">
