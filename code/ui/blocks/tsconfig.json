@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "esnext",
     "skipLibCheck": true,
-    "rootDir": "./src",
     "strict": false
   },
   "include": ["src/**/*"]

@@ -1,6 +1,21 @@
 {
-  "name": "@storybook/angular",
+  "name": "angular",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": [],
-  "type": "library"
+  "type": "library",
+  "targets": {
+    "build": {},
+    "check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'angular only does check with the flag -c production'",
+        "description": "See code/storybook/storybook/scripts/prepare/check.ts"
+      },
+      "configurations": {
+        "production": {
+          "cwd": "{projectRoot}",
+          "command": "yarn check"
+        }
+      }
+    }
+  }
 }

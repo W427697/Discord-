@@ -1,6 +1,8 @@
 {
-  "name": "@storybook/addon-mdx-gfm",
+  "name": "addon-mdx-gfm",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": [],
-  "type": "library"
+  "type": "library",
+  "targets": {
+    "build": {}
+  }
 }

@@ -1,6 +1,8 @@
 {
-  "name": "@storybook/client-logger",
+  "name": "client-logger",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": [],
-  "type": "library"
+  "type": "library",
+  "targets": {
+    "build": {}
+  }
 }

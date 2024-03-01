@@ -1,6 +1,8 @@
 {
-  "name": "@storybook/core-events",
+  "name": "core-events",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": [],
-  "type": "library"
+  "type": "library",
+  "targets": {
+    "build": {}
+  }
 }

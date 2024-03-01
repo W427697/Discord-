@@ -1,6 +1,8 @@
 {
-  "name": "@storybook/preview-api",
+  "name": "preview-api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": [],
-  "type": "library"
+  "type": "library",
+  "targets": {
+    "build": {}
+  }
 }

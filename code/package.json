@@ -87,7 +87,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
-    "@nx/workspace": "17.0.2",
+    "@nx/workspace": "18.0.6",
     "@playwright/test": "1.36.0",
     "@storybook/addon-a11y": "workspace:*",
     "@storybook/addon-actions": "workspace:*",
@@ -206,7 +206,7 @@
     "lodash": "^4.17.21",
     "mock-require": "^3.0.3",
     "node-gyp": "^9.3.1",
-    "nx": "17.0.2",
+    "nx": "18.0.6",
     "prettier": "^3.1.1",
     "process": "^0.11.10",
     "raf": "^3.4.1",
