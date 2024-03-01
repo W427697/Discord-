@@ -109,9 +109,9 @@ jobs:
             cd scripts
             yarn docs:prettier:check
   build:
-    executor:
-      class: large
-      name: sb_node_16_classic
+    macos:
+      xcode: 14.2.0 # indicate your selected version of Xcode
+    resource_class: macos.m1.large.gen1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
