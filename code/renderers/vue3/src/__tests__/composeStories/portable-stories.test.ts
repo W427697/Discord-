@@ -133,6 +133,8 @@ it.each(testCases)('Renders %s story', async (_storyName, Story) => {
 
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  const tree = await render(Story());
-  expect(tree.baseElement).toMatchSnapshot();
+  const { baseElement } = await render(Story());
+  await Story.play?.();
+
+  expect(baseElement).toMatchSnapshot();
 });

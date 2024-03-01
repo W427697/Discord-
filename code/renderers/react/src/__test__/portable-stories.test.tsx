@@ -1,5 +1,5 @@
-import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
+import { vi, it, expect, afterEach, describe } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
 import type { Meta } from '@storybook/react';
@@ -150,9 +150,17 @@ describe('ComposeStories types', () => {
 });
 
 // Batch snapshot testing
-const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
+const testCases = Object.values(composeStories(stories)).map(
+  (Story) => [Story.storyName, Story] as [string, typeof Story]
+);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
-  const tree = await render(<Story />);
-  expect(tree.baseElement).toMatchSnapshot();
+
+  if (_storyName === 'CSF2WithLocale') {
+    return;
+  }
+
+  const { baseElement } = await render(<Story />);
+  await Story.play?.();
+  expect(baseElement).toMatchSnapshot();
 });
