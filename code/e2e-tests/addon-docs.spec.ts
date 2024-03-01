@@ -34,8 +34,7 @@ test.describe('addon-docs', () => {
     await expect(anotherStory).toContainText('Another button, just to show multiple stories');
   });
 
-  // FIXME - get rid of the flake
-  test.skip('should show source=code view for stories', async ({ page }) => {
+  test('should show source=code view for stories', async ({ page }) => {
     const skipped = [
       // SSv6 does not render stories in the correct order in our sandboxes
       'internal\\/ssv6',
@@ -210,5 +209,20 @@ test.describe('addon-docs', () => {
     await expect(mdxReactDomVersion).toHaveText(expectedReactVersion);
     await expect(componentReactVersion).toHaveText(expectedReactVersion);
     await expect(componentReactDomVersion).toHaveText(expectedReactVersion);
+  });
+
+  test('should have stories from multiple CSF files in autodocs', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('/addons/docs/multiple-csf-files-same-title', 'docs');
+    const root = sbPage.previewRoot();
+
+    const storyHeadings = root.locator('.sb-anchor > h3');
+    await expect(await storyHeadings.count()).toBe(6);
+    await expect(storyHeadings.nth(0)).toHaveText('Default A');
+    await expect(storyHeadings.nth(1)).toHaveText('Span Content');
+    await expect(storyHeadings.nth(2)).toHaveText('Code Content');
+    await expect(storyHeadings.nth(3)).toHaveText('Default B');
+    await expect(storyHeadings.nth(4)).toHaveText('H 1 Content');
+    await expect(storyHeadings.nth(5)).toHaveText('H 2 Content');
   });
 });

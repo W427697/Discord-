@@ -186,6 +186,7 @@ export interface CLIOptions {
   test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
+  statsJson?: string | boolean;
   outputDir?: string;
 }
 
@@ -354,11 +355,6 @@ export interface StorybookConfigRaw {
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Use legacy MDX1, to help smooth migration to 7.0
-     */
-    legacyMdx1?: boolean;
 
     /**
      * Apply decorators from preview.js before decorators from addons or frameworks

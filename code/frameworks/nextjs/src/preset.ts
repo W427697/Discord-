@@ -110,17 +110,15 @@ export const babel: PresetProperty<'babel'> = async (baseConfig: TransformOption
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
-  const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
-    'frameworkOptions'
-  );
-  const { options: { nextConfigPath } = {} } = frameworkOptions;
+  const { nextConfigPath } = await options.presets.apply<FrameworkOptions>('frameworkOptions');
   const nextConfig = await configureConfig({
     baseConfig,
     nextConfigPath,
   });
 
   const babelRCPath = join(getProjectRoot(), '.babelrc');
-  const hasBabelConfig = fs.existsSync(babelRCPath);
+  const babelConfigPath = join(getProjectRoot(), 'babel.config.js');
+  const hasBabelConfig = fs.existsSync(babelRCPath) || fs.existsSync(babelConfigPath);
   const nextjsVersion = getNextjsVersion();
   const isDevelopment = options.configType !== 'PRODUCTION';
 

@@ -6,18 +6,24 @@ import { sync as readUpSync } from 'read-pkg-up';
 import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
-import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@storybook/core-common';
+import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import {
+  parseList,
+  getEnvConfig,
+  JsPackageManagerFactory,
+  versions,
+  removeAddon as remove,
+} from '@storybook/core-common';
+import { withTelemetry } from '@storybook/core-server';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
-import { removeAddon as remove } from '@storybook/core-common';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
-import { automigrate } from './automigrate';
+import { doAutomigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
 import { doctor } from './doctor';
@@ -71,7 +77,14 @@ command('remove <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .action((addonName: string, options: any) => remove(addonName, options));
+  .action((addonName: string, options: any) =>
+    withTelemetry('remove', { cliOptions: options }, async () => {
+      await remove(addonName, options);
+      if (!options.disableTelemetry) {
+        await telemetry('remove', { addon: addonName, source: 'cli' });
+      }
+    })
+  );
 
 command('upgrade')
   .description(`Upgrade your Storybook packages to v${versions.storybook}`)
@@ -80,6 +93,7 @@ command('upgrade')
     'Force package manager for installing dependencies'
   )
   .option('-y --yes', 'Skip prompting the user')
+  .option('-f --force', 'force the upgrade, skipping autoblockers')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
@@ -171,7 +185,7 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
-    await automigrate({ fixId, ...options }).catch((e) => {
+    await doAutomigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     });
@@ -210,7 +224,11 @@ command('dev')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'
@@ -249,7 +267,11 @@ command('build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'

@@ -166,13 +166,15 @@ function getTemplateComponents(
     if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
-    console.log('error', e);
     return [];
   }
 }
 
 function getComponents(template: string): (TemplateChildNode | VNode)[] {
-  const ast = baseParse(template);
+  const ast = baseParse(template, {
+    isNativeTag: () => true,
+    decodeEntities: (rawtext, asAttr) => rawtext,
+  });
   const components = ast?.children;
   if (!components) return [];
   return components;
