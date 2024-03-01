@@ -66,6 +66,17 @@ describe('composeStory', () => {
     Story.play = async (context: any) => {
       spy(context);
     };
+
+    const composedStory = composeStory(Story, meta);
+    await composedStory.play!({ canvasElement: null });
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        args: {
+          ...Story.args,
+          ...meta.args,
+        },
+      })
+    );
   });
 
   it('should throw an error if Story is undefined', () => {
