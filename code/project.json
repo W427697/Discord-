@@ -1,0 +1,7 @@
+{
+  "name": "root",
+  "type": "library",
+  "targets": {
+    "install": {}
+  }
+}

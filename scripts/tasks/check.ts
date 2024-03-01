@@ -9,7 +9,6 @@ const nolinkCommand = `nx affected -t check -c production --parallel=${parallel}
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',
-  dependsOn: ['compile'],
   async ready() {
     return false;
   },

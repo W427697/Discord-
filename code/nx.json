@@ -16,12 +16,24 @@
     }
   },
   "targetDefaults": {
-    "build": {
+    "install": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}",
-        "command": "yarn prep --reset"
+        "commands": [
+          { "prefix": "workspace", "command": "yarn" },
+          { "prefix": "scripts", "command": "yarn --cwd ../scripts" }
+        ]
       },
+      "inputs": [
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/../scripts/package.json",
+        "{workspaceRoot}/{addons,builders,frameworks,lib,presets,renderers,ui}/*/package.json"
+      ],
+      "cache": true
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": { "cwd": "{projectRoot}", "command": "yarn prep --reset" },
       "configurations": {
         "production": {
           "command": "yarn prep --reset --optimized"
@@ -29,14 +41,15 @@
       },
       "inputs": [
         "production",
+        "^production",
         "{workspaceRoot}/../scripts/prepare/{bundle,addon-bundle,esm-bundle}.ts"
       ],
-      "dependsOn": [{ "target": "build", "dependencies": true }],
+      "dependsOn": [{ "target": "install", "projects": ["root"] }, "^build"],
       "outputs": ["{projectRoot}/dist"],
       "cache": true
     },
     "check": {
-      "inputs": ["default", "{workspaceRoot}/../scripts/prepare/check.ts"],
+      "inputs": ["default", "^production", "{workspaceRoot}/../scripts/prepare/check.ts"],
       "dependsOn": ["build", "^build"],
       "outputs": ["{projectRoot}/dist"],
       "cache": true
@@ -44,10 +57,9 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": ["{workspaceRoot}/tsconfig.json"],
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.json", "{workspaceRoot}/package.json"],
     "production": [
       "default",
-      "!{projectRoot}/",
       "!{projectRoot}/src/**/**/*.{test,spec,stories}.?(c|m)[jt]s?(x)?(.snap),",
       "!{projectRoot}/vitest.config.[jt]s",
       "!{projectRoot}/README.md",
