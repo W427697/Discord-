@@ -23,7 +23,6 @@ import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
-import { normalizeArrays } from './normalizeArrays';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
 
@@ -36,46 +35,6 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
   GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
-}
-
-// TODO: we don't have any utility that merges two sets of annotations (e.g. two project annotations)
-// this should be elsewhere, probably reused
-function mergeAnnotations<TRenderer extends Renderer = Renderer>(
-  firstAnnotations: ProjectAnnotations<TRenderer>,
-  secondAnnotations: ProjectAnnotations<TRenderer>
-) {
-  return {
-    ...firstAnnotations,
-    ...secondAnnotations,
-    args: {
-      ...firstAnnotations.args,
-      ...secondAnnotations.args,
-    },
-    argTypes: {
-      ...firstAnnotations.argTypes,
-      ...secondAnnotations.argTypes,
-    },
-    parameters: {
-      ...firstAnnotations.parameters,
-      ...secondAnnotations.parameters,
-    },
-    decorators: [
-      ...normalizeArrays(firstAnnotations.decorators),
-      ...normalizeArrays(secondAnnotations.decorators),
-    ],
-    loaders: [
-      ...normalizeArrays(firstAnnotations.loaders),
-      ...normalizeArrays(secondAnnotations.loaders),
-    ],
-    argsEnhancers: [
-      ...normalizeArrays(firstAnnotations.argsEnhancers),
-      ...normalizeArrays(secondAnnotations.argsEnhancers),
-    ],
-    argTypesEnhancers: [
-      ...normalizeArrays(firstAnnotations.argTypesEnhancers),
-      ...normalizeArrays(secondAnnotations.argTypesEnhancers),
-    ],
-  };
 }
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
@@ -115,7 +74,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   );
 
   const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
-    mergeAnnotations(projectAnnotations, defaultConfig)
+    composeConfigs([projectAnnotations, defaultConfig])
   );
 
   const story = prepareStory<TRenderer>(
