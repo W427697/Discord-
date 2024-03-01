@@ -229,11 +229,7 @@
     "wait-on": "^7.0.1"
   },
   "devDependencies": {
-    "@chromaui/addon-visual-tests": "^0.0.124",
-    "@nx/js": "^18.0.6",
-    "@swc-node/register": "~1.8.0",
-    "@swc/core": "~1.3.85",
-    "@swc/helpers": "~0.5.2"
+    "@chromaui/addon-visual-tests": "^0.0.124"
   },
   "dependenciesMeta": {
     "ejs": {
