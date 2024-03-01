@@ -6338,8 +6338,10 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/react": "workspace:*"
     "@storybook/react-docgen-typescript-plugin": "npm:1.0.6--canary.9.0c3f3b7.0"
+    "@types/enhanced-resolve": "npm:^5.0.0"
     "@types/node": "npm:^18.0.0"
     "@types/semver": "npm:^7.3.4"
+    enhanced-resolve: "npm:^5.15.1"
     fs-extra: "npm:^11.1.0"
     magic-string: "npm:^0.30.5"
     react-docgen: "npm:^7.0.0"
@@ -7531,6 +7533,15 @@ __metadata:
   version: 1.39.8
   resolution: "@types/emscripten@npm:1.39.8"
   checksum: a2cc8ddb734b0cbead13c9d4b7733da07655529bdfbcd8a858067bd6b97f2b622935526a6d6ee5c9c5495d50854d608e34ad9a4e09700858d7b9418799e33197
+  languageName: node
+  linkType: hard
+
+"@types/enhanced-resolve@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@types/enhanced-resolve@npm:5.0.0"
+  dependencies:
+    enhanced-resolve: "npm:*"
+  checksum: fee73e637886a67c7edac560a057c8748b406db0afd36bc635cf3cc61ccb616fdab09ebc3e657813275b8e629056c59b3e0cf8fcd2a4635ca09007cb44533788
   languageName: node
   linkType: hard
 
@@ -13889,6 +13900,16 @@ __metadata:
     engine.io-parser: "npm:~5.2.1"
     ws: "npm:~8.11.0"
   checksum: 1e90c46d682badf0c0a13c671a78ce3f6590f7e6b74b081804eb6e5103be11806015e3cde7eb7c1657c4866edcf069ea40ef1c66386a6befe30f0f1f30d3b2f2
+  languageName: node
+  linkType: hard
+
+"enhanced-resolve@npm:*, enhanced-resolve@npm:^5.15.1":
+  version: 5.15.1
+  resolution: "enhanced-resolve@npm:5.15.1"
+  dependencies:
+    graceful-fs: "npm:^4.2.4"
+    tapable: "npm:^2.2.0"
+  checksum: f56a0f3726dc5fb65cb4518ab0806aecfd553f4cd4146f403ffe618ece36610443d8624a89d18fe0bb0be307b1c9ca8fb835267345ca4afc25d2932d58ced715
   languageName: node
   linkType: hard
 

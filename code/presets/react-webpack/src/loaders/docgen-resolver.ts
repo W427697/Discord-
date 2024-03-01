@@ -1,5 +1,6 @@
 import { extname } from 'path';
-import resolve from 'resolve';
+import fs from 'fs';
+import { CachedInputFileSystem, ResolverFactory } from 'enhanced-resolve';
 
 export class ReactDocgenResolveError extends Error {
   // the magic string that react-docgen uses to check if a module is ignored
@@ -33,16 +34,15 @@ export const RESOLVE_EXTENSIONS = [
   '.jsx',
 ];
 
-export function defaultLookupModule(filename: string, basedir: string): string {
-  const resolveOptions = {
-    basedir,
-    extensions: RESOLVE_EXTENSIONS,
-    // we do not need to check core modules as we cannot import them anyway
-    includeCoreModules: false,
-  };
+const myResolve = ResolverFactory.createResolver({
+  // or resolve.create.sync
+  extensions: RESOLVE_EXTENSIONS,
+  fileSystem: new CachedInputFileSystem(fs, 4000),
+});
 
+export function defaultLookupModule(filename: string, basedir: string) {
   try {
-    return resolve.sync(filename, resolveOptions);
+    return myResolve.resolveSync({}, basedir, filename);
   } catch (error) {
     const ext = extname(filename);
     let newFilename: string;
@@ -65,10 +65,6 @@ export function defaultLookupModule(filename: string, basedir: string): string {
         throw error;
     }
 
-    return resolve.sync(newFilename, {
-      ...resolveOptions,
-      // we already know that there is an extension at this point, so no need to check other extensions
-      extensions: [],
-    });
+    return myResolve.resolveSync({}, basedir, newFilename);
   }
 }
