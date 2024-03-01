@@ -18,7 +18,7 @@ export const check: Task = {
       { cwd: codeDir },
       {
         startMessage: '🥾 Checking for TS errors',
-        errorMessage: '❌ TS errprs detected',
+        errorMessage: '❌ TS errors detected',
         dryRun,
         debug,
       }
