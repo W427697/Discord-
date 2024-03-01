@@ -119,7 +119,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4--macos--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - node/install:
           install-yarn: true
           node-version: '18.18'
