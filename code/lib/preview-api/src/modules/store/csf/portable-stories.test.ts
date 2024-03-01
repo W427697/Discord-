@@ -53,8 +53,8 @@ describe('composeStory', () => {
 
     composedStory();
 
-    expect(decoratorFromProjectAnnotations).toHaveBeenCalled();
-    expect(decoratorFromStoryAnnotations).toHaveBeenCalled();
+    expect(decoratorFromProjectAnnotations).toHaveBeenCalledOnce();
+    expect(decoratorFromStoryAnnotations).toHaveBeenCalledOnce();
   });
 
   it('should compose with a play function', async () => {
