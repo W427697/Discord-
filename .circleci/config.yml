@@ -122,6 +122,9 @@ jobs:
       - run:
           name: Compile
           command: |
+            yarn --cwd code
+            yarn --cwd scripts
+            (cd code && yarn nx report)
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - run:
