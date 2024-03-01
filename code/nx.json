@@ -1,8 +1,9 @@
 {
   "$schema": "../scripts/node_modules/nx/schemas/nx-schema.json",
-  "extends": "../scripts/node_modules/nx/presets/npm.json",
+  "extends": "nx/presets/npm.json",
   "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
   "defaultBase": "next",
+  "affected": { "defaultBase": "next" },
   "parallel": 8,
   "cli": {
     "packageManager": "yarn"
@@ -24,11 +25,7 @@
           { "prefix": "scripts", "command": "yarn --cwd ../scripts" }
         ]
       },
-      "inputs": [
-        "{workspaceRoot}/package.json",
-        "{workspaceRoot}/../scripts/package.json",
-        "{workspaceRoot}/{addons,builders,frameworks,lib,presets,renderers,ui}/*/package.json"
-      ],
+      "inputs": ["{workspaceRoot}/yarn.lock", "{workspaceRoot}/../scripts/yarn.lock"],
       "cache": true
     },
     "build": {
