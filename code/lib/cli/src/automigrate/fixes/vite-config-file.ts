@@ -16,6 +16,8 @@ export const viteConfigFile = {
 
   versionRange: ['<8.0.0-beta.3', '>=8.0.0-beta.3'],
 
+  promptType: 'notification',
+
   async check({ mainConfig, packageManager, mainConfigPath }) {
     let isViteConfigFileFound = !!(await findUp(
       ['vite.config.js', 'vite.config.mjs', 'vite.config.cjs', 'vite.config.ts'],
