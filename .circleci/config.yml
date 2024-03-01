@@ -53,7 +53,6 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
   discord: antonioned/discord@0.1.0
   codecov: codecov/codecov@3.2.4
-  node: circleci/node@5.2.0
 
 commands:
   cancel-workflow-on-failure:
@@ -119,17 +118,11 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4--macos--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - node/install:
-          install-yarn: true
-          node-version: '18.18'
-      - run: node --version
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Compile
           command: |
             yarn --cwd code
-            yarn --cwd scripts
-            (cd code && yarn nx report)
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - run:
@@ -227,7 +220,8 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--shallow-since "14 days ago"'
+          fetch_options: '--shallow-since "14 days ago"'
       - attach_workspace:
           at: .
       - run:

@@ -53,9 +53,6 @@
     "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
     "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch"
   },
-  "nx": {
-    "includedScripts": []
-  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint-staged"
@@ -90,6 +87,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
+    "@nx/vite": "18.0.6",
     "@nx/workspace": "18.0.6",
     "@playwright/test": "1.36.0",
     "@storybook/addon-a11y": "workspace:*",
@@ -262,6 +260,9 @@
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
+  },
+  "nx": {
+    "includedScripts": []
   },
   "pr-log": {
     "skipLabels": [

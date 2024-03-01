@@ -3,11 +3,21 @@
   "extends": "nx/presets/npm.json",
   "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
   "defaultBase": "next",
-  "affected": { "defaultBase": "next" },
+  "affected": {
+    "defaultBase": "next"
+  },
   "parallel": 8,
   "cli": {
     "packageManager": "yarn"
   },
+  "plugins": [
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "testTargetName": "test"
+      }
+    }
+  ],
   "tasksRunnerOptions": {
     "default": {
       "options": {
@@ -21,16 +31,23 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          { "prefix": "workspace", "command": "yarn" },
-          { "prefix": "scripts", "command": "yarn --cwd ../scripts" }
+          {
+            "prefix": "workspace",
+            "command": "yarn"
+          },
+          {
+            "prefix": "scripts",
+            "command": "yarn --cwd ../scripts"
+          }
         ]
-      },
-      "inputs": ["{workspaceRoot}/yarn.lock", "{workspaceRoot}/../scripts/yarn.lock"],
-      "cache": true
+      }
     },
     "build": {
       "executor": "nx:run-commands",
-      "options": { "cwd": "{projectRoot}", "command": "yarn prep --reset" },
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "yarn prep --reset"
+      },
       "configurations": {
         "production": {
           "command": "yarn prep --reset --optimized"
@@ -45,8 +62,23 @@
       "outputs": ["{projectRoot}/dist"],
       "cache": true
     },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "vitest run --project {projectRoot} --passWithNoTests"
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/{vitest.workspace.ts,vitest.helpers.ts,vitest-setup.ts}"
+      ],
+      "cache": true
+    },
     "check": {
-      "configurations": { "production": {} },
+      "configurations": {
+        "production": {}
+      },
       "inputs": ["default", "^production", "{workspaceRoot}/../scripts/prepare/check.ts"],
       "dependsOn": ["build", "^build"],
       "cache": true
@@ -54,7 +86,7 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": ["{workspaceRoot}/tsconfig.json", "{workspaceRoot}/package.json"],
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.json"],
     "production": [
       "default",
       "!{projectRoot}/src/**/**/*.{test,spec,stories}.?(c|m)[jt]s?(x)?(.snap),",
