@@ -1,6 +1,6 @@
 import { listCodemods, runCodemod } from '@storybook/codemod';
 import { runFixes } from './automigrate';
-import { bareMdxStoriesGlob } from './automigrate/fixes/bare-mdx-stories-glob';
+import { mdxToCSF } from './automigrate/fixes/mdx-to-csf';
 import {
   JsPackageManagerFactory,
   getStorybookInfo,
@@ -36,14 +36,17 @@ export async function migrate(migration: any, { glob, dryRun, list, rename, pars
       }
 
       await runFixes({
-        fixes: [bareMdxStoriesGlob],
+        fixes: [mdxToCSF],
         configDir,
         mainConfigPath,
         packageManager,
         storybookVersion,
+        beforeVersion: storybookVersion,
+        isUpgrade: false,
       });
       await addStorybookBlocksPackage();
     }
+
     await runCodemod(migration, { glob, dryRun, logger, rename, parser });
   } else {
     throw new Error('Migrate: please specify a migration name or --list');
