@@ -87,6 +87,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
+    "@nx/eslint": "18.0.6",
     "@nx/vite": "18.0.6",
     "@nx/workspace": "18.0.6",
     "@playwright/test": "1.36.0",
