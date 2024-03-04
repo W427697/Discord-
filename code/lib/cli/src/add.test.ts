@@ -19,7 +19,6 @@ const MockedPostInstall = vi.hoisted(() => {
     postinstallAddon: vi.fn(),
   };
 });
-
 const MockedConsole = {
   log: vi.fn(),
   warn: vi.fn(),
@@ -35,7 +34,6 @@ vi.mock('@storybook/csf-tools', () => {
 vi.mock('./postinstallAddon', () => {
   return MockedPostInstall;
 });
-
 vi.mock('@storybook/core-common', () => {
   return {
     getStorybookInfo: vi.fn(() => ({ mainConfig: {}, configDir: '' })),
