@@ -1,0 +1,19 @@
+{
+  "name": "react-vite/default-js",
+  "type": "sandbox",
+  "implicitDependencies": [
+    "storybook",
+    "test",
+    "addon-essentials",
+    "addon-interactions",
+    "addon-links",
+    "addon-onboarding",
+    "blocks",
+    "react-vite"
+  ],
+  "targets": {
+    "sandbox": {},
+    "sb:dev": {}
+  },
+  "tags": ["ci:daily"]
+}

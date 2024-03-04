@@ -1,0 +1,18 @@
+{
+  "name": "angular-cli/15-ts",
+  "type": "sandbox",
+  "implicitDependencies": [
+    "storybook",
+    "test",
+    "addon-essentials",
+    "addon-interactions",
+    "addon-links",
+    "addon-onboarding",
+    "blocks",
+    "angular"
+  ],
+  "targets": {
+    "sandbox": {}
+  },
+  "tags": ["ci:merged", "ci:daily"]
+}

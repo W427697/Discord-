@@ -1,0 +1,17 @@
+{
+  "name": "solid-vite/default-js",
+  "type": "sandbox",
+  "implicitDependencies": [
+    "storybook",
+    "test",
+    "addon-essentials",
+    "addon-interactions",
+    "addon-links",
+    "addon-onboarding",
+    "blocks"
+  ],
+  "targets": {
+    "sandbox": {}
+  },
+  "tags": []
+}

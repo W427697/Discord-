@@ -1,0 +1,17 @@
+{
+  "name": "qwik-vite/default-ts",
+  "type": "sandbox",
+  "implicitDependencies": [
+    "storybook",
+    "test",
+    "addon-essentials",
+    "addon-interactions",
+    "addon-links",
+    "addon-onboarding",
+    "blocks"
+  ],
+  "targets": {
+    "sandbox": {}
+  },
+  "tags": ["ci:daily"]
+}

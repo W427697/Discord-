@@ -1,5 +1,5 @@
 {
-  "$schema": "../scripts/node_modules/nx/schemas/nx-schema.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "extends": "nx/presets/npm.json",
   "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
   "defaultBase": "next",
@@ -52,11 +52,12 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{projectRoot}",
-        "command": "yarn prep --reset"
+        "command": "yarn prep",
+        "args": "--reset"
       },
       "configurations": {
         "production": {
-          "command": "yarn prep --reset --optimized"
+          "args": "--reset --optimized"
         }
       },
       "inputs": [
@@ -72,7 +73,8 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "vitest run --project {projectRoot} --passWithNoTests"
+        "command": "vitest run --project={projectRoot}",
+        "args": "--passWithNoTests"
       },
       "inputs": [
         "default",
@@ -86,18 +88,37 @@
         "production": {}
       },
       "inputs": ["default", "^production", "{workspaceRoot}/../scripts/prepare/check.ts"],
-      "dependsOn": ["build", "^build"],
+      "dependsOn": ["build"],
       "cache": true
     },
     "lint": {
       "executor": "nx:run-commands",
-      "outputs": ["{options.outputFile}"],
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "yarn lint:js:cmd {projectRoot} --quiet"
+        "command": "yarn lint:js:cmd {projectRoot}",
+        "args": "--quiet"
       },
       "inputs": ["default", "{workspaceRoot}/{.eslintignore,.eslintrc.js}"],
       "cache": true
+    },
+    "sandbox": {
+      "executor": "nx:run-commands",
+      "inputs": [{ "runtime": "storybook --version" }],
+      "outputs": ["{workspaceRoot}/../sandbox/{projectRoot}"],
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "yarn task sandbox -s sandbox --template={projectName}"
+      },
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+    "sb:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}/../{projectRoot}",
+        "command": "yarn storybook > tmp.log &"
+      },
+      "dependsOn": ["sandbox"]
     }
   },
   "namedInputs": {

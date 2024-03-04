@@ -1,0 +1,18 @@
+{
+  "name": "svelte-kit/skeleton-js",
+  "type": "sandbox",
+  "implicitDependencies": [
+    "storybook",
+    "test",
+    "addon-essentials",
+    "addon-interactions",
+    "addon-links",
+    "addon-onboarding",
+    "blocks",
+    "sveltekit"
+  ],
+  "targets": {
+    "sandbox": {}
+  },
+  "tags": ["ci:daily"]
+}
