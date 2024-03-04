@@ -46,7 +46,7 @@ const checkInstalled = (addonName: string, main: any) => {
   return !!existingAddon;
 };
 
-const isCoreAddon = (addonName: string) => !!versions[addonName as keyof typeof versions];
+const isCoreAddon = (addonName: string) => Object.hasOwn(versions, addonName);
 
 /**
  * Install the given addon package and add it to main.js
