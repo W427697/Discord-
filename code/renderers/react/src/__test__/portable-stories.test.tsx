@@ -1,5 +1,5 @@
-import { vi, it, expect, afterEach, describe } from 'vitest';
 import React from 'react';
+import { vi, it, expect, afterEach, describe } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { addons } from '@storybook/preview-api';
 //@ts-expect-error our tsconfig.jsn#moduleResolution is set to 'node', which doesn't support this import
@@ -50,11 +50,11 @@ describe('renders', () => {
 
   it('should call and compose loaders data', async () => {
     await LoaderStory.load();
-    const { getByTestId, container } = render(<LoaderStory />);
-    expect(getByTestId('spy-data').textContent).toEqual('baz');
-    expect(getByTestId('loaded-data').textContent).toEqual('bar');
+    const { getByTestId } = render(<LoaderStory />);
+    expect(getByTestId('spy-data').textContent).toEqual('mockFn return value');
+    expect(getByTestId('loaded-data').textContent).toEqual('loaded data');
     // spy assertions happen in the play function and should work
-    await LoaderStory.play!({ canvasElement: container as HTMLElement });
+    await LoaderStory.play!();
   });
 });
 
@@ -81,7 +81,7 @@ describe('projectAnnotations', () => {
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globals: { locale: 'pt' } as any,
+      globals: { locale: 'pt' },
     });
     const { getByText } = render(<WithPortugueseText />);
     const buttonElement = getByText('Olá!');
@@ -128,7 +128,18 @@ describe('CSF3', () => {
     expect(screen.getByTestId('custom-render')).not.toBeNull();
   });
 
-  it('renders with play function', async () => {
+  it('renders with play function without canvas element', async () => {
+    const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
+
+    render(<CSF3InputFieldFilled />);
+
+    await CSF3InputFieldFilled.play!();
+
+    const input = screen.getByTestId('input') as HTMLInputElement;
+    expect(input.value).toEqual('Hello world!');
+  });
+
+  it('renders with play function with canvas element', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
     const { container } = render(<CSF3InputFieldFilled />);
@@ -179,12 +190,14 @@ const testCases = Object.values(composeStories(stories)).map(
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
 
-  if (_storyName === 'CSF2WithLocale') {
+  if (_storyName === 'CSF2StoryWithLocale') {
     return;
   }
 
   await Story.load();
-  const { container, baseElement } = await render(<Story />);
-  await Story.play?.({ canvasElement: container });
+
+  const { baseElement } = await render(<Story />);
+
+  await Story.play?.();
   expect(baseElement).toMatchSnapshot();
 });
