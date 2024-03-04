@@ -73,7 +73,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "vitest run --project={projectRoot}",
+        "command": "yarn vitest run --project={projectRoot}",
         "args": "--passWithNoTests"
       },
       "inputs": [
@@ -116,7 +116,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}/../{projectRoot}",
-        "command": "yarn storybook > tmp.log &"
+        "command": "yarn storybook --no-open"
       },
       "dependsOn": ["sandbox"]
     }
