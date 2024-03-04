@@ -79,6 +79,31 @@ describe('composeStory', () => {
     );
   });
 
+  it('should merge parameters with correct precedence in all combinations', async () => {
+    const storyAnnotations = { render: () => {} };
+    const metaAnnotations: Meta = { parameters: { label: 'meta' } };
+    const projectAnnotations: Meta = { parameters: { label: 'projectOverrides' } };
+
+    const storyPrecedence = composeStory(
+      { ...storyAnnotations, parameters: { label: 'story' } },
+      metaAnnotations,
+      projectAnnotations
+    );
+    expect(storyPrecedence.parameters.label).toEqual('story');
+
+    const metaPrecedence = composeStory(storyAnnotations, metaAnnotations, projectAnnotations);
+    expect(metaPrecedence.parameters.label).toEqual('meta');
+
+    const projectPrecedence = composeStory(storyAnnotations, {}, projectAnnotations);
+    expect(projectPrecedence.parameters.label).toEqual('projectOverrides');
+
+    setProjectAnnotations({ parameters: { label: 'setProjectAnnotationsOverrides' } });
+    const setProjectAnnotationsPrecedence = composeStory(storyAnnotations, {}, {});
+    expect(setProjectAnnotationsPrecedence.parameters.label).toEqual(
+      'setProjectAnnotationsOverrides'
+    );
+  });
+
   it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)

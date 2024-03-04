@@ -24,7 +24,7 @@ import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
-let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
+let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
 export function getPortableStoryWrapperId(storyId: string) {
   return `storybook-story-${storyId}`;
@@ -34,24 +34,18 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
-  GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
+  globalProjectAnnotations = composeConfigs(annotations);
 }
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
   componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-  projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS as ProjectAnnotations<TRenderer>,
-  defaultConfig: ProjectAnnotations<TRenderer> = {},
+  projectAnnotations?: ProjectAnnotations<TRenderer>,
+  defaultConfig?: ProjectAnnotations<TRenderer>,
   exportsName?: string
 ): ComposedStoryFn<TRenderer, Partial<TArgs>> {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
-  }
-
-  // users might pass an empty object instead of undefined e.g. composeStory(story, meta, {}, exportsName)
-  // and likely they expect the default project annotations to be used instead of completely resetting them
-  if (typeof projectAnnotations === 'object' && Object.keys(projectAnnotations).length === 0) {
-    projectAnnotations = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS as ProjectAnnotations<TRenderer>;
   }
 
   // @TODO: Support auto title
@@ -74,7 +68,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   );
 
   const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
-    composeConfigs([defaultConfig, projectAnnotations])
+    composeConfigs([defaultConfig ?? {}, globalProjectAnnotations, projectAnnotations ?? {}])
   );
 
   const story = prepareStory<TRenderer>(
@@ -83,13 +77,13 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     normalizedProjectAnnotations
   );
 
-  const defaultGlobals = getValuesFromArgTypes(projectAnnotations.globalTypes);
+  const globalsFromGlobalTypes = getValuesFromArgTypes(normalizedProjectAnnotations.globalTypes);
 
   const context: StoryContext<TRenderer> = {
     hooks: new HooksContext(),
     globals: {
-      ...defaultGlobals,
-      ...projectAnnotations.globals,
+      ...globalsFromGlobalTypes,
+      ...normalizedProjectAnnotations.globals,
     },
     args: { ...story.initialArgs },
     viewMode: 'story',
