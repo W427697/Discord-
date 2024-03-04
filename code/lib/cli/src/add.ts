@@ -2,8 +2,9 @@ import {
   getStorybookInfo,
   serverRequire,
   JsPackageManagerFactory,
-  versions,
+  getCoercedStorybookVersion,
   type PackageManagerName,
+  versions,
 } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { isAbsolute, join } from 'path';
@@ -44,6 +45,8 @@ const checkInstalled = (addonName: string, main: any) => {
   });
   return !!existingAddon;
 };
+
+const isCoreAddon = (addonName: string) => !!versions[addonName as keyof typeof versions];
 
 /**
  * Install the given addon package and add it to main.js
@@ -88,10 +91,16 @@ export async function add(
   const main = await readConfig(mainConfig);
   logger.log(`Verifying ${addonName}`);
 
-  const storybookVersion = versions[addonName as keyof typeof versions] as string | undefined;
-  const isStorybookAddon = addonName.startsWith('@storybook/');
-  const version =
-    inputVersion || storybookVersion || (await packageManager.latestVersion(addonName));
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
+
+  let version = inputVersion;
+
+  if (!version && isCoreAddon(addonName) && storybookVersion) {
+    version = storybookVersion;
+  }
+  if (!version) {
+    version = await packageManager.latestVersion(addonName);
+  }
 
   if (storybookVersion && version !== storybookVersion) {
     logger.warn(
@@ -110,7 +119,7 @@ export async function add(
   main.appendValueToArray(['addons'], addonName);
   await writeConfig(main);
 
-  if (!options.skipPostinstall && isStorybookAddon) {
+  if (!options.skipPostinstall && isCoreAddon(addonName)) {
     await postinstallAddon(addonName, { packageManager: packageManager.type });
   }
 }

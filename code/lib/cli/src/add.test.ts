@@ -43,8 +43,9 @@ vi.mock('@storybook/core-common', () => {
     JsPackageManagerFactory: {
       getPackageManager: vi.fn(() => MockedPackageManager),
     },
+    getCoercedStorybookVersion: vi.fn(() => '8.0.0'),
     versions: {
-      '@storybook/addon-onboarding': '8.0.0',
+      'storybook/addon-docs': '^8.0.0',
     },
   };
 });
@@ -80,9 +81,9 @@ describe('add', () => {
     { full: '@org/aa@4.1.0-alpha.1', expected: '@org/aa@^4.1.0-alpha.1' },
     { full: '@org/aa@next', expected: '@org/aa@next' },
 
-    { full: '@storybook/addon-onboarding@~4', expected: '@storybook/addon-onboarding@~4' },
-    { full: '@storybook/addon-onboarding@next', expected: '@storybook/addon-onboarding@next' },
-    { full: '@storybook/addon-onboarding', expected: '@storybook/addon-onboarding@^8.0.0' }, // takes it from the versions file
+    { full: 'storybook/addon-docs@~4', expected: 'storybook/addon-docs@~4' },
+    { full: 'storybook/addon-docs@next', expected: 'storybook/addon-docs@next' },
+    { full: 'storybook/addon-docs', expected: 'storybook/addon-docs@^8.0.0' }, // takes it from the versions file
   ];
 
   test.each(testData)('$full', async ({ full, expected }) => {
@@ -105,35 +106,37 @@ describe('add', () => {
 describe('add (extra)', () => {
   test('not warning when installing the correct version of storybook', async () => {
     await add(
-      '@storybook/addon-onboarding',
+      'storybook/addon-docs',
       { packageManager: 'npm', skipPostinstall: true },
       MockedConsole
     );
 
     expect(MockedConsole.warn).not.toHaveBeenCalledWith(
-      `The version of @storybook/addon-onboarding you are installing is not the same as the version of Storybook you are using. This may lead to unexpected behavior.`
+      expect.stringContaining(`is not the same as the version of Storybook you are using.`)
     );
   });
-  test('warning when installing a specific version of storybook', async () => {
+  test('warning when installing a core addon mismatching version of storybook', async () => {
     await add(
-      '@storybook/addon-onboarding@2.0.0',
+      'storybook/addon-docs@2.0.0',
       { packageManager: 'npm', skipPostinstall: true },
       MockedConsole
     );
 
     expect(MockedConsole.warn).toHaveBeenCalledWith(
-      `The version of @storybook/addon-onboarding you are installing is not the same as the version of Storybook you are using. This may lead to unexpected behavior.`
+      expect.stringContaining(
+        `The version of storybook/addon-docs you are installing is not the same as the version of Storybook you are using. This may lead to unexpected behavior.`
+      )
     );
   });
 
   test('postInstall', async () => {
     await add(
-      '@storybook/addon-onboarding',
+      'storybook/addon-docs',
       { packageManager: 'npm', skipPostinstall: false },
       MockedConsole
     );
 
-    expect(MockedPostInstall.postinstallAddon).toHaveBeenCalledWith('@storybook/addon-onboarding', {
+    expect(MockedPostInstall.postinstallAddon).toHaveBeenCalledWith('storybook/addon-docs', {
       packageManager: 'npm',
     });
   });
