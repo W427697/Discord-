@@ -4,7 +4,10 @@ import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { userEvent, within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/test';
-import isChromatic from 'chromatic/isChromatic';
+
+// this os the best way to prevent a heavy dependency
+// see: https://github.com/storybookjs/storybook/pull/26233#pullrequestreview-1910542379
+import { isChromatic } from '../../../../ui/.storybook/isChromatic';
 
 import { getCalls, getInteractions } from '../mocks';
 import { InteractionsPanel } from './InteractionsPanel';
