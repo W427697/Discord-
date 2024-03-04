@@ -67,33 +67,33 @@ describe('getVersionSpecifier', (it) => {
 
 describe('add', () => {
   const testData = [
-    { full: 'aa', expected: 'aa@^1.0.0' }, // resolves to the latest version
-    { full: 'aa@4', expected: 'aa@^4' },
-    { full: 'aa@4.1.0', expected: 'aa@^4.1.0' },
-    { full: 'aa@^4', expected: 'aa@^4' },
-    { full: 'aa@~4', expected: 'aa@~4' },
-    { full: 'aa@4.1.0-alpha.1', expected: 'aa@^4.1.0-alpha.1' },
-    { full: 'aa@next', expected: 'aa@next' },
+    { input: 'aa', expected: 'aa@^1.0.0' }, // resolves to the latest version
+    { input: 'aa@4', expected: 'aa@^4' },
+    { input: 'aa@4.1.0', expected: 'aa@^4.1.0' },
+    { input: 'aa@^4', expected: 'aa@^4' },
+    { input: 'aa@~4', expected: 'aa@~4' },
+    { input: 'aa@4.1.0-alpha.1', expected: 'aa@^4.1.0-alpha.1' },
+    { input: 'aa@next', expected: 'aa@next' },
 
-    { full: '@org/aa', expected: '@org/aa@^1.0.0' },
-    { full: '@org/aa@4', expected: '@org/aa@^4' },
-    { full: '@org/aa@4.1.0', expected: '@org/aa@^4.1.0' },
-    { full: '@org/aa@4.1.0-alpha.1', expected: '@org/aa@^4.1.0-alpha.1' },
-    { full: '@org/aa@next', expected: '@org/aa@next' },
+    { input: '@org/aa', expected: '@org/aa@^1.0.0' },
+    { input: '@org/aa@4', expected: '@org/aa@^4' },
+    { input: '@org/aa@4.1.0', expected: '@org/aa@^4.1.0' },
+    { input: '@org/aa@4.1.0-alpha.1', expected: '@org/aa@^4.1.0-alpha.1' },
+    { input: '@org/aa@next', expected: '@org/aa@next' },
 
-    { full: 'storybook/addon-docs@~4', expected: 'storybook/addon-docs@~4' },
-    { full: 'storybook/addon-docs@next', expected: 'storybook/addon-docs@next' },
-    { full: 'storybook/addon-docs', expected: 'storybook/addon-docs@^8.0.0' }, // takes it from the versions file
+    { input: 'storybook/addon-docs@~4', expected: 'storybook/addon-docs@~4' },
+    { input: 'storybook/addon-docs@next', expected: 'storybook/addon-docs@next' },
+    { input: 'storybook/addon-docs', expected: 'storybook/addon-docs@^8.0.0' }, // takes it from the versions file
   ];
 
-  test.each(testData)('$full', async ({ full, expected }) => {
-    const [input] = getVersionSpecifier(full);
+  test.each(testData)('$full', async ({ input, expected }) => {
+    const [packageName] = getVersionSpecifier(input);
 
-    await add(full, { packageManager: 'npm', skipPostinstall: true }, MockedConsole);
+    await add(input, { packageManager: 'npm', skipPostinstall: true }, MockedConsole);
 
     expect(MockedConfig.appendValueToArray).toHaveBeenCalledWith(
       expect.arrayContaining(['addons']),
-      input
+      packageName
     );
 
     expect(MockedPackageManager.addDependencies).toHaveBeenCalledWith(
