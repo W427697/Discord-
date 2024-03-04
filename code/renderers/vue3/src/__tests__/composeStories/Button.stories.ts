@@ -123,23 +123,23 @@ export const CSF3InputFieldFilled: CSF3Story = {
   },
 };
 
-const spyFn = fn();
-export const LoaderStory: StoryObj<{ spyFn: (val: string) => string }> = {
+const mockFn = fn();
+export const LoaderStory: StoryObj<{ mockFn: (val: string) => string }> = {
   args: {
-    spyFn,
+    mockFn,
   },
   loaders: [
     async () => {
-      spyFn.mockReturnValueOnce('baz');
+      mockFn.mockReturnValueOnce('mockFn return value');
       return {
-        value: 'bar',
+        value: 'loaded data',
       };
     },
   ],
   render: (args, { loaded }) => ({
     components: { Button },
     setup() {
-      return { args, data: args.spyFn('foo'), loaded: loaded.value };
+      return { args, data: args.mockFn('render'), loaded: loaded.value };
     },
     template: `
       <div>
@@ -149,6 +149,6 @@ export const LoaderStory: StoryObj<{ spyFn: (val: string) => string }> = {
     `,
   }),
   play: async () => {
-    expect(spyFn).toHaveBeenCalledWith('foo');
+    expect(mockFn).toHaveBeenCalledWith('render');
   },
 };

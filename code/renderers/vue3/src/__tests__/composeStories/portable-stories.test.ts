@@ -44,11 +44,11 @@ describe('renders', () => {
 
   it('should call and compose loaders data', async () => {
     await LoaderStory.load();
-    const { getByTestId, container } = render(LoaderStory);
-    expect(getByTestId('spy-data').textContent).toEqual('baz');
-    expect(getByTestId('loaded-data').textContent).toEqual('bar');
+    const { getByTestId } = render(LoaderStory);
+    expect(getByTestId('spy-data').textContent).toEqual('mockFn return value');
+    expect(getByTestId('loaded-data').textContent).toEqual('loaded data');
     // spy assertions happen in the play function and should work
-    await LoaderStory.play!({ canvasElement: container as HTMLElement });
+    await LoaderStory.play!();
   });
 });
 
@@ -71,7 +71,7 @@ describe('projectAnnotations', () => {
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globals: { locale: 'pt' } as any,
+      globals: { locale: 'pt' },
     });
     const { getByText } = render(WithPortugueseText);
     const buttonElement = getByText('Olá!');
@@ -141,11 +141,7 @@ describe('ComposeStories types', () => {
 // Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
-  if (
-    typeof Story === 'string' ||
-    _storyName === 'CSF2StoryWithParamsAndDecorator' ||
-    _storyName === 'CSF2StoryWithLocale'
-  ) {
+  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithLocale') {
     return;
   }
 
