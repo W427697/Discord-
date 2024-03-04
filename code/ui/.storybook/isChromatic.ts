@@ -1,4 +1,4 @@
-export function isChromatic(windowArg: any) {
+export function isChromatic(windowArg?: any) {
   const windowToCheck = windowArg || (typeof window !== 'undefined' && window);
   return !!(
     windowToCheck &&
