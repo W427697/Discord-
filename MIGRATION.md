@@ -2,6 +2,7 @@
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Portable stories](#portable-stories)
+    - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
     - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
@@ -404,6 +405,21 @@
 ## From version 7.x to 8.0.0
 
 ### Portable stories
+
+#### Project annotations are now merged instead of overwritten in composeStory
+
+When passing project annotations overrides via `composeStory` such as:
+
+```tsx
+const projectAnnotationOverrides = { parameters: { foo: "bar" } };
+const Primary = composeStory(
+  stories.Primary,
+  stories,
+  projectAnnotationOverrides
+);
+```
+
+they are now merged with the annotations passed via `setProjectAnnotations` rather than completely overwriting them. This was seen as a bug and it's now fixed. If you have a use case where you really need this, please open an issue to elaborate.
 
 #### Type change in `composeStories` API
 
