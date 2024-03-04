@@ -5,7 +5,8 @@ import type {
   StoryAnnotationsOrFn as Story,
   Store_CSFExports,
 } from '@storybook/types';
-import { composeStory, composeStories } from './portable-stories';
+
+import { composeStory, composeStories, setProjectAnnotations } from './portable-stories';
 
 type StoriesModule = Store_CSFExports & Record<string, any>;
 
@@ -21,6 +22,87 @@ describe('composeStory', () => {
       primary: true,
     },
   };
+
+  it('should return story with composed annotations from story, meta and project', () => {
+    const decoratorFromProjectAnnotations = vi.fn((StoryFn) => StoryFn());
+    const decoratorFromStoryAnnotations = vi.fn((StoryFn) => StoryFn());
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+        decorators: [decoratorFromProjectAnnotations],
+      },
+    ]);
+
+    const Story: Story = {
+      render: () => {},
+      args: { primary: true },
+      parameters: {
+        secondAddon: true,
+      },
+      decorators: [decoratorFromStoryAnnotations],
+    };
+
+    const composedStory = composeStory(Story, meta);
+    expect(composedStory.args).toEqual({ ...Story.args, ...meta.args });
+    expect(composedStory.parameters).toEqual(
+      expect.objectContaining({ ...Story.parameters, ...meta.parameters })
+    );
+
+    composedStory();
+
+    expect(decoratorFromProjectAnnotations).toHaveBeenCalledOnce();
+    expect(decoratorFromStoryAnnotations).toHaveBeenCalledOnce();
+  });
+
+  it('should compose with a play function', async () => {
+    const spy = vi.fn();
+    const Story: Story = () => {};
+    Story.args = {
+      primary: true,
+    };
+    Story.play = async (context: any) => {
+      spy(context);
+    };
+
+    const composedStory = composeStory(Story, meta);
+    await composedStory.play!({ canvasElement: null });
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        args: {
+          ...Story.args,
+          ...meta.args,
+        },
+      })
+    );
+  });
+
+  it('should merge parameters with correct precedence in all combinations', async () => {
+    const storyAnnotations = { render: () => {} };
+    const metaAnnotations: Meta = { parameters: { label: 'meta' } };
+    const projectAnnotations: Meta = { parameters: { label: 'projectOverrides' } };
+
+    const storyPrecedence = composeStory(
+      { ...storyAnnotations, parameters: { label: 'story' } },
+      metaAnnotations,
+      projectAnnotations
+    );
+    expect(storyPrecedence.parameters.label).toEqual('story');
+
+    const metaPrecedence = composeStory(storyAnnotations, metaAnnotations, projectAnnotations);
+    expect(metaPrecedence.parameters.label).toEqual('meta');
+
+    const projectPrecedence = composeStory(storyAnnotations, {}, projectAnnotations);
+    expect(projectPrecedence.parameters.label).toEqual('projectOverrides');
+
+    setProjectAnnotations({ parameters: { label: 'setProjectAnnotationsOverrides' } });
+    const setProjectAnnotationsPrecedence = composeStory(storyAnnotations, {}, {});
+    expect(setProjectAnnotationsPrecedence.parameters.label).toEqual(
+      'setProjectAnnotationsOverrides'
+    );
+  });
 
   it('should call and compose loaders data', async () => {
     const loadSpy = vi.fn();
@@ -43,8 +125,8 @@ describe('composeStory', () => {
 
     const composedStory = composeStory(LoaderStory, {});
     await composedStory.load();
-    expect(loadSpy).toHaveBeenCalled();
     composedStory();
+    expect(loadSpy).toHaveBeenCalled();
   });
 
   it('should work with spies set up in loaders', async () => {
@@ -69,44 +151,6 @@ describe('composeStory', () => {
     await composedStory.load();
     composedStory();
     expect(spyFn).toHaveBeenCalled();
-  });
-
-  it('should return story with composed args and parameters', () => {
-    const Story: Story = () => {};
-    Story.args = { primary: true };
-    Story.parameters = {
-      parameters: {
-        secondAddon: true,
-      },
-    };
-
-    const composedStory = composeStory(Story, meta);
-    expect(composedStory.args).toEqual({ ...Story.args, ...meta.args });
-    expect(composedStory.parameters).toEqual(
-      expect.objectContaining({ ...Story.parameters, ...meta.parameters })
-    );
-  });
-
-  it('should compose with a play function', async () => {
-    const spy = vi.fn();
-    const Story: Story = () => {};
-    Story.args = {
-      primary: true,
-    };
-    Story.play = async (context: any) => {
-      spy(context);
-    };
-
-    const composedStory = composeStory(Story, meta);
-    await composedStory.play!({ canvasElement: null });
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        args: {
-          ...Story.args,
-          ...meta.args,
-        },
-      })
-    );
   });
 
   it('should throw an error if Story is undefined', () => {
@@ -139,7 +183,7 @@ describe('composeStory', () => {
     });
     it("is not unique when composeStory is used and exportsName isn't passed", () => {
       const Primary = composeStory({ render: () => {} }, {});
-      expect(Primary.id).toContain('unknown');
+      expect(Primary.id).toContain('composedstory--unnamed-story');
     });
   });
 });
