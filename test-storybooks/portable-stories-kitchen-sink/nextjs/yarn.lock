@@ -2979,7 +2979,7 @@ __metadata:
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-rc.1
-  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=c304de&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=4ad01c&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -3036,7 +3036,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 6ae98df4fcb2519694e69bbd6fee452b3ffb4b49f8541ac1a9d42be4246d10ea71ad3050cc5b3550f226127b867afb184ab8c33eed70e8df13fe9345ee460bc5
+  checksum: a32d21c3bfd75f1dbb613f0e74dadcbc9b7afbf3f2c2983efd6fa8a838ed43a3ffe699a5acfaf553ad23413dc87c533ead38510317d0f93cd4d71c134624f3e5
   languageName: node
   linkType: hard
 
@@ -3135,7 +3135,7 @@ __metadata:
 
 "@storybook/react@file:../../../code/renderers/react::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.0.0-rc.1
-  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=88b856&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=aab233&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -3165,7 +3165,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 4499e691630b153a1a6dadbee21c97f1d0b1627a15c147e379c8968cbedc5df33a682801517a3aa81b4bf1eb021cd79b523e53211d9686ba57342b383163fa1a
+  checksum: 5373f2a050ece9fcd0ffad19fc26a4d4b0ee9502530a89e858156cdd3eeda618925f63e33e0a072f61d5fa9469c376d4ba9a51da888e46cd7b7b50ceeb669227
   languageName: node
   linkType: hard
 

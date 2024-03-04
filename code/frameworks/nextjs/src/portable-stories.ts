@@ -2,6 +2,7 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
+  composeConfigs,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -11,10 +12,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import {
-  render as reactRenderFn,
-  parameters as reactParameters,
-} from '../../../renderers/react/src/entry-preview';
+import { INTERNAL_DEFAULT_PROJECT_ANNOTATIONS as reactAnnotations } from '../../../renderers/react/src/portable-stories';
 import * as nextJsAnnotations from './preview';
 
 import type { ReactRenderer, Meta } from '@storybook/react';
@@ -41,14 +39,10 @@ export function setProjectAnnotations(
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
-  ...nextJsAnnotations,
-  render: reactRenderFn,
-  parameters: {
-    ...nextJsAnnotations.parameters,
-    ...reactParameters,
-  },
-};
+const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = composeConfigs([
+  reactAnnotations,
+  nextJsAnnotations,
+]);
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)

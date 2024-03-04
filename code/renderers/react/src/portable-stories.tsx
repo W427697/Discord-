@@ -39,7 +39,7 @@ export function setProjectAnnotations(
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
+export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> = {
   ...reactProjectAnnotations,
   decorators: [
     function addStorybookId(StoryFn, { id }) {
@@ -89,7 +89,7 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    defaultProjectAnnotations,
+    INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
     exportsName
   );
 }
