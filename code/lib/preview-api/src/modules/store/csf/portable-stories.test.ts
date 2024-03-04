@@ -104,6 +104,55 @@ describe('composeStory', () => {
     );
   });
 
+  it('should call and compose loaders data', async () => {
+    const loadSpy = vi.fn();
+    const args = { story: 'story' };
+    const LoaderStory: Story = {
+      args,
+      loaders: [
+        async (context) => {
+          loadSpy();
+          expect(context.args).toEqual(args);
+          return {
+            foo: 'bar',
+          };
+        },
+      ],
+      render: (_args, { loaded }) => {
+        expect(loaded).toEqual({ foo: 'bar' });
+      },
+    };
+
+    const composedStory = composeStory(LoaderStory, {});
+    await composedStory.load();
+    composedStory();
+    expect(loadSpy).toHaveBeenCalled();
+  });
+
+  it('should work with spies set up in loaders', async () => {
+    const spyFn = vi.fn();
+
+    const Story: Story = {
+      args: {
+        spyFn,
+      },
+      loaders: [
+        async () => {
+          spyFn.mockReturnValue('mockedData');
+        },
+      ],
+      render: (args) => {
+        const data = args.spyFn();
+        expect(data).toBe('mockedData');
+      },
+    };
+
+    const composedStory = composeStory(Story, {});
+    await composedStory.load();
+    composedStory();
+    expect(spyFn).toHaveBeenCalled();
+  });
+
   it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)

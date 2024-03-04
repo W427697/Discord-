@@ -13,7 +13,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import { render } from './render';
+import * as reactProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { ReactRenderer } from './types';
 
@@ -40,7 +40,7 @@ export function setProjectAnnotations(
 
 // This will not be necessary once we have auto preset loading
 const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
-  render,
+  ...reactProjectAnnotations,
   decorators: [
     function addStorybookId(StoryFn, { id }) {
       return (

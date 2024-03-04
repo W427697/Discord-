@@ -48,6 +48,7 @@ export type ComposedStoryFn<
   args: TArgs;
   id: StoryId;
   play?: ComposedStoryPlayFn<TRenderer, TArgs>;
+  load: () => Promise<void>;
   storyName: string;
   parameters: Parameters;
   argTypes: StrictArgTypes<TArgs>;
