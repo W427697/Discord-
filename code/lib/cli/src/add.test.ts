@@ -114,11 +114,7 @@ describe('add (extra)', () => {
     );
   });
   test('not warning when installing unrelated package', async () => {
-    await add(
-      '@storybook/addon-docs',
-      { packageManager: 'npm', skipPostinstall: true },
-      MockedConsole
-    );
+    await add('aa', { packageManager: 'npm', skipPostinstall: true }, MockedConsole);
 
     expect(MockedConsole.warn).not.toHaveBeenCalledWith(
       expect.stringContaining(`is not the same as the version of Storybook you are using.`)
