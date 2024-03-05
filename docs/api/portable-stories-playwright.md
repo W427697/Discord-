@@ -120,9 +120,9 @@ This API should be called once, before the tests run, in [`playwright/index.ts`]
 // Replace <your-renderer> with your renderer, e.g. react, vue3
 import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import * as addonAnnotations from 'my-addon/preview';
-import sbAnnotations from '../.storybook/preview';
+import * as previewAnnotations from './.storybook/preview';
 
-setProjectAnnotations([sbAnnotations, addonAnnotations]);
+setProjectAnnotations([previewAnnotations, addonAnnotations]);
 ```
 
 <Callout variant="warning">

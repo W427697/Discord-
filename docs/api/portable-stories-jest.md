@@ -189,7 +189,7 @@ If you are using an addon that is required for your stories to render, you will 
 
 ```ts
 // setup-portable-stories.ts
-// Replace <your-renderer> with your renderer, e.g. react, vue3
+// Replace <your-renderer> with your renderer, e.g. nextjs, react, vue3
 import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import * as addonAnnotations from 'my-addon/preview';
 import * as previewAnnotations from './.storybook/preview';
@@ -277,8 +277,6 @@ The story has been prepared and can be rendered. To render, you pass it into the
 Finally, stories can define a [play function](../essentials/interactions.md#play-function-for-interactions) to interact with the story and assert on details after it has rendered. In portable stories, the play function does not run automatically—you have to call it yourself.
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed Story will return a `play` method to be called **after** it has rendered.
-
-The play function needs a `canvasElement`, which should be passed by you. A `canvasElement` is the HTML element which wraps your component. Each testing utility provides different ways to retrieve such element, but here's how to do it with Testing Library:
 
 <!-- prettier-ignore-start -->
 

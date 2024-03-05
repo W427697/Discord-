@@ -261,8 +261,6 @@ Finally, stories can define a [play function](../essentials/interactions.md#play
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed Story will return a `play` method to be called **after** it has rendered.
 
-The play function needs a `canvasElement`, which should be passed by you. A `canvasElement` is the HTML element which wraps your component. Each testing utility provides different ways to retrieve such element, but here's how to do it with Testing Library:
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
