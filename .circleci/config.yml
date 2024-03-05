@@ -127,7 +127,7 @@ jobs:
       - run:
           name: Compile
           command: |
-            yarn nx run-many -t build -c production
+            yarn nx run-many -t build -c production --parallel 3
             git diff --exit-code
       - run:
           name: Publish to Verdaccio
@@ -163,7 +163,7 @@ jobs:
       - run:
           name: Lint
           command: |
-            yarn nx affected:lint -c production
+            yarn nx affected:lint -c production --parallel 3
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   check:
@@ -185,7 +185,7 @@ jobs:
       - run:
           name: Check
           command: |
-            yarn nx affected -t check,check-templates -c production
+            yarn nx affected -t check,check-templates -c production --parallel 6
             git diff --exit-code
       - report-workflow-on-failure
       - cancel-workflow-on-failure
@@ -208,7 +208,7 @@ jobs:
       - run:
           name: Test
           command: |
-            yarn nx affected:test -c production
+            yarn nx affected:test -c production --parallel 6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
