@@ -99,6 +99,7 @@
         "command": "yarn lint:js:cmd {projectRoot}",
         "args": "--quiet"
       },
+      "dependsOn": ["build"],
       "inputs": ["default", "{workspaceRoot}/{.eslintignore,.eslintrc.js}"],
       "cache": true
     },

@@ -121,9 +121,12 @@ jobs:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
             - build-yarn-2-cache-v4.1--
       - run:
-          name: Compile
+          name: Install
           command: |
             yarn i
+      - run:
+          name: Compile
+          command: |
             yarn nx run-many -t build -c production
             git diff --exit-code
       - run:
@@ -147,15 +150,19 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+          clone_options: '--shallow-since "7 days ago"'
+          fetch_options: '--shallow-since "7 days ago"'
       - restore_cache:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Lint
+          name: Install
           command: |
             yarn i
+      - run:
+          name: Lint
+          command: |
             yarn nx affected:lint -c production
       - report-workflow-on-failure
       - cancel-workflow-on-failure
@@ -165,15 +172,16 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          # assuming we merge to main at least once every 2 weeks
-          # this is needed for nx affected
-          clone_options: '--shallow-since "14 days ago"'
-          fetch_options: '--shallow-since "14 days ago"'
+          clone_options: '--shallow-since "7 days ago"'
+          fetch_options: '--shallow-since "7 days ago"'
       - restore_cache:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-            - build-yarn-2-cache-v4.1--
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Check
           command: |
@@ -187,12 +195,16 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--shallow-since "14 days ago"'
-          fetch_options: '--shallow-since "14 days ago"'
+          clone_options: '--shallow-since "7 days ago"'
+          fetch_options: '--shallow-since "7 days ago"'
       - restore_cache:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Test
           command: |
@@ -230,9 +242,12 @@ jobs:
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Running Chromatic
+          name: Install
           command: |
             yarn i
+      - run:
+          name: Running Chromatic
+          command: |
             cd code
             yarn storybook:ui:chromatic
             yarn storybook:blocks:chromatic
@@ -256,9 +271,12 @@ jobs:
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Creating Sandboxes
+          name: Install
           command: |
             yarn i
+      - run:
+          name: Creating Sandboxes
+          command: |
             yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
