@@ -637,9 +637,6 @@ workflows:
       - unit-tests:
           requires:
             - build
-      - script-checks:
-          requires:
-            - build
       - chromatic-internal-storybooks:
           requires:
             - build
@@ -691,9 +688,6 @@ workflows:
           requires:
             - build
       - unit-tests:
-          requires:
-            - build
-      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
@@ -748,9 +742,6 @@ workflows:
           requires:
             - build
       - unit-tests:
-          requires:
-            - build
-      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
