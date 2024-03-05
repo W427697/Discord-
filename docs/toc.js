@@ -173,12 +173,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],
