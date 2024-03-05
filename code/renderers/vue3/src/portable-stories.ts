@@ -20,13 +20,9 @@ import type { VueRenderer } from './types';
 const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
   ...vueProjectAnnotations,
   decorators: [
-    function addStorybookId(story, { id }) {
-      return {
-        components: { story },
-        template: `<div data-story="true" id="${getPortableStoryWrapperId(id)}">
-          <story />
-        </div>`,
-      };
+    function (story, { id }) {
+      const wrapperProps = { 'data-story': true, id: getPortableStoryWrapperId(id) };
+      return h('div', wrapperProps, h(story()));
     },
   ],
 };
@@ -69,7 +65,7 @@ export function setProjectAnnotations(
  * const Primary = composeStory(PrimaryStory, Meta);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -119,7 +115,7 @@ export function composeStory<TArgs extends Args = Args>(
  * const { Primary, Secondary } = composeStories(stories);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
