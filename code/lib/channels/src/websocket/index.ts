@@ -5,9 +5,7 @@ import { global } from '@storybook/global';
 import { isJSON, parse, stringify } from 'telejson';
 import invariant from 'tiny-invariant';
 
-// I tried to use an import statement, but it didn't work
-const { CHANNEL_WS_DISCONNECT } = require('@storybook/core-events');
-
+import * as EVENTS from '@storybook/core-events';
 import type { ChannelTransport, ChannelHandler, Config } from '../types';
 
 const { WebSocket } = global;
@@ -29,7 +27,6 @@ export class WebsocketTransport implements ChannelTransport {
   private isReady = false;
 
   constructor({ url, onError, page }: WebsocketTransportArgs) {
-    console.log({ WebSocket });
     this.socket = new WebSocket(url);
     this.socket.onopen = () => {
       this.isReady = true;
@@ -47,7 +44,7 @@ export class WebsocketTransport implements ChannelTransport {
     };
     this.socket.onclose = () => {
       invariant(this.handler, 'WebsocketTransport handler should be set');
-      this.handler({ type: CHANNEL_WS_DISCONNECT, args: [], from: page || 'preview' });
+      this.handler({ type: EVENTS.CHANNEL_WS_DISCONNECT, args: [], from: page || 'preview' });
     };
   }
 

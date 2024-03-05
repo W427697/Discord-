@@ -296,16 +296,12 @@ describe('WebsocketTransport', () => {
     transport.setHandler(handler);
     MockedWebsocket.ref.current.onclose();
 
-    expect(handler.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          {
-            "args": [],
-            "from": "preview",
-            "type": "channelWSDisconnect",
-          },
-        ],
-      ]
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "channelWSDisconnect",
+      }
     `);
   });
   it('should send message when send', async () => {
@@ -321,16 +317,12 @@ describe('WebsocketTransport', () => {
     transport.setHandler(handler);
     MockedWebsocket.ref.current.send('{ "type": "test", "args": [], "from": "preview" }');
 
-    expect(handler.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          {
-            "args": [],
-            "from": "preview",
-            "type": "test",
-          },
-        ],
-      ]
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "test",
+      }
     `);
   });
   it('should call onError handler', async () => {
@@ -346,12 +338,6 @@ describe('WebsocketTransport', () => {
     transport.setHandler(handler);
     MockedWebsocket.ref.current.onerror(new Error('testError'));
 
-    expect(onError.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          [Error: testError],
-        ],
-      ]
-    `);
+    expect(onError.mock.calls[0][0]).toMatchInlineSnapshot(`[Error: testError]`);
   });
 });
