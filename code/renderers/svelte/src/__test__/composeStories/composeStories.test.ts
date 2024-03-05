@@ -1,7 +1,7 @@
 /// <reference types="@testing-library/jest-dom" />;
 import { it, expect, vi, describe } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import '@testing-library/svelte/vitest';
+// import '@testing-library/svelte/vitest';
 import { expectTypeOf } from 'expect-type';
 import type { Meta } from '../../';
 import * as stories from './Button.stories';
@@ -17,7 +17,8 @@ const { CSF3Primary } = composeStories(stories);
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
 it('renders primary button', () => {
-  render(CSF3Primary);
+  const CSF3PrimaryRendered = CSF3Primary();
+  render(CSF3PrimaryRendered.Component, { props: CSF3PrimaryRendered.props });
   // const buttonElement = screen.getByText(/Hello world/i);
   // expect(buttonElement).toBeInTheDocument();
 });
