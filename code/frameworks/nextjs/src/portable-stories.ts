@@ -12,6 +12,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
+// ! ATTENTION: This needs to be a relative import so it gets prebundled. This is to avoid ESM issues in Nextjs + Jest setups
 import { INTERNAL_DEFAULT_PROJECT_ANNOTATIONS as reactAnnotations } from '../../../renderers/react/src/portable-stories';
 import * as nextJsAnnotations from './preview';
 
