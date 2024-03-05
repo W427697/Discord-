@@ -255,7 +255,7 @@ export async function getPullInfoFromCommit(request: {
       pull: associatedPullRequest
         ? `[#${associatedPullRequest.number}](${associatedPullRequest.url})`
         : null,
-      user: user ? `@${user.login}` : null,
+      user: user ? `[@${user.login}](${user.url})` : null,
     },
   };
 }
@@ -294,7 +294,7 @@ export async function getPullInfoFromPullRequest(request: {
     links: {
       commit: commit ? `[\`${commit.oid}\`](${commit.commitUrl})` : null,
       pull: `[#${request.pull}](https://github.com/${request.repo}/pull/${request.pull})`,
-      user: user ? `@${user.login}` : null,
+      user: user ? `[@${user.login}](${user.url})` : null,
     },
   };
 }
