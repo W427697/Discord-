@@ -124,7 +124,7 @@ jobs:
           name: Compile
           command: |
             yarn i
-            yarn nx run-many -t build
+            yarn nx run-many -t build -c production
             git diff --exit-code
       - run:
           name: Publish to Verdaccio
