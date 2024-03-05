@@ -267,7 +267,7 @@ jobs:
       - run:
           name: Creating Sandboxes
           command: |
-            yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
+            yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=compile --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
       - persist_to_workspace:
@@ -324,7 +324,9 @@ jobs:
           background: true
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
+          command: |
+            yarn nx run-many -t build -c production --parallel 3
+            yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
           command: |

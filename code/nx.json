@@ -118,7 +118,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}/../{projectRoot}",
-        "command": "yarn storybook --no-open"
+        "command": "yarn storybook"
       },
       "dependsOn": ["sandbox"]
     }
