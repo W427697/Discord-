@@ -53,6 +53,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
   discord: antonioned/discord@0.1.0
   codecov: codecov/codecov@3.2.4
+  node: circleci/node@5.2.0
 
 commands:
   cancel-workflow-on-failure:
@@ -112,18 +113,19 @@ jobs:
     executor:
       class: large
       name: sb_node_16_classic
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-            - build-yarn-2-cache-v4.1--
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
+      - node/install-packages:
+          app-dir: scripts
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
+      - node/install-packages:
+          app-dir: code
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
       - run:
           name: Compile
           command: |
@@ -135,11 +137,6 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
-      - save_cache:
-          name: Save Yarn cache
-          key: build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-          paths:
-            - ~/.yarn/berry/cache
       - persist_to_workspace:
           root: .
           paths:
@@ -148,6 +145,8 @@ jobs:
     executor:
       class: large
       name: sb_node_16_classic
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "7 days ago"'
@@ -156,10 +155,14 @@ jobs:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
+      - node/install-packages:
+          app-dir: scripts
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
+      - node/install-packages:
+          app-dir: code
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
       - run:
           name: Lint
           command: |
@@ -170,18 +173,20 @@ jobs:
     executor:
       class: xlarge
       name: sb_node_16_classic
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "7 days ago"'
           fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
+      - node/install-packages:
+          app-dir: scripts
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
+      - node/install-packages:
+          app-dir: code
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
       - run:
           name: Check
           command: |
@@ -193,18 +198,20 @@ jobs:
     executor:
       class: xlarge
       name: sb_node_16_browsers
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "7 days ago"'
           fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
+      - node/install-packages:
+          app-dir: scripts
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
+      - node/install-packages:
+          app-dir: code
+          cache-version: 4.1.1
+          pkg-manager: yarn-berry
       - run:
           name: Test
           command: |
