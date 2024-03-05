@@ -185,10 +185,6 @@ jobs:
           keys:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Install
-          command: |
-            yarn i
-      - run:
           name: Check
           command: |
             yarn nx affected -t check,check-templates -c production --parallel 6
@@ -208,13 +204,9 @@ jobs:
           keys:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Install
-          command: |
-            yarn i
-      - run:
           name: Test
           command: |
-            yarn nx affected:test -c production --parallel 6
+            yarn nx affected:test --coverage -c production --parallel 6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -248,10 +240,6 @@ jobs:
           keys:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
-      - run:
           name: Running Chromatic
           command: |
             cd code
@@ -276,10 +264,6 @@ jobs:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Creating Sandboxes
           command: |
@@ -310,10 +294,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
-      - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test) --no-link --start-from=never --junit
       - report-workflow-on-failure:
@@ -337,10 +317,6 @@ jobs:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Starting Event Collector
           command: node --loader esbuild-register/loader -r esbuild-register ./event-log-collector.ts
