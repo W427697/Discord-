@@ -12,63 +12,28 @@ index 195dac9ee7d42fdb76bb22dc37580fa0bffd4680..980ad42f41a06023f9f7e370fd382c92
    "dependencies": {
      "@testing-library/dom": "^9.3.1"
 diff --git a/src/pure.js b/src/pure.js
-index 6d4943412448c9f310f007ca7dab9d04cef90d0d..6c6d23f7ba709e04ddefe68399c17d27f33ef96d 100644
+index 6d4943412448c9f310f007ca7dab9d04cef90d0d..d62f4aebeb1b23ccc3c3d82aadd67075c6507c0e 100644
 --- a/src/pure.js
 +++ b/src/pure.js
-@@ -1,9 +1,9 @@
- import {
-   fireEvent as dtlFireEvent,
+@@ -3,7 +3,7 @@ import {
    getQueriesForElement,
--  prettyDOM
-+  prettyDOM,
+   prettyDOM
  } from '@testing-library/dom'
 -import { tick } from 'svelte'
-+import { tick, createRoot } from 'svelte'
++import { tick, mount, unmount } from 'svelte'
  
  const containerCache = new Set()
  const componentCache = new Set()
-@@ -14,13 +14,13 @@ const svelteComponentOptions = [
-   'props',
-   'hydrate',
-   'intro',
--  'context'
-+  'context',
- ]
- 
- const render = (
-   Component,
-   { target, ...options } = {},
--  { container, queries } = {}
-+  { container, queries } = {},
- ) => {
-   container = container || document.body
-   target = target || container.appendChild(document.createElement('div'))
-@@ -29,13 +29,13 @@ const render = (
- 
-   const checkProps = (options) => {
-     const isProps = !Object.keys(options).some((option) =>
--      svelteComponentOptions.includes(option)
-+      svelteComponentOptions.includes(option),
-     )
- 
-     // Check if any props and Svelte options were accidentally mixed.
-     if (!isProps) {
-       const unrecognizedOptions = Object.keys(options).filter(
--        (option) => !svelteComponentOptions.includes(option)
-+        (option) => !svelteComponentOptions.includes(option),
-       )
- 
-       if (unrecognizedOptions.length > 0) {
-@@ -54,18 +54,15 @@ const render = (
+@@ -54,40 +54,34 @@ const render = (
      return { props: options }
    }
  
 -  let component = new ComponentConstructor({
-+  let component = createRoot(ComponentConstructor, {
++  let component = mount(ComponentConstructor, {
      target,
 -    ...checkProps(options)
 +    ...checkProps(options),
-+    ondestroy: () => componentCache.delete(component),
++    ondestroy: () => componentCache.delete(component)
    })
  
    containerCache.add({ container, target, component })
@@ -81,17 +46,17 @@ index 6d4943412448c9f310f007ca7dab9d04cef90d0d..6c6d23f7ba709e04ddefe68399c17d27
    return {
      container,
      component,
-@@ -73,23 +70,19 @@ const render = (
+     debug: (el = container) => console.log(prettyDOM(el)),
      rerender: (options) => {
-       if (componentCache.has(component)) component.$destroy()
+-      if (componentCache.has(component)) component.$destroy()
++      if (componentCache.has(component)) unmount(component)
  
--      // eslint-disable-next-line no-new
--      component = new ComponentConstructor({
-+      component = createRoot(ComponentConstructor, {
+       // eslint-disable-next-line no-new
+       component = new ComponentConstructor({
          target,
 -        ...checkProps(options)
 +        ...checkProps(options),
-+        ondestroy: () => componentCache.delete(component),
++        ondestroy: () => componentCache.delete(component)
        })
  
        containerCache.add({ container, target, component })
@@ -102,14 +67,21 @@ index 6d4943412448c9f310f007ca7dab9d04cef90d0d..6c6d23f7ba709e04ddefe68399c17d27
 -      })
      },
      unmount: () => {
-       if (componentCache.has(component)) component.$destroy()
+-      if (componentCache.has(component)) component.$destroy()
++      if (componentCache.has(component)) unmount(component)
      },
--    ...getQueriesForElement(container, queries)
-+    ...getQueriesForElement(container, queries),
+     ...getQueriesForElement(container, queries)
    }
- }
+@@ -96,7 +90,7 @@ const render = (
+ const cleanupAtContainer = (cached) => {
+   const { target, component } = cached
  
-@@ -109,9 +102,10 @@ const cleanup = () => {
+-  if (componentCache.has(component)) component.$destroy()
++  if (componentCache.has(component)) unmount(component)
+ 
+   if (target.parentNode === document.body) {
+     document.body.removeChild(target)
+@@ -109,9 +103,10 @@ const cleanup = () => {
    Array.from(containerCache.keys()).forEach(cleanupAtContainer)
  }
  

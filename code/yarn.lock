@@ -7346,12 +7346,12 @@ __metadata:
 
 "@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch":
   version: 4.1.0
-  resolution: "@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch::version=4.1.0&hash=b98ce0"
+  resolution: "@testing-library/svelte@patch:@testing-library/svelte@npm%3A4.1.0#~/.yarn/patches/@testing-library-svelte-npm-4.1.0-34b7037bc0.patch::version=4.1.0&hash=490043"
   dependencies:
     "@testing-library/dom": "npm:^9.3.1"
   peerDependencies:
     svelte: ^3 || ^4
-  checksum: 80f213b04582d0d64755e01d8a9a8b556883d2fb58f4b34902025b0459b1bb9beab4dc128d9dbee4c7d6ceb3d3107fd450cde0940176a4c2eecb513f2575514e
+  checksum: 95586fa05bb536fb538d01731a705121d71797a77ab7a8e1f255909e50dfe4fa09f3a6678a60b8a075332dd45940c0fa37d002d2f6c201400295fa3840c88821
   languageName: node
   linkType: hard
 
