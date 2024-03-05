@@ -669,7 +669,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -727,7 +727,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       - bench:
           parallelism: 5
           requires:
@@ -790,7 +790,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       - test-empty-init:
           requires:
             - build

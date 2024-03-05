@@ -1,9 +1,8 @@
-import React from 'react';
 import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
+  composeConfigs,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -13,9 +12,11 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import * as reactProjectAnnotations from './entry-preview';
-import type { Meta } from './public-types';
-import type { ReactRenderer } from './types';
+// ! ATTENTION: This needs to be a relative import so it gets prebundled. This is to avoid ESM issues in Nextjs + Jest setups
+import { INTERNAL_DEFAULT_PROJECT_ANNOTATIONS as reactAnnotations } from '../../../renderers/react/src/portable-stories';
+import * as nextJsAnnotations from './preview';
+
+import type { ReactRenderer, Meta } from '@storybook/react';
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *
@@ -24,7 +25,7 @@ import type { ReactRenderer } from './types';
  * Example:
  *```jsx
  * // setup.js (for jest)
- * import { setProjectAnnotations } from '@storybook/react';
+ * import { setProjectAnnotations } from '@storybook/nextjs';
  * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);
@@ -39,18 +40,10 @@ export function setProjectAnnotations(
 }
 
 // This will not be necessary once we have auto preset loading
-export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> = {
-  ...reactProjectAnnotations,
-  decorators: [
-    function addStorybookId(StoryFn, { id }) {
-      return (
-        <div data-story id={getPortableStoryWrapperId(id)}>
-          <StoryFn />
-        </div>
-      );
-    },
-  ],
-};
+const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = composeConfigs([
+  reactAnnotations,
+  nextJsAnnotations,
+]);
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
@@ -63,7 +56,7 @@ export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRende
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStory } from '@storybook/react';
+ * import { composeStory } from '@storybook/nextjs';
  * import Meta, { Primary as PrimaryStory } from './Button.stories';
  *
  * const Primary = composeStory(PrimaryStory, Meta);
@@ -89,7 +82,7 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
+    defaultProjectAnnotations,
     exportsName
   );
 }
@@ -105,7 +98,7 @@ export function composeStory<TArgs extends Args = Args>(
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStories } from '@storybook/react';
+ * import { composeStories } from '@storybook/nextjs';
  * import * as stories from './Button.stories';
  *
  * const { Primary, Secondary } = composeStories(stories);
