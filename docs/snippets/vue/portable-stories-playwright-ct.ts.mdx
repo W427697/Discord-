@@ -1,0 +1,15 @@
+```ts
+// Button.playwright.test.ts
+import { createTest } from '@storybook/vue3/experimental-playwright';
+import { test as base } from '@playwright/experimental-ct-vue';
+
+import stories from './Button.portable';
+
+const test = createTest(base);
+
+test('renders primary button', async ({ mount }) => {
+  // The mount function will execute all the necessary steps in the story,
+  // such as loaders, render, and play function
+  await mount(stories.Primary);
+});
+```
