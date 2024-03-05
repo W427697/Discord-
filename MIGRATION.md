@@ -5,6 +5,7 @@
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
     - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
+    - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -464,6 +465,25 @@ test("snapshots the story with custom id", () => {
 
   const { baseElement } = render(<Primary />);
   expect(baseElement).toMatchSnapshot();
+});
+```
+
+#### Composed Vue stories are now components instead of functions
+
+`composeStory` (and `composeStories`) from `@storybook/vue3` now returns Vue components rather than story functions that return components. This means that when rendering these composed stories you just pass the composed story _without_ first calling it.
+
+Previously when using `composeStory` from `@storybook/testing-vue` you would render composed stories with eg. `render(MyStoryComposedStory({ someProps: true}))`. That is now changed to more [closely match how you would render regular Vue components](https://testing-library.com/docs/vue-testing-library/examples). Here's an example using `@testing-library/vue` and Vitest:
+
+```diff
+import { it } from 'vitest';
+import { render } from '@testing-library/vue';
+import * as stories from './Button.stories';
+import { composeStory } from '@storybook/vue3';
+
+it('renders primary button', () => {
+  const ComposedButton = composeStory(sotries.Primary);
+-  render(ComposedButton({ label: 'Hello world' }));
++  render(ComposedButton, { props: { label: 'Hello world' } });
 });
 ```
 
