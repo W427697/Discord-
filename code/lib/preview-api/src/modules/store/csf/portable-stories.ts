@@ -5,7 +5,7 @@ import type {
   Args,
   ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
-  ProjectAnnotations,
+  NamedOrDefaultProjectAnnotations,
   ComposedStoryPlayFn,
   ComposeStoryFn,
   Store_CSFExports,
@@ -24,24 +24,35 @@ import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
-let globalProjectAnnotations: ProjectAnnotations<any> = {};
+let globalProjectAnnotations: NamedOrDefaultProjectAnnotations<any> = {};
 
 export function getPortableStoryWrapperId(storyId: string) {
   return `storybook-story-${storyId}`;
 }
 
+function extractAnnotation<TRenderer extends Renderer = Renderer>(
+  annotation: NamedOrDefaultProjectAnnotations<TRenderer>
+) {
+  // support imports such as
+  // import * as annotations from '.storybook/preview'
+  // in both cases: 1 - the file has a default export; 2 - named exports only
+  return 'default' in annotation ? annotation.default : annotation;
+}
+
 export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
-  projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<TRenderer>
+    | NamedOrDefaultProjectAnnotations<TRenderer>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
-  globalProjectAnnotations = composeConfigs(annotations);
+  globalProjectAnnotations = composeConfigs(annotations.map(extractAnnotation));
 }
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
   componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-  projectAnnotations?: ProjectAnnotations<TRenderer>,
-  defaultConfig?: ProjectAnnotations<TRenderer>,
+  projectAnnotations?: NamedOrDefaultProjectAnnotations<TRenderer>,
+  defaultConfig?: NamedOrDefaultProjectAnnotations<TRenderer>,
   exportsName?: string
 ): ComposedStoryFn<TRenderer, Partial<TArgs>> {
   if (storyAnnotations === undefined) {
@@ -69,7 +80,11 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   );
 
   const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
-    composeConfigs([defaultConfig ?? {}, globalProjectAnnotations, projectAnnotations ?? {}])
+    composeConfigs(
+      [defaultConfig ?? {}, globalProjectAnnotations, projectAnnotations ?? {}].map(
+        extractAnnotation
+      )
+    )
   );
 
   const story = prepareStory<TRenderer>(
@@ -135,7 +150,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
 export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
-  globalConfig: ProjectAnnotations<Renderer>,
+  globalConfig: NamedOrDefaultProjectAnnotations<Renderer>,
   composeStoryFn: ComposeStoryFn
 ) {
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;

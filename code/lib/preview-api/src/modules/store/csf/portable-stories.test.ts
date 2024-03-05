@@ -23,6 +23,37 @@ describe('composeStory', () => {
     },
   };
 
+  it('should compose project annotations in all module formats', () => {
+    setProjectAnnotations([
+      {
+        // import annotations from '.storybook/preview'
+        parameters: {
+          fromAnnotations: {
+            asObjectImport: true,
+          },
+        },
+      },
+      {
+        // import * as annotations from '.storybook/preview'
+        default: {
+          parameters: {
+            fromAnnotations: {
+              asDefaultImport: true,
+            },
+          },
+        },
+      },
+    ]);
+
+    const Story: Story = {
+      render: () => {},
+    };
+
+    const composedStory = composeStory(Story, meta);
+    expect(composedStory.parameters.fromAnnotations.asObjectImport).toEqual(true);
+    expect(composedStory.parameters.fromAnnotations.asDefaultImport).toEqual(true);
+  });
+
   it('should return story with composed annotations from story, meta and project', () => {
     const decoratorFromProjectAnnotations = vi.fn((StoryFn) => StoryFn());
     const decoratorFromStoryAnnotations = vi.fn((StoryFn) => StoryFn());

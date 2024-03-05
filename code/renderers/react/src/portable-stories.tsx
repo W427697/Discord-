@@ -7,7 +7,7 @@ import {
 } from '@storybook/preview-api';
 import type {
   Args,
-  ProjectAnnotations,
+  NamedOrDefaultProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -33,13 +33,15 @@ import type { ReactRenderer } from './types';
  * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<ReactRenderer>
+    | NamedOrDefaultProjectAnnotations<ReactRenderer>[]
 ) {
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
+const defaultProjectAnnotations: NamedOrDefaultProjectAnnotations<ReactRenderer> = {
   ...reactProjectAnnotations,
   decorators: [
     function addStorybookId(StoryFn, { id }) {
@@ -82,7 +84,7 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
 export function composeStory<TArgs extends Args = Args>(
   story: StoryAnnotationsOrFn<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
-  projectAnnotations?: ProjectAnnotations<ReactRenderer>,
+  projectAnnotations?: NamedOrDefaultProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactRenderer, TArgs>(
@@ -121,7 +123,7 @@ export function composeStory<TArgs extends Args = Args>(
  */
 export function composeStories<TModule extends Store_CSFExports<ReactRenderer, any>>(
   csfExports: TModule,
-  projectAnnotations?: ProjectAnnotations<ReactRenderer>
+  projectAnnotations?: NamedOrDefaultProjectAnnotations<ReactRenderer>
 ) {
   // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);

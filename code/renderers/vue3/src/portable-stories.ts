@@ -6,7 +6,7 @@ import {
 } from '@storybook/preview-api';
 import type {
   Args,
-  ProjectAnnotations,
+  NamedOrDefaultProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -17,7 +17,7 @@ import * as vueProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
 
-const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
+const defaultProjectAnnotations: NamedOrDefaultProjectAnnotations<VueRenderer> = {
   ...vueProjectAnnotations,
   decorators: [
     function (story, { id }) {
@@ -43,7 +43,9 @@ const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
  * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<VueRenderer> | ProjectAnnotations<VueRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<VueRenderer>
+    | NamedOrDefaultProjectAnnotations<VueRenderer>[]
 ) {
   originalSetProjectAnnotations<VueRenderer>(projectAnnotations);
 }
@@ -78,7 +80,7 @@ export function setProjectAnnotations(
 export function composeStory<TArgs extends Args = Args>(
   story: StoryAnnotationsOrFn<VueRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
-  projectAnnotations?: ProjectAnnotations<VueRenderer>,
+  projectAnnotations?: NamedOrDefaultProjectAnnotations<VueRenderer>,
   exportsName?: string
 ) {
   const composedStory = originalComposeStory<VueRenderer, TArgs>(
@@ -125,7 +127,7 @@ export function composeStory<TArgs extends Args = Args>(
  */
 export function composeStories<TModule extends Store_CSFExports<VueRenderer, any>>(
   csfExports: TModule,
-  projectAnnotations?: ProjectAnnotations<VueRenderer>
+  projectAnnotations?: NamedOrDefaultProjectAnnotations<VueRenderer>
 ) {
   // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but VueRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
