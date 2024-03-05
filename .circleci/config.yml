@@ -123,7 +123,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Compile
           command: |
@@ -159,7 +159,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Lint
           command: |
@@ -181,7 +181,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Check
           command: |
@@ -204,7 +204,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Test
           command: |
@@ -244,7 +244,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Chromatic
           command: |
@@ -273,7 +273,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Creating Sandboxes
           command: |
@@ -306,7 +306,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test) --no-link --start-from=never --junit
@@ -334,7 +334,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Starting Event Collector
           command: node --loader esbuild-register/loader -r esbuild-register ./event-log-collector.ts
@@ -381,7 +381,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
@@ -409,7 +409,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Test Runner in Dev mode
           command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
@@ -436,7 +436,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic) --no-link --start-from=never --junit
@@ -495,7 +495,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
@@ -526,7 +526,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Bench
           command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
@@ -554,7 +554,7 @@ jobs:
       - run:
           name: Install
           command: |
-            yarn i
+            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - when:
           condition:
             equal: ["npm", << parameters.packageManager >>]
