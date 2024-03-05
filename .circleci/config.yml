@@ -151,10 +151,6 @@ jobs:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "7 days ago"'
           fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - node/install-packages:
           app-dir: scripts
           cache-version: 4.1.1
@@ -215,7 +211,7 @@ jobs:
       - run:
           name: Test
           command: |
-            yarn nx affected:test -c production --parallel 6
+            yarn nx affected:test --coverage -c production --parallel 6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:

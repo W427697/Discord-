@@ -3,10 +3,10 @@
   "extends": "nx/presets/npm.json",
   "nxCloudAccessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
   "defaultBase": "next",
+  "parallel": 8,
   "affected": {
     "defaultBase": "next"
   },
-  "parallel": 8,
   "cli": {
     "packageManager": "yarn"
   },
