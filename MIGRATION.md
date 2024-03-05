@@ -64,6 +64,7 @@
     - [Removed `passArgsFirst` option](#removed-passargsfirst-option)
     - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
+    - [Removals in @storybook/components](#removals-in-storybookcomponents)
     - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [hideNoControlsWarning parameter from addon controls](#hidenocontrolswarning-parameter-from-addon-controls)
@@ -1039,6 +1040,45 @@ The following exports from `@storybook/preview-api` are now removed:
 - `useAddonState`
 
 Please file an issue if you need these APIs.
+
+#### Removals in @storybook/components
+
+The `TooltipLinkList` component accepts a `links` property where, for each link, a `left` property could be passed. The left property is now removed in Storybook 8 and beyond. Use `icon` instead. The side-effect is that the `left` property is now removed from the `Link` component. The Link component is used to define `globalTypes` in the `preview.js` file, among other places:
+
+```diff
+// Replace your-framework with the framework you are using (e.g., react, vue3)
+import { Preview } from '@storybook/your-framework';
+
+const preview: Preview = {
+  globalTypes: {
+    locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: [
+          {
+            value: 'en',
+            right: '🇺🇸',
+-            left: '＄'
++            icon: 'facehappy'
+            title: 'English'
+          },
+          { value: 'fr', right: '🇫🇷', title: 'Français' },
+          { value: 'es', right: '🇪🇸', title: 'Español' },
+          { value: 'zh', right: '🇨🇳', title: '中文' },
+          { value: 'kr', right: '🇰🇷', title: '한국어' },
+        ],
+      },
+    },
+  },
+};
+
+export default preview;
+```
+
+The icon property only supports a limited set of icons, which are defined here:
+https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon
 
 #### Removals in @storybook/types
 
