@@ -3,6 +3,7 @@
 
 export { getPreviewHeadTemplate, getPreviewBodyTemplate } from '@storybook/core-common';
 
+export { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 export * from './build-static';
 export * from './build-dev';
 export * from './withTelemetry';
