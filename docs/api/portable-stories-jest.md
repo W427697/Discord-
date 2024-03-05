@@ -91,15 +91,15 @@ An object where the keys are the names of the stories and the values are the com
 
 Additionally, the composed story will have the following properties:
 
-| Property   | Type                                      | Description                                                     |
-| ---------- | ----------------------------------------- | --------------------------------------------------------------- |
-| storyName  | `string`                                  | The story's name                                                |
-| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                  |
-| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                          |
-| id         | `string`                                  | The story's id                                                  |
-| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                       |
-| load       | `() => Promise<void>`                     | Executes all the [loaders](#2-load-optional) for a given story  |
-| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story |
+| Property   | Type                                                     | Description                                                     |
+| ---------- | -------------------------------------------------------- | --------------------------------------------------------------- |
+| storyName  | `string`                                                 | The story's name                                                |
+| args       | `Record<string, any>`                                    | The story's [args](../writing-stories/args.md)                  |
+| argTypes   | `ArgType`                                                | The story's [argTypes](./arg-types.md)                          |
+| id         | `string`                                                 | The story's id                                                  |
+| parameters | `Record<string, any>`                                    | The story's [parameters](./parameters.md)                       |
+| load       | `() => Promise<void>`                                    | Executes all the [loaders](#2-load-optional) for a given story  |
+| play       | `(context?: StoryContext) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story |
 
 ## composeStory
 

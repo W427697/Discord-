@@ -38,7 +38,7 @@ Normally, Storybok composes a story and its [annotations](#annotations) automati
 
 <Callout variant="info">
 
-You may need to alias the `vue` module to resolve correctly in the Playwright CT environment. You can do this via the [`ctViteConfig` property](https://playwright.dev/docs/test-components#i-have-a-project-that-already-uses-vite-can-i-reuse-the-config):
+If your stories use template-based Vue components, you may need to alias the `vue` module to resolve correctly in the Playwright CT environment. You can do this via the [`ctViteConfig` property](https://playwright.dev/docs/test-components#i-have-a-project-that-already-uses-vite-can-i-reuse-the-config):
 
 <details>
 <summary>Example Playwright configuration</summary>

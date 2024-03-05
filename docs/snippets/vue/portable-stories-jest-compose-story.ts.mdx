@@ -11,7 +11,7 @@ test('onclick handler is called', () => {
   const PrimaryStory = composeStory(Primary, meta);
 
   const onClickSpy = jest.fn();
-  render(Primary({ onClick: onClickSpy }));
+  render(Primary, { props: { onClick: onClickSpy } });
   const buttonElement = screen.getByRole('button');
   buttonElement.click();
   expect(onClickSpy).toHaveBeenCalled();
