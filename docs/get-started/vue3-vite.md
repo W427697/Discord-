@@ -2,12 +2,28 @@
 title: Storybook for Vue & Vite
 ---
 
+export const SUPPORTED_RENDERER = 'vue';
+
 Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Vue](https://vuejs.org/) applications built with [Vite](https://vitejs.dev/). It includes:
 
 - 🏎️ Pre-bundled for performance
 - 🪄 Zero config
 - 🧠 Comprehensive docgen
 - 💫 and more!
+
+<If notRenderer={SUPPORTED_RENDERER}>
+
+<Callout variant="info">
+
+Storybook for Vue & Vite is only supported in [Vue](?renderer=vue) projects.
+
+</Callout>
+
+<!-- End non-supported renderers -->
+
+</If>
+
+<If renderer={SUPPORTED_RENDERER}>
 
 ## Requirements
 
@@ -306,3 +322,7 @@ Default: `'vue-docgen-api'`
 Since: `8.0`
 
 Choose which docgen tool to use when generating controls for your components. See [Using `vue-component-meta`](#using-vue-component-meta) for more information.
+
+<!-- End supported renderers -->
+
+</If>

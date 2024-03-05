@@ -2,6 +2,8 @@
 title: Storybook for Next.js
 ---
 
+export const SUPPORTED_RENDERER = 'react';
+
 Storybook for Next.js is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Next.js](https://nextjs.org/) applications. It includes:
 
 - 🔀 Routing
@@ -10,6 +12,20 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
 - 🎨 Styling
 - 🎛 Webpack & Babel config
 - 💫 and more!
+
+<If notRenderer={SUPPORTED_RENDERER}>
+
+<Callout variant="info">
+
+Storybook for Next.js is only supported in [React](?renderer=react) projects.
+
+</Callout>
+
+<!-- End non-supported renderers -->
+
+</If>
+
+<If renderer={SUPPORTED_RENDERER}>
 
 ## Requirements
 
@@ -933,3 +949,7 @@ Props to pass to every instance of `next/image`. See [next/image docs](https://n
 Type: `string`
 
 The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
+
+<!-- End supported renderers -->
+
+</If>
