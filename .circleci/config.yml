@@ -123,6 +123,10 @@ jobs:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
             - build-yarn-2-cache-v4.3--
       - run:
+          name: Install
+          command: |
+            yarn i
+      - run:
           name: Compile
           command: |
             yarn nx run-many -t build -c production --parallel 3
@@ -160,10 +164,6 @@ jobs:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            yarn i
       - run:
           name: Lint
           command: |
