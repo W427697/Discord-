@@ -76,6 +76,7 @@
         "command": "yarn vitest run --project={projectRoot}",
         "args": "--passWithNoTests"
       },
+      "dependsOn": ["build"],
       "inputs": [
         "default",
         "^production",

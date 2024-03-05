@@ -118,12 +118,13 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4.1--
       - run:
           name: Compile
           command: |
-            yarn --cwd code
-            yarn task --task compile --start-from=auto --no-link --debug
+            yarn i
+            yarn nx run-many -t build
             git diff --exit-code
       - run:
           name: Publish to Verdaccio
@@ -133,25 +134,12 @@ jobs:
       - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - persist_to_workspace:
           root: .
           paths:
-            - code/.nx/cache
-            - code/node_modules
-            - scripts/node_modules
-            - code/examples
-            - code/node_modules
-            - code/addons
-            - code/frameworks
-            - code/deprecated
-            - code/lib
-            - code/builders
-            - code/ui
-            - code/renderers
-            - code/presets
             - .verdaccio-cache
   lint:
     executor:
@@ -160,13 +148,15 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Lint
           command: |
-            cd code
-            yarn lint
+            yarn i
+            yarn nx affected:lint -c production
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   check:
@@ -179,39 +169,16 @@ jobs:
           # this is needed for nx affected
           clone_options: '--shallow-since "14 days ago"'
           fetch_options: '--shallow-since "14 days ago"'
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4.1--
       - run:
           name: Check
           command: |
-            yarn task --task check --start-from=auto --no-link --debug
+            yarn nx affected -t check,check-templates -c production
             git diff --exit-code
-      - report-workflow-on-failure
-      - cancel-workflow-on-failure
-  script-checks:
-    executor: sb_node_16_browsers
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
-      - attach_workspace:
-          at: .
-      - run:
-          name: Check parallelism count
-          command: |
-            cd scripts
-            yarn get-template --check
-      - run:
-          name: Type check
-          command: |
-            cd scripts
-            yarn check
-      - run:
-          name: Run tests
-          command: |
-            cd scripts
-            yarn test --coverage
-      - store_test_results:
-          path: scripts/junit.xml
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   unit-tests:
@@ -222,13 +189,14 @@ jobs:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "14 days ago"'
           fetch_options: '--shallow-since "14 days ago"'
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Test
           command: |
-            cd code
-            yarn test --coverage
+            yarn nx affected:test -c production
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -257,11 +225,14 @@ jobs:
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Running Chromatic
           command: |
+            yarn i
             cd code
             yarn storybook:ui:chromatic
             yarn storybook:blocks:chromatic
@@ -280,11 +251,15 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
+          command: |
+            yarn i
+            yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
       - persist_to_workspace:
@@ -304,8 +279,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test) --no-link --start-from=never --junit
@@ -324,8 +307,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Starting Event Collector
           command: node --loader esbuild-register/loader -r esbuild-register ./event-log-collector.ts
@@ -363,8 +354,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
@@ -383,8 +382,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running Test Runner in Dev mode
           command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
@@ -402,8 +409,16 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic) --no-link --start-from=never --junit
@@ -422,8 +437,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
@@ -445,8 +468,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
@@ -468,8 +499,16 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
+      - run:
+          name: Install
+          command: |
+            yarn i
       - run:
           name: Running Bench
           command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
@@ -490,8 +529,14 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4.1--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - run:
+          name: Install
+          command: |
+            yarn i
       - when:
           condition:
             equal: ["npm", << parameters.packageManager >>]

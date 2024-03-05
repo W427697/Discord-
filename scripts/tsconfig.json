@@ -22,7 +22,8 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "exclude": ["dist", "**/dist", "node_modules", "**/node_modules"],
   "include": ["./**/*", "./.eslintrc.js"]

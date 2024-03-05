@@ -34,6 +34,7 @@
     "danger": "danger",
     "generate-sandboxes": "yarn --cwd ../scripts generate-sandboxes",
     "github-release": "github-release-from-changelog",
+    "i": "yarn --cwd .. i",
     "lint": "yarn lint:js && yarn lint:md",
     "lint:ejs": "ejslint **/*.ejs",
     "lint:js": "yarn lint:js:cmd .  --quiet",
@@ -254,7 +255,7 @@
       "built": false
     }
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.1",
   "engines": {
     "node": ">=18.0.0"
   },
