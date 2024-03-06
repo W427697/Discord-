@@ -53,7 +53,7 @@
     "task": "yarn --cwd ../scripts task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
     "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch",
-    "test:affected": "NODE_OPTIONS=--max_old_space_size=4096 nx show projects --affected -t test | xargs -I # echo --project # | xargs yarn vitest run"
+    "test:affected": "nx show projects --affected -t test | xargs -I # echo --project # | xargs yarn test"
   },
   "husky": {
     "hooks": {
