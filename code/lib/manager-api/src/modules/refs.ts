@@ -20,6 +20,8 @@ import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
+const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
+
 export interface SubState {
   refs: API_Refs;
 }
@@ -73,10 +75,8 @@ export const getSourceType = (source: string, refId?: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
   const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
 
-  const localFull = `${localOrigin + localPathname}`.replace('/iframe.html', '').replace(/\/$/, '');
-  const sourceFull = `${sourceOrigin + sourcePathname}`
-    .replace('/iframe.html', '')
-    .replace(/\/$/, '');
+  const localFull = `${localOrigin + localPathname}`.replace(findFilename, '');
+  const sourceFull = `${sourceOrigin + sourcePathname}`.replace(findFilename, '');
 
   if (localFull === sourceFull) {
     return ['local', sourceFull];
