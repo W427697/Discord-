@@ -138,7 +138,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - code/.nx/cache
             - code/node_modules
             - scripts/node_modules
             - code/examples

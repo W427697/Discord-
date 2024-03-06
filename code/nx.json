@@ -33,21 +33,6 @@
     }
   },
   "targetDefaults": {
-    "install": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          {
-            "prefix": "workspace",
-            "command": "yarn"
-          },
-          {
-            "prefix": "scripts",
-            "command": "yarn --cwd ../scripts"
-          }
-        ]
-      }
-    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
