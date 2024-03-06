@@ -1043,9 +1043,10 @@ Please file an issue if you need these APIs.
 
 #### Removals in @storybook/components
 
-The `TooltipLinkList` component accepts a `links` property where, for each link, a `left` property could be passed. The left property is now removed in Storybook 8 and beyond. Use `icon` instead. The side-effect is that the `left` property is now removed from the `Link` component. This has an effect on the `globalTypes` definition in the `preview.js` file, among other places:
+The `TooltipLinkList` UI component used to customize the Storybook toolbar has been updated to use the `icon` property instead of the `left` property to position its content. If you've enabled this property in your `globalTypes` configuration, addons, or any other place, you'll need to replace it with an `icon` property to mimic the same behavior. For example:
 
 ```diff
+// .storybook/preview.js|ts
 // Replace your-framework with the framework you are using (e.g., react, vue3)
 import { Preview } from '@storybook/your-framework';
 
@@ -1076,9 +1077,7 @@ const preview: Preview = {
 
 export default preview;
 ```
-
-The icon property only supports a limited set of icons, which are defined here:
-https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon
+To learn more about the available icons and their names, see the [Storybook documentation](https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon).
 
 #### Removals in @storybook/types
 
