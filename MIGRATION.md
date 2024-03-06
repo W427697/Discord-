@@ -1043,7 +1043,7 @@ Please file an issue if you need these APIs.
 
 #### Removals in @storybook/components
 
-The `TooltipLinkList` component accepts a `links` property where, for each link, a `left` property could be passed. The left property is now removed in Storybook 8 and beyond. Use `icon` instead. The side-effect is that the `left` property is now removed from the `Link` component. The Link component is used to define `globalTypes` in the `preview.js` file, among other places:
+The `TooltipLinkList` component accepts a `links` property where, for each link, a `left` property could be passed. The left property is now removed in Storybook 8 and beyond. Use `icon` instead. The side-effect is that the `left` property is now removed from the `Link` component. This has an effect on the `globalTypes` definition in the `preview.js` file, among other places:
 
 ```diff
 // Replace your-framework with the framework you are using (e.g., react, vue3)
