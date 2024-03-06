@@ -285,6 +285,24 @@ import type { MyProps } from '@/types'; // ❌ Cannot be resolved
 import type { MyProps } from '../types'; // ✅ Can be resolved
 ```
 
+## Troubleshooting
+
+### Storybook doesn't work with my Vue 2 project
+
+[Vue 2 entered End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and is no longer maintained by the Vue team. As a result, Storybook no longer supports Vue 2. We recommend you upgrade your project to Vue 3, which Storybook fully supports. If that's not an option, you can still use Storybook with Vue 2 by installing the latest version of Storybook 7 with the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-init-v7.npx.js.mdx',
+    'common/storybook-init-v7.yarn.js.mdx',
+    'common/storybook-init-v7.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## API
 
 ### Options

@@ -114,6 +114,14 @@ Finally, if you were using Storybook plugins to integrate with Next.js, those ar
 
 <!-- prettier-ignore-end -->
 
+## Run the Setup Wizard
+
+If all goes well, you should see a setup wizard that will help you get started with Storybook introducing you to the main concepts and features, including how the UI is organized, how to write your first story, and how to test your components' response to various inputs utilizing [controls](../essentials/controls).
+
+![Storybook onboarding](./example-onboarding-wizard.png)
+
+If you skipped the wizard, you can always run it again by adding the `?path=/onboarding` query parameter to the URL of your Storybook instance, provided that the example stories are still available.
+
 ## Next.js's Image component
 
 This framework allows you to use Next.js's [next/image](https://nextjs.org/docs/pages/api-reference/components/image) with no configuration.
