@@ -1,8 +1,8 @@
 {
   "name": "internal/server-webpack5",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -12,7 +12,9 @@
     "server-webpack5"
   ],
   "targets": {
-    "sandbox": {}
+    "sandbox": {},
+    "sb:dev": {},
+    "sb:build": {}
   },
   "tags": []
 }

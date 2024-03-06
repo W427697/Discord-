@@ -1,7 +1,7 @@
 {
   "name": "web-components-vite",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "type": "library",
+  "projectType": "library",
   "targets": {
     "build": {}
   }

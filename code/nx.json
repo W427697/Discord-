@@ -73,7 +73,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "yarn vitest run --project={projectRoot}",
+        "command": "yarn vitest run --project={projectName}",
         "args": "--passWithNoTests"
       },
       "dependsOn": ["build"],
@@ -106,7 +106,7 @@
     "sandbox": {
       "executor": "nx:run-commands",
       "inputs": [{ "runtime": "storybook --version" }],
-      "outputs": ["{workspaceRoot}/../sandbox/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/../{projectRoot}"],
       "options": {
         "cwd": "{workspaceRoot}",
         "command": "yarn task sandbox -s sandbox --template={projectName}"
@@ -118,10 +118,39 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}/../{projectRoot}",
-        "command": "yarn storybook"
+        "command": "yarn storybook",
+        "args": "--ci"
       },
       "dependsOn": ["sandbox"]
+    },
+    "sb:build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}/../{projectRoot}",
+        "command": "yarn build-storybook"
+      },
+      "inputs": ["^production"],
+      "outputs": ["{workspaceRoot}/../{projectRoot}/storybook-static"],
+      "cache": true,
+      "dependsOn": ["sandbox"]
+    },
+    "sb:serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "yarn http-server ../{projectRoot}/storybook-static",
+        "args": "--port 8001"
+      },
+      "dependsOn": ["sb:build"]
     }
+    //    "e2e": {
+    //      "executor": "nx:run-commands",
+    //      "options": {
+    //        "cwd": "{workspaceRoot}",
+    //        "command": "yarn playwright test"
+    //      },
+    //      "dependsOn": ["sb:build"]
+    //    }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],

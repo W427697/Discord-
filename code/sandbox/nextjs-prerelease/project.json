@@ -1,8 +1,8 @@
 {
   "name": "nextjs/prerelease",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -12,7 +12,11 @@
     "nextjs"
   ],
   "targets": {
-    "sandbox": {}
+    "sandbox": {},
+    "sb:dev": {},
+    "sb:build": {}
   },
-  "tags": ["ci:daily"]
+  "tags": [
+    "ci:daily"
+  ]
 }

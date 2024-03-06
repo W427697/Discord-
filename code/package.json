@@ -52,7 +52,8 @@
     "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "yarn --cwd ../scripts task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
-    "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch"
+    "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch",
+    "test:affected": "NODE_OPTIONS=--max_old_space_size=4096 nx show projects --affected -t test | xargs -I # echo --project # | xargs yarn vitest run"
   },
   "husky": {
     "hooks": {

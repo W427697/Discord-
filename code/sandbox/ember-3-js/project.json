@@ -1,8 +1,8 @@
 {
   "name": "ember/3-js",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -12,7 +12,9 @@
     "ember"
   ],
   "targets": {
-    "sandbox": {}
+    "sandbox": {},
+    "sb:dev": {},
+    "sb:build": {}
   },
   "tags": []
 }

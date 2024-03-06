@@ -1,8 +1,8 @@
 {
   "name": "html-vite/default-ts",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -12,7 +12,12 @@
     "html-vite"
   ],
   "targets": {
-    "sandbox": {}
+    "sandbox": {},
+    "sb:dev": {},
+    "sb:build": {}
   },
-  "tags": ["ci:merged", "ci:daily"]
+  "tags": [
+    "ci:merged",
+    "ci:daily"
+  ]
 }

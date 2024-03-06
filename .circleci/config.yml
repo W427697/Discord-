@@ -112,24 +112,17 @@ jobs:
     executor:
       class: large
       name: sb_node_16_classic
-    environment:
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-            - build-yarn-2-cache-v4.3--
-      - run:
-          name: Install
-          command: |
-            yarn i
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Compile
           command: |
-            yarn nx run-many -t build -c production --parallel 3
+            yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - run:
           name: Publish to Verdaccio
@@ -139,56 +132,85 @@ jobs:
       - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
-            - /tmp/storybook/code/node_modules
-            - /tmp/storybook/scripts/node_modules
-            - /tmp/storybook/code/**/node-modules
-            - /tmp/storybook/scripts/**/node_modules
       - persist_to_workspace:
           root: .
           paths:
+            - code/.nx/cache
+            - code/node_modules
+            - scripts/node_modules
+            - code/examples
+            - code/node_modules
+            - code/addons
+            - code/frameworks
+            - code/deprecated
+            - code/lib
+            - code/builders
+            - code/ui
+            - code/renderers
+            - code/presets
             - .verdaccio-cache
   lint:
     executor:
       class: large
       name: sb_node_16_classic
-    environment:
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--shallow-since "7 days ago"'
-          fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
       - run:
           name: Lint
           command: |
-            yarn nx affected:lint -c production --parallel 3
+            cd code
+            yarn lint
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   check:
     executor:
       class: xlarge
       name: sb_node_16_classic
-    environment:
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--shallow-since "7 days ago"'
-          fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          # assuming we merge to main at least once every 2 weeks
+          # this is needed for nx affected
+          clone_options: '--shallow-since "14 days ago"'
+          fetch_options: '--shallow-since "14 days ago"'
+      - attach_workspace:
+          at: .
       - run:
           name: Check
           command: |
-            yarn nx affected -t check,check-templates -c production --parallel 6
+            yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - report-workflow-on-failure
+      - cancel-workflow-on-failure
+  script-checks:
+    executor: sb_node_16_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
+      - run:
+          name: Check parallelism count
+          command: |
+            cd scripts
+            yarn get-template --check
+      - run:
+          name: Type check
+          command: |
+            cd scripts
+            yarn check
+      - run:
+          name: Run tests
+          command: |
+            cd scripts
+            yarn test --coverage
+      - store_test_results:
+          path: scripts/junit.xml
       - report-workflow-on-failure
       - cancel-workflow-on-failure
   unit-tests:
@@ -197,16 +219,14 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--shallow-since "7 days ago"'
-          fetch_options: '--shallow-since "7 days ago"'
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
       - run:
           name: Test
           command: |
-            yarn nx affected:test --coverage -c production --parallel 6
+            cd code
+            yarn test:affected --coverage
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -235,10 +255,8 @@ jobs:
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - attach_workspace:
+          at: .
       - run:
           name: Running Chromatic
           command: |
@@ -260,14 +278,11 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - attach_workspace:
+          at: .
       - run:
           name: Creating Sandboxes
-          command: |
-            yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=compile --junit
+          command: yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
       - persist_to_workspace:
@@ -287,10 +302,6 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
       - run:
@@ -311,10 +322,6 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
       - run:
@@ -324,9 +331,7 @@ jobs:
           background: true
       - run:
           name: Building Sandboxes
-          command: |
-            yarn nx run-many -t build -c production --parallel 3
-            yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
           command: |
@@ -356,16 +361,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
@@ -384,16 +381,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Test Runner in Dev mode
           command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
@@ -411,16 +400,8 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic) --no-link --start-from=never --junit
@@ -439,16 +420,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            yarn i
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
@@ -470,16 +443,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            yarn i
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
@@ -501,16 +466,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - attach_workspace:
           at: .
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
       - run:
           name: Running Bench
           command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
@@ -531,14 +488,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - restore_cache:
-          name: Restore Yarn cache
-          keys:
-            - build-yarn-2-cache-v4.3--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
-      - run:
-          name: Install
-          command: |
-            PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 yarn i
+      - attach_workspace:
+          at: .
       - when:
           condition:
             equal: ["npm", << parameters.packageManager >>]
@@ -639,6 +590,9 @@ workflows:
       - unit-tests:
           requires:
             - build
+      - script-checks:
+          requires:
+            - build
       - chromatic-internal-storybooks:
           requires:
             - build
@@ -690,6 +644,9 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
@@ -744,6 +701,9 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:

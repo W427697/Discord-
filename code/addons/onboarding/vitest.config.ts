@@ -5,9 +5,6 @@ import { vitestCommonConfig } from '../../vitest.workspace';
 export default mergeConfig(
   vitestCommonConfig,
   defineConfig({
-    test: {
-      environment: 'jsdom',
-      name: __dirname.split(sep).slice(-2).join(posix.sep),
-    },
+    test: { environment: 'jsdom' },
   })
 );

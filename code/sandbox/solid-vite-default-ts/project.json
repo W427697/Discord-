@@ -1,8 +1,8 @@
 {
   "name": "solid-vite/default-ts",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -11,7 +11,9 @@
     "blocks"
   ],
   "targets": {
-    "sandbox": {}
+    "sandbox": {},
+    "sb:dev": {},
+    "sb:build": {}
   },
   "tags": []
 }

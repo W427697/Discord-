@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "type": "library",
+  "projectType": "library",
   "targets": {
     "install": {}
   }

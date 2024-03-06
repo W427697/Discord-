@@ -8,7 +8,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
-      name: __dirname.split(sep).slice(-2).join(posix.sep),
+      name: __dirname.split(sep).slice(-1).join(posix.sep),
     },
   })
 );

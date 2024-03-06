@@ -1,8 +1,8 @@
 {
   "name": "react-vite/default-js",
-  "type": "sandbox",
+  "projectType": "application",
   "implicitDependencies": [
-    "storybook",
+    "cli",
     "test",
     "addon-essentials",
     "addon-interactions",
@@ -13,7 +13,10 @@
   ],
   "targets": {
     "sandbox": {},
-    "sb:dev": {}
+    "sb:dev": {},
+    "sb:build": {}
   },
-  "tags": ["ci:daily"]
+  "tags": [
+    "ci:daily"
+  ]
 }
