@@ -1,14 +1,13 @@
 import React from 'react';
 
 import type { IndexHash, State } from '@storybook/manager-api';
-import { types } from '@storybook/manager-api';
+import { ManagerContext, types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, expect } from '@storybook/test';
 import { Button, IconButton } from '@storybook/components';
 import { FaceHappyIcon } from '@storybook/icons';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
-import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
 import { LayoutProvider } from '../layout/LayoutProvider';
@@ -25,15 +24,34 @@ const meta = {
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
   decorators: [
-    ExplorerStories.default.decorators[0],
     (storyFn) => (
-      <LayoutProvider>
-        <IconSymbols />
-        {storyFn()}
-      </LayoutProvider>
+      <ManagerContext.Provider
+        value={
+          {
+            state: {
+              docsOptions: {
+                defaultName: 'Docs',
+                autodocs: 'tag',
+                docsMode: false,
+              },
+            },
+            api: {
+              emit: () => {},
+              on: () => {},
+              off: () => {},
+              getShortcutKeys: () => ({ search: ['control', 'shift', 's'] }),
+            },
+          } as any
+        }
+      >
+        <LayoutProvider>
+          <IconSymbols />
+          {storyFn()}
+        </LayoutProvider>
+      </ManagerContext.Provider>
     ),
   ],
-} as Meta<typeof Sidebar>;
+} satisfies Meta<typeof Sidebar>;
 
 export default meta;
 
@@ -57,6 +75,7 @@ const refs: Record<string, RefType> = {
   },
 };
 
+// eslint-disable-next-line local-rules/no-uncategorized-errors
 const indexError = new Error('Failed to load index');
 
 const refsError = {
@@ -327,4 +346,63 @@ export const Bottom: Story = {
       ]}
     />
   ),
+};
+
+/**
+ * Given the following sequence of events:
+ * 1. Story is selected at the top of the sidebar
+ * 2. The sidebar is scrolled to the bottom
+ * 3. Some re-rendering happens because of a changed state/prop
+ * The sidebar should remain scrolled to the bottom
+ */
+export const Scrolled: Story = {
+  parameters: {
+    // we need a very short viewport
+    viewport: {
+      defaultViewport: 'mobile1',
+      defaultOrientation: 'landscape',
+    },
+  },
+  render: (args) => {
+    const [, setState] = React.useState(0);
+    return (
+      <>
+        <button
+          style={{ position: 'absolute', zIndex: 10 }}
+          onClick={() => setState(() => Math.random())}
+        >
+          Change state
+        </button>
+        <Sidebar
+          {...args}
+          menu={menu}
+          extra={[]}
+          index={index as any}
+          storyId="group-1--child-b1"
+          refId={DEFAULT_REF_ID}
+          refs={refs}
+        />
+      </>
+    );
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = await within(canvasElement);
+    const scrollable = await canvasElement.querySelector('[data-radix-scroll-area-viewport]');
+    await step('expand component', async () => {
+      const componentNode = await canvas.queryAllByText('Child A2')[1];
+      userEvent.click(componentNode);
+    });
+    await wait(100);
+    await step('scroll to bottom', async () => {
+      scrollable.scrollTo(0, scrollable.scrollHeight);
+    });
+    await step('toggle parent state', async () => {
+      const button = await canvas.findByRole('button', { name: 'Change state' });
+      button.click();
+    });
+    await wait(100);
+
+    // expect the scrollable to be scrolled to the bottom
+    expect(scrollable.scrollTop).toBe(scrollable.scrollHeight - scrollable.clientHeight);
+  },
 };
