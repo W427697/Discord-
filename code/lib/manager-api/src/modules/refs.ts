@@ -331,8 +331,8 @@ export const init: ModuleFn<SubAPI, SubState> = (
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).reduce(async (accc, [id, ref]) => {
-      await accc;
+    Object.entries(refs).reduce(async (acc, [id, ref]) => {
+      await acc;
       await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
     }, Promise.resolve());
   }
