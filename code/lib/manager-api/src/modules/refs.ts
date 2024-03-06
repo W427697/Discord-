@@ -276,7 +276,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       return refs;
     },
 
-    setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
+    setRef: async (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
       if (singleStory) {
         return;
       }
@@ -307,10 +307,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
         index = addRefIds(index, ref);
       }
 
-      api.updateRef(id, { ...ref, ...rest, index, internal_index });
+      await api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
-    updateRef: (id, data) => {
+    updateRef: async (id, data) => {
       const { [id]: ref, ...updated } = api.getRefs();
 
       updated[id] = { ...ref, ...data };
@@ -320,7 +320,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
         return obj;
       }, {});
 
-      store.setState({
+      await store.setState({
         refs: ordered,
       });
     },
@@ -331,9 +331,10 @@ export const init: ModuleFn<SubAPI, SubState> = (
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
-    });
+    Object.entries(refs).reduce(async (accc, [id, ref]) => {
+      await accc;
+      await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
+    }, Promise.resolve());
   }
 
   return {
