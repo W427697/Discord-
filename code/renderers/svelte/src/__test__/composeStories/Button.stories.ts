@@ -1,5 +1,11 @@
-import { userEvent, within } from '@storybook/testing-library';
+import { expect, fn, userEvent, within } from '@storybook/test';
 import type { Meta, StoryFn as CSF2Story, StoryObj } from '../..';
+
+import LoaderStoryComponent from './LoaderStoryComponent.svelte';
+import InputFilledStoryComponent from './InputFilledStoryComponent.svelte';
+import StoryWithLocaleComponent from './StoryWithLocaleComponent.svelte';
+import AddWrapperDecorator from './AddWrapperDecorator.svelte';
+import CustomRenderComponent from './CustomRenderComponent.svelte';
 
 import Button from './Button.svelte';
 
@@ -23,11 +29,8 @@ type CSF3Story = StoryObj<typeof meta>;
 export const ImNotAStory = 123;
 
 const Template: CSF2Story = (args) => ({
-  components: { Button },
-  setup() {
-    return { args };
-  },
-  template: '<Button v-bind="args" />',
+  Component: Button,
+  props: args,
 });
 
 export const CSF2Secondary = Template.bind({});
@@ -52,16 +55,12 @@ const getCaptionForLocale = (locale: string) => {
 };
 
 export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
-  components: { Button },
-  setup() {
-    console.log({ globals });
-    const label = getCaptionForLocale(globals.locale);
-    return { args: { ...args, label } };
+  Component: StoryWithLocaleComponent,
+  props: {
+    ...args,
+    locale: globals.locale,
+    label: getCaptionForLocale(globals.locale),
   },
-  template: `<div>
-    <p>locale: ${globals.locale}</p>
-    <Button v-bind="args" />
-  </div>`,
 });
 CSF2StoryWithLocale.storyName = 'WithLocale';
 
@@ -73,8 +72,23 @@ CSF2StoryWithParamsAndDecorator.parameters = {
   layout: 'centered',
 };
 CSF2StoryWithParamsAndDecorator.decorators = [
-  () => ({ template: '<div style="margin: 3em;"><story/></div>' }),
+  () => ({
+    Component: AddWrapperDecorator,
+  }),
 ];
+
+export const NewStory: CSF3Story = {
+  args: {
+    label: 'foo',
+    size: 'large',
+    primary: true,
+  },
+  decorators: [
+    () => ({
+      Component: AddWrapperDecorator,
+    }),
+  ],
+};
 
 export const CSF3Primary: CSF3Story = {
   args: {
@@ -91,32 +105,48 @@ export const CSF3Button: CSF3Story = {
 export const CSF3ButtonWithRender: CSF3Story = {
   ...CSF3Button,
   render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
+    Component: CustomRenderComponent,
+    props: {
+      args,
     },
-    template: `
-      <div>
-        <p data-testid="custom-render">I am a custom render function</p>
-        <Button v-bind="args" />
-      </div>
-    `,
   }),
 };
 
 export const CSF3InputFieldFilled: CSF3Story = {
-  ...CSF3Button,
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return { args };
-    },
-    template: '<input data-testid="input" />',
+  render: () => ({
+    Component: InputFilledStoryComponent,
   }),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Step label', async () => {
-      await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
+      const inputEl = canvas.getByTestId('input');
+      await userEvent.type(inputEl, 'Hello world!');
+      await expect(inputEl).toHaveValue('Hello world!');
     });
+  },
+};
+
+const mockFn = fn();
+export const LoaderStory: StoryObj<{ mockFn: (val: string) => string }> = {
+  args: {
+    mockFn,
+  },
+  loaders: [
+    async () => {
+      mockFn.mockReturnValueOnce('mockFn return value');
+      return {
+        value: 'loaded data',
+      };
+    },
+  ],
+  render: (args, { loaded }) => ({
+    Component: LoaderStoryComponent,
+    props: {
+      ...args,
+      loaded,
+    },
+  }),
+  play: async () => {
+    expect(mockFn).toHaveBeenCalledWith('render');
   },
 };

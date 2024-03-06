@@ -32,6 +32,7 @@
     "./package.json": "./package.json",
     "./internal/PreviewRender.svelte": "./dist/components/PreviewRender.svelte",
     "./internal/SlotDecorator.svelte": "./dist/components/SlotDecorator.svelte",
+    "./internal/AddStorybookIdDecorator.svelte": "./dist/components/AddStorybookIdDecorator.svelte",
     "./internal/createSvelte5Props": "./dist/createSvelte5Props.svelte.js"
   },
   "main": "dist/index.js",

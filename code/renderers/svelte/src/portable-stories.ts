@@ -2,6 +2,8 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
+  getPortableStoryWrapperId,
+  composeConfigs,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -11,17 +13,21 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import * as defaultProjectAnnotations from './render';
+import * as svelteProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { SvelteRenderer } from './types';
+import AddStorybookIdDecorator from './components/AddStorybookIdDecorator.svelte';
+import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
+// @ts-expect-error Don't know why TS doesn't pick up the types export here
+import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
 
-/** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
+/** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *
  * It should be run a single time, so that your global config (e.g. decorators) is applied to your stories when using `composeStories` or `composeStory`.
  *
  * Example:
  *```jsx
- * // vitest-setup.js (for vitest)
+ * // setup.js (for jest)
  * import { setProjectAnnotations } from '@storybook/svelte';
  * import projectAnnotations from './.storybook/preview';
  *
@@ -35,6 +41,17 @@ export function setProjectAnnotations(
 ) {
   originalSetProjectAnnotations<SvelteRenderer>(projectAnnotations);
 }
+
+// This will not be necessary once we have auto preset loading
+export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<SvelteRenderer> = {
+  ...svelteProjectAnnotations,
+  decorators: [
+    (_storyFn, { id }) => ({
+      Component: AddStorybookIdDecorator,
+      props: { storyId: getPortableStoryWrapperId(id) },
+    }),
+  ],
+};
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
@@ -53,7 +70,7 @@ export function setProjectAnnotations(
  * const Primary = composeStory(PrimaryStory, Meta);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { label: 'Hello world' });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -69,14 +86,45 @@ export function composeStory<TArgs extends Args = Args>(
   projectAnnotations?: ProjectAnnotations<SvelteRenderer>,
   exportsName?: string
 ) {
-  return originalComposeStory<SvelteRenderer, TArgs>(
+  const composedStory = originalComposeStory<SvelteRenderer, TArgs>(
     story as StoryAnnotationsOrFn<SvelteRenderer, Args>,
-    // @ts-expect-error TODO fix types
+    // @ts-expect-error TODO check this later
     componentAnnotations,
     projectAnnotations,
-    defaultProjectAnnotations,
+    INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
     exportsName
   );
+
+  // TODO: support Svelte 4 as well (use IS_SVELTE_V4 from utils file)
+  const props = createSvelte5Props({
+    storyFn: composedStory,
+    storyContext: { ...composedStory },
+    name: composedStory.storyName,
+    title: composedStory.id,
+    showError: () => {},
+  });
+
+  /** TODO: figure out the situation here.
+   * Currently, we construct props to render the PreviewRender, a "story wrapper" that
+   * allows to render the story and its decorators correctly. However, the props
+   * from the user's component can't be overwritten in tests e.g.
+   * render(Primary.Component, { label: 'Hello world' })
+   *
+   * In fact, the props that the user has access to are the props for PreviewRender,
+   * which should be an internal detail instead.
+   *
+   * Ideally, we should create a Svelte component with pre-configured props, so users
+   * can do something like:
+   * render(Primary) instead of render(Primary.Component, Primary.props)
+   * */
+  const renderable = {
+    Component: PreviewRender,
+    props,
+  };
+  Object.assign(renderable, composedStory);
+
+  // TODO: Fix types, also fix for composeStories
+  return renderable as typeof composedStory & { Component: typeof PreviewRender; props: any };
 }
 
 /**
@@ -96,7 +144,7 @@ export function composeStory<TArgs extends Args = Args>(
  * const { Primary, Secondary } = composeStories(stories);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { label: 'Hello world' });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -108,7 +156,7 @@ export function composeStories<TModule extends Store_CSFExports<SvelteRenderer, 
   csfExports: TModule,
   projectAnnotations?: ProjectAnnotations<SvelteRenderer>
 ) {
-  // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but SvelteRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
+  // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
