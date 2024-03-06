@@ -4,6 +4,7 @@ import type { IndexHash, State } from '@storybook/manager-api';
 import { ManagerContext, types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
 import { within, userEvent, expect } from '@storybook/test';
+import type { Addon_SidebarTopType } from '@storybook/types';
 import { Button, IconButton } from '@storybook/components';
 import { FaceHappyIcon } from '@storybook/icons';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
@@ -18,11 +19,28 @@ const wait = (ms: number) =>
     setTimeout(resolve, ms);
   });
 
+const { menu } = standardHeaderData;
+const index = mockDataset.withRoot as IndexHash;
+const storyId = 'root-1-child-a2--grandchild-a1-1';
+
+export const simpleData = { menu, index, storyId };
+export const loadingData = { menu };
+
 const meta = {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
+  args: {
+    previewInitialized: true,
+    menu,
+    extra: [] as Addon_SidebarTopType[],
+    index: index,
+    storyId,
+    refId: DEFAULT_REF_ID,
+    refs: {},
+    status: {},
+  },
   decorators: [
     (storyFn) => (
       <ManagerContext.Provider
@@ -57,13 +75,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const { menu } = standardHeaderData;
-const index = mockDataset.withRoot as IndexHash;
-const storyId = 'root-1-child-a2--grandchild-a1-1';
-
-export const simpleData = { menu, index, storyId };
-export const loadingData = { menu };
-
 const refs: Record<string, RefType> = {
   optimized: {
     id: 'optimized',
@@ -94,146 +105,56 @@ const refsEmpty = {
   },
 };
 
-export const Simple: Story = {
-  args: { previewInitialized: true },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={index as any}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-      status={{}}
-    />
-  ),
-};
+export const Simple: Story = {};
 
 export const Loading: Story = {
-  args: { previewInitialized: false },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-      status={{}}
-    />
-  ),
+  args: {
+    previewInitialized: false,
+    index: undefined,
+  },
 };
 
 export const Empty: Story = {
   args: {
-    previewInitialized: true,
+    index: {},
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={{}}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-      status={{}}
-    />
-  ),
 };
 
 export const IndexError: Story = {
   args: {
-    previewInitialized: true,
+    indexError,
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      indexError={indexError}
-      extra={[]}
-      menu={menu}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-      status={{}}
-    />
-  ),
 };
 
 export const WithRefs: Story = {
   args: {
-    previewInitialized: true,
+    refs,
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={index as any}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={refs}
-      status={{}}
-    />
-  ),
 };
 
 export const LoadingWithRefs: Story = {
   args: {
-    previewInitialized: false,
+    ...Loading.args,
+    refs,
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={refs}
-      status={{}}
-    />
-  ),
 };
 
 export const LoadingWithRefError: Story = {
   args: {
-    previewInitialized: false,
+    ...Loading.args,
+    refs: refsError,
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={refsError}
-      status={{}}
-    />
-  ),
 };
 
 export const WithRefEmpty: Story = {
   args: {
-    previewInitialized: true,
+    ...Empty.args,
+    refs: refsEmpty,
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={{}}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={refsEmpty}
-      status={{}}
-    />
-  ),
 };
 
 export const StatusesCollapsed: Story = {
   args: {
-    previewInitialized: true,
     status: Object.entries(index).reduce<State['status']>((acc, [id, item]) => {
       if (item.type !== 'story') {
         return acc;
@@ -251,17 +172,6 @@ export const StatusesCollapsed: Story = {
       return acc;
     }, {}),
   },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={index as any}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-    />
-  ),
 };
 
 export const StatusesOpen: Story = {
@@ -286,7 +196,7 @@ export const StatusesOpen: Story = {
 
 export const Searching: Story = {
   ...StatusesOpen,
-  parameters: { theme: 'light', chromatic: { delay: 2200 } },
+  parameters: { chromatic: { delay: 2200 } },
   play: async ({ canvasElement, step }) => {
     await step('wait 2000ms', () => wait(2000));
     const canvas = await within(canvasElement);
@@ -298,54 +208,40 @@ export const Searching: Story = {
 
 export const Bottom: Story = {
   args: {
-    previewInitialized: true,
+    bottom: [
+      {
+        id: '1',
+        type: types.experimental_SIDEBAR_BOTTOM,
+        render: () => (
+          <Button>
+            <FaceHappyIcon />
+            Custom addon A
+          </Button>
+        ),
+      },
+      {
+        id: '2',
+        type: types.experimental_SIDEBAR_BOTTOM,
+        render: () => (
+          <Button>
+            {' '}
+            <FaceHappyIcon />
+            Custom addon B
+          </Button>
+        ),
+      },
+      {
+        id: '3',
+        type: types.experimental_SIDEBAR_BOTTOM,
+        render: () => (
+          <IconButton>
+            {' '}
+            <FaceHappyIcon />
+          </IconButton>
+        ),
+      },
+    ],
   },
-  parameters: { theme: 'light' },
-  render: (args) => (
-    <Sidebar
-      {...args}
-      menu={menu}
-      extra={[]}
-      index={index as any}
-      storyId={storyId}
-      refId={DEFAULT_REF_ID}
-      refs={{}}
-      status={{}}
-      bottom={[
-        {
-          id: '1',
-          type: types.experimental_SIDEBAR_BOTTOM,
-          render: () => (
-            <Button>
-              <FaceHappyIcon />
-              Custom addon A
-            </Button>
-          ),
-        },
-        {
-          id: '2',
-          type: types.experimental_SIDEBAR_BOTTOM,
-          render: () => (
-            <Button>
-              {' '}
-              <FaceHappyIcon />
-              Custom addon B
-            </Button>
-          ),
-        },
-        {
-          id: '3',
-          type: types.experimental_SIDEBAR_BOTTOM,
-          render: () => (
-            <IconButton>
-              {' '}
-              <FaceHappyIcon />
-            </IconButton>
-          ),
-        },
-      ]}
-    />
-  ),
 };
 
 /**
@@ -363,6 +259,9 @@ export const Scrolled: Story = {
       defaultOrientation: 'landscape',
     },
   },
+  args: {
+    storyId: 'group-1--child-b1',
+  },
   render: (args) => {
     const [, setState] = React.useState(0);
     return (
@@ -373,15 +272,7 @@ export const Scrolled: Story = {
         >
           Change state
         </button>
-        <Sidebar
-          {...args}
-          menu={menu}
-          extra={[]}
-          index={index as any}
-          storyId="group-1--child-b1"
-          refId={DEFAULT_REF_ID}
-          refs={refs}
-        />
+        <Sidebar {...args} />
       </>
     );
   },
