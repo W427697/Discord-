@@ -6108,7 +6108,6 @@ __metadata:
     flush-promises: "npm:^1.0.2"
     lodash: "npm:^4.17.21"
     memoizerific: "npm:^1.11.3"
-    qs: "npm:^6.10.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     semver: "npm:^7.3.7"
