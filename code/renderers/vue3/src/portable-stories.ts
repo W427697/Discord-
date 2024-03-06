@@ -2,6 +2,7 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
+  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -10,10 +11,21 @@ import type {
   Store_CSFExports,
   StoriesWithPartialProps,
 } from '@storybook/types';
+import { h } from 'vue';
 
-import * as defaultProjectAnnotations from './render';
+import * as vueProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
+
+const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
+  ...vueProjectAnnotations,
+  decorators: [
+    function (story, { id }) {
+      const wrapperProps = { 'data-story': true, id: getPortableStoryWrapperId(id) };
+      return h('div', wrapperProps, h(story()));
+    },
+  ],
+};
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
@@ -53,7 +65,7 @@ export function setProjectAnnotations(
  * const Primary = composeStory(PrimaryStory, Meta);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -69,13 +81,21 @@ export function composeStory<TArgs extends Args = Args>(
   projectAnnotations?: ProjectAnnotations<VueRenderer>,
   exportsName?: string
 ) {
-  return originalComposeStory<VueRenderer, TArgs>(
+  const composedStory = originalComposeStory<VueRenderer, TArgs>(
     story as StoryAnnotationsOrFn<VueRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
     exportsName
   );
+
+  // Returning h(composedStory) instead makes it an actual Vue component renderable by @testing-library/vue, Playwright CT, etc.
+  const renderable = (...args: Parameters<typeof composedStory>) => h(composedStory(...args));
+  Object.assign(renderable, composedStory);
+
+  // typing this as newable means TS allows it to be used as a JSX element
+  // TODO: we should do the same for composeStories as well
+  return renderable as unknown as typeof composedStory & { new (...args: any[]): any };
 }
 
 /**
@@ -95,7 +115,7 @@ export function composeStory<TArgs extends Args = Args>(
  * const { Primary, Secondary } = composeStories(stories);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
