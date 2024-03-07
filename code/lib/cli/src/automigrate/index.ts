@@ -29,6 +29,8 @@ import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
 import { doctor } from '../doctor';
 
+import { upgradeStorybookRelatedDependencies } from './fixes/upgrade-storybook-related-dependencies';
+
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
 const LOG_FILE_PATH = join(process.cwd(), LOG_FILE_NAME);
@@ -121,8 +123,17 @@ export const automigrate = async ({
     return null;
   }
 
-  const selectedFixes = inputFixes || allFixes;
-  const fixes = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
+  const selectedFixes: Fix[] =
+    inputFixes ||
+    allFixes.filter((fix) => {
+      // we only allow this automigration when the user explicitly asks for it, or they are upgrading to the latest version of storybook
+      if (fix.id === upgradeStorybookRelatedDependencies.id && isUpgrade !== 'latest') {
+        return false;
+      }
+
+      return true;
+    });
+  const fixes: Fix[] = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
   if (fixId && fixes.length === 0) {
     logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
@@ -143,7 +154,7 @@ export const automigrate = async ({
     mainConfigPath,
     storybookVersion,
     beforeVersion,
-    isUpgrade,
+    isUpgrade: !!isUpgrade,
     dryRun,
     yes,
   });
@@ -308,13 +319,13 @@ export async function runFixes({
             fixResults[f.id] = FixStatus.MANUAL_SKIPPED;
             break;
           }
-        } else if (promptType === 'auto') {
+        } else if (promptType === 'auto' || promptType === 'auto-no') {
           runAnswer = await prompts(
             {
               type: 'confirm',
               name: 'fix',
               message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
-              initial: true,
+              initial: promptType === 'auto-no' ? false : true,
             },
             {
               onCancel: () => {

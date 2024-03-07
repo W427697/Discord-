@@ -25,6 +25,18 @@ const isPackageIncompatible = (installedVersion: string, currentStorybookVersion
   return storybookVersion?.major !== packageVersion?.major;
 };
 
+// some-addon, context
+// some-addon.allDeps -> compare with existing CLI version
+
+// const norbertStuff = async (dependency: string, context: Context) => {
+//   const { packageManager } = context;
+
+//   const res = await checkPackageCompatibility(dependency, context);
+//   if (res.hasIncompatibleDependencies) {
+//     const hasUpdate = await packageManager.latestVersion(dependency);
+//   }
+// };
+
 export const checkPackageCompatibility = async (dependency: string, context: Context) => {
   const { currentStorybookVersion, skipErrors, packageManager } = context;
   try {

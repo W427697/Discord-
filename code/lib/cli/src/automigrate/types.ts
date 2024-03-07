@@ -22,10 +22,11 @@ export interface RunOptions<ResultType> {
 /**
  * promptType defines how the user will be prompted to apply an automigration fix
  * - auto: the fix will be applied automatically
+ * - auto-no: the fix will be applied automatically, but only when the user opts-in
  * - manual: the user will be prompted to apply the fix
  * - notification: the user will be notified about some changes. A fix isn't required, though
  */
-export type Prompt = 'auto' | 'manual' | 'notification';
+export type Prompt = 'auto' | 'auto-no' | 'manual' | 'notification';
 
 type BaseFix<ResultType = any> = {
   id: string;
@@ -45,7 +46,7 @@ type PromptType<ResultType = any, T = Prompt> =
 
 export type Fix<ResultType = any> = (
   | {
-      promptType?: PromptType<ResultType, 'auto'>;
+      promptType?: PromptType<ResultType, 'auto' | 'auto-no'>;
       run: (options: RunOptions<ResultType>) => Promise<void>;
     }
   | {
@@ -74,7 +75,7 @@ export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageMana
   /**
    * Whether the migration is part of an upgrade.
    */
-  isUpgrade: boolean;
+  isUpgrade: false | true | 'latest';
 }
 export interface AutofixOptionsFromCLI {
   fixId?: FixId;
