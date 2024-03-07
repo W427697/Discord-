@@ -17,6 +17,8 @@ const attachActionsToFunctionMocks: LoaderFunction = (context) => {
         typeof value === 'function' && '_isMockFunction' in value && value._isMockFunction
     )
     .forEach(([key, value]) => {
+      // See this discussion for context:
+      // https://github.com/vitest-dev/vitest/pull/5352
       const previous =
         value.getMockImplementation() ??
         (tinySpyInternalState in value ? value[tinySpyInternalState]?.getOriginal() : undefined);
