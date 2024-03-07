@@ -79,6 +79,10 @@ If you are using the `storiesOf` API (which requires `storyStoreV7: false` in St
 
 Storybook 8 uses MDX 3. If you're coming from MDX 1 (used by Storybook 6), there were significant breaking changes in MDX 2. Please reference our [guidance on upgrading successfully](../../release-7-6/docs/migration-guide.md#upgrade-mdx1-to-mdx2).
 
+#### Missing `vite.config.js` file
+
+If you are using Vite, you may now need to create a `vite.config.js` file in your project root to allow newer versions of Vite to work with Storybook. Additionally, you may need to install and configure a Vite plugin for your framework. More information is available in the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added).
+
 ## Troubleshooting
 
 The automatic upgrade should get your Storybook into a working state. If you encounter an error running Storybook after upgrading, here’s what to do:

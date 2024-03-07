@@ -79,6 +79,10 @@ If you have `storyStoreV7: false` in your `.storybook/main.js`, you will need to
 
 If you are using the `storiesOf` API (which requires `storyStoreV7: false` in Storybook 7), you will need to either [migrate your stories to CSF](../../release-7-6/docs/migration-guide.md#storiesof-to-csf) or use the [new indexer API to continue creating stories dynamically](../../release-7-6/docs/migration-guide.md#storiesof-to-dynamically-created-stories).
 
+#### Missing `vite.config.js` file
+
+If you are using Vite, you may now need to create a `vite.config.js` file in your project root to allow newer versions of Vite to work with Storybook. Additionally, you may need to install and configure a Vite plugin for your framework. More information is available in the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added).
+
 ## New projects
 
 To add Storybook to a project that isn’t currently using Storybook:
