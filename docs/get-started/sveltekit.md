@@ -27,7 +27,7 @@ Storybook for SvelteKit is only supported in [Svelte](?renderer=svelte) projects
 
 ## Requirements
 
-- SvelteKit ≥ 1.0 (not including beta versions)
+- SvelteKit ≥ 1.0
 - Storybook ≥ 7.0
 
 ## Getting started
@@ -202,7 +202,7 @@ Run the following command to install the addon.
 
 <Callout variant="info">
 
-The community actively maintains the Svelte CSF addon but still lacks some features currently available in the official Storybook Svelte framework support. For more information, see [addon's documentation](https://github.com/storybookjs/addon-svelte-csf).
+The community actively maintains the Svelte CSF addon but still lacks some features currently available in the official Storybook Svelte framework support. For more information, see [the addon's documentation](https://github.com/storybookjs/addon-svelte-csf).
 
 </Callout>
 
@@ -222,13 +222,13 @@ Provides mocks for the `$app/forms` module.
 
 Type: TK
 
-A callback that will called when a form with `use:enhance` is submitted.
+A callback that will be called when a form with `use:enhance` is submitted.
 
 #### `hrefs`
 
 Type: `Record<[path: string], (to: string, event: TK) => void | { callback: (to: string, event: TK) => void, asRegex?: boolean }>`
 
-If you have an `<a />` tag inside your code with the `href` attribute that matches one or more of the links defined (treated as regex based on the `asRegex` property) the corresponding `callback` will be called. See [Mocking links](#mocking-links) for an example.
+If you have an `<a />` tag inside your code with the `href` attribute that matches one or more of the links defined (treated as regex based if the `asRegex` property is `true`) the corresponding `callback` will be called. If no matching `hrefs` are defined, an action will be logged to the [Actions panel](../essentials/actions.md). See [Mocking links](#mocking-links) for an example.
 
 #### `navigation`
 
@@ -294,7 +294,7 @@ A partial version of the `page` store.
 
 Type: boolean
 
-A boolean representing the value of `updated` (you can also access `stores.check()` which will be a noop).
+A boolean representing the value of `updated` (you can also access `stores.check()` which will be a no-op).
 
 ### Options
 
@@ -334,16 +334,6 @@ ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already 
 ```
 
 This can occur when manually upgrading from 6.5 to 7.0. To resolve it, you'll need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported (and no longer necessary) in Storybook 7+ with SvelteKit.
-
-### Error in preview canvas
-
-When running Storybook, some stories may not load. Instead they show the following error in the preview canvas:
-
-```sh
-Cannot read properties of undefined (reading 'disable_scroll_handling')
-```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 <!-- End supported renderers -->
 
