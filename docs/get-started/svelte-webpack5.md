@@ -22,9 +22,9 @@ Storybook for Svelte & Webpack is only supported in [Svelte](?renderer=svelte) p
 
 ## Requirements
 
-- Svelte ≥ 3.0
+- Svelte ≥ 4.0
 - Webpack ≥ 5.0
-- Storybook ≥ 7.0
+- Storybook ≥ 8.0
 
 ## Getting started
 
