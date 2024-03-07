@@ -16,7 +16,7 @@ import type {
 import * as svelteProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { SvelteRenderer } from './types';
-import AddStorybookIdDecorator from './components/AddStorybookIdDecorator.svelte';
+import AddStorybookIdDecorator from '@storybook/svelte/internal/AddStorybookIdDecorator.svelte';
 import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
 // @ts-expect-error Don't know why TS doesn't pick up the types export here
 import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
