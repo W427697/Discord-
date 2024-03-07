@@ -27,8 +27,8 @@ Storybook for React & Vite is only supported in [React](?renderer=react) project
 ## Requirements
 
 - React ≥ 16.8
-- Vite ≥ 3.0 (4+ recommended)
-- Storybook ≥ 7.0
+- Vite ≥ 4.0
+- Storybook ≥ 8.0
 
 ## Getting started
 
