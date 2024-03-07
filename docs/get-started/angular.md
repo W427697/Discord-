@@ -26,9 +26,9 @@ Storybook for Angular is only supported in [Angular](?renderer=angular) projects
 
 ## Requirements
 
-- Angular ≥ 14.1.0 < 18.0.0
+- Angular ≥ 15.0 < 18.0
 - Webpack ≥ 5.0
-- Storybook ≥ 7.0
+- Storybook ≥ 8.0
 
 ## Getting started
 
@@ -384,9 +384,9 @@ You can run `npx storybook@latest init` sequentially for each project to setup S
 
 You can then use [Storybook composition](https://storybook.js.org/docs/angular/sharing/storybook-composition) to composite multiple Storybooks into one.
 
-### How do I configure Angular's builder for Storybook?v
+### How do I configure Angular's builder for Storybook?
 
-These are the supported options for the Angular builder:
+These are common options you may need for the Angular builder:
 
 | Configuration element        | Description                                                                                                                                                                                      |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -405,6 +405,11 @@ These are the supported options for the Angular builder:
 | `"docs"`                     | Starts Storybook in [documentation mode](../writing-docs/build-documentation.md#preview-storybooks-documentation). <br/> `"docs": true`                                                          |
 | `"styles"`                   | Provide the location of the [application's styles](../configure/styling-and-css.md#importing-css-files) to be used with Storybook. <br/> `"styles": ["src/styles.css", "src/styles.scss"]` <br/> |
 | `"stylePreprocessorOptions"` | Provides further customization for style preprocessors resolved to the workspace root. <br/> `"stylePreprocessorOptions": { "includePaths": ["src/styles"] }`                                    |
+
+The full list of options can be found in the Angular builder schemas:
+
+- [Build Storybook](https://github.com/storybookjs/storybook/blob/main/code/frameworks/angular/src/builders/build-storybook/schema.json)
+- [Start Storybook](https://github.com/storybookjs/storybook/blob/main/code/frameworks/angular/src/builders/start-storybook/schema.json)
 
 ## API
 
