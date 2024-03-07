@@ -4,9 +4,9 @@ title: 'Migration guide for Storybook 8.0'
 
 Storybook 8 focuses on performance and stability.
 
-- 💨 [2-4x faster test builds](/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
+- 💨 [2-4x faster test builds](https://storybook.js.org/blog/optimize-storybook-7-6/#2-4x-faster-builds-with-thetest-flag), [25-50% faster React docgen](https://storybook.js.org/blog/optimize-storybook-7-6/#22x-faster-react-docgen), and [SWC support for Webpack projects](https://storybook.js.org/blog/optimize-storybook-7-6/#using-webpack-enable-swc)
 - ✨ Improved framework support: you no longer need to install React as a peer dependency when using a non-React renderer
-- 🌐 [Support for React Server Components (RSC)](/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
+- 🌐 [Support for React Server Components (RSC)](https://storybook.js.org/blog/storybook-react-server-components/): our experimental solution renders async RSC in the browser and mocks Node code
 - ➕ Much, much more
 
 This guide is meant to help you **upgrade from Storybook 7.x to 8.0** successfully!
