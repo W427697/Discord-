@@ -28,7 +28,7 @@ Storybook for SvelteKit is only supported in [Svelte](?renderer=svelte) projects
 ## Requirements
 
 - SvelteKit ≥ 1.0
-- Storybook ≥ 7.0
+- Storybook ≥ 8.0
 
 ## Getting started
 
@@ -159,7 +159,7 @@ The [available parameters](#parameters) are documented in the API section, below
 
 The default link-handling behavior (e.g. when clicking an `<a href="..." />` element) is to log an action to the [Actions panel](../essentials/actions.md).
 
-You can override this by assigning an object to `parameters.sveltekit_experimental.hrefs`, where the keys are strings representing an href and the values define your mock`. For example:
+You can override this by assigning an object to `parameters.sveltekit_experimental.hrefs`, where the keys are strings representing an href and the values define your mock. For example:
 
 ```ts
 // MyComponent.stories.svelte
@@ -181,6 +181,8 @@ export const MyStory = {
   },
 };
 ```
+
+See the [API reference](#hrefs) for more information.
 
 ## Writing native Svelte stories
 
