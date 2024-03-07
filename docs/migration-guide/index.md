@@ -1,5 +1,5 @@
 ---
-title: 'Migration guide from Storybook 6.x to 8.0'
+title: 'Migration guide for Storybook 8.0'
 ---
 
 Storybook 8 focuses on improving performance, compatibility, and stability. Key features include:
