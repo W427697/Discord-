@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import type { Fix } from '../types';
-import { underline } from 'chalk';
+import { cyan, underline, yellow } from 'chalk';
 import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 import { valid, coerce } from 'semver';
 
@@ -78,7 +78,9 @@ export const upgradeStorybookRelatedDependencies = {
   prompt({ upgradable: list }) {
     return dedent`
       You're upgrading to the latest version of Storybook. We recommend upgrading the following packages:
-      ${list.map(({ packageName, version }) => `${packageName}@${version}`).join(', ')}
+      ${list
+        .map(({ packageName, version }) => `- ${cyan(packageName)}@${cyan(version)}`)
+        .join('\n')}
 
       We detected those packages are incompatible with the latest version of Storybook.
       ${underline(
@@ -130,20 +132,26 @@ export const upgradeStorybookRelatedDependencies = {
         .executeCommand({ command: 'dedupe', args: [], stdio: 'ignore' })
         .catch((e) => {});
 
+      console.log();
       console.log(dedent`
-        We upgraded ${upgradable.length} packages:
-        ${upgradable.map(({ packageName, version }) => `- ${packageName}@${version}`).join('\n')}
-      `);
+        We upgraded ${yellow(upgradable.length)} packages:
+        ${upgradable
+          .map(({ packageName, version }) => `- ${cyan(packageName)}@${cyan(version)}`)
+          .join('\n')}
+        `);
     }
 
     if (problematicPackages.length) {
+      console.log();
       console.log(dedent`
-        The following packages, could not be upgraded, likely because there's no update available that's compatible with the latest version of Storybook:
-        ${problematicPackages.map(({ packageName }) => `- ${packageName}`).join('\n')}
+        The following packages, could not be upgraded,
+        likely because there's no update available compatible with the latest version of Storybook:
+        ${problematicPackages.map(({ packageName }) => `- ${cyan(packageName)}`).join('\n')}
 
         We suggest your reach out to the authors of these packages to get them updated.
         But before reporting, please check if there is already an open issue or PR for this.
-      `);
+        `);
     }
+    console.log();
   },
 } satisfies Fix<Options>;
