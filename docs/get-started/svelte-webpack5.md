@@ -82,7 +82,37 @@ First, install the framework:
 
 <!-- prettier-ignore-end -->
 
-Then, update your `.storybook/main.js|ts` to change the framework property:
+Next, install and register your appropriate compiler addon, depending on whether you're using SWC (recommended) or Babel:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-compiler-swc-auto-install.npm.js.mdx',
+    'common/storybook-addon-compiler-swc-auto-install.pnpm.js.mdx',
+    'common/storybook-addon-compiler-swc-auto-install.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+or
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-compiler-babel-auto-install.npm.js.mdx',
+    'common/storybook-addon-compiler-babel-auto-install.pnpm.js.mdx',
+    'common/storybook-addon-compiler-babel-auto-install.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+More details can be found in the [Webpack builder docs](../builders/webpack.md#compiler-support).
+
+Finally, update your `.storybook/main.js|ts` to change the framework property:
 
 <!-- prettier-ignore-start -->
 
