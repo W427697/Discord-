@@ -50,17 +50,20 @@ export const upgradeStorybookRelatedDependencies = {
 
     const data = list.reduce<Options>(
       (acc, k) => {
-        const upgradable = !(
-          !valid(k.version) ||
-          k.version === coerce(packageJson?.dependencies?.[k.packageName])?.toString() ||
-          k.version === coerce(packageJson?.devDependencies?.[k.packageName])?.toString() ||
-          k.version === coerce(packageJson?.peerDependencies?.[k.packageName])?.toString()
-        );
+        if (k.version !== null) {
+          const { packageName, version } = k;
+          const upgradable = !(
+            !valid(k.version) ||
+            k.version === coerce(packageJson?.dependencies?.[k.packageName])?.toString() ||
+            k.version === coerce(packageJson?.devDependencies?.[k.packageName])?.toString() ||
+            k.version === coerce(packageJson?.peerDependencies?.[k.packageName])?.toString()
+          );
 
-        if (upgradable) {
-          acc.upgradable.push(k);
-        } else {
-          acc.problematicPackages.push(k);
+          if (upgradable) {
+            acc.upgradable.push({ packageName, version });
+          } else {
+            acc.problematicPackages.push({ packageName, version });
+          }
         }
 
         return acc;
