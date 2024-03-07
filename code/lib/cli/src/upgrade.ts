@@ -22,7 +22,6 @@ import {
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
-import { is } from '@babel/types';
 
 type Package = {
   package: string;

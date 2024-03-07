@@ -43,7 +43,7 @@ export const upgradeStorybookRelatedDependencies = {
       Array.from(new Set([...associated, ...detected])).map(async (packageName) => {
         return {
           packageName,
-          version: await packageManager.latestVersion(packageName).catch((e) => null),
+          version: await packageManager.latestVersion(packageName).catch(() => null),
         };
       })
     );
@@ -130,7 +130,7 @@ export const upgradeStorybookRelatedDependencies = {
 
       await packageManager
         .executeCommand({ command: 'dedupe', args: [], stdio: 'ignore' })
-        .catch((e) => {});
+        .catch(() => {});
 
       console.log();
       console.log(dedent`
