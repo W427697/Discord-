@@ -30,7 +30,7 @@ import { upgradeStorybookRelatedDependencies } from './upgrade-storybook-related
 
 export * from '../types';
 
-export const allFixes = [
+export const allFixes: Fix[] = [
   addonsAPI,
   newFrameworks,
   cra5,
@@ -58,6 +58,6 @@ export const allFixes = [
   webpack5CompilerSetup,
   mdx1to3,
   upgradeStorybookRelatedDependencies,
-] satisfies Fix[];
+];
 
-export const initFixes = [eslintPlugin] satisfies Fix[];
+export const initFixes: Fix[] = [eslintPlugin];
