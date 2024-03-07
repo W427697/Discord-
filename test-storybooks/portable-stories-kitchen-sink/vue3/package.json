@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "STORYBOOK_TELEMETRY_URL=\"http://localhost:6007/event-log\" storybook dev -p 6006",
     "jest": "echo 'Jest tests are not implemented!'",
     "playwright": "playwright test",
     "cypress": "cypress run --component",

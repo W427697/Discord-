@@ -177,7 +177,7 @@ export function createPlaywrightTest<TFixture extends { extend: any }>(
 ): TFixture {
   return baseTest.extend({
     mount: async ({ mount, page }: any, use: any) => {
-      await use(async (storyRef: WrappedStoryRef) => {
+      await use(async (storyRef: WrappedStoryRef, ...restArgs: any) => {
         // load the story in the browser
         await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
           const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
@@ -187,7 +187,7 @@ export function createPlaywrightTest<TFixture extends { extend: any }>(
         }, storyRef);
 
         // mount the story
-        const mountResult = await mount(storyRef);
+        const mountResult = await mount(storyRef, ...restArgs);
 
         // play the story in the browser
         await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
