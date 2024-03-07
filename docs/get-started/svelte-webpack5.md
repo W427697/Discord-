@@ -115,7 +115,7 @@ Run the following command to install the addon.
 
 <Callout variant="info">
 
-The community actively maintains the Svelte CSF addon but still lacks some features currently available in the official Storybook Svelte framework support. For more information, see [addon's documentation](https://github.com/storybookjs/addon-svelte-csf).
+The community actively maintains the Svelte CSF addon but still lacks some features currently available in the official Storybook Svelte framework support. For more information, see [the addon's documentation](https://github.com/storybookjs/addon-svelte-csf).
 
 </Callout>
 
