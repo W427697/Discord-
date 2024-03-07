@@ -2,12 +2,12 @@ import { dedent } from 'ts-dedent';
 import type { Fix } from '../types';
 import { underline } from 'chalk';
 import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
+import { valid, coerce } from 'semver';
 
 interface Options {
-  list: { packageName: string; version: string }[];
+  upgradable: { packageName: string; version: string }[];
+  problematicPackages: { packageName: string; version: string }[];
 }
-
-type ExcludesFalse = <T>(x: T | undefined) => x is T;
 
 /**
  * Is the user upgrading to the `latest` version of Storybook?
@@ -20,36 +20,62 @@ type ExcludesFalse = <T>(x: T | undefined) => x is T;
  */
 export const upgradeStorybookRelatedDependencies = {
   id: 'upgradeStorybookRelatedDependencies',
-
-  versionRange: ['<8', '>=8'],
+  versionRange: ['*.*.*', '*.*.*'],
+  promptType: 'auto',
+  promptDefaultValue: false,
 
   async check({ packageManager, storybookVersion }) {
-    const out = await getIncompatibleStorybookPackages({
+    const packageJson = await packageManager.readPackageJson();
+    const analyzed = await getIncompatibleStorybookPackages({
       currentStorybookVersion: storybookVersion,
       packageManager,
       skipErrors: true,
     });
 
-    const list = await Promise.all(
-      out.map(async ({ packageName, hasIncompatibleDependencies }) => {
-        if (!hasIncompatibleDependencies) {
-          return;
-        }
+    const all = await packageManager.getAllDependencies();
 
+    const associated = Object.keys(all).filter((dep) => dep.includes('storybook'));
+    const detected = analyzed
+      .filter((m) => m.hasIncompatibleDependencies)
+      .map((m) => m.packageName);
+
+    const list = await Promise.all(
+      Array.from(new Set([...associated, ...detected])).map(async (packageName) => {
         return {
           packageName,
-          version: await packageManager.latestVersion(packageName),
+          version: await packageManager.latestVersion(packageName).catch((e) => null),
         };
       })
     );
 
-    const filtered = list.filter(Boolean as any as ExcludesFalse);
-    return { list: filtered };
+    const data = list.reduce<Options>(
+      (acc, k) => {
+        const upgradable = !(
+          !valid(k.version) ||
+          k.version === coerce(packageJson?.dependencies?.[k.packageName])?.toString() ||
+          k.version === coerce(packageJson?.devDependencies?.[k.packageName])?.toString() ||
+          k.version === coerce(packageJson?.peerDependencies?.[k.packageName])?.toString()
+        );
+
+        if (upgradable) {
+          acc.upgradable.push(k);
+        } else {
+          acc.problematicPackages.push(k);
+        }
+
+        return acc;
+      },
+      { upgradable: [], problematicPackages: [] }
+    );
+
+    if (data.upgradable.length > 0) {
+      return data;
+    }
+
+    return null;
   },
 
-  promptType: 'auto-no',
-
-  prompt({ list }) {
+  prompt({ upgradable: list }) {
     return dedent`
       You're upgrading to the latest version of Storybook. We recommend upgrading the following packages:
       ${list.map(({ packageName, version }) => `${packageName}@${version}`).join(', ')}
@@ -66,40 +92,58 @@ export const upgradeStorybookRelatedDependencies = {
     `;
   },
 
-  async run({ result: { list }, packageManager, dryRun, mainConfigPath }) {
+  async run({ result: { upgradable, problematicPackages }, packageManager, dryRun }) {
     if (dryRun) {
       console.log(dedent`
-        would have upgrade the following:
-        ${list.map(({ packageName, version }) => `${packageName}@${version}`).join('\n')}
+        We would have upgrade the following:
+        ${upgradable.map(({ packageName, version }) => `${packageName}@${version}`).join('\n')}
       `);
       return;
     }
 
-    const packageJson = await packageManager.readPackageJson();
+    if (upgradable.length > 0) {
+      const packageJson = await packageManager.readPackageJson();
 
-    // mutate the packageJson data
-    list.forEach((item) => {
-      if (!item) {
-        return;
-      }
+      upgradable.forEach((item) => {
+        if (!item) {
+          return;
+        }
 
-      const { packageName, version } = item;
-      const prefixed = `^${version}`;
+        const { packageName, version } = item;
+        const prefixed = `^${version}`;
 
-      if (packageJson.dependencies?.[packageName]) {
-        packageJson.dependencies[packageName] = prefixed;
-      }
-      if (packageJson.devDependencies?.[packageName]) {
-        packageJson.devDependencies[packageName] = prefixed;
-      }
-      if (packageJson.peerDependencies?.[packageName]) {
-        packageJson.peerDependencies[packageName] = prefixed;
-      }
-    });
+        if (packageJson.dependencies?.[packageName]) {
+          packageJson.dependencies[packageName] = prefixed;
+        }
+        if (packageJson.devDependencies?.[packageName]) {
+          packageJson.devDependencies[packageName] = prefixed;
+        }
+        if (packageJson.peerDependencies?.[packageName]) {
+          packageJson.peerDependencies[packageName] = prefixed;
+        }
+      });
 
-    await packageManager.writePackageJson(packageJson);
-    await packageManager.installDependencies();
+      await packageManager.writePackageJson(packageJson);
+      await packageManager.installDependencies();
 
-    await packageManager.getRunCommand('dedupe');
+      await packageManager
+        .executeCommand({ command: 'dedupe', args: [], stdio: 'ignore' })
+        .catch((e) => {});
+
+      console.log(dedent`
+        We upgraded ${upgradable.length} packages:
+        ${upgradable.map(({ packageName, version }) => `- ${packageName}@${version}`).join('\n')}
+      `);
+    }
+
+    if (problematicPackages.length) {
+      console.log(dedent`
+        The following packages, could not be upgraded, likely because there's no update available that's compatible with the latest version of Storybook:
+        ${problematicPackages.map(({ packageName }) => `- ${packageName}`).join('\n')}
+
+        We suggest your reach out to the authors of these packages to get them updated.
+        But before reporting, please check if there is already an open issue or PR for this.
+      `);
+    }
   },
 } satisfies Fix<Options>;

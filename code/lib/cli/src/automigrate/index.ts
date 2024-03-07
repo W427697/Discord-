@@ -30,6 +30,7 @@ import { getStorybookData } from './helpers/mainConfigFile';
 import { doctor } from '../doctor';
 
 import { upgradeStorybookRelatedDependencies } from './fixes/upgrade-storybook-related-dependencies';
+import dedent from 'ts-dedent';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -58,8 +59,16 @@ const cleanup = () => {
 };
 
 const logAvailableMigrations = () => {
-  const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
-  logger.info(`\nThe following migrations are available: ${availableFixes}`);
+  const availableFixes = allFixes
+    .map((f) => chalk.yellow(f.id))
+    .map((x) => `- ${x}`)
+    .join('\n');
+
+  console.log();
+  logger.info(dedent`
+    The following migrations are available:
+    ${availableFixes}
+  `);
 };
 
 export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
@@ -86,7 +95,7 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     throw new Error('Could not determine main config path');
   }
 
-  await automigrate({
+  const outcome = await automigrate({
     ...options,
     packageManager,
     storybookVersion,
@@ -96,7 +105,9 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     isUpgrade: false,
   });
 
-  await doctor({ configDir, packageManager: options.packageManager });
+  if (outcome) {
+    await doctor({ configDir, packageManager: options.packageManager });
+  }
 };
 
 export const automigrate = async ({
@@ -127,7 +138,11 @@ export const automigrate = async ({
     inputFixes ||
     allFixes.filter((fix) => {
       // we only allow this automigration when the user explicitly asks for it, or they are upgrading to the latest version of storybook
-      if (fix.id === upgradeStorybookRelatedDependencies.id && isUpgrade !== 'latest') {
+      if (
+        fix.id === upgradeStorybookRelatedDependencies.id &&
+        isUpgrade !== 'latest' &&
+        fixId !== upgradeStorybookRelatedDependencies.id
+      ) {
         return false;
       }
 
@@ -319,13 +334,13 @@ export async function runFixes({
             fixResults[f.id] = FixStatus.MANUAL_SKIPPED;
             break;
           }
-        } else if (promptType === 'auto' || promptType === 'auto-no') {
+        } else if (promptType === 'auto') {
           runAnswer = await prompts(
             {
               type: 'confirm',
               name: 'fix',
               message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
-              initial: promptType === 'auto-no' ? false : true,
+              initial: f.promptDefaultValue ?? true,
             },
             {
               onCancel: () => {
