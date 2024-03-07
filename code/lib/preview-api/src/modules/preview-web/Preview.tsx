@@ -201,7 +201,7 @@ export class Preview<TRenderer extends Renderer> {
 
     // If the storybook is static build result, then it could not use fetch method(starts with file://)
     try {
-      return await this.loadLocalJSONFileAsync(STORY_INDEX_PATH);
+      return await this.loadLocalJSONFileAsync(STORY_INDEX_PATH) as StoryIndex;
     } catch (error) {
       throw new StoryIndexFetchError({ text: error.message });
     }
