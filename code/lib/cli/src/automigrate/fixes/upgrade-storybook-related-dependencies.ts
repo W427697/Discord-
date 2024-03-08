@@ -172,10 +172,10 @@ export const upgradeStorybookRelatedDependencies = {
       console.log();
       console.log(dedent`
         The following packages could not be upgraded,
-        likely because there's no update available compatible with the latest version of Storybook:
+        likely because there's no stable update available which is compatible with the latest version of Storybook:
         ${problematicPackages.map(({ packageName }) => `- ${cyan(packageName)}`).join('\n')}
 
-        We suggest your reach out to the authors of these packages to get them updated.
+        We suggest you to reach out to the maintainers of these packages to get them updated.
         But before reporting, please check if there is already an open issue or PR for this.
         `);
     }
