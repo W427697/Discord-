@@ -1,10 +1,10 @@
 import { dedent } from 'ts-dedent';
-import type { Fix } from '../types';
 import { cyan, yellow } from 'chalk';
-import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 import { valid, coerce } from 'semver';
 import type { JsPackageManager } from '@storybook/core-common';
 import { isCorePackage } from '@storybook/core-common';
+import type { Fix } from '../types';
+import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 
 type PackageMetadata = {
   packageName: string;
@@ -74,12 +74,10 @@ export const upgradeStorybookRelatedDependencies = {
     ).map((packageName) => [packageName, allDependencies[packageName]]) as [string, string][];
 
     const packageVersions = await getLatestVersions(packageManager, uniquePackages);
+
     const upgradablePackages = packageVersions.filter(
       ({ packageName, afterVersion, beforeVersion }) => {
-        if (beforeVersion === null) {
-          return false;
-        }
-        if (afterVersion === null) {
+        if (beforeVersion === null || afterVersion === null) {
           return false;
         }
 
