@@ -29,7 +29,7 @@ const toPascalCase = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
  * @returns {string | null} A displayName for the Symbol in case elementType is a Symbol; otherwise, null.
  */
 export const getReactSymbolName = (elementType: any): string => {
-  const symbolDescription = elementType.toString().replace(/^Symbol\((.*)\)$/, '$1');
+  const symbolDescription: string = elementType.toString().replace(/^Symbol\((.*)\)$/, '$1');
 
   const reactComponentName = symbolDescription
     .split('.')
@@ -74,7 +74,7 @@ type JSXOptions = Options & {
 };
 
 /** Apply the users parameters and render the jsx for a story */
-export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
+export const renderJsx = (code: React.ReactElement, options?: JSXOptions) => {
   if (typeof code === 'undefined') {
     logger.warn('Too many skip or undefined component');
     return null;
