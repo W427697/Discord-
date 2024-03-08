@@ -55,6 +55,12 @@ export const upgradeStorybookRelatedDependencies = {
   promptDefaultValue: false,
 
   async check({ packageManager, storybookVersion }) {
+    const latestStorybookVersion = await packageManager.latestVersion('storybook');
+
+    if (storybookVersion !== latestStorybookVersion) {
+      return null;
+    }
+
     const analyzedPackages = await getIncompatibleStorybookPackages({
       currentStorybookVersion: storybookVersion,
       packageManager,
