@@ -14,7 +14,6 @@ type PackageMetadata = {
 
 interface Options {
   upgradable: PackageMetadata[];
-  problematicPackages: PackageMetadata[];
 }
 
 async function getLatestVersions(
@@ -31,31 +30,13 @@ async function getLatestVersions(
 }
 
 function isPackageUpgradable(
-  version: string,
+  afterVersion: string,
   packageName: string,
   allDependencies: Record<string, string>
 ) {
   const installedVersion = coerce(allDependencies[packageName])?.toString();
 
-  return valid(version) && version !== installedVersion;
-}
-
-function categorizePackages(
-  packageVersions: PackageMetadata[],
-  allDependencies: Record<string, string>
-) {
-  return packageVersions.reduce(
-    (acc, { packageName, afterVersion, beforeVersion }) => {
-      if (afterVersion === null) return acc;
-
-      const isUpgradable = isPackageUpgradable(afterVersion, packageName, allDependencies);
-      const category = isUpgradable ? 'upgradable' : 'problematicPackages';
-      acc[category].push({ packageName, afterVersion, beforeVersion });
-
-      return acc;
-    },
-    { upgradable: [], problematicPackages: [] } as Options
-  );
+  return valid(afterVersion) && afterVersion !== installedVersion;
 }
 
 /**
@@ -83,7 +64,7 @@ export const upgradeStorybookRelatedDependencies = {
     const allDependencies = (await packageManager.getAllDependencies()) as Record<string, string>;
     const storybookDependencies = Object.keys(allDependencies)
       .filter((dep) => dep.includes('storybook'))
-      .filter(isCorePackage);
+      .filter((dep) => !isCorePackage(dep));
     const incompatibleDependencies = analyzedPackages
       .filter((pkg) => pkg.hasIncompatibleDependencies)
       .map((pkg) => pkg.packageName);
@@ -93,15 +74,21 @@ export const upgradeStorybookRelatedDependencies = {
     ).map((packageName) => [packageName, allDependencies[packageName]]) as [string, string][];
 
     const packageVersions = await getLatestVersions(packageManager, uniquePackages);
-    const categorizedPackages = categorizePackages(packageVersions, allDependencies);
+    const upgradablePackages = packageVersions.filter(({ packageName, afterVersion }) => {
+      if (afterVersion === null) {
+        return false;
+      }
 
-    return categorizedPackages.upgradable.length > 0 ? categorizedPackages : null;
+      return isPackageUpgradable(afterVersion, packageName, allDependencies);
+    });
+
+    return upgradablePackages.length > 0 ? upgradablePackages : null;
   },
 
-  prompt({ upgradable: list }) {
+  prompt({ upgradable }) {
     return dedent`
       You're upgrading to the latest version of Storybook. We recommend upgrading the following packages:
-      ${list
+      ${upgradable
         .map(({ packageName, afterVersion, beforeVersion }) => {
           return `- ${cyan(packageName)}: ${cyan(beforeVersion)} => ${cyan(afterVersion)}`;
         })
@@ -114,7 +101,7 @@ export const upgradeStorybookRelatedDependencies = {
     `;
   },
 
-  async run({ result: { upgradable, problematicPackages }, packageManager, dryRun }) {
+  async run({ result: { upgradable }, packageManager, dryRun }) {
     if (dryRun) {
       console.log(dedent`
         We would have upgrade the following:
@@ -165,18 +152,6 @@ export const upgradeStorybookRelatedDependencies = {
             return `- ${cyan(packageName)}: ${cyan(beforeVersion)} => ${cyan(afterVersion)}`;
           })
           .join('\n')}
-        `);
-    }
-
-    if (problematicPackages.length) {
-      console.log();
-      console.log(dedent`
-        The following packages could not be upgraded,
-        likely because there's no stable update available which is compatible with the latest version of Storybook:
-        ${problematicPackages.map(({ packageName }) => `- ${cyan(packageName)}`).join('\n')}
-
-        We suggest you to reach out to the maintainers of these packages to get them updated.
-        But before reporting, please check if there is already an open issue or PR for this.
         `);
     }
     console.log();
