@@ -331,10 +331,12 @@ export const init: ModuleFn<SubAPI, SubState> = (
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).reduce(async (acc, [id, ref]) => {
-      await acc;
-      await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
-    }, Promise.resolve());
+    new Promise(async (resolve) => {
+      for (const ref of Object.values(refs)) {
+        await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
+      }
+      resolve(undefined);
+    });
   }
 
   return {
