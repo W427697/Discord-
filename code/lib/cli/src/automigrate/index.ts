@@ -29,6 +29,7 @@ import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
 import { doctor } from '../doctor';
 
+import { upgradeStorybookRelatedDependencies } from './fixes/upgrade-storybook-related-dependencies';
 import dedent from 'ts-dedent';
 
 const logger = console;
@@ -133,7 +134,20 @@ export const automigrate = async ({
     return null;
   }
 
-  const selectedFixes: Fix[] = inputFixes || allFixes;
+  const selectedFixes: Fix[] =
+    inputFixes ||
+    allFixes.filter((fix) => {
+      // we only allow this automigration when the user explicitly asks for it, or they are upgrading to the latest version of storybook
+      if (
+        fix.id === upgradeStorybookRelatedDependencies.id &&
+        isUpgrade !== 'latest' &&
+        fixId !== upgradeStorybookRelatedDependencies.id
+      ) {
+        return false;
+      }
+
+      return true;
+    });
   const fixes: Fix[] = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
   if (fixId && fixes.length === 0) {
