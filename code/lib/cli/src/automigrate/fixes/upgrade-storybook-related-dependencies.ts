@@ -147,7 +147,7 @@ export const upgradeStorybookRelatedDependencies = {
     if (problematicPackages.length) {
       console.log();
       console.log(dedent`
-        The following packages, could not be upgraded,
+        The following packages could not be upgraded,
         likely because there's no update available compatible with the latest version of Storybook:
         ${problematicPackages.map(({ packageName }) => `- ${cyan(packageName)}`).join('\n')}
 
