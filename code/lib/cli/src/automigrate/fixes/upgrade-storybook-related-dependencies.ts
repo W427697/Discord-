@@ -1,8 +1,9 @@
 import { dedent } from 'ts-dedent';
 import type { Fix } from '../types';
-import { cyan, underline, yellow } from 'chalk';
+import { cyan, yellow } from 'chalk';
 import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 import { valid, coerce } from 'semver';
+import { isCorePackage } from '@storybook/core-common';
 
 interface Options {
   upgradable: { packageName: string; version: string }[];
@@ -34,7 +35,9 @@ export const upgradeStorybookRelatedDependencies = {
 
     const all = await packageManager.getAllDependencies();
 
-    const associated = Object.keys(all).filter((dep) => dep.includes('storybook'));
+    const associated = Object.keys(all)
+      .filter((dep) => dep.includes('storybook'))
+      .filter(isCorePackage);
     const detected = analyzed
       .filter((m) => m.hasIncompatibleDependencies)
       .map((m) => m.packageName);
@@ -85,12 +88,7 @@ export const upgradeStorybookRelatedDependencies = {
         .map(({ packageName, version }) => `- ${cyan(packageName)}@${cyan(version)}`)
         .join('\n')}
 
-      We detected those packages are incompatible with the latest version of Storybook.
-      ${underline(
-        `The list might be incomplete, so it's advised to upgrade dependencies manually, but this automigration can help you get started.`
-      )}
-
-      After upgrading, we will run the dedupe command, which could possibly have effects on dependencies that are not storybook related.
+      After upgrading, we will run the dedupe command, which could possibly have effects on dependencies that are not Storybook related.
       see: https://docs.npmjs.com/cli/commands/npm-dedupe
 
       Do you want to proceed (upgrade the detected packages)?
