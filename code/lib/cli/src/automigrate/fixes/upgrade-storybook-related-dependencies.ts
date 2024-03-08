@@ -3,11 +3,59 @@ import type { Fix } from '../types';
 import { cyan, yellow } from 'chalk';
 import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 import { valid, coerce } from 'semver';
+import type { JsPackageManager } from '@storybook/core-common';
 import { isCorePackage } from '@storybook/core-common';
 
+type PackageMetadata = {
+  packageName: string;
+  beforeVersion: string;
+  afterVersion: string | null;
+};
+
 interface Options {
-  upgradable: { packageName: string; version: string }[];
-  problematicPackages: { packageName: string; version: string }[];
+  upgradable: PackageMetadata[];
+  problematicPackages: PackageMetadata[];
+}
+
+async function getLatestVersions(
+  packageManager: JsPackageManager,
+  packages: [string, string][]
+): Promise<PackageMetadata[]> {
+  return Promise.all(
+    packages.map(async ([packageName, beforeVersion]) => ({
+      packageName,
+      beforeVersion,
+      afterVersion: await packageManager.latestVersion(packageName).catch(() => null),
+    }))
+  );
+}
+
+function isPackageUpgradable(
+  version: string,
+  packageName: string,
+  allDependencies: Record<string, string>
+) {
+  const installedVersion = coerce(allDependencies[packageName])?.toString();
+
+  return valid(version) && version !== installedVersion;
+}
+
+function categorizePackages(
+  packageVersions: PackageMetadata[],
+  allDependencies: Record<string, string>
+) {
+  return packageVersions.reduce(
+    (acc, { packageName, afterVersion, beforeVersion }) => {
+      if (afterVersion === null) return acc;
+
+      const isUpgradable = isPackageUpgradable(afterVersion, packageName, allDependencies);
+      const category = isUpgradable ? 'upgradable' : 'problematicPackages';
+      acc[category].push({ packageName, afterVersion, beforeVersion });
+
+      return acc;
+    },
+    { upgradable: [], problematicPackages: [] } as Options
+  );
 }
 
 /**
@@ -26,66 +74,37 @@ export const upgradeStorybookRelatedDependencies = {
   promptDefaultValue: false,
 
   async check({ packageManager, storybookVersion }) {
-    const packageJson = await packageManager.readPackageJson();
-    const analyzed = await getIncompatibleStorybookPackages({
+    const analyzedPackages = await getIncompatibleStorybookPackages({
       currentStorybookVersion: storybookVersion,
       packageManager,
       skipErrors: true,
     });
 
-    const all = await packageManager.getAllDependencies();
-
-    const associated = Object.keys(all)
+    const allDependencies = (await packageManager.getAllDependencies()) as Record<string, string>;
+    const storybookDependencies = Object.keys(allDependencies)
       .filter((dep) => dep.includes('storybook'))
       .filter(isCorePackage);
-    const detected = analyzed
-      .filter((m) => m.hasIncompatibleDependencies)
-      .map((m) => m.packageName);
+    const incompatibleDependencies = analyzedPackages
+      .filter((pkg) => pkg.hasIncompatibleDependencies)
+      .map((pkg) => pkg.packageName);
 
-    const list = await Promise.all(
-      Array.from(new Set([...associated, ...detected])).map(async (packageName) => {
-        return {
-          packageName,
-          version: await packageManager.latestVersion(packageName).catch(() => null),
-        };
-      })
-    );
+    const uniquePackages = Array.from(
+      new Set([...storybookDependencies, ...incompatibleDependencies])
+    ).map((packageName) => [packageName, allDependencies[packageName]]) as [string, string][];
 
-    const data = list.reduce<Options>(
-      (acc, k) => {
-        if (k.version !== null) {
-          const { packageName, version } = k;
-          const upgradable = !(
-            !valid(k.version) ||
-            k.version === coerce(packageJson?.dependencies?.[k.packageName])?.toString() ||
-            k.version === coerce(packageJson?.devDependencies?.[k.packageName])?.toString() ||
-            k.version === coerce(packageJson?.peerDependencies?.[k.packageName])?.toString()
-          );
+    const packageVersions = await getLatestVersions(packageManager, uniquePackages);
+    const categorizedPackages = categorizePackages(packageVersions, allDependencies);
 
-          if (upgradable) {
-            acc.upgradable.push({ packageName, version });
-          } else {
-            acc.problematicPackages.push({ packageName, version });
-          }
-        }
-
-        return acc;
-      },
-      { upgradable: [], problematicPackages: [] }
-    );
-
-    if (data.upgradable.length > 0) {
-      return data;
-    }
-
-    return null;
+    return categorizedPackages.upgradable.length > 0 ? categorizedPackages : null;
   },
 
   prompt({ upgradable: list }) {
     return dedent`
       You're upgrading to the latest version of Storybook. We recommend upgrading the following packages:
       ${list
-        .map(({ packageName, version }) => `- ${cyan(packageName)}@${cyan(version)}`)
+        .map(({ packageName, afterVersion, beforeVersion }) => {
+          return `- ${cyan(packageName)}: ${cyan(beforeVersion)} => ${cyan(afterVersion)}`;
+        })
         .join('\n')}
 
       After upgrading, we will run the dedupe command, which could possibly have effects on dependencies that are not Storybook related.
@@ -99,7 +118,12 @@ export const upgradeStorybookRelatedDependencies = {
     if (dryRun) {
       console.log(dedent`
         We would have upgrade the following:
-        ${upgradable.map(({ packageName, version }) => `${packageName}@${version}`).join('\n')}
+        ${upgradable
+          .map(
+            ({ packageName, afterVersion, beforeVersion }) =>
+              `${packageName}: ${beforeVersion} => ${afterVersion}`
+          )
+          .join('\n')}
       `);
       return;
     }
@@ -112,7 +136,7 @@ export const upgradeStorybookRelatedDependencies = {
           return;
         }
 
-        const { packageName, version } = item;
+        const { packageName, afterVersion: version } = item;
         const prefixed = `^${version}`;
 
         if (packageJson.dependencies?.[packageName]) {
@@ -137,7 +161,9 @@ export const upgradeStorybookRelatedDependencies = {
       console.log(dedent`
         We upgraded ${yellow(upgradable.length)} packages:
         ${upgradable
-          .map(({ packageName, version }) => `- ${cyan(packageName)}@${cyan(version)}`)
+          .map(({ packageName, afterVersion, beforeVersion }) => {
+            return `- ${cyan(packageName)}: ${cyan(beforeVersion)} => ${cyan(afterVersion)}`;
+          })
           .join('\n')}
         `);
     }
