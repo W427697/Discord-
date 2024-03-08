@@ -82,7 +82,7 @@ export const upgradeStorybookRelatedDependencies = {
       return isPackageUpgradable(afterVersion, packageName, allDependencies);
     });
 
-    return upgradablePackages.length > 0 ? upgradablePackages : null;
+    return upgradablePackages.length > 0 ? { upgradable: upgradablePackages } : null;
   },
 
   prompt({ upgradable }) {
