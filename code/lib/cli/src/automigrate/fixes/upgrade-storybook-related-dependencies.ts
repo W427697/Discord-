@@ -8,7 +8,7 @@ import { isCorePackage } from '@storybook/core-common';
 
 type PackageMetadata = {
   packageName: string;
-  beforeVersion: string;
+  beforeVersion: string | null;
   afterVersion: string | null;
 };
 
@@ -23,7 +23,7 @@ async function getLatestVersions(
   return Promise.all(
     packages.map(async ([packageName, beforeVersion]) => ({
       packageName,
-      beforeVersion,
+      beforeVersion: coerce(beforeVersion)?.toString() || null,
       afterVersion: await packageManager.latestVersion(packageName).catch(() => null),
     }))
   );
@@ -74,13 +74,18 @@ export const upgradeStorybookRelatedDependencies = {
     ).map((packageName) => [packageName, allDependencies[packageName]]) as [string, string][];
 
     const packageVersions = await getLatestVersions(packageManager, uniquePackages);
-    const upgradablePackages = packageVersions.filter(({ packageName, afterVersion }) => {
-      if (afterVersion === null) {
-        return false;
-      }
+    const upgradablePackages = packageVersions.filter(
+      ({ packageName, afterVersion, beforeVersion }) => {
+        if (beforeVersion === null) {
+          return false;
+        }
+        if (afterVersion === null) {
+          return false;
+        }
 
-      return isPackageUpgradable(afterVersion, packageName, allDependencies);
-    });
+        return isPackageUpgradable(afterVersion, packageName, allDependencies);
+      }
+    );
 
     return upgradablePackages.length > 0 ? { upgradable: upgradablePackages } : null;
   },
