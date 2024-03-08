@@ -172,7 +172,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const { versions, title } = api.getRefs()[id];
       const ref: API_SetRefData = { id, url, versions, title, index: {}, expanded: true };
 
-      api.setRef(id, { ...ref, type: 'unknown' }, false);
+      await api.setRef(id, { ...ref, type: 'unknown' }, false);
       await api.checkRef(ref);
     },
     changeRefState: (id, previewInitialized) => {
