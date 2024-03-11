@@ -68,6 +68,11 @@ module.exports = {
               title: 'Web components & Vite',
               type: 'link',
             },
+            {
+              pathSegment: 'web-components-webpack5',
+              title: 'Web components & Webpack',
+              type: 'link',
+            },
           ],
         },
         {
