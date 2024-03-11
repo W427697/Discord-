@@ -1,7 +1,3 @@
-## 8.0.0-rc.5
-
-- CLI: Automigration fix version detection of upgrading related packages - [#26410](https://github.com/storybookjs/storybook/pull/26410), thanks @ndelangen!
-
 ## 8.0.0-rc.4
 
 - Actions: Fix attaching action after a spy is restored to original function - [#26364](https://github.com/storybookjs/storybook/pull/26364), thanks @kasperpeulen!
