@@ -44,6 +44,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
               pathSegment: 'vue3-vite',
               title: 'Vue & Vite',
               type: 'link',
