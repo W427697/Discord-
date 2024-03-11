@@ -11,20 +11,21 @@ import {
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
-import { telemetry, oneWayHash } from '@storybook/telemetry';
+import { oneWayHash, telemetry } from '@storybook/telemetry';
 
 import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
-import { getServerPort, getServerChannelUrl } from './utils/server-address';
+import { getServerChannelUrl, getServerPort } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { warnWhenUsingArgTypesRegex } from './utils/warnWhenUsingArgTypesRegex';
 import { buildOrThrow } from './utils/build-or-throw';
 
 export async function buildDevStandalone(
@@ -88,10 +89,14 @@ export async function buildDevStandalone(
   frameworkName = frameworkName || 'custom';
 
   try {
-    await warnOnIncompatibleAddons(config);
+    await warnOnIncompatibleAddons(packageJson.version);
   } catch (e) {
     console.warn('Storybook failed to check addon compatibility', e);
   }
+
+  try {
+    await warnWhenUsingArgTypesRegex(packageJson, configDir, config);
+  } catch (e) {}
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account
@@ -177,15 +182,26 @@ export async function buildDevStandalone(
   const previewStats = previewResult?.stats;
   const managerStats = managerResult?.stats;
 
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+  const statsOption = options.webpackStatsJson || options.statsJson;
+  if (statsOption) {
+    const target = statsOption === true ? options.outputDir : statsOption;
+
     await outputStats(target, previewStats);
   }
 
   if (options.smokeTest) {
     const warnings: Error[] = [];
     warnings.push(...(managerStats?.toJson()?.warnings || []));
-    warnings.push(...(previewStats?.toJson()?.warnings || []));
+    try {
+      warnings.push(...(previewStats?.toJson()?.warnings || []));
+    } catch (err) {
+      if (err instanceof NoStatsForViteDevError) {
+        // pass, the Vite builder has no warnings in the stats object anyway,
+        // but no stats at all in dev mode
+      } else {
+        throw err;
+      }
+    }
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))

@@ -85,11 +85,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ],
     format: ['esm'],
     esbuildOptions: (options) => {
-      /* eslint-disable no-param-reassign */
       options.conditions = ['module'];
       options.platform = 'browser';
+      options.loader = {
+        ...options.loader,
+        '.png': 'dataurl',
+      };
       Object.assign(options, getESBuildOptions(optimized));
-      /* eslint-enable no-param-reassign */
     },
   };
 
@@ -120,15 +122,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
         format: ['cjs'],
-        target: 'node18',
-        platform: 'node',
-        external: commonExternals,
+        target: browserOptions.target,
+        platform: 'neutral',
+        external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
-          options.platform = 'node';
+          options.platform = 'neutral';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -174,10 +173,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );

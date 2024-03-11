@@ -24,8 +24,18 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
               type: 'link',
             },
           ],
@@ -753,9 +763,16 @@ module.exports = {
       type: 'link',
     },
     {
-      title: 'Migrate to 8.0',
       pathSegment: 'migration-guide',
-      type: 'link',
+      title: 'Migrate to 8.0',
+      type: 'heading',
+      children: [
+        {
+          title: 'Migrate from 6.x to 8.0',
+          pathSegment: 'from-older-version',
+          type: 'link',
+        },
+      ],
     },
   ],
 };
