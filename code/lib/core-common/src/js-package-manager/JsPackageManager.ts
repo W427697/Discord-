@@ -133,6 +133,8 @@ export abstract class JsPackageManager {
     logger.log('Installing dependencies...');
     logger.log();
 
+    logger.log();
+
     try {
       await this.runInstall();
     } catch (e) {
