@@ -4,8 +4,9 @@ import findUp from 'find-up';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import { frameworkToRenderer } from '../../helpers';
 import { frameworkPackages } from '@storybook/core-common';
+import path from 'path';
 
-interface Webpack5RunOptions {
+interface ViteConfigFileRunOptions {
   plugins: string[];
   existed: boolean;
 }
@@ -13,13 +14,15 @@ interface Webpack5RunOptions {
 export const viteConfigFile = {
   id: 'viteConfigFile',
 
-  async check({ mainConfig, packageManager }) {
-    const viteConfigPath = await findUp([
-      'vite.config.js',
-      'vite.config.mjs',
-      'vite.config.cjs',
-      'vite.config.ts',
-    ]);
+  versionRange: ['<8.0.0-beta.3', '>=8.0.0-beta.3'],
+
+  promptType: 'notification',
+
+  async check({ mainConfig, packageManager, mainConfigPath }) {
+    let isViteConfigFileFound = !!(await findUp(
+      ['vite.config.js', 'vite.config.mjs', 'vite.config.cjs', 'vite.config.ts'],
+      { cwd: mainConfigPath ? path.join(mainConfigPath, '..') : process.cwd() }
+    ));
 
     const rendererToVitePluginMap: Record<string, string> = {
       preact: '@preact/preset-vite',
@@ -45,7 +48,16 @@ export const viteConfigFile = {
 
     const rendererName = frameworkToRenderer[frameworkName as keyof typeof frameworkToRenderer];
 
-    if (!viteConfigPath && isUsingViteBuilder) {
+    if (
+      !isViteConfigFileFound &&
+      mainConfig.core?.builder &&
+      typeof mainConfig.core?.builder !== 'string' &&
+      mainConfig.core?.builder.options
+    ) {
+      isViteConfigFileFound = !!mainConfig.core?.builder.options.viteConfigPath;
+    }
+
+    if (!isViteConfigFileFound && isUsingViteBuilder) {
       const plugins = [];
 
       if (rendererToVitePluginMap[rendererName]) {
@@ -54,7 +66,7 @@ export const viteConfigFile = {
 
       return {
         plugins,
-        existed: !!viteConfigPath,
+        existed: isViteConfigFileFound,
       };
     }
 
@@ -66,7 +78,7 @@ export const viteConfigFile = {
 
     const pluginVersion = await packageManager.getPackageVersion(plugin);
 
-    if (viteConfigPath && isUsingViteBuilder && !pluginVersion) {
+    if (isViteConfigFileFound && isUsingViteBuilder && !pluginVersion) {
       const plugins = [];
 
       if (plugin) {
@@ -75,7 +87,7 @@ export const viteConfigFile = {
 
       return {
         plugins,
-        existed: !viteConfigPath,
+        existed: !isViteConfigFileFound,
       };
     }
 
@@ -85,7 +97,7 @@ export const viteConfigFile = {
   prompt({ existed, plugins }) {
     if (existed) {
       return dedent`
-        Storybook 8.0.0 no longer ships with a Vite config build-in.
+        Since version 8.0.0, Storybook no longer ships with a Vite config build-in.
         We've detected you do have a Vite config, but you may be missing the following plugins in it.
 
         ${plugins.map((plugin) => `  - ${plugin}`).join('\n')}
@@ -93,19 +105,19 @@ export const viteConfigFile = {
         If you do already have these plugins, you can ignore this message.
 
         You can find more information on how to do this here:
-        https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added  
+        https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
         This change was necessary to support newer versions of Vite.
       `;
     }
     return dedent`
-      Storybook 8.0.0 no longer ships with a Vite config build-in.
+      Since version 8.0.0, Storybook no longer ships with a Vite config build-in.
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added
+      https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
       This change was necessary to support newer versions of Vite.
     `;
   },
-} satisfies Fix<Webpack5RunOptions>;
+} satisfies Fix<ViteConfigFileRunOptions>;
