@@ -58,6 +58,11 @@ module.exports = {
               title: 'Vue & Vite',
               type: 'link',
             },
+            {
+              pathSegment: 'vue3-webpack5',
+              title: 'Vue & Webpack',
+              type: 'link',
+            },
           ],
         },
         {
