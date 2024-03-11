@@ -49,6 +49,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'svelte-webpack5',
+              title: 'Svelte & Webpack',
+              type: 'link',
+            },
+            {
               pathSegment: 'vue3-vite',
               title: 'Vue & Vite',
               type: 'link',
