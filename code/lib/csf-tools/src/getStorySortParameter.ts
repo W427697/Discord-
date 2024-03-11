@@ -19,7 +19,9 @@ const getValue = (obj: t.ObjectExpression, key: string) => {
   return value;
 };
 
-const parseValue = (expr: t.Expression): any => {
+const parseValue = (value: t.Expression): any => {
+  const expr = stripTSModifiers(value);
+
   if (t.isArrayExpression(expr)) {
     return (expr.elements as t.Expression[]).map((o) => {
       return parseValue(o);
@@ -143,7 +145,7 @@ export const getStorySortParameter = (previewCode: string) => {
 
   if (t.isArrowFunctionExpression(storySort)) {
     const { code: sortCode } = generate.default(storySort, {});
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(sortCode);
   }
 
@@ -155,7 +157,7 @@ export const getStorySortParameter = (previewCode: string) => {
       ${sortCode};
       return ${functionName}(a, b)
     }`;
-    // eslint-disable-next-line no-eval
+
     return (0, eval)(wrapper);
   }
 

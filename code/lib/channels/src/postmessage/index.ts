@@ -5,9 +5,7 @@ import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
-import qs from 'qs';
 import invariant from 'tiny-invariant';
-import { Channel } from '../main';
 import type {
   ChannelTransport,
   BufferedEvent,
@@ -21,7 +19,7 @@ const { document, location } = global;
 
 export const KEY = 'storybook-channel';
 
-const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
+const defaultEventOptions = { allowFunction: false, maxDepth: 25 };
 
 // TODO: we should export a method for opening child windows here and keep track of em.
 // that way we can send postMessage to child windows as well, not just iframe
@@ -103,13 +101,13 @@ export class PostMessageTransport implements ChannelTransport {
 
     const frames = this.getFrames(target);
 
-    const query = qs.parse(location?.search || '', { ignoreQueryPrefix: true });
+    const query = new URLSearchParams(location?.search || '');
 
     const data = stringify(
       {
         key: KEY,
         event,
-        refId: query.refId,
+        refId: query.get('refId'),
       },
       stringifyOptions
     );
@@ -243,25 +241,3 @@ export class PostMessageTransport implements ChannelTransport {
     }
   }
 }
-
-/**
- * @deprecated This export is deprecated. Use `PostMessageTransport` instead. This API will be removed in 8.0.
- */
-export const PostmsgTransport = PostMessageTransport;
-
-/**
- * @deprecated This function is deprecated. Use the `createBrowserChannel` factory function from `@storybook/channels` instead. This API will be removed in 8.0.
- * @param {Config} config - The configuration object.
- * @returns {Channel} The channel instance.
- */
-export function createChannel({ page }: Config): Channel {
-  const transport = new PostmsgTransport({ page });
-  return new Channel({ transport });
-}
-
-/**
- * @deprecated This function is deprecated. Use the `createBrowserChannel` factory function from `@storybook/channels` instead. This API will be removed in 8.0.
- * @param {Config} config - The configuration object.
- * @returns {Channel} The channel instance.
- */
-export default createChannel;

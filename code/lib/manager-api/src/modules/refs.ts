@@ -8,19 +8,17 @@ import type {
   SetStoriesStoryData,
   API_IndexHash,
   API_StoryMapper,
+  StoryIndex,
 } from '@storybook/types';
-// eslint-disable-next-line import/no-cycle
+
 import {
-  transformSetStoriesStoryDataToStoriesHash,
+  transformSetStoriesStoryDataToPreparedStoryIndex,
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
 
 import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
-
-// eslint-disable-next-line no-useless-escape
-const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
 
 export interface SubState {
   refs: API_Refs;
@@ -45,7 +43,7 @@ export interface SubAPI {
    * @param {string} id - The ID of the composed ref.
    * @param {API_ComposedRefUpdate} ref - The update object for the composed ref.
    */
-  updateRef: (id: string, ref: API_ComposedRefUpdate) => void;
+  updateRef: (id: string, ref: API_ComposedRefUpdate) => Promise<void>;
   /**
    * Gets all composed refs.
    * @returns {API_Refs} - The composed refs object.
@@ -62,7 +60,7 @@ export interface SubAPI {
    * @param {string} id - The ID of the composed ref.
    * @param {string} url - The new URL for the composed ref.
    */
-  changeRefVersion: (id: string, url: string) => void;
+  changeRefVersion: (id: string, url: string) => Promise<void>;
   /**
    * Changes the state of a composed ref by its ID and previewInitialized flag.
    * @param {string} id - The ID of the composed ref.
@@ -75,8 +73,10 @@ export const getSourceType = (source: string, refId?: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
   const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
 
-  const localFull = `${localOrigin + localPathname}`.replace(findFilename, '');
-  const sourceFull = `${sourceOrigin + sourcePathname}`.replace(findFilename, '');
+  const localFull = `${localOrigin + localPathname}`.replace('/iframe.html', '').replace(/\/$/, '');
+  const sourceFull = `${sourceOrigin + sourcePathname}`
+    .replace('/iframe.html', '')
+    .replace(/\/$/, '');
 
   if (localFull === sourceFull) {
     return ['local', sourceFull];
@@ -87,13 +87,13 @@ export const getSourceType = (source: string, refId?: string) => {
   return [null, null];
 };
 
-export const defaultStoryMapper: API_StoryMapper = (b, a) => {
+export const defaultStoryMapper: API_StoryMapper = (b: any, a: any) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
 const addRefIds = (input: API_IndexHash, ref: API_ComposedRef): API_IndexHash => {
   return Object.entries(input).reduce((acc, [id, item]) => {
-    return { ...acc, [id]: { ...item, refId: ref.id } };
+    return { ...acc, [id]: { ...item!, refId: ref.id } };
   }, {} as API_IndexHash);
 };
 
@@ -104,8 +104,12 @@ async function handleRequest(
 
   try {
     const response = await request;
-    if (response === false || response === true) throw new Error('Unexpected boolean response');
-    if (!response.ok) throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    if (response === false || response === true) {
+      throw new Error('Unexpected boolean response');
+    }
+    if (!response.ok) {
+      throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    }
 
     const json = await response.json();
 
@@ -114,7 +118,7 @@ async function handleRequest(
     }
 
     return json as API_SetRefData;
-  } catch (err) {
+  } catch (err: any) {
     return { indexError: err };
   }
 }
@@ -159,17 +163,17 @@ export const init: ModuleFn<SubAPI, SubState> = (
   { runCheck = true } = {}
 ) => {
   const api: SubAPI = {
-    findRef: (source) => {
+    findRef: (source): any => {
       const refs = api.getRefs();
 
-      return Object.values(refs).find(({ url }) => url.match(source));
+      return Object.values(refs).find(({ url }: any) => url.match(source));
     },
-    changeRefVersion: (id, url) => {
+    changeRefVersion: async (id, url) => {
       const { versions, title } = api.getRefs()[id];
       const ref: API_SetRefData = { id, url, versions, title, index: {}, expanded: true };
 
-      api.setRef(id, { ...ref, type: 'unknown' }, false);
-      api.checkRef(ref);
+      await api.setRef(id, { ...ref, type: 'unknown' }, false);
+      await api.checkRef(ref);
     },
     changeRefState: (id, previewInitialized) => {
       const { [id]: ref, ...updated } = api.getRefs();
@@ -199,7 +203,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const loadedData: API_SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
-      const urlParseResult = parseUrl(url);
+      const urlParseResult = parseUrl(url!);
 
       const headers: HeadersInit = {
         Accept: 'application/json',
@@ -257,7 +261,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const versions =
         ref.versions && Object.keys(ref.versions).length ? ref.versions : loadedData.versions;
 
-      await api.setRef(id, {
+      await api.setRef(id!, {
         id,
         url: urlParseResult.url,
         ...loadedData,
@@ -272,45 +276,51 @@ export const init: ModuleFn<SubAPI, SubState> = (
       return refs;
     },
 
-    setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
+    setRef: async (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
       if (singleStory) {
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      let internal_index: StoryIndex | undefined;
+      let index: API_IndexHash | undefined;
+      const { filters } = store.getState();
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
-      if (setStoriesData) {
-        index = transformSetStoriesStoryDataToStoriesHash(
-          map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions, filters: {}, status: {} }
-        );
-      } else if (storyIndex) {
+      if (storyIndex || setStoriesData) {
+        internal_index = setStoriesData
+          ? transformSetStoriesStoryDataToPreparedStoryIndex(
+              map(setStoriesData, ref, { storyMapper })
+            )
+          : storyIndex;
+
+        // @ts-expect-error (could be undefined)
         index = transformStoryIndexToStoriesHash(storyIndex, {
           provider,
           docsOptions,
-          filters: {},
+          filters,
           status: {},
         });
       }
-      if (index) index = addRefIds(index, ref);
 
-      api.updateRef(id, { index, ...rest });
+      if (index) {
+        index = addRefIds(index, ref);
+      }
+
+      await api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
-    updateRef: (id, data) => {
+    updateRef: async (id, data) => {
       const { [id]: ref, ...updated } = api.getRefs();
 
       updated[id] = { ...ref, ...data };
 
-      /* eslint-disable no-param-reassign */
       const ordered = Object.keys(initialState).reduce((obj: any, key) => {
         obj[key] = updated[key];
         return obj;
       }, {});
-      /* eslint-enable no-param-reassign */
 
-      store.setState({
+      await store.setState({
         refs: ordered,
       });
     },
@@ -321,8 +331,11 @@ export const init: ModuleFn<SubAPI, SubState> = (
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref, stories: {} } as API_SetRefData);
+    new Promise(async (resolve) => {
+      for (const ref of Object.values(refs)) {
+        await api.checkRef({ ...ref!, stories: {} } as API_SetRefData);
+      }
+      resolve(undefined);
     });
   }
 

@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
-
 import dedent from 'ts-dedent';
+
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -46,7 +46,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   // Miscellaneous dependency to add to be sure Storybook + CRA is working fine with Yarn PnP mode
   extraPackages.push('prop-types');
 
-  const extraAddons = [`@storybook/preset-create-react-app`, '@storybook/addon-onboarding@^1.0.0'];
+  const extraAddons = [`@storybook/preset-create-react-app`, `@storybook/addon-onboarding`];
 
   await baseGenerator(
     packageManager,
@@ -54,11 +54,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Webpack5 },
     'react',
     {
-      useSWC: () => true,
+      webpackCompiler: () => undefined,
       extraAddons,
       extraPackages,
       staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
-      skipBabel: true,
       extraMain,
     }
   );

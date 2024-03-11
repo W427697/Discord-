@@ -8,13 +8,11 @@ Component Story Format (CSF) is the recommended way to [write stories](../writin
 
 <Callout variant="info" icon="💡">
 
-If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
+If you have stories written in the older `storiesOf()` syntax, it was removed in Storybook 8.0 and is no longer maintained. We recommend migrating your stories to CSF. See the [migration guide](../migration-guide.md#storiesof-to-csf) for more information.
 
 </Callout>
 
 In CSF, stories and component metadata are defined as ES Modules. Every component story file consists of a required [default export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Using_the_default_export) and one or more [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
-
-CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md) instead.
 
 ## Default export
 
@@ -66,11 +64,11 @@ With CSF, every named export in the file represents a story object by default.
 
 The exported identifiers will be converted to "start case" using Lodash's [startCase](https://lodash.com/docs/#startCase) function. For example:
 
-| Identifier       |  Transformation   |
-| ---------------- | :---------------: |
-| name             |       Name        |
-| someName         |     Some Name     |
-| someNAME         |     Some NAME     |
+| Identifier       | Transformation    |
+| ---------------- | ----------------- |
+| name             | Name              |
+| someName         | Some Name         |
+| someNAME         | Some NAME         |
 | some_custom_NAME | Some Custom NAME  |
 | someName1234     | Some Name 1 2 3 4 |
 
@@ -108,8 +106,6 @@ Consider Storybook’s ["Button" example](../writing-stories/index.md#defining-s
   paths={[
     'react/button-story-click-handler.js.mdx',
     'react/button-story-click-handler.ts.mdx',
-    'vue/button-story-click-handler.2.js.mdx',
-    'vue/button-story-click-handler.2.ts.mdx',
     'vue/button-story-click-handler.3.js.mdx',
     'vue/button-story-click-handler.3.ts.mdx',
     'svelte/button-story-click-handler.js.mdx',
@@ -134,8 +130,6 @@ Now consider the same example, re-written with args:
   paths={[
     'react/button-story-click-handler-args.js.mdx',
     'react/button-story-click-handler-args.ts.mdx',
-    'vue/button-story-click-handler-args.2.js.mdx',
-    'vue/button-story-click-handler-args.2.ts.mdx',
     'vue/button-story-click-handler-args.3.js.mdx',
     'vue/button-story-click-handler-args.3.ts.mdx',
     'angular/button-story-click-handler-args.ts.mdx',
@@ -210,7 +204,7 @@ A good use case for the `play` function is a form component. With previous Story
 
 When the story renders in the UI, Storybook executes each step defined in the `play` function and runs the assertions without the need for user interaction.
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 ## Custom render functions
 
@@ -232,6 +226,7 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'solid/component-story-with-custom-render-function.ts.mdx',
   ]}
   usesCsf3
+  csf2Path="api/csf#snippet-component-story-with-custom-render-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -318,8 +313,6 @@ In CSF 2, the named exports are always functions that instantiate a component, a
   paths={[
     'react/csf-2-example-starter.js.mdx',
     'react/csf-2-example-starter.ts.mdx',
-    'vue/csf-2-example-starter.2.js.mdx',
-    'vue/csf-2-example-starter.2.ts.mdx',
     'vue/csf-2-example-starter.3.js.mdx',
     'vue/csf-2-example-starter.3.ts.mdx',
     'angular/csf-2-example-starter.ts.mdx',
@@ -404,8 +397,6 @@ Let's start with a simple CSF 2 story function:
   paths={[
     'react/csf-2-example-story.js.mdx',
     'react/csf-2-example-story.ts.mdx',
-    'vue/csf-2-example-story.2.js.mdx',
-    'vue/csf-2-example-story.2.ts.mdx',
     'vue/csf-2-example-story.3.js.mdx',
     'vue/csf-2-example-story.3.ts.mdx',
     'angular/csf-2-example-story.ts.mdx',
@@ -428,8 +419,6 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
   paths={[
     'react/csf-3-example-render.js.mdx',
     'react/csf-3-example-render.ts.mdx',
-    'vue/csf-3-example-render.2.js.mdx',
-    'vue/csf-3-example-render.2.ts.mdx',
     'vue/csf-3-example-render.3.js.mdx',
     'vue/csf-3-example-render.3.ts.mdx',
     'angular/csf-3-example-render.ts.mdx',
@@ -442,7 +431,7 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
   ]}
 />
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 Learn more about [render functions](#custom-render-functions).
 
@@ -464,7 +453,7 @@ CSF 3 provides default render functions for each renderer. If all you're doing i
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'preact', 'qwik', 'solid' ]}>
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
 For more information, see the section on [custom render functions](#custom-render-functions).
 

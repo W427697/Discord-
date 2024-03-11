@@ -1,8 +1,9 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
+import type { PackageJson } from '@storybook/types';
 import type { Fix } from '../types';
-import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core-common';
 
 interface SbScriptsRunOptions {
   storybookScripts: Record<string, { before: string; after: string }>;
@@ -18,46 +19,53 @@ const logger = console;
  * that do contain the actual sb binary, and not something like "npm run start-storybook"
  * which could actually be a custom script even though the name matches the legacy binary name
  */
-export const getStorybookScripts = (allScripts: Record<string, string>) => {
-  return Object.keys(allScripts).reduce((acc, key) => {
-    let isStorybookScript = false;
-    const allWordsFromScript = allScripts[key].split(' ');
-    const newScript = allWordsFromScript
-      .map((currentWord, index) => {
-        const previousWord = allWordsFromScript[index - 1];
+export const getStorybookScripts = (allScripts: NonNullable<PackageJson['scripts']>) => {
+  return Object.keys(allScripts).reduce(
+    (acc, key) => {
+      const currentScript = allScripts[key];
+      if (currentScript == null) {
+        return acc;
+      }
+      let isStorybookScript = false;
+      const allWordsFromScript = currentScript.split(' ');
+      const newScript = allWordsFromScript
+        .map((currentWord, index) => {
+          const previousWord = allWordsFromScript[index - 1];
 
-        // full word check, rather than regex which could be faulty
-        const isSbBinary =
-          currentWord === 'build-storybook' ||
-          currentWord === 'start-storybook' ||
-          currentWord === 'sb';
+          // full word check, rather than regex which could be faulty
+          const isSbBinary =
+            currentWord === 'build-storybook' ||
+            currentWord === 'start-storybook' ||
+            currentWord === 'sb';
 
-        // in case people have scripts like `yarn start-storybook`
-        const isPrependedByPkgManager =
-          previousWord &&
-          ['npx', 'run', 'yarn', 'pnpx', 'pnpm dlx'].some((cmd) => previousWord.includes(cmd));
+          // in case people have scripts like `yarn start-storybook`
+          const isPrependedByPkgManager =
+            previousWord &&
+            ['npx', 'run', 'yarn', 'pnpx', 'pnpm dlx'].some((cmd) => previousWord.includes(cmd));
 
-        if (isSbBinary && !isPrependedByPkgManager) {
-          isStorybookScript = true;
-          return currentWord
-            .replace('sb', 'storybook')
-            .replace('start-storybook', 'storybook dev')
-            .replace('build-storybook', 'storybook build');
-        }
+          if (isSbBinary && !isPrependedByPkgManager) {
+            isStorybookScript = true;
+            return currentWord
+              .replace('sb', 'storybook')
+              .replace('start-storybook', 'storybook dev')
+              .replace('build-storybook', 'storybook build');
+          }
 
-        return currentWord;
-      })
-      .join(' ');
+          return currentWord;
+        })
+        .join(' ');
 
-    if (isStorybookScript) {
-      acc[key] = {
-        before: allScripts[key],
-        after: newScript,
-      };
-    }
+      if (isStorybookScript) {
+        acc[key] = {
+          before: currentScript,
+          after: newScript,
+        };
+      }
 
-    return acc;
-  }, {} as Record<string, { before: string; after: string }>);
+      return acc;
+    },
+    {} as Record<string, { before: string; after: string }>
+  );
 };
 
 /**
@@ -69,6 +77,8 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
  */
 export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
+
+  versionRange: ['<7', '>=7'],
 
   async check({ packageManager, storybookVersion }) {
     const packageJson = await packageManager.retrievePackageJson();
@@ -90,7 +100,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
   prompt({ storybookVersion, storybookScripts }) {
     const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
 
-    const newScriptsMessage = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
+    const newScriptsMessage = Object.keys(storybookScripts).reduce((acc: string[], scriptKey) => {
       acc.push(
         [
           chalk.bold(scriptKey),
@@ -106,10 +116,10 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
     return dedent`
       We've detected you are using ${sbFormatted} with scripts from previous versions of Storybook.
       Starting in Storybook 7, the ${chalk.yellow('start-storybook')} and ${chalk.yellow(
-      'build-storybook'
-    )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
-      'storybook build'
-    )} respectively.
+        'build-storybook'
+      )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
+        'storybook build'
+      )} respectively.
       In order to work with ${sbFormatted}, your storybook scripts have to be adjusted to use the binary. We can adjust them for you:
 
       ${newScriptsMessage.join('\n\n')}
@@ -124,10 +134,13 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
     logger.info(`✅ Updating scripts in package.json`);
     logger.log();
     if (!dryRun) {
-      const newScripts = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
-        acc[scriptKey] = storybookScripts[scriptKey].after;
-        return acc;
-      }, {} as Record<string, string>);
+      const newScripts = Object.keys(storybookScripts).reduce(
+        (acc, scriptKey) => {
+          acc[scriptKey] = storybookScripts[scriptKey].after;
+          return acc;
+        },
+        {} as Record<string, string>
+      );
 
       logger.log();
 

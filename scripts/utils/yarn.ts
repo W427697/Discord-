@@ -1,10 +1,10 @@
 import { pathExists, readJSON, writeJSON } from 'fs-extra';
 import path from 'path';
 
-import type { TemplateKey } from '../get-template';
+import type { TemplateKey } from 'get-template';
 import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
-import storybookVersions from '../../code/lib/cli/src/versions';
+import storybookVersions from '../../code/lib/core-common/src/versions';
 import touch from './touch';
 
 export type YarnOptions = {
@@ -103,9 +103,9 @@ export const configureYarn2ForVerdaccio = async ({
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`
     );
   } else {
+    // Discard all YN0013 - FETCH_NOT_CACHED messages
+    // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
     command.push(
-      // Discard all YN0013 - FETCH_NOT_CACHED messages
-      // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`
     );
   }

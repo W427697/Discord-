@@ -4,8 +4,8 @@
 import React from 'react';
 
 import { useAddonState } from '@storybook/manager-api';
-
-import { AddonPanel, Button, IconButton } from '@storybook/components';
+import { AddonPanel, IconButton } from '@storybook/components';
+import { LightningIcon } from '@storybook/icons';
 
 export const Panel = () => {
   const [state, setState] = useAddonState('addon-unique-identifier', 'initial state');
@@ -28,7 +28,7 @@ export const Tool = () => {
       title="Enable my addon"
       onClick={() => setState('Example')}
     >
-      <Icons icon="lightning" />
+      <LightningIcon />
     </IconButton>
   );
 };

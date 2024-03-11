@@ -6,4 +6,5 @@ declare module '@aw-web-design/x-default-browser';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
 
-declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
+declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
+declare var TAGS_OPTIONS: import('@storybook/types').TagsOptions;

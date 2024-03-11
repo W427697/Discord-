@@ -130,11 +130,6 @@ module.exports = {
           unsupported: [],
         },
         {
-          name: 'Storyshots',
-          unsupported: ['ember'],
-          path: 'writing-tests/snapshot-testing',
-        },
-        {
           name: 'storysource',
           unsupported: [],
         },

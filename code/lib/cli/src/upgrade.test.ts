@@ -1,24 +1,16 @@
+import { describe, it, expect, vi } from 'vitest';
+import * as sbcc from '@storybook/core-common';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
 } from '@storybook/core-events/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
 
-jest.mock('@storybook/telemetry');
-jest.mock('./versions', () => {
-  const originalVersions = jest.requireActual('./versions').default;
-  return {
-    ...Object.keys(originalVersions).reduce((acc, key) => {
-      acc[key] = '8.0.0';
-      return acc;
-    }, {} as Record<string, string>),
-  };
-});
+const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
 
-const findInstallationsMock = jest.fn();
-
-jest.mock('./js-package-manager', () => {
-  const originalModule = jest.requireActual('./js-package-manager');
+vi.mock('@storybook/telemetry');
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  const originalModule = (await importOriginal()) as typeof sbcc;
   return {
     ...originalModule,
     JsPackageManagerFactory: {
@@ -26,6 +18,13 @@ jest.mock('./js-package-manager', () => {
         findInstallations: findInstallationsMock,
       }),
     },
+    versions: Object.keys(originalModule.versions).reduce(
+      (acc, key) => {
+        acc[key] = '8.0.0';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
   };
 });
 
@@ -66,7 +65,7 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
   it('should throw an error when upgrading to the same version number', async () => {
     findInstallationsMock.mockResolvedValue({
@@ -83,6 +82,6 @@ describe('Upgrade errors', () => {
     });
 
     await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
-    expect(findInstallationsMock).toHaveBeenCalledWith(['storybook', '@storybook/cli']);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
 });

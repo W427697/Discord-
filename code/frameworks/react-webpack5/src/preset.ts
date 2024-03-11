@@ -5,7 +5,7 @@ import type { StorybookConfig } from './types';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   getAbsolutePath('@storybook/preset-react-webpack'),
 ];
 

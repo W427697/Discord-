@@ -2,12 +2,14 @@ import { dirname, join } from 'path';
 import { getVirtualModules } from '@storybook/builder-webpack5';
 import { getProjectRoot, resolvePathInStorybookCache } from '@storybook/core-common';
 import type { PresetProperty } from '@storybook/types';
+import { getVirtualModules } from '@storybook/builder-webpack5';
+import { getProjectRoot, resolvePathInStorybookCache } from '@storybook/core-common';
 import type { StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('./server/framework-preset-babel-ember'),
   require.resolve('./server/framework-preset-ember-docs'),
 ];

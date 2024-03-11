@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { Addon_TypesEnum as types } from '@storybook/types';
 import { init as initAddons } from '../modules/addons';
 
@@ -29,7 +30,7 @@ const store = {
   getState: () => ({
     selectedPanel: '',
   }),
-  setState: jest.fn(),
+  setState: vi.fn(),
 };
 
 describe('Addons API', () => {
@@ -46,68 +47,6 @@ describe('Addons API', () => {
     });
   });
 
-  describe('#getPanels', () => {
-    it('should return provider panels', () => {
-      // given
-      const { api } = initAddons({ provider, store });
-
-      // when
-      const panels = api.getPanels();
-
-      // then
-      expect(panels).toBe(PANELS);
-    });
-  });
-
-  describe('#getStoryPanels', () => {
-    it('should return all panels by default', () => {
-      // given
-      const { api } = initAddons({ provider, store, fullAPI: { getData: () => undefined } });
-
-      // when
-      const filteredPanels = api.getStoryPanels();
-
-      // then
-      expect(filteredPanels).toBe(PANELS);
-    });
-
-    it('should filter disabled addons', () => {
-      // given
-      const storyId = 'story 1';
-      const storiesHash = {
-        [storyId]: {
-          type: 'story',
-          parameters: {
-            a11y: { disable: true },
-          },
-        },
-      };
-
-      const storeWithStory = {
-        getState: () => ({
-          storyId,
-          storiesHash,
-        }),
-        setState: jest.fn(),
-      };
-
-      const { api } = initAddons({
-        provider,
-        store: storeWithStory,
-        fullAPI: { getData: (id) => storiesHash[id] },
-      });
-
-      // when
-      const filteredPanels = api.getStoryPanels();
-
-      // then
-      expect(filteredPanels).toEqual({
-        actions: PANELS.actions,
-        knobs: PANELS.knobs,
-      });
-    });
-  });
-
   describe('#getSelectedPanel', () => {
     it('should return provider panels', () => {
       // given
@@ -115,7 +54,7 @@ describe('Addons API', () => {
         getState: () => ({
           selectedPanel: 'actions',
         }),
-        setState: jest.fn(),
+        setState: vi.fn(),
       };
       const { api } = initAddons({ provider, store: storeWithSelectedPanel });
 
@@ -132,7 +71,7 @@ describe('Addons API', () => {
         getState: () => ({
           selectedPanel: 'unknown',
         }),
-        setState: jest.fn(),
+        setState: vi.fn(),
       };
       const { api } = initAddons({ provider, store: storeWithSelectedPanel });
 
@@ -147,7 +86,7 @@ describe('Addons API', () => {
   describe('#setSelectedPanel', () => {
     it('should set value inn store', () => {
       // given
-      const setState = jest.fn();
+      const setState = vi.fn();
       const storeWithSelectedPanel = {
         getState: () => ({
           selectedPanel: 'actions',

@@ -6,16 +6,13 @@ import { StandaloneOptions } from './builders/utils/standalone-options';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const addons: PresetProperty<'addons', StorybookConfig> = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('./server/framework-preset-angular-cli'),
   require.resolve('./server/framework-preset-angular-ivy'),
   require.resolve('./server/framework-preset-angular-docs'),
 ];
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (
-  entries = [],
-  options
-) => {
+export const previewAnnotations: PresetProperty<'previewAnnotations'> = (entries = [], options) => {
   const annotations = [...entries, require.resolve('./client/config')];
 
   if ((options as any as StandaloneOptions).enableProdMode) {
@@ -40,7 +37,6 @@ export const core: PresetProperty<'core'> = async (config, options) => {
 export const typescript: PresetProperty<'typescript'> = async (config) => {
   return {
     ...config,
-    skipBabel: true,
     skipCompiler: true,
   };
 };

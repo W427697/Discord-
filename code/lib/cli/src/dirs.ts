@@ -4,10 +4,12 @@ import downloadTarball from '@ndelangen/get-tarball';
 import getNpmTarballUrl from 'get-npm-tarball-url';
 import * as tempy from 'tempy';
 
+import invariant from 'tiny-invariant';
 import { externalFrameworks } from './project_types';
-import type { SupportedFrameworks, SupportedRenderers } from './project_types';
-import type { JsPackageManager } from './js-package-manager';
-import versions from './versions';
+import type { SupportedRenderers } from './project_types';
+import type { JsPackageManager } from '@storybook/core-common';
+import { versions } from '@storybook/core-common';
+import type { SupportedFrameworks } from '@storybook/types';
 
 export function getCliDir() {
   return dirname(require.resolve('@storybook/cli/package.json'));
@@ -49,12 +51,14 @@ export async function getRendererDir(
       })
     );
   } catch (e) {
+    invariant(e instanceof Error);
     errors.push(e);
   }
 
   try {
     return await resolveUsingBranchInstall(packageManager, frameworkPackageName);
   } catch (e) {
+    invariant(e instanceof Error);
     errors.push(e);
   }
 

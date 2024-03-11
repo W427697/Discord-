@@ -1,19 +1,12 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@storybook/test';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  within,
-  fireEvent,
-  waitFor,
-  screen,
-  userEvent,
-  findByText,
-} from '@storybook/testing-library';
+import { within, fireEvent, waitFor, screen, userEvent, findByText } from '@storybook/test';
+import { CPUIcon, MemoryIcon } from '@storybook/icons';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
-import { IconButton } from '../bar/button';
-import { Icons } from '../icon/icon';
+import { IconButton } from '../IconButton/IconButton';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
   Math.floor((1 / 15) * i * 16777215)
@@ -26,7 +19,6 @@ interface FibonacciMap {
 }
 
 function fibonacci(num: number, memo?: FibonacciMap): number {
-  /* eslint-disable no-param-reassign */
   if (!memo) {
     memo = {};
   }
@@ -39,7 +31,6 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
 
   memo[num] = fibonacci(num - 1, memo) + fibonacci(num - 2, memo);
   return memo[num];
-  /* eslint-enable no-param-reassign */
 }
 
 type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;
@@ -99,6 +90,7 @@ const onSelect = action('onSelect');
 
 const content = Object.entries(panels).map(([k, v]) => (
   <div key={k} id={k} title={v.title as any}>
+    {/* @ts-expect-error (we know this is broken) */}
     {v.render}
   </div>
 ));
@@ -116,8 +108,9 @@ export const StatefulStatic = {
   render: (args) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
-        {({ active, selected }: { active: boolean; selected: string }) =>
-          active ? <div>{selected} is selected</div> : null
+        {
+          (({ active, selected }: { active: boolean; selected: string }) =>
+            active ? <div>{selected} is selected</div> : null) as any
         }
       </div>
       <div id="test2" title="With markup">
@@ -132,8 +125,9 @@ export const StatefulStaticWithSetButtonTextColors = {
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -149,8 +143,9 @@ export const StatefulStaticWithSetBackgroundColor = {
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -207,6 +202,7 @@ export const StatefulDynamicWithOpenTooltip = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}
@@ -235,6 +231,7 @@ export const StatefulDynamicWithSelectedAddon = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}
@@ -275,10 +272,10 @@ export const StatelessWithTools = {
       tools={
         <Fragment>
           <IconButton title="Tool 1">
-            <Icons icon="memory" />
+            <MemoryIcon />
           </IconButton>
           <IconButton title="Tool 2">
-            <Icons icon="cpu" />
+            <CPUIcon />
           </IconButton>
         </Fragment>
       }

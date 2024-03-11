@@ -2,7 +2,7 @@
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 const meta: Meta = {
   component: 'demo-my-component',
@@ -19,7 +19,7 @@ export const FirstStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
@@ -32,12 +32,12 @@ export const SecondStory: Story = {
 };
 
 export const CombinedStories: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
-    await FirstStory.play({ canvasElement });
-    await SecondStory.play({ canvasElement });
+    await FirstStory.play(context);
+    await SecondStory.play(context);
     await userEvent.type(canvas.getByTestId('another-element'), 'random value');
   },
 };

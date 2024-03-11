@@ -15,7 +15,7 @@ export const isMacLike = () =>
 export const controlOrMetaKey = () => (isMacLike() ? 'meta' : 'control');
 
 export function keys<O>(o: O) {
-  return Object.keys(o) as (keyof O)[];
+  return Object.keys(o!) as (keyof O)[];
 }
 
 export interface SubState {
@@ -125,12 +125,12 @@ type API_AddonShortcutLabels = Record<string, string>;
 type API_AddonShortcutDefaults = Record<string, API_KeyCollection>;
 
 export const defaultShortcuts: API_Shortcuts = Object.freeze({
-  fullScreen: ['F'],
-  togglePanel: ['A'],
-  panelPosition: ['D'],
-  toggleNav: ['S'],
-  toolbar: ['T'],
-  search: ['/'],
+  fullScreen: ['alt', 'F'],
+  togglePanel: ['alt', 'A'],
+  panelPosition: ['alt', 'D'],
+  toggleNav: ['alt', 'S'],
+  toolbar: ['alt', 'T'],
+  search: [controlOrMetaKey(), 'K'],
   focusNav: ['1'],
   focusIframe: ['2'],
   focusPanel: ['3'],
@@ -139,7 +139,7 @@ export const defaultShortcuts: API_Shortcuts = Object.freeze({
   prevStory: ['alt', 'ArrowLeft'],
   nextStory: ['alt', 'ArrowRight'],
   shortcutsPage: [controlOrMetaKey(), 'shift', ','],
-  aboutPage: [','],
+  aboutPage: [controlOrMetaKey(), ','],
   escape: ['escape'], // This one is not customizable
   collapseAll: [controlOrMetaKey(), 'shift', 'ArrowUp'],
   expandAll: [controlOrMetaKey(), 'shift', 'ArrowDown'],
@@ -216,7 +216,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
       const shortcuts = api.getShortcutKeys();
       const actions = keys(shortcuts);
       const matchedFeature = actions.find((feature: API_Action) =>
-        shortcutMatchesShortcut(shortcut, shortcuts[feature])
+        shortcutMatchesShortcut(shortcut!, shortcuts[feature])
       );
       if (matchedFeature) {
         api.handleShortcutFeature(matchedFeature, event);
@@ -226,7 +226,6 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     // warning: event might not have a full prototype chain because it may originate from the channel
     handleShortcutFeature(feature, event) {
       const {
-        layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
         storyId,
       } = store.getState();
@@ -237,31 +236,31 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
       if (event?.preventDefault) event.preventDefault();
       switch (feature) {
         case 'escape': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-          } else if (!showNav) {
-            fullAPI.toggleNav();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
+          } else if (fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
           break;
         }
 
         case 'focusNav': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showNav) {
-            fullAPI.toggleNav();
+          if (!fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
           fullAPI.focusOnUIElement(focusableUIElements.storyListMenu);
           break;
         }
 
         case 'search': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showNav) {
-            fullAPI.toggleNav();
+          if (!fullAPI.getIsNavShown()) {
+            fullAPI.toggleNav(true);
           }
 
           setTimeout(() => {
@@ -276,7 +275,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
           if (element) {
             try {
               // should be like a channel message and all that, but yolo for now
-              element.contentWindow.focus();
+              element.contentWindow!.focus();
             } catch (e) {
               //
             }
@@ -285,11 +284,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'focusPanel': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showPanel) {
-            fullAPI.togglePanel();
+          if (!fullAPI.getIsPanelShown()) {
+            fullAPI.togglePanel(true);
           }
           fullAPI.focusOnUIElement(focusableUIElements.storyPanelRoot);
           break;
@@ -321,21 +320,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'togglePanel': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-            fullAPI.resetLayout();
-          }
-
           fullAPI.togglePanel();
           break;
         }
 
         case 'toggleNav': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
-            fullAPI.resetLayout();
-          }
-
           fullAPI.toggleNav();
           break;
         }
@@ -346,11 +335,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         }
 
         case 'panelPosition': {
-          if (isFullscreen) {
-            fullAPI.toggleFullscreen();
+          if (fullAPI.getIsFullscreen()) {
+            fullAPI.toggleFullscreen(false);
           }
-          if (!showPanel) {
-            fullAPI.togglePanel();
+          if (!fullAPI.getIsPanelShown()) {
+            fullAPI.togglePanel(true);
           }
 
           fullAPI.togglePanelPosition();
@@ -403,7 +392,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     });
 
     // Also listen to keydown events sent over the channel
-    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+    provider.channel?.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
       api.handleKeydownEvent(data.event);
     });
   };

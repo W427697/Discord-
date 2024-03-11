@@ -1,6 +1,4 @@
-/* eslint-disable global-require */
 import type { PresetProperty } from '@storybook/types';
-import { hasVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 
@@ -14,12 +12,6 @@ export const core: PresetProperty<'core'> = {
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
-
-  // Add react plugin if not present
-  if (!(await hasVitePlugins(plugins, ['vite:react-babel', 'vite:react-swc']))) {
-    const { default: react } = await import('@vitejs/plugin-react');
-    plugins.push(react());
-  }
 
   // Add docgen plugin
   const { reactDocgen: reactDocgenOption, reactDocgenTypescriptOptions } = await presets.apply<any>(
@@ -51,7 +43,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
     // Needs to run before the react plugin, so add to the front
     plugins.unshift(
       // If react-docgen is specified, use it for everything, otherwise only use it for non-typescript files
-      reactDocgen({
+      await reactDocgen({
         include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
       })
     );

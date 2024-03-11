@@ -38,7 +38,6 @@ export interface StorybookConfigWebpack extends Omit<StorybookConfig, 'webpack' 
 
 export type BuilderOptions = {
   fsCache?: boolean;
-  useSWC?: boolean;
   lazyCompilation?: boolean;
 };
 

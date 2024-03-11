@@ -38,7 +38,7 @@ const ansiConverter = new AnsiToHtml({
 });
 
 export class WebView implements View<HTMLElement> {
-  private currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
+  private currentLayoutClass?: (typeof layoutClassMap)[keyof typeof layoutClassMap] | null;
 
   private testing = false;
 
@@ -137,7 +137,7 @@ export class WebView implements View<HTMLElement> {
     const parts = message.split('\n');
     if (parts.length > 1) {
       [header] = parts;
-      detail = parts.slice(1).join('\n');
+      detail = parts.slice(1).join('\n').replace(/^\n/, '');
     }
 
     document.getElementById('error-message')!.innerHTML = ansiConverter.toHtml(header);

@@ -16,7 +16,7 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
     'common/storybook-upgrade.pnpm.js.mdx',
-    'common/storybook-upgrade.yarn.js.mdx'
+    'common/storybook-upgrade.yarn.js.mdx',
   ]}
 />
 
@@ -39,9 +39,25 @@ In addition to running the command, we also recommend checking the [MIGRATION.md
 
 </Callout>
 
+### Verifying the upgrade
+
+To help you verify that the upgrade was completed and that your project is still working as expected, the Storybook CLI provides the [`doctor`](../api/cli-options.md#doctor) command that allows you to do a health check on your project for common issues that might arise after an upgrade, such as duplicated dependencies, incompatible addons or mismatched versions. To perform the health check, run the following command with your package manager of choice:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-doctor.npm.js.mdx',
+    'common/storybook-doctor.pnpm.js.mdx',
+    'common/storybook-doctor.yarn.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## Automigrate script
 
-Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example, lots of frameworks ([Angular 12](https://angular.io/guide/updating-to-version-12#breaking-changes-in-angular-version-12), [Create React App v5](https://github.com/facebook/create-react-app/pull/11201), [NextJS](https://nextjs.org/docs/upgrading#webpack-5)) have recently migrated from [Webpack 4 to Webpack 5](https://webpack.js.org/migrate/5/), so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
+Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example well-known frontend frameworks, such as [Angular](https://update.angular.io/?l=2&v=16.0-17.0), [Next.js](https://nextjs.org/docs/pages/building-your-application/upgrading) or [Svelte](https://svelte.dev/docs/v4-migration-guide) have been rolling out significant changes to their ecosystem, so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
 
 <!-- prettier-ignore-start -->
 
@@ -49,7 +65,7 @@ Storybook upgrades are not the only thing to consider: changes in the ecosystem 
   paths={[
     'common/storybook-automigrate.npm.js.mdx',
     'common/storybook-automigrate.pnpm.js.mdx',
-    'common/storybook-automigrate.yarn.js.mdx'
+    'common/storybook-automigrate.yarn.js.mdx',
   ]}
 />
 
@@ -88,3 +104,25 @@ If you'd like to downgrade to a stable version, manually edit the package versio
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
 </Callout>
+
+<IfRenderer renderer='vue'>
+
+## Troubleshooting
+
+### Storybook doesn't upgrade to the latest version when using Vue 2
+
+If you're attempting to upgrade Storybook to the latest version in your existing Vue 2 project, you will no longer be able to. This is because Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and will no longer receive any updates from the Vue team. We recommend you upgrade your Vue 2 project to Vue 3 and then upgrade Storybook to the latest version. If you cannot upgrade your Vue 2 project to Vue 3, you can still upgrade Storybook, but only for the latest 7.x version. You can do this by running the following command:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/upgrade-command-specific-version.npx.js.mdx',
+    'common/upgrade-command-specific-version.yarn.js.mdx',
+    'common/upgrade-command-specific-version.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>

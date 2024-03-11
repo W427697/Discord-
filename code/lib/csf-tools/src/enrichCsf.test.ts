@@ -1,14 +1,13 @@
-/// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
-
 import { dedent } from 'ts-dedent';
+import { describe, it, expect } from 'vitest';
 import { formatCsf, loadCsf } from './CsfFile';
 import type { EnrichCsfOptions } from './enrichCsf';
 import { enrichCsf, extractSource } from './enrichCsf';
 
 expect.addSnapshotSerializer({
-  print: (val: any) => val,
-  test: (val) => true,
+  print: (val: any) => val.replace(/\\r\\n/gm, '\\n'),
+  test: () => true,
 });
 
 const enrich = (code: string, originalCode: string, options?: EnrichCsfOptions) => {
@@ -642,7 +641,7 @@ describe('enrichCsf', () => {
           title: 'Button',
           parameters: {
             foo: 'bar',
-            docs: { inlineStories: true }
+            docs: { story: { inline: true } }
           }
         }
         export const Basic = () => React.createElement(Button);
@@ -653,7 +652,7 @@ describe('enrichCsf', () => {
             title: 'Button',
             parameters: {
               foo: 'bar',
-              docs: { inlineStories: true }
+              docs: { story: { inline: true } }
             }
           }
           export const Basic = () => <Button />
@@ -666,7 +665,9 @@ describe('enrichCsf', () => {
           parameters: {
             foo: 'bar',
             docs: {
-              inlineStories: true,
+              story: {
+                inline: true
+              },
               description: {
                 component: "The most basic button"
               }

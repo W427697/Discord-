@@ -1,3 +1,4 @@
+import { afterEach, it, expect, vi, describe } from 'vitest';
 import { logger } from '@storybook/node-logger';
 import type {
   CoreCommon_AddonEntry,
@@ -16,6 +17,7 @@ const essentialAddons = [
   'toolbars',
   'measure',
   'outline',
+  'highlight',
 ];
 
 const pkgName = (entry: CoreCommon_AddonEntry): string => {
@@ -33,12 +35,30 @@ const fromName = (name: string): CoreCommon_AddonInfo => ({
 
 const str = (name: unknown) => JSON.stringify(name);
 
-const warn = jest.spyOn(logger, 'warn');
-afterEach(() => warn.mockReset());
+const warn = vi.spyOn(logger, 'warn');
+afterEach(() => {
+  warn.mockReset();
+});
 
 describe.each([
   ['docs', 'controls', ['docs', 'controls']],
   ['docs', 'controls', ['docs', 'foo/node_modules/@storybook/addon-controls']],
+  [
+    'actions',
+    'interactions',
+    [
+      'foo\\node_modules\\@storybook\\addon-essentials',
+      'foo\\node_modules\\@storybook\\addon-interactions',
+    ],
+  ],
+  [
+    'actions',
+    'interactions',
+    [
+      'foo\\\\node_modules\\\\@storybook\\\\addon-essentials',
+      'foo\\\\node_modules\\\\@storybook\\\\addon-interactions',
+    ],
+  ],
   ['docs', 'controls', [{ name: '@storybook/addon-docs' }, 'controls']],
   ['docs', 'controls', ['essentials', 'controls']],
   ['docs', 'controls', ['essentials']],

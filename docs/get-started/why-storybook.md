@@ -6,7 +6,7 @@ title: 'Why Storybook?'
 
 The web’s universality is pushing more complexity into the frontend. It began with responsive web design, which turned every user interface from one to 10, 100, 1000 different user interfaces. Over time, additional requirements piled on like devices, browsers, accessibility, performance, and async states.
 
-Component-driven tools like React, Vue, and Angular help break down complex UIs into simple components but they’re not silver bullets. As frontends grow, the number of components swells. Mature projects can contain hundreds of components that yield thousands of discrete variations.
+Component-driven tools like React, Vue 3, and Angular help break down complex UIs into simple components but they’re not silver bullets. As frontends grow, the number of components swells. Mature projects can contain hundreds of components that yield thousands of discrete variations.
 
 To complicate matters further, those UIs are painful to debug because they’re entangled in business logic, interactive states, and app context.
 
@@ -42,8 +42,6 @@ You write stories for granular UI component variation and then use those stories
     'react/histogram-story.js.mdx',
     'react/histogram-story.ts.mdx',
     'angular/histogram-story.ts.mdx',
-    'vue/histogram-story.2.js.mdx',
-    'vue/histogram-story.2.ts.mdx',
     'vue/histogram-story.3.js.mdx',
     'vue/histogram-story.3.ts.mdx',
     'svelte/histogram-story.js.mdx',
@@ -133,7 +131,7 @@ Storybook is compatible with your continuous integration workflow. Add it as a C
 
 Storybook is powered by [Component Story Format](https://github.com/ComponentDriven/csf), an open standard based on JavaScript ES6 modules. This enables stories to interoperate between development, testing, and design tools. Each story is exported as a JavaScript function enabling you to reuse it with other tools. No vendor lock-in.
 
-Reuse stories with [Jest](https://jestjs.io/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
+Reuse stories with [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
 
 ---
 

@@ -19,6 +19,43 @@ module.exports = {
           description: 'Install the Storybook package in your project',
         },
         {
+          pathSegment: '',
+          title: 'Frameworks',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
+              pathSegment: 'nextjs',
+              title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-vite',
+              title: 'React & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
+              type: 'link',
+            },
+          ],
+        },
+        {
           pathSegment: 'whats-a-story',
           title: "What's a story?",
           type: 'link',
@@ -161,12 +198,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],
@@ -322,7 +359,7 @@ module.exports = {
         },
         {
           pathSegment: 'addon-migration-guide',
-          title: 'Migrate addons to 7.0',
+          title: 'Migrate addons to 8.0',
           type: 'link',
         },
       ],
@@ -570,11 +607,6 @@ module.exports = {
               pathSegment: 'main-config-webpack-final',
               type: 'link',
             },
-            {
-              title: 'config',
-              pathSegment: 'main-config-config',
-              type: 'link',
-            },
           ],
         },
         {
@@ -746,9 +778,16 @@ module.exports = {
       type: 'link',
     },
     {
-      title: 'Migrate to 7.0',
       pathSegment: 'migration-guide',
-      type: 'link',
+      title: 'Migrate to 8.0',
+      type: 'heading',
+      children: [
+        {
+          title: 'Migrate from 6.x to 8.0',
+          pathSegment: 'from-older-version',
+          type: 'link',
+        },
+      ],
     },
   ],
 };

@@ -6,13 +6,13 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
+import invariant from 'tiny-invariant';
 import { lt, prerelease } from 'semver';
 import type { Template, TemplateKey } from './sandbox-templates';
 import { allTemplates as TEMPLATES } from './sandbox-templates';
-
-import type { PackageJson, PackageManagerName } from './js-package-manager';
-import { JsPackageManagerFactory } from './js-package-manager';
-import versions from './versions';
+import type { PackageJson, PackageManagerName } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core-common';
+import { versions } from '@storybook/core-common';
 import { doInitiate } from './initiate';
 
 const logger = console;
@@ -20,6 +20,7 @@ const logger = console;
 interface SandboxOptions {
   filterValue?: string;
   output?: string;
+  branch?: string;
   init?: boolean;
   packageManager: PackageManagerName;
 }
@@ -41,7 +42,6 @@ export const sandbox = async (
     force: pkgMgr,
   });
   const latestVersion = await packageManager.latestVersion('@storybook/cli');
-  // In verdaccio we often only have the latest tag, so this will fail.
   const nextVersion = await packageManager
     .latestVersion('@storybook/cli@next')
     .catch((e) => '0.0.0');
@@ -78,6 +78,7 @@ export const sandbox = async (
       { borderStyle: 'round', padding: 1, borderColor }
     )
   );
+
   if (!selectedConfig) {
     const filterRegex = new RegExp(`^${filterValue || ''}`, 'i');
 
@@ -152,7 +153,7 @@ export const sandbox = async (
       return;
     }
 
-    selectedConfig = TEMPLATES[templateId];
+    selectedConfig = templateId ? TEMPLATES[templateId] : undefined;
 
     if (!selectedConfig) {
       throw new Error('🚨 Sandbox: please specify a valid template type');
@@ -171,7 +172,7 @@ export const sandbox = async (
         type: 'text',
         message: 'Enter the output directory',
         name: 'directory',
-        initial: outputDirectoryName,
+        initial: outputDirectoryName ?? undefined,
         validate: async (directoryName) =>
           existsSync(directoryName)
             ? `${directoryName} already exists. Please choose another name.`
@@ -186,6 +187,7 @@ export const sandbox = async (
     );
     selectedDirectory = directory;
   }
+  invariant(selectedDirectory);
 
   try {
     const templateDestination = path.isAbsolute(selectedDirectory)
@@ -193,8 +195,8 @@ export const sandbox = async (
       : path.join(process.cwd(), selectedDirectory);
 
     logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
-    logger.log(`📦 Downloading sandbox template (${chalk.bold(downloadType)})...`);
 
+    logger.log(`📦 Downloading sandbox template (${chalk.bold(downloadType)})...`);
     try {
       // Download the sandbox based on subfolder "after-storybook" and selected branch
       const gitPath = `github:storybookjs/sandboxes/${templateId}/${downloadType}#${branch}`;
@@ -217,9 +219,9 @@ export const sandbox = async (
       // we warned the user about the fact they are running an old version of storybook
       // we warned the user the sandbox step would take longer
       if (downloadType === 'before-storybook' && init) {
-        // we run doInitiate, instead of initiate, to avoid sending this init event to telemetry, because it's not a real world project
         const before = process.cwd();
         process.chdir(templateDestination);
+        // we run doInitiate, instead of initiate, to avoid sending this init event to telemetry, because it's not a real world project
         await doInitiate(
           {
             ...options,
@@ -229,7 +231,7 @@ export const sandbox = async (
         process.chdir(before);
       }
     } catch (err) {
-      logger.error(`🚨 Failed to download sandbox template: ${err.message}`);
+      logger.error(`🚨 Failed to download sandbox template: ${String(err)}`);
       throw err;
     }
 

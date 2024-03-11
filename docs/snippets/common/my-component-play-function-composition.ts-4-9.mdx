@@ -4,7 +4,7 @@
 // Replace your-framework with the name of your framework
 import type { Meta, StoryObj } from '@storybook/your-framework';
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
@@ -23,7 +23,7 @@ export const FirstStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 

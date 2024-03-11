@@ -313,7 +313,6 @@ export class ConfigFile {
     if (node) {
       const { code } = generate.default(node, {});
 
-      // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
     }
@@ -408,6 +407,16 @@ export class ConfigFile {
     return pathNames;
   }
 
+  _getPnpWrappedValue(node: t.Node) {
+    if (t.isCallExpression(node)) {
+      const arg = node.arguments[0];
+      if (t.isStringLiteral(arg)) {
+        return arg.value;
+      }
+    }
+    return undefined;
+  }
+
   /**
    * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
    * 1. { node: 'value' }
@@ -427,6 +436,8 @@ export class ConfigFile {
         ) {
           if (t.isStringLiteral(prop.value)) {
             value = prop.value.value;
+          } else {
+            value = this._getPnpWrappedValue(prop.value);
           }
         }
 
@@ -519,6 +530,34 @@ export class ConfigFile {
       this.setFieldNode(path, t.arrayExpression([node]));
     } else if (t.isArrayExpression(current)) {
       current.elements.push(node);
+    } else {
+      throw new Error(`Expected array at '${path.join('.')}', got '${current.type}'`);
+    }
+  }
+
+  /**
+   * Specialized helper to remove addons or other array entries
+   * that can either be strings or objects with a name property.
+   */
+  removeEntryFromArray(path: string[], value: string) {
+    const current = this.getFieldNode(path);
+    if (!current) return;
+    if (t.isArrayExpression(current)) {
+      const index = current.elements.findIndex((element) => {
+        if (t.isStringLiteral(element)) {
+          return element.value === value;
+        }
+        if (t.isObjectExpression(element)) {
+          const name = this._getPresetValue(element, 'name');
+          return name === value;
+        }
+        return this._getPnpWrappedValue(element as t.Node) === value;
+      });
+      if (index >= 0) {
+        current.elements.splice(index, 1);
+      } else {
+        throw new Error(`Could not find '${value}' in array at '${path.join('.')}'`);
+      }
     } else {
       throw new Error(`Expected array at '${path.join('.')}', got '${current.type}'`);
     }

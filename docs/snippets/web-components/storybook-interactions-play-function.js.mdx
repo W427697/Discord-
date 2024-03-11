@@ -1,14 +1,13 @@
 ```js
 // Form.stories.js
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 
 export default {
   component: 'my-form-element',
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    // 👇 Use `fn` to spy on the onSubmit arg
+    onSubmit: fn(),
   },
 };
 
@@ -29,6 +28,7 @@ export const Submitted = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
+    // 👇 Now we can assert that the onSubmit arg was called
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };

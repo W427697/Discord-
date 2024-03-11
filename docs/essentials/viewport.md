@@ -176,9 +176,9 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
 
 ### Keyboard shortcuts
 
-- Previous viewport: <kbd>shift</kbd> + <kbd>v</kbd>
-- Next viewport: <kbd>v</kbd>
-- Reset viewport: <kbd>alt</kbd> + <kbd>v</kbd>
+- Previous viewport: <kbd>alt</kbd> + <kbd>shift</kbd> + <kbd>v</kbd>
+- Next viewport: <kbd>alt</kbd> + <kbd>v</kbd>
+- Reset viewport: <kbd>alt</kbd> + <kbd>control</kbd> + <kbd>v</kbd>
 
 If you need, you can edit them on the shortcuts page.
 
@@ -231,7 +231,7 @@ Specify the available viewports. The key is used to reference the viewport and t
 This addon contributes the following exports to Storybook:
 
 ```js
-import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewports';
+import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 ```
 
 #### `INITIAL_VIEWPORTS`
