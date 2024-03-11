@@ -1,3 +1,7 @@
+## 8.0.0
+
+- CLI: Automigration fix version detection of upgrading related packages - [#26410](https://github.com/storybookjs/storybook/pull/26410), thanks @ndelangen!
+
 ## 7.6.17
 
 - Addon-docs: Fix Table of Contents heading leak - [#23677](https://github.com/storybookjs/storybook/pull/23677), thanks [@vmizg](https://github.com/vmizg)!
