@@ -24,8 +24,18 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
               type: 'link',
             },
           ],

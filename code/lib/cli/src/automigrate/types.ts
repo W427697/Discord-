@@ -27,9 +27,8 @@ export interface RunOptions<ResultType> {
  */
 export type Prompt = 'auto' | 'manual' | 'notification';
 
-export interface Fix<ResultType = any> {
+type BaseFix<ResultType = any> = {
   id: string;
-  promptType?: Prompt | ((result: ResultType) => Promise<Prompt> | Prompt);
   /**
    * The from/to version range of Storybook that this fix applies to. The strings are semver ranges.
    * The versionRange will only be checked if the automigration is part of an upgrade.
@@ -38,8 +37,24 @@ export interface Fix<ResultType = any> {
   versionRange: [from: string, to: string];
   check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
-  run?: (options: RunOptions<ResultType>) => Promise<void>;
-}
+  promptDefaultValue?: boolean;
+};
+
+type PromptType<ResultType = any, T = Prompt> =
+  | T
+  | ((result: ResultType) => Promise<Prompt> | Prompt);
+
+export type Fix<ResultType = any> = (
+  | {
+      promptType?: PromptType<ResultType, 'auto'>;
+      run: (options: RunOptions<ResultType>) => Promise<void>;
+    }
+  | {
+      promptType: PromptType<ResultType, 'manual' | 'notification'>;
+      run?: never;
+    }
+) &
+  BaseFix<ResultType>;
 
 export type FixId = string;
 
@@ -60,7 +75,7 @@ export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageMana
   /**
    * Whether the migration is part of an upgrade.
    */
-  isUpgrade: boolean;
+  isUpgrade: false | true | 'latest';
 }
 export interface AutofixOptionsFromCLI {
   fixId?: FixId;

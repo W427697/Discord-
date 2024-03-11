@@ -11,7 +11,7 @@ import type {
   StoriesWithPartialProps,
 } from '@storybook/types';
 
-import { render } from './render';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { ReactRenderer } from './types';
 
@@ -35,11 +35,6 @@ export function setProjectAnnotations(
 ) {
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
-
-// This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
-  render,
-};
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)

@@ -4,6 +4,7 @@ import findUp from 'find-up';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 import { frameworkToRenderer } from '../../helpers';
 import { frameworkPackages } from '@storybook/core-common';
+import path from 'path';
 
 interface ViteConfigFileRunOptions {
   plugins: string[];
@@ -15,13 +16,13 @@ export const viteConfigFile = {
 
   versionRange: ['<8.0.0-beta.3', '>=8.0.0-beta.3'],
 
-  async check({ mainConfig, packageManager }) {
-    let isViteConfigFileFound = !!(await findUp([
-      'vite.config.js',
-      'vite.config.mjs',
-      'vite.config.cjs',
-      'vite.config.ts',
-    ]));
+  promptType: 'notification',
+
+  async check({ mainConfig, packageManager, mainConfigPath }) {
+    let isViteConfigFileFound = !!(await findUp(
+      ['vite.config.js', 'vite.config.mjs', 'vite.config.cjs', 'vite.config.ts'],
+      { cwd: mainConfigPath ? path.join(mainConfigPath, '..') : process.cwd() }
+    ));
 
     const rendererToVitePluginMap: Record<string, string> = {
       preact: '@preact/preset-vite',
@@ -104,7 +105,7 @@ export const viteConfigFile = {
         If you do already have these plugins, you can ignore this message.
 
         You can find more information on how to do this here:
-        https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added  
+        https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
         This change was necessary to support newer versions of Vite.
       `;
@@ -114,7 +115,7 @@ export const viteConfigFile = {
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-specific-vite-plugins-have-to-be-explicitly-added
+      https://storybook.js.org/docs/8.0/migration-guide/#missing-viteconfigjs-file
 
       This change was necessary to support newer versions of Vite.
     `;
