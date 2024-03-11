@@ -164,7 +164,7 @@ export class Preview<TRenderer extends Renderer> {
     }
   }
 
-  loadLocalJSONFileAsync(url) {
+  loadLocalJSONFileAsync(url: string) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.overrideMimeType('application/json');
@@ -201,8 +201,8 @@ export class Preview<TRenderer extends Renderer> {
 
     // If the storybook is static build result, then it could not use fetch method(starts with file://)
     try {
-      return await this.loadLocalJSONFileAsync(STORY_INDEX_PATH) as StoryIndex;
-    } catch (error) {
+      return (await this.loadLocalJSONFileAsync(STORY_INDEX_PATH)) as StoryIndex;
+    } catch (error: any) {
       throw new StoryIndexFetchError({ text: error.message });
     }
   }
