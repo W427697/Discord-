@@ -23,10 +23,8 @@ export const core: PresetProperty<'core'> = async (config, options) => {
 };
 
 export const webpack: StorybookConfig['webpack'] = async (config) => {
-  // eslint-disable-next-line no-param-reassign
   config.resolve = config.resolve || {};
 
-  // eslint-disable-next-line no-param-reassign
   config.resolve.alias = {
     ...config.resolve?.alias,
     '@storybook/react': getAbsolutePath('@storybook/react'),
