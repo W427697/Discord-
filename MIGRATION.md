@@ -4,7 +4,7 @@
   - [Portable stories](#portable-stories)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
-    - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
+    - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -64,6 +64,7 @@
     - [Removed `passArgsFirst` option](#removed-passargsfirst-option)
     - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
+    - [Removals in @storybook/components](#removals-in-storybookcomponents)
     - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [hideNoControlsWarning parameter from addon controls](#hidenocontrolswarning-parameter-from-addon-controls)
@@ -438,32 +439,30 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
 
-#### DOM structure changed in portable stories
+#### Composed Vue stories are now components instead of functions
 
-The portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
+`composeStory` (and `composeStories`) from `@storybook/vue3` now return Vue components rather than story functions that return components. This means that when rendering these composed stories you just pass the composed story _without_ first calling it.
 
-```html
-<div data-story="true" id="#storybook-story-button--primary">
-  <!-- your story here -->
-</div>
-```
+Previously when using `composeStory` from `@storybook/testing-vue3`, you would render composed stories with e.g. `render(MyStoryComposedStory({ someProp: true}))`. That is now changed to more [closely match how you would render regular Vue components](https://testing-library.com/docs/vue-testing-library/examples).
 
-This means that if you take DOM snapshots of your stories, they will be affected and you will have to update them.
-
-The id calculation is based on different heuristics based on your Meta title and Story name. When using `composeStories`, the id can be inferred automatically. However, when using `composeStory` and your story does not explicitly have a `storyName` property, the story name can't be inferred automatically. As a result, its name will be "Unnamed Story", resulting in a wrapper id like `"#storybook-story-button--unnamed-story"`. If the id matters to you and you want to fix it, you have to specify the `exportsName` property like so:
+When migrating from `@storybook/testing-vue3`, you will likely hit the following error:
 
 ```ts
-test("snapshots the story with custom id", () => {
-  const Primary = composeStory(
-    stories.Primary,
-    stories.default,
-    undefined,
-    // If you do not want the `unnamed-story` id, you have to pass the name of the story as a parameter
-    "Primary"
-  );
+TypeError: Cannot read properties of undefined (reading 'devtoolsRawSetupState')
+```
 
-  const { baseElement } = render(<Primary />);
-  expect(baseElement).toMatchSnapshot();
+To fix it, you should change the usage of the composed story to reference it instead of calling it as a function. Here's an example using `@testing-library/vue` and Vitest:
+
+```diff
+import { it } from 'vitest';
+import { render } from '@testing-library/vue';
+import * as stories from './Button.stories';
+import { composeStory } from '@storybook/vue3';
+
+it('renders primary button', () => {
+  const Primary = composeStory(stories.Primary, stories.default);
+-  render(Primary({ label: 'Hello world' }));
++  render(Primary, { props: { label: 'Hello world' } });
 });
 ```
 
@@ -1040,6 +1039,45 @@ The following exports from `@storybook/preview-api` are now removed:
 
 Please file an issue if you need these APIs.
 
+#### Removals in @storybook/components
+
+The `TooltipLinkList` UI component used to customize the Storybook toolbar has been updated to use the `icon` property instead of the `left` property to position its content. If you've enabled this property in your `globalTypes` configuration, addons, or any other place, you'll need to replace it with an `icon` property to mimic the same behavior. For example:
+
+```diff
+// .storybook/preview.js|ts
+// Replace your-framework with the framework you are using (e.g., react, vue3)
+import { Preview } from '@storybook/your-framework';
+
+const preview: Preview = {
+  globalTypes: {
+    locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: [
+          {
+            value: 'en',
+            right: '🇺🇸',
+-            left: '＄'
++            icon: 'facehappy'
+            title: 'English'
+          },
+          { value: 'fr', right: '🇫🇷', title: 'Français' },
+          { value: 'es', right: '🇪🇸', title: 'Español' },
+          { value: 'zh', right: '🇨🇳', title: '中文' },
+          { value: 'kr', right: '🇰🇷', title: '한국어' },
+        ],
+      },
+    },
+  },
+};
+
+export default preview;
+```
+
+To learn more about the available icons and their names, see the [Storybook documentation](https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon).
+
 #### Removals in @storybook/types
 
 The following exports from `@storybook/types` are now removed:
@@ -1061,7 +1099,7 @@ The `hideNoControlsWarning` parameter is now removed. [More info here](#addon-co
 The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
 
 ```ts
-import { setProjectAnnotations } from `@storybook/testing-react`.
+import { setProjectAnnotations } from `@storybook/react`.
 ```
 
 #### StorybookViteConfig type from @storybook/builder-vite

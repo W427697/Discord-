@@ -1,5 +1,5 @@
-import type { StorybookConfigRaw } from '@storybook/types';
 import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
@@ -37,6 +37,7 @@ type BaseFix<ResultType = any> = {
   versionRange: [from: string, to: string];
   check: (options: CheckOptions) => Promise<ResultType | null>;
   prompt: (result: ResultType) => string;
+  promptDefaultValue?: boolean;
 };
 
 type PromptType<ResultType = any, T = Prompt> =
@@ -75,6 +76,7 @@ export interface AutofixOptions extends Omit<AutofixOptionsFromCLI, 'packageMana
    * Whether the migration is part of an upgrade.
    */
   isUpgrade: boolean;
+  isLatest: boolean;
 }
 export interface AutofixOptionsFromCLI {
   fixId?: FixId;
