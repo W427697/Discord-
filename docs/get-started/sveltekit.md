@@ -114,10 +114,10 @@ However, SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/m
 | Module                                                                             | Status                 | Note                                                                                                                                    |
 | ---------------------------------------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | [`$app/environment`](https://kit.svelte.dev/docs/modules#$app-environment)         | ✅ Supported           | `version` is always empty in Storybook.                                                                                                 |
-| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ✅ Supported           | See [How to mock](#how-to-mock).                                                                                                        |
-| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ✅ Supported           | See [How to mock](#how-to-mock).                                                                                                        |
+| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⚠️ **Experimental**    | See [How to mock](#how-to-mock).                                                                                                        |
+| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⚠️ **Experimental**    | See [How to mock](#how-to-mock).                                                                                                        |
 | [`$app/paths`](https://kit.svelte.dev/docs/modules#$app-paths)                     | ✅ Supported           | Requires SvelteKit 1.4.0 or newer.                                                                                                      |
-| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported           | See [How to mock](#how-to-mock).                                                                                                        |
+| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ⚠️ **Experimental**    | See [How to mock](#how-to-mock).                                                                                                        |
 | [`$env/dynamic/public`](https://kit.svelte.dev/docs/modules#$env-dynamic-public)   | 🚧 Partially supported | Only supported in development mode. Storybook is built as a static app with no server-side API, so it cannot dynamically serve content. |
 | [`$env/static/public`](https://kit.svelte.dev/docs/modules#$env-static-public)     | ✅ Supported           |                                                                                                                                         |
 | [`$lib`](https://kit.svelte.dev/docs/modules#$lib)                                 | ✅ Supported           |                                                                                                                                         |
@@ -216,87 +216,87 @@ This framework contributes the following [parameters](../writing-stories/paramet
 
 #### `forms`
 
-Type: `{ enhance: TK }`
+Type: `{ enhance: () => void }`
 
-Provides mocks for the `$app/forms` module.
+Provides mocks for the [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms) module.
 
 ##### `forms.enhance`
 
-Type: TK
+Type: `() => void`
 
-A callback that will be called when a form with `use:enhance` is submitted.
+A callback that will be called when a form with [`use:enhance`](https://kit.svelte.dev/docs/form-actions#progressive-enhancement-use-enhance) is submitted.
 
 #### `hrefs`
 
-Type: `Record<[path: string], (to: string, event: TK) => void | { callback: (to: string, event: TK) => void, asRegex?: boolean }>`
+Type: `Record<[path: string], (to: string, event: MouseEvent) => void | { callback: (to: string, event: MouseEvent) => void, asRegex?: boolean }>`
 
 If you have an `<a />` tag inside your code with the `href` attribute that matches one or more of the links defined (treated as regex based if the `asRegex` property is `true`) the corresponding `callback` will be called. If no matching `hrefs` are defined, an action will be logged to the [Actions panel](../essentials/actions.md). See [Mocking links](#mocking-links) for an example.
 
 #### `navigation`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation)
 
-Provides mocks for the `$app/navigation` module.
+Provides mocks for the [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation) module.
 
 ##### `navigation.goto`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-goto)
 
-A callback that will be called whenever `goto` is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
+A callback that will be called whenever [`goto`](https://kit.svelte.dev/docs/modules#$app-navigation-goto) is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
 
 ##### `navigation.pushState`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-pushstate)
 
-A callback that will be called whenever `pushState` is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
+A callback that will be called whenever [`pushState`](https://kit.svelte.dev/docs/modules#$app-navigation-pushstate) is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
 
 ##### `navigation.replaceState`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-replacestate)
 
-A callback that will be called whenever `replaceState` is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
+A callback that will be called whenever [`replaceState`](https://kit.svelte.dev/docs/modules#$app-navigation-replacestate) is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
 
 ##### `navigation.invalidate`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-invalidate)
 
-A callback that will be called whenever `invalidate` is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
+A callback that will be called whenever [`invalidate`](https://kit.svelte.dev/docs/modules#$app-navigation-invalidate) is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
 
 ##### `navigation.invalidateAll`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-invalidateall)
 
-A callback that will be called whenever `invalidateAll` is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
+A callback that will be called whenever [`invalidateAll`](https://kit.svelte.dev/docs/modules#$app-navigation-invalidateall) is called. If no function is provided, an action will be logged to the [Actions panel](../essentials/actions.md).
 
 ##### `navigation.afterNavigate`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-navigation-afternavigate)
 
-An object that will be passed to the `afterNavigate` function, which will be invoked when the `onMount` event fires.
+An object that will be passed to the [`afterNavigate`](https://kit.svelte.dev/docs/modules#$app-navigation-afternavigate) function, which will be invoked when the `onMount` event fires.
 
 #### `stores`
 
-Type: `{ navigating?: {}, page?: {}, updated?: boolean }`
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-stores)
 
-Provides mocks for the `$app/stores` module.
+Provides mocks for the [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores) module.
 
 ##### `stores.navigating`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-stores-navigating)
 
-A partial version of the `navigating` store.
+A partial version of the [`navigating`](https://kit.svelte.dev/docs/modules#$app-stores-navigating) store.
 
 ##### `stores.page`
 
-Type: TK
+Type: See [SvelteKit docs](https://kit.svelte.dev/docs/modules#$app-stores-page)
 
-A partial version of the `page` store.
+A partial version of the [`page`](https://kit.svelte.dev/docs/modules#$app-stores-page) store.
 
 ##### `stores.updated`
 
 Type: boolean
 
-A boolean representing the value of `updated` (you can also access `stores.check()` which will be a no-op).
+A boolean representing the value of [`updated`](https://kit.svelte.dev/docs/modules#$app-stores-updated) (you can also access `updated.check()` which will be a no-op).
 
 ### Options
 
