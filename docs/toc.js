@@ -24,8 +24,18 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
               type: 'link',
             },
           ],
@@ -173,12 +183,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],
