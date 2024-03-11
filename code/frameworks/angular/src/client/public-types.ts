@@ -59,7 +59,13 @@ type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>>
 type TransformInputSignalType<T> = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore Angular < 17.2 doesn't have InputSignal
-  [K in keyof T]: T[K] extends AngularCore.InputSignal<infer E> ? E : T[K];
+  [K in keyof T]: T[K] extends AngularCore.InputSignal<infer E>
+    ? E
+    : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore Angular < 17.2 doesn't have InputSignalWithTransform
+      T[K] extends AngularCore.InputSignalWithTransform<any, infer U>
+      ? U
+      : T[K];
 };
 
 type TransformEventType<T> = {
