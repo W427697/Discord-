@@ -39,6 +39,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
               pathSegment: 'vue3-vite',
               title: 'Vue & Vite',
               type: 'link',
