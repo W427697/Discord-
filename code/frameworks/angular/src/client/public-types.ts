@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   AnnotatedStoryFn,
   Args,
@@ -54,18 +56,13 @@ export type Preview = ProjectAnnotations<AngularRenderer>;
 /**
  * Utility type that transforms InputSignal and EventEmitter types
  */
-type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>>;
+type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>> extends unknown
+  ? TransformEventType<T>
+  : TransformInputSignalType<TransformEventType<T>>;
 
 type TransformInputSignalType<T> = {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore Angular < 17.2 doesn't have InputSignal
-  [K in keyof T]: T[K] extends AngularCore.InputSignal<infer E>
-    ? E
-    : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore Angular < 17.2 doesn't have InputSignalWithTransform
-      T[K] extends AngularCore.InputSignalWithTransform<any, infer U>
-      ? U
-      : T[K];
+  /** @ts-ignore Angular < 17.2 doesn't have InputSignal */
+  [K in keyof T]: T[K] extends AngularCore.InputSignal<infer E> ? E : T[K] extends AngularCore.InputSignalWithTransform<any, infer U> ? U : T[K];
 };
 
 type TransformEventType<T> = {
