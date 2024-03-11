@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.3",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -60,7 +60,7 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.3",
+    "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
