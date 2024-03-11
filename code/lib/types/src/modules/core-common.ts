@@ -65,9 +65,9 @@ interface DirectoryMapping {
 export interface Presets {
   apply(
     extension: 'typescript',
-    config: Partial<TypescriptOptions>,
+    config: TypescriptOptions,
     args?: Options
-  ): Promise<Partial<TypescriptOptions>>;
+  ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
   apply(extension: 'babel', config?: {}, args?: any): Promise<any>;
   apply(extension: 'swc', config?: {}, args?: any): Promise<any>;
