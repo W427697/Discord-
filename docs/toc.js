@@ -63,6 +63,11 @@ module.exports = {
               title: 'Vue & Webpack',
               type: 'link',
             },
+            {
+              pathSegment: 'web-components-vite',
+              title: 'Web components & Vite',
+              type: 'link',
+            },
           ],
         },
         {
