@@ -44,6 +44,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'sveltekit',
+              title: 'SvelteKit',
+              type: 'link',
+            },
+            {
               pathSegment: 'svelte-vite',
               title: 'Svelte & Vite',
               type: 'link',
