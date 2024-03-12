@@ -111,7 +111,7 @@ export const viteConfigFile = {
       `;
     }
     return dedent`
-      Since version 8.0.0, Storybook no longer ships with a built-in Vite config.
+      Since version 8.0.0, Storybook no longer ships with an in-built Vite config.
       Please add a vite.config.js file to your project root.
 
       You can find more information on how to do this here:
