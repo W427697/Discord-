@@ -43,15 +43,8 @@ export function setProjectAnnotations(
 }
 
 // This will not be necessary once we have auto preset loading
-export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<SvelteRenderer> = {
-  ...svelteProjectAnnotations,
-  decorators: [
-    (_storyFn, { id }) => ({
-      Component: AddStorybookIdDecorator,
-      props: { storyId: getPortableStoryWrapperId(id) },
-    }),
-  ],
-};
+export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<SvelteRenderer> =
+  svelteProjectAnnotations;
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
