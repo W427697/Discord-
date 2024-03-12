@@ -2,8 +2,6 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
-  composeConfigs,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -11,15 +9,20 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
+  ComposedStoryFn,
 } from '@storybook/types';
 
 import * as svelteProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { SvelteRenderer } from './types';
-import AddStorybookIdDecorator from '@storybook/svelte/internal/AddStorybookIdDecorator.svelte';
 import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
 // @ts-expect-error Don't know why TS doesn't pick up the types export here
 import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
+
+type ComposedStory<TArgs> = ComposedStoryFn<SvelteRenderer, TArgs> & {
+  Component: typeof PreviewRender;
+  props: any;
+};
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *
@@ -117,7 +120,7 @@ export function composeStory<TArgs extends Args = Args>(
   Object.assign(renderable, composedStory);
 
   // TODO: Fix types, also fix for composeStories
-  return renderable as typeof composedStory & { Component: typeof PreviewRender; props: any };
+  return renderable as ComposedStory<TArgs>;
 }
 
 /**
@@ -152,6 +155,7 @@ export function composeStories<TModule extends Store_CSFExports<SvelteRenderer, 
   // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
+  // TODO: Figure out a correct type for this.
   return composedStories as unknown as Omit<
     StoriesWithPartialProps<SvelteRenderer, TModule>,
     keyof Store_CSFExports
