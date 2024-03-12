@@ -1,0 +1,17 @@
+```ts
+// Button.test.ts
+import { vi, test, expect } from 'vitest';
+import { render, screen } from '@testing-library/svelte';
+import { composeStory } from '@storybook/svelte';
+
+import meta, { Primary } from './Button.stories';
+
+test('renders primary button with default args', () => {
+  // Returns a story which already contains all annotations from story, meta and global levels
+  const PrimaryStory = composeStory(Primary, meta);
+
+  render(PrimaryStory.Component, PrimaryStory.props);
+  const buttonElement = screen.getByText('Text coming from args in stories file!');
+  expect(buttonElement).not.toBeNull();
+});
+```

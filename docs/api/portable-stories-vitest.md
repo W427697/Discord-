@@ -2,13 +2,13 @@
 title: 'Portable stories in Vitest'
 ---
 
-export const SUPPORTED_RENDERERS = ['react', 'vue'];
+export const SUPPORTED_RENDERERS = ['react', 'vue', 'svelte'];
 
 <If notRenderer={SUPPORTED_RENDERERS}>
 
 <Callout variant="info">
 
-Portable stories in Vitest are currently only supported in [React](?renderer=react) and [Vue](?renderer=vue) projects.
+Portable stories in Vitest are currently only supported in [React](?renderer=react), [Vue](?renderer=vue) and [Svelte](?renderer=svelte) projects.
 
 </Callout>
 
@@ -44,6 +44,7 @@ By default, the composed story will render the component with the [args](../writ
   paths={[
     'react/portable-stories-vitest-compose-stories.ts.mdx',
     'vue/portable-stories-vitest-compose-stories.ts.mdx',
+    'svelte/portable-stories-vitest-compose-stories.ts.mdx',
   ]}
 />
 
@@ -108,6 +109,7 @@ You can use `composeStory` if you wish to compose a single story for a compone
   paths={[
     'react/portable-stories-vitest-compose-story.ts.mdx',
     'vue/portable-stories-vitest-compose-story.ts.mdx',
+    'svelte/portable-stories-vitest-compose-story.ts.mdx',
   ]}
 />
 
@@ -172,7 +174,7 @@ This API should be called once, before the tests run, typically in a [setup file
 
 ```ts
 // setup-portable-stories.ts
-// Replace <your-renderer> with your renderer, e.g. react, vue3
+// Replace <your-renderer> with your renderer, e.g. react, vue3, svelte
 import { setProjectAnnotations } from '@storybook/<your-renderer>';
 import * as addonAnnotations from 'my-addon/preview';
 import * as previewAnnotations from './.storybook/preview';
@@ -240,6 +242,7 @@ Stories can prepare data they need (e.g. setting up some mocks or fetching data)
   paths={[
     'react/portable-stories-vitest-with-loaders.ts.mdx',
     'vue/portable-stories-vitest-with-loaders.ts.mdx',
+    'svelte/portable-stories-vitest-with-loaders.ts.mdx',
   ]}
 />
 
@@ -267,6 +270,7 @@ Finally, stories can define a [play function](../essentials/interactions.md#play
   paths={[
     'react/portable-stories-vitest-with-play-function.ts.mdx',
     'vue/portable-stories-vitest-with-play-function.ts.mdx',
+    'svelte/portable-stories-vitest-with-play-function.ts.mdx',
   ]}
 />
 
@@ -288,6 +292,7 @@ If your stories behave differently based on [globals](../essentials/toolbars-and
   paths={[
     'react/portable-stories-vitest-override-globals.ts.mdx',
     'vue/portable-stories-vitest-override-globals.ts.mdx',
+    'svelte/portable-stories-vitest-override-globals.ts.mdx',
   ]}
 />
 
