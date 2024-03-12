@@ -1,31 +1,15 @@
 {
   "name": "portable-stories-svelte",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
+    "dev": "vite",
+    "playwright": "playwright test",
     "preview": "vite preview",
     "storybook": "STORYBOOK_TELEMETRY_URL=\"http://localhost:6007/event-log\" storybook dev -p 6006",
-    "playwright": "playwright test"
-  },
-  "devDependencies": {
-    "@playwright/experimental-ct-svelte": "^1.42.1",
-    "@storybook/addon-essentials": "8.0.0-rc.2",
-    "@storybook/addon-interactions": "8.0.0-rc.2",
-    "@storybook/svelte": "8.0.0-rc.2",
-    "@storybook/svelte-vite": "8.0.0-rc.2",
-    "@storybook/test": "8.0.0-rc.2",
-    "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@tsconfig/svelte": "^5.0.2",
-    "cypress": "^13.6.6",
-    "storybook": "8.0.0-rc.2",
-    "svelte": "^4.2.11",
-    "svelte-check": "^3.6.4",
-    "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.4"
+    "vitest": "vitest"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../../code/addons/a11y",
@@ -38,8 +22,8 @@
     "@storybook/addon-interactions": "portal:../../../code/addons/interactions",
     "@storybook/addon-jest": "portal:../../../code/addons/jest",
     "@storybook/addon-links": "portal:../../../code/addons/links",
-    "@storybook/addon-mgx-gfm": "portal:../../../code/addons/mgx-gfm",
     "@storybook/addon-measure": "portal:../../../code/addons/measure",
+    "@storybook/addon-mgx-gfm": "portal:../../../code/addons/mgx-gfm",
     "@storybook/addon-outline": "portal:../../../code/addons/outline",
     "@storybook/addon-storysource": "portal:../../../code/addons/storysource",
     "@storybook/addon-themes": "portal:../../../code/addons/themes",
@@ -107,8 +91,26 @@
     "sb": "portal:../../../code/lib/cli-sb",
     "storybook": "portal:../../../code/lib/cli-storybook"
   },
-  "dependencies": {
-    "@types/node": "18"
+  "devDependencies": {
+    "@playwright/experimental-ct-svelte": "^1.42.1",
+    "@storybook/addon-essentials": "8.0.0-rc.2",
+    "@storybook/addon-interactions": "8.0.0-rc.2",
+    "@storybook/svelte": "8.0.0-rc.2",
+    "@storybook/svelte-vite": "8.0.0-rc.2",
+    "@storybook/test": "8.0.0-rc.2",
+    "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@testing-library/svelte": "4.1.0",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/node": "18",
+    "cypress": "^13.6.6",
+    "jsdom": "^24.0.0",
+    "storybook": "8.0.0-rc.2",
+    "svelte": "^4.2.11",
+    "svelte-check": "^3.6.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4",
+    "vitest": "^1.3.1"
   },
   "packageManager": "yarn@4.1.1"
 }

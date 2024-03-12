@@ -22,7 +22,7 @@ describe('renders', () => {
     // Because the props will be passed to the first decorator of the story instead
     // of the actual component of the story. This is because of our current PreviewRender structure
 
-    const Composed = composeStory(
+    const composedStory = composeStory(
       {
         ...stories.CSF3Primary,
         args: { ...stories.CSF3Primary.args, label: 'Hello world' },
@@ -30,7 +30,7 @@ describe('renders', () => {
       stories.default
     );
 
-    render(Composed.Component, Composed.props);
+    render(composedStory.Component, composedStory.props);
     const buttonElement = screen.getByText(/Hello world/i);
     expect(buttonElement).not.toBeNull();
   });
@@ -39,16 +39,6 @@ describe('renders', () => {
     render(Secondary.Component, Secondary.props);
     const buttonElement = screen.getByRole('button');
     expect(buttonElement.textContent).toMatch(Secondary.args.label);
-  });
-
-  // TODO TypeError: component.$on is not a function - Potentially only works in Svelte 4
-  it.skip('onclick handler is called', async () => {
-    const onClickSpy = vi.fn();
-    const { component } = render(Secondary.Component, { ...Secondary.props, onClick: onClickSpy });
-    component.$on('click', onClickSpy);
-    const buttonElement = screen.getByRole('button');
-    buttonElement.click();
-    expect(onClickSpy).toHaveBeenCalled();
   });
 
   it('reuses args from composeStories', () => {

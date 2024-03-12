@@ -18,6 +18,7 @@ import type { SvelteRenderer } from './types';
 import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
 // @ts-expect-error Don't know why TS doesn't pick up the types export here
 import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
+import { IS_SVELTE_V4 } from './utils';
 
 type ComposedStory<TArgs> = ComposedStoryFn<SvelteRenderer, TArgs> & {
   Component: typeof PreviewRender;
@@ -91,7 +92,6 @@ export function composeStory<TArgs extends Args = Args>(
     exportsName
   );
 
-  // TODO: support Svelte 4 as well (use IS_SVELTE_V4 from utils file)
   const props = createSvelte5Props({
     storyFn: composedStory,
     storyContext: { ...composedStory },
@@ -100,6 +100,10 @@ export function composeStory<TArgs extends Args = Args>(
     showError: () => {},
   });
 
+  // In Svelte >= 5, we make the props reactive
+  // if (!IS_SVELTE_V4) {
+  //   props = createSvelte5Props(props);
+  // }
   /** TODO: figure out the situation here.
    * Currently, we construct props to render the PreviewRender, a "story wrapper" that
    * allows to render the story and its decorators correctly. However, the props
