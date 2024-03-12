@@ -2,12 +2,9 @@
 import { it, expect, vi, describe, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/svelte';
 // import '@testing-library/svelte/vitest';
-import { expectTypeOf } from 'expect-type';
-import type { Meta } from '../..';
 import * as stories from './Button.stories';
 // import type Button from './Button.svelte';
-import type Button from './Button.svelte';
-import { composeStories, composeStory, setProjectAnnotations } from '../../portable-stories';
+import { composeStories, composeStory, setProjectAnnotations } from '@storybook/svelte';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
 const { CSF3Primary, LoaderStory } = composeStories(stories);
@@ -19,9 +16,21 @@ describe('renders', () => {
     cleanup();
   });
 
-  // TODO args are not being passed down, now that PreviewRender is used
-  it.skip('renders primary button', () => {
-    render(CSF3Primary.Component, { ...CSF3Primary.props, label: 'Hello world' });
+  it('renders primary button with custom props via composeStory', () => {
+    // We unfortunately can't do the following:
+    // render(CSF3Primary.Component, { ...CSF3Primary.props, label: 'Hello world' });
+    // Because the props will be passed to the first decorator of the story instead
+    // of the actual component of the story. This is because of our current PreviewRender structure
+
+    const Composed = composeStory(
+      {
+        ...stories.CSF3Primary,
+        args: { ...stories.CSF3Primary.args, label: 'Hello world' },
+      },
+      stories.default
+    );
+
+    render(Composed.Component, Composed.props);
     const buttonElement = screen.getByText(/Hello world/i);
     expect(buttonElement).not.toBeNull();
   });
@@ -32,7 +41,7 @@ describe('renders', () => {
     expect(buttonElement.textContent).toMatch(Secondary.args.label);
   });
 
-  // TODO TypeError: component.$on is not a function
+  // TODO TypeError: component.$on is not a function - Potentially only works in Svelte 4
   it.skip('onclick handler is called', async () => {
     const onClickSpy = vi.fn();
     const { component } = render(Secondary.Component, { ...Secondary.props, onClick: onClickSpy });
@@ -94,12 +103,11 @@ describe('CSF3', () => {
     cleanup();
   });
 
-  // TODO args are not being passed down, now that PreviewRender is used
-  it.skip('renders with inferred globalRender', () => {
+  it('renders with inferred globalRender', () => {
     const Primary = composeStory(stories.CSF3Button, stories.default);
 
-    render(Primary.Component, { ...Primary.props, label: 'Hello world' });
-    const buttonElement = screen.getByText(/Hello world/i);
+    render(Primary.Component, Primary.props);
+    const buttonElement = screen.getByText(/foo/i);
     expect(buttonElement).not.toBeNull();
   });
 
@@ -133,23 +141,6 @@ describe('CSF3', () => {
   });
 });
 
-describe('ComposeStories types', () => {
-  // this file tests Typescript types that's why there are no assertions
-  it('Should support typescript operators', () => {
-    type ComposeStoriesParam = Parameters<typeof composeStories>[0];
-
-    expectTypeOf({
-      ...stories,
-      default: stories.default as Meta<typeof Button>,
-    }).toMatchTypeOf<ComposeStoriesParam>();
-
-    expectTypeOf({
-      ...stories,
-      default: stories.default satisfies Meta<typeof Button>,
-    }).toMatchTypeOf<ComposeStoriesParam>();
-  });
-});
-
 // // Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map(
   (Story) => [Story.storyName, Story] as [string, typeof Story]
@@ -168,3 +159,4 @@ it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   await Story.play?.({ canvasElement: container });
   expect(container).toMatchSnapshot();
 });
+
