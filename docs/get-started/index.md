@@ -25,61 +25,61 @@ TK
 
 <!-- prettier-ignore-end -->
 
-<div class="sb-grid three-up">
+<div class="sb-grid two-up">
   <a href="./nextjs.md?renderer=react" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-nextjs.svg" width="28" height="28" alt="Next.js" class="img" />
     <h3>Next.js</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./react-vite.md?renderer=react" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-react.svg" width="28" height="28" alt="React" class="img" />
     <h3>React + Vite</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./react-webpack5.md?renderer=react" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-react.svg" width="28" height="28" alt="" class="img" />
     <h3>React + Webpack</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./vue-vite.md?renderer=vue" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <h3>Vue + Vite</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./vue-webpack5.md?renderer=vue" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <h3>Vue + Webpack</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./angular.md?renderer=angular" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-angular.svg" width="28" height="28" alt="" class="img" />
     <h3>Angular</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./sveltekit.md?renderer=svelte" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <h3>SvelteKit</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./svelte-vite.md?renderer=svelte" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <h3>Svelte + Vite</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./svelte-webpack5.md?renderer=svelte" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <h3>Svelte + Webpack</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./web-components-vite.md?renderer=web-components" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-web-components.svg" width="28" height="28" alt="" class="img" />
     <h3>Web components + Vite</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
   <a href="./web-components-webpack5.md?renderer=web-components" class="sb-grid-item card media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/logo-web-components.svg" width="28" height="28" alt="" class="img" />
     <h3>Web components + Webpack</h3>
-    <p>TK</p>
+    <p>Full-featured React framework with great developer experience</p>
   </a>
 </div>
 
@@ -89,22 +89,22 @@ TK
 
 <div class="sb-grid two-up">
   <a href="../writing-stories/index.md" class="sb-grid-item card card-fancy media media-title-only">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-story.svg" alt="Storybook Story" width="20" height="20" class="img" />
     <h3>Stories</h3>
     <p>A story captures the rendered state of a UI component. Developers write multiple stories per component that describe all the “interesting” states a component can support.</p>
   </a>
   <a href="../writing-docs/index.md" class="sb-grid-item card card-fancy media media-title-only">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-docs.svg" alt="Storybook Docs" width="20" height="20" class="img" />
     <h3>Docs</h3>
     <p>Storybook gives you tools to expand this essential documentation with prose and layout that feature your components and stories prominently.</p>
   </a>
   <a href="../writing-tests/index.md" class="sb-grid-item card card-fancy media media-title-only">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-testing.svg" alt="Storybook Testing" width="20" height="20" class="img" />
     <h3>Testing</h3>
     <p>TK</p>
   </a>
   <a href="../sharing/index.md" class="sb-grid-item card card-fancy media media-title-only">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-sharing.svg" alt="Share Storybook" width="20" height="20" class="img" />
     <h3>Sharing</h3>
     <p>TK</p>
   </a>
@@ -114,33 +114,33 @@ TK
 
 TK
 
-<div class="sb-grid four-up">
+<div class="sb-grid three-up">
   <a href="../builders/index.md" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     Builders
   </a>
   <a href="https://storybook.js.org/integrations/" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     Addon library
   </a>
   <a href="../essentials/index.md" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     Essential addons
   </a>
   <a href="https://storybook.js.org/integrations/" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     Recipes
   </a>
   <a href="../contribute/index.md" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     How to contribute
   </a>
   <a href="../migration-guide/index.md" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     Migrate to 8.0
   </a>
   <a href="../faq.md" class="sb-grid-item media">
-    <img src="https://placekitten.com/50/50" alt="" class="img" />
+    <img src="/icon-more.svg" width="28" height="28" alt="" class="img" />
     FAQ
   </a>
 </div>
@@ -183,14 +183,26 @@ TK
     }
 
     .card {
-      border-radius: 8px;
+      border-radius: 6px;
+      border: 1px solid #D9E8F2;
       padding: 12px;
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #B2C3CD;
     }
 
     .card h3 {
       font-size: 16px;
       font-weight: 600;
       line-height: 28px;
+      margin: 0;
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 24px;
       margin: 0;
     }
 
@@ -219,8 +231,6 @@ TK
     }
 
     .media:not(.media-title-only) .img {
-      height: 28px;
-      width: 28px;
       grid-row: span 2;
     }
 
@@ -229,8 +239,7 @@ TK
     }
 
     .media-title-only .img {
-      height: 32px;
-      width: 32px;
+      margin-top: 4px;
     }
 
     .media-title-only p {
