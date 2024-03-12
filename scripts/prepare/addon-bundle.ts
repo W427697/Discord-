@@ -164,10 +164,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         ...browserOptions,
         format: ['esm', 'cjs'],
         entry: previewEntries.map((e: string) => slash(join(cwd, e))),
-        outExtension: ({ format }) => ({
-          // CJS is needed for portable stories, used to import addon annotations
-          js: format === 'esm' ? '.js' : '.cjs',
-        }),
         external: [...commonExternals, ...globalPreviewPackages],
       })
     );
