@@ -92,18 +92,18 @@ export function composeStory<TArgs extends Args = Args>(
     exportsName
   );
 
-  const props = createSvelte5Props({
+  let props = {
     storyFn: composedStory,
     storyContext: { ...composedStory },
     name: composedStory.storyName,
     title: composedStory.id,
     showError: () => {},
-  });
+  };
 
   // In Svelte >= 5, we make the props reactive
-  // if (!IS_SVELTE_V4) {
-  //   props = createSvelte5Props(props);
-  // }
+  if (!IS_SVELTE_V4) {
+    props = createSvelte5Props(props);
+  }
   /** TODO: figure out the situation here.
    * Currently, we construct props to render the PreviewRender, a "story wrapper" that
    * allows to render the story and its decorators correctly. However, the props
