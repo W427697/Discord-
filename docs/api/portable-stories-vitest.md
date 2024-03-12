@@ -20,7 +20,7 @@ Portable stories in Vitest are currently only supported in [React](?renderer=rea
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Vitest](https://vitest.dev).
 
-Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Vitest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
+Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Vitest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
 <If renderer="react">
 
@@ -36,7 +36,17 @@ Normally, Storybok composes a story and its [annotations](#annotations) automati
 
 `composeStories` will process the component's stories you specify, compose each of them with the necessary [annotations](#annotations), and return an object containing the composed stories.
 
+<If notRenderer="svelte">
+
 By default, the composed story will render the component with the [args](../writing-stories/args.md) that are defined in the story. You can also pass any props to the component in your test and those props will override the values passed in the story's args.
+
+</If>
+
+<If renderer="svelte">
+
+By default, the composed story will render the component with the [args](../writing-stories/args.md) that are defined in the story. If you need to override props for an individual story, you can use the [`composeStory`](#composestory) function to do so.
+
+</If>
 
 <!-- prettier-ignore-start -->
 
