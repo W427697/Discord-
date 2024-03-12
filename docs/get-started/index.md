@@ -208,7 +208,7 @@ TK
 
     .card.card-fancy {
       border: 1px solid #D9E8F2;
-      padding: 32px;
+      padding: 24px 28px;
     }
 
     .card.card-fancy h3 {
