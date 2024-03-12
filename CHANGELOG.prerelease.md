@@ -1,3 +1,6 @@
+## 8.1.0-alpha.0
+
+
 ## 8.0.0-rc.5
 
 - CLI: Automigration fix version detection of upgrading related packages - [#26410](https://github.com/storybookjs/storybook/pull/26410), thanks @ndelangen!
