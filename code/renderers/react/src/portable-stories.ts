@@ -1,9 +1,7 @@
-import React from 'react';
 import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -39,18 +37,8 @@ export function setProjectAnnotations(
 }
 
 // This will not be necessary once we have auto preset loading
-export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> = {
-  ...reactProjectAnnotations,
-  decorators: [
-    function addStorybookId(StoryFn, { id }) {
-      return (
-        <div data-story id={getPortableStoryWrapperId(id)}>
-          <StoryFn />
-        </div>
-      );
-    },
-  ],
-};
+export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> =
+  reactProjectAnnotations;
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
