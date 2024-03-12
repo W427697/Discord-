@@ -1,3 +1,7 @@
+## 8.1.0-alpha.1
+
+- Maintenance: Fix performance regressions  - [#26411](https://github.com/storybookjs/storybook/pull/26411), thanks @kasperpeulen!
+
 ## 8.1.0-alpha.0
 
 
