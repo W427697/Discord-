@@ -6,7 +6,7 @@ import ctViteConfig from './vite.config';
  */
 export default defineConfig({
   testDir: 'stories',
-  testMatch: '*.playwright.ts',
+  testMatch: '*.playwright.tsx',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: './__snapshots__',
   /* Maximum time one test can run for. */
