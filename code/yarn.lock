@@ -6547,7 +6547,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^6.18.1"
     "@vitejs/plugin-react": "npm:^3.0.1"
     "@vitest/coverage-v8": "npm:^1.2.2"
-    chromatic: "npm:7.1.0"
     concurrently: "npm:^5.3.0"
     cross-env: "npm:^7.0.3"
     danger: "npm:^11.2.6"
@@ -6582,7 +6581,6 @@ __metadata:
     typescript: "npm:^5.3.2"
     util: "npm:^0.12.4"
     vite: "npm:^4.0.0"
-    vite-plugin-turbosnap: "npm:^1.0.1"
     vitest: "npm:^1.2.2"
     wait-on: "npm:^7.0.1"
   dependenciesMeta:
@@ -11470,17 +11468,6 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: 594754e1303672171cc04e50f6c398ae16128eb134a88f801bf5354fd96f205320f23536a045d9abd8b51024a149696e51231565891d4efdab8846021ecf88e6
-  languageName: node
-  linkType: hard
-
-"chromatic@npm:7.1.0":
-  version: 7.1.0
-  resolution: "chromatic@npm:7.1.0"
-  bin:
-    chroma: dist/bin.js
-    chromatic: dist/bin.js
-    chromatic-cli: dist/bin.js
-  checksum: d5bc18f97b7829799673018e8eaa0ef6537a47e3050208b791e083bef6753c44a2506f1fef2180b71fbf05c67bc80cdaf253ea599924dee82103e58ed344ef8a
   languageName: node
   linkType: hard
 
@@ -29133,13 +29120,6 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 39a5b9d9c806a012aab208eee0f59e4e12446ec19a4cf149a6459e7ff86491c289e189fda4f55a63b7e37d713f5edbda0e9efed95af4f7ebefa6d39eee093c0b
-  languageName: node
-  linkType: hard
-
-"vite-plugin-turbosnap@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "vite-plugin-turbosnap@npm:1.0.3"
-  checksum: fd4a283708e24b54442b5db05461f8302bc57094234fd5b0dae1a6f76bb79078c68a729e516f352d04b89fea7c459f8272921f788bd3cd20d1488c7e73d7238e
   languageName: node
   linkType: hard
 
