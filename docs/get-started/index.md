@@ -6,22 +6,7 @@ hideRendererSelector: true
 <!-- prettier-ignore-start -->
 
 export const RightArrow = () => (
-  <svg
-    viewBox="0 0 14 14"
-    width="10px"
-    height="16px"
-    style={{
-      marginLeft: '4px',
-      display: 'inline-block',
-      shapeRendering: 'inherit',
-      verticalAlign: 'middle',
-      fill: 'currentColor',
-      'path fill': 'currentColor',
-      transform: 'translateY(-1px)',
-    }}
-  >
-    <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
-  </svg>
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.896 10.146a.5.5 0 00.708.708l3.5-3.5a.5.5 0 000-.708l-3.5-3.5a.5.5 0 10-.708.708L8.043 7l-3.147 3.146z" fill="currentColor"></path></svg>
 );
 
 <!-- prettier-ignore-end -->
@@ -48,94 +33,104 @@ Storybook is a standalone tool that runs alongside your app. It's a zero-config 
 
 <!-- prettier-ignore-end -->
 
-Want to know more about the installation process? Check out the [installation guide](./install.md).
-
-Storybook works with many frontend tools. Choose your framework to get started and learn more.
-
-<div class="sb-grid two-up">
-  <a href="./nextjs/?renderer=react" class="sb-grid-item card media">
+<div class="sb-grid three-up">
+  <a href="./nextjs/?renderer=react" class="framework card">
     <img src="./logo-nextjs.svg" width="28" height="28" alt="" class="img" />
     <h3>Next.js</h3>
-    <p>Next.js is a React framework for building full-stack web applications.</p>
   </a>
-  <a href="./react-vite/?renderer=react" class="sb-grid-item card media">
+  <a href="./react-vite/?renderer=react" class="framework card">
     <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
-    <h3>React + Vite</h3>
-    <p>React is the library for web and native user interfaces. Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.</p>
+    <div>
+      <h3>React</h3>
+      <p>with Vite</p>
+    </div>
   </a>
-  <a href="./react-webpack5/?renderer=react" class="sb-grid-item card media">
+  <a href="./react-webpack5/?renderer=react" class="framework card">
     <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
-    <h3>React + Webpack</h3>
-    <p>React is the library for web and native user interfaces. Webpack is a static module bundler for modern JavaScript applications.</p>
+    <div>
+      <h3>React</h3>
+      <p>with Webpack</p>
+    </div>
   </a>
-  <a href="https://github.com/storybookjs/react-native" target="_blank" class="sb-grid-item card media">
+  <a href="https://github.com/storybookjs/react-native" target="_blank" class="framework card">
     <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
     <h3>React Native</h3>
-    <p>React Native combines the best parts of native development with React, a best-in-class JavaScript library for building user interfaces.</p>
   </a>
-  <a href="./vue-vite/?renderer=vue" class="sb-grid-item card media">
+  <a href="./vue-vite/?renderer=vue" class="framework card">
     <img src="./logo-vue.svg" width="28" height="28" alt="" class="img" />
-    <h3>Vue + Vite</h3>
-    <p>Vue is an approachable, performant, and versatile framework for building web user interfaces. Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.</p>
+    <div>
+      <h3>Vue</h3>
+      <p>with Vite</p>
+    </div>
   </a>
-  <a href="./vue-webpack5/?renderer=vue" class="sb-grid-item card media">
+  <a href="./vue-webpack5/?renderer=vue" class="framework card">
     <img src="./logo-vue.svg" width="28" height="28" alt="" class="img" />
-    <h3>Vue + Webpack</h3>
-    <p>Vue is an approachable, performant, and versatile framework for building web user interfaces. Webpack is a static module bundler for modern JavaScript applications.</p>
+    <div>
+      <h3>Vue</h3>
+      <p>with Webpack</p>
+    </div>
   </a>
-  <a href="./angular/?renderer=angular" class="sb-grid-item card media">
+  <a href="./angular/?renderer=angular" class="framework card">
     <img src="./logo-angular.svg" width="28" height="28" alt="" class="img" />
     <h3>Angular</h3>
-    <p>Angular is a development platform, built on TypeScript.</p>
   </a>
-  <a href="./sveltekit/?renderer=svelte" class="sb-grid-item card media">
+  <a href="./sveltekit/?renderer=svelte" class="framework card">
     <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <h3>SvelteKit</h3>
-    <p>SvelteKit is a framework for rapidly developing robust, performant web applications using Svelte.</p>
   </a>
-  <a href="./svelte-vite/?renderer=svelte" class="sb-grid-item card media">
+  <a href="./svelte-vite/?renderer=svelte" class="framework card">
     <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
-    <h3>Svelte + Vite</h3>
-    <p>Svelte is a front-end, open-source JavaScript framework for making interactive webpages. Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.</p>
+    <div>
+      <h3>Svelte</h3>
+      <p>with Vite</p>
+    </div>
   </a>
-  <a href="./svelte-webpack5/?renderer=svelte" class="sb-grid-item card media">
+  <a href="./svelte-webpack5/?renderer=svelte" class="framework card">
     <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
-    <h3>Svelte + Webpack</h3>
-    <p>Svelte is a front-end, open-source JavaScript framework for making interactive webpages. Webpack is a static module bundler for modern JavaScript applications.</p>
+    <div>
+      <h3>Svelte</h3>
+      <p>with Webpack</p>
+    </div>
   </a>
-  <a href="./web-components-vite/?renderer=web-components" class="sb-grid-item card media">
+  <a href="./web-components-vite/?renderer=web-components" class="framework card">
     <img src="./logo-web-components.svg" width="28" height="28" alt="" class="img" />
-    <h3>Web components + Vite</h3>
-    <p>Web components are a set of web platform APIs that allow you to create new custom, reusable, encapsulated HTML tags to use in web pages and web apps. Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects.</p>
+    <div>
+      <h3>Web Components</h3>
+      <p>with Vite</p>
+    </div>
   </a>
-  <a href="./web-components-webpack5/?renderer=web-components" class="sb-grid-item card media">
+  <a href="./web-components-webpack5/?renderer=web-components" class="framework card">
     <img src="./logo-web-components.svg" width="28" height="28" alt="" class="img" />
-    <h3>Web components + Webpack</h3>
-    <p>Web components are a set of web platform APIs that allow you to create new custom, reusable, encapsulated HTML tags to use in web pages and web apps. Webpack is a static module bundler for modern JavaScript applications.</p>
+    <div>
+      <h3>Web Components</h3>
+      <p>with Webpack</p>
+    </div>
   </a>
 </div>
+
+Want to know more about the installation process? Check out the [installation guide](./install.md).
 
 ## Main concepts
 
 Storybook is a powerful tool that can help you with many aspects of your UI development workflow. Here are some of the main concepts to get you started.
 
 <div class="sb-grid two-up">
-  <a href="../writing-stories/index.md" class="sb-grid-item card card-large media media-title-only">
+  <a href="../writing-stories/index.md" class="card card-large concept">
     <img src="./icon-story.svg" alt="" width="20" height="20" class="img" />
     <h3>Stories</h3>
     <p>A story captures the rendered state of a UI component. Each component can have multiple stories which describe all the "interesting" states that component supports.</p>
   </a>
-  <a href="../writing-docs/index.md" class="sb-grid-item card card-large media media-title-only">
+  <a href="../writing-docs/index.md" class="card card-large concept">
     <img src="./icon-docs.svg" alt="" width="20" height="20" class="img" />
     <h3>Docs</h3>
     <p>Storybook automatically creates documentation for your components using your stories. That allows you to create UI library usage guidelines, design system sites, and more.</p>
   </a>
-  <a href="../writing-tests/index.md" class="sb-grid-item card card-large media media-title-only">
+  <a href="../writing-tests/index.md" class="card card-large concept">
     <img src="./icon-testing.svg" alt="" width="20" height="20" class="img" />
     <h3>Testing</h3>
     <p>Stories are a pragmatic starting point for your UI testing strategy. You already write stories as a natural part of UI development, testing those stories is a low-effort way to prevent UI bugs over time.</p>
   </a>
-  <a href="../sharing/index.md" class="sb-grid-item card card-large media media-title-only">
+  <a href="../sharing/index.md" class="card card-large concept">
     <img src="./icon-sharing.svg" alt="" width="20" height="20" class="img" />
     <h3>Sharing</h3>
     <p>Publishing your Storybook allows you to share your work with others. It can also be embedded in other places like Notion or Figma.</p>
@@ -147,31 +142,31 @@ Storybook is a powerful tool that can help you with many aspects of your UI deve
 Once you've got the basics down, you can explore these other ways to get the most out of Storybook.
 
 <div class="sb-grid three-up">
-  <a href="../essentials/index.md" class="sb-grid-item media">
+  <a href="../essentials/index.md" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     Essential addons
   </a>
-  <a href="https://storybook.js.org/integrations/" class="sb-grid-item media">
+  <a href="https://storybook.js.org/integrations/" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     Addon catalog
   </a>
-  <a href="https://storybook.js.org/integrations/" class="sb-grid-item media">
+  <a href="https://storybook.js.org/integrations/" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     Recipes
   </a>
-  <a href="../builders/index.md" class="sb-grid-item media">
+  <a href="../builders/index.md" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     Builders
   </a>
-  <a href="../contribute/index.md" class="sb-grid-item media">
+  <a href="../contribute/index.md" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     How to contribute
   </a>
-  <a href="../migration-guide/index.md" class="sb-grid-item media">
+  <a href="../migration-guide/index.md" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     Migrate to 8.0
   </a>
-  <a href="../faq.md" class="sb-grid-item media">
+  <a href="../faq.md" class="resource">
     <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
     FAQ
   </a>
@@ -180,13 +175,13 @@ Once you've got the basics down, you can explore these other ways to get the mos
 ---
 
 <div class="sb-grid two-up">
-  <div class="sb-grid-item">
+  <div class="help">
     <h3>Need some help?</h3>
-    <p><a href="https://github.com/storybookjs/storybook/discussions/categories/help">Join a discussion on GitHub<RightArrow /></a></p>
+    <a href="https://github.com/storybookjs/storybook/discussions/categories/help">Join a discussion on GitHub<RightArrow /></a>
   </div>
-  <div class="sb-grid-item">
+  <div class="help">
     <h3>Latest product updates</h3>
-    <p><a href="https://storybook.js.org/releases/">See changelog<RightArrow /></a></p>
+    <a href="https://storybook.js.org/releases/">See changelog<RightArrow /></a>
   </div>
 </div>
 
@@ -198,15 +193,27 @@ Once you've got the basics down, you can explore these other ways to get the mos
     }
 
     .sb-grid.two-up {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
     }
 
     .sb-grid.three-up {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(1, 1fr);
     }
-    
-    .sb-grid.four-up {
-      grid-template-columns: repeat(4, 1fr);
+
+    @media (min-width: 440px) {
+      .sb-grid.two-up {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sb-grid.three-up {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .sb-grid.three-up {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     a.sb-grid-item.sb-grid-item.sb-grid-item {
@@ -219,6 +226,8 @@ Once you've got the basics down, you can explore these other ways to get the mos
       border: 1px solid #D9E8F2;
       padding: 12px;
       transition: border-color 0.2s ease;
+      color: inherit;
+      text-decoration: none;
     }
 
     .card:hover {
@@ -230,12 +239,16 @@ Once you've got the basics down, you can explore these other ways to get the mos
       font-weight: 600;
       line-height: 28px;
       margin: 0;
+      color: #000;
+      text-decoration: none;
     }
 
     .card p {
       font-size: 14px;
       line-height: 24px;
       margin: 0;
+      color: #454E54;
+      text-decoration: none;
     }
 
     .card.card-large {
@@ -246,35 +259,55 @@ Once you've got the basics down, you can explore these other ways to get the mos
       font-size: 18px;
       font-weight: 700;
     }
-
-    .media.media.media {
-      display: grid;
+    
+    .framework {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      height: 80px;
+      gap: 12px;
+      padding-left: 20px;
     }
 
-    .media {
+    .framework h3 {
+      line-height: 18px;
+    }
+
+    .concept {
+      display: grid !important;
       grid-template-columns: auto 1fr;
       grid-template-rows: auto 1fr;
-      gap: 0 12px;
-    }
-
-    .media .img {
-      align-self: baseline;
-    }
-
-    .media:not(.media-title-only) .img {
-      grid-row: span 2;
-    }
-
-    .media-title-only {
+      gap: 12px;
       row-gap: 12px;
     }
 
-    .media-title-only .img {
+    .concept .img {
+      align-self: baseline;
       margin-top: 4px;
     }
 
-    .media-title-only p {
+    .concept p {
       grid-column: span 2;
+    }
+
+    .resource {
+      display: flex !important;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .help {
+      margin-bottom: 24px;
+    }
+
+    .help h3 {
+      margin-top: 0;
+    }
+
+    .help a {
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
     }
   `}
 </style>
