@@ -35,72 +35,72 @@ Storybook is a standalone tool that runs alongside your app. It's a zero-config 
 
 <div class="sb-grid three-up">
   <a href="./nextjs/?renderer=react" class="framework card">
-    <img src="./logo-nextjs.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-nextjs.svg" width="28" height="28" alt="" class="img" />
     <h3>Next.js</h3>
   </a>
   <a href="./react-vite/?renderer=react" class="framework card">
-    <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-react.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>React</h3>
       <p>with Vite</p>
     </div>
   </a>
   <a href="./react-webpack5/?renderer=react" class="framework card">
-    <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-react.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>React</h3>
       <p>with Webpack</p>
     </div>
   </a>
   <a href="https://github.com/storybookjs/react-native" target="_blank" class="framework card">
-    <img src="./logo-react.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-react.svg" width="28" height="28" alt="" class="img" />
     <h3>React Native</h3>
   </a>
   <a href="./vue-vite/?renderer=vue" class="framework card">
-    <img src="./logo-vue.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Vue</h3>
       <p>with Vite</p>
     </div>
   </a>
   <a href="./vue-webpack5/?renderer=vue" class="framework card">
-    <img src="./logo-vue.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Vue</h3>
       <p>with Webpack</p>
     </div>
   </a>
   <a href="./angular/?renderer=angular" class="framework card">
-    <img src="./logo-angular.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-angular.svg" width="28" height="28" alt="" class="img" />
     <h3>Angular</h3>
   </a>
   <a href="./sveltekit/?renderer=svelte" class="framework card">
-    <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <h3>SvelteKit</h3>
   </a>
   <a href="./svelte-vite/?renderer=svelte" class="framework card">
-    <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Svelte</h3>
       <p>with Vite</p>
     </div>
   </a>
   <a href="./svelte-webpack5/?renderer=svelte" class="framework card">
-    <img src="./logo-svelte.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-svelte.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Svelte</h3>
       <p>with Webpack</p>
     </div>
   </a>
   <a href="./web-components-vite/?renderer=web-components" class="framework card">
-    <img src="./logo-web-components.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-web-components.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Web Components</h3>
       <p>with Vite</p>
     </div>
   </a>
   <a href="./web-components-webpack5/?renderer=web-components" class="framework card">
-    <img src="./logo-web-components.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/logos/renderers/logo-web-components.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Web Components</h3>
       <p>with Webpack</p>
@@ -116,22 +116,22 @@ Storybook is a powerful tool that can help you with many aspects of your UI deve
 
 <div class="sb-grid two-up">
   <a href="../writing-stories/index.md" class="card card-large concept">
-    <img src="./icon-story.svg" alt="" width="20" height="20" class="img" />
+    <img src="/images/icons/icon-story.svg" alt="" width="20" height="20" class="img" />
     <h3>Stories</h3>
     <p>A story captures the rendered state of a UI component. Each component can have multiple stories which describe all the "interesting" states that component supports.</p>
   </a>
   <a href="../writing-docs/index.md" class="card card-large concept">
-    <img src="./icon-docs.svg" alt="" width="20" height="20" class="img" />
+    <img src="/images/icons/icon-docs.svg" alt="" width="20" height="20" class="img" />
     <h3>Docs</h3>
     <p>Storybook automatically creates documentation for your components using your stories. That allows you to create UI library usage guidelines, design system sites, and more.</p>
   </a>
   <a href="../writing-tests/index.md" class="card card-large concept">
-    <img src="./icon-testing.svg" alt="" width="20" height="20" class="img" />
+    <img src="/images/icons/icon-testing.svg" alt="" width="20" height="20" class="img" />
     <h3>Testing</h3>
     <p>Stories are a pragmatic starting point for your UI testing strategy. You already write stories as a natural part of UI development, testing those stories is a low-effort way to prevent UI bugs over time.</p>
   </a>
   <a href="../sharing/index.md" class="card card-large concept">
-    <img src="./icon-sharing.svg" alt="" width="20" height="20" class="img" />
+    <img src="/images/icons/icon-sharing.svg" alt="" width="20" height="20" class="img" />
     <h3>Sharing</h3>
     <p>Publishing your Storybook allows you to share your work with others. It can also be embedded in other places like Notion or Figma.</p>
   </a>
@@ -143,31 +143,31 @@ Once you've got the basics down, you can explore these other ways to get the mos
 
 <div class="sb-grid three-up">
   <a href="../essentials/index.md" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Essential addons
   </a>
   <a href="https://storybook.js.org/integrations/" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Addon catalog
   </a>
   <a href="https://storybook.js.org/integrations/" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Recipes
   </a>
   <a href="../builders/index.md" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Builders
   </a>
   <a href="../contribute/index.md" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     How to contribute
   </a>
   <a href="../migration-guide/index.md" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Migrate to 8.0
   </a>
   <a href="../faq.md" class="resource">
-    <img src="./icon-more.svg" width="28" height="28" alt="" class="img" />
+    <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     FAQ
   </a>
 </div>
