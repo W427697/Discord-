@@ -104,12 +104,7 @@ exports[`Renders LoaderStory story 1`] = `
 exports[`Renders WithActionArg story 1`] = `
 <body>
   <div>
-    <div
-      data-story="true"
-      id="storybook-story-example-button--with-action-arg"
-    >
-      <button />
-    </div>
+    <button />
   </div>
 </body>
 `;
@@ -117,13 +112,8 @@ exports[`Renders WithActionArg story 1`] = `
 exports[`Renders WithActionArgType story 1`] = `
 <body>
   <div>
-    <div
-      data-story="true"
-      id="storybook-story-example-button--with-action-arg-type"
-    >
-      <div>
-        nothing
-      </div>
+    <div>
+      nothing
     </div>
   </div>
 </body>
