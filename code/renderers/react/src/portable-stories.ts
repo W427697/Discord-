@@ -9,6 +9,7 @@ import type {
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
+  ProjectAnnotations,
 } from '@storybook/types';
 
 import * as defaultProjectAnnotations from './entry-preview';
@@ -28,7 +29,7 @@ import type { ReactRenderer } from './types';
  * setProjectAnnotations(projectAnnotations);
  *```
  *
- * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
+ * @param projectAnnotations - e.g. (import * as projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
   projectAnnotations:
@@ -40,7 +41,7 @@ export function setProjectAnnotations(
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
- * and optionally projectAnnotations e.g. (import * from '../.storybook/preview)
+ * and optionally projectAnnotations e.g. (import * as projectAnnotations from '../.storybook/preview)
  * and will return a composed component that has all args/parameters/decorators/etc combined and applied to it.
  *
  *
@@ -68,7 +69,7 @@ export function setProjectAnnotations(
 export function composeStory<TArgs extends Args = Args>(
   story: StoryAnnotationsOrFn<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
-  projectAnnotations?: NamedOrDefaultProjectAnnotations<ReactRenderer>,
+  projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactRenderer, TArgs>(
@@ -82,7 +83,7 @@ export function composeStory<TArgs extends Args = Args>(
 
 /**
  * Function that will receive a stories import (e.g. `import * as stories from './Button.stories'`)
- * and optionally projectAnnotations (e.g. `import * from '../.storybook/preview`)
+ * and optionally projectAnnotations (e.g. `import * as projectAnnotations from '../.storybook/preview`)
  * and will return an object containing all the stories passed, but now as a composed component that has all args/parameters/decorators/etc combined and applied to it.
  *
  *
@@ -107,7 +108,7 @@ export function composeStory<TArgs extends Args = Args>(
  */
 export function composeStories<TModule extends Store_CSFExports<ReactRenderer, any>>(
   csfExports: TModule,
-  projectAnnotations?: NamedOrDefaultProjectAnnotations<ReactRenderer>
+  projectAnnotations?: ProjectAnnotations<ReactRenderer>
 ) {
   // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);

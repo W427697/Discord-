@@ -7,6 +7,8 @@ import type {
 } from '@storybook/types';
 
 import { composeStory, composeStories, setProjectAnnotations } from './portable-stories';
+import * as defaultExportAnnotations from './__mocks__/defaultExportAnnotations.mockfile';
+import * as namedExportAnnotations from './__mocks__/namedExportAnnotations.mockfile';
 
 type StoriesModule = Store_CSFExports & Record<string, any>;
 
@@ -24,26 +26,7 @@ describe('composeStory', () => {
   };
 
   it('should compose project annotations in all module formats', () => {
-    setProjectAnnotations([
-      {
-        // import annotations from '.storybook/preview'
-        parameters: {
-          fromAnnotations: {
-            asObjectImport: true,
-          },
-        },
-      },
-      {
-        // import * as annotations from '.storybook/preview'
-        default: {
-          parameters: {
-            fromAnnotations: {
-              asDefaultImport: true,
-            },
-          },
-        },
-      },
-    ]);
+    setProjectAnnotations([defaultExportAnnotations, namedExportAnnotations]);
 
     const Story: Story = {
       render: () => {},

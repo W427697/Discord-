@@ -14,6 +14,7 @@ import type {
   ComposedStoryFn,
   StrictArgTypes,
   PlayFunctionContext,
+  ProjectAnnotations,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -24,7 +25,7 @@ import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
-let globalProjectAnnotations: NamedOrDefaultProjectAnnotations<any> = {};
+let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
 function extractAnnotation<TRenderer extends Renderer = Renderer>(
   annotation: NamedOrDefaultProjectAnnotations<TRenderer>
@@ -47,8 +48,8 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
   componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-  projectAnnotations?: NamedOrDefaultProjectAnnotations<TRenderer>,
-  defaultConfig?: NamedOrDefaultProjectAnnotations<TRenderer>,
+  projectAnnotations?: ProjectAnnotations<TRenderer>,
+  defaultConfig?: ProjectAnnotations<TRenderer>,
   exportsName?: string
 ): ComposedStoryFn<TRenderer, Partial<TArgs>> {
   if (storyAnnotations === undefined) {
@@ -76,11 +77,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   );
 
   const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>(
-    composeConfigs(
-      [defaultConfig ?? {}, globalProjectAnnotations, projectAnnotations ?? {}].map(
-        extractAnnotation
-      )
-    )
+    composeConfigs([defaultConfig ?? {}, globalProjectAnnotations, projectAnnotations ?? {}])
   );
 
   const story = prepareStory<TRenderer>(
@@ -142,7 +139,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
 export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
-  globalConfig: NamedOrDefaultProjectAnnotations<Renderer>,
+  globalConfig: ProjectAnnotations<Renderer>,
   composeStoryFn: ComposeStoryFn
 ) {
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;

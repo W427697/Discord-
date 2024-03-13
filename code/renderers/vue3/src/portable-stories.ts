@@ -6,6 +6,7 @@ import {
 import type {
   Args,
   NamedOrDefaultProjectAnnotations,
+  ProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
@@ -69,7 +70,7 @@ export function setProjectAnnotations(
 export function composeStory<TArgs extends Args = Args>(
   story: StoryAnnotationsOrFn<VueRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
-  projectAnnotations?: NamedOrDefaultProjectAnnotations<VueRenderer>,
+  projectAnnotations?: ProjectAnnotations<VueRenderer>,
   exportsName?: string
 ) {
   const composedStory = originalComposeStory<VueRenderer, TArgs>(
@@ -116,7 +117,7 @@ export function composeStory<TArgs extends Args = Args>(
  */
 export function composeStories<TModule extends Store_CSFExports<VueRenderer, any>>(
   csfExports: TModule,
-  projectAnnotations?: NamedOrDefaultProjectAnnotations<VueRenderer>
+  projectAnnotations?: ProjectAnnotations<VueRenderer>
 ) {
   // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but VueRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
