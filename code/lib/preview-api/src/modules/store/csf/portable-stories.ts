@@ -26,10 +26,6 @@ import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let globalProjectAnnotations: NamedOrDefaultProjectAnnotations<any> = {};
 
-export function getPortableStoryWrapperId(storyId: string) {
-  return `storybook-story-${storyId}`;
-}
-
 function extractAnnotation<TRenderer extends Renderer = Renderer>(
   annotation: NamedOrDefaultProjectAnnotations<TRenderer>
 ) {
@@ -114,11 +110,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         story.playFunction!({
           ...context,
           ...extraContext,
-          // if canvasElement is not provided, we default to the root element, which comes from a decorator
-          // the decorator has to be implemented in the defaultAnnotations of each integrator of portable stories
-          canvasElement:
-            extraContext?.canvasElement ??
-            globalThis.document?.getElementById(getPortableStoryWrapperId(context.id)),
+          canvasElement: extraContext?.canvasElement ?? globalThis.document?.body,
         })
     : undefined;
 
