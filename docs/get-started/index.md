@@ -11,7 +11,7 @@ export const RightArrow = () => (
 
 <!-- prettier-ignore-end -->
 
-Welcome to Storybook's documentation ✦ Learn how to get started with Storybook in your project. Then explore the main concepts and additional resources to help you grow and maintain your Storybook.
+Welcome to Storybook's documentation ✦ Learn how to get started with Storybook in your project. Then, explore Storybook's main concepts and discover additional resources to help you grow and maintain your Storybook.
 
 ## What is Storybook?
 
@@ -108,7 +108,7 @@ Storybook is a standalone tool that runs alongside your app. It's a zero-config 
   </a>
 </div>
 
-Want to know more about the installation process? Check out the [installation guide](./install.md).
+Want to know more about installing Storybook? Check out the [installation guide](./install.md).
 
 ## Main concepts
 
@@ -118,28 +118,28 @@ Storybook is a powerful tool that can help you with many aspects of your UI deve
   <a href="../writing-stories/index.md" class="card card-large concept">
     <img src="/images/icons/icon-story.svg" alt="" width="20" height="20" class="img" />
     <h3>Stories</h3>
-    <p>A story captures the rendered state of a UI component. Each component can have multiple stories which describe all the "interesting" states that component supports.</p>
+    <p>A story captures the rendered state of a UI component. Each component can have multiple stories, where each story describes a different component state.</p>
   </a>
   <a href="../writing-docs/index.md" class="card card-large concept">
     <img src="/images/icons/icon-docs.svg" alt="" width="20" height="20" class="img" />
     <h3>Docs</h3>
-    <p>Storybook automatically creates documentation for your components using your stories. That allows you to create UI library usage guidelines, design system sites, and more.</p>
+    <p>Storybook can analyze your components to automatically create documentation alongside your stories. This automatic documentation makes it easier for you to create UI library usage guidelines, design system sites, and more.</p>
   </a>
   <a href="../writing-tests/index.md" class="card card-large concept">
     <img src="/images/icons/icon-testing.svg" alt="" width="20" height="20" class="img" />
     <h3>Testing</h3>
-    <p>Stories are a pragmatic starting point for your UI testing strategy. You already write stories as a natural part of UI development, testing those stories is a low-effort way to prevent UI bugs over time.</p>
+    <p>Stories are a pragmatic starting point for your UI testing strategy. You already write stories as a natural part of UI development, so testing those stories is a low-effort way to prevent UI bugs over time.</p>
   </a>
   <a href="../sharing/index.md" class="card card-large concept">
     <img src="/images/icons/icon-sharing.svg" alt="" width="20" height="20" class="img" />
     <h3>Sharing</h3>
-    <p>Publishing your Storybook allows you to share your work with others. It can also be embedded in other places like Notion or Figma.</p>
+    <p>Publishing your Storybook allows you to share your work with others. You can also embed your stories in places like Notion or Figma.</p>
   </a>
 </div>
 
 ## Additional resources
 
-Once you've got the basics down, you can explore these other ways to get the most out of Storybook.
+Once you've learned the basics, explore these other ways to get the most out of Storybook.
 
 <div class="sb-grid three-up">
   <a href="../essentials/index.md" class="resource">
