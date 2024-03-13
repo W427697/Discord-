@@ -135,6 +135,7 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
+  // TODO: Remove DeprecatedIconType in 9.0
   icon?: React.ReactNode | DeprecatedIconType;
   onClear?: (options: OnClearOptions) => void;
 }
