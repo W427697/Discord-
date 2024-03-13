@@ -120,6 +120,13 @@ interface OnClearOptions {
   dismissed: boolean;
 }
 
+/**
+ * @deprecated Use ReactNode for the icon instead.
+ */
+interface OldIconType {
+  name: string;
+  color?: string;
+}
 export interface API_Notification {
   id: string;
   link: string;
@@ -127,12 +134,7 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?:
-    | ReactNode
-    | {
-        name: string;
-        color?: string;
-      };
+  icon?: OldIconType | React.ReactNode;
   onClear?: (options: OnClearOptions) => void;
 }
 
