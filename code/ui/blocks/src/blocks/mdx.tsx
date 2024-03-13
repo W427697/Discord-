@@ -96,18 +96,14 @@ export const AnchorMdx: FC<PropsWithChildren<AnchorMdxProps>> = (props) => {
   const { href, target, children, ...rest } = props;
   const context = useContext(DocsContext);
 
-  if (!href) {
+  // links to external locations don't need any modifications.
+  if (!href || target === '_blank' || /^https?:\/\//.test(href)) {
     return <A {...props} />;
   }
 
   // Enable scrolling for in-page anchors.
   if (href.startsWith('#')) {
     return <AnchorInPage hash={href}>{children}</AnchorInPage>;
-  }
-
-  // links to external locations don't need any modifications.
-  if (target === '_blank' || /^https?:\/\//.test(href)) {
-    return <A {...props} />;
   }
 
   // Links to other pages of SB should use the base URL of the top level iframe instead of the base URL of the preview iframe.
