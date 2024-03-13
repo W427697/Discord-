@@ -56,14 +56,14 @@ Storybook is a standalone tool that runs alongside your app. It's a zero-config 
     <img src="/images/logos/renderers/logo-react.svg" width="28" height="28" alt="" class="img" />
     <h3>React Native</h3>
   </a>
-  <a href="./vue-vite/?renderer=vue" class="framework card">
+  <a href="./vue3-vite/?renderer=vue" class="framework card">
     <img src="/images/logos/renderers/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Vue</h3>
       <p>with Vite</p>
     </div>
   </a>
-  <a href="./vue-webpack5/?renderer=vue" class="framework card">
+  <a href="./vue3-webpack5/?renderer=vue" class="framework card">
     <img src="/images/logos/renderers/logo-vue.svg" width="28" height="28" alt="" class="img" />
     <div>
       <h3>Vue</h3>
