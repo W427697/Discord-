@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
@@ -127,10 +127,7 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?: {
-    name: string;
-    color?: string;
-  };
+  icon?: ReactNode;
   onClear?: (options: OnClearOptions) => void;
 }
 
