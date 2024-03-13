@@ -88,6 +88,7 @@
     "type-fest": "~2.19"
   },
   "dependencies": {
+    "@chromatic-com/storybook": "^1.2.18",
     "@nx/workspace": "17.0.2",
     "@playwright/test": "1.36.0",
     "@storybook/addon-a11y": "workspace:*",
@@ -225,9 +226,6 @@
     "vite-plugin-turbosnap": "^1.0.1",
     "vitest": "^1.2.2",
     "wait-on": "^7.0.1"
-  },
-  "devDependencies": {
-    "@chromaui/addon-visual-tests": "^0.0.124"
   },
   "dependenciesMeta": {
     "ejs": {
