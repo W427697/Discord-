@@ -2,8 +2,9 @@ import type { FC, SyntheticEvent } from 'react';
 import React from 'react';
 import { type State } from '@storybook/manager-api';
 import { Link } from '@storybook/router';
-import { styled } from '@storybook/theming';
-import { IconButton } from '@storybook/components';
+import { styled, useTheme } from '@storybook/theming';
+import type { IconsProps } from '@storybook/components';
+import { IconButton, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import { CloseAltIcon } from '@storybook/icons';
 
@@ -45,6 +46,11 @@ const NotificationIconWrapper = styled.div(() => ({
   display: 'flex',
   marginRight: 10,
   alignItems: 'center',
+
+  svg: {
+    width: 16,
+    height: 16,
+  },
 }));
 
 const NotificationTextWrapper = styled.div(({ theme }) => ({
@@ -77,9 +83,21 @@ const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
   icon,
   content: { headline, subHeadline },
 }) => {
+  const theme = useTheme();
+  const defaultColor = theme.base === 'dark' ? theme.color.mediumdark : theme.color.mediumlight;
+
   return (
     <>
-      {React.isValidElement(icon) && <NotificationIconWrapper>{icon}</NotificationIconWrapper>}
+      {!icon || (
+        <NotificationIconWrapper>
+          {React.isValidElement(icon)
+            ? icon
+            : typeof icon === 'object' &&
+              'name' in icon && (
+                <Icons icon={icon.name as IconsProps['icon']} color={icon.color || defaultColor} />
+              )}
+        </NotificationIconWrapper>
+      )}
       <NotificationTextWrapper>
         <Headline title={headline} hasIcon={!!icon}>
           {headline}

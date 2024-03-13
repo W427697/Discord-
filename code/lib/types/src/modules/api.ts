@@ -122,6 +122,7 @@ interface OnClearOptions {
 
 /**
  * @deprecated Use ReactNode for the icon instead.
+ * @see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated
  */
 interface DeprecatedIconType {
   name: string;
