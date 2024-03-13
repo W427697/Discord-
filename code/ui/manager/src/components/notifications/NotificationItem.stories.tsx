@@ -235,3 +235,21 @@ export const AccessibilityGoldIconLongHeadLineNoSubHeadline: Story = {
     },
   },
 };
+
+export const WithOldIconFormat: Story = {
+  args: {
+    ...Simple.args,
+    notification: {
+      id: '13',
+      onClear,
+      content: {
+        headline: 'Storybook notifications has a accessibility icon it can be any color!',
+      },
+      icon: {
+        name: 'accessibility',
+        color: 'gold',
+      },
+      link: '/some/path',
+    },
+  },
+};

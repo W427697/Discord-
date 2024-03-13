@@ -79,7 +79,7 @@ const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
 }) => {
   return (
     <>
-      {!icon || <NotificationIconWrapper>{icon}</NotificationIconWrapper>}
+      {React.isValidElement(icon) && <NotificationIconWrapper>{icon}</NotificationIconWrapper>}
       <NotificationTextWrapper>
         <Headline title={headline} hasIcon={!!icon}>
           {headline}

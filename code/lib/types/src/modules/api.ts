@@ -127,7 +127,12 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?: ReactNode;
+  icon?:
+    | ReactNode
+    | {
+        name: string;
+        color?: string;
+      };
   onClear?: (options: OnClearOptions) => void;
 }
 
