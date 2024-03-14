@@ -19,6 +19,18 @@ type Context = {
   skipErrors?: boolean;
 };
 
+export const getInstalledVersion = async (
+  packageName: string,
+  packageManager: JsPackageManager
+) => {
+  const installations = await packageManager.findInstallations([packageName]);
+  if (!installations) {
+    return null;
+  }
+
+  return Object.entries(installations.dependencies)[0]?.[1]?.[0].version || null;
+};
+
 export const checkPackageCompatibility = async (dependency: string, context: Context) => {
   const { currentStorybookVersion, skipErrors, packageManager } = context;
   try {
