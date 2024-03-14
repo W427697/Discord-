@@ -10559,6 +10559,7 @@ __metadata:
   resolution: "portable-stories-nextjs@workspace:."
   dependencies:
     "@jest/globals": "npm:^29.7.0"
+    "@storybook/addon-actions": "npm:^8.0.0"
     "@storybook/addon-essentials": "npm:^8.0.0"
     "@storybook/addon-interactions": "npm:^8.0.0"
     "@storybook/nextjs": "npm:^8.0.0"
