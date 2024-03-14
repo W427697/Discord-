@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "jest": "jest",
+    "vitest": "echo 'Vitest tests are implemented in the renderer directory instead!'",
     "playwright": "playwright test",
     "cypress": "cypress run --component",
     "cypress-open": "cypress open --component"
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@playwright/experimental-ct-react": "^1.41.2",
+    "@storybook/addon-actions": "^8.0.0",
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^8.0.0",
     "@storybook/react": "^8.0.0",

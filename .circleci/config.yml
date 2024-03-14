@@ -599,6 +599,10 @@ jobs:
           command: yarn jest
           working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
+          name: Run Vitest tests
+          command: yarn vitest
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - run:
           name: Run Playwright CT tests
           command: yarn playwright
           working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>

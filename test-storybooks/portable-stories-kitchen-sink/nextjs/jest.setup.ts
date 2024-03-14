@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import type { ProjectAnnotations } from '@storybook/types';
-import { ReactRenderer, setProjectAnnotations } from '@storybook/react';
+import { ReactRenderer } from '@storybook/react';
+import { setProjectAnnotations } from '@storybook/nextjs';
 import sbAnnotations from './.storybook/preview';
 import * as addonInteractions from '@storybook/addon-interactions/preview';
 import * as addonActions from '@storybook/addon-essentials/actions/preview';
