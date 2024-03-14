@@ -4,10 +4,7 @@ import { gt } from 'semver';
 import type { JsPackageManager } from '@storybook/core-common';
 import { isCorePackage } from '@storybook/core-common';
 import type { Fix } from '../types';
-import {
-  getIncompatibleStorybookPackages,
-  getInstalledVersion,
-} from '../../doctor/getIncompatibleStorybookPackages';
+import { getIncompatibleStorybookPackages } from '../../doctor/getIncompatibleStorybookPackages';
 
 type PackageMetadata = {
   packageName: string;
@@ -26,7 +23,7 @@ async function getLatestVersions(
   return Promise.all(
     packages.map(async ([packageName]) => ({
       packageName,
-      beforeVersion: await getInstalledVersion(packageName, packageManager).catch(() => null),
+      beforeVersion: await packageManager.getInstalledVersion(packageName).catch(() => null),
       afterVersion: await packageManager.latestVersion(packageName).catch(() => null),
     }))
   );

@@ -57,10 +57,6 @@ describe('upgrade-storybook-related-dependencies fix', () => {
       },
     ];
     vi.mocked(docsUtils.getIncompatibleStorybookPackages).mockResolvedValue(analyzedPackages);
-    vi.mocked(docsUtils.getInstalledVersion).mockImplementation(
-      async (pkgName) =>
-        analyzedPackages.find((pkg) => pkg.packageName === pkgName)?.packageVersion || null
-    );
     await expect(
       check({
         packageManager: {
@@ -74,6 +70,8 @@ describe('upgrade-storybook-related-dependencies fix', () => {
             ),
           latestVersion: async (pkgName) =>
             analyzedPackages.find((pkg) => pkg.packageName === pkgName)?.availableUpgrade || '',
+          getInstalledVersion: async (pkgName) =>
+            analyzedPackages.find((pkg) => pkg.packageName === pkgName)?.packageVersion || null,
         },
       })
     ).resolves.toMatchInlineSnapshot(`
