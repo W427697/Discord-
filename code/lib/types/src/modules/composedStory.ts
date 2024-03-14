@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { PlayFunction, Renderer, StoryId, StrictArgTypes } from '@storybook/csf';
+import type {
+  PlayFunction,
+  ProjectAnnotations,
+  Renderer,
+  StoryId,
+  StrictArgTypes,
+} from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -10,8 +16,6 @@ import type {
   StoryAnnotations,
   StoryAnnotationsOrFn,
 } from './csf';
-
-import type { FlexibleProjectAnnotations } from './story';
 
 // TODO -- I think the name "CSFExports" overlaps here a bit with the types in csfFile.ts
 // we might want to reconcile @yannbf
@@ -76,7 +80,7 @@ export interface ComposeStoryFn<TRenderer extends Renderer = Renderer, TArgs ext
   (
     storyAnnotations: AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>,
     componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-    projectAnnotations: FlexibleProjectAnnotations<TRenderer>,
+    projectAnnotations: ProjectAnnotations<TRenderer>,
     exportsName?: string
   ): ComposedStoryFn;
 }
