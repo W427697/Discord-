@@ -20,8 +20,8 @@ const runTests = (name: string, storiesModule: any) => {
     Object.entries(composedStories).forEach(([name, Story]: [any, any]) => {
       it(`renders ${name}`, async () => {
         await Story.load();
-        const { container, baseElement } = render(<Story />);
-        await Story.play?.({ canvasElement: container });
+        const { baseElement } = render(<Story />);
+        await Story.play?.();
         expect(baseElement).toMatchSnapshot();
       });
     });
@@ -39,5 +39,5 @@ describe('renders', () => {
   runTests('dynamicImportStories', dynamicImportStories);
   runTests('fontStories', fontStories);
   runTests('headStories', headStories);
-  // runTests('getImagePropsStories', getImagePropsStories);
+  runTests('getImagePropsStories', getImagePropsStories);
 });

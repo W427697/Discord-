@@ -33,7 +33,7 @@
     },
     "./preview": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.cjs",
+      "require": "./dist/preview.js",
       "import": "./dist/preview.mjs"
     },
     "./preset": {
@@ -48,7 +48,7 @@
     },
     "./dist/preview": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.cjs",
+      "require": "./dist/preview.js",
       "import": "./dist/preview.mjs"
     },
     "./dist/preset": {

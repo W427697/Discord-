@@ -10197,6 +10197,7 @@ __metadata:
   resolution: "portable-stories-react@workspace:."
   dependencies:
     "@playwright/experimental-ct-react": "npm:^1.41.2"
+    "@storybook/addon-actions": "npm:^8.0.0"
     "@storybook/addon-essentials": "npm:^8.0.0"
     "@storybook/addon-interactions": "npm:^8.0.0"
     "@storybook/react": "npm:^8.0.0"

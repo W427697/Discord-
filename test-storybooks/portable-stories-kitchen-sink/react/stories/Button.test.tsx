@@ -125,7 +125,7 @@ const testCases = Object.values(composeStories(stories)).map((Story) => [Story.s
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   cleanup();
   await Story.load();
-  const { container, baseElement } = await render(<Story />);
-  await Story.play?.({ canvasElement: container });
+  const { baseElement } = await render(<Story />);
+  await Story.play?.();
   expect(baseElement).toMatchSnapshot();
 });

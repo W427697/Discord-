@@ -8,15 +8,13 @@ const test = createTest(base);
 test('renders with composeStories (plural)', async ({ mount }) => {
   const component = await mount(<stories.CSF3Primary />);
   await expect(component).toContainText('Global Decorator');
-  // TODO: doesn't work because of a bug in Playwright CT React
-  // await expect(component).toContainText('foo'); // default arg for the story
+  await expect(component).toContainText('foo'); // default arg for the story
 });
 
 test('renders with composeStory (singular)', async ({ mount }) => {
   const component = await mount(<SingleComposedStory />);
   await expect(component).toContainText('Global Decorator');
-  // TODO: doesn't work because of a bug in Playwright CT React
-  // await expect(component).toContainText('foo'); // default arg for the story
+  await expect(component).toContainText('foo'); // default arg for the story
 });
 
 test('renders story with props', async ({ mount }) => {
@@ -28,8 +26,7 @@ test('renders story with props', async ({ mount }) => {
 test('renders story with custom render', async ({ mount }) => {
   const component = await mount(<stories.CSF3ButtonWithRender />);
   await expect(component.getByTestId('custom-render')).toContainText('I am a custom render function');
-  // TODO: doesn't work because of a bug in Playwright CT React
-  // await expect(component.getByRole('button')).toHaveText('foo');
+  await expect(component.getByRole('button')).toHaveText('foo');
 });
 
 test('renders story with global annotations', async ({ mount }) => {
