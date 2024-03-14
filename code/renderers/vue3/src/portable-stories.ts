@@ -2,7 +2,6 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
@@ -11,25 +10,12 @@ import type {
   Store_CSFExports,
   StoriesWithPartialProps,
 } from '@storybook/types';
+import { h } from 'vue';
 
-import * as vueProjectAnnotations from './entry-preview';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
 import { h } from 'vue';
-
-const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
-  ...vueProjectAnnotations,
-  decorators: [
-    function addStorybookId(story, { id }) {
-      return {
-        components: { story },
-        template: `<div data-story="true" id="${getPortableStoryWrapperId(id)}">
-          <story />
-        </div>`,
-      };
-    },
-  ],
-};
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
@@ -69,7 +55,7 @@ export function setProjectAnnotations(
  * const Primary = composeStory(PrimaryStory, Meta);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -93,7 +79,7 @@ export function composeStory<TArgs extends Args = Args>(
     exportsName
   );
 
-  // We need to wrap the composed story in an h() call to make it renderable by Vue in Playwright CT
+  // Returning h(composedStory) instead makes it an actual Vue component renderable by @testing-library/vue, Playwright CT, etc.
   const renderable = (...args: Parameters<typeof composedStory>) => h(composedStory(...args));
   Object.assign(renderable, composedStory);
 
@@ -119,7 +105,7 @@ export function composeStory<TArgs extends Args = Args>(
  * const { Primary, Secondary } = composeStories(stories);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```

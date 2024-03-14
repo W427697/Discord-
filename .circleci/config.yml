@@ -137,6 +137,7 @@ jobs:
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
+            yarn dedupe --check
       - run:
           name: Publish to Verdaccio
           command: |
@@ -669,7 +670,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -727,7 +728,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       - bench:
           parallelism: 5
           requires:
@@ -759,22 +760,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 34
+          parallelism: 35
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 34
+          parallelism: 35
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 32
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 29
+          parallelism: 30
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -782,7 +783,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 29
+          parallelism: 30
           requires:
             - build-sandboxes
       - test-portable-stories:
@@ -790,7 +791,7 @@ workflows:
             - build
           matrix:
             parameters:
-              directory: ["react", "vue3"]
+              directory: ["react", "vue3", "nextjs"]
       - test-empty-init:
           requires:
             - build

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "8.0.0-rc.1",
+  "version": "8.1.0-alpha.1",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -35,8 +35,8 @@
     },
     "./preview": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.cjs",
-      "import": "./dist/preview.js"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
     },
     "./manager": "./dist/manager.js",
     "./register.js": "./dist/manager.js",

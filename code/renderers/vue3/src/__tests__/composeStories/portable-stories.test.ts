@@ -98,9 +98,9 @@ describe('CSF3', () => {
   it('renders with play function', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
-    const { container } = render(CSF3InputFieldFilled);
+    render(CSF3InputFieldFilled);
 
-    await CSF3InputFieldFilled.play!({ canvasElement: container as HTMLElement });
+    await CSF3InputFieldFilled.play!();
 
     const input = screen.getByTestId('input') as HTMLInputElement;
     expect(input.value).toEqual('Hello world!');
@@ -146,8 +146,8 @@ it.each(testCases)('Renders %s story', async (_storyName, Story) => {
   }
 
   await Story.load();
-  const { container, baseElement } = await render(Story);
-  await Story.play?.({ canvasElement: container as HTMLElement });
+  const { baseElement } = await render(Story);
+  await Story.play?.();
   await new Promise((resolve) => setTimeout(resolve, 0));
 
   expect(baseElement).toMatchSnapshot();
