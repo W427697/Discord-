@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { cyan, yellow } from 'chalk';
-import { valid, coerce } from 'semver';
+import { gt } from 'semver';
 import type { JsPackageManager } from '@storybook/core-common';
 import { isCorePackage } from '@storybook/core-common';
 import type { Fix } from '../types';
@@ -16,27 +16,26 @@ interface Options {
   upgradable: PackageMetadata[];
 }
 
+const getInstalledVersion = async (packageName: string, packageManager: JsPackageManager) => {
+  const installations = await packageManager.findInstallations([packageName]);
+  if (!installations) {
+    return null;
+  }
+
+  return Object.entries(installations.dependencies)[0]?.[1]?.[0].version || null;
+};
+
 async function getLatestVersions(
   packageManager: JsPackageManager,
   packages: [string, string][]
 ): Promise<PackageMetadata[]> {
   return Promise.all(
-    packages.map(async ([packageName, beforeVersion]) => ({
+    packages.map(async ([packageName]) => ({
       packageName,
-      beforeVersion: coerce(beforeVersion)?.toString() || null,
+      beforeVersion: await getInstalledVersion(packageName, packageManager),
       afterVersion: await packageManager.latestVersion(packageName).catch(() => null),
     }))
   );
-}
-
-function isPackageUpgradable(
-  afterVersion: string,
-  packageName: string,
-  allDependencies: Record<string, string>
-) {
-  const installedVersion = coerce(allDependencies[packageName])?.toString();
-
-  return valid(afterVersion) && afterVersion !== installedVersion;
 }
 
 /**
@@ -75,15 +74,13 @@ export const upgradeStorybookRelatedDependencies = {
 
     const packageVersions = await getLatestVersions(packageManager, uniquePackages);
 
-    const upgradablePackages = packageVersions.filter(
-      ({ packageName, afterVersion, beforeVersion }) => {
-        if (beforeVersion === null || afterVersion === null) {
-          return false;
-        }
-
-        return isPackageUpgradable(afterVersion, packageName, allDependencies);
+    const upgradablePackages = packageVersions.filter(({ afterVersion, beforeVersion }) => {
+      if (beforeVersion === null || afterVersion === null) {
+        return false;
       }
-    );
+
+      return gt(afterVersion, beforeVersion);
+    });
 
     return upgradablePackages.length > 0 ? { upgradable: upgradablePackages } : null;
   },
