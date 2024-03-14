@@ -242,7 +242,7 @@ export async function doInitiate(
 > {
   const { packageManager: pkgMgr } = options;
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({
+  let packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr,
   });
 
@@ -276,6 +276,13 @@ export async function doInitiate(
 
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
+    // Initializing Storybook in an empty directory with yarn1
+    // will very likely fail due to different kind of hoisting issues
+    // which doesn't get fixed anymore in yarn1.
+    // We will fallback to npm in this case.
+    if (packageManager.type === 'yarn1') {
+      packageManager = JsPackageManagerFactory.getPackageManager({ force: 'npm' });
+    }
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type, options);
 
