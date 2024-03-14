@@ -9,6 +9,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "jest": "jest",
+    "vitest": "echo 'Vitest is not supported in Next.js testing'",
     "cypress": "echo 'No cypress setup yet'",
     "playwright": "echo 'No playwright setup yet'"
   },

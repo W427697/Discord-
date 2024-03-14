@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "jest": "jest",
+    "vitest": "echo 'Vitest tests are implemented in the renderer directory instead!'",
     "playwright": "playwright test",
     "cypress": "cypress run --component",
     "cypress-open": "cypress open --component"
