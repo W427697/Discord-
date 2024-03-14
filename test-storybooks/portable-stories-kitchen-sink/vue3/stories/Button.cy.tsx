@@ -8,8 +8,7 @@ describe('<Button()', () => {
   it('renders primary button', async () => {
     cy.mount(CSF3Primary())
     cy.get('button').should('contain.text', 'foo');
-    // TODO: bring this back once we add decorators
-    // cy.get('[data-decorator]').should('exist');
+    cy.get('[data-decorator]').should('exist');
   })
 
   it('renders primary button with custom args', async () => {
