@@ -71,6 +71,32 @@ exports[`renders fontStories stories renders WithVariable 1`] = `
 </body>
 `;
 
+exports[`renders getImagePropsStories stories renders Default 1`] = `
+<body>
+  <div>
+    <picture>
+      <source
+        media="(prefers-color-scheme: dark)"
+        srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+      />
+      <source
+        media="(prefers-color-scheme: light)"
+        srcset="/_next/image?url=%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=%2Fimg.jpg&w=96&q=75 2x"
+      />
+      <img
+        alt="getImageProps Example"
+        decoding="async"
+        height="40"
+        loading="lazy"
+        src="/_next/image?url=%2Fimg.jpg&w=96&q=75"
+        style="color: transparent;"
+        width="40"
+      />
+    </picture>
+  </div>
+</body>
+`;
+
 exports[`renders headStories stories renders Default 1`] = `
 <body>
   <div>

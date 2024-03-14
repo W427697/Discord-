@@ -39,5 +39,5 @@ describe('renders', () => {
   runTests('dynamicImportStories', dynamicImportStories);
   runTests('fontStories', fontStories);
   runTests('headStories', headStories);
-  // runTests('getImagePropsStories', getImagePropsStories);
+  runTests('getImagePropsStories', getImagePropsStories);
 });
