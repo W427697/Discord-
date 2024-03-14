@@ -11,7 +11,7 @@
     "vitest": "vitest",
     "jest": "echo 'No jest setup yet'",
     "cypress": "echo 'No cypress setup yet'",
-    "playwright": "playwright test"
+    "playwright": "echo 'No Playwright setup yet'"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../../code/addons/a11y",

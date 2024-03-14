@@ -161,7 +161,7 @@ describe('ComposeStories types', () => {
   });
 });
 
-// // Batch snapshot testing
+// Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map(
   (Story) => [Story.storyName, Story] as [string, typeof Story]
 );
