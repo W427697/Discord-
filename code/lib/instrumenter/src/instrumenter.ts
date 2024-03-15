@@ -243,6 +243,7 @@ export class Instrumenter {
     this.state = { ...this.state, [storyId]: { ...state, ...patch } };
     // Track state on the parent window so we can reload the iframe without losing state.
     if (global.window?.parent) {
+      // @ts-expect-error fix this later in d.ts file
       global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
     }
   }
@@ -261,6 +262,7 @@ export class Instrumenter {
     const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
     this.channel.emit(EVENTS.SYNC, payload);
     if (global.window?.parent) {
+      // @ts-expect-error fix this later in d.ts file
       global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
     }
   }
