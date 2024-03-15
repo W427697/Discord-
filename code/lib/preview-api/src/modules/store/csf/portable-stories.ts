@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { isExportStory } from '@storybook/csf';
+import dedent from 'ts-dedent';
 import type {
   Renderer,
   Args,
@@ -182,7 +183,25 @@ export function createPlaywrightTest<TFixture extends { extend: any }>(
   return baseTest.extend({
     mount: async ({ mount, page }: any, use: any) => {
       await use(async (storyRef: WrappedStoryRef, ...restArgs: any) => {
-        // load the story in the browser
+        // Playwright CT deals with JSX import references differently than normal imports
+        // and we can currently only handle JSX import references
+        if (
+          !('__pw_type' in storyRef) ||
+          ('__pw_type' in storyRef && storyRef.__pw_type !== 'jsx')
+        ) {
+          // eslint-disable-next-line local-rules/no-uncategorized-errors
+          throw new Error(dedent`
+              Portable stories in Playwright CT only work when referencing JSX elements.
+              Please use JSX format for your components such as:
+              
+              instead of:
+              await mount(MyComponent, { props: { foo: 'bar' } })
+              
+              do:
+              await mount(<MyComponent foo="bar"/>)
+            `);
+        }
+
         await page.evaluate(async (wrappedStoryRef: WrappedStoryRef) => {
           const unwrappedStoryRef = await globalThis.__pwUnwrapObject?.(wrappedStoryRef);
           const story =

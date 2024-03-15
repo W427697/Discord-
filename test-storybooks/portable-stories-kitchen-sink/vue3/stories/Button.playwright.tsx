@@ -3,11 +3,10 @@ import { createTest } from '@storybook/vue3/experimental-playwright';
 import stories, { SingleComposedStory, WithSpanishGlobal } from './Button.stories.portable';
 import Button from './Button.vue';
 
-type A = typeof Button
 const test = createTest(base);
 
 test('renders with composeStories (plural)', async ({ mount }) => {
-  const component = await mount(stories.CSF3Primary);
+  const component = await mount(<stories.CSF3Primary />);
   await expect(component).toContainText('Global Decorator');
   await expect(component).toContainText('foo'); // default arg for the story
 });
@@ -20,12 +19,6 @@ test('renders with composeStory (singular)', async ({ mount }) => {
 
 test('renders story with props as second argument', async ({ mount }) => {
   const component = await mount(<stories.CSF3Button primary={true} label="label from test" />);
-  await expect(component).toContainText('label from test');
-  await expect(component.getByRole('button')).toHaveClass(/storybook-button--primary/);
-});
-
-test('renders story with props as non-JSX', async ({ mount }) => {
-  const component = await mount(stories.CSF3Button, { props: { primary: true, label:"label from test" } });
   await expect(component).toContainText('label from test');
   await expect(component.getByRole('button')).toHaveClass(/storybook-button--primary/);
 });
