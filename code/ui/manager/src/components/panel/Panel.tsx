@@ -61,7 +61,7 @@ export const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         showToolsWhenEmpty
-        customEmptyContent={
+        customEmptyState={
           <Placeholder>
             <Fragment key="title">
               <P>Storybook add-ons</P>
