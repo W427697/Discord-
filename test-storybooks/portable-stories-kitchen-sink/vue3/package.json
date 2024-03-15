@@ -18,7 +18,7 @@
     "vue": "^3.4.19"
   },
   "devDependencies": {
-    "@playwright/experimental-ct-vue": "^1.41.2",
+    "@playwright/experimental-ct-vue": "^1.42.1",
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^8.0.0",
     "@storybook/test": "^8.0.0",
