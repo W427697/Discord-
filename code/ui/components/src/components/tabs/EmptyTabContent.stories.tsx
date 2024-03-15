@@ -15,12 +15,6 @@ export default {
 
 type Story = StoryObj<typeof EmptyTabContent>;
 
-export const EmptyStuff = {
-  render: () => {
-    return <div></div>;
-  },
-};
-
 export const OnlyTitle: Story = {
   args: {
     title: 'Nothing found',
