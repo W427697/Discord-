@@ -17,6 +17,8 @@ const logger = console;
 
 export type PackageManagerName = 'npm' | 'yarn1' | 'yarn2' | 'pnpm';
 
+type StorybookPackage = keyof typeof storybookPackagesVersions;
+
 /**
  * Extract package name and version from input
  *
@@ -361,7 +363,7 @@ export abstract class JsPackageManager {
    *
    * @param packageNames
    */
-  public getVersions(...packageNames: string[]): Promise<string[]> {
+  public getVersions(...packageNames: StorybookPackage[]): Promise<string[]> {
     return Promise.all(
       packageNames.map((packageName) => {
         return this.getVersion(packageName);
@@ -378,11 +380,10 @@ export abstract class JsPackageManager {
    * @param packageName The name of the package
    * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    */
-  public async getVersion(packageName: string, constraint?: string): Promise<string> {
+  public async getVersion(packageName: StorybookPackage, constraint?: string): Promise<string> {
     let current: string | undefined;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
-      // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
     }
 
