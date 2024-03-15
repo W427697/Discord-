@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Tabs, IconButton } from '@storybook/components';
+import React, { Component, Fragment } from 'react';
+import { Tabs, IconButton, Placeholder, P, Link } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import { styled } from '@storybook/theming';
-import { BottomBarIcon, CloseIcon, SidebarAltIcon } from '@storybook/icons';
+import { BottomBarIcon, CloseIcon, DocumentIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
@@ -60,6 +60,23 @@ export const AddonPanel = React.memo<{
         {...(selectedPanel ? { selected: selectedPanel } : {})}
         menuName="Addons"
         actions={actions}
+        showToolsWhenEmpty
+        customEmptyContent={
+          <Placeholder>
+            <Fragment key="title">
+              <P>Storybook add-ons</P>
+            </Fragment>
+            <EmptyStateDescription key="content">
+              <P>
+                Integrate your tools with Storybook to connect workflows and unlock advanced
+                features.
+              </P>
+              <Link href={'https://storybook.js.org/integrations'} target="_blank" withArrow>
+                <DocumentIcon /> Explore integrations catalog
+              </Link>
+            </EmptyStateDescription>
+          </Placeholder>
+        }
         tools={
           <Actions>
             {isDesktop ? (
@@ -107,4 +124,10 @@ const Actions = styled.div({
   display: 'flex',
   alignItems: 'center',
   gap: 6,
+});
+
+const EmptyStateDescription = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
 });
