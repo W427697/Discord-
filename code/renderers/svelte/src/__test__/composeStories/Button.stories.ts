@@ -54,7 +54,7 @@ const getCaptionForLocale = (locale: string) => {
   }
 };
 
-export const CSF2StoryWithLocale: CSF2Story = (args, { globals }) => ({
+export const CSF2StoryWithLocale: CSF2Story<StoryWithLocaleComponent> = (args, { globals }) => ({
   Component: StoryWithLocaleComponent,
   props: {
     ...args,
@@ -102,17 +102,19 @@ export const CSF3Button: CSF3Story = {
   args: { label: 'foo' },
 };
 
-export const CSF3ButtonWithRender: CSF3Story = {
-  ...CSF3Button,
+export const CSF3ButtonWithRender: StoryObj<CustomRenderComponent> = {
+  args: {
+    buttonProps: CSF3Button.args,
+  },
   render: (args) => ({
     Component: CustomRenderComponent,
     props: {
-      args,
+      buttonProps: args.buttonProps,
     },
   }),
 };
 
-export const CSF3InputFieldFilled: CSF3Story = {
+export const CSF3InputFieldFilled: StoryObj<InputFilledStoryComponent> = {
   render: () => ({
     Component: InputFilledStoryComponent,
   }),
@@ -127,7 +129,7 @@ export const CSF3InputFieldFilled: CSF3Story = {
 };
 
 const mockFn = fn();
-export const LoaderStory: StoryObj<{ mockFn: (val: string) => string }> = {
+export const LoaderStory: StoryObj<LoaderStoryComponent> = {
   args: {
     mockFn,
   },
