@@ -544,11 +544,6 @@ export abstract class JsPackageManager {
       return null;
     }
 
-    console.log({
-      installations,
-      version: Object.entries(installations.dependencies)[0]?.[1]?.[0].version,
-    });
-
     return Object.entries(installations.dependencies)[0]?.[1]?.[0].version || null;
   }
 
