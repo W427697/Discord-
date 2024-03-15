@@ -170,6 +170,34 @@ const StyledButton = styled('button', {
     if (variant === 'ghost' && active) return theme.background.hoverable;
     return 'transparent';
   })(),
+  ...(variant === 'ghost'
+    ? {
+        '.sb-bar &': {
+          background: (() => {
+            if (active) return transparentize(0.9, theme.barTextColor);
+            return 'transparent';
+          })(),
+          color: (() => {
+            if (active) return theme.barSelectedColor;
+            return theme.barTextColor;
+          })(),
+          '&:hover': {
+            color: theme.barHoverColor,
+            background: transparentize(0.86, theme.barHoverColor),
+          },
+
+          '&:active': {
+            color: theme.barSelectedColor,
+            background: transparentize(0.9, theme.barSelectedColor),
+          },
+
+          '&:focus': {
+            boxShadow: `${rgba(theme.barHoverColor, 1)} 0 0 0 1px inset`,
+            outline: 'none',
+          },
+        },
+      }
+    : {}),
   color: (() => {
     if (variant === 'solid') return theme.color.lightest;
     if (variant === 'outline') return theme.input.color;
