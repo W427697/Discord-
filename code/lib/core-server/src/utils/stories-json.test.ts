@@ -106,6 +106,9 @@ describe('useStoriesJson', () => {
         {
           "entries": {
             "a--metaof": {
+              "headings": [
+                "Docs with of",
+              ],
               "id": "a--metaof",
               "importPath": "./src/docs2/MetaOf.mdx",
               "name": "MetaOf",
@@ -120,6 +123,9 @@ describe('useStoriesJson', () => {
               "type": "docs",
             },
             "a--second-docs": {
+              "headings": [
+                "Second Docs",
+              ],
               "id": "a--second-docs",
               "importPath": "./src/docs2/SecondMetaOf.mdx",
               "name": "Second Docs",
@@ -168,6 +174,7 @@ describe('useStoriesJson', () => {
               "type": "story",
             },
             "docs2-componentreference--docs": {
+              "headings": [],
               "id": "docs2-componentreference--docs",
               "importPath": "./src/docs2/ComponentReference.mdx",
               "name": "docs",
@@ -180,6 +187,9 @@ describe('useStoriesJson', () => {
               "type": "docs",
             },
             "docs2-notitle--docs": {
+              "headings": [
+                "Docs with no title",
+              ],
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
@@ -192,6 +202,9 @@ describe('useStoriesJson', () => {
               "type": "docs",
             },
             "docs2-yabbadabbadooo--docs": {
+              "headings": [
+                "Docs with title",
+              ],
               "id": "docs2-yabbadabbadooo--docs",
               "importPath": "./src/docs2/Title.mdx",
               "name": "docs",

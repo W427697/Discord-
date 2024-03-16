@@ -400,6 +400,9 @@ describe('docs entries from story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "headings": [
+              "Story One",
+            ],
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
@@ -460,6 +463,9 @@ describe('docs entries from story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "headings": [
+              "Story One",
+            ],
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
@@ -569,6 +575,9 @@ describe('docs entries from story extraction', () => {
         "dependents": [],
         "entries": [
           {
+            "headings": [
+              "Story One",
+            ],
             "id": "a--docs",
             "importPath": "./src/A.stories.js",
             "name": "docs",
