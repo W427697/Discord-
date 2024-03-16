@@ -363,7 +363,7 @@ export abstract class JsPackageManager {
    *
    * @param packageNames
    */
-  public getVersions(...packageNames: StorybookPackage[]): Promise<string[]> {
+  public getVersions(...packageNames: string[]): Promise<string[]> {
     return Promise.all(
       packageNames.map((packageName) => {
         return this.getVersion(packageName);
@@ -380,11 +380,11 @@ export abstract class JsPackageManager {
    * @param packageName The name of the package
    * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    */
-  public async getVersion(packageName: StorybookPackage, constraint?: string): Promise<string> {
+  public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string | undefined;
 
-    if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
-      current = storybookPackagesVersions[packageName];
+    if (packageName in storybookPackagesVersions) {
+      current = storybookPackagesVersions[packageName as StorybookPackage];
     }
 
     let latest;
