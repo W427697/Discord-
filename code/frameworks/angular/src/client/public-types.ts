@@ -56,9 +56,7 @@ export type Preview = ProjectAnnotations<AngularRenderer>;
 /**
  * Utility type that transforms InputSignal and EventEmitter types
  */
-type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>> extends unknown
-  ? TransformEventType<T>
-  : TransformInputSignalType<TransformEventType<T>>;
+type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>>
 
 type TransformInputSignalType<T> = {
   /** @ts-ignore Angular < 17.2 doesn't have InputSignal */
