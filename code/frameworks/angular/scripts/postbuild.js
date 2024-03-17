@@ -10,8 +10,5 @@ const path = require('path');
 
 const filePath = path.join(__dirname, '../dist/client/public-types.d.ts');
 const fileContent = fs.readFileSync(filePath, 'utf8');
-const newContent = fileContent.replaceAll(
-  /(\[K in keyof T\]: T\[K\] extends AngularCore.InputSignal)/g,
-  ' // @ts-ignore\n   $1'
-);
+const newContent = fileContent.replaceAll(/(type AngularInputSignal)/g, '// @ts-ignore\n$1');
 fs.writeFileSync(filePath, newContent, 'utf8');
