@@ -58,9 +58,17 @@ export type Preview = ProjectAnnotations<AngularRenderer>;
  */
 type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>>
 
+// @ts-ignore Angular < 17.2 doesn't export InputSignal
+type AngularInputSignal<T> = AngularCore.InputSignal<T>
+// @ts-ignore Angular < 17.2 doesn't export InputSignalWithTransform
+type AngularInputSignalWithTransform<T, U> = AngularCore.InputSignalWithTransform<T, U>
+
+type AngularHasSignal = typeof AngularCore extends { input: infer U } ? true : false;
+type InputSignal<T> = AngularHasSignal extends true ? AngularInputSignal<T> : never;
+type InputSignalWithTransform<T, U> = AngularHasSignal extends true ? AngularInputSignalWithTransform<T, U> : never;
+
 type TransformInputSignalType<T> = {
-  /** @ts-ignore Angular < 17.2 doesn't have InputSignal */
-  [K in keyof T]: T[K] extends AngularCore.InputSignal<infer E> ? E : T[K] extends AngularCore.InputSignalWithTransform<any, infer U> ? U : T[K];
+   [K in keyof T]: T[K] extends InputSignal<infer E> ? E : T[K] extends InputSignalWithTransform<any, infer U> ? U : T[K];
 };
 
 type TransformEventType<T> = {
