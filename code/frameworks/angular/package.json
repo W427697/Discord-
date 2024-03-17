@@ -33,8 +33,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "node ../../../scripts/node_modules/.bin/tsc",
-    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/tsc.ts"
+    "check": "rimraf dist && node ../../../scripts/node_modules/.bin/tsc",
+    "prep": "rimraf dist && node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
