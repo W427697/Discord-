@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Link, EmptyTabContent } from '@storybook/components';
-import { DocumentIcon, SupportIcon, VideoIcon } from '@storybook/icons';
+import { DocumentIcon, VideoIcon } from '@storybook/icons';
 
 interface EmptyProps {
   inAddonPanel?: boolean;
@@ -87,7 +87,7 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
                 target="_blank"
                 withArrow
               >
-                <SupportIcon /> Learn how to set that up
+                <DocumentIcon /> Learn how to set that up
               </Link>
             )}
           </Links>
