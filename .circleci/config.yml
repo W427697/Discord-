@@ -174,10 +174,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          # assuming we merge to main at least once every 2 weeks
-          # this is needed for nx affected
-          clone_options: '--shallow-since "14 days ago"'
-          fetch_options: '--shallow-since "14 days ago"'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -226,7 +223,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test:affected --coverage
+            yarn test --coverage
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
