@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, IconButton, P, Link, EmptyTabContent } from '@storybook/components';
+import { Tabs, IconButton, Link, EmptyTabContent } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
