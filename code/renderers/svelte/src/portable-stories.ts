@@ -20,9 +20,19 @@ import PreviewRender from '@storybook/svelte/internal/PreviewRender.svelte';
 import { createSvelte5Props } from '@storybook/svelte/internal/createSvelte5Props';
 import { IS_SVELTE_V4 } from './utils';
 
-type ComposedStory<TArgs> = ComposedStoryFn<SvelteRenderer, TArgs> & {
+type ComposedStory<TArgs extends Args = any> = ComposedStoryFn<SvelteRenderer, TArgs> & {
   Component: typeof PreviewRender;
+  // these props current refer to the props of PReviewRender, not the user's component's
   props: any;
+};
+
+type MapToComposed<TModule> = {
+  [K in keyof TModule]: TModule[K] extends StoryAnnotationsOrFn<
+    SvelteRenderer,
+    infer TArgs extends Args
+  >
+    ? ComposedStory<TArgs>
+    : never;
 };
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
@@ -85,7 +95,7 @@ export function composeStory<TArgs extends Args = Args>(
 ) {
   const composedStory = originalComposeStory<SvelteRenderer, TArgs>(
     story as StoryAnnotationsOrFn<SvelteRenderer, Args>,
-    // @ts-expect-error TODO check this later
+    // @ts-expect-error Fix this later: Type 'Partial<{ [x: string]: any; }>' is not assignable to type 'Partial<Simplify<TArgs, {}>>'
     componentAnnotations,
     projectAnnotations,
     INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
@@ -123,7 +133,6 @@ export function composeStory<TArgs extends Args = Args>(
   };
   Object.assign(renderable, composedStory);
 
-  // TODO: Fix types, also fix for composeStories
   return renderable as ComposedStory<TArgs>;
 }
 
@@ -159,9 +168,8 @@ export function composeStories<TModule extends Store_CSFExports<SvelteRenderer, 
   // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
-  // TODO: Figure out a correct type for this.
   return composedStories as unknown as Omit<
-    StoriesWithPartialProps<SvelteRenderer, TModule>,
+    MapToComposed<StoriesWithPartialProps<SvelteRenderer, TModule>>,
     keyof Store_CSFExports
   >;
 }
