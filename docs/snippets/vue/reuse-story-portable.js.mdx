@@ -1,0 +1,28 @@
+```js
+// List.stories.js
+import { composeStories } from '@storybook/vue3'
+
+import List from './List.vue';
+import ListItem from './ListItem.vue';
+
+//👇 Import the stories and their meta from the stories file
+import * as stories from './ListItem.stories';
+
+//👇 Compose the story
+const { Unchecked } = composeStories(stories);
+
+export default {
+  component: List,
+};
+
+export const OneItem = {
+  render: (args) => ({
+    components: { List, ListItem },
+    setup() {
+      //👇 The args will now be passed down to the template
+      return { args };
+    },
+    template: '<List v-bind="args"><Unchecked /></List>',
+  }),
+};
+```

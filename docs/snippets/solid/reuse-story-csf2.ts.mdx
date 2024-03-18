@@ -1,0 +1,24 @@
+```tsx
+// List.stories.ts|tsx
+import type { Meta, StoryObj } from 'storybook-solidjs';
+
+import { List } from './List';
+
+//👇 Import the story from the CSF 2 stories file
+import { Unchecked } from './ListItem.stories';
+
+export const meta: Meta<typeof List> = {
+  component: List,
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
+
+export const OneItem: Story = {
+  render: (args) => (
+    <List {...args}>
+      <Unchecked {...Unchecked.args} />
+    </List>
+  ),
+};
+```

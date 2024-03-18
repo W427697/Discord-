@@ -1,20 +1,14 @@
 ```ts
 // List.stories.js
-
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import List from './List.vue';
 import ListItem from './ListItem.vue';
 
-//👇 Imports a specific story from ListItem stories
+//👇 Import the story from the CSF 2 stories file
 import { Unchecked } from './ListItem.stories';
 
 const meta: Meta<typeof List> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/configure/#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'List',
   component: List,
 };
 

@@ -1,0 +1,22 @@
+```js
+// List.stories.js|jsx
+import { composeStories } from '@storybook/react';
+
+import { List } from './List';
+
+//👇 Import the stories and their meta from the stories file
+import * as stories from './ListItem.stories';
+
+// 👇 Compose the story
+const { Unchecked } = composeStories(stories);
+
+export default {
+  component: List,
+};
+
+export const OneItem = {
+  render: (args) => (
+    <List {...args}><Unchecked /></List>
+  ),
+};
+```

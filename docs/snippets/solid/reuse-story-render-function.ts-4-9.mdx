@@ -1,19 +1,13 @@
 ```tsx
 // List.stories.ts|tsx
-
 import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { List } from './List';
 
-//👇 Instead of importing ListItem, we import the stories
+//👇 Import the story with a render function from the CSF 3 stories file
 import { Unchecked } from './ListItem.stories';
 
 export const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/configure/#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'List',
   component: List,
 } satisfies Meta<typeof List>;
 
@@ -23,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const OneItem: Story = {
   render: (args) => (
     <List {...args}>
-      <Unchecked {...Unchecked.args} />
+      {Unchecked.render({...Unchecked.args})}
     </List>
   ),
 };

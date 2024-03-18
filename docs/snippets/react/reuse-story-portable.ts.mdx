@@ -1,0 +1,29 @@
+```tsx
+// List.stories.ts|tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { composeStories } from '@storybook/react';
+
+import { List } from './List';
+
+//👇 Import the stories and their meta from the stories file
+import * as stories from './ListItem.stories';
+
+// 👇 Compose the story
+const { Unchecked } = composeStories(stories);
+
+export const meta: Meta<typeof List> = {
+  component: List,
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
+
+export const OneItem: Story = {
+  render: (args) => (
+    <List {...args}><Unchecked /></List>
+  ),
+};
+```
+
+
+

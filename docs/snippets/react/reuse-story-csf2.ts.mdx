@@ -1,19 +1,13 @@
 ```tsx
 // List.stories.ts|tsx
-
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { List } from './List';
 
-//👇 Instead of importing ListItem, we import the stories
+//👇 Import the story from the CSF 2 stories file
 import { Unchecked } from './ListItem.stories';
 
 export const meta: Meta<typeof List> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/configure/#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'List',
   component: List,
 };
 
