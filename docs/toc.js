@@ -2,7 +2,6 @@ module.exports = {
   toc: [
     {
       pathSegment: 'get-started',
-      redirectPath: 'get-started/install',
       title: 'Get started',
       type: 'heading',
       children: [
@@ -44,13 +43,38 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'sveltekit',
+              title: 'SvelteKit',
+              type: 'link',
+            },
+            {
               pathSegment: 'svelte-vite',
               title: 'Svelte & Vite',
               type: 'link',
             },
             {
+              pathSegment: 'svelte-webpack5',
+              title: 'Svelte & Webpack',
+              type: 'link',
+            },
+            {
               pathSegment: 'vue3-vite',
               title: 'Vue & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-webpack5',
+              title: 'Vue & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-vite',
+              title: 'Web components & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-webpack5',
+              title: 'Web components & Webpack',
               type: 'link',
             },
           ],
