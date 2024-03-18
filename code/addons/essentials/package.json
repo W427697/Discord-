@@ -33,6 +33,7 @@
     "./backgrounds/preview": "./dist/backgrounds/preview.js",
     "./backgrounds/manager": "./dist/backgrounds/manager.js",
     "./controls/manager": "./dist/controls/manager.js",
+    "./controls/preset": "./dist/controls/preset.js",
     "./docs/preview": "./dist/docs/preview.js",
     "./docs/preset": "./dist/docs/preset.js",
     "./docs/mdx-react-shim": "./dist/docs/mdx-react-shim.js",
@@ -85,6 +86,7 @@
   "bundler": {
     "nodeEntries": [
       "./src/index.ts",
+      "./src/controls/preset.ts",
       "./src/docs/preset.ts",
       "./src/docs/mdx-react-shim.ts"
     ],
