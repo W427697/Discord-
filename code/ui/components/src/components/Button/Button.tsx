@@ -172,6 +172,8 @@ const StyledButton = styled('button', {
   })(),
   ...(variant === 'ghost'
     ? {
+        // This is a hack to apply bar styles to the button as soon as it is part of a bar
+        // It is a temporary solution until we have implemented Theming 2.0.
         '.sb-bar &': {
           background: (() => {
             if (active) return transparentize(0.9, theme.barTextColor);
