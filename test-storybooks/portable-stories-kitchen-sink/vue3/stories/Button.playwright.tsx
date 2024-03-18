@@ -1,7 +1,6 @@
 import { test as base, expect } from '@playwright/experimental-ct-vue';
 import { createTest } from '@storybook/vue3/experimental-playwright';
 import stories, { SingleComposedStory, WithSpanishGlobal } from './Button.stories.portable';
-import Button from './Button.vue';
 
 const test = createTest(base);
 
