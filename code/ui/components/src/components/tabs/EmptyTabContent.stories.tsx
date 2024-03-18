@@ -1,12 +1,11 @@
 import React from 'react';
-import type { EmptyTabContent } from './EmptyTabContent';
+import { EmptyTabContent } from './EmptyTabContent';
 import { DocumentIcon } from '@storybook/icons';
 import { Link } from '@storybook/components';
 import type { Meta, StoryObj } from '@storybook/react';
-const EmptyComponent = () => '';
 
 export default {
-  component: EmptyComponent,
+  component: EmptyTabContent,
   parameters: {
     layout: 'centered',
   },
