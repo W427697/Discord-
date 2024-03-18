@@ -10,9 +10,27 @@ const meta: Meta<SignalButtonComponent> = {
     backgroundColor: {
       control: 'color',
     },
+    // The following argTypes are necessary,
+    // because Compodoc does not support Angular's new input and output signals yet
+    primary: {
+      type: 'boolean',
+    },
+    size: {
+      control: {
+        type: 'radio',
+      },
+      options: ['small', 'medium'],
+    },
+    label: {
+      type: 'string',
+    },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
+  args: {
+    onClick: fn(),
+    primary: false,
+    size: 'medium',
+  },
 };
 
 export default meta;
