@@ -147,6 +147,8 @@ export const viteFinal = async (config: any, options: Options) => {
       resolve: {
         alias: {
           react,
+          // Vite doesn't respect export maps when resolving a path, so we need to do that manually here
+          'react-dom/server': `${reactDom}/server.browser.js`,
           'react-dom': reactDom,
           '@mdx-js/react': mdx,
           /**

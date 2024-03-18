@@ -189,26 +189,34 @@ test.describe('addon-docs', () => {
     await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
     const root = sbPage.previewRoot();
 
-    let expectedReactVersion = /^18/;
+    let expectedReactVersionRange = /^18/;
     if (
       templateName.includes('preact') ||
       templateName.includes('react-webpack/17') ||
       templateName.includes('react-vite/17')
     ) {
-      expectedReactVersion = /^17/;
+      expectedReactVersionRange = /^17/;
     } else if (templateName.includes('react16')) {
-      expectedReactVersion = /^16/;
+      expectedReactVersionRange = /^16/;
     }
 
     const mdxReactVersion = await root.getByTestId('mdx-react');
     const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
+    const mdxReactDomServerVersion = await root.getByTestId('mdx-react-dom-server');
     const componentReactVersion = await root.getByTestId('component-react');
     const componentReactDomVersion = await root.getByTestId('component-react-dom');
+    const componentReactDomServerVersion = await root.getByTestId('component-react-dom-server');
 
-    await expect(mdxReactVersion).toHaveText(expectedReactVersion);
-    await expect(mdxReactDomVersion).toHaveText(expectedReactVersion);
-    await expect(componentReactVersion).toHaveText(expectedReactVersion);
-    await expect(componentReactDomVersion).toHaveText(expectedReactVersion);
+    // Assert that the versions are in the expected range
+    await expect(mdxReactVersion).toHaveText(expectedReactVersionRange);
+
+    const actualReactVersion = (await mdxReactVersion.textContent())!;
+    // ... then assert that the versions are all the same
+    await expect(mdxReactDomVersion).toHaveText(actualReactVersion);
+    await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
+    await expect(componentReactVersion).toHaveText(actualReactVersion);
+    await expect(componentReactDomVersion).toHaveText(actualReactVersion);
+    await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
   });
 
   test('should have stories from multiple CSF files in autodocs', async ({ page }) => {
