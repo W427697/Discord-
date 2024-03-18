@@ -47,7 +47,7 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
-  sb_latest_playwright:
+  sb_playwright_component_testing:
     parameters:
       class:
         description: The Resource class
@@ -583,7 +583,7 @@ jobs:
       directory:
         type: string
     executor:
-      name: sb_latest_playwright
+      name: sb_playwright_component_testing
       class: medium
     steps:
       - git-shallow-clone/checkout_advanced:
