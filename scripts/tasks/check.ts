@@ -2,7 +2,7 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
-const parallel = process.env.CI ? `--parallel=${maxConcurrentTasks}` : '';
+const parallel = `--parallel=${process.env.CI ? 8 : maxConcurrentTasks}`;
 
 const linkCommand = `nx affected -t check ${parallel}`;
 const nolinkCommand = `nx affected -t check -c production ${parallel}`;

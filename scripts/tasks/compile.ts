@@ -5,7 +5,7 @@ import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
-const parallel = process.env.CI ? `--parallel=${maxConcurrentTasks}` : '';
+const parallel = `--parallel=${process.env.CI ? 8 : maxConcurrentTasks}`;
 
 const linkedContents = `export * from '../src/index';`;
 const linkCommand = `nx run-many -t build ${parallel}`;
