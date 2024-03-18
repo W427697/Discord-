@@ -120,7 +120,7 @@ export interface TabsProps {
   id?: string;
   tools?: ReactNode;
   showToolsWhenEmpty?: boolean;
-  customEmptyState?: ReactNode;
+  emptyState?: ReactNode;
   selected?: string;
   actions?: {
     onSelect: (id: string) => void;
@@ -142,7 +142,7 @@ export const Tabs: FC<TabsProps> = memo(
     backgroundColor,
     id: htmlId,
     menuName,
-    customEmptyState,
+    emptyState,
     showToolsWhenEmpty,
   }) => {
     const idList = childrenToList(children)
@@ -161,7 +161,7 @@ export const Tabs: FC<TabsProps> = memo(
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
 
-    const EmptyContent = customEmptyState ?? <EmptyTabContent title="Nothing found" />;
+    const EmptyContent = emptyState ?? <EmptyTabContent title="Nothing found" />;
 
     if (!showToolsWhenEmpty && list.length === 0) {
       return EmptyContent;

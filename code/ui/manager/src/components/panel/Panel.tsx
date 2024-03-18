@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Tabs, IconButton, Placeholder, P, Link } from '@storybook/components';
+import React, { Component } from 'react';
+import { Tabs, IconButton, P, Link, EmptyTabContent } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -61,21 +61,21 @@ export const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         showToolsWhenEmpty
-        customEmptyState={
-          <Placeholder>
-            <Fragment key="title">
-              <P>Storybook add-ons</P>
-            </Fragment>
-            <EmptyStateDescription key="content">
-              <P>
+        emptyState={
+          <EmptyTabContent
+            title="Storybook add-ons"
+            description={
+              <>
                 Integrate your tools with Storybook to connect workflows and unlock advanced
                 features.
-              </P>
+              </>
+            }
+            footer={
               <Link href={'https://storybook.js.org/integrations'} target="_blank" withArrow>
                 <DocumentIcon /> Explore integrations catalog
               </Link>
-            </EmptyStateDescription>
-          </Placeholder>
+            }
+          />
         }
         tools={
           <Actions>
@@ -124,10 +124,4 @@ const Actions = styled.div({
   display: 'flex',
   alignItems: 'center',
   gap: 6,
-});
-
-const EmptyStateDescription = styled.div({
-  display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
 });

@@ -359,7 +359,7 @@ export const StatelessEmptyWithTools = {
 export const StatelessWithCustomEmpty = {
   args: {
     ...StatelessEmptyWithTools.args,
-    customEmptyState: <div>I am custom!</div>,
+    emptyState: <div>I am custom!</div>,
   },
   parameters: {
     layout: 'fullscreen',

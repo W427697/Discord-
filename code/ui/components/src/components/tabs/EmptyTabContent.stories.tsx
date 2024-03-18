@@ -28,7 +28,18 @@ export const TitleAndDescription: Story = {
   },
 };
 
-export const CustomFooter: Story = {
+export const TitleAndFooter: Story = {
+  args: {
+    title: 'Nothing found',
+    footer: (
+      <Link href="foo" withArrow>
+        <DocumentIcon /> See the docs
+      </Link>
+    ),
+  },
+};
+
+export const TitleDescriptionAndFooter: Story = {
   args: {
     title: 'Nothing found',
     description: 'Sorry, there is nothing to display here.',
