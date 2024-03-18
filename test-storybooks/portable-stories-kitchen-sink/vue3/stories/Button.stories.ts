@@ -133,14 +133,14 @@ export const WithLoader: StoryObj<{ mockFn: (val: string) => string }> = {
     async () => {
       mockFn.mockReturnValueOnce('mockFn return value');
       return {
-        value: 'bar',
+        value: 'loaded data',
       };
     },
   ],
   render: (args, { loaded }) => ({
     components: { Button },
     setup() {
-      return { args, data: args.mockFn('foo'), loaded: loaded.value };
+      return { args, data: args.mockFn('render'), loaded: loaded.value };
     },
     template: `
       <div>
@@ -150,7 +150,7 @@ export const WithLoader: StoryObj<{ mockFn: (val: string) => string }> = {
     `,
   }),
   play: async () => {
-    expect(mockFn).toHaveBeenCalledWith('foo');
+    expect(mockFn).toHaveBeenCalledWith('render');
   },
 };
 

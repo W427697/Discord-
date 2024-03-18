@@ -28,6 +28,13 @@ export default defineConfig({
 
     /* Port to use for Playwright component endpoint. */
     ctPort: 3100,
+    ctViteConfig: {
+      resolve: {
+        alias: {
+          vue: 'vue/dist/vue.esm-bundler.js',
+        },
+      },
+    }
   },
 
   /* Configure projects for major browsers */

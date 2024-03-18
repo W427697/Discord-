@@ -10,6 +10,8 @@ export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 <Callout variant="info">
 
+The portable stories API for Playwright CT is experimental. Playwright CT itself is also experimental. Breaking changes might occur on either libraries in upcoming releases.
+
 Portable stories are currently only supported in [React](?renderer=react) and [Vue](?renderer=vue) projects.
 
 </Callout>
@@ -38,7 +40,7 @@ Normally, Storybok composes a story and its [annotations](#annotations) automati
 
 <Callout variant="info">
 
-If your stories use template-based Vue components, you may need to alias the `vue` module to resolve correctly in the Playwright CT environment. You can do this via the [`ctViteConfig` property](https://playwright.dev/docs/test-components#i-have-a-project-that-already-uses-vite-can-i-reuse-the-config):
+If your stories use template-based Vue components, you may need to [alias the `vue` module](https://vuejs.org/guide/scaling-up/tooling#note-on-in-browser-template-compilation) to resolve correctly in the Playwright CT environment. You can do this via the [`ctViteConfig` property](https://playwright.dev/docs/test-components#i-have-a-project-that-already-uses-vite-can-i-reuse-the-config):
 
 <details>
 <summary>Example Playwright configuration</summary>
@@ -160,7 +162,7 @@ The code which you write in your Playwright test file is transformed and orchest
 Because of this, you have to compose the stories _in a separate file than your own test file_:
 
 ```ts
-// Button.portable.ts
+// Button.stories.portable.ts
 // Replace <your-renderer> with your renderer, e.g. react, vue3
 import { composeStories } from '@storybook/<your-renderer>';
 
@@ -172,6 +174,8 @@ export default composeStories(stories);
 ```
 
 You can then import the composed stories in your Playwright test file, as in the [example above](#createtest).
+
+## createTest
 
 <Callout variant="info">
 
