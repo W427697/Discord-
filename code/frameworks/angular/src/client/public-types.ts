@@ -56,19 +56,28 @@ export type Preview = ProjectAnnotations<AngularRenderer>;
 /**
  * Utility type that transforms InputSignal and EventEmitter types
  */
-type TransformComponentType<T> = TransformInputSignalType<TransformEventType<T>>
+type TransformComponentType<T> = TransformInputSignalType<TransformOutputSignalType<TransformEventType<T>>>
 
 // @ts-ignore Angular < 17.2 doesn't export InputSignal
 type AngularInputSignal<T> = AngularCore.InputSignal<T>
 // @ts-ignore Angular < 17.2 doesn't export InputSignalWithTransform
 type AngularInputSignalWithTransform<T, U> = AngularCore.InputSignalWithTransform<T, U>
+// @ts-ignore Angular < 17.3 doesn't export AngularOutputEmitterRef
+type AngularOutputEmitterRef<T> = AngularCore.OutputEmitterRef<T>
 
-type AngularHasSignal = typeof AngularCore extends { input: infer U } ? true : false;
-type InputSignal<T> = AngularHasSignal extends true ? AngularInputSignal<T> : never;
-type InputSignalWithTransform<T, U> = AngularHasSignal extends true ? AngularInputSignalWithTransform<T, U> : never;
+type AngularHasInputSignal = typeof AngularCore extends { input: infer U } ? true : false;
+type AngularHasOutputSignal = typeof AngularCore extends { output: infer U } ? true : false;
+
+type InputSignal<T> = AngularHasInputSignal extends true ? AngularInputSignal<T> : never;
+type InputSignalWithTransform<T, U> = AngularHasInputSignal extends true ? AngularInputSignalWithTransform<T, U> : never;
+type OutputEmitterRef<T> = AngularHasOutputSignal extends true ? AngularOutputEmitterRef<T> : never;
 
 type TransformInputSignalType<T> = {
    [K in keyof T]: T[K] extends InputSignal<infer E> ? E : T[K] extends InputSignalWithTransform<any, infer U> ? U : T[K];
+};
+
+type TransformOutputSignalType<T> = {
+  [K in keyof T]: T[K] extends OutputEmitterRef<infer E> ? (e: E) => void : T[K];
 };
 
 type TransformEventType<T> = {
