@@ -67,6 +67,7 @@ export default {
     'DL',
     'Div',
     'DocumentWrapper',
+    'EmptyTabContent',
     'ErrorFormatter',
     'FlexBar',
     'Form',
@@ -130,6 +131,7 @@ export default {
   ],
   '@storybook/core-events': [
     'CHANNEL_CREATED',
+    'CHANNEL_WS_DISCONNECT',
     'CONFIG_ERROR',
     'CURRENT_STORY_WAS_SET',
     'DOCS_PREPARED',

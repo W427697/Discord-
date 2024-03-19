@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "8.0.0-beta.6",
+  "version": "8.1.0-alpha.3",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -60,12 +60,10 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@jest/globals": "^29.3.1",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "@types/semver": "^7.3.4",
     "flush-promises": "^1.0.2",
-    "qs": "^6.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "semver": "^7.3.7",

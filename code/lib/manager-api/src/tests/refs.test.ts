@@ -25,7 +25,7 @@ vi.mock('@storybook/global', () => {
   // Add additional variations of global.location mock return values in this array.
   // NOTE: The order must match the order that global.location is called in the unit tests.
   const edgecaseLocations = [
-    { origin: 'https://storybook.js.org', pathname: '/storybook/index.html' },
+    { origin: 'https://storybook.js.org', pathname: '/storybook/iframe.html' },
   ];
   // global.location value after all edgecaseLocations are returned
   const lastLocation = { origin: 'https://storybook.js.org', pathname: '/storybook/' };
@@ -171,6 +171,9 @@ describe('Refs API', () => {
       // given
       initRefs({ provider, store } as any);
 
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
+
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         [
           [
@@ -206,6 +209,9 @@ describe('Refs API', () => {
         },
       };
       initRefs({ provider, store } as any);
+
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
         [
