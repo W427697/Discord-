@@ -53,7 +53,8 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
-    '@chromaui/addon-visual-tests',
+    '@storybook/addon-a11y',
+    '@chromatic-com/storybook',
   ],
   build: {
     test: {
