@@ -328,6 +328,7 @@ export class StoryIndexGenerator {
         type: 'docs',
         tags: [...metaTags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
         storiesImports: [],
+        headings: indexInputs.map((input) => input.name).filter(Boolean) as string[],
       });
     }
 
@@ -357,7 +358,10 @@ export class StoryIndexGenerator {
         isTemplate?: boolean;
         imports?: Path[];
         tags?: Tag[];
+        headings?: string[];
       } = analyze(content);
+
+      // console.log({ absolutePath, headings: result.headings });
 
       // Templates are not indexed
       if (result.isTemplate) return false;
@@ -434,6 +438,7 @@ export class StoryIndexGenerator {
         type: 'docs',
         // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
         tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
+        headings: result.headings || [],
       };
       return docsEntry;
     } catch (err) {

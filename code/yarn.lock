@@ -5620,7 +5620,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/csf-tools": "workspace:*"
-    "@storybook/docs-mdx": "npm:3.0.0"
+    "@storybook/docs-mdx": "npm:3.0.1--canary.16.72d7283.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager": "workspace:*"
     "@storybook/manager-api": "workspace:*"
@@ -5728,10 +5728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-mdx@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@storybook/docs-mdx@npm:3.0.0"
-  checksum: 4f4242fc05b57e8dc239204c71fd0d1481c9abbf20d12dd0f3dace74f77a7ff7cbe0bd07d7d785873b45747be64cad273423d3dc0cf89b52e9f117592a4b054f
+"@storybook/docs-mdx@npm:3.0.1--canary.16.72d7283.0":
+  version: 3.0.1--canary.16.72d7283.0
+  resolution: "@storybook/docs-mdx@npm:3.0.1--canary.16.72d7283.0"
+  checksum: b755fa240fefdea5fe3305d985bcc3d1f46d8ada3fc370b29884a45c9be229349fd4021780409f553739675da312dbcb6d535a6046171bafdd15f07a8ec9efa9
   languageName: node
   linkType: hard
 
