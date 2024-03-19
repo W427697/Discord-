@@ -79,6 +79,13 @@
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
+  "nx": {
+    "name": "viewport",
+    "projectType": "library",
+    "targets": {
+      "build": {}
+    }
+  },
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",

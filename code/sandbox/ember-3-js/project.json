@@ -1,3 +1,4 @@
+// auto-generated from scripts/create-nx-sandbox-projects.ts
 {
   "name": "ember/3-js",
   "projectType": "application",

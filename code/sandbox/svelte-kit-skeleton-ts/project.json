@@ -1,3 +1,4 @@
+// auto-generated from scripts/create-nx-sandbox-projects.ts
 {
   "name": "svelte-kit/skeleton-ts",
   "projectType": "application",
@@ -16,9 +17,5 @@
     "sb:dev": {},
     "sb:build": {}
   },
-  "tags": [
-    "ci:normal",
-    "ci:merged",
-    "ci:daily"
-  ]
+  "tags": ["ci:normal", "ci:merged", "ci:daily"]
 }

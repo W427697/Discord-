@@ -1,3 +1,4 @@
+// auto-generated from scripts/create-nx-sandbox-projects.ts
 {
   "name": "svelte-kit/prerelease-ts",
   "projectType": "application",
@@ -16,5 +17,5 @@
     "sb:dev": {},
     "sb:build": {}
   },
-  "tags": []
+  "tags": ["ci:daily"]
 }

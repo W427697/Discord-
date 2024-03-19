@@ -1,3 +1,4 @@
+// auto-generated from scripts/create-nx-sandbox-projects.ts
 {
   "name": "react-webpack/18-ts",
   "projectType": "application",
@@ -16,8 +17,5 @@
     "sb:dev": {},
     "sb:build": {}
   },
-  "tags": [
-    "ci:merged",
-    "ci:daily"
-  ]
+  "tags": ["ci:merged", "ci:daily"]
 }

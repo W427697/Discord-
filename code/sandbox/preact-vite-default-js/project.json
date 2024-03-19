@@ -1,3 +1,4 @@
+// auto-generated from scripts/create-nx-sandbox-projects.ts
 {
   "name": "preact-vite/default-js",
   "projectType": "application",
@@ -16,7 +17,5 @@
     "sb:dev": {},
     "sb:build": {}
   },
-  "tags": [
-    "ci:daily"
-  ]
+  "tags": ["ci:daily"]
 }

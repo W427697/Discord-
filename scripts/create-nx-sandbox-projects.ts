@@ -41,9 +41,15 @@ Object.entries(allTemplates).forEach(([key, value]) => {
     ...(daily.includes(key as any) ? ['ci:daily'] : []),
   ];
   ensureDirectoryExistence(full);
-  fs.writeFileSync(full, JSON.stringify(projectJson(key, framework, tags), null, 2), {
-    encoding: 'utf-8',
-  });
+  console.log(full);
+  fs.writeFileSync(
+    full,
+    '// auto-generated from scripts/create-nx-sandbox-projects.ts\n' +
+      JSON.stringify(projectJson(key, framework, tags), null, 2),
+    {
+      encoding: 'utf-8',
+    }
+  );
 });
 
 function ensureDirectoryExistence(filePath: string): void {

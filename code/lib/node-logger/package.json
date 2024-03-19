@@ -60,5 +60,12 @@
       "cjs"
     ]
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
+  "nx": {
+    "name": "node-logger",
+    "projectType": "library",
+    "targets": {
+      "build": {}
+    }
+  }
 }
