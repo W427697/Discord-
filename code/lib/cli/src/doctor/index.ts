@@ -15,7 +15,6 @@ import {
   getIncompatibleStorybookPackages,
 } from './getIncompatibleStorybookPackages';
 import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
-import { isPrerelease } from './utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'doctor-storybook.log';
