@@ -5,10 +5,10 @@
   "implicitDependencies": [
     "cli",
     "test",
-    "addon-essentials",
-    "addon-interactions",
-    "addon-links",
-    "addon-onboarding",
+    "essentials",
+    "interactions",
+    "links",
+    "onboarding",
     "blocks",
     "angular"
   ],

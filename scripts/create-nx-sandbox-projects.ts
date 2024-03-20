@@ -11,10 +11,10 @@ const projectJson = (name: string, framework: string, tags: string[]) => ({
   implicitDependencies: [
     'cli',
     'test',
-    'addon-essentials',
-    'addon-interactions',
-    'addon-links',
-    'addon-onboarding',
+    'essentials',
+    'interactions',
+    'links',
+    'onboarding',
     'blocks',
     ...(!['storybook-framework-qwik', 'storybook-solidjs-vite'].includes(framework)
       ? [framework]
