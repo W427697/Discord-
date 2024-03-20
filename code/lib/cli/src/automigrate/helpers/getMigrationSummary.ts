@@ -1,10 +1,9 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
 import dedent from 'ts-dedent';
-import { versions, type InstallationMetadata } from '@storybook/core-common';
+import { type InstallationMetadata } from '@storybook/core-common';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
-import { isPrerelease } from '../../doctor/utils';
 
 export const messageDivider = '\n\n';
 const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
