@@ -2,7 +2,6 @@ module.exports = {
   toc: [
     {
       pathSegment: 'get-started',
-      redirectPath: 'get-started/install',
       title: 'Get started',
       type: 'heading',
       children: [
@@ -24,8 +23,58 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-vite',
+              title: 'React & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'sveltekit',
+              title: 'SvelteKit',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-webpack5',
+              title: 'Svelte & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-webpack5',
+              title: 'Vue & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-vite',
+              title: 'Web components & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-webpack5',
+              title: 'Web components & Webpack',
               type: 'link',
             },
           ],
@@ -173,12 +222,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],
@@ -691,6 +740,29 @@ module.exports = {
             },
           ],
         },
+        {
+          title: 'Portable stories',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'portable-stories-jest',
+              title: 'Jest',
+              type: 'link',
+            },
+            {
+              pathSegment: 'portable-stories-playwright',
+              title: 'Playwright',
+              type: 'link',
+            },
+            {
+              pathSegment: 'portable-stories-vitest',
+              title: 'Vitest',
+              type: 'link',
+            },
+          ],
+        },
+        
         {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',

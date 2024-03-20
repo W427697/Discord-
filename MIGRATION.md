@@ -4,7 +4,6 @@
   - [Portable stories](#portable-stories)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
-    - [DOM structure changed in portable stories](#dom-structure-changed-in-portable-stories)
     - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
@@ -65,6 +64,7 @@
     - [Removed `passArgsFirst` option](#removed-passargsfirst-option)
     - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
+    - [Removals in @storybook/components](#removals-in-storybookcomponents)
     - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [hideNoControlsWarning parameter from addon controls](#hidenocontrolswarning-parameter-from-addon-controls)
@@ -439,35 +439,6 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
 
-#### DOM structure changed in portable stories
-
-The portable stories API now adds a wrapper to your stories with a unique id based on your story id, such as:
-
-```html
-<div data-story="true" id="#storybook-story-button--primary">
-  <!-- your story here -->
-</div>
-```
-
-This means that if you take DOM snapshots of your stories, they will be affected and you will have to update them.
-
-The id calculation is based on different heuristics based on your Meta title and Story name. When using `composeStories`, the id can be inferred automatically. However, when using `composeStory` and your story does not explicitly have a `storyName` property, the story name can't be inferred automatically. As a result, its name will be "Unnamed Story", resulting in a wrapper id like `"#storybook-story-button--unnamed-story"`. If the id matters to you and you want to fix it, you have to specify the `exportsName` property like so:
-
-```ts
-test("snapshots the story with custom id", () => {
-  const Primary = composeStory(
-    stories.Primary,
-    stories.default,
-    undefined,
-    // If you do not want the `unnamed-story` id, you have to pass the name of the story as a parameter
-    "Primary"
-  );
-
-  const { baseElement } = render(<Primary />);
-  expect(baseElement).toMatchSnapshot();
-});
-```
-
 #### Composed Vue stories are now components instead of functions
 
 `composeStory` (and `composeStories`) from `@storybook/vue3` now return Vue components rather than story functions that return components. This means that when rendering these composed stories you just pass the composed story _without_ first calling it.
@@ -539,8 +510,8 @@ For migrating to CSF, see: [`storyStoreV6` and `storiesOf` is deprecated](#story
 In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
 
 - `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
-- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
-- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channels`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channels`.
 - `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
@@ -583,7 +554,7 @@ export default defineConfig({
 
 ```ts
 import { defineConfig } from "vite";
-import svelte from "@sveltejs/vite-plugin-svelte";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -1067,6 +1038,45 @@ The following exports from `@storybook/preview-api` are now removed:
 - `useAddonState`
 
 Please file an issue if you need these APIs.
+
+#### Removals in @storybook/components
+
+The `TooltipLinkList` UI component used to customize the Storybook toolbar has been updated to use the `icon` property instead of the `left` property to position its content. If you've enabled this property in your `globalTypes` configuration, addons, or any other place, you'll need to replace it with an `icon` property to mimic the same behavior. For example:
+
+```diff
+// .storybook/preview.js|ts
+// Replace your-framework with the framework you are using (e.g., react, vue3)
+import { Preview } from '@storybook/your-framework';
+
+const preview: Preview = {
+  globalTypes: {
+    locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: [
+          {
+            value: 'en',
+            right: '🇺🇸',
+-            left: '＄'
++            icon: 'facehappy'
+            title: 'English'
+          },
+          { value: 'fr', right: '🇫🇷', title: 'Français' },
+          { value: 'es', right: '🇪🇸', title: 'Español' },
+          { value: 'zh', right: '🇨🇳', title: '中文' },
+          { value: 'kr', right: '🇰🇷', title: '한국어' },
+        ],
+      },
+    },
+  },
+};
+
+export default preview;
+```
+
+To learn more about the available icons and their names, see the [Storybook documentation](https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon).
 
 #### Removals in @storybook/types
 

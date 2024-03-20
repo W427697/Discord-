@@ -56,12 +56,13 @@ export {
   filterArgTypes,
   sanitizeStoryContextUpdate,
   setProjectAnnotations,
-  getPortableStoryWrapperId,
   inferControls,
   userOrAutoTitleFromSpecifier,
   userOrAutoTitle,
   sortStoriesV7,
 } from './store';
+
+export { createPlaywrightTest } from './modules/store/csf/portable-stories';
 
 export type { PropDescriptor } from './store';
 
