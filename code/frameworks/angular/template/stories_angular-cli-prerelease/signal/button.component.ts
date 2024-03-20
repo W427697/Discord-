@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, input } from '@angular/core';
+import { Component, Input, input, output } from '@angular/core';
 
 @Component({
   // Needs to be a different name to the CLI template button
@@ -40,8 +40,7 @@ export default class SignalButtonComponent {
   /**
    * Optional click handler
    */
-  @Output()
-  onClick = new EventEmitter<Event>();
+  onClick = output<Event>();
 
   public get classes(): string[] {
     const mode = this.primary() ? 'storybook-button--primary' : 'storybook-button--secondary';
