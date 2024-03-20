@@ -41,6 +41,10 @@ export interface ArgType {
   description?: string;
   defaultValue?: any;
   if?: Conditional;
+  table?: {
+    readonly?: boolean;
+    [key: string]: any;
+  };
   [key: string]: any;
 }
 
