@@ -2,7 +2,7 @@
 title: 'Stories for multiple components'
 ---
 
-It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroup` or `List` components. Here's an example with `List` and `ListItem` components:
+It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components. Here's an example with `List` and `ListItem` components:
 
 <!-- prettier-ignore-start -->
 
@@ -35,70 +35,27 @@ Let's talk about some techniques you can use to mitigate the above, which are es
 
 ## Reusing subcomponent stories
 
-We can also reuse the stories of the `ListItem` subcomponent in `List` stories.
-
-If the story to be reused is written in [CSF 2](../../../release-6-5/docs/api/csf.md), we can reuse it directly:
+The simplest change we can make to the above is to reuse the stories of the `ListItem` in the `List`:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/reuse-story-csf2.js.mdx', 
-    'react/reuse-story-csf2.ts.mdx',
-    'vue/reuse-story-csf2.js.mdx',
-    'vue/reuse-story-csf2.ts.mdx',
-    'angular/reuse-story-csf2.ts.mdx',
-    'web-components/reuse-story-csf2.js.mdx',
-    'web-components/reuse-story-csf2.ts.mdx',
-    'solid/reuse-story-csf2.js.mdx',
-    'solid/reuse-story-csf2.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<If renderer={['react', 'vue', 'svelte']}>
-
-If the story to be reused is written in [CSF 3](../api/csf.md), we can reuse it by composing it into a [portable story](../api/portable-stories-jest.md):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/reuse-story-portable.js.mdx',
-    'react/reuse-story-portable.ts.mdx',
-    'vue/reuse-story-portable.3.js.mdx',
-    'vue/reuse-story-portable.3.ts.mdx',
+    'react/list-story-unchecked.js.mdx',
+    'react/list-story-unchecked.ts.mdx',
+    'vue/list-story-unchecked.3.js.mdx',
+    'vue/list-story-unchecked.3.ts.mdx',
+    'angular/list-story-unchecked.ts.mdx',
+    'web-components/list-story-unchecked.js.mdx',
+    'web-components/list-story-unchecked.ts.mdx',
+    'solid/list-story-unchecked.js.mdx',
+    'solid/list-story-unchecked.ts.mdx',
   ]}
   usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-unchecked"
 />
 
 <!-- prettier-ignore-end -->
-
-<!-- END if react, vue, svelte -->
-</If>
-
-<If notRenderer={['react', 'vue', 'svelte']}>
-
-If the story to be reused is written in [CSF 3](../api/csf.md) and defines a [`render` function](../api/csf.md#custom-render-functions), we can use that `render` function to reuse the story:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'angular/reuse-story-render-function.ts.mdx',
-    'web-components/reuse-story-render-function.js.mdx',
-    'web-components/reuse-story-render-function.ts.mdx',
-    'solid/reuse-story-render-function.js.mdx',
-    'solid/reuse-story-render-function.ts.mdx',
-  ]}
-  usesCsf3
-/>
-
-<!-- prettier-ignore-end -->
-
-<!-- END if not react, vue, svelte -->
-</If>
 
 By rendering the `Unchecked` story with its args, we are able to reuse the input data from the `ListItem` stories in the `List`.
 
@@ -107,8 +64,6 @@ However, we still aren’t using args to control the `ListItem` stories, which m
 ## Using children as an arg
 
 One way we improve that situation is by pulling the rendered subcomponent out into a `children` arg:
-
-<!-- TODO: Update this snippet, too -->
 
 <!-- prettier-ignore-start -->
 

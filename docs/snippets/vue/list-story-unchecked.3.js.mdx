@@ -1,12 +1,18 @@
 ```js
 // List.stories.js
+
 import List from './List.vue';
 import ListItem from './ListItem.vue';
 
-//👇 Import the story from the CSF 2 stories file
+//👇 Imports a specific story from ListItem stories
 import { Unchecked } from './ListItem.stories';
 
 export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/configure/#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'List',
   component: List,
 };
 
@@ -16,6 +22,9 @@ export default {
  * to learn how to use render functions.
  */
 export const OneItem = {
+  args: {
+    ...Unchecked.args,
+  },
   render: (args) => ({
     components: { List, ListItem },
     setup() {
@@ -24,8 +33,5 @@ export const OneItem = {
     },
     template: '<List v-bind="args"><ListItem v-bind="args"/></List>',
   }),
-  args: {
-    ...Unchecked.args,
-  },
 };
 ```
