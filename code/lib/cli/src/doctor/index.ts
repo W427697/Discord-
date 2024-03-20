@@ -141,12 +141,8 @@ export const doctor = async ({
     }
   }
 
-  const doctorCommand = isPrerelease(storybookVersion)
-    ? 'npx storybook@next doctor'
-    : 'npx storybook@latest doctor';
-
   const commandMessage = `You can always recheck the health of your project by running:\n${chalk.cyan(
-    doctorCommand
+    'npx storybook doctor'
   )}`;
   logger.info();
 
