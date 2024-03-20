@@ -46,24 +46,24 @@ const Label = styled.label({
 
 type RadioConfig = NormalizedOptionsConfig & { isInline: boolean };
 type RadioProps = ControlProps<OptionsSingleSelection> & RadioConfig;
-export const RadioControl: FC<RadioProps> = ({ name, options, value, onChange, isInline }) => {
+export const RadioControl: FC<RadioProps> = ({ id, name, options, value, onChange, isInline }) => {
   if (!options) {
     logger.warn(`Radio with no options: ${name}`);
     return <>-</>;
   }
   const selection = selectedKey(value, options);
-  const controlId = getControlId(name);
+  const controlId = getControlId(id);
 
   return (
     <Wrapper isInline={isInline}>
       {Object.keys(options).map((key, index) => {
-        const id = `${controlId}-${index}`;
+        const radioId = `${controlId}-${index}`;
         return (
-          <Label key={id} htmlFor={id}>
+          <Label key={radioId} htmlFor={radioId}>
             <input
               type="radio"
-              id={id}
-              name={id}
+              id={radioId}
+              name={radioId}
               value={key}
               onChange={(e) => onChange(options[e.currentTarget.value])}
               checked={key === selection}

@@ -35,6 +35,7 @@ function revokeOldUrls(urls: string[]) {
 
 export const FilesControl: FC<FilesControlProps> = ({
   onChange,
+  id,
   name,
   accept = 'image/*',
   value,
@@ -60,7 +61,7 @@ export const FilesControl: FC<FilesControlProps> = ({
   return (
     <FileInput
       ref={inputElement}
-      id={getControlId(name)}
+      id={getControlId(id)}
       type="file"
       name={name}
       multiple

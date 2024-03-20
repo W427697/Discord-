@@ -93,12 +93,12 @@ type SelectProps = ControlProps<OptionsSelection> & SelectConfig;
 
 const NO_SELECTION = 'Choose option...';
 
-const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
+const SingleSelect: FC<SelectProps> = ({ id, value, options, onChange }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange(options[e.currentTarget.value]);
   };
   const selection = selectedKey(value, options) || NO_SELECTION;
-  const controlId = getControlId(name);
+  const controlId = getControlId(id);
 
   return (
     <SelectWrapper>
@@ -117,7 +117,7 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
   );
 };
 
-const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
+const MultiSelect: FC<SelectProps> = ({ id, value, options, onChange }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selection = Array.from(e.currentTarget.options)
       .filter((option) => option.selected)
@@ -125,7 +125,7 @@ const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
     onChange(selectedValues(selection, options));
   };
   const selection = selectedKeys(value, options);
-  const controlId = getControlId(name);
+  const controlId = getControlId(id);
 
   return (
     <SelectWrapper>

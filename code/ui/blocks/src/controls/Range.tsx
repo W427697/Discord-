@@ -194,6 +194,7 @@ function getNumberOfDecimalPlaces(number: number) {
 }
 
 export const RangeControl: FC<RangeProps> = ({
+  id,
   name,
   value,
   onChange,
@@ -214,7 +215,7 @@ export const RangeControl: FC<RangeProps> = ({
     <RangeWrapper>
       <RangeLabel>{min}</RangeLabel>
       <RangeInput
-        id={getControlId(name)}
+        id={getControlId(id)}
         type="range"
         onChange={handleChange}
         {...{ name, value, min, max, step, onFocus, onBlur }}

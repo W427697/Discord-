@@ -47,6 +47,7 @@ const Label = styled.label({
 type CheckboxConfig = NormalizedOptionsConfig & { isInline: boolean };
 type CheckboxProps = ControlProps<OptionsMultiSelection> & CheckboxConfig;
 export const CheckboxControl: FC<CheckboxProps> = ({
+  id,
   name,
   options,
   value,
@@ -77,18 +78,18 @@ export const CheckboxControl: FC<CheckboxProps> = ({
     setSelected(selectedKeys(value, options));
   }, [value]);
 
-  const controlId = getControlId(name);
+  const controlId = getControlId(id);
 
   return (
     <Wrapper isInline={isInline}>
       {Object.keys(options).map((key, index) => {
-        const id = `${controlId}-${index}`;
+        const checkboxId = `${controlId}-${index}`;
         return (
-          <Label key={id} htmlFor={id}>
+          <Label key={checkboxId} htmlFor={checkboxId}>
             <input
               type="checkbox"
-              id={id}
-              name={id}
+              id={checkboxId}
+              name={checkboxId}
               value={key}
               onChange={handleChange}
               checked={selected?.includes(key)}

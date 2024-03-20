@@ -264,7 +264,7 @@ const useColorInput = (
   return { value, realValue, updateValue, color, colorSpace, cycleColorSpace };
 };
 
-const id = (value: string) => value.replace(/\s*/, '').toLowerCase();
+const getId = (value: string) => value.replace(/\s*/, '').toLowerCase();
 
 const usePresets = (
   presetColors: PresetColor[],
@@ -291,7 +291,7 @@ const usePresets = (
   const addPreset: (color: ParsedColor) => void = useCallback(
     (color) => {
       if (!color?.valid) return;
-      if (presets.some((preset) => id(preset[colorSpace]) === id(color[colorSpace]))) return;
+      if (presets.some((preset) => getId(preset[colorSpace]) === getId(color[colorSpace]))) return;
       setSelectedColors((arr) => arr.concat(color));
     },
     [colorSpace, presets]
@@ -302,7 +302,7 @@ const usePresets = (
 
 export type ColorControlProps = ControlProps<ColorValue> & ColorConfig;
 export const ColorControl: FC<ColorControlProps> = ({
-  name,
+  id,
   value: initialValue,
   onChange,
   onFocus,
@@ -340,7 +340,7 @@ export const ColorControl: FC<ColorControlProps> = ({
                   >
                     <Swatch
                       value={preset[colorSpace]}
-                      active={color && id(preset[colorSpace]) === id(color[colorSpace])}
+                      active={color && getId(preset[colorSpace]) === getId(color[colorSpace])}
                       onClick={() => updateValue(preset.value)}
                     />
                   </WithTooltip>
@@ -353,7 +353,7 @@ export const ColorControl: FC<ColorControlProps> = ({
         <Swatch value={realValue} style={{ margin: 4 }} />
       </PickerTooltip>
       <Input
-        id={getControlId(name)}
+        id={getControlId(id)}
         value={value}
         onChange={(e: ChangeEvent<HTMLInputElement>) => updateValue(e.target.value)}
         onFocus={(e: FocusEvent<HTMLInputElement>) => e.target.select()}
