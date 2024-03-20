@@ -84,25 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
-  "nx": {
-    "name": "vue3",
-    "projectType": "library",
-    "targets": {
-      "build": {},
-      "check": {
-        "executor": "nx:run-commands",
-        "options": {
-          "command": "echo '\"nx check vue3\" can only run with the parameter \"-c production\"'",
-          "description": "We need to expand code/storybook/storybook/scripts/prepare/check.ts"
-        },
-        "configurations": {
-          "production": {
-            "cwd": "{projectRoot}",
-            "command": "yarn check"
-          }
-        }
-      }
-    }
-  }
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

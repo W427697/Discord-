@@ -83,13 +83,6 @@
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
-  "nx": {
-    "name": "jest",
-    "projectType": "library",
-    "targets": {
-      "build": {}
-    }
-  },
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

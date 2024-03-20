@@ -1,0 +1,8 @@
+{
+  "name": "addon-a11y",
+  "projectType": "library",
+  "implicitDependencies": [],
+  "targets": {
+    "build": {}
+  }
+}

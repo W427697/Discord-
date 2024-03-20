@@ -78,12 +78,5 @@
     "nodeEntries": [
       "./src/preset.ts"
     ]
-  },
-  "nx": {
-    "name": "onboarding",
-    "projectType": "library",
-    "targets": {
-      "build": {}
-    }
   }
 }

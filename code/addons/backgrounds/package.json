@@ -83,13 +83,6 @@
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
-  "nx": {
-    "name": "backgrounds",
-    "projectType": "library",
-    "targets": {
-      "build": {}
-    }
-  },
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",
