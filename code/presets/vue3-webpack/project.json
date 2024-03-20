@@ -1,5 +1,4 @@
 {
-  "name": "preset-vue3-webpack",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "targets": {

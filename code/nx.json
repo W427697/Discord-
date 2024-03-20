@@ -58,8 +58,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "yarn vitest run --project={projectName}",
-        "args": "--passWithNoTests"
+        "command": "yarn vitest watch --project={projectName}"
       },
       "dependsOn": ["build"],
       "inputs": [

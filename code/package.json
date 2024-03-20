@@ -25,6 +25,7 @@
     ]
   },
   "scripts": {
+    "affected:test": "nx show projects --affected -t test | xargs -I # echo --project # | xargs yarn test:watch",
     "await-serve-storybooks": "wait-on http://localhost:8001",
     "build": "NODE_ENV=production yarn --cwd ../scripts build-package",
     "changelog": "pr-log --sloppy --cherry-pick",
@@ -52,7 +53,6 @@
     "storybook:ui:chromatic": "../scripts/node_modules/.bin/chromatic --build-script-name storybook:ui:build --storybook-base-dir ./ --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "yarn --cwd ../scripts task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
-    "test:affected": "nx show projects --affected -t test | xargs -I # echo --project # | xargs yarn test",
     "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch"
   },
   "husky": {
@@ -262,6 +262,7 @@
     "url": "https://opencollective.com/storybook"
   },
   "nx": {
+    "name": "root",
     "includedScripts": []
   },
   "pr-log": {
