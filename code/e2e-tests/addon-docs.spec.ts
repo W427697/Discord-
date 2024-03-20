@@ -185,8 +185,9 @@ test.describe('addon-docs', () => {
   });
 
   test('should resolve react to the correct version', async ({ page }) => {
+    // Arrange - Navigate to MDX docs and setup expectations
     const sbPage = new SbPage(page);
-    await sbPage.navigateToUnattachedDocs('addons/docs/docs2', 'ResolvedReact');
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'mdx', 'docs');
     const root = sbPage.previewRoot();
 
     let expectedReactVersionRange = /^18/;
@@ -200,6 +201,7 @@ test.describe('addon-docs', () => {
       expectedReactVersionRange = /^16/;
     }
 
+    // Arrange - Get the actual versions
     const mdxReactVersion = await root.getByTestId('mdx-react');
     const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
     const mdxReactDomServerVersion = await root.getByTestId('mdx-react-dom-server');
@@ -207,16 +209,40 @@ test.describe('addon-docs', () => {
     const componentReactDomVersion = await root.getByTestId('component-react-dom');
     const componentReactDomServerVersion = await root.getByTestId('component-react-dom-server');
 
-    // Assert that the versions are in the expected range
+    // Assert - Tthe versions are in the expected range
     await expect(mdxReactVersion).toHaveText(expectedReactVersionRange);
 
     const actualReactVersion = (await mdxReactVersion.textContent())!;
-    // ... then assert that the versions are all the same
+    // Assert - The versions are all the same
     await expect(mdxReactDomVersion).toHaveText(actualReactVersion);
     await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
     await expect(componentReactVersion).toHaveText(actualReactVersion);
     await expect(componentReactDomVersion).toHaveText(actualReactVersion);
     await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
+
+    // Arrange - Navigate to autodocs
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'docs');
+
+    // Arrange - Get the actual versions
+    const autodocsReactVersion = await root.getByTestId('react');
+    const autodocsReactDomVersion = await root.getByTestId('react-dom');
+    const autodocsReactDomServerVersion = await root.getByTestId('react-dom-server');
+
+    await expect(autodocsReactVersion).toHaveText(actualReactVersion);
+    await expect(autodocsReactDomVersion).toHaveText(actualReactVersion);
+    await expect(autodocsReactDomServerVersion).toHaveText(actualReactVersion);
+
+    // Arrange - Navigate to story
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'story');
+
+    // Arrange - Get the actual versions
+    const storyReactVersion = await root.getByTestId('react');
+    const storyReactDomVersion = await root.getByTestId('react-dom');
+    const storyReactDomServerVersion = await root.getByTestId('react-dom-server');
+
+    await expect(storyReactVersion).toHaveText(actualReactVersion);
+    await expect(storyReactDomVersion).toHaveText(actualReactVersion);
+    await expect(storyReactDomServerVersion).toHaveText(actualReactVersion);
   });
 
   test('should have stories from multiple CSF files in autodocs', async ({ page }) => {

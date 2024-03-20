@@ -1,7 +1,20 @@
+import { Meta } from '@storybook/blocks';
 import { version as reactVersion } from 'react';
 import { version as reactDomVersion } from 'react-dom';
 import { version as reactDomServerVersion } from 'react-dom/server';
-import { ResolvedReactVersion } from './ResolvedReactVersion';
+import * as ResolvedReactStories from './resolved-react.stories';
+import { ResolvedReact } from './ResolvedReact';
+
+<Meta of={ResolvedReactStories} name="MDX"/>
+
+This doc is used to display the resolved version of React and its related packages.
+As long as `@storybook/addon-docs` is installed, `react` and `react-dom` should be available to import from and should resolve to the same version.
+
+The MDX here ensures that it works in an MDX file.
+
+- See the [autodocs](/docs/addons-docs-docs2-resolvedreact--docs) for how it resolves in MDX.
+- See the [Story](/story/addons-docs-docs2-resolvedreact--story) for how it resolves in the actual story.
+
 
 ## In MDX
 
@@ -11,6 +24,6 @@ import { ResolvedReactVersion } from './ResolvedReactVersion';
 
 <code>react-dom/server</code>: <code data-testid="mdx-react-dom-server">{reactDomServerVersion}</code>
 
-## In `ResolvedReactVersion` component
+## In `ResolvedReact` component
 
-<ResolvedReactVersion />
+<ResolvedReact />

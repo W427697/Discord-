@@ -2,7 +2,7 @@ import React, { version as reactVersion } from 'react';
 import { version as reactDomVersion } from 'react-dom';
 import { version as reactDomServerVersion } from 'react-dom/server';
 
-export const ResolvedReactVersion = () => {
+export const ResolvedReact = () => {
   return (
     <>
       <p>
