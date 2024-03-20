@@ -6,6 +6,7 @@ export default defineConfig(
   mergeConfig(vitestCommonConfig, {
     test: {
       environment: 'jsdom',
+      // setupFiles: ['./vitest-setup.ts'],
     },
     plugins: [
       // eslint-disable-next-line import/no-unresolved
