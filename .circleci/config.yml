@@ -679,6 +679,7 @@ workflows:
       - test-runner-dev:
           requires:
             - create-sandboxes
+          parallelism: 8
   merged:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
