@@ -202,7 +202,7 @@ const RawButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const RawInput = styled(Form.Textarea)(({ theme, readOnly }) => ({
+const RawInput = styled(Form.Textarea)(({ theme }) => ({
   flex: 1,
   padding: '7px 6px',
   fontFamily: theme.typography.fonts.mono,
@@ -314,7 +314,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
       )}
       {!showRaw ? (
         <JsonTree
-          readOnly={!isObjectOrArray || readonly}
+          readOnly={readonly || !isObjectOrArray}
           isCollapsed={isObjectOrArray ? /* default value */ undefined : () => true}
           data={data}
           rootName={name}
