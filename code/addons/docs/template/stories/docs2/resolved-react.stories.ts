@@ -1,7 +1,6 @@
 import { within, expect } from '@storybook/test';
 import { version as reactVersion } from 'react';
 import { version as reactDomVersion } from 'react-dom';
-import { version as reactDomServerVersion } from 'react-dom/server';
 
 /**
  * This component is used to display the resolved version of React and its related packages.
@@ -21,17 +20,33 @@ export default {
   argTypes: {
     content: { table: { disable: true } },
   },
+  loaders: async () => {
+    // this hack is needed because preact compat does not provide a version for react-dom/server
+    return {
+      reactDomServerVersion:
+        (await import('react-dom/server')).version ||
+        'The export does not provide a version for this renderer.',
+    };
+  },
+  decorators: (StoryFn: any, { args, loaded }: any) => {
+    return StoryFn({
+      args: {
+        ...args,
+        content: args.content.replace('{{server-version}}', loaded.reactDomServerVersion),
+      },
+    });
+  },
   args: {
     content: `
-  <p>
-  <code>react</code>: <code data-testid="react">${reactVersion}</code>
-  </p>
-  <p>
-  <code>react-dom</code>: <code data-testid="react-dom">${reactDomVersion}</code>
-  </p>
-  <p>
-  <code>react-dom/server</code>: <code data-testid="react-dom-server">${reactDomServerVersion}</code>
-  </p>
+      <p>
+        <code>react</code>: <code data-testid="react">${reactVersion}</code>
+      </p>
+      <p>
+        <code>react-dom</code>: <code data-testid="react-dom">${reactDomVersion}</code>
+      </p>
+      <p>
+        <code>react-dom/server</code>: <code data-testid="react-dom-server">{{server-version}}</code>
+      </p>
   `,
   },
   parameters: {
@@ -54,7 +69,7 @@ export const Story = {
 
     step('Expect React packages to all resolve to the same version', () => {
       // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
-      expect(actualReactDomVersion.startsWith(actualReactDomVersion)).toBeTruthy();
+      expect(actualReactDomVersion?.startsWith(actualReactDomVersion)).toBeTruthy();
       expect(actualReactVersion).toBe(actualReactDomServerVersion);
     });
   },

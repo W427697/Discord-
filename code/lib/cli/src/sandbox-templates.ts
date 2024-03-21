@@ -423,23 +423,27 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
-    script:
-      'npm create vite --yes preact-server-test -- --template preact && cd preact-server-test && yarn add preact-render-to-string',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
     name: 'Preact Latest (Vite | TypeScript)',
-    script:
-      'npm create vite --yes {{beforeDir}} -- --template preact-ts && yarn add preact-render-to-string',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
+    },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
