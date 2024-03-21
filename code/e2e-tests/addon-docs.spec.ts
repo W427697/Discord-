@@ -209,15 +209,16 @@ test.describe('addon-docs', () => {
     const componentReactDomVersion = await root.getByTestId('component-react-dom');
     const componentReactDomServerVersion = await root.getByTestId('component-react-dom-server');
 
-    // Assert - Tthe versions are in the expected range
+    // Assert - The versions are in the expected range
     await expect(mdxReactVersion).toHaveText(expectedReactVersionRange);
 
     const actualReactVersion = (await mdxReactVersion.textContent())!;
     // Assert - The versions are all the same
-    await expect(mdxReactDomVersion).toHaveText(actualReactVersion);
+    // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
+    await expect(mdxReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
     await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
     await expect(componentReactVersion).toHaveText(actualReactVersion);
-    await expect(componentReactDomVersion).toHaveText(actualReactVersion);
+    await expect(componentReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
     await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
 
     // Arrange - Navigate to autodocs
@@ -229,7 +230,7 @@ test.describe('addon-docs', () => {
     const autodocsReactDomServerVersion = await root.getByTestId('react-dom-server');
 
     await expect(autodocsReactVersion).toHaveText(actualReactVersion);
-    await expect(autodocsReactDomVersion).toHaveText(actualReactVersion);
+    await expect(autodocsReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
     await expect(autodocsReactDomServerVersion).toHaveText(actualReactVersion);
 
     // Arrange - Navigate to story
@@ -241,7 +242,7 @@ test.describe('addon-docs', () => {
     const storyReactDomServerVersion = await root.getByTestId('react-dom-server');
 
     await expect(storyReactVersion).toHaveText(actualReactVersion);
-    await expect(storyReactDomVersion).toHaveText(actualReactVersion);
+    await expect(storyReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
     await expect(storyReactDomServerVersion).toHaveText(actualReactVersion);
   });
 

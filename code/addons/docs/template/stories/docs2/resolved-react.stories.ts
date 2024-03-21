@@ -11,6 +11,8 @@ import { version as reactDomServerVersion } from 'react-dom/server';
  *
  * - See the [MDX docs](/docs/addons-docs-docs2-resolvedreact--mdx) for how it resolves in MDX.
  * - See the [Story](/story/addons-docs-docs2-resolvedreact--story) for how it resolves in the actual story.
+ *
+ * **Note: There appears to be a bug in the _production_ build of `react-dom`, where it reports version `18.2.0-next-9e3b772b8-20220608` while in fact version `18.2.0` is installed.**
  */
 export default {
   title: 'Docs2/ResolvedReact',
@@ -51,7 +53,8 @@ export const Story = {
     ).textContent;
 
     step('Expect React packages to all resolve to the same version', () => {
-      expect(actualReactVersion).toBe(actualReactDomVersion);
+      // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
+      expect(actualReactDomVersion.startsWith(actualReactDomVersion)).toBeTruthy();
       expect(actualReactVersion).toBe(actualReactDomServerVersion);
     });
   },
