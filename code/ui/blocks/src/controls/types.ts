@@ -1,6 +1,7 @@
 import type { ArgType } from '../components/ArgsTable';
 
 export interface ControlProps<T> {
+  id: string;
   name: string;
   value?: T;
   defaultValue?: T;

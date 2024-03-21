@@ -243,7 +243,7 @@ const getCustomStyleFunction: (theme: Theme) => JsonTreeProps['getStyle'] = (the
   },
 });
 
-export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
+export const ObjectControl: FC<ObjectProps> = ({ id, name, value, onChange }) => {
   const theme = useTheme();
   const data = useMemo(() => value && cloneDeep(value), [value]);
   const hasData = data !== null && data !== undefined;
@@ -283,7 +283,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
   const rawJSONForm = (
     <RawInput
       ref={htmlElRef}
-      id={getControlId(name)}
+      id={getControlId(id)}
       name={name}
       defaultValue={value === null ? '' : JSON.stringify(value, null, 2)}
       onBlur={(event: FocusEvent<HTMLTextAreaElement>) => updateRaw(event.target.value)}

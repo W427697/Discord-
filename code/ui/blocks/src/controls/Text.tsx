@@ -19,6 +19,7 @@ const MaxLength = styled.div<{ isMaxed: boolean }>(({ isMaxed }) => ({
 }));
 
 export const TextControl: FC<TextProps> = ({
+  id,
   name,
   value,
   onChange,
@@ -34,7 +35,7 @@ export const TextControl: FC<TextProps> = ({
   const onForceVisible = useCallback(() => {
     onChange('');
     setForceVisible(true);
-  }, [setForceVisible]);
+  }, [setForceVisible, onChange]);
   if (value === undefined) {
     return (
       <Button
@@ -49,10 +50,11 @@ export const TextControl: FC<TextProps> = ({
   }
 
   const isValid = typeof value === 'string';
+  const controlId = getControlId(id);
   return (
-    <Wrapper>
+    <Wrapper htmlFor={controlId}>
       <Form.Textarea
-        id={getControlId(name)}
+        id={controlId}
         maxLength={maxLength}
         onChange={handleChange}
         size="flex"

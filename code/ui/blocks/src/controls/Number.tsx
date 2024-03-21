@@ -22,6 +22,7 @@ export const format = (value: NumberValue) => (value != null ? String(value) : '
 export const NumberControl: FC<NumberProps> = ({
   name,
   value,
+  id,
   onChange,
   min,
   max,
@@ -83,7 +84,7 @@ export const NumberControl: FC<NumberProps> = ({
     <Wrapper>
       <Form.Input
         ref={htmlElRef}
-        id={getControlId(name)}
+        id={getControlId(id)}
         type="number"
         onChange={handleChange}
         size="flex"
