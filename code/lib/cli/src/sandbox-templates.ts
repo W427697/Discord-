@@ -423,7 +423,8 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
-    script: 'npm create vite --yes {{beforeDir}} -- --template preact',
+    script:
+      'npm create vite --yes preact-server-test -- --template preact && cd preact-server-test && yarn add preact-render-to-string',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -433,7 +434,8 @@ const baseTemplates = {
   },
   'preact-vite/default-ts': {
     name: 'Preact Latest (Vite | TypeScript)',
-    script: 'npm create vite --yes {{beforeDir}} -- --template preact-ts',
+    script:
+      'npm create vite --yes {{beforeDir}} -- --template preact-ts && yarn add preact-render-to-string',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
