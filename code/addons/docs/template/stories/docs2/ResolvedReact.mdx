@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/blocks';
-import * as React from 'react';
+import * as ReactExport from 'react';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
 import * as ResolvedReactStories from './resolved-react.stories';
@@ -19,7 +19,7 @@ The MDX here ensures that it works in an MDX file.
 
 ## In MDX
 
-<code>react</code>: <code data-testid="mdx-react">{React.version ?? 'no version export found'}</code>
+<code>react</code>: <code data-testid="mdx-react">{ReactExport.version ?? 'no version export found'}</code>
 
 <code>react-dom</code>: <code data-testid="mdx-react-dom">{ReactDom.version ?? 'no version export found'}</code>
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, * as ReactExport from 'react';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
 
@@ -7,7 +7,9 @@ export const ResolvedReact = () => {
     <>
       <p>
         <code>react</code>:{' '}
-        <code data-testid="component-react">{React.version ?? 'no version export found'}</code>
+        <code data-testid="component-react">
+          {ReactExport.version ?? 'no version export found'}
+        </code>
       </p>
       <p>
         <code>react-dom</code>:{' '}

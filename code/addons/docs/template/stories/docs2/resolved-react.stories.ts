@@ -1,5 +1,5 @@
 import { within, expect } from '@storybook/test';
-import * as React from 'react';
+import * as ReactExport from 'react';
 import * as ReactDom from 'react-dom';
 import * as ReactDomServer from 'react-dom/server';
 
@@ -25,7 +25,7 @@ export default {
     content: `
       <p>
         <code>react</code>: <code data-testid="react">${
-          React.version ?? 'no version export found'
+          ReactExport.version ?? 'no version export found'
         }</code>
       </p>
       <p>
