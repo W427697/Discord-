@@ -676,9 +676,9 @@ workflows:
             parameters:
               directory: ["react", "vue3", "nextjs", "svelte"]
       # TODO: reenable once we find out the source of flakyness
-      # - test-runner-dev:
-      #     requires:
-      #       - create-sandboxes
+      - test-runner-dev:
+          requires:
+            - create-sandboxes
   merged:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
