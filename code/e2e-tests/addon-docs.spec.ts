@@ -216,10 +216,15 @@ test.describe('addon-docs', () => {
     // Assert - The versions are all the same
     // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
     await expect(mdxReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
-    await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
+    if (!templateName.includes('preact')) {
+      // preact/compat alias doesn't have a version export in react-dom/server
+      await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
+    }
     await expect(componentReactVersion).toHaveText(actualReactVersion);
     await expect(componentReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
-    await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
+    if (!templateName.includes('preact')) {
+      await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
+    }
 
     // Arrange - Navigate to autodocs
     await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'docs');
@@ -231,8 +236,9 @@ test.describe('addon-docs', () => {
 
     await expect(autodocsReactVersion).toHaveText(actualReactVersion);
     await expect(autodocsReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
-    await expect(autodocsReactDomServerVersion).toHaveText(actualReactVersion);
-
+    if (!templateName.includes('preact')) {
+      await expect(autodocsReactDomServerVersion).toHaveText(actualReactVersion);
+    }
     // Arrange - Navigate to story
     await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'story');
 
@@ -243,7 +249,9 @@ test.describe('addon-docs', () => {
 
     await expect(storyReactVersion).toHaveText(actualReactVersion);
     await expect(storyReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
-    await expect(storyReactDomServerVersion).toHaveText(actualReactVersion);
+    if (!templateName.includes('preact')) {
+      await expect(storyReactDomServerVersion).toHaveText(actualReactVersion);
+    }
   });
 
   test('should have stories from multiple CSF files in autodocs', async ({ page }) => {

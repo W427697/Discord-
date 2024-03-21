@@ -1,6 +1,7 @@
 import { within, expect } from '@storybook/test';
-import { version as reactVersion } from 'react';
-import { version as reactDomVersion } from 'react-dom';
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import * as ReactDomServer from 'react-dom/server';
 
 /**
  * This component is used to display the resolved version of React and its related packages.
@@ -20,32 +21,22 @@ export default {
   argTypes: {
     content: { table: { disable: true } },
   },
-  loaders: async () => {
-    // this hack is needed because preact compat does not provide a version for react-dom/server
-    return {
-      reactDomServerVersion:
-        (await import('react-dom/server')).version ||
-        'The export does not provide a version for this renderer.',
-    };
-  },
-  decorators: (StoryFn: any, { args, loaded }: any) => {
-    return StoryFn({
-      args: {
-        ...args,
-        content: args.content.replace('{{server-version}}', loaded.reactDomServerVersion),
-      },
-    });
-  },
   args: {
     content: `
       <p>
-        <code>react</code>: <code data-testid="react">${reactVersion}</code>
+        <code>react</code>: <code data-testid="react">${
+          React.version ?? 'no version export found'
+        }</code>
       </p>
       <p>
-        <code>react-dom</code>: <code data-testid="react-dom">${reactDomVersion}</code>
+        <code>react-dom</code>: <code data-testid="react-dom">${
+          ReactDom.version ?? 'no version export found'
+        }</code>
       </p>
       <p>
-        <code>react-dom/server</code>: <code data-testid="react-dom-server">{{server-version}}</code>
+        <code>react-dom/server</code>: <code data-testid="react-dom-server">${
+          ReactDomServer.version ?? 'no version export found'
+        }</code>
       </p>
   `,
   },
@@ -58,19 +49,22 @@ export default {
 
 export const Story = {
   // This test is more or less the same as the E2E test we have for MDX and autodocs entries in addon-docs.spec.ts
-  play: async ({ canvasElement, step }: any) => {
+  play: async ({ canvasElement, step, parameters }: any) => {
     const canvas = await within(canvasElement);
 
     const actualReactVersion = (await canvas.findByTestId('react')).textContent;
     const actualReactDomVersion = (await canvas.findByTestId('react-dom')).textContent;
-    const actualReactDomServerVersion = await (
-      await canvas.findByTestId('react-dom-server')
-    ).textContent;
+    const actualReactDomServerVersion = (await canvas.findByTestId('react-dom-server')).textContent;
 
     step('Expect React packages to all resolve to the same version', () => {
       // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
-      expect(actualReactDomVersion?.startsWith(actualReactDomVersion)).toBeTruthy();
-      expect(actualReactVersion).toBe(actualReactDomServerVersion);
+      expect(actualReactDomVersion!.startsWith(actualReactVersion!)).toBeTruthy();
+
+      if (parameters.renderer === 'preact') {
+        // the preact/compat alias doesn't have a version export in react-dom/server
+        return;
+      }
+      expect(actualReactDomServerVersion).toBe(actualReactVersion);
     });
   },
 };
