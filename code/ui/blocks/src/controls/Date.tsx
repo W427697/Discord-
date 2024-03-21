@@ -69,7 +69,7 @@ export const DateControl: FC<DateProps> = ({ name, value, onChange, onFocus, onB
   const [valid, setValid] = useState(true);
   const dateRef = useRef<HTMLInputElement>();
   const timeRef = useRef<HTMLInputElement>();
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   useEffect(() => {
     if (valid !== false) {

@@ -37,7 +37,7 @@ export const NumberControl: FC<NumberProps> = ({
   const [inputValue, setInputValue] = useState(typeof value === 'number' ? value : '');
   const [forceVisible, setForceVisible] = useState(false);
   const [parseError, setParseError] = useState<Error>(null);
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

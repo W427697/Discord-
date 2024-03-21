@@ -325,7 +325,7 @@ export const ColorControl: FC<ColorControlProps> = ({
   const { presets, addPreset } = usePresets(presetColors, color, colorSpace);
   const Picker = ColorPicker[colorSpace];
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   return (
     <Wrapper aria-readonly={readonly}>

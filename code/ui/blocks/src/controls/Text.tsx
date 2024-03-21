@@ -31,7 +31,7 @@ export const TextControl: FC<TextProps> = ({
     onChange(event.target.value);
   };
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   const [forceVisible, setForceVisible] = useState(false);
 

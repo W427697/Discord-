@@ -75,7 +75,7 @@ export const RadioControl: FC<RadioProps> = ({
   const selection = selectedKey(value, options);
   const controlId = getControlId(name);
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   return (
     <Wrapper aria-readonly={readonly} isInline={isInline}>

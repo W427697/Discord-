@@ -100,7 +100,7 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange, argType
   const selection = selectedKey(value, options) || NO_SELECTION;
   const controlId = getControlId(name);
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   return (
     <SelectWrapper>
@@ -129,7 +129,7 @@ const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange, argType 
   const selection = selectedKeys(value, options);
   const controlId = getControlId(name);
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   return (
     <SelectWrapper>

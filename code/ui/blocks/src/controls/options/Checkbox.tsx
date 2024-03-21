@@ -76,7 +76,7 @@ export const CheckboxControl: FC<CheckboxProps> = ({
   const initial = selectedKeys(value, options);
   const [selected, setSelected] = useState(initial);
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const option = (e.target as HTMLInputElement).value;

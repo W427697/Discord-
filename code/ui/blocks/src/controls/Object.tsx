@@ -250,7 +250,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
   const hasData = data !== null && data !== undefined;
   const [showRaw, setShowRaw] = useState(!hasData);
   const [parseError, setParseError] = useState<Error>(null);
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
   const updateRaw: (raw: string) => void = useCallback(
     (raw) => {
       try {

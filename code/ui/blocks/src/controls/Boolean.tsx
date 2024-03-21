@@ -114,7 +114,7 @@ export const BooleanControl: FC<BooleanProps> = ({
   argType,
 }) => {
   const onSetFalse = useCallback(() => onChange(false), [onChange]);
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
   if (value === undefined) {
     return (
       <Button

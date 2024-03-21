@@ -214,7 +214,7 @@ export const RangeControl: FC<RangeProps> = ({
   const hasValue = value !== undefined;
   const numberOFDecimalsPlaces = useMemo(() => getNumberOfDecimalPlaces(step), [step]);
 
-  const readonly = argType?.table?.readonly;
+  const readonly = !!argType?.table?.readonly;
 
   return (
     <RangeWrapper aria-readonly={readonly}>
