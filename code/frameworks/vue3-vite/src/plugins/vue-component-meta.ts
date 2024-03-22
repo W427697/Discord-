@@ -5,8 +5,8 @@ import path from 'path';
 import type { PluginOption } from 'vite';
 import {
   TypeMeta,
-  createComponentMetaChecker,
-  createComponentMetaCheckerByJsonConfig,
+  createChecker,
+  createCheckerByJson,
   type ComponentMeta,
   type MetaCheckerOptions,
 } from 'vue-component-meta';
@@ -28,7 +28,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
   const include = /\.(vue|ts|js|tsx|jsx)$/;
   const filter = createFilter(include, exclude);
 
-  const checker = await createChecker();
+  const checker = await createCheckerWithWorkaround();
 
   return {
     name: 'storybook:vue-component-meta-plugin',
@@ -127,8 +127,10 @@ export async function vueComponentMeta(): Promise<PluginOption> {
 
 /**
  * Creates the vue-component-meta checker to use for extracting component meta/docs.
+ * Includes a workaround for projects using references in their tsconfig.json which
+ * is currently not supported by vue-component-meta.
  */
-async function createChecker() {
+async function createCheckerWithWorkaround() {
   const checkerOptions: MetaCheckerOptions = {
     forceUseTs: true,
     noDeclarations: true,
@@ -138,11 +140,7 @@ async function createChecker() {
   const projectRoot = getProjectRoot();
   const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
 
-  const defaultChecker = createComponentMetaCheckerByJsonConfig(
-    projectRoot,
-    { include: ['**/*'] },
-    checkerOptions
-  );
+  const defaultChecker = createCheckerByJson(projectRoot, { include: ['**/*'] }, checkerOptions);
 
   // prefer the tsconfig.json file of the project to support alias resolution etc.
   if (await fileExists(projectTsConfigPath)) {
@@ -155,7 +153,7 @@ async function createChecker() {
       // TODO: paths/aliases are not resolvable, find workaround for this
       return defaultChecker;
     }
-    return createComponentMetaChecker(projectTsConfigPath, checkerOptions);
+    return createChecker(projectTsConfigPath, checkerOptions);
   }
 
   return defaultChecker;
