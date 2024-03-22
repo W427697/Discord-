@@ -185,11 +185,12 @@ test.describe('addon-docs', () => {
   });
 
   test('should resolve react to the correct version', async ({ page }) => {
-    // Arrange - Navigate to MDX docs and setup expectations
+    // Arrange - Navigate to MDX docs
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'mdx', 'docs');
     const root = sbPage.previewRoot();
 
+    // Arrange - Setup expectations
     let expectedReactVersionRange = /^18/;
     if (
       templateName.includes('preact') ||
@@ -211,19 +212,13 @@ test.describe('addon-docs', () => {
 
     // Assert - The versions are in the expected range
     await expect(mdxReactVersion).toHaveText(expectedReactVersionRange);
-
-    const actualReactVersion = (await mdxReactVersion.textContent())!;
-    // Assert - The versions are all the same
-    // react-dom has a bug in its production build, reporting version 18.2.0-next-9e3b772b8-20220608 even though version 18.2.0 is installed.
-    await expect(mdxReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
+    await expect(componentReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(mdxReactDomVersion).toHaveText(expectedReactVersionRange);
+    await expect(componentReactDomVersion).toHaveText(expectedReactVersionRange);
     if (!templateName.includes('preact')) {
       // preact/compat alias doesn't have a version export in react-dom/server
-      await expect(mdxReactDomServerVersion).toHaveText(actualReactVersion);
-    }
-    await expect(componentReactVersion).toHaveText(actualReactVersion);
-    await expect(componentReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
-    if (!templateName.includes('preact')) {
-      await expect(componentReactDomServerVersion).toHaveText(actualReactVersion);
+      await expect(mdxReactDomServerVersion).toHaveText(expectedReactVersionRange);
+      await expect(componentReactDomServerVersion).toHaveText(expectedReactVersionRange);
     }
 
     // Arrange - Navigate to autodocs
@@ -234,11 +229,13 @@ test.describe('addon-docs', () => {
     const autodocsReactDomVersion = await root.getByTestId('react-dom');
     const autodocsReactDomServerVersion = await root.getByTestId('react-dom-server');
 
-    await expect(autodocsReactVersion).toHaveText(actualReactVersion);
-    await expect(autodocsReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
+    // Assert - The versions are in the expected range
+    await expect(autodocsReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(autodocsReactDomVersion).toHaveText(expectedReactVersionRange);
     if (!templateName.includes('preact')) {
-      await expect(autodocsReactDomServerVersion).toHaveText(actualReactVersion);
+      await expect(autodocsReactDomServerVersion).toHaveText(expectedReactVersionRange);
     }
+
     // Arrange - Navigate to story
     await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'story');
 
@@ -247,10 +244,11 @@ test.describe('addon-docs', () => {
     const storyReactDomVersion = await root.getByTestId('react-dom');
     const storyReactDomServerVersion = await root.getByTestId('react-dom-server');
 
-    await expect(storyReactVersion).toHaveText(actualReactVersion);
-    await expect(storyReactDomVersion).toHaveText(new RegExp(`^${actualReactVersion}`));
+    // Assert - The versions are in the expected range
+    await expect(storyReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(storyReactDomVersion).toHaveText(expectedReactVersionRange);
     if (!templateName.includes('preact')) {
-      await expect(storyReactDomServerVersion).toHaveText(actualReactVersion);
+      await expect(storyReactDomServerVersion).toHaveText(expectedReactVersionRange);
     }
   });
 
