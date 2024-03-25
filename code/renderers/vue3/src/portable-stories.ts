@@ -2,10 +2,10 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-  getPortableStoryWrapperId,
 } from '@storybook/preview-api';
 import type {
   Args,
+  NamedOrDefaultProjectAnnotations,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
@@ -13,18 +13,16 @@ import type {
 } from '@storybook/types';
 import { h } from 'vue';
 
-import * as vueProjectAnnotations from './entry-preview';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
 
-const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
-  ...vueProjectAnnotations,
-  decorators: [
-    function (story, { id }) {
-      const wrapperProps = { 'data-story': true, id: getPortableStoryWrapperId(id) };
-      return h('div', wrapperProps, h(story()));
-    },
-  ],
+type JSXAble<TElement> = TElement & {
+  new (...args: any[]): any;
+  $props: any;
+};
+type MapToJSXAble<T> = {
+  [K in keyof T]: JSXAble<T[K]>;
 };
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
@@ -43,7 +41,9 @@ const defaultProjectAnnotations: ProjectAnnotations<VueRenderer> = {
  * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<VueRenderer> | ProjectAnnotations<VueRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<VueRenderer>
+    | NamedOrDefaultProjectAnnotations<VueRenderer>[]
 ) {
   originalSetProjectAnnotations<VueRenderer>(projectAnnotations);
 }
@@ -95,7 +95,7 @@ export function composeStory<TArgs extends Args = Args>(
 
   // typing this as newable means TS allows it to be used as a JSX element
   // TODO: we should do the same for composeStories as well
-  return renderable as unknown as typeof composedStory & { new (...args: any[]): any };
+  return renderable as unknown as JSXAble<typeof composedStory>;
 }
 
 /**
@@ -130,8 +130,7 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
   // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but VueRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
-  return composedStories as unknown as Omit<
-    StoriesWithPartialProps<VueRenderer, TModule>,
-    keyof Store_CSFExports
+  return composedStories as unknown as MapToJSXAble<
+    Omit<StoriesWithPartialProps<VueRenderer, TModule>, keyof Store_CSFExports>
   >;
 }

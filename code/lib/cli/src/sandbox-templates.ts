@@ -429,6 +429,9 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
@@ -439,11 +442,14 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'qwik-vite/default-ts': {
     name: 'Qwik CLI Latest (Vite | TypeScript)',
-    script: 'yarn create qwik basic {{beforeDir}}',
+    script: 'npm create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {

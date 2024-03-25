@@ -4,6 +4,7 @@ import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 import {
+  UpgradeStorybookInWrongWorkingDirectory,
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
   UpgradeStorybookUnknownCurrentVersionError,
@@ -22,6 +23,7 @@ import {
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
+import { hasStorybookDependencies } from './helpers';
 
 type Package = {
   package: string;
@@ -134,6 +136,9 @@ export const doUpgrade = async ({
     beforeVersion.startsWith('portal:') ||
     beforeVersion.startsWith('workspace:');
 
+  if (!(await hasStorybookDependencies(packageManager))) {
+    throw new UpgradeStorybookInWrongWorkingDirectory();
+  }
   if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
   }
@@ -148,6 +153,7 @@ export const doUpgrade = async ({
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
+  const isExactLatest = currentVersion === latestVersion;
   const isPrerelease = prerelease(currentVersion) !== null;
 
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
@@ -261,7 +267,8 @@ export const doUpgrade = async ({
       mainConfigPath,
       beforeVersion,
       storybookVersion: currentVersion,
-      isUpgrade: true,
+      isUpgrade: isOutdated,
+      isLatest: isExactLatest,
     });
   }
 
