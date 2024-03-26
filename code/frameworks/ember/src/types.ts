@@ -43,3 +43,8 @@ export type StorybookConfig = Omit<
 > &
   StorybookConfigWebpack &
   StorybookConfigFramework;
+
+declare global {
+  // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention, no-var
+  var __EMBER_GENERATED_DOC_JSON__: any;
+}

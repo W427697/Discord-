@@ -1,4 +1,5 @@
-import type { JsPackageManager } from '../../js-package-manager';
+import { describe, afterEach, it, expect, vi } from 'vitest';
+import type { JsPackageManager } from '@storybook/core-common';
 import { getStorybookScripts, sbScripts } from './sb-scripts';
 
 const checkSbScripts = async ({
@@ -16,7 +17,9 @@ const checkSbScripts = async ({
 };
 
 describe('getStorybookScripts', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it('detects default storybook scripts', () => {
     expect(
       getStorybookScripts({

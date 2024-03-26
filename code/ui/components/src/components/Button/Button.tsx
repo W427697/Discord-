@@ -15,23 +15,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
   animation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 
-  /** @deprecated Use {@link asChild} instead */
+  /** @deprecated Use {@link asChild} instead. This will be removed in Storybook 9.0 */
   isLink?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   primary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   secondary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   tertiary?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   gray?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   inForm?: boolean;
-  /** @deprecated Use {@link size} instead */
+  /** @deprecated Use {@link size} instead. This will be removed in Storybook 9.0 */
   small?: boolean;
-  /** @deprecated Use {@link variant} instead */
+  /** @deprecated Use {@link variant} instead. This will be removed in Storybook 9.0 */
   outline?: boolean;
-  /** @deprecated Add your icon as a child directly */
+  /** @deprecated Add your icon as a child directly. This will be removed in Storybook 9.0 */
   containsIcon?: boolean;
 }
 
@@ -170,6 +170,36 @@ const StyledButton = styled('button', {
     if (variant === 'ghost' && active) return theme.background.hoverable;
     return 'transparent';
   })(),
+  ...(variant === 'ghost'
+    ? {
+        // This is a hack to apply bar styles to the button as soon as it is part of a bar
+        // It is a temporary solution until we have implemented Theming 2.0.
+        '.sb-bar &': {
+          background: (() => {
+            if (active) return transparentize(0.9, theme.barTextColor);
+            return 'transparent';
+          })(),
+          color: (() => {
+            if (active) return theme.barSelectedColor;
+            return theme.barTextColor;
+          })(),
+          '&:hover': {
+            color: theme.barHoverColor,
+            background: transparentize(0.86, theme.barHoverColor),
+          },
+
+          '&:active': {
+            color: theme.barSelectedColor,
+            background: transparentize(0.9, theme.barSelectedColor),
+          },
+
+          '&:focus': {
+            boxShadow: `${rgba(theme.barHoverColor, 1)} 0 0 0 1px inset`,
+            outline: 'none',
+          },
+        },
+      }
+    : {}),
   color: (() => {
     if (variant === 'solid') return theme.color.lightest;
     if (variant === 'outline') return theme.input.color;

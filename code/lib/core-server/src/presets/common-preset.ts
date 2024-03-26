@@ -1,5 +1,5 @@
 import fs, { pathExists, readFile } from 'fs-extra';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
   findConfigFile,
@@ -7,6 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
+  removeAddon as removeAddonBase,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -17,7 +18,7 @@ import type {
   PresetProperty,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join, isAbsolute } from 'path';
+import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -46,7 +47,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 
 export const favicon = async (
   value: string | undefined,
-  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+  options: Pick<Options, 'presets' | 'configDir'>
 ) => {
   if (value) {
     return value;
@@ -55,7 +56,7 @@ export const favicon = async (
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+    : [];
 
   if (statics && statics.length > 0) {
     const lists = await Promise.all(
@@ -133,8 +134,8 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 
 export const typescript = () => ({
   check: false,
-  // 'react-docgen' faster but produces lower quality typescript results
-  reactDocgen: 'react-docgen-typescript',
+  // 'react-docgen' faster than `react-docgen-typescript` but produces lower quality results
+  reactDocgen: 'react-docgen',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,
     shouldRemoveUndefinedFromOptional: true,
@@ -160,6 +161,18 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverAPI = (extension: Record<string, Function>, options: Options) => {
+  let removeAddon = removeAddonBase;
+  if (!options.disableTelemetry) {
+    removeAddon = async (id: string, opts: any) => {
+      await telemetry('remove', { addon: id, source: 'api' });
+      return removeAddonBase(id, opts);
+    };
+  }
+  return { ...extension, removeAddon };
+};
+
 /**
  * If for some reason this config is not applied, the reason is that
  * likely there is an addon that does `export core = () => ({ someConfig })`,
@@ -173,26 +186,11 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
 
-export const previewAnnotations = async (base: any, options: Options) => {
-  const config = await options.presets.apply('config', [], options);
-
-  if (config.length > 0) {
-    deprecate(
-      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
-    );
-  }
-
-  return [...config, ...base];
-};
-
 export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
-  warnOnLegacyHierarchySeparator: true,
-  buildStoriesJson: false,
-  storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  disallowImplicitActionsInRenderV8: false,
+  disallowImplicitActionsInRenderV8: true,
 });
 
 export const csfIndexer: Indexer = {
@@ -343,4 +341,38 @@ export const experimental_serverChannel = async (
   });
 
   return channel;
+};
+
+/**
+ * Try to resolve react and react-dom from the root node_modules of the project
+ * addon-docs uses this to alias react and react-dom to the project's version when possible
+ * If the user doesn't have an explicit dependency on react this will return the existing values
+ * Which will be the versions shipped with addon-docs
+ */
+export const resolvedReact = async (existing: any) => {
+  try {
+    return {
+      ...existing,
+      react: dirname(require.resolve('react/package.json')),
+      reactDom: dirname(require.resolve('react-dom/package.json')),
+    };
+  } catch (e) {
+    return existing;
+  }
+};
+
+/**
+ * Set up `dev-only`, `docs-only`, `test-only` tags out of the box
+ */
+export const tags = async (existing: any) => {
+  return {
+    ...existing,
+    'dev-only': { excludeFromDocsStories: true },
+    'docs-only': { excludeFromSidebar: true },
+    'test-only': { excludeFromSidebar: true, excludeFromDocsStories: true },
+  };
+};
+
+export const managerEntries = async (existing: any, options: Options) => {
+  return [require.resolve('./common-manager'), ...(existing || [])];
 };

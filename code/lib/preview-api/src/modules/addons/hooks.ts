@@ -107,7 +107,6 @@ export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args>
     // trigger added effects
     this.currentEffects.forEach((effect) => {
       if (!this.prevEffects.includes(effect)) {
-        // eslint-disable-next-line no-param-reassign
         effect.destroy = effect.create();
       }
     });
@@ -221,14 +220,14 @@ const invalidHooksError = () =>
 
 function getHooksContextOrNull<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> | null {
   return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> {
   const hooks = getHooksContextOrNull<TRenderer, TArgs>();
   if (hooks == null) {
@@ -291,7 +290,6 @@ function useMemoLike<T>(name: string, nextCreate: () => T, deps: any[] | undefin
   const { memoizedState } = useHook(
     name,
     (hook) => {
-      // eslint-disable-next-line no-param-reassign
       hook.memoizedState = nextCreate();
     },
     deps
@@ -530,7 +528,7 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
  */
 export function useStoryContext<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): StoryContext<TRenderer> {
   const { currentContext } = getHooksContextOrThrow<TRenderer, TArgs>();
   if (currentContext == null) {
@@ -576,7 +574,7 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 export function useArgs<TArgs extends Args = Args>(): [
   TArgs,
   (newArgs: Partial<TArgs>) => void,
-  (argNames?: (keyof TArgs)[]) => void
+  (argNames?: (keyof TArgs)[]) => void,
 ] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext<Renderer, TArgs>();

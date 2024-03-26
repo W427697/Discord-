@@ -24,14 +24,13 @@ To define the args of a single story, use the `args` CSF story key:
   paths={[
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
-    'vue/button-story-with-args.2.js.mdx',
-    'vue/button-story-with-args.2.ts.mdx',
     'vue/button-story-with-args.3.js.mdx',
     'vue/button-story-with-args.3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'web-components/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
+    'svelte/button-story-with-args.ts.mdx',
     'html/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
     'solid/button-story-with-args.js.mdx',
@@ -80,6 +79,7 @@ You can also define args at the component level; they will apply to all the comp
     'web-components/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.ts.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
+    'svelte/button-story-component-args-primary.ts.mdx',
     'solid/button-story-component-args-primary.js.mdx',
     'solid/button-story-component-args-primary.ts.mdx',
   ]}
@@ -145,13 +145,12 @@ Args are useful when writing stories for composite components that are assembled
     'react/page-story.js.mdx',
     'react/page-story.ts.mdx',
     'angular/page-story.ts.mdx',
-    'vue/page-story.2.js.mdx',
-    'vue/page-story.2.ts.mdx',
     'vue/page-story.3.js.mdx',
     'vue/page-story.3.ts.mdx',
     'web-components/page-story.js.mdx',
     'web-components/page-story.ts.mdx',
     'svelte/page-story.js.mdx',
+    'svelte/page-story.ts.mdx',
     'solid/page-story.js.mdx',
     'solid/page-story.ts.mdx',
   ]}
@@ -160,6 +159,10 @@ Args are useful when writing stories for composite components that are assembled
 />
 
 <!-- prettier-ignore-end -->
+
+<IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
+
+<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
 
 ## Args can modify any aspect of your component
 
@@ -171,8 +174,6 @@ You can use args in your stories to configure the component's appearance, simila
   paths={[
     'react/page-story-slots.js.mdx',
     'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.js.mdx',
-    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.js.mdx',
     'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
@@ -186,6 +187,8 @@ You can use args in your stories to configure the component's appearance, simila
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ## Setting args through the URL
 
@@ -267,29 +270,4 @@ If you are [writing an addon](../addons/writing-addons.md) that wants to read or
 
 <!-- prettier-ignore-end -->
 
-</details>
-
-<details>
-<summary>parameters.passArgsFirst</summary>
-
-In Storybook 6+, we pass the args as the first argument to the story function. The second argument is the “context”, which includes story parameters, globals, argTypes, and other information.
-
-In Storybook 5 and before we passed the context as the first argument. If you’d like to revert to that functionality set the `parameters.passArgsFirst` parameter in [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-parameters-old-format.js.mdx',
-    'common/storybook-preview-parameters-old-format.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-Note that `args` is still available as a key in the context.
-
-</Callout>
 </details>

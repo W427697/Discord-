@@ -26,7 +26,7 @@ This guide will teach you how to migrate your snapshot tests from the Storyshots
 
 Before you begin the migration process, ensure that you have:
 
-- A fully functional Storybook configured with one of the [suppported frameworks](../configure/frameworks.md) running the latest stable version (i.e., 7.6 or higher).
+- A fully functional Storybook configured with one of the [supported frameworks](../configure/frameworks.md) running the latest stable version (i.e., 7.6 or higher).
 - Familiarity with your current Storybook and its testing setup.
 
 ### With the test-runner
@@ -103,7 +103,7 @@ If you need project-level annotations (e.g., [decorators](../writing-stories/dec
 
 <Callout variant="info" icon="ℹ️">
 
-If you're using Vue3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
+If you're using Vue 3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
 
 </Callout>
 

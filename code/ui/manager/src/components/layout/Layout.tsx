@@ -6,6 +6,7 @@ import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 import { useLayout } from './LayoutProvider';
 import { Notifications } from '../../container/Notifications';
+import { Match } from '@storybook/router';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -25,6 +26,7 @@ interface Props {
   slotSidebar?: React.ReactNode;
   slotPanel?: React.ReactNode;
   slotPages?: React.ReactNode;
+  hasTab: boolean;
 }
 const MINIMUM_CONTENT_WIDTH_PX = 100;
 
@@ -44,10 +46,12 @@ const useLayoutSyncingState = ({
   managerLayoutState,
   setManagerLayoutState,
   isDesktop,
+  hasTab,
 }: {
   managerLayoutState: Props['managerLayoutState'];
   setManagerLayoutState: Props['setManagerLayoutState'];
   isDesktop: boolean;
+  hasTab: boolean;
 }) => {
   // ref to keep track of previous managerLayoutState, to check if the props change
   const prevManagerLayoutStateRef = React.useRef<ManagerLayoutState>(managerLayoutState);
@@ -95,7 +99,7 @@ const useLayoutSyncingState = ({
 
   const isPagesShown =
     managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
-  const isPanelShown = managerLayoutState.viewMode === 'story';
+  const isPanelShown = managerLayoutState.viewMode === 'story' && !hasTab;
 
   const { panelResizerRef, sidebarResizerRef } = useDragging({
     setState: setInternalDraggingSizeState,
@@ -119,7 +123,7 @@ const useLayoutSyncingState = ({
   };
 };
 
-export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
+export const Layout = ({ managerLayoutState, setManagerLayoutState, hasTab, ...slots }: Props) => {
   const { isDesktop, isMobile } = useLayout();
 
   const {
@@ -132,7 +136,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     showPages,
     showPanel,
     isDragging,
-  } = useLayoutSyncingState({ managerLayoutState, setManagerLayoutState, isDesktop });
+  } = useLayoutSyncingState({ managerLayoutState, setManagerLayoutState, isDesktop, hasTab });
 
   return (
     <LayoutContainer
@@ -142,10 +146,13 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       panelPosition={managerLayoutState.panelPosition}
       isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
+      showPanel={showPanel}
     >
       <Notifications />
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-      <ContentContainer>{slots.slotMain}</ContentContainer>
+      <Match path={/(^\/story|docs|onboarding\/|^\/$)/} startsWith={false}>
+        {({ match }) => <ContentContainer shown={!!match}>{slots.slotMain}</ContentContainer>}
+      </Match>
       {isDesktop && (
         <>
           <SidebarContainer>
@@ -171,8 +178,8 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
   );
 };
 
-const LayoutContainer = styled.div<LayoutState>(
-  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
+const LayoutContainer = styled.div<LayoutState & { showPanel: boolean }>(
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, showPanel }) => {
     return {
       width: '100%',
       height: ['100vh', '100dvh'], // This array is a special Emotion syntax to set a fallback if 100dvh is not supported
@@ -186,7 +193,7 @@ const LayoutContainer = styled.div<LayoutState>(
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
         gridTemplateRows: `1fr minmax(0, ${bottomPanelHeight}px)`,
         gridTemplateAreas: (() => {
-          if (viewMode === 'docs') {
+          if (viewMode === 'docs' || !showPanel) {
             // remove panel in docs viewMode
             return `"sidebar content content"
                   "sidebar content content"`;
@@ -210,11 +217,12 @@ const SidebarContainer = styled.div(({ theme }) => ({
   borderRight: `1px solid ${theme.color.border}`,
 }));
 
-const ContentContainer = styled.div(({ theme }) => ({
+const ContentContainer = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
-  display: 'grid', // This is needed to make the content container fill the available space
+  display: shown ? 'grid' : 'none', // This is needed to make the content container fill the available space
+  overflow: 'auto',
 
   [MEDIA_DESKTOP_BREAKPOINT]: {
     flex: 'auto',

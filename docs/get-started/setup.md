@@ -13,8 +13,6 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
-    'vue/your-component.2.ts.mdx',
     'vue/your-component.3.js.mdx',
     'vue/your-component.3.ts.mdx',
     'web-components/your-component.js.mdx',
@@ -94,16 +92,10 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
     'solid/storybook-preview-with-styled-components-decorator.js.mdx',
     'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
@@ -116,6 +108,4 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
 
 ## Load assets and resources
 
-If you want to [link to static files](../configure/images-and-assets.md) in your project or stories (e.g., `/fonts/XYZ.woff`), use the `-s path/to/folder` flag to specify a static folder to serve from when you start up Storybook. To do so, edit the `storybook` and `build-storybook` scripts in `package.json`.
-
-We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories.
+We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories. Read our [documentation](../configure/images-and-assets.md) to learn how to hosting static files with Storybook.
