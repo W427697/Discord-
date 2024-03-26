@@ -141,7 +141,14 @@ export const Node = ({
     /* eslint-enable no-underscore-dangle */
 
     case Object.prototype.toString.call(value) === '[object Object]':
-      return <ObjectNode value={value} showInspector={showObjectInspector} {...props} />;
+      return (
+        <ObjectNode
+          value={value}
+          showInspector={showObjectInspector}
+          callsById={callsById}
+          {...props}
+        />
+      );
     default:
       return <OtherNode value={value} {...props} />;
   }
@@ -222,11 +229,13 @@ export const ArrayNode = ({
 export const ObjectNode = ({
   showInspector,
   value,
+  callsById,
   nested = false,
 }: {
   showInspector?: boolean;
   value: object;
   nested?: boolean;
+  callsById?: Map<Call['id'], Call>;
 }) => {
   const isDarkMode = useTheme().base === 'dark';
   const colors = useThemeColors();
@@ -253,7 +262,7 @@ export const ObjectNode = ({
       .map(([k, v]) => (
         <Fragment key={k}>
           <span style={{ color: colors.objectkey }}>{k}: </span>
-          <Node value={v} nested />
+          <Node value={v} callsById={callsById} nested />
         </Fragment>
       )),
     <span>, </span>
@@ -421,7 +430,7 @@ export const MethodCall = ({
       callId ? (
         <MethodCall key={`elem${index}`} call={callsById.get(callId)} callsById={callsById} />
       ) : (
-        <span key={`elem${index}`}>{elem}</span>
+        <span key={`elem${index}`}>{elem as any}</span>
       ),
       <wbr key={`wbr${index}`} />,
       <span key={`dot${index}`}>.</span>,

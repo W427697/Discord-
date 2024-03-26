@@ -1,10 +1,11 @@
 import { dedent } from 'ts-dedent';
-import { promise as glob } from 'glob-promise';
+import { glob } from 'glob';
 import path from 'path';
 import slash from 'slash';
 import { once } from '@storybook/node-logger';
 
 import { boost } from './interpret-files';
+import { MainFileMissingError } from '@storybook/core-events/server-errors';
 
 export async function validateConfigurationFiles(configDir: string) {
   const extensionsPattern = `{${Array.from(boost).join(',')}}`;
@@ -20,9 +21,6 @@ export async function validateConfigurationFiles(configDir: string) {
   }
 
   if (!mainConfigPath) {
-    throw new Error(dedent`
-      No configuration files have been found in your configDir (${path.resolve(configDir)}).
-      Storybook needs "main.js" file, please add it (or pass a custom config dir flag to Storybook to tell where your main.js file is located at).
-    `);
+    throw new MainFileMissingError({ location: configDir });
   }
 }

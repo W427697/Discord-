@@ -1,10 +1,12 @@
 import { createUnplugin } from 'unplugin';
+import fs from 'fs/promises';
 import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
 import type { EnrichCsfOptions } from '@storybook/csf-tools';
 
 export type CsfPluginOptions = EnrichCsfOptions;
 
-const STORIES_REGEX = /\.(story|stories)\.[tj]sx?$/;
+// Ignore node_modules
+const STORIES_REGEX = /(?<!node_modules.*)\.(story|stories)\.[tj]sx?$/;
 
 const logger = console;
 
@@ -14,11 +16,16 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
     transformInclude(id) {
       return STORIES_REGEX.test(id);
     },
-    async transform(code) {
+    async transform(code, id) {
+      const sourceCode = await fs.readFile(id, 'utf-8');
       try {
-        const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
-        enrichCsf(csf, options);
-        return formatCsf(csf);
+        const makeTitle = (userTitle: string) => userTitle || 'default';
+        const csf = loadCsf(code, { makeTitle }).parse();
+        const csfSource = loadCsf(sourceCode, {
+          makeTitle,
+        }).parse();
+        enrichCsf(csf, csfSource, options);
+        return formatCsf(csf, { sourceMaps: true });
       } catch (err: any) {
         // This can be called on legacy storiesOf files, so just ignore
         // those errors. But warn about other errors.
@@ -27,9 +34,6 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
         }
         return code;
       }
-    },
-    vite: {
-      enforce: 'pre',
     },
   };
 });

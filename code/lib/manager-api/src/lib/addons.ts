@@ -8,7 +8,13 @@ import type {
   Addon_Elements,
   Addon_Loaders,
   Addon_Type,
+  Addon_BaseType,
+  Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
+  Addon_WrapperType,
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -36,8 +42,6 @@ export class AddonStore {
 
   private channel: Channel | undefined;
 
-  private serverChannel: Channel | undefined;
-
   private promise: any;
 
   private resolve: any;
@@ -48,51 +52,50 @@ export class AddonStore {
       this.setChannel(mockChannel());
     }
 
-    return this.channel;
-  };
-
-  getServerChannel = (): Channel => {
-    if (!this.serverChannel) {
-      throw new Error('Accessing non-existent serverChannel');
-    }
-
-    return this.serverChannel;
+    return this.channel!;
   };
 
   ready = (): Promise<Channel> => this.promise;
 
   hasChannel = (): boolean => !!this.channel;
 
-  hasServerChannel = (): boolean => !!this.serverChannel;
-
   setChannel = (channel: Channel): void => {
     this.channel = channel;
     this.resolve();
   };
 
-  setServerChannel = (channel: Channel): void => {
-    this.serverChannel = channel;
-  };
-
-  getElements = (type: Addon_Types): Addon_Collection => {
+  getElements<
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP,
+  >(type: T): Addon_Collection<Addon_TypesMapping[T]> | any {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
     return this.elements[type];
-  };
+  }
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
-      type: Addon_TypesEnum.PANEL,
-      ...options,
-    });
-  };
-
-  add = (name: string, addon: Addon_Type) => {
+  /**
+   * Adds an addon to the addon store.
+   * @param {string} id - The id of the addon.
+   * @param {Addon_Type} addon - The addon to add.
+   * @returns {void}
+   */
+  add(
+    id: string,
+    addon:
+      | Addon_BaseType
+      | Omit<Addon_SidebarTopType, 'id'>
+      | Omit<Addon_SidebarBottomType, 'id'>
+      | Omit<Addon_PageType, 'id'>
+      | Omit<Addon_WrapperType, 'id'>
+  ): void {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
-  };
+    collection[id] = { ...addon, id };
+  }
 
   setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);
@@ -107,15 +110,22 @@ export class AddonStore {
 
   getConfig = () => this.config;
 
-  register = (name: string, registerCallback: (api: API) => void): void => {
-    if (this.loaders[name]) {
-      logger.warn(`${name} was loaded twice, this could have bad side-effects`);
+  /**
+   * Registers an addon loader function.
+   *
+   * @param {string} id - The id of the addon loader.
+   * @param {(api: API) => void} callback - The function that will be called to register the addon.
+   * @returns {void}
+   */
+  register = (id: string, callback: (api: API) => void): void => {
+    if (this.loaders[id]) {
+      logger.warn(`${id} was loaded twice, this could have bad side-effects`);
     }
-    this.loaders[name] = registerCallback;
+    this.loaders[id] = callback;
   };
 
   loadAddons = (api: any) => {
-    Object.values(this.loaders).forEach((value) => value(api));
+    Object.values(this.loaders).forEach((value: any) => value(api));
   };
 }
 

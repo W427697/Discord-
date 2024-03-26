@@ -7,6 +7,7 @@ import {
   getProjectRoot,
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/types';
+import { readConfig } from '@storybook/csf-tools';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-json';
@@ -83,24 +84,23 @@ export const computeStorybookMetadata = async ({
     };
     // Better be safe than sorry, some codebases/paths might end up breaking with something like "spawn pnpm ENOENT"
     // so we just set the package manager if the detection is successful
-    // eslint-disable-next-line no-empty
   } catch (err) {}
 
   metadata.hasCustomBabel = !!mainConfig.babel;
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
   metadata.hasStaticDirs = !!mainConfig.staticDirs;
 
-  if (mainConfig.typescript) {
+  if (typeof mainConfig.typescript === 'object') {
     metadata.typescriptOptions = mainConfig.typescript;
   }
 
   const frameworkInfo = await getFrameworkInfo(mainConfig);
 
-  if (mainConfig.refs) {
+  if (typeof mainConfig.refs === 'object') {
     metadata.refCount = Object.keys(mainConfig.refs).length;
   }
 
-  if (mainConfig.features) {
+  if (typeof mainConfig.features === 'object') {
     metadata.features = mainConfig.features;
   }
 
@@ -113,7 +113,9 @@ export const computeStorybookMetadata = async ({
       if (typeof addon === 'string') {
         addonName = sanitizeAddonName(addon);
       } else {
-        options = addon.options;
+        if (addon.name.includes('addon-essentials')) {
+          options = addon.options;
+        }
         addonName = sanitizeAddonName(addon.name);
       }
 
@@ -160,6 +162,20 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
+
+  try {
+    const { previewConfig } = storybookInfo;
+    if (previewConfig) {
+      const config = await readConfig(previewConfig);
+      const usesGlobals = !!(
+        config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
+      );
+      metadata.preview = { ...metadata.preview, usesGlobals };
+    }
+  } catch (e) {
+    // gracefully handle error, as it's not critical information and AST parsing can cause trouble
+  }
+
   const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
 
   return {

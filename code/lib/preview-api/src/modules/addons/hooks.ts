@@ -70,7 +70,7 @@ export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args>
   init() {
     this.hookListsMap = new WeakMap();
     this.mountedDecorators = new Set();
-    this.prevMountedDecorators = this.mountedDecorators;
+    this.prevMountedDecorators = new Set();
     this.currentHooks = [];
     this.nextHookIndex = 0;
     this.currentPhase = 'NONE';
@@ -107,7 +107,6 @@ export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args>
     // trigger added effects
     this.currentEffects.forEach((effect) => {
       if (!this.prevEffects.includes(effect)) {
-        // eslint-disable-next-line no-param-reassign
         effect.destroy = effect.create();
       }
     });
@@ -134,7 +133,7 @@ function hookify<TRenderer extends Renderer>(
   decorator: DecoratorFunction<TRenderer>
 ): DecoratorFunction<TRenderer>;
 function hookify<TRenderer extends Renderer>(fn: AbstractFunction) {
-  return (...args: any[]) => {
+  const hookified = (...args: any[]) => {
     const { hooks }: { hooks: HooksContext<TRenderer> } =
       typeof args[0] === 'function' ? args[1] : args[0];
 
@@ -172,6 +171,9 @@ function hookify<TRenderer extends Renderer>(fn: AbstractFunction) {
     hooks.currentDecoratorName = prevDecoratorName;
     return result;
   };
+
+  hookified.originalFn = fn;
+  return hookified;
 }
 
 // Counter to prevent infinite loops.
@@ -188,7 +190,7 @@ export const applyHooks =
     );
     return (context) => {
       const { hooks } = context as { hooks: HooksContext<TRenderer> };
-      hooks.prevMountedDecorators = hooks.mountedDecorators;
+      hooks.prevMountedDecorators ??= new Set();
       hooks.mountedDecorators = new Set([storyFn, ...decorators]);
       hooks.currentContext = context;
       hooks.hasUpdates = false;
@@ -218,14 +220,14 @@ const invalidHooksError = () =>
 
 function getHooksContextOrNull<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> | null {
   return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): HooksContext<TRenderer, TArgs> {
   const hooks = getHooksContextOrNull<TRenderer, TArgs>();
   if (hooks == null) {
@@ -288,7 +290,6 @@ function useMemoLike<T>(name: string, nextCreate: () => T, deps: any[] | undefin
   const { memoizedState } = useHook(
     name,
     (hook) => {
-      // eslint-disable-next-line no-param-reassign
       hook.memoizedState = nextCreate();
     },
     deps
@@ -296,11 +297,36 @@ function useMemoLike<T>(name: string, nextCreate: () => T, deps: any[] | undefin
   return memoizedState;
 }
 
-/* Returns a memoized value, see https://reactjs.org/docs/hooks-reference.html#usememo */
+/**
+ * Returns a memoized value.
+ * @template T The type of the memoized value.
+ * @param {() => T} nextCreate A function that returns the memoized value.
+ * @param {any[]} [deps] An optional array of dependencies. If any of the dependencies change, the memoized value will be recomputed.
+ * @returns {T} The memoized value.
+ * @example
+ * const memoizedValue = useMemo(() => {
+ *   return doExpensiveCalculation(a, b);
+ * }, [a, b]);
+ */
 export function useMemo<T>(nextCreate: () => T, deps?: any[]): T {
   return useMemoLike('useMemo', nextCreate, deps);
 }
 
+/** Returns a memoized callback.
+ *
+ * @template T The type of the callback function.
+ * @param {T} callback The callback function to memoize.
+ * @param {any[]} [deps] An optional array of dependencies. If any of the dependencies change, the memoized callback will be recomputed.
+ * @returns {T} The memoized callback.
+ *
+ * @example
+ * const memoizedCallback = useCallback(
+ *   () => {
+ *     doSomething(a, b);
+ *   },
+ *   [a, b],
+ * );
+ */
 /* Returns a memoized callback, see https://reactjs.org/docs/hooks-reference.html#usecallback */
 export function useCallback<T>(callback: T, deps?: any[]): T {
   return useMemoLike('useCallback', () => callback, deps);
@@ -310,6 +336,17 @@ function useRefLike<T>(name: string, initialValue: T): { current: T } {
   return useMemoLike(name, () => ({ current: initialValue }), []);
 }
 
+/**
+ * Returns a mutable ref object.
+ *
+ * @template T The type of the ref object.
+ * @param {T} initialValue The initial value of the ref object.
+ * @returns {{ current: T }} The mutable ref object.
+ *
+ * @example
+ * const ref = useRef(0);
+ * ref.current = 1;
+ */
 /* Returns a mutable ref object, see https://reactjs.org/docs/hooks-reference.html#useref */
 export function useRef<T>(initialValue: T): { current: T } {
   return useRefLike('useRef', initialValue);
@@ -346,14 +383,58 @@ function useStateLike<S>(
   return [stateRef.current, setState];
 }
 
-/* Returns a stateful value, and a function to update it, see https://reactjs.org/docs/hooks-reference.html#usestate */
+/**
+ * Returns a stateful value and a function to update it.
+ *
+ * @template S The type of the state.
+ * @param {(() => S) | S} initialState The initial state value or a function that returns the initial state value.
+ * @returns {[S, (update: ((prevState: S) => S) | S) => void]} An array containing the current state value and a function to update it.
+ *
+ * @example
+ * const [count, setCount] = useState(0);
+ * setCount(count + 1);
+ */
 export function useState<S>(
   initialState: (() => S) | S
 ): [S, (update: ((prevState: S) => S) | S) => void] {
   return useStateLike('useState', initialState);
 }
 
-/* A redux-like alternative to useState, see https://reactjs.org/docs/hooks-reference.html#usereducer */
+/**
+ * A redux-like alternative to useState.
+ *
+ * @template S The type of the state.
+ * @template A The type of the action.
+ * @param {(state: S, action: A) => S} reducer The reducer function that returns the new state.
+ * @param {S | I} initialArg The initial state value or the initial argument for the init function.
+ * @param {(initialArg: I) => S} [init] An optional function that returns the initial state value.
+ * @returns {[S, (action: A) => void]} An array containing the current state value and a function to dispatch actions.
+ *
+ * @example
+ * const initialState = { count: 0 };
+ *
+ * function reducer(state, action) {
+ *   switch (action.type) {
+ *     case 'increment':
+ *       return { count: state.count + 1 };
+ *     case 'decrement':
+ *       return { count: state.count - 1 };
+ *     default:
+ *       throw new Error();
+ *   }
+ * }
+ *
+ * function Counter() {
+ *   const [state, dispatch] = useReducer(reducer, initialState);
+ *   return (
+ *     <>
+ *       Count: {state.count}
+ *       <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+ *       <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+ *     </>
+ *   );
+ * }
+ */
 export function useReducer<S, A>(
   reducer: (state: S, action: A) => S,
   initialState: S
@@ -374,10 +455,22 @@ export function useReducer<S, A>(
   return [state, dispatch];
 }
 
-/*
-  Triggers a side effect, see https://reactjs.org/docs/hooks-reference.html#usestate
-  Effects are triggered synchronously after rendering the story
-*/
+/**
+ * Triggers a side effect, see https://reactjs.org/docs/hooks-reference.html#usestate
+ * Effects are triggered synchronously after rendering the story
+ *
+ * @param {() => (() => void) | void} create A function that creates the effect. It should return a cleanup function, or nothing.
+ * @param {any[]} [deps] An optional array of dependencies. If any of the dependencies change, the effect will be re-run.
+ * @returns {void}
+ *
+ * @example
+ * useEffect(() => {
+ *   // Do something after rendering the story
+ *   return () => {
+ *     // Do something when the component unmounts or the effect is re-run
+ *   };
+ * }, [dependency1, dependency2]);
+ */
 export function useEffect(create: () => (() => void) | void, deps?: any[]): void {
   const hooks = getHooksContextOrThrow();
   const effect = useMemoLike('useEffect', () => ({ create }), deps);
@@ -394,7 +487,18 @@ export interface EventMap {
   [eventId: string]: Listener;
 }
 
-/* Accepts a map of Storybook channel event listeners, returns an emit function */
+/**
+ * Subscribes to events emitted by the Storybook channel and returns a function to emit events.
+ *
+ * @param {EventMap} eventMap A map of event listeners to subscribe to.
+ * @param {any[]} [deps=[]] An optional array of dependencies. If any of the dependencies change, the event listeners will be re-subscribed.
+ * @returns {(...args: any[]) => void} A function to emit events to the Storybook channel.
+ *
+ * @example
+ * // Subscribe to an event and emit it
+ * const emit = useChannel({ 'my-event': (arg1, arg2) => console.log(arg1, arg2) });
+ * emit('my-event', 'Hello', 'world!');
+ */
 export function useChannel(eventMap: EventMap, deps: any[] = []) {
   const channel = addons.getChannel();
 
@@ -410,10 +514,21 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
   return useCallback(channel.emit.bind(channel), [channel]);
 }
 
-/* Returns current story context */
+/**
+ * Returns the current story context, including the story's ID, parameters, and other metadata.
+ *
+ * @template TRenderer The type of the story's renderer.
+ * @template TArgs The type of the story's args.
+ * @returns {StoryContext<TRenderer>} The current story context.
+ *
+ * @example
+ * const { id, parameters } = useStoryContext();
+ * console.log(`Current story ID: ${id}`);
+ * console.log(`Current story parameters: ${JSON.stringify(parameters)}`);
+ */
 export function useStoryContext<
   TRenderer extends Renderer,
-  TArgs extends Args = Args
+  TArgs extends Args = Args,
 >(): StoryContext<TRenderer> {
   const { currentContext } = getHooksContextOrThrow<TRenderer, TArgs>();
   if (currentContext == null) {
@@ -423,7 +538,19 @@ export function useStoryContext<
   return currentContext;
 }
 
-/* Returns current value of a story parameter */
+/**
+ * Returns the value of a specific parameter for the current story, or a default value if the parameter is not set.
+ *
+ * @template S The type of the parameter value.
+ * @param {string} parameterKey The key of the parameter to retrieve.
+ * @param {S} [defaultValue] An optional default value to return if the parameter is not set.
+ * @returns {S | undefined} The value of the parameter, or the default value if the parameter is not set.
+ *
+ * @example
+ * // Retrieve the value of a parameter named "myParam"
+ * const myParamValue = useParameter<string>('myParam', 'default value');
+ * console.log(`The value of myParam is: ${myParamValue}`);
+ */
 export function useParameter<S>(parameterKey: string, defaultValue?: S): S | undefined {
   const { parameters } = useStoryContext();
   if (parameterKey) {
@@ -432,11 +559,22 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
   return undefined;
 }
 
-/* Returns current value of story args */
+/**
+ * Returns the current args for the story, and functions to update and reset them.
+ *
+ * @template TArgs The type of the story's args.
+ * @returns {[TArgs, (newArgs: Partial<TArgs>) => void, (argNames?: (keyof TArgs)[]) => void]} An array containing the current args, a function to update them, and a function to reset them.
+ *
+ * @example
+ * const [args, updateArgs, resetArgs] = useArgs<{ name: string, age: number }>();
+ * console.log(`Current args: ${JSON.stringify(args)}`);
+ * updateArgs({ name: 'John' });
+ * resetArgs(['name']);
+ */
 export function useArgs<TArgs extends Args = Args>(): [
   TArgs,
   (newArgs: Partial<TArgs>) => void,
-  (argNames?: (keyof TArgs)[]) => void
+  (argNames?: (keyof TArgs)[]) => void,
 ] {
   const channel = addons.getChannel();
   const { id: storyId, args } = useStoryContext<Renderer, TArgs>();
@@ -454,7 +592,16 @@ export function useArgs<TArgs extends Args = Args>(): [
   return [args as TArgs, updateArgs, resetArgs];
 }
 
-/* Returns current value of global args */
+/**
+ * Returns the current global args for the story, and a function to update them.
+ *
+ * @returns {[Args, (newGlobals: Args) => void]} An array containing the current global args, and a function to update them.
+ *
+ * @example
+ * const [globals, updateGlobals] = useGlobals();
+ * console.log(`Current globals: ${JSON.stringify(globals)}`);
+ * updateGlobals({ theme: 'dark' });
+ */
 export function useGlobals(): [Args, (newGlobals: Args) => void] {
   const channel = addons.getChannel();
   const { globals } = useStoryContext();

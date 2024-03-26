@@ -2,6 +2,8 @@
 title: 'Decorators'
 ---
 
+<YouTubeCallout id="4yi_yCTkgng" title="Storybook Decorators Crash Course" />
+
 A decorator is a way to wrap a story in extra “rendering” functionality. Many addons define decorators to augment your stories with extra rendering or gather details about how your story renders.
 
 When writing stories, decorators are typically used to wrap stories with extra markup or context mocking.
@@ -24,6 +26,11 @@ Some components require a “harness” to render in a useful way. For instance,
     'web-components/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.ts.mdx',
     'svelte/your-component-with-decorator.js.mdx',
+    'svelte/your-component-with-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
+    'solid/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.ts.mdx'
   ]}
 />
 
@@ -35,7 +42,7 @@ Some components require a “harness” to render in a useful way. For instance,
 
 Framework-specific libraries (e.g., [Styled Components](https://styled-components.com/), [Fontawesome](https://github.com/FortAwesome/vue-fontawesome) for Vue, Angular's [localize](https://angular.io/api/localize)) may require additional configuration to render correctly in Storybook.
 
-For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
+For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
 
 <!-- prettier-ignore-start -->
 
@@ -43,18 +50,14 @@ For example, if you're working with React's Styled Components and your component
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
@@ -65,15 +68,17 @@ In the example above, the values provided are hardcoded. Still, you may want to 
 The second argument to a decorator function is the **story context** which in particular contains the keys:
 
 - `args` - the story arguments. You can use some [`args`](./args.md) in your decorators and drop them in the story implementation itself.
-- `argTypes`- Storybook's [argTypes](../api/argtypes.md) allow you to customize and fine-tune your stories [`args`](./args.md).
+- `argTypes`- Storybook's [argTypes](../api/arg-types.md) allow you to customize and fine-tune your stories [`args`](./args.md).
 - `globals` - Storybook-wide [globals](../essentials/toolbars-and-globals.md#globals). In particular you can use the [toolbars feature](../essentials/toolbars-and-globals.md#global-types-toolbar-annotations) to allow you to change these values using Storybook’s UI.
 - `hooks` - Storybook's API hooks (e.g., useArgs).
 - `parameters`- the story's static metadata, most commonly used to control Storybook's behavior of features and addons.
 - `viewMode`- Storybook's current active window (e.g., canvas, docs).
 
-<div class="aside">
-💡 This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
-</div>
+<Callout variant="info" icon="💡">
+
+This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., Vue 3).
+
+</Callout>
 
 ### Using decorators to provide data
 
@@ -95,6 +100,11 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'web-components/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.ts.mdx',
     'svelte/button-story-decorator.js.mdx',
+    'svelte/button-story-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
+    'solid/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/decorators#snippet-button-story-decorator"
@@ -103,7 +113,7 @@ To define a decorator for a single story, use the `decorators` key on a named ex
 
 <!-- prettier-ignore-end -->
 
-It is useful to ensure that the story remains a “pure” rendering of the component under test, and any extra HTML or components don't pollute that. In particular the [Source](../api/doc-block-source.md) doc block works best when you do this.
+It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
 ## Component decorators
 
@@ -121,6 +131,11 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'web-components/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'svelte/button-story-component-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
+    'solid/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -128,7 +143,7 @@ To define a decorator for all stories of a component, use the `decorators` key o
 
 ## Global decorators
 
-We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file (this is the file where you configure all stories):
+We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
 <!-- prettier-ignore-start -->
 
@@ -141,6 +156,11 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'angular/storybook-preview-global-decorator.ts.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
     'svelte/storybook-preview-global-decorator.js.mdx',
+    'svelte/storybook-preview-global-decorator.ts.mdx',
+    'svelte/margindecorator.with-margin-component.js.mdx',
+    'svelte/margindecorator.with-margin-component.ts.mdx',
+    'solid/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.ts.mdx',
   ]}
 />
 

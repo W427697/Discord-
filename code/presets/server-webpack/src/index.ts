@@ -16,14 +16,16 @@ export const webpack: StorybookConfig['webpack'] = (config) => {
       test: /\.stories\.ya?ml/,
       use: [
         require.resolve('@storybook/preset-server-webpack/dist/loader'),
-        require.resolve('yaml-loader'),
+        {
+          loader: require.resolve('yaml-loader'),
+          options: { asJSON: true },
+        },
       ],
     },
   ];
 
-  // eslint-disable-next-line no-param-reassign
   config.module = config.module || {};
-  // eslint-disable-next-line no-param-reassign
+
   config.module.rules = rules;
 
   return config;

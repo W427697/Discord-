@@ -1,24 +1,29 @@
-/// <reference types="@types/jest" />;
-
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
+
 import path from 'path';
-import type { JsPackageManager } from '../../js-package-manager';
+import * as fsExtra from 'fs-extra';
+import type { JsPackageManager } from '@storybook/core-common';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
-const check = async ({ packageJson = {}, contents }: any) => {
+const check = async ({ contents, previewConfigPath }: any) => {
   if (contents) {
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles({
+    vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles({
       [path.join('.storybook', 'preview.js')]: contents,
     });
   }
   const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
+    retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {} }),
   } as JsPackageManager;
-  return migration.check({ packageManager });
+
+  return migration.check({
+    packageManager,
+    mainConfig: {} as any,
+    storybookVersion: '7.0.0',
+    previewConfigPath,
+  });
 };
 
 describe('removedGlobalClientAPIs fix', () => {
@@ -30,14 +35,18 @@ describe('removedGlobalClientAPIs fix', () => {
     const contents = `
       export const parameters = {};
     `;
-    await expect(check({ contents })).resolves.toBeNull();
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toBeNull();
   });
   it('uses 1 removed API', async () => {
     const contents = `
       import { addParameters } from '@storybook/react';
       addParameters({});
     `;
-    await expect(check({ contents })).resolves.toEqual(
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toEqual(
       expect.objectContaining({
         usedAPIs: [RemovedAPIs.addParameters],
       })
@@ -49,7 +58,9 @@ describe('removedGlobalClientAPIs fix', () => {
       addParameters({});
       addDecorator((storyFn) => storyFn());
     `;
-    await expect(check({ contents })).resolves.toEqual(
+    await expect(
+      check({ contents, previewConfigPath: path.join('.storybook', 'preview.js') })
+    ).resolves.toEqual(
       expect.objectContaining({
         usedAPIs: expect.arrayContaining([RemovedAPIs.addParameters, RemovedAPIs.addDecorator]),
       })

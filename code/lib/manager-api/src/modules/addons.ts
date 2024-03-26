@@ -1,6 +1,12 @@
-import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@storybook/types';
+import type {
+  Addon_BaseType,
+  Addon_Collection,
+  Addon_Types,
+  Addon_TypesMapping,
+  API_StateMerger,
+} from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 
 export interface SubState {
@@ -9,23 +15,65 @@ export interface SubState {
 }
 
 export interface SubAPI {
-  getElements: <T>(type: Addon_Types) => API_Collection<T>;
-  getPanels: () => API_Panels;
-  getStoryPanels: () => API_Panels;
+  /**
+   * Returns a collection of elements of a specific type.
+   * @protected This is used internally in storybook's manager.
+   * @template T - The type of the elements in the collection.
+   * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
+   * @returns {Addon_Collection<T>} - A collection of elements of the specified type.
+   */
+  getElements: <
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP = Addon_Types,
+  >(
+    type: T
+  ) => Addon_Collection<Addon_TypesMapping[T]>;
+  /**
+   * Returns the id of the currently selected panel.
+   * @returns {string} - The ID of the currently selected panel.
+   */
   getSelectedPanel: () => string;
+  /**
+   * Sets the currently selected panel via it's ID.
+   * @param {string} panelName - The ID of the panel to select.
+   * @returns {void}
+   */
   setSelectedPanel: (panelName: string) => void;
+  /**
+   * Sets the state of an addon with the given ID.
+   * @template S - The type of the addon state.
+   * @param {string} addonId - The ID of the addon to set the state for.
+   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function which receives the current state and returns the new state.
+   * @param {Options} [options] - Optional options for the state update.
+   * @deprecated This API might get dropped, if you are using this, please file an issue.
+   * @returns {Promise<S>} - A promise that resolves with the new state after it has been set.
+   */
   setAddonState<S>(
     addonId: string,
     newStateOrMerger: S | API_StateMerger<S>,
     options?: Options
   ): Promise<S>;
+  /**
+   * Returns the state of an addon with the given ID.
+   * @template S - The type of the addon state.
+   * @param {string} addonId - The ID of the addon to get the state for.
+   * @deprecated This API might get dropped, if you are using this, please file an issue.
+   * @returns {S} - The state of the addon with the given ID.
+   */
   getAddonState<S>(addonId: string): S;
 }
 
-export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
+export function ensurePanel(
+  panels: Addon_Collection<Addon_BaseType>,
+  selectedPanel?: string,
+  currentPanel?: string
+) {
   const keys = Object.keys(panels);
 
-  if (keys.indexOf(selectedPanel) >= 0) {
+  if (keys.indexOf(selectedPanel!) >= 0) {
     return selectedPanel;
   }
 
@@ -35,35 +83,12 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }): any => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
-    getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
-    getStoryPanels: () => {
-      const allPanels = api.getPanels();
-      const { storyId } = store.getState();
-      const story = fullAPI.getData(storyId);
-
-      if (!allPanels || !story || story.type !== 'story') {
-        return allPanels;
-      }
-
-      const { parameters } = story;
-
-      const filteredPanels: API_Collection = {};
-      Object.entries(allPanels).forEach(([id, panel]) => {
-        const { paramKey } = panel;
-        if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
-          return;
-        }
-        filteredPanels[id] = panel;
-      });
-
-      return filteredPanels;
-    },
-    getSelectedPanel: () => {
+    getSelectedPanel: (): any => {
       const { selectedPanel } = store.getState();
-      return ensurePanel(api.getPanels(), selectedPanel, selectedPanel);
+      return ensurePanel(api.getElements(Addon_TypesEnum.PANEL), selectedPanel, selectedPanel);
     },
     setSelectedPanel: (panelName) => {
       store.setState({ selectedPanel: panelName }, { persistence: 'session' });
@@ -73,27 +98,28 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
       newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
-      let nextState;
-      const { addons: existing } = store.getState();
-      if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as API_StateMerger<S>;
-        nextState = merger(api.getAddonState<S>(addonId));
-      } else {
-        nextState = newStateOrMerger;
-      }
+      const merger = (
+        typeof newStateOrMerger === 'function' ? newStateOrMerger : () => newStateOrMerger
+      ) as API_StateMerger<S>;
       return store
-        .setState({ addons: { ...existing, [addonId]: nextState } }, options)
+        .setState(
+          (s) => ({ ...s, addons: { ...s.addons, [addonId]: merger(s.addons[addonId]) } }),
+          options
+        )
         .then(() => api.getAddonState(addonId));
     },
     getAddonState: (addonId) => {
-      return store.getState().addons[addonId];
+      return store.getState().addons[addonId] || globalThis?.STORYBOOK_ADDON_STATE[addonId];
     },
   };
 
   return {
     api,
     state: {
-      selectedPanel: ensurePanel(api.getPanels(), store.getState().selectedPanel),
+      selectedPanel: ensurePanel(
+        api.getElements(Addon_TypesEnum.PANEL),
+        store.getState().selectedPanel
+      ),
       addons: {},
     },
   };

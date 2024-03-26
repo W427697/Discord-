@@ -1,18 +1,18 @@
 {
   "name": "@storybook/vue3-webpack5",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue3-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue3-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/vue3-webpack5"
+    "directory": "code/frameworks/vue3-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -21,15 +21,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -38,37 +37,33 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-rc.4",
-    "@storybook/core-common": "7.0.0-rc.4",
-    "@storybook/preset-vue3-webpack": "7.0.0-rc.4",
-    "@storybook/vue3": "7.0.0-rc.4",
-    "@types/node": "^16.0.0"
+    "@storybook/builder-webpack5": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/preset-vue3-webpack": "workspace:*",
+    "@storybook/vue3": "workspace:*",
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "3.0.0",
-    "typescript": "~4.9.3",
+    "typescript": "^5.3.2",
     "vue": "3.0.0"
   },
   "peerDependencies": {
-    "@babel/core": "*",
     "@vue/compiler-sfc": "^3.0.0",
-    "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -80,5 +75,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

@@ -2,7 +2,7 @@
 title: 'Stories for multiple components'
 ---
 
-It's useful to write stories that [render two or more components](../writing-stories/introduction.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components. Here's an example with `List` and `ListItem` components:
+It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components. Here's an example with `List` and `ListItem` components:
 
 <!-- prettier-ignore-start -->
 
@@ -22,14 +22,14 @@ It's useful to write stories that [render two or more components](../writing-sto
 
 <!-- prettier-ignore-end -->
 
-Note that by adding `subcomponents` to the default export, we get an extra panel on the ArgsTable, listing the props of `ListItem`:
+Note that by adding a `subcomponents` property to the default export, we get an extra panel on the [ArgTypes](../writing-docs/doc-blocks.md#argtypes) and [Controls](../essentials/controls.md#) tables, listing the props of `ListItem`:
 
-![Storybook story with subcomponent argstable](./argstable-subcomponents.png)
+![Subcomponents in ArgTypes doc block](./doc-block-arg-types-subcomponents-for-list.png)
 
-The downside of the approach used above, where each story creates its own combination of components, is that it does not take advantage of Storybook [Args](../writing-stories/args.md) meaning:
+Subcomponents are only intended for documentation purposes and have some limitations:
 
-1. You cannot change the stories via the controls panel
-2. There is no [args reuse](../writing-stories/introduction.md#using-args) possible, which makes the stories harder to maintain.
+1. The [argTypes](../api/arg-types.md) of subcomponents are [inferred (for the renderers that support that feature)](../api/arg-types.md#automatic-argtype-inference) and cannot be manually defined or overridden.
+2. The table for each documented subcomponent does _not_ include [controls](../essentials/controls.md) to change the value of the props, because controls always apply to the main component's args.
 
 Let's talk about some techniques you can use to mitigate the above, which are especially useful in more complicated situations.
 
@@ -43,13 +43,13 @@ The simplest change we can make to the above is to reuse the stories of the `Lis
   paths={[
     'react/list-story-unchecked.js.mdx',
     'react/list-story-unchecked.ts.mdx',
-    'vue/list-story-unchecked.2.js.mdx',
-    'vue/list-story-unchecked.2.ts.mdx',
     'vue/list-story-unchecked.3.js.mdx',
     'vue/list-story-unchecked.3.ts.mdx',
     'angular/list-story-unchecked.ts.mdx',
     'web-components/list-story-unchecked.js.mdx',
     'web-components/list-story-unchecked.ts.mdx',
+    'solid/list-story-unchecked.js.mdx',
+    'solid/list-story-unchecked.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-unchecked"
@@ -70,7 +70,7 @@ One way we improve that situation is by pulling the rendered subcomponent out in
 <CodeSnippets
   paths={[
     'react/list-story-with-unchecked-children.js.mdx',
-    'react/list-story-with-unchecked-children.ts.mdx',
+    'react/list-story-with-unchecked-children.ts.mdx',    
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
@@ -89,11 +89,11 @@ The `children` `args` as any other arg needs to be JSON serializable. It means t
 
 As they could lead into errors with your Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 We're currently working on improving the overall experience for the children arg and allow you to edit children arg in a control and allow you to use other types of components in the near future. But for now you need to factor in this caveat when you're implementing your stories.
 
-</div>
+</Callout>
 
 ## Creating a Template Component
 
@@ -105,13 +105,13 @@ Another option that is more “data”-based is to create a special “story-gen
   paths={[
     'react/list-story-template.js.mdx',
     'react/list-story-template.ts.mdx',
-    'vue/list-story-template.2.js.mdx',
-    'vue/list-story-template.2.ts.mdx',
     'vue/list-story-template.3.js.mdx',
     'vue/list-story-template.3.ts.mdx',
     'angular/list-story-template.ts.mdx',
     'web-components/list-story-template.js.mdx',
     'web-components/list-story-template.ts.mdx',
+    'solid/list-story-template.js.mdx',
+    'solid/list-story-template.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"

@@ -1,5 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { DecoratorFunction, StoryContext } from '@storybook/types';
+import { describe, expect, it } from 'vitest';
 import { componentWrapperDecorator } from './decorators';
 
 import decorateStory from './decorateStory';
@@ -190,40 +191,6 @@ describe('decorateStory', () => {
       expect(decorated(makeContext({ component: FooComponent }))).toEqual({
         template:
           '<great-grandparent><grandparent><parent><foo></foo></parent></grandparent></great-grandparent>',
-        userDefinedTemplate: false,
-      });
-    });
-
-    it('should include legacy story components in decorators', () => {
-      const decorators: DecoratorFunction<AngularRenderer>[] = [
-        (s) => {
-          const story = s();
-          return {
-            ...story,
-            template: `<parent>${story.template}</parent>`,
-          };
-        },
-        (s) => {
-          const story = s();
-          return {
-            ...story,
-            template: `<grandparent>${story.template}</grandparent>`,
-          };
-        },
-        (s) => {
-          const story = s();
-          return {
-            ...story,
-            template: `<great-grandparent>${story.template}</great-grandparent>`,
-          };
-        },
-      ];
-      const decorated = decorateStory(() => ({ component: FooComponent }), decorators);
-
-      expect(decorated(makeContext({}))).toEqual({
-        template:
-          '<great-grandparent><grandparent><parent><foo></foo></parent></grandparent></great-grandparent>',
-        component: FooComponent,
         userDefinedTemplate: false,
       });
     });

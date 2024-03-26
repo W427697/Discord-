@@ -15,7 +15,6 @@ export type ToolbarShortcuts = Record<ToolbarShortcutType, ToolbarShortcutConfig
 export interface ToolbarItem {
   value?: string;
   icon?: IconsProps['icon'];
-  left?: string;
   right?: string;
   title?: string;
   hideIcon?: boolean;
@@ -31,8 +30,6 @@ export interface NormalizedToolbarConfig {
   preventDynamicIcon?: boolean;
   items: ToolbarItem[];
   shortcuts?: ToolbarShortcuts;
-  /** @deprecated "name" no longer dual purposes as title - use "title" if a title is wanted */
-  showName?: boolean;
   /** Change title based on selected value */
   dynamicTitle?: boolean;
 }

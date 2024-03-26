@@ -2,10 +2,11 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 6
+  version: 8
+  cacheKey: 10
 
-"root-workspace-0b6124@workspace:.":
+"@storybook/root@workspace:.":
   version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
+  resolution: "@storybook/root@workspace:."
   languageName: unknown
   linkType: soft

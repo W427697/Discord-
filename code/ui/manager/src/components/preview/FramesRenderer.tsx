@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import React, { Fragment, useMemo, useEffect, useState } from 'react';
+import React, { useRef, Fragment } from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
-import { IFrame } from './iframe';
+import { IFrame } from './Iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';
 
@@ -34,15 +34,23 @@ const SkipToSidebarLink = styled(Button)(({ theme }) => ({
   },
 }));
 
-const whenSidebarIsVisible = ({ state }: Combo) => ({
-  isFullscreen: state.layout.isFullscreen,
-  showNav: state.layout.showNav,
+const whenSidebarIsVisible = ({ api, state }: Combo) => ({
+  isFullscreen: api.getIsFullscreen(),
+  isNavShown: api.getIsNavShown(),
   selectedStoryId: state.storyId,
 });
 
+const styles: CSSObject = {
+  '#root [data-is-storybook="false"]': {
+    display: 'none',
+  },
+  '#root [data-is-storybook="true"]': {
+    display: 'block',
+  },
+};
+
 export const FramesRenderer: FC<FramesRendererProps> = ({
   refs,
-  entry,
   scale,
   viewMode = 'story',
   refId,
@@ -56,80 +64,61 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     ...(version && { version }),
   });
   const active = getActive(refId, refs);
+  const { current: frames } = useRef<Record<string, string>>({});
 
-  const styles = useMemo<CSSObject>(() => {
-    // add #root to make the selector high enough in specificity
-    return {
-      '#root [data-is-storybook="false"]': {
-        display: 'none',
-      },
-      '#root [data-is-storybook="true"]': {
-        display: 'block',
-      },
-    };
-  }, []);
+  const refsToLoad = Object.values(refs).filter((ref) => {
+    return ref.type === 'auto-inject' || ref.id === refId;
+  }, {});
 
-  const [frames, setFrames] = useState<Record<string, string>>({
-    'storybook-preview-iframe': getStoryHref(baseUrl, storyId, {
+  if (!frames['storybook-preview-iframe']) {
+    frames['storybook-preview-iframe'] = getStoryHref(baseUrl, storyId, {
       ...queryParams,
       ...(version && { version }),
       viewMode,
-    }),
+    });
+  }
+
+  refsToLoad.forEach((ref) => {
+    const id = `storybook-ref-${ref.id}`;
+    const existingUrl = frames[id]?.split('/iframe.html')[0];
+    if (!existingUrl || ref.url !== existingUrl) {
+      const newUrl = `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`;
+      frames[id] = newUrl;
+    }
   });
-
-  useEffect(() => {
-    const newFrames = Object.values(refs)
-      .filter((r) => {
-        if (r.indexError) {
-          return false;
-        }
-        if (r.type === 'auto-inject') {
-          return true;
-        }
-        if (entry && r.id === entry.refId) {
-          return true;
-        }
-
-        return false;
-      })
-      .reduce((acc, r) => {
-        return {
-          ...acc,
-          [`storybook-ref-${r.id}`]: `${r.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${r.id}${stringifiedQueryParams}`,
-        };
-      }, frames);
-
-    setFrames(newFrames);
-  }, [storyId, entry, refs]);
 
   return (
     <Fragment>
       <Global styles={styles} />
       <Consumer filter={whenSidebarIsVisible}>
-        {({ isFullscreen, showNav, selectedStoryId }) => {
-          if (!isFullscreen && !!showNav && selectedStoryId) {
-            return (
-              <SkipToSidebarLink secondary isLink tabIndex={0} href={`#${selectedStoryId}`}>
-                Skip to sidebar
-              </SkipToSidebarLink>
-            );
+        {({ isFullscreen, isNavShown, selectedStoryId }) => {
+          if (isFullscreen || !isNavShown || !selectedStoryId) {
+            return null;
           }
-          return null;
+          return (
+            <SkipToSidebarLink asChild>
+              <a href={`#${selectedStoryId}`} tabIndex={0} title="Skip to sidebar">
+                Skip to sidebar
+              </a>
+            </SkipToSidebarLink>
+          );
         }}
       </Consumer>
-      {Object.entries(frames).map(([id, src]) => (
-        <Fragment key={id}>
-          <IFrame
-            active={id === active}
-            key={refs[id] ? refs[id].url : id}
-            id={id}
-            title={id}
-            src={src}
-            allowFullScreen
-            scale={scale}
-          />
-        </Fragment>
-      ))}
+      {Object.entries(frames).map(([id, src]) => {
+        return (
+          <Fragment key={id}>
+            <IFrame
+              active={id === active}
+              key={id}
+              id={id}
+              title={id}
+              src={src}
+              allowFullScreen
+              scale={scale}
+            />
+          </Fragment>
+        );
+      })}
     </Fragment>
   );
 };

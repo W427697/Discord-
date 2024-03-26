@@ -2,17 +2,45 @@
 const {
   generateI18nBrowserWebpackConfigFromContext,
 } = require('@angular-devkit/build-angular/src/utils/webpack-browser-config');
-const {
-  getCommonConfig,
-  getStylesConfig,
-  getDevServerConfig,
-  getTypeScriptConfig,
-} = require('@angular-devkit/build-angular/src/webpack/configs');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { filterOutStylingRules } = require('./utils/filter-out-styling-rules');
 const {
   default: StorybookNormalizeAngularEntryPlugin,
 } = require('./plugins/storybook-normalize-angular-entry-plugin');
+
+const getAngularWebpackUtils = () => {
+  try {
+    // Angular < 16.1.0
+    const {
+      getCommonConfig,
+      getStylesConfig,
+      getDevServerConfig,
+      getTypeScriptConfig,
+    } = require('@angular-devkit/build-angular/src/webpack/configs');
+
+    return {
+      getCommonConfig,
+      getStylesConfig,
+      getDevServerConfig,
+      getTypeScriptConfig,
+    };
+  } catch (e) {
+    // Angular > 16.1.0
+    const {
+      getCommonConfig,
+      getStylesConfig,
+      getDevServerConfig,
+      getTypeScriptConfig,
+    } = require('@angular-devkit/build-angular/src/tools/webpack/configs');
+
+    return {
+      getCommonConfig,
+      getStylesConfig,
+      getDevServerConfig,
+      getTypeScriptConfig,
+    };
+  }
+};
 
 /**
  * Extract webpack config from angular-cli 13.x.x
@@ -26,6 +54,8 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
   /**
    * Get angular-cli Webpack config
    */
+  const { getCommonConfig, getStylesConfig, getDevServerConfig, getTypeScriptConfig } =
+    getAngularWebpackUtils();
   const { config: cliConfig } = await generateI18nBrowserWebpackConfigFromContext(
     {
       // Default options
@@ -35,6 +65,9 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
 
       // Options provided by user
       ...builderOptions,
+      styles: builderOptions.styles
+        ?.map((style) => (typeof style === 'string' ? style : style.input))
+        .filter((style) => typeof style === 'string' || style.inject !== false),
 
       // Fixed options
       optimization: false,

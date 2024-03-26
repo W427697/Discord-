@@ -1,48 +1,35 @@
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { StoryId } from '@storybook/types';
-
-export type ViewMode = State['viewMode'];
+import type { Addon_BaseType, Addon_WrapperType, API_ViewMode, StoryId } from '@storybook/types';
 
 export interface PreviewProps {
   api: API;
-  viewMode: ViewMode;
+  viewMode: API_ViewMode;
   refs: State['refs'];
   storyId: StoryId;
   entry: LeafEntry;
   options: {
-    isFullscreen: boolean;
     showTabs: boolean;
     showToolbar: boolean;
   };
-  id: string;
-  path: string;
-  location: State['location'];
+  id?: string;
   queryParams: State['customQueryParams'];
   customCanvas?: CustomCanvasRenderer;
   description: string;
   baseUrl: string;
   withLoader: boolean;
-}
-
-export interface WrapperProps {
-  index: number;
-  children: ReactNode;
-  id: string;
-  storyId: StoryId;
-  active: boolean;
-}
-
-export interface Wrapper {
-  render: FunctionComponent<WrapperProps>;
+  tabs: Addon_BaseType[];
+  tools: Addon_BaseType[];
+  toolsExtra: Addon_BaseType[];
+  tabId: string | undefined;
+  wrappers: Addon_WrapperType[];
 }
 
 export interface ApplyWrappersProps {
-  wrappers: Wrapper[];
+  wrappers: Addon_WrapperType[];
   viewMode: State['viewMode'];
   id: string;
   storyId: StoryId;
-  active: boolean;
 }
 
 export type CustomCanvasRenderer = (
@@ -52,7 +39,7 @@ export type CustomCanvasRenderer = (
   baseUrl: string,
   scale: number,
   queryParams: Record<string, any>
-) => ReactNode;
+) => ReactElement<any, any> | null;
 
 export interface FramesRendererProps {
   entry: LeafEntry;
@@ -60,7 +47,7 @@ export interface FramesRendererProps {
   refId: string;
   baseUrl: string;
   scale: number;
-  viewMode: ViewMode;
+  viewMode: API_ViewMode;
   queryParams: State['customQueryParams'];
   refs: State['refs'];
 }

@@ -1,6 +1,6 @@
 import { opacify } from 'polished';
 import { background, typography, color } from './base';
-import type { Color, ThemeVars, StorybookTheme } from './types';
+import type { Color, StorybookTheme, ThemeVars, ThemeVarsColors } from './types';
 import { easing, animation } from './animation';
 import { create as createSyntax, chromeLight, chromeDark } from './modules/syntax';
 import { getPreferredColorScheme } from './utils';
@@ -32,7 +32,7 @@ const darkSyntaxColors = {
   blue2: '#00009f',
 };
 
-const createColors = (vars: ThemeVars): Color => ({
+const createColors = (vars: ThemeVarsColors): Color => ({
   // Changeable colors
   primary: vars.colorPrimary,
   secondary: vars.colorSecondary,
@@ -81,6 +81,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     colorSecondary,
     appBg,
     appContentBg,
+    appPreviewBg,
     appBorderColor,
     appBorderRadius,
     fontBase,
@@ -88,6 +89,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     textColor,
     textInverseColor,
     barTextColor,
+    barHoverColor,
     barSelectedColor,
     barBg,
     buttonBg,
@@ -115,6 +117,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
       app: appBg,
       bar: barBg,
       content: appContentBg,
+      preview: appPreviewBg,
       gridCellSize: gridCellSize || background.gridCellSize,
       hoverable: background.hoverable,
       positive: background.positive,
@@ -157,6 +160,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
 
     // Toolbar default/active colors
     barTextColor,
+    barHoverColor: barHoverColor || colorSecondary,
     barSelectedColor: barSelectedColor || colorSecondary,
     barBg,
 

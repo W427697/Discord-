@@ -1,9 +1,10 @@
 import { global as globalThis } from '@storybook/global';
+import { fn } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Button,
   tags: ['autodocs'],
-  args: { label: 'Click Me!' },
+  args: { label: 'Click Me!', onClick: fn() },
   parameters: { chromatic: { disable: true } },
 };
 
@@ -27,4 +28,14 @@ export const Disabled = {
  */
 export const Another = {
   args: { label: 'Another' },
+  parameters: {
+    docs: {
+      source: {
+        type: 'code',
+      },
+    },
+  },
+  play: async () => {
+    await new Promise((resolve) => resolve('Play function'));
+  },
 };

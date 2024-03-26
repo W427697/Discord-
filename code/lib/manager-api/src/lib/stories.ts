@@ -22,8 +22,8 @@ import type {
   SetStoriesPayload,
   StoryIndexV2,
 } from '@storybook/types';
-// eslint-disable-next-line import/no-cycle
-import { type API, combineParameters } from '../index';
+
+import { type API, combineParameters, type State } from '../index';
 import merge from './merge';
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
@@ -45,14 +45,11 @@ export const denormalizeStoryParameters = ({
 
 export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
-  { provider, docsOptions }: { provider: API_Provider<API>; docsOptions: DocsOptions }
+  options: ToStoriesHashOptions
 ) =>
-  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
-    provider,
-    docsOptions,
-  });
+  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), options);
 
-const transformSetStoriesStoryDataToPreparedStoryIndex = (
+export const transformSetStoriesStoryDataToPreparedStoryIndex = (
   stories: SetStoriesStoryData
 ): API_PreparedStoryIndex => {
   const entries: API_PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
@@ -74,7 +71,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
           ...base,
         };
       } else {
-        const { argTypes, args, initialArgs } = story;
+        const { argTypes, args, initialArgs }: any = story;
         acc[id] = {
           type: 'story',
           ...base,
@@ -95,16 +92,19 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
 export const transformStoryIndexV2toV3 = (index: StoryIndexV2): StoryIndexV3 => {
   return {
     v: 3,
-    stories: Object.values(index.stories).reduce((acc, entry) => {
-      acc[entry.id] = {
-        ...entry,
-        title: entry.kind,
-        name: entry.name || entry.story,
-        importPath: entry.parameters.fileName || '',
-      };
+    stories: Object.values(index.stories).reduce(
+      (acc, entry) => {
+        acc[entry.id] = {
+          ...entry,
+          title: entry.kind,
+          name: entry.name || entry.story,
+          importPath: entry.parameters.fileName || '',
+        };
 
-      return acc;
-    }, {} as StoryIndexV3['stories']),
+        return acc;
+      },
+      {} as StoryIndexV3['stories']
+    ),
   };
 };
 
@@ -112,53 +112,72 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
   const countByTitle = countBy(Object.values(index.stories), 'title');
   return {
     v: 4,
-    entries: Object.values(index.stories).reduce((acc, entry) => {
-      let type: IndexEntry['type'] = 'story';
-      if (
-        entry.parameters?.docsOnly ||
-        (entry.name === 'Page' && countByTitle[entry.title] === 1)
-      ) {
-        type = 'docs';
-      }
-      acc[entry.id] = {
-        type,
-        ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
-        ...entry,
-      };
+    entries: Object.values(index.stories).reduce(
+      (acc, entry: any) => {
+        let type: IndexEntry['type'] = 'story';
+        if (
+          entry.parameters?.docsOnly ||
+          (entry.name === 'Page' && countByTitle[entry.title] === 1)
+        ) {
+          type = 'docs';
+        }
+        acc[entry.id] = {
+          type,
+          ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
+          ...entry,
+        };
 
-      // @ts-expect-error (we're removing something that should not be there)
-      delete acc[entry.id].story;
-      // @ts-expect-error (we're removing something that should not be there)
-      delete acc[entry.id].kind;
+        // @ts-expect-error (we're removing something that should not be there)
+        delete acc[entry.id].story;
+        // @ts-expect-error (we're removing something that should not be there)
+        delete acc[entry.id].kind;
 
-      return acc;
-    }, {} as API_PreparedStoryIndex['entries']),
+        return acc;
+      },
+      {} as API_PreparedStoryIndex['entries']
+    ),
   };
 };
 
+type ToStoriesHashOptions = {
+  provider: API_Provider<API>;
+  docsOptions: DocsOptions;
+  filters: State['filters'];
+  status: State['status'];
+};
+
 export const transformStoryIndexToStoriesHash = (
-  index: API_PreparedStoryIndex,
-  {
-    provider,
-    docsOptions,
-  }: {
-    provider: API_Provider<API>;
-    docsOptions: DocsOptions;
+  input: API_PreparedStoryIndex | StoryIndexV2 | StoryIndexV3,
+  { provider, docsOptions, filters, status }: ToStoriesHashOptions
+): API_IndexHash | any => {
+  if (!input.v) {
+    throw new Error('Composition: Missing stories.json version');
   }
-): API_IndexHash => {
-  if (!index.v) throw new Error('Composition: Missing stories.json version');
-  let v4Index;
 
-  v4Index = index.v === 2 ? transformStoryIndexV2toV3(index as any) : index;
-  v4Index = index.v === 3 ? transformStoryIndexV3toV4(index as any) : index;
+  let index = input;
+  index = index.v === 2 ? transformStoryIndexV2toV3(index as any) : index;
+  index = index.v === 3 ? transformStoryIndexV3toV4(index as any) : index;
+  index = index as API_PreparedStoryIndex;
 
-  const entryValues = Object.values(v4Index.entries);
+  const entryValues = Object.values(index.entries).filter((entry: any) => {
+    let result = true;
+
+    Object.values(filters).forEach((filter: any) => {
+      if (result === false) {
+        return;
+      }
+      result = filter({ ...entry, status: status[entry.id] });
+    });
+
+    return result;
+  });
+
   const { sidebar = {} } = provider.getConfig();
-  const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
+  const { showRoots, collapsedRoots = [], renderLabel }: any = sidebar;
 
   const setShowRoots = typeof showRoots !== 'undefined';
 
-  const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
+  const storiesHashOutOfOrder = entryValues.reduce((acc: any, item: any) => {
     if (docsOptions.docsMode && item.type !== 'docs') {
       return acc;
     }
@@ -172,7 +191,7 @@ export const transformStoryIndexToStoriesHash = (
     // Now create a "path" or sub id for each name
     const paths = names.reduce((list, name, idx) => {
       const parent = idx > 0 && list[idx - 1];
-      const id = sanitize(parent ? `${parent}-${name}` : name);
+      const id = sanitize(parent ? `${parent}-${name}` : name!);
 
       if (parent === id) {
         throw new Error(
@@ -188,7 +207,7 @@ export const transformStoryIndexToStoriesHash = (
     }, [] as string[]);
 
     // Now, let's add an entry to the hash for each path/name pair
-    paths.forEach((id, idx) => {
+    paths.forEach((id: any, idx: any) => {
       // The child is the next path, OR the story/docs entry itself
       const childId = paths[idx + 1] || item.id;
 
@@ -202,11 +221,6 @@ export const transformStoryIndexToStoriesHash = (
           startCollapsed: collapsedRoots.includes(id),
           // Note that this will later get appended to the previous list of children (see below)
           children: [childId],
-
-          // deprecated fields
-          isRoot: true,
-          isComponent: false,
-          isLeaf: false,
         });
         // Usually the last path/name pair will be displayed as a component,
         // *unless* there are other stories that are more deeply nested under it
@@ -227,10 +241,6 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: true,
-          isLeaf: false,
         });
       } else {
         acc[id] = merge<API_GroupEntry>((acc[id] || {}) as API_GroupEntry, {
@@ -243,10 +253,6 @@ export const transformStoryIndexToStoriesHash = (
           ...(childId && {
             children: [childId],
           }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: false,
-          isLeaf: false,
         });
       }
     });
@@ -258,20 +264,14 @@ export const transformStoryIndexToStoriesHash = (
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
-      ...(item.type !== 'docs' && { prepared: !!item.parameters }),
-
-      // deprecated fields
-      kind: item.title,
-      isRoot: false,
-      isComponent: false,
-      isLeaf: true,
+      prepared: !!item.parameters,
     } as API_DocsEntry | API_StoryEntry;
 
     return acc;
   }, {} as API_IndexHash);
 
   // This function adds a "root" or "orphan" and all of its descendents to the hash.
-  function addItem(acc: API_IndexHash, item: API_HashEntry) {
+  function addItem(acc: API_IndexHash | any, item: API_HashEntry | any) {
     // If we were already inserted as part of a group, that's great.
     if (acc[item.id]) {
       return acc;
@@ -280,18 +280,18 @@ export const transformStoryIndexToStoriesHash = (
     acc[item.id] = item;
     // Ensure we add the children depth-first *before* inserting any other entries
     if (item.type === 'root' || item.type === 'group' || item.type === 'component') {
-      item.children.forEach((childId) => addItem(acc, storiesHashOutOfOrder[childId]));
+      item.children.forEach((childId: any) => addItem(acc, storiesHashOutOfOrder[childId]));
     }
     return acc;
   }
 
   // We'll do two passes over the data, adding all the orphans, then all the roots
   const orphanHash = Object.values(storiesHashOutOfOrder)
-    .filter((i) => i.type !== 'root' && !i.parent)
+    .filter((i: any) => i.type !== 'root' && !i.parent)
     .reduce(addItem, {});
 
   return Object.values(storiesHashOutOfOrder)
-    .filter((i) => i.type === 'root')
+    .filter((i: any) => i.type === 'root')
     .reduce(addItem, orphanHash);
 };
 

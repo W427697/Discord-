@@ -12,8 +12,6 @@ export class AddonStore {
 
   private channel: Channel | undefined;
 
-  private serverChannel: Channel | undefined;
-
   private promise: any;
 
   private resolve: any;
@@ -29,27 +27,13 @@ export class AddonStore {
     return this.channel;
   };
 
-  getServerChannel = (): Channel => {
-    if (!this.serverChannel) {
-      throw new Error('Accessing non-existent serverChannel');
-    }
-
-    return this.serverChannel;
-  };
-
   ready = (): Promise<Channel> => this.promise;
 
   hasChannel = (): boolean => !!this.channel;
 
-  hasServerChannel = (): boolean => !!this.serverChannel;
-
   setChannel = (channel: Channel): void => {
     this.channel = channel;
     this.resolve();
-  };
-
-  setServerChannel = (channel: Channel): void => {
-    this.serverChannel = channel;
   };
 }
 
@@ -62,10 +46,5 @@ function getAddonsStore(): AddonStore {
   }
   return global[KEY];
 }
-
-// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
-//
-// See public_api.ts
 
 export const addons = getAddonsStore();

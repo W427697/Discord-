@@ -1,17 +1,18 @@
 import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';
-import type { GetStorybookData } from './mainConfigFile';
-import { getStorybookData } from './mainConfigFile';
+import type { StorybookConfigRaw } from '@storybook/types';
+import { getBuilderPackageName } from './mainConfigFile';
 
 const logger = console;
 
 export const checkWebpack5Builder = async ({
-  configDir,
-  packageManager,
-}: Parameters<GetStorybookData>[0]) => {
-  const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
-
+  mainConfig,
+  storybookVersion,
+}: {
+  mainConfig: StorybookConfigRaw;
+  storybookVersion: string;
+}) => {
   if (semver.lt(storybookVersion, '6.3.0')) {
     logger.warn(
       dedent`
@@ -19,9 +20,11 @@ export const checkWebpack5Builder = async ({
 
         To upgrade to the latest stable release, run this from your project directory:
 
-        ${chalk.cyan('npx storybook upgrade')}
+        ${chalk.cyan('npx storybook@latest upgrade')}
 
-        Add the ${chalk.cyan('--prerelease')} flag to get the latest prerelease.
+        To upgrade to the latest pre-release, run this from your project directory:
+
+        ${chalk.cyan('npx storybook@next upgrade')}
       `.trim()
     );
     return null;
@@ -36,9 +39,9 @@ export const checkWebpack5Builder = async ({
     return null;
   }
 
-  const builder = mainConfig.core?.builder;
-  if (builder && builder !== 'webpack4') {
-    logger.info(`Found builder ${builder}, skipping`);
+  const builderPackageName = getBuilderPackageName(mainConfig);
+  if (builderPackageName && builderPackageName !== 'webpack4') {
+    logger.info(`Found builder ${builderPackageName}, skipping`);
     return null;
   }
 

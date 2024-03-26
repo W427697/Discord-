@@ -1,12 +1,20 @@
-#!/usr/bin/env node
+/**
+ * This file needs to be run before any other script to ensure dependencies are installed
+ * Therefore, we cannot transform this file to Typescript, because it would require esbuild to be installed
+ */
+import { spawn } from 'child_process';
+import { join } from 'path';
+import { existsSync } from 'fs';
+import * as url from 'url';
 
-const { spawn } = require('child_process');
-const { join } = require('path');
-const { existsSync } = require('fs');
+const logger = console;
+
+const filename = url.fileURLToPath(import.meta.url);
+const dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const checkDependencies = async () => {
-  const scriptsPath = join(__dirname);
-  const codePath = join(__dirname, '..', 'code');
+  const scriptsPath = join(dirname);
+  const codePath = join(dirname, '..', 'code');
 
   const tasks = [];
 
@@ -14,6 +22,7 @@ const checkDependencies = async () => {
     tasks.push(
       spawn('yarn', ['install'], {
         cwd: scriptsPath,
+        shell: true,
         stdio: ['inherit', 'inherit', 'inherit'],
       })
     );
@@ -22,13 +31,14 @@ const checkDependencies = async () => {
     tasks.push(
       spawn('yarn', ['install'], {
         cwd: codePath,
+        shell: true,
         stdio: ['inherit', 'inherit', 'inherit'],
       })
     );
   }
 
   if (tasks.length > 0) {
-    console.log('installing dependencies');
+    logger.log('installing dependencies');
 
     await Promise.all(
       tasks.map(
@@ -49,17 +59,14 @@ const checkDependencies = async () => {
     });
 
     // give the filesystem some time
-    await new Promise((res, rej) => {
+    await new Promise((res) => {
       setTimeout(res, 1000);
     });
   }
 };
 
-module.exports = {
-  checkDependencies,
-};
-
 checkDependencies().catch((e) => {
+  // eslint-disable-next-line no-console
   console.error(e);
   process.exit(1);
 });

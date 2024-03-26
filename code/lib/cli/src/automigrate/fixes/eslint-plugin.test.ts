@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
-import type { PackageJson } from '../../js-package-manager';
+import * as fsExtra from 'fs-extra';
+import type { PackageJson } from '@storybook/core-common';
 import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,
@@ -16,8 +17,7 @@ const checkEslint = async ({
   hasEslint?: boolean;
   eslintExtension?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
+  vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles({
     [`.eslintrc.${eslintExtension}`]: !hasEslint
       ? null
       : dedent(`
@@ -41,6 +41,8 @@ const checkEslint = async ({
   });
   return eslintPlugin.check({
     packageManager: makePackageManager(packageJson),
+    mainConfig: {} as any,
+    storybookVersion: '7.0.0',
   });
 };
 
@@ -52,6 +54,7 @@ describe('eslint-plugin fix', () => {
       await expect(
         checkEslint({
           packageJson,
+          hasEslint: false,
         })
       ).resolves.toBeFalsy();
     });
@@ -72,7 +75,7 @@ describe('eslint-plugin fix', () => {
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {
-        const loggerSpy = jest.spyOn(console, 'warn').mockImplementationOnce(jest.fn);
+        const loggerSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
         const result = await checkEslint({
           packageJson,
           hasEslint: false,
@@ -81,6 +84,7 @@ describe('eslint-plugin fix', () => {
         expect(loggerSpy).toHaveBeenCalledWith('Unable to find .eslintrc config file, skipping');
 
         await expect(result).toBeFalsy();
+        loggerSpy.mockRestore();
       });
     });
 
@@ -90,9 +94,9 @@ describe('eslint-plugin fix', () => {
           checkEslint({
             packageJson,
           })
-        ).resolves.toMatchObject({
-          unsupportedExtension: undefined,
-        });
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
+        );
       });
 
       it('when .eslintrc is using unsupported extension', async () => {
@@ -101,7 +105,9 @@ describe('eslint-plugin fix', () => {
             packageJson,
             eslintExtension: 'yml',
           })
-        ).resolves.toMatchObject({ unsupportedExtension: 'yml' });
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `[Error: warn: Unable to find .eslintrc config file, skipping]`
+        );
       });
     });
   });

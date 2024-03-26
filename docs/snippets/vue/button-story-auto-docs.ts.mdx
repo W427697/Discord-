@@ -1,13 +1,11 @@
 ```ts
 // Button.stories.ts
 
-// Replace vue3 with vue if you are using Storybook for Vue 2
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import Button from './Button.vue';
 
 const meta: Meta<typeof Button> = {
-  title: 'Button',
   component: Button,
   //👇 Enables auto-generated documentation for the component story
   tags: ['autodocs'],

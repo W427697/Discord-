@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import React, { useState, useCallback } from 'react';
 import { useGlobals } from '@storybook/manager-api';
-import { deprecate } from '@storybook/client-logger';
 import { WithTooltip, TooltipLinkList } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
 import type { WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';
@@ -17,7 +16,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     id,
     name,
     description,
-    toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon, dynamicTitle },
+    toolbar: { icon: _icon, items, title: _title, preventDynamicIcon, dynamicTitle },
   }) => {
     const [globals, updateGlobals] = useGlobals();
     const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -31,21 +30,12 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
       icon = getSelectedIcon({ currentValue, items }) || icon;
     }
 
-    // Deprecation support for old "name of global arg used as title"
-    if (showName && !title) {
-      title = name;
-      deprecate(
-        '`showName` is deprecated as `name` will stop having dual purposes in the future. Please specify a `title` in `globalTypes` instead.'
-      );
-    } else if (!showName && !icon && !title) {
-      title = name;
-      deprecate(
-        `Using the \`name\` "${name}" as toolbar title for backward compatibility. \`name\` will stop having dual purposes in the future. Please specify either a \`title\` or an \`icon\` in \`globalTypes\` instead.`
-      );
-    }
-
     if (dynamicTitle) {
       title = getSelectedTitle({ currentValue, items }) || title;
+    }
+
+    if (!title && !icon) {
+      console.warn(`Toolbar '${name}' has no title or icon`);
     }
 
     const handleItemClick = useCallback(

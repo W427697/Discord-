@@ -1,18 +1,31 @@
-import type { API_Settings } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { API_Settings, StoryId } from '@storybook/types';
+import type { ModuleFn } from '../lib/types';
 
 export interface SubAPI {
-  changeSettingsTab: (tab: string) => void;
+  storeSelection: () => void;
+  retrieveSelection: () => StoryId;
+  /**
+   * Changes the active settings tab.
+   * @param path - The path of the settings page to navigate to. The path NOT should include the `/settings` prefix.
+   * @example  changeSettingsTab(`about`).
+   */
+  changeSettingsTab: (path: string) => void;
+  /**
+   * Closes the settings screen and returns to the last tracked story or the first story.
+   */
   closeSettings: () => void;
+  /**
+   * Checks if the settings screen is currently active.
+   * @returns A boolean indicating whether the settings screen is active.
+   */
   isSettingsScreenActive: () => boolean;
-  navigateToSettingsPage: (path: string) => Promise<void>;
 }
 
 export interface SubState {
   settings: API_Settings;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }): any => {
   const isSettingsScreenActive = () => {
     const { path } = fullAPI.getUrlState();
     return !!(path || '').match(/^\/settings/);
@@ -29,22 +42,26 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
         fullAPI.selectFirstStory();
       }
     },
-    changeSettingsTab: (tab: string) => {
-      navigate(`/settings/${tab}`);
+    changeSettingsTab: (path: string) => {
+      navigate(`/settings/${path}`);
     },
     isSettingsScreenActive,
-    navigateToSettingsPage: async (path) => {
-      if (!isSettingsScreenActive()) {
-        const { settings, storyId } = store.getState();
+    retrieveSelection() {
+      const { settings } = store.getState();
 
-        await store.setState({
-          settings: { ...settings, lastTrackedStoryId: storyId },
-        });
-      }
+      return settings.lastTrackedStoryId;
+    },
+    storeSelection: async () => {
+      const { storyId, settings } = store.getState();
 
-      navigate(path);
+      await store.setState({
+        settings: { ...settings, lastTrackedStoryId: storyId },
+      });
     },
   };
 
-  return { state: { settings: { lastTrackedStoryId: null } }, api };
+  return {
+    state: { settings: { lastTrackedStoryId: null } },
+    api,
+  };
 };

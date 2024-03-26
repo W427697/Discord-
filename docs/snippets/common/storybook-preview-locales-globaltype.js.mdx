@@ -1,10 +1,9 @@
 ```js
 // .storybook/preview.js
 
-export default {
+const preview = {
   globalTypes: {
     locale: {
-      name: 'Locale',
       description: 'Internationalization locale',
       defaultValue: 'en',
       toolbar: {
@@ -20,4 +19,6 @@ export default {
     },
   },
 };
+
+export default preview;
 ```

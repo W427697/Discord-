@@ -1,5 +1,5 @@
+import { describe, it, expect, vi } from 'vitest';
 import { once } from '@storybook/client-logger';
-import { expect } from '@jest/globals';
 import type { SBType } from '@storybook/types';
 
 import {
@@ -18,7 +18,7 @@ const functionType: SBType = { name: 'function' };
 const numArrayType: SBType = { name: 'array', value: numberType };
 const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 enum ArgsMapTestEnumWithoutInitializer {
   EnumValue,
@@ -67,17 +67,16 @@ describe('mapArgsToTypes', () => {
   });
 
   it('maps booleans', () => {
+    expect(mapArgsToTypes({ a: true }, { a: { type: booleanType } })).toStrictEqual({ a: true });
     expect(mapArgsToTypes({ a: 'true' }, { a: { type: booleanType } })).toStrictEqual({ a: true });
-    expect(mapArgsToTypes({ a: 'false' }, { a: { type: booleanType } })).toStrictEqual({
+    expect(mapArgsToTypes({ a: false }, { a: { type: booleanType } })).toStrictEqual({
       a: false,
     });
     expect(mapArgsToTypes({ a: 'yes' }, { a: { type: booleanType } })).toStrictEqual({ a: false });
   });
 
   it('maps sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(mapArgsToTypes({ a: [, '2', undefined] }, { a: { type: numArrayType } })).toStrictEqual({
-      // eslint-disable-next-line no-sparse-arrays
       a: [, 2, undefined],
     });
   });
@@ -129,7 +128,7 @@ describe('mapArgsToTypes', () => {
         {
           key: {
             arr: ['1', '2'],
-            obj: { bool: 'true' },
+            obj: { bool: true },
           },
         },
         {
@@ -159,7 +158,7 @@ describe('mapArgsToTypes', () => {
           key: [
             {
               arr: ['1', '2'],
-              obj: { bool: 'true' },
+              obj: { bool: true },
             },
           ],
         },
@@ -195,7 +194,6 @@ describe('combineArgs', () => {
   });
 
   it('merges sparse arrays', () => {
-    // eslint-disable-next-line no-sparse-arrays
     expect(combineArgs({ foo: [1, 2, 3] }, { foo: [, 4, undefined] })).toStrictEqual({
       foo: [1, 4],
     });
@@ -276,8 +274,12 @@ describe('groupArgsByTarget', () => {
   it('groups targeted args', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
-      argTypes: { a: { target: 'group1' }, b: { target: 'group2' }, c: { target: 'group2' } },
-    } as any);
+      argTypes: {
+        a: { name: 'a', target: 'group1' },
+        b: { name: 'b', target: 'group2' },
+        c: { name: 'c', target: 'group2' },
+      },
+    });
     expect(groups).toEqual({
       group1: {
         a: 1,
@@ -292,8 +294,8 @@ describe('groupArgsByTarget', () => {
   it('groups non-targetted args into a group with no name', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
-      argTypes: { b: { name: 'b', target: 'group2' }, c: {} },
-    } as any);
+      argTypes: { a: { name: 'a' }, b: { name: 'b', target: 'group2' }, c: { name: 'c' } },
+    });
     expect(groups).toEqual({
       [UNTARGETED]: {
         a: 1,

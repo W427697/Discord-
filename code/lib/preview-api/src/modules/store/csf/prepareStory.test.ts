@@ -1,19 +1,14 @@
-/// <reference types="@types/jest" />;
-
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
-import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
 import { UNTARGETED } from '../args';
-import { prepareStory, prepareMeta } from './prepareStory';
+import { prepareStory, prepareMeta, prepareContext } from './prepareStory';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', async (importOriginal) => ({
   global: {
-    ...(jest.requireActual('@storybook/global') as any),
-    FEATURES: {
-      breakingChangesV7: true,
-    },
+    ...(await importOriginal<typeof import('@storybook/global')>()),
   },
 }));
 
@@ -27,8 +22,13 @@ const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
 
-beforeEach(() => {
-  global.FEATURES = { breakingChangesV7: true };
+// Extra fields that must be added to the story context after enhancers
+const storyContextExtras = () => ({
+  hooks: new HooksContext(),
+  viewMode: 'story' as const,
+  loaded: {},
+  abortSignal: new AbortController().signal,
+  canvasElement: {},
 });
 
 describe('prepareStory', () => {
@@ -107,16 +107,6 @@ describe('prepareStory', () => {
       expect(parameters).toEqual({ __isArgsStory: true });
     });
 
-    it('does not set `__isArgsStory` if `passArgsFirst` is disabled', () => {
-      const { parameters } = prepareStory(
-        { id, name, parameters: { passArgsFirst: false }, moduleExport },
-        { id, title },
-        { render }
-      );
-
-      expect(parameters).toEqual({ passArgsFirst: false, __isArgsStory: false });
-    });
-
     it('does not set `__isArgsStory` if `render` does not take args', () => {
       const { parameters } = prepareStory(
         { id, name, moduleExport },
@@ -160,7 +150,7 @@ describe('prepareStory', () => {
       });
     });
 
-    it('can be overriden by `undefined`', () => {
+    it('can be overridden by `undefined`', () => {
       const { initialArgs } = prepareStory(
         { id, name, args: { a: undefined }, moduleExport },
         { id, title, args: { a: 'component' } },
@@ -197,7 +187,7 @@ describe('prepareStory', () => {
       });
 
       it('allow you to add args', () => {
-        const enhancer = jest.fn(() => ({ c: 'd' }));
+        const enhancer = vi.fn(() => ({ c: 'd' }));
 
         const { initialArgs } = prepareStory(
           { id, name, args: { a: 'b' }, moduleExport },
@@ -210,14 +200,14 @@ describe('prepareStory', () => {
       });
 
       it('passes result of earlier enhancers into subsequent ones, and composes their output', () => {
-        const enhancerOne = jest.fn(() => ({ b: 'B' }));
-        const enhancerTwo = jest.fn(({ initialArgs }) =>
+        const enhancerOne = vi.fn(() => ({ b: 'B' }));
+        const enhancerTwo = vi.fn(({ initialArgs }) =>
           Object.entries(initialArgs).reduce(
             (acc, [key, val]) => ({ ...acc, [key]: `enhanced ${val}` }),
             {}
           )
         );
-        const enhancerThree = jest.fn(() => ({ c: 'C' }));
+        const enhancerThree = vi.fn(() => ({ c: 'C' }));
 
         const { initialArgs } = prepareStory(
           { id, name, args: { a: 'A' }, moduleExport },
@@ -284,7 +274,7 @@ describe('prepareStory', () => {
     });
     describe('argTypesEnhancers', () => {
       it('allows you to alter argTypes when stories are added', () => {
-        const enhancer = jest.fn((context) => ({ ...context.argTypes, c: { name: 'd' } }));
+        const enhancer = vi.fn((context) => ({ ...context.argTypes, c: { name: 'd' } }));
         const { argTypes } = prepareStory(
           { id, name, argTypes: { a: { name: 'b' } }, moduleExport },
           { id, title },
@@ -298,7 +288,7 @@ describe('prepareStory', () => {
       });
 
       it('does not merge argType enhancer results', () => {
-        const enhancer = jest.fn(() => ({ c: { name: 'd' } }));
+        const enhancer = vi.fn(() => ({ c: { name: 'd' } }));
         const { argTypes } = prepareStory(
           { id, name, argTypes: { a: { name: 'b' } }, moduleExport },
           { id, title },
@@ -312,8 +302,8 @@ describe('prepareStory', () => {
       });
 
       it('recursively passes argTypes to successive enhancers', () => {
-        const firstEnhancer = jest.fn((context) => ({ ...context.argTypes, c: { name: 'd' } }));
-        const secondEnhancer = jest.fn((context) => ({ ...context.argTypes, e: { name: 'f' } }));
+        const firstEnhancer = vi.fn((context) => ({ ...context.argTypes, c: { name: 'd' } }));
+        const secondEnhancer = vi.fn((context) => ({ ...context.argTypes, e: { name: 'f' } }));
         const { argTypes } = prepareStory(
           { id, name, argTypes: { a: { name: 'b' } }, moduleExport },
           { id, title },
@@ -333,7 +323,7 @@ describe('prepareStory', () => {
 
   describe('applyLoaders', () => {
     it('awaits the result of a loader', async () => {
-      const loader = jest.fn(async () => new Promise((r) => setTimeout(() => r({ foo: 7 }), 100)));
+      const loader = vi.fn(async () => new Promise((r) => setTimeout(() => r({ foo: 7 }), 100)));
       const { applyLoaders } = prepareStory(
         { id, name, loaders: [loader as any], moduleExport },
         { id, title },
@@ -341,9 +331,9 @@ describe('prepareStory', () => {
       );
 
       const storyContext = { context: 'value' } as any;
-      const loadedContext = await applyLoaders(storyContext);
+      const loadedContext = await applyLoaders({ ...storyContext });
 
-      expect(loader).toHaveBeenCalledWith(storyContext);
+      expect(loader).toHaveBeenCalledWith({ ...storyContext, loaded: {} });
       expect(loadedContext).toEqual({
         context: 'value',
         loaded: { foo: 7 },
@@ -394,7 +384,7 @@ describe('prepareStory', () => {
 
   describe('undecoratedStoryFn', () => {
     it('args are mapped by argTypes[x].mapping', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const story = prepareStory(
         {
           id,
@@ -410,45 +400,21 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = story.prepareContext({ args: story.initialArgs, ...story } as any);
-      story.undecoratedStoryFn(context);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.undecoratedStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { one: 'mapped', two: 2, three: 3 },
         expect.objectContaining({ args: { one: 'mapped', two: 2, three: 3 } })
       );
     });
-
-    it('passes args as the first argument to the story if `parameters.passArgsFirst` is true', () => {
-      const renderMock = jest.fn();
-      const firstStory = prepareStory(
-        { id, name, args: { a: 1 }, parameters: { passArgsFirst: true }, moduleExport },
-        { id, title },
-        { render: renderMock }
-      );
-
-      firstStory.undecoratedStoryFn({ args: firstStory.initialArgs, ...firstStory } as any);
-      expect(renderMock).toHaveBeenCalledWith(
-        { a: 1 },
-        expect.objectContaining({ args: { a: 1 } })
-      );
-
-      const secondStory = prepareStory(
-        { id, name, args: { a: 1 }, parameters: { passArgsFirst: false }, moduleExport },
-        { id, title },
-        { render: renderMock }
-      );
-
-      secondStory.undecoratedStoryFn({ args: secondStory.initialArgs, ...secondStory } as any);
-      expect(renderMock).toHaveBeenCalledWith(expect.objectContaining({ args: { a: 1 } }));
-    });
   });
 
   describe('storyFn', () => {
     it('produces a story with inherited decorators applied', () => {
-      const renderMock = jest.fn();
-      const globalDecorator = jest.fn((s) => s());
-      const componentDecorator = jest.fn((s) => s());
-      const storyDecorator = jest.fn((s) => s());
+      const renderMock = vi.fn();
+      const globalDecorator = vi.fn((s) => s());
+      const componentDecorator = vi.fn((s) => s());
+      const storyDecorator = vi.fn((s) => s());
       const story = prepareStory(
         {
           id,
@@ -460,7 +426,7 @@ describe('prepareStory', () => {
         { render: renderMock, decorators: [globalDecorator] }
       );
 
-      addons.setChannel({ on: jest.fn(), removeListener: jest.fn() } as any);
+      addons.setChannel({ on: vi.fn(), removeListener: vi.fn() } as any);
       const hooks = new HooksContext();
       story.unboundStoryFn({ args: story.initialArgs, hooks, ...story } as any);
 
@@ -473,20 +439,20 @@ describe('prepareStory', () => {
     });
 
     it('prepared context is applied to decorators', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       let ctx1;
       let ctx2;
       let ctx3;
 
-      const globalDecorator = jest.fn((fn, ctx) => {
+      const globalDecorator = vi.fn((fn, ctx) => {
         ctx1 = ctx;
         return fn();
       });
-      const componentDecorator = jest.fn((fn, ctx) => {
+      const componentDecorator = vi.fn((fn, ctx) => {
         ctx2 = ctx;
         return fn();
       });
-      const storyDecorator = jest.fn((fn, ctx) => {
+      const storyDecorator = vi.fn((fn, ctx) => {
         ctx3 = ctx;
         return fn();
       });
@@ -506,23 +472,69 @@ describe('prepareStory', () => {
       );
 
       const hooks = new HooksContext();
-      const context = story.prepareContext({ args: story.initialArgs, hooks, ...story } as any);
-      story.unboundStoryFn(context);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.unboundStoryFn({ ...context, ...storyContextExtras(), hooks });
 
-      expect(ctx1).toMatchObject({ args: { one: 'mapped-1' } });
-      expect(ctx2).toMatchObject({ args: { one: 'mapped-1' } });
-      expect(ctx3).toMatchObject({ args: { one: 'mapped-1' } });
+      expect(ctx1).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
+      expect(ctx2).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
+      expect(ctx3).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
 
       hooks.clean();
     });
   });
 
+  describe('mapping', () => {
+    it('maps labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: vi.fn<any>() }
+      );
+
+      const context = prepareContext({ args: { one: 1 }, globals: {}, ...story });
+      expect(context).toMatchObject({
+        args: { one: 'mapped-1' },
+      });
+    });
+
+    it('maps arrays of labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: vi.fn<any>() }
+      );
+
+      const context = prepareContext({
+        args: { one: [1, 1] },
+        globals: {},
+        ...story,
+      });
+      expect(context).toMatchObject({
+        args: { one: ['mapped-1', 'mapped-1'] },
+      });
+    });
+  });
+
   describe('with `FEATURES.argTypeTargetsV7`', () => {
     beforeEach(() => {
-      global.FEATURES = { breakingChangesV7: true, argTypeTargetsV7: true };
+      global.FEATURES = { argTypeTargetsV7: true };
     });
     it('filters out targeted args', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const firstStory = prepareStory(
         {
           id,
@@ -535,12 +547,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -548,7 +556,7 @@ describe('prepareStory', () => {
     });
 
     it('filters out conditional args', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const firstStory = prepareStory(
         {
           id,
@@ -561,12 +569,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -574,7 +578,7 @@ describe('prepareStory', () => {
     });
 
     it('adds argsByTarget to context', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const firstStory = prepareStory(
         {
           id,
@@ -587,12 +591,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ argsByTarget: { [UNTARGETED]: { a: 1 }, foo: { b: 2 } } })
@@ -600,7 +600,7 @@ describe('prepareStory', () => {
     });
 
     it('always sets args, even when all are targetted', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const firstStory = prepareStory(
         {
           id,
@@ -613,12 +613,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         {},
         expect.objectContaining({ argsByTarget: { foo: { b: 2 } } })
@@ -626,7 +622,7 @@ describe('prepareStory', () => {
     });
 
     it('always sets args, even when none are set for the story', () => {
-      const renderMock = jest.fn();
+      const renderMock = vi.fn();
       const firstStory = prepareStory(
         {
           id,
@@ -637,12 +633,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = firstStory.prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith({}, expect.objectContaining({ argsByTarget: {} }));
     });
   });
@@ -650,8 +642,8 @@ describe('prepareStory', () => {
 
 describe('playFunction', () => {
   it('awaits play if defined', async () => {
-    const inner = jest.fn();
-    const play = jest.fn(async () => {
+    const inner = vi.fn();
+    const play = vi.fn(async () => {
       await new Promise((r) => setTimeout(r, 0)); // Ensure this puts an async boundary in
       inner();
     });
@@ -667,14 +659,14 @@ describe('playFunction', () => {
   });
 
   it('provides step via runStep', async () => {
-    const stepPlay = jest.fn((context) => {
+    const stepPlay = vi.fn((context) => {
       expect(context).not.toBeUndefined();
       expect(context.step).toEqual(expect.any(Function));
     });
-    const play = jest.fn(async ({ step }) => {
+    const play = vi.fn(async ({ step }) => {
       await step('label', stepPlay);
     });
-    const runStep = jest.fn((label, p, c) => p(c));
+    const runStep = vi.fn((label, p, c) => p(c));
     const { playFunction } = prepareStory(
       { id, name, play, moduleExport },
       { id, title },
@@ -730,11 +722,12 @@ describe('prepareMeta', () => {
       unboundStoryFn,
       undecoratedStoryFn,
       playFunction,
-      prepareContext,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      parameters: { __isArgsStory, ...parameters },
       ...expectedPreparedMeta
     } = preparedStory;
 
-    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
-    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
+    expect(preparedMeta).toMatchObject({ ...expectedPreparedMeta, parameters });
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length + 1);
   });
 });

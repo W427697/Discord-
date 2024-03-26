@@ -1,4 +1,4 @@
-import 'jest-specific-snapshot';
+import { describe, it, expect } from 'vitest';
 import mapValues from 'lodash/mapValues.js';
 import { transformSync } from '@babel/core';
 import requireFromString from 'require-from-string';
@@ -180,30 +180,18 @@ describe('storybook type system', () => {
         {
           "kind": {
             "raw": "'default' | 'action'",
-            "name": "union",
+            "name": "enum",
             "value": [
-              {
-                "name": "other",
-                "value": "literal"
-              },
-              {
-                "name": "other",
-                "value": "literal"
-              }
+              "default",
+              "action"
             ]
           },
           "inlinedNumericLiteralUnion": {
             "raw": "0 | 1",
-            "name": "union",
+            "name": "enum",
             "value": [
-              {
-                "name": "other",
-                "value": "literal"
-              },
-              {
-                "name": "other",
-                "value": "literal"
-              }
+              0,
+              1
             ]
           },
           "enumUnion": {
@@ -805,24 +793,24 @@ const transformToModule = (inputCode: string) => {
       ],
     ],
   };
-  const { code } = transformSync(inputCode, options);
-  return normalizeNewlines(code);
+  const codeTransform = transformSync(inputCode, options);
+  return codeTransform && normalizeNewlines(codeTransform.code ?? '');
 };
 
 const annotateWithDocgen = (inputCode: string, filename: string) => {
   const options = {
     presets: ['@babel/typescript', '@babel/react'],
-    plugins: ['babel-plugin-react-docgen', '@babel/plugin-proposal-class-properties'],
+    plugins: ['babel-plugin-react-docgen', '@babel/plugin-transform-class-properties'],
     babelrc: false,
     filename,
   };
-  const { code } = transformSync(inputCode, options);
-  return normalizeNewlines(code);
+  const codeTransform = transformSync(inputCode, options);
+  return codeTransform && normalizeNewlines(codeTransform.code ?? '');
 };
 
 const convertCommon = (code: string, fileExt: string) => {
   const docgenPretty = annotateWithDocgen(code, `temp.${fileExt}`);
-  const { Component } = requireFromString(transformToModule(docgenPretty));
+  const { Component } = requireFromString(transformToModule(docgenPretty ?? ''));
   // eslint-disable-next-line no-underscore-dangle
   const { props = {} } = Component.__docgenInfo || {};
   const types = mapValues(props, (prop) => convert(prop));

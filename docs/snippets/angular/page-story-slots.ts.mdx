@@ -2,34 +2,27 @@
 // Page.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate } from '@storybook/angular';
 
 import { Page } from './page.component';
 
-const meta: Meta<Page> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Page',
+type PagePropsAndCustomArgs = Page & { footer?: string };
+
+const meta: Meta<PagePropsAndCustomArgs> = {
   component: Page,
-};
-
-export default meta;
-type Story = StoryObj<Page>;
-
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/angular/api/csf
- * to learn how to use render functions.
- */
-export const CustomFooter: Story = {
-  render: (args) => ({
+  render: ({ footer, ...args }) => ({
     props: args,
     template: `
-      <storybook-page>
-        <ng-container footer>${args.footer}</ng-container>
+      <storybook-page ${argsToTemplate(args)}>
+        <ng-container footer>${footer}</ng-container>
       </storybook-page>`,
   }),
+};
+export default meta;
+
+type Story = StoryObj<PagePropsAndCustomArgs>;
+
+export const CustomFooter: Story = {
   args: {
     footer: 'Built with Storybook',
   },

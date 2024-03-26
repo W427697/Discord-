@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { StoriesEntry, StoryIndexer } from './storyIndex';
+
+import type { StoriesEntry, Indexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -38,6 +37,11 @@ export interface CoreConfig {
    * @see https://storybook.js.org/telemetry
    */
   disableTelemetry?: boolean;
+
+  /**
+   * Disables notifications for Storybook updates.
+   */
+  disableWhatsNewNotifications?: boolean;
   /**
    * Enable crash reports to be sent to Storybook telemetry
    * @see https://storybook.js.org/telemetry
@@ -65,12 +69,42 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<any>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<any>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
-  apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'refs', config?: [], args?: any): Promise<StorybookConfigRaw['refs']>;
+  apply(
+    extension: 'core',
+    config?: StorybookConfigRaw['core'],
+    args?: any
+  ): Promise<NonNullable<StorybookConfigRaw['core']>>;
+  apply(
+    extension: 'docs',
+    config?: StorybookConfigRaw['docs'],
+    args?: any
+  ): Promise<NonNullable<StorybookConfigRaw['docs']>>;
+  apply(
+    extension: 'features',
+    config?: StorybookConfigRaw['features'],
+    args?: any
+  ): Promise<NonNullable<StorybookConfigRaw['features']>>;
+  apply(
+    extension: 'typescript',
+    config?: StorybookConfigRaw['typescript'],
+    args?: any
+  ): Promise<NonNullable<StorybookConfigRaw['typescript']>>;
+  apply(
+    extension: 'build',
+    config?: StorybookConfigRaw['build'],
+    args?: any
+  ): Promise<NonNullable<StorybookConfigRaw['build']>>;
+  apply(
+    extension: 'staticDirs',
+    config?: StorybookConfigRaw['staticDirs'],
+    args?: any
+  ): Promise<StorybookConfigRaw['staticDirs']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -104,12 +138,6 @@ export interface VersionCheck {
   time: number;
 }
 
-export interface ReleaseNotesData {
-  success: boolean;
-  currentVersion: string;
-  showOnFirstLaunch: boolean;
-}
-
 export interface Stats {
   toJson: () => any;
 }
@@ -127,6 +155,7 @@ export interface LoadOptions {
   packageJson: PackageJson;
   outputDir?: string;
   configDir?: string;
+  cacheKey?: string;
   ignorePreview?: boolean;
   extendServer?: (server: Server) => void;
 }
@@ -139,10 +168,8 @@ export interface CLIOptions {
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   host?: string;
-  /**
-   * @deprecated Use 'staticDirs' Storybook Configuration option instead
-   */
-  staticDir?: string[];
+  initialPath?: string;
+  exactPort?: boolean;
   configDir?: string;
   https?: boolean;
   sslCa?: string[];
@@ -155,10 +182,11 @@ export interface CLIOptions {
   loglevel?: string;
   quiet?: boolean;
   versionUpdates?: boolean;
-  releaseNotes?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
+  statsJson?: string | boolean;
   outputDir?: string;
 }
 
@@ -168,10 +196,8 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
-  env?: (envs: Record<string, string>) => Record<string, string>;
-  features?: StorybookConfig['features'];
+  features?: StorybookConfigRaw['features'];
   versionCheck?: VersionCheck;
-  releaseNotesData?: ReleaseNotesData;
   disableWebpackDefaults?: boolean;
   serverChannelUrl?: string;
 }
@@ -181,7 +207,10 @@ export interface StorybookConfigOptions {
   presetsList?: LoadedPreset[];
 }
 
-export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
+export type Options = LoadOptions &
+  StorybookConfigOptions &
+  CLIOptions &
+  BuilderOptions & { build?: TestBuildConfig };
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
   getConfig: (options: Options) => Promise<Config>;
@@ -215,12 +244,13 @@ export interface TypescriptOptions {
    * @default `false`
    */
   check: boolean;
+
   /**
-   * Disable parsing typescript files through babel.
+   * Disable parsing TypeScript files through compiler.
    *
    * @default `false`
    */
-  skipBabel: boolean;
+  skipCompiler: boolean;
 }
 
 export type Preset =
@@ -238,7 +268,7 @@ export type Entry = string;
 
 type CoreCommon_StorybookRefs = Record<
   string,
-  { title: string; url: string } | { disable: boolean }
+  { title: string; url: string } | { disable: boolean; expanded?: boolean }
 >;
 
 export type DocsOptions = {
@@ -258,10 +288,59 @@ export type DocsOptions = {
   docsMode?: boolean;
 };
 
+export interface TestBuildFlags {
+  /**
+   * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
+   */
+  disableBlocks?: boolean;
+  /**
+   * Disable specific addons
+   */
+  disabledAddons?: string[];
+  /**
+   * Filter out .mdx stories entries
+   */
+  disableMDXEntries?: boolean;
+  /**
+   * Override autodocs to be disabled
+   */
+  disableAutoDocs?: boolean;
+  /**
+   * Override docgen to be disabled.
+   */
+  disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Minify with ESBuild when using webpack.
+   */
+  esbuildMinify?: boolean;
+}
+
+export interface TestBuildConfig {
+  test?: TestBuildFlags;
+}
+
+type Tag = string;
+
+export interface TagOptions {
+  excludeFromSidebar: boolean;
+  excludeFromDocsStories: boolean;
+}
+
+export type TagsOptions = Record<Tag, Partial<TagOptions>>;
+
 /**
- * The interface for Storybook configuration in `main.ts` files.
+ * The interface for Storybook configuration used internally in presets
+ * The difference is that these values are the raw values, AKA, not wrapped with `PresetValue<>`
  */
-export interface StorybookConfig {
+export interface StorybookConfigRaw {
   /**
    * Sets the addons you want to use with Storybook.
    *
@@ -269,141 +348,188 @@ export interface StorybookConfig {
    */
   addons?: Preset[];
   core?: CoreConfig;
-  /**
-   * Sets a list of directories of static files to be loaded by Storybook server
-   *
-   * @example `['./public']` or `[{from: './public', 'to': '/assets'}]`
-   */
   staticDirs?: (DirectoryMapping | string)[];
   logLevel?: string;
   features?: {
-    /**
-     * Build stories.json automatically on start/build
-     */
-    buildStoriesJson?: boolean;
-
-    /**
-     * Activate preview of CSF v3.0
-     *
-     * @deprecated This is always on now from 6.4 regardless of the setting
-     */
-    previewCsfV3?: boolean;
-
-    /**
-     * Activate on demand story store
-     */
-    storyStoreV7?: boolean;
-
-    /**
-     * Do not throw errors if using `.mdx` files in SSv7
-     * (for internal use in sandboxes)
-     */
-    storyStoreV7MdxErrors?: boolean;
-
-    /**
-     * Enable a set of planned breaking changes for SB7.0
-     */
-    breakingChangesV7?: boolean;
-
     /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
 
     /**
-     * Warn when there is a pre-6.0 hierarchy separator ('.' / '|') in the story title.
-     * Will be removed in 7.0.
-     */
-    warnOnLegacyHierarchySeparator?: boolean;
-
-    /**
-     * Use legacy MDX1, to help smooth migration to 7.0
-     */
-    legacyMdx1?: boolean;
-
-    /**
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Disallow implicit actions during rendering. This will be the default in Storybook 8.
+     *
+     * This will make sure that your story renders the same no matter if docgen is enabled or not.
+     */
+    disallowImplicitActionsInRenderV8?: boolean;
+
+    /**
+     * Enable asynchronous component rendering in React renderer
+     */
+    experimentalRSC?: boolean;
   };
+
+  build?: TestBuildConfig;
+
+  stories: StoriesEntry[];
+
+  framework?: Preset;
+
+  typescript?: Partial<TypescriptOptions>;
+
+  refs?: CoreCommon_StorybookRefs;
+
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babel?: any;
+
+  swc?: any;
+
+  env?: Record<string, string>;
+
+  // We cannot use a particular Babel type here because we need to support a variety of versions
+  babelDefault?: any;
+
+  previewAnnotations?: Entry[];
+
+  experimental_indexers?: Indexer[];
+
+  docs?: DocsOptions;
+
+  previewHead?: string;
+
+  previewBody?: string;
+
+  previewMainTemplate?: string;
+
+  managerHead?: string;
+
+  tags?: TagsOptions;
+}
+
+/**
+ * The interface for Storybook configuration in `main.ts` files.
+ * This interface is public
+ * All values should be wrapped with `PresetValue<>`, though there are a few exceptions: `addons`, `framework`
+ */
+export interface StorybookConfig {
+  /**
+   * Sets the addons you want to use with Storybook.
+   *
+   * @example `['@storybook/addon-essentials']` or `[{ name: '@storybook/addon-essentials', options: { backgrounds: false } }]`
+   */
+  addons?: StorybookConfigRaw['addons'];
+  core?: PresetValue<StorybookConfigRaw['core']>;
+  /**
+   * Sets a list of directories of static files to be loaded by Storybook server
+   *
+   * @example `['./public']` or `[{from: './public', 'to': '/assets'}]`
+   */
+  staticDirs?: PresetValue<StorybookConfigRaw['staticDirs']>;
+  logLevel?: PresetValue<StorybookConfigRaw['logLevel']>;
+  features?: PresetValue<StorybookConfigRaw['features']>;
+
+  build?: PresetValue<StorybookConfigRaw['build']>;
 
   /**
    * Tells Storybook where to find stories.
    *
-   * @example `['./src/*.stories.@(j|t)sx?']`
+   * @example `['./src/*.stories.@(j|t)sx?']` or `async () => [...(await myCustomStoriesEntryBuilderFunc())]`
    */
-  stories: StoriesEntry[];
+  stories: PresetValue<StorybookConfigRaw['stories']>;
 
   /**
    * Framework, e.g. '@storybook/react-vite', required in v7
    */
-  framework?: Preset;
+  framework?: StorybookConfigRaw['framework'];
 
   /**
    * Controls how Storybook handles TypeScript files.
    */
-  typescript?: Partial<TypescriptOptions>;
+  typescript?: PresetValue<StorybookConfigRaw['typescript']>;
 
   /**
    * References external Storybooks
    */
-  refs?: PresetValue<CoreCommon_StorybookRefs>;
+  refs?: PresetValue<StorybookConfigRaw['refs']>;
 
   /**
    * Modify or return babel config.
    */
-  babel?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babel?: PresetValue<StorybookConfigRaw['babel']>;
+
+  /**
+   * Modify or return swc config.
+   */
+  swc?: PresetValue<StorybookConfigRaw['swc']>;
+
+  /**
+   * Modify or return env config.
+   */
+  env?: PresetValue<StorybookConfigRaw['env']>;
 
   /**
    * Modify or return babel config.
    */
-  babelDefault?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
-
-  /**
-   * Add additional scripts to run in the preview a la `.storybook/preview.js`
-   *
-   * @deprecated use `previewAnnotations` or `/preview.js` file instead
-   */
-  config?: PresetValue<Entry[]>;
+  babelDefault?: PresetValue<StorybookConfigRaw['babelDefault']>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
-  previewAnnotations?: PresetValue<Entry[]>;
+  previewAnnotations?: PresetValue<StorybookConfigRaw['previewAnnotations']>;
 
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: PresetValue<StoryIndexer[]>;
+  experimental_indexers?: PresetValue<StorybookConfigRaw['experimental_indexers']>;
 
   /**
    * Docs related features in index generation
    */
-  docs?: DocsOptions;
+  docs?: PresetValue<StorybookConfigRaw['docs']>;
 
   /**
    * Programmatically modify the preview head/body HTML.
    * The previewHead and previewBody functions accept a string,
    * which is the existing head/body, and return a modified string.
    */
-  previewHead?: PresetValue<string>;
+  previewHead?: PresetValue<StorybookConfigRaw['previewHead']>;
 
-  previewBody?: PresetValue<string>;
+  previewBody?: PresetValue<StorybookConfigRaw['previewBody']>;
+
+  /**
+   * Programmatically override the preview's main page template.
+   * This should return a reference to a file containing an `.ejs` template
+   * that will be interpolated with environment variables.
+   *
+   * @example '.storybook/index.ejs'
+   */
+  previewMainTemplate?: PresetValue<StorybookConfigRaw['previewMainTemplate']>;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The managerHead function accept a string,
+   * which is the existing head content, and return a modified string.
+   */
+  managerHead?: PresetValue<StorybookConfigRaw['managerHead']>;
+
+  /**
+   * Configure non-standard tag behaviors
+   */
+  tags?: PresetValue<StorybookConfigRaw['tags']>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
 
-export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
+export type PresetProperty<K, TStorybookConfig = StorybookConfigRaw> =
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
   | PresetPropertyFn<K, TStorybookConfig>;
 
-export type PresetPropertyFn<K, TStorybookConfig = StorybookConfig, TOptions = {}> = (
+export type PresetPropertyFn<K, TStorybookConfig = StorybookConfigRaw, TOptions = {}> = (
   config: TStorybookConfig[K extends keyof TStorybookConfig ? K : never],
   options: Options & TOptions
 ) =>

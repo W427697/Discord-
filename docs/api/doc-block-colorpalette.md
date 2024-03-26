@@ -2,6 +2,8 @@
 title: 'ColorPalette'
 ---
 
+<YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - ColorPalette Doc Block" params='start=20' />
+
 The `ColorPalette` block allows you to document all color-related items (e.g., swatches) used throughout your project.
 
 ![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette.png)
@@ -66,19 +68,25 @@ import { ColorItem } from '@storybook/blocks';
 
 `ColorItem` is configured with the following props:
 
-### `colors` (required)
+### `colors`
+
+(**Required**)
 
 Type: `string[] | { [key: string]: string }`
 
 Provides the list of colors to be displayed. Accepts any valid CSS color format (hex, RGB, HSL, etc.). When an object is provided, the keys will be displayed above the values.
 
-### `subtitle` (required)
+### `subtitle`
+
+(**Required**)
 
 Type: `string`
 
 Provides an additional description of the color.
 
-### `title` (required)
+### `title`
+
+(**Required**)
 
 Type: `string`
 

@@ -1,9 +1,9 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect, vi } from 'vitest';
 import { GlobalsStore } from './GlobalsStore';
 
-jest.mock('@storybook/client-logger', () => ({
+vi.mock('@storybook/client-logger', () => ({
   logger: {
-    warn: jest.fn(),
+    warn: vi.fn(),
   },
 }));
 
@@ -146,7 +146,7 @@ describe('GlobalsStore', () => {
             arg2: { defaultValue: 'arg2' },
           },
         });
-        // However undeclared valuse aren't persisted
+        // However undeclared values aren't persisted
         expect(store.get()).toEqual({ arg1: 'new-arg1', arg2: 'new-arg2' });
       });
     });

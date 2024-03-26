@@ -29,6 +29,8 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
+  public readonly subtype = 'mdx';
+
   public readonly id: StoryId;
 
   private exports?: ModuleExports;
@@ -43,7 +45,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TRenderer>[];
+  public csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,
@@ -77,7 +79,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
     );
   }
 
-  docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
+  docsContext(renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']) {
     if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
 
     // NOTE we do *not* attach any CSF file yet. We wait for `referenceMeta(..., true)`
@@ -92,7 +94,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   async renderToElement(
     canvasElement: TRenderer['canvasElement'],
-    renderStoryToElement: DocsContextProps['renderStoryToElement']
+    renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');

@@ -1,24 +1,23 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
 export default {
-  title: 'MyComponent',
   component: MyComponent,
 };
 
 /*
- * See https://storybook.js.org/docs/7.0/react/writing-stories/play-function#working-with-the-canvas
+ * See https://storybook.js.org/docs/writing-stories/play-function#working-with-the-canvas
  * to learn more about using the canvasElement to query the DOM
  */
 export const FirstStory = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
@@ -31,12 +30,12 @@ export const SecondStory = {
 };
 
 export const CombinedStories = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
 
     // Runs the FirstStory and Second story play function before running this story's play function
-    await FirstStory.play({ canvasElement });
-    await SecondStory.play({ canvasElement });
+    await FirstStory.play(context);
+    await SecondStory.play(context);
     await userEvent.type(canvas.getByTestId('another-element'), 'random value');
   },
 };

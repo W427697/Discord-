@@ -1,28 +1,22 @@
 import type { Annotation } from 'doctrine';
 import doctrine from 'doctrine';
+import type { JsDocParam, JsDocReturns } from './docgen';
 
-export interface ExtractedJsDocParam {
-  name: string;
+export interface ExtractedJsDocParam extends JsDocParam {
   type?: any;
-  description?: string;
-  getPrettyName: () => string;
-  getTypeName: () => string;
+  getPrettyName: () => string | undefined;
+  getTypeName: () => string | null;
 }
 
-export interface ExtractedJsDocDeprecated {
-  name: string;
-}
-
-export interface ExtractedJsDocReturns {
+export interface ExtractedJsDocReturns extends JsDocReturns {
   type?: any;
-  description?: string;
-  getTypeName: () => string;
+  getTypeName: () => string | null;
 }
 
 export interface ExtractedJsDoc {
-  params?: ExtractedJsDocParam[];
-  deprecated?: ExtractedJsDocDeprecated;
-  returns?: ExtractedJsDocReturns;
+  params?: ExtractedJsDocParam[] | null;
+  deprecated?: string | null;
+  returns?: ExtractedJsDocReturns | null;
   ignore: boolean;
 }
 
@@ -37,22 +31,24 @@ export interface JsDocParsingResult {
   extractedTags?: ExtractedJsDoc;
 }
 
-export type ParseJsDoc = (value?: string, options?: JsDocParsingOptions) => JsDocParsingResult;
+export type ParseJsDoc = (
+  value: string | null,
+  options?: JsDocParsingOptions
+) => JsDocParsingResult;
 
-function containsJsDoc(value?: string): boolean {
+function containsJsDoc(value?: string | null): boolean {
   return value != null && value.includes('@');
 }
 
-function parse(content: string, tags: string[]): Annotation {
+function parse(content: string | null, tags?: string[]): Annotation {
   let ast;
 
   try {
-    ast = doctrine.parse(content, {
+    ast = doctrine.parse(content ?? '', {
       tags,
       sloppy: true,
     });
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.error(e);
 
     throw new Error('Cannot parse JSDoc tags.');
@@ -65,10 +61,7 @@ const DEFAULT_OPTIONS = {
   tags: ['param', 'arg', 'argument', 'returns', 'ignore', 'deprecated'],
 };
 
-export const parseJsDoc: ParseJsDoc = (
-  value?: string,
-  options: JsDocParsingOptions = DEFAULT_OPTIONS
-) => {
+export const parseJsDoc: ParseJsDoc = (value, options = DEFAULT_OPTIONS) => {
   if (!containsJsDoc(value)) {
     return {
       includesJsDoc: false,
@@ -150,7 +143,7 @@ function extractJsDocTags(ast: doctrine.Annotation): ExtractedJsDoc {
   return extractedTags;
 }
 
-function extractParam(tag: doctrine.Tag): ExtractedJsDocParam {
+function extractParam(tag: doctrine.Tag): ExtractedJsDocParam | null {
   const paramName = tag.name;
 
   // When the @param doesn't have a name but have a type and a description, "null-null" is returned.
@@ -178,17 +171,15 @@ function extractParam(tag: doctrine.Tag): ExtractedJsDocParam {
   return null;
 }
 
-function extractDeprecated(tag: doctrine.Tag): ExtractedJsDocDeprecated {
+function extractDeprecated(tag: doctrine.Tag): string | null {
   if (tag.title != null) {
-    return {
-      name: tag.description,
-    };
+    return tag.description;
   }
 
   return null;
 }
 
-function extractReturns(tag: doctrine.Tag): ExtractedJsDocReturns {
+function extractReturns(tag: doctrine.Tag): ExtractedJsDocReturns | null {
   if (tag.type != null) {
     return {
       type: tag.type,
@@ -202,37 +193,37 @@ function extractReturns(tag: doctrine.Tag): ExtractedJsDocReturns {
   return null;
 }
 
-function extractTypeName(type: doctrine.Type): string {
-  if (type.type === 'NameExpression') {
+function extractTypeName(type?: doctrine.Type | null): string | null {
+  if (type?.type === 'NameExpression') {
     return type.name;
   }
 
-  if (type.type === 'RecordType') {
-    const recordFields = type.fields.map((field: doctrine.type.FieldType) => {
-      if (field.value != null) {
+  if (type?.type === 'RecordType') {
+    const recordFields = type.fields.map((field: doctrine.Type) => {
+      if (field.type === 'FieldType' && field.value != null) {
         const valueTypeName = extractTypeName(field.value);
 
         return `${field.key}: ${valueTypeName}`;
       }
 
-      return field.key;
+      return (field as doctrine.type.FieldType).key;
     });
 
     return `({${recordFields.join(', ')}})`;
   }
 
-  if (type.type === 'UnionType') {
+  if (type?.type === 'UnionType') {
     const unionElements = type.elements.map(extractTypeName);
 
     return `(${unionElements.join('|')})`;
   }
 
   // Only support untyped array: []. Might add more support later if required.
-  if (type.type === 'ArrayType') {
+  if (type?.type === 'ArrayType') {
     return '[]';
   }
 
-  if (type.type === 'TypeApplication') {
+  if (type?.type === 'TypeApplication') {
     if (type.expression != null) {
       if ((type.expression as doctrine.type.NameExpression).name === 'Array') {
         const arrayType = extractTypeName(type.applications[0]);
@@ -243,14 +234,14 @@ function extractTypeName(type: doctrine.Type): string {
   }
 
   if (
-    type.type === 'NullableType' ||
-    type.type === 'NonNullableType' ||
-    type.type === 'OptionalType'
+    type?.type === 'NullableType' ||
+    type?.type === 'NonNullableType' ||
+    type?.type === 'OptionalType'
   ) {
     return extractTypeName(type.expression);
   }
 
-  if (type.type === 'AllLiteral') {
+  if (type?.type === 'AllLiteral') {
     return 'any';
   }
 

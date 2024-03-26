@@ -1,26 +1,28 @@
+import { describe, it, expect, vi } from 'vitest';
 import * as findUp from 'find-up';
 import {
   detectBuilderInfo as _getBuilderInfo,
   getNextjsAddonOptions,
 } from './new-frameworks-utils';
+import type { JsPackageManager } from '@storybook/core-common';
 
-jest.mock('find-up');
+vi.mock('find-up');
 
 type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0]['mainConfig'];
 
 const getBuilderInfo = async ({
   mainConfig = {},
-  packageDependencies = {},
+  packageManager = {},
   configDir = '.storybook',
 }: {
-  mainConfig: Partial<GetBuilderInfoParams>;
-  packageDependencies?: Record<string, string>;
+  mainConfig?: Partial<GetBuilderInfoParams>;
+  packageManager?: Partial<JsPackageManager>;
   configDir?: string;
 }) => {
   return _getBuilderInfo({
     mainConfig: mainConfig as any,
     configDir,
-    packageDependencies,
+    packageManager: packageManager as any,
   });
 };
 
@@ -29,7 +31,9 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          core: { builder: '@storybook/builder-webpack5' },
+          core: {
+            builder: '@storybook/builder-webpack5',
+          },
         },
       })
     ).resolves.toEqual({ name: 'webpack5', options: {} });
@@ -54,6 +58,15 @@ describe('getBuilderInfo', () => {
   it('should infer webpack5 info from framework', async () => {
     await expect(
       getBuilderInfo({
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/react-webpack5') {
+              return Promise.resolve('1.0.0');
+            }
+
+            return Promise.resolve(null);
+          },
+        },
         mainConfig: {
           framework: '@storybook/react-webpack5',
         },
@@ -154,7 +167,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has legacy renderer as framework, it should infer vite info from vite config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve('vite.config.js'));
     await expect(getBuilderInfo({ mainConfig: { framework: 'react' } })).resolves.toEqual({
@@ -165,7 +178,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has legacy renderer as framework, it should infer webpack info from webpack config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve(undefined))
       .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
@@ -177,7 +190,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, it should infer vite info from vite config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve('vite.config.js'));
     await expect(getBuilderInfo({ mainConfig: {} })).resolves.toEqual({
@@ -188,7 +201,7 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, it should infer webpack info from webpack config file', async () => {
-    const findUpSpy = jest
+    const findUpSpy = vi
       .spyOn(findUp, 'default')
       .mockReturnValueOnce(Promise.resolve(undefined))
       .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
@@ -200,11 +213,18 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, and there is no vite or webpack config, infer vite from dependencies', async () => {
-    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    const findUpSpy = vi.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-vite': '^7.0.0' },
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/builder-vite') {
+              return Promise.resolve('7.0.0');
+            }
+            return Promise.resolve(null);
+          },
+        },
       })
     ).resolves.toEqual({
       name: 'vite',
@@ -214,11 +234,18 @@ describe('getBuilderInfo', () => {
   });
 
   it('when main.js has no builder or framework, and there is no vite or webpack config, infer webpack from dependencies', async () => {
-    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    const findUpSpy = vi.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-webpack5': '^7.0.0' },
+        packageManager: {
+          getPackageVersion: (packageName) => {
+            if (packageName === '@storybook/builder-webpack5') {
+              return Promise.resolve('7.0.0');
+            }
+            return Promise.resolve(null);
+          },
+        },
       })
     ).resolves.toEqual({
       name: 'webpack5',

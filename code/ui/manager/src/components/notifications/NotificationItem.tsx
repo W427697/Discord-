@@ -2,11 +2,11 @@ import type { FC, SyntheticEvent } from 'react';
 import React from 'react';
 import { type State } from '@storybook/manager-api';
 import { Link } from '@storybook/router';
-import { styled } from '@storybook/theming';
-import { Icons, IconButton, type IconsProps } from '@storybook/components';
+import { styled, useTheme } from '@storybook/theming';
+import type { IconsProps } from '@storybook/components';
+import { IconButton, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
-
-const DEFAULT_ICON_COLOUR = '#66BF3C' as const;
+import { CloseAltIcon } from '@storybook/icons';
 
 const Notification = styled.div(({ theme }) => ({
   position: 'relative',
@@ -46,12 +46,18 @@ const NotificationIconWrapper = styled.div(() => ({
   display: 'flex',
   marginRight: 10,
   alignItems: 'center',
+
+  svg: {
+    width: 16,
+    height: 16,
+  },
 }));
 
-const NotificationTextWrapper = styled.div(() => ({
+const NotificationTextWrapper = styled.div(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
+  color: theme.base === 'dark' ? theme.color.mediumdark : theme.color.mediumlight,
 }));
 
 const Headline = styled.div<{ hasIcon: boolean }>(({ theme, hasIcon }) => ({
@@ -76,26 +82,31 @@ const SubHeadline = styled.div(({ theme }) => ({
 const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
   icon,
   content: { headline, subHeadline },
-}) => (
-  <>
-    {!icon || (
-      <NotificationIconWrapper>
-        <Icons
-          icon={icon.name as IconsProps['icon']}
-          width={16}
-          height={16}
-          color={icon.color || DEFAULT_ICON_COLOUR}
-        />
-      </NotificationIconWrapper>
-    )}
-    <NotificationTextWrapper>
-      <Headline title={headline} hasIcon={!!icon}>
-        {headline}
-      </Headline>
-      {subHeadline && <SubHeadline>{subHeadline}</SubHeadline>}
-    </NotificationTextWrapper>
-  </>
-);
+}) => {
+  const theme = useTheme();
+  const defaultColor = theme.base === 'dark' ? theme.color.mediumdark : theme.color.mediumlight;
+
+  return (
+    <>
+      {!icon || (
+        <NotificationIconWrapper>
+          {React.isValidElement(icon)
+            ? icon
+            : typeof icon === 'object' &&
+              'name' in icon && (
+                <Icons icon={icon.name as IconsProps['icon']} color={icon.color || defaultColor} />
+              )}
+        </NotificationIconWrapper>
+      )}
+      <NotificationTextWrapper>
+        <Headline title={headline} hasIcon={!!icon}>
+          {headline}
+        </Headline>
+        {subHeadline && <SubHeadline>{subHeadline}</SubHeadline>}
+      </NotificationTextWrapper>
+    </>
+  );
+};
 
 const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
   alignSelf: 'center',
@@ -113,7 +124,7 @@ const DismissNotificationItem: FC<{
       onDismiss();
     }}
   >
-    <Icons icon="closeAlt" height={12} width={12} />
+    <CloseAltIcon size={12} />
   </DismissButtonWrapper>
 );
 
@@ -128,7 +139,7 @@ const NotificationItem: FC<{
   const dismissNotificationItem = () => {
     onDismissNotification(id);
     if (onClear) {
-      onClear();
+      onClear({ dismissed: true });
     }
   };
   return link ? (

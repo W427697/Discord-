@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import type { User } from './User';
+import { CommonModule } from '@angular/common';
+
+import { HeaderComponent } from './header.component';
+import type { User } from './user';
 
 @Component({
   selector: 'storybook-page',
+  standalone: true,
+  imports: [CommonModule, HeaderComponent],
   template: `<article>
     <storybook-header
       [user]="user"
@@ -10,7 +15,7 @@ import type { User } from './User';
       (onLogin)="doLogin()"
       (onCreateAccount)="doCreateAccount()"
     ></storybook-header>
-    <section>
+    <section class="storybook-page">
       <h2>Pages in Storybook</h2>
       <p>
         We recommend building UIs with a
@@ -60,7 +65,7 @@ import type { User } from './User';
   </article>`,
   styleUrls: ['./page.css'],
 })
-export default class PageComponent {
+export class PageComponent {
   user: User | null = null;
 
   doLogout() {

@@ -19,16 +19,16 @@ interface Vue3RunOptions {
 export const vue3: Fix<Vue3RunOptions> = {
   id: 'vue3',
 
-  async check({ configDir, packageManager }) {
-    const allDependencies = packageManager.getAllDependencies();
-    const vueVersion = allDependencies.vue;
-    const vueCoerced = semver.coerce(vueVersion)?.version;
+  versionRange: ['<7', '>=7'],
 
-    if (!vueCoerced || semver.lt(vueCoerced, '3.0.0')) {
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const vueVersion = await packageManager.getPackageVersion('vue');
+
+    if (!vueVersion || semver.lt(vueVersion, '3.0.0')) {
       return null;
     }
 
-    const builderInfo = await checkWebpack5Builder({ configDir, packageManager });
+    const builderInfo = await checkWebpack5Builder({ mainConfig, storybookVersion });
     return builderInfo ? { vueVersion, ...builderInfo } : null;
   },
 

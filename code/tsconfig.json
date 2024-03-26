@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "incremental": false,
     "noImplicitAny": true,
@@ -9,16 +10,16 @@
     "moduleResolution": "Node",
     "target": "ES2020",
     "module": "CommonJS",
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "strictBindCallApply": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
-    "types": ["jest"]
+    "strict": true
   },
-  "exclude": ["dist", "**/dist", "node_modules", "**/node_modules", "**/setup-jest.ts"],
+  "exclude": ["dist", "**/dist", "node_modules", "**/node_modules"],
   "ts-node": {
     "transpileOnly": true,
     "files": true,

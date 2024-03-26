@@ -1,18 +1,18 @@
 {
   "name": "@storybook/preset-preact-webpack",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/preact-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/preact-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/preact-webpack"
+    "directory": "code/presets/preact-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -21,16 +21,16 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -41,28 +41,26 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.21.0",
-    "@babel/preset-typescript": "^7.21.0",
-    "@storybook/core-webpack": "7.0.0-rc.4",
-    "@types/node": "^16.0.0"
+    "@storybook/core-webpack": "workspace:*",
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "preact": "^10.5.13",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
-    "@babel/core": "*",
     "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -73,5 +71,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

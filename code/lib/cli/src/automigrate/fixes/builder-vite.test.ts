@@ -1,26 +1,27 @@
-import type { StorybookConfig } from '@storybook/types';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
-import type { PackageJson } from '../../js-package-manager';
+import { describe, afterEach, it, expect, vi } from 'vitest';
+import type { StorybookConfigRaw } from '@storybook/types';
+import { makePackageManager } from '../helpers/testing-helpers';
+import type { PackageJson } from '@storybook/core-common';
 import { builderVite } from './builder-vite';
 
 const checkBuilderVite = async ({
   packageJson = {},
   main: mainConfig,
-  storybookVersion = '7.0.0',
 }: {
   packageJson?: PackageJson;
-  main: Partial<StorybookConfig> & Record<string, unknown>;
-  storybookVersion?: string;
+  main: Partial<StorybookConfigRaw> & Record<string, unknown>;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return builderVite.check({
+    mainConfig: mainConfig as StorybookConfigRaw,
     packageManager: makePackageManager(packageJson),
+    storybookVersion: '7.0.0',
   });
 };
 
 describe('builder-vite fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('storybook-builder-vite', () => {
     it('using storybook-builder-vite', async () => {

@@ -6,7 +6,7 @@ Components often rely on images, videos, fonts, and other assets to render as th
 
 ### Import assets into stories
 
-You can import any media assets by importing (or requiring) them. It works out of the box with our default config. But, if you are using a custom webpack config, you’ll need to add the [file loader](https://v4.webpack.js.org/loaders/) to handle the required files.
+You can import any media assets by importing (or requiring) them. It works out of the box with our default config. But, if you are using a custom webpack config, you’ll need to add the [file loader](https://webpack.js.org/loaders/) to handle the required files.
 
 Afterward, you can use any asset in your stories:
 
@@ -16,14 +16,15 @@ Afterward, you can use any asset in your stories:
   paths={[
     'react/component-story-static-asset-with-import.js.mdx',
     'react/component-story-static-asset-with-import.ts.mdx',
-    'vue/component-story-static-asset-with-import.2.js.mdx',
-    'vue/component-story-static-asset-with-import.2.ts.mdx',
     'vue/component-story-static-asset-with-import.3.js.mdx',
     'vue/component-story-static-asset-with-import.3.ts.mdx',
     'angular/component-story-static-asset-with-import.ts.mdx',
     'svelte/component-story-static-asset-with-import.js.mdx',
+    'svelte/component-story-static-asset-with-import.ts.mdx',
     'web-components/component-story-static-asset-with-import.js.mdx',
     'web-components/component-story-static-asset-with-import.ts.mdx',
+    'solid/component-story-static-asset-with-import.js.mdx',
+    'solid/component-story-static-asset-with-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-with-import"
@@ -60,8 +61,11 @@ Here `../public` is your static directory. Now use it in a component or story li
     'vue/component-story-static-asset-without-import.ts.mdx',
     'angular/component-story-static-asset-without-import.ts.mdx',
     'svelte/component-story-static-asset-without-import.js.mdx',
+    'svelte/component-story-static-asset-without-import.ts.mdx',
     'web-components/component-story-static-asset-without-import.js.mdx',
     'web-components/component-story-static-asset-without-import.ts.mdx',
+    'solid/component-story-static-asset-without-import.js.mdx',
+    'solid/component-story-static-asset-without-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-without-import"
@@ -75,8 +79,8 @@ You can also pass a list of directories separated by commas without spaces inste
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-multiple-static-dir.js.mdx',
-    'common/storybook-main-with-multiple-static-dir.ts.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -88,16 +92,12 @@ Or even use a configuration object to define the directories:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-object-configuration-static-dir.js.mdx',
-    'common/storybook-main-with-object-configuration-static-dir.ts.mdx',
+    'common/main-config-static-dirs-with-object.js.mdx',
+    'common/main-config-static-dirs-with-object.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
-
-### **[⚠️ Deprecated]** Serving static files via Storybook CLI
-
-Using `--static-dir` or `-s` option with Storybook CLI is deprecated. It is recommended to use [Storybook static directory configuration option](#serving-static-files-via-storybook-configuration) instead.
 
 ### Reference assets from a CDN
 
@@ -113,8 +113,11 @@ Upload your files to an online CDN and reference them. In this example, we’re 
     'vue/component-story-static-asset-cdn.ts.mdx',
     'angular/component-story-static-asset-cdn.ts.mdx',
     'svelte/component-story-static-asset-cdn.js.mdx',
+    'svelte/component-story-static-asset-cdn.ts.mdx',
     'web-components/component-story-static-asset-cdn.js.mdx',
     'web-components/component-story-static-asset-cdn.ts.mdx',
+    'solid/component-story-static-asset-cdn.js.mdx',
+    'solid/component-story-static-asset-cdn.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-cdn"
@@ -131,3 +134,14 @@ In this case, you need to have all your images and media files with relative pat
 If you load static content via importing, this is automatic, and you do not have to do anything.
 
 Suppose you are serving assets in a [static directory](#serving-static-files-via-storybook-configuration) along with your Storybook. In that case, you need to use relative paths to load images or use the base element.
+
+### Referencing Fonts in Stories
+
+After configuring Storybook to serve assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font to your stories. To do this, create a [`preview-head.html`](./story-rendering.md) file inside the configuration directory (i.e., `.storybook`) and add a `<link />` tag to reference your font.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={['common/storybook-preview-head-example.html.mdx']} />
+
+<!-- prettier-ignore-end -->

@@ -1,5 +1,4 @@
-/* eslint-disable no-param-reassign */
-import { sep } from 'path';
+import path from 'path';
 
 export interface IErrorWithStdErrAndStdOut {
   stderr?: Buffer | string;
@@ -12,18 +11,22 @@ function regexpEscape(str: string): string {
   return str.replace(/[-[/{}()*+?.\\^$|]/g, `\\$&`);
 }
 
-export function cleanPaths(str: string, separator: string = sep): string {
+export function removeAnsiEscapeCodes(input = ''): string {
+  return input.replace(/\u001B\[[0-9;]*m/g, '');
+}
+
+export function cleanPaths(str: string, separator: string = path.sep): string {
   if (!str) return str;
 
   const stack = process.cwd().split(separator);
 
   while (stack.length > 1) {
     const currentPath = stack.join(separator);
-    const currentRegex = new RegExp(regexpEscape(currentPath), `g`);
+    const currentRegex = new RegExp(regexpEscape(currentPath), `gi`);
     str = str.replace(currentRegex, `$SNIP`);
 
     const currentPath2 = stack.join(separator + separator);
-    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `g`);
+    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `gi`);
     str = str.replace(currentRegex2, `$SNIP`);
 
     stack.pop();
@@ -32,10 +35,15 @@ export function cleanPaths(str: string, separator: string = sep): string {
 }
 
 // Takes an Error and returns a sanitized JSON String
-export function sanitizeError(error: Error, pathSeparator: string = sep) {
+export function sanitizeError(error: Error, pathSeparator: string = path.sep) {
   try {
-    // Hack because Node
-    error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    error = {
+      ...JSON.parse(JSON.stringify(error)),
+      message: removeAnsiEscapeCodes(error.message),
+      stack: removeAnsiEscapeCodes(error.stack),
+      cause: error.cause,
+      name: error.name,
+    };
 
     // Removes all user paths
     const errorString = cleanPaths(JSON.stringify(error), pathSeparator);

@@ -1,18 +1,18 @@
 {
   "name": "@storybook/svelte-vite",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Storybook for Svelte and Vite: Develop Svelte components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/svelte-vite",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/svelte-vite",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/svelte-vite"
+    "directory": "code/frameworks/svelte-vite"
   },
   "funding": {
     "type": "opencollective",
@@ -21,15 +21,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -38,37 +37,38 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-rc.4",
-    "@storybook/node-logger": "7.0.0-rc.4",
-    "@storybook/svelte": "7.0.0-rc.4",
-    "@sveltejs/vite-plugin-svelte": "^2.0.0",
-    "magic-string": "^0.27.0",
-    "svelte": "^3.0.0",
+    "@storybook/builder-vite": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/svelte": "workspace:*",
+    "magic-string": "^0.30.0",
+    "svelte-preprocess": "^5.1.1",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "~4.9.3",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@types/node": "^18.0.0",
+    "svelte": "^5.0.0-next.65",
+    "typescript": "^5.3.2",
     "vite": "^4.0.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "vite": "^3.0.0 || ^4.0.0"
+    "@sveltejs/vite-plugin-svelte": "^2.0.0 || ^3.0.0",
+    "svelte": "^4.0.0 || ^5.0.0-next.65",
+    "vite": "^4.0.0 || ^5.0.0"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -80,5 +80,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

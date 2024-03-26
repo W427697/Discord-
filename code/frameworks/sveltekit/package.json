@@ -1,6 +1,6 @@
 {
   "name": "@storybook/sveltekit",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -24,15 +24,17 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
+    },
+    "./dist/preview.mjs": {
+      "import": "./dist/preview.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -41,30 +43,32 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "src/mocks/**/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-rc.4",
-    "@storybook/svelte": "7.0.0-rc.4",
-    "@storybook/svelte-vite": "7.0.0-rc.4"
+    "@storybook/addon-actions": "workspace:*",
+    "@storybook/builder-vite": "workspace:*",
+    "@storybook/svelte": "workspace:*",
+    "@storybook/svelte-vite": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "^4.9.3",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.3.2",
     "vite": "^4.0.0"
   },
   "peerDependencies": {
-    "vite": "^4.0.0"
+    "svelte": "^4.0.0 || ^5.0.0-next.65",
+    "vite": "^4.0.0 || ^5.0.0"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -72,9 +76,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/preview.ts",
       "./src/preset.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

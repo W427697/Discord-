@@ -1,11 +1,11 @@
 {
   "name": "@storybook/preview-api",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview-api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,86 +22,55 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./dist/addons": {
-      "import": "./dist/addons.mjs",
-      "require": "./dist/addons.js",
-      "types": "./dist/addons.d.ts"
-    },
-    "./dist/store": {
-      "import": "./dist/store.mjs",
-      "require": "./dist/store.js",
-      "types": "./dist/store.d.ts"
-    },
-    "./dist/client-api": {
-      "import": "./dist/client-api.mjs",
-      "require": "./dist/client-api.js",
-      "types": "./dist/client-api.d.ts"
-    },
-    "./dist/core-client": {
-      "import": "./dist/core-client.mjs",
-      "require": "./dist/core-client.js",
-      "types": "./dist/core-client.d.ts"
-    },
-    "./dist/preview-web": {
-      "import": "./dist/preview-web.mjs",
-      "require": "./dist/preview-web.js",
-      "types": "./dist/preview-web.d.ts"
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "react-native": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.0.0-rc.4",
-    "@storybook/channels": "7.0.0-rc.4",
-    "@storybook/client-logger": "7.0.0-rc.4",
-    "@storybook/core-events": "7.0.0-rc.4",
-    "@storybook/csf": "next",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
-    "@storybook/types": "7.0.0-rc.4",
+    "@storybook/types": "workspace:*",
     "@types/qs": "^6.9.5",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
-    "slash": "^3.0.0",
-    "synchronous-promise": "^2.0.15",
+    "tiny-invariant": "^1.3.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^26.6.2",
-    "@storybook/core-common": "7.0.0-rc.4",
+    "@storybook/core-common": "workspace:*",
     "ansi-to-html": "^0.6.11",
-    "react": "^16.14.0"
+    "slash": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/addons.ts",
-      "./src/client-api.ts",
-      "./src/core-client.ts",
-      "./src/preview-web.ts",
-      "./src/store.ts"
+      "./src/index.ts"
     ]
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

@@ -1,27 +1,33 @@
 import type { ComponentProps, FunctionComponent } from 'react';
 import React from 'react';
-import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
-import { SyntaxHighlighter } from '@storybook/components';
+import {
+  styled,
+  ThemeProvider,
+  convert,
+  themes,
+  ignoreSsrWarning,
+  useTheme,
+} from '@storybook/theming';
 
+import type { SupportedLanguage, SyntaxHighlighterProps } from '@storybook/components';
+import { SyntaxHighlighter } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter: typeof SyntaxHighlighter = styled(SyntaxHighlighter)(
-  ({ theme }) => ({
-    // DocBlocks-specific styling and overrides
-    fontSize: `${theme.typography.size.s2 - 1}px`,
-    lineHeight: '19px',
-    margin: '25px 0 40px',
-    borderRadius: theme.appBorderRadius,
-    boxShadow:
-      theme.base === 'light'
-        ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0'
-        : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
-    'pre.prismjs': {
-      padding: 20,
-      background: 'inherit',
-    },
-  })
-);
+const StyledSyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> = styled(
+  SyntaxHighlighter
+)(({ theme }) => ({
+  // DocBlocks-specific styling and overrides
+  fontSize: `${theme.typography.size.s2 - 1}px`,
+  lineHeight: '19px',
+  margin: '25px 0 40px',
+  borderRadius: theme.appBorderRadius,
+  boxShadow:
+    theme.base === 'light' ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0' : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
+  'pre.prismjs': {
+    padding: 20,
+    background: 'inherit',
+  },
+}));
 
 export enum SourceError {
   NO_STORY = 'There\u2019s no story here.',
@@ -32,7 +38,7 @@ export interface SourceCodeProps {
   /**
    * The language the syntax highlighter uses for your story’s code
    */
-  language?: string;
+  language?: SupportedLanguage;
   /**
    * Use this to override the content of the source block.
    */
@@ -69,7 +75,7 @@ const SourceSkeletonPlaceholder = styled.div(({ theme }) => ({
   marginTop: 1,
   width: '60%',
 
-  [`&:first-child`]: {
+  [`&:first-child${ignoreSsrWarning}`]: {
     margin: 0,
   },
 }));
@@ -95,6 +101,7 @@ const Source: FunctionComponent<SourceProps> = ({
   format,
   ...rest
 }) => {
+  const { typography } = useTheme();
   if (isLoading) {
     return <SourceSkeleton />;
   }
@@ -118,7 +125,17 @@ const Source: FunctionComponent<SourceProps> = ({
     return syntaxHighlighter;
   }
   const overrideTheme = dark ? themes.dark : themes.light;
-  return <ThemeProvider theme={convert(overrideTheme)}>{syntaxHighlighter}</ThemeProvider>;
+  return (
+    <ThemeProvider
+      theme={convert({
+        ...overrideTheme,
+        fontCode: typography.fonts.mono,
+        fontBase: typography.fonts.base,
+      })}
+    >
+      {syntaxHighlighter}
+    </ThemeProvider>
+  );
 };
 
 Source.defaultProps = {

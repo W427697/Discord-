@@ -1,7 +1,8 @@
 import { Addon_StoryContext } from '@storybook/types';
 
+import { vi, expect, describe, it } from 'vitest';
 import { Component } from '@angular/core';
-import { moduleMetadata } from './decorators';
+import { moduleMetadata, applicationConfig } from './decorators';
 import { AngularRenderer } from './types';
 
 const defaultContext: Addon_StoryContext<AngularRenderer> = {
@@ -19,7 +20,7 @@ const defaultContext: Addon_StoryContext<AngularRenderer> = {
   globals: {},
   hooks: {},
   loaded: {},
-  originalStoryFn: jest.fn(),
+  originalStoryFn: vi.fn(),
   viewMode: 'story',
   abortSignal: undefined,
   canvasElement: undefined,
@@ -31,21 +32,77 @@ class MockService {}
 @Component({})
 class MockComponent {}
 
+describe('applicationConfig', () => {
+  const provider1 = () => {};
+  const provider2 = () => {};
+
+  it('should apply global config', () => {
+    expect(
+      applicationConfig({
+        providers: [provider1] as any,
+      })(() => ({}), defaultContext)
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider1],
+      },
+    });
+  });
+
+  it('should apply story config', () => {
+    expect(
+      applicationConfig({
+        providers: [],
+      })(
+        () => ({
+          applicationConfig: {
+            providers: [provider2] as any,
+          },
+        }),
+        {
+          ...defaultContext,
+        }
+      )
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider2],
+      },
+    });
+  });
+
+  it('should merge global and story config', () => {
+    expect(
+      applicationConfig({
+        providers: [provider1] as any,
+      })(
+        () => ({
+          applicationConfig: {
+            providers: [provider2] as any,
+          },
+        }),
+        {
+          ...defaultContext,
+        }
+      )
+    ).toEqual({
+      applicationConfig: {
+        providers: [provider1, provider2],
+      },
+    });
+  });
+});
+
 describe('moduleMetadata', () => {
   it('should add metadata to a story without it', () => {
     const result = moduleMetadata({
       imports: [MockModule],
       providers: [MockService],
     })(
-      () => ({
-        component: MockComponent,
-      }),
+      () => ({}),
       // deepscan-disable-next-line
       defaultContext
     );
 
     expect(result).toEqual({
-      component: MockComponent,
       moduleMetadata: {
         declarations: [],
         entryComponents: [],

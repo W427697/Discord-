@@ -1,13 +1,15 @@
-import { html } from 'lit';
+import { html, render } from 'lit';
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, vi, expect } from 'vitest';
 import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
-const mockedUseEffect = useEffect as jest.Mock;
+vi.mock('@storybook/preview-api');
+const mockedAddons = vi.mocked(addons);
+const mockedUseEffect = vi.mocked(useEffect);
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -22,19 +24,20 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
     kind: 'js-text',
     name,
     parameters,
+    unmappedArgs: args,
     args,
     argTypes: {},
     globals: {},
     ...extra,
-  } as StoryContext);
+  }) as StoryContext;
 
 describe('sourceDecorator', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: Mock; emit?: Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 
@@ -85,45 +88,33 @@ describe('sourceDecorator', () => {
     });
   });
 
-  it('allows the snippet output to be modified by transformSource', async () => {
-    const storyFn = (args: any) => html`<div>args story</div>`;
-    const transformSource = (dom: string) => `<p>${dom}</p>`;
-    const docs = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, docs }, {});
-    sourceDecorator(storyFn, context);
+  it('should handle document fragment without removing its child nodes', async () => {
+    const storyFn = () =>
+      html`my
+        <div>args story</div>`;
+    const decoratedStoryFn = () => {
+      const fragment = document.createDocumentFragment();
+      render(storyFn(), fragment);
+      return fragment;
+    };
+    const context = makeContext('args', { __isArgsStory: true }, {});
+    const story = sourceDecorator(decoratedStoryFn, context);
     await tick();
     expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
       id: 'lit-test--args',
       args: {},
-      source: '<p><div>args story</div></p>',
+      source: `my
+        <div>args story</div>`,
     });
-  });
-
-  it('provides the story context to transformSource', () => {
-    const storyFn = (args: any) => html`<div>args story</div>`;
-    const transformSource = jest.fn((x) => x);
-    const docs = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, docs }, {});
-    sourceDecorator(storyFn, context);
-    expect(transformSource).toHaveBeenCalledWith('<div>args story</div>', context);
-  });
-
-  it('should clean lit expression comments', async () => {
-    const storyFn = (args: any) => html`<div>${args.slot}</div>`;
-    const context = makeContext(
-      'args',
-      { __isArgsStory: true },
-      { slot: 'some content' },
-      { originalStoryFn: storyFn }
-    );
-    // bind args to storyFn, as it's done in Storybook
-    const boundStoryFn = storyFn.bind(null, context.args);
-    sourceDecorator(boundStoryFn, context);
-    await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
-      id: 'lit-test--args',
-      args: { slot: 'some content' },
-      source: '<div>some content</div>',
-    });
+    expect(story).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <!---->
+        my
+              
+        <div>
+          args story
+        </div>
+      </DocumentFragment>
+    `);
   });
 });

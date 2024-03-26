@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -18,7 +18,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/controls"
+    "directory": "code/addons/controls"
   },
   "funding": {
     "type": "opencollective",
@@ -27,82 +27,58 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
-    "./register": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
+    "./manager": "./dist/manager.js",
+    "./register": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/index.d.ts"
-      ],
-      "manager": [
-        "dist/manager.d.ts"
-      ]
-    }
-  },
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
-    "@storybook/blocks": "7.0.0-rc.4",
-    "@storybook/client-logger": "7.0.0-rc.4",
-    "@storybook/components": "7.0.0-rc.4",
-    "@storybook/core-common": "7.0.0-rc.4",
-    "@storybook/manager-api": "7.0.0-rc.4",
-    "@storybook/node-logger": "7.0.0-rc.4",
-    "@storybook/preview-api": "7.0.0-rc.4",
-    "@storybook/theming": "7.0.0-rc.4",
-    "@storybook/types": "7.0.0-rc.4",
+    "@storybook/blocks": "workspace:*",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+  "devDependencies": {
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
-      "./src/manager.tsx"
+    "exportEntries": [
+      "./src/index.ts"
     ],
-    "platform": "browser"
+    "managerEntries": [
+      "./src/manager.tsx"
+    ]
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc",
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

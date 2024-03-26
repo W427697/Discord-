@@ -1,33 +1,35 @@
+import { describe, beforeAll, expect, vi, it } from 'vitest';
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
 import { configureMain, configurePreview } from './configure';
 
-jest.mock('fs-extra');
+vi.mock('fs-extra');
 
 describe('configureMain', () => {
   beforeAll(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  test('should generate main.js', async () => {
+  it('should generate main.js', async () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
       addons: [],
+      prefixes: [],
       storybookConfigFolder: '.storybook',
       framework: {
         name: '@storybook/react-vite',
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "/** @type { import('@storybook/react-vite').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -38,24 +40,26 @@ describe('configureMain', () => {
     `);
   });
 
-  test('should generate main.ts', async () => {
+  it('should generate main.ts', async () => {
     await configureMain({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
+      prefixes: [],
       storybookConfigFolder: '.storybook',
       framework: {
         name: '@storybook/react-vite',
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-vite';
+
       const config: StorybookConfig = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -66,9 +70,10 @@ describe('configureMain', () => {
     `);
   });
 
-  test('should handle resolved paths in pnp', async () => {
+  it('should handle resolved paths in pnp', async () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
+      prefixes: [],
       addons: [
         "%%path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json')))%%",
         "%%path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json')))%%",
@@ -81,7 +86,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
@@ -90,7 +95,7 @@ describe('configureMain', () => {
 
       /** @type { import('@storybook/react-webpack5').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [
           path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
           path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
@@ -108,14 +113,14 @@ describe('configureMain', () => {
 });
 
 describe('configurePreview', () => {
-  test('should generate preview.js', async () => {
+  it('should generate preview.js', async () => {
     await configurePreview({
       language: SupportedLanguage.JAVASCRIPT,
       storybookConfigFolder: '.storybook',
       rendererId: 'react',
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
@@ -123,11 +128,10 @@ describe('configurePreview', () => {
       "/** @type { import('@storybook/react').Preview } */
       const preview = {
         parameters: {
-          actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -138,14 +142,14 @@ describe('configurePreview', () => {
     `);
   });
 
-  test('should generate preview.ts', async () => {
+  it('should generate preview.ts', async () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
       rendererId: 'react',
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
@@ -154,11 +158,10 @@ describe('configurePreview', () => {
 
       const preview: Preview = {
         parameters: {
-          actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -169,8 +172,8 @@ describe('configurePreview', () => {
     `);
   });
 
-  test('should not do anything if the framework template already included a preview', async () => {
-    (fse.pathExists as unknown as jest.Mock).mockReturnValueOnce(true);
+  it('should not do anything if the framework template already included a preview', async () => {
+    vi.mocked(fse.pathExists).mockImplementationOnce(() => Promise.resolve(true));
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
@@ -179,7 +182,7 @@ describe('configurePreview', () => {
     expect(fse.writeFile).not.toHaveBeenCalled();
   });
 
-  test('should add prefix if frameworkParts are passed', async () => {
+  it('should add prefix if frameworkParts are passed', async () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
@@ -193,7 +196,7 @@ describe('configurePreview', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const { calls } = vi.mocked(fse.writeFile).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
@@ -205,11 +208,10 @@ describe('configurePreview', () => {
 
       const preview: Preview = {
         parameters: {
-          actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },

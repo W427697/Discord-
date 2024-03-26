@@ -1,4 +1,3 @@
-/* eslint-disable operator-assignment */
 /**
  * Based on https://gist.github.com/awestbro/e668c12662ad354f02a413205b65fce7
  */
@@ -282,7 +281,7 @@ function drawContent(
 }
 
 function drawBoxModel(element: HTMLElement) {
-  return (context: CanvasRenderingContext2D) => {
+  return (context?: CanvasRenderingContext2D) => {
     if (element && context) {
       const measurements = measureElement(element);
 

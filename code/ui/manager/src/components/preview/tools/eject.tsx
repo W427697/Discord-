@@ -1,8 +1,10 @@
 import { global } from '@storybook/global';
 import React from 'react';
-import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
+import { getStoryHref, IconButton } from '@storybook/components';
+import { Consumer, types } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
+import type { Addon_BaseType } from '@storybook/types';
+import { ShareAltIcon } from '@storybook/icons';
 
 const { PREVIEW_URL } = global;
 
@@ -18,21 +20,24 @@ const ejectMapper = ({ state }: Combo) => {
   };
 };
 
-export const ejectTool: Addon = {
+export const ejectTool: Addon_BaseType = {
   title: 'eject',
   id: 'eject',
-  match: ({ viewMode }) => viewMode === 'story',
+  type: types.TOOL,
+  match: ({ viewMode, tabId }) => viewMode === 'story' && !tabId,
   render: () => (
     <Consumer filter={ejectMapper}>
       {({ baseUrl, storyId, queryParams }) =>
         storyId ? (
-          <IconButton
-            key="opener"
-            href={getStoryHref(baseUrl, storyId, queryParams)}
-            target="_blank"
-            title="Open canvas in new tab"
-          >
-            <Icons icon="sharealt" />
+          <IconButton key="opener" asChild>
+            <a
+              href={getStoryHref(baseUrl, storyId, queryParams)}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open canvas in new tab"
+            >
+              <ShareAltIcon />
+            </a>
           </IconButton>
         ) : null
       }

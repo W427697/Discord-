@@ -1,3 +1,4 @@
+import { it, expect, vi } from 'vitest';
 import { Channel } from '@storybook/channels';
 import type { Renderer, DocsIndexEntry, RenderContextCallbacks } from '@storybook/types';
 import type { StoryStore } from '../../store';
@@ -27,14 +28,14 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 it('throws PREPARE_ABORTED if torndown during prepare', async () => {
   const [importGate, openImportGate] = createGate();
   const mockStore = {
-    loadEntry: jest.fn(async () => {
+    loadEntry: vi.fn(async () => {
       await importGate;
       return {};
     }),
   };
 
   const render = new CsfDocsRender(
-    new Channel(),
+    new Channel({}),
     mockStore as unknown as StoryStore<Renderer>,
     entry,
     {} as RenderContextCallbacks<Renderer>
@@ -63,14 +64,14 @@ it('attached immediately', async () => {
   } as unknown as StoryStore<Renderer>;
 
   const render = new CsfDocsRender(
-    new Channel(),
+    new Channel({}),
     store,
     entry,
     {} as RenderContextCallbacks<Renderer>
   );
   await render.prepare();
 
-  const context = render.docsContext(jest.fn());
+  const context = render.docsContext(vi.fn());
 
   expect(context.storyById()).toEqual(story);
 });

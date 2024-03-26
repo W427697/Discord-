@@ -1,10 +1,13 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { global } from '@storybook/global';
+
 import { init as initVersions } from '../modules/versions';
 
-jest.mock('../version', () => ({
+vi.mock('../version', () => ({
   version: '3.0.0',
 }));
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     VERSIONCHECK: JSON.stringify({
       success: true,
@@ -21,7 +24,7 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 function createMockStore() {
   let state = {
@@ -35,14 +38,14 @@ function createMockStore() {
     },
   };
   return {
-    getState: jest.fn().mockImplementation(() => state),
-    setState: jest.fn().mockImplementation((s) => {
+    getState: vi.fn().mockImplementation(() => state),
+    setState: vi.fn().mockImplementation((s) => {
       state = { ...state, ...s };
     }),
   };
 }
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 describe('versions API', () => {
   it('sets initial state with current version', async () => {
@@ -70,7 +73,6 @@ describe('versions API', () => {
     const store = createMockStore();
     const { state: initialState, init } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
     store.setState.mockReset();
@@ -86,102 +88,6 @@ describe('versions API', () => {
     });
   });
 
-  describe('notifications', () => {
-    it('sets an update notification right away in the init function', async () => {
-      const store = createMockStore();
-      const addNotification = jest.fn();
-      const { init, state: initialState } = initVersions({
-        store,
-        fullAPI: { addNotification },
-      });
-      store.setState(initialState);
-
-      await init();
-      expect(addNotification).toHaveBeenCalled();
-    });
-
-    it('does not set an update notification if it has been dismissed', async () => {
-      const store = createMockStore();
-      store.setState({ dismissedVersionNotification: '5.2.3' });
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState(initialState);
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('does not set an update notification if the latest version is a patch', async () => {
-      const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState({
-        ...initialState,
-        versions: { ...initialState.versions, current: { version: '5.2.1' } },
-      });
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('does not set an update notification in production mode', async () => {
-      const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
-      store.setState(initialState);
-
-      const addNotification = jest.fn();
-      await init();
-      expect(addNotification).not.toHaveBeenCalled();
-    });
-
-    it('persists a dismissed notification', async () => {
-      const store = createMockStore();
-      let notification;
-      const addNotification = jest.fn().mockImplementation((n) => {
-        notification = n;
-      });
-
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification },
-      });
-      store.setState(initialState);
-
-      await init();
-
-      notification.onClear();
-      expect(store.setState).toHaveBeenCalledWith(
-        { dismissedVersionNotification: '5.2.3' },
-        { persistence: 'permanent' }
-      );
-    });
-  });
-
   it('getCurrentVersion works', async () => {
     const store = createMockStore();
     const {
@@ -190,7 +96,6 @@ describe('versions API', () => {
       state: initialState,
     } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
 
@@ -209,7 +114,6 @@ describe('versions API', () => {
       state: initialState,
     } = initVersions({
       store,
-      fullAPI: { addNotification: jest.fn() },
     });
     store.setState(initialState);
 
@@ -217,6 +121,135 @@ describe('versions API', () => {
 
     expect(api.getLatestVersion()).toMatchObject({
       version: '5.2.3',
+    });
+  });
+
+  describe('METHOD: getDocsUrl()', () => {
+    beforeEach(() => {
+      global.STORYBOOK_RENDERER = undefined;
+    });
+
+    it('returns the latest url when current version is latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.1' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the latest url when version has patch diff with latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the versioned url when current has different docs to latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.2.5' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/7.2/');
+    });
+
+    it('returns the versioned url when current is a prerelease', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '8.0.0-beta' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/8.0/');
+    });
+
+    it('returns a Url with a renderer query param when "renderer" is true', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '5.2.1' },
+          latest: { version: '5.2.1' },
+        },
+      });
+
+      await init();
+
+      global.STORYBOOK_RENDERER = 'vue';
+
+      expect(api.getDocsUrl({ renderer: true })).toEqual(
+        'https://storybook.js.org/docs/?renderer=vue'
+      );
     });
   });
 
@@ -229,7 +262,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
       store.setState({
         ...initialState,
@@ -253,7 +285,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
       store.setState({
         ...initialState,
@@ -277,7 +308,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -302,7 +332,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -327,7 +356,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();
@@ -346,14 +374,7 @@ describe('versions API', () => {
 
     it('from older prerelease version', async () => {
       const store = createMockStore();
-      const {
-        init,
-        api,
-        state: initialState,
-      } = initVersions({
-        store,
-        fullAPI: { addNotification: jest.fn() },
-      });
+      const { init, api, state: initialState } = initVersions({ store });
 
       await init();
 
@@ -377,7 +398,6 @@ describe('versions API', () => {
         state: initialState,
       } = initVersions({
         store,
-        fullAPI: { addNotification: jest.fn() },
       });
 
       await init();

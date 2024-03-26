@@ -2,7 +2,7 @@
 
 Storybook Docs transforms your Storybook stories into world-class component documentation. Docs supports [all web frameworks that Storybook supports](../README.md#framework-support).
 
-Popular frameworks like [React](../react/README.md)/[Vue](../vue/README.md)/[Angular](../angular/README.md)/[Ember](../ember/README.md)/[Web components](../web-components/README.md) have their own framework-specific optimizations and setup guides. This README documents the "common" setup for other frameworks that don't have any docs-specific optimizations.
+Popular frameworks like [React](../react/README.md)/[Vue 3](../vue3/README.md)/[Angular](../angular/README.md)/[Ember](../ember/README.md)/[Web components](../web-components/README.md) have their own framework-specific optimizations and setup guides. This README documents the "common" setup for other frameworks that don't have any docs-specific optimizations.
 
 - [Installation](#installation)
 - [DocsPage](#docspage)
@@ -15,7 +15,7 @@ Popular frameworks like [React](../react/README.md)/[Vue](../vue/README.md)/[Ang
 First add the package. Make sure that the versions for your `@storybook/*` packages match:
 
 ```sh
-yarn add -D @storybook/addon-docs@next
+yarn add -D @storybook/addon-docs
 ```
 
 Then add the following to your `.storybook/main.js` addons:

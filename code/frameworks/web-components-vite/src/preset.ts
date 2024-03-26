@@ -1,7 +1,10 @@
 import type { PresetProperty } from '@storybook/types';
-import type { StorybookConfig } from './types';
+import { dirname, join } from 'path';
 
-export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/web-components',
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
+
+export const core: PresetProperty<'core'> = {
+  builder: getAbsolutePath('@storybook/builder-vite'),
+  renderer: getAbsolutePath('@storybook/web-components'),
 };

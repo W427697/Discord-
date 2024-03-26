@@ -1,4 +1,33 @@
-import { addExtraFlags, getStorybookVersion, isCorePackage } from './upgrade';
+import { describe, it, expect, vi } from 'vitest';
+import * as sbcc from '@storybook/core-common';
+import {
+  UpgradeStorybookToLowerVersionError,
+  UpgradeStorybookToSameVersionError,
+} from '@storybook/core-events/server-errors';
+import { doUpgrade, getStorybookVersion } from './upgrade';
+
+const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
+
+vi.mock('@storybook/telemetry');
+vi.mock('@storybook/core-common', async (importOriginal) => {
+  const originalModule = (await importOriginal()) as typeof sbcc;
+  return {
+    ...originalModule,
+    JsPackageManagerFactory: {
+      getPackageManager: () => ({
+        findInstallations: findInstallationsMock,
+        getAllDependencies: async () => ({ storybook: '8.0.0' }),
+      }),
+    },
+    versions: Object.keys(originalModule.versions).reduce(
+      (acc, key) => {
+        acc[key] = '8.0.0';
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
+  };
+});
 
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
@@ -21,52 +50,39 @@ describe.each([
   });
 });
 
-describe.each([
-  ['@storybook/react', true],
-  ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
-  ['@storybook/linter-config', false],
-  ['@storybook/design-system', false],
-])('isCorePackage', (input, output) => {
-  it(`${input}`, () => {
-    expect(isCorePackage(input)).toEqual(output);
-  });
-});
+describe('Upgrade errors', () => {
+  it('should throw an error when upgrading to a lower version number', async () => {
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.1.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
 
-describe('extra flags', () => {
-  const extraFlags = {
-    'react-scripts@<5': ['--foo'],
-  };
-  const devDependencies = {};
-  it('package matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], { dependencies: { 'react-scripts': '4' }, devDependencies })
-    ).toEqual(['--foo']);
+    await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToLowerVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
-  it('package prerelease matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: { 'react-scripts': '4.0.0-alpha.0' },
-        devDependencies,
-      })
-    ).toEqual(['--foo']);
-  });
-  it('package not matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: { 'react-scripts': '5.0.0-alpha.0' },
-        devDependencies,
-      })
-    ).toEqual([]);
-  });
-  it('no package not matches constraints', () => {
-    expect(
-      addExtraFlags(extraFlags, [], {
-        dependencies: {},
-        devDependencies,
-      })
-    ).toEqual([]);
+  it('should throw an error when upgrading to the same version number', async () => {
+    findInstallationsMock.mockResolvedValue({
+      dependencies: {
+        '@storybook/cli': [
+          {
+            version: '8.0.0',
+          },
+        ],
+      },
+      duplicatedDependencies: {},
+      infoCommand: '',
+      dedupeCommand: '',
+    });
+
+    await expect(doUpgrade({} as any)).rejects.toThrowError(UpgradeStorybookToSameVersionError);
+    expect(findInstallationsMock).toHaveBeenCalledWith(Object.keys(sbcc.versions));
   });
 });

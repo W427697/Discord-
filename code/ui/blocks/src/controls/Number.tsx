@@ -1,7 +1,7 @@
 import type { FC, ChangeEvent } from 'react';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
-import { Form } from '@storybook/components';
+import { Button, Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, NumberValue, NumberConfig } from './types';
@@ -19,6 +19,10 @@ export const parse = (value: string) => {
 
 export const format = (value: NumberValue) => (value != null ? String(value) : '');
 
+const FormInput = styled(Form.Input)(({ readOnly }) => ({
+  opacity: readOnly ? 0.5 : 1,
+}));
+
 export const NumberControl: FC<NumberProps> = ({
   name,
   value,
@@ -28,10 +32,12 @@ export const NumberControl: FC<NumberProps> = ({
   step,
   onBlur,
   onFocus,
+  argType,
 }) => {
   const [inputValue, setInputValue] = useState(typeof value === 'number' ? value : '');
   const [forceVisible, setForceVisible] = useState(false);
   const [parseError, setParseError] = useState<Error>(null);
+  const readonly = !!argType?.table?.readonly;
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,17 +72,23 @@ export const NumberControl: FC<NumberProps> = ({
     }
   }, [value]);
 
-  if (!forceVisible && value === undefined) {
+  if (value === undefined) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button
+        variant="outline"
+        size="medium"
+        id={getControlSetterButtonId(name)}
+        onClick={onForceVisible}
+        disabled={readonly}
+      >
         Set number
-      </Form.Button>
+      </Button>
     );
   }
 
   return (
     <Wrapper>
-      <Form.Input
+      <FormInput
         ref={htmlElRef}
         id={getControlId(name)}
         type="number"
@@ -86,6 +98,7 @@ export const NumberControl: FC<NumberProps> = ({
         value={inputValue}
         valid={parseError ? 'error' : null}
         autoFocus={forceVisible}
+        readOnly={readonly}
         {...{ name, min, max, step, onFocus, onBlur }}
       />
     </Wrapper>

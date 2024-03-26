@@ -1,5 +1,7 @@
 import fse from 'fs-extra';
+import path from 'path';
 import { dedent } from 'ts-dedent';
+import { logger } from '@storybook/node-logger';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
@@ -8,6 +10,7 @@ interface ConfigureMainOptions {
   staticDirs?: string[];
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  prefixes: string[];
   /**
    * Extra values for main.js
    *
@@ -31,8 +34,6 @@ interface ConfigurePreviewOptions {
   rendererId: string;
 }
 
-const logger = console;
-
 /**
  * We need to clean up the paths in case of pnp
  * input: "path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))"
@@ -50,12 +51,14 @@ const sanitizeFramework = (framework: string) => {
 
 export async function configureMain({
   addons,
-  extensions = ['js', 'jsx', 'ts', 'tsx'],
+  extensions = ['js', 'jsx', 'mjs', 'ts', 'tsx'],
   storybookConfigFolder,
   language,
+  prefixes = [],
   ...custom
 }: ConfigureMainOptions) {
-  const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
+  const srcPath = path.resolve(storybookConfigFolder, '../src');
+  const prefix = (await fse.pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
@@ -65,7 +68,7 @@ export async function configureMain({
   const isTypescript =
     language === SupportedLanguage.TYPESCRIPT_4_9 || language === SupportedLanguage.TYPESCRIPT_3_8;
 
-  let mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  let mainConfigTemplate = dedent`<<import>><<prefix>>const config<<type>> = <<mainContents>>;
     export default config;`;
 
   const frameworkPackage = sanitizeFramework(custom.framework?.name);
@@ -80,6 +83,7 @@ export async function configureMain({
     .replace(/%%['"]/g, '');
 
   const imports = [];
+  const finalPrefixes = [...prefixes];
 
   if (custom.framework?.name.includes('path.dirname(')) {
     imports.push(`import path from 'path';`);
@@ -88,22 +92,28 @@ export async function configureMain({
   if (isTypescript) {
     imports.push(`import type { StorybookConfig } from '${frameworkPackage}';`);
   } else {
-    imports.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
+    finalPrefixes.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
   }
 
-  const mainJsContents = mainConfigTemplate
-    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+  let mainJsContents = mainConfigTemplate
+    .replace('<<import>>', `${imports.join('\n\n')}\n\n`)
+    .replace('<<prefix>>', finalPrefixes.length > 0 ? `${finalPrefixes.join('\n\n')}\n` : '')
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
 
-  const prettier = (await import('prettier')).default;
-
   const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
-  const prettyMain = prettier.format(dedent(mainJsContents), {
-    ...prettier.resolveConfig.sync(process.cwd()),
-    filepath: mainPath,
-  });
-  await fse.writeFile(mainPath, prettyMain, { encoding: 'utf8' });
+
+  try {
+    const prettier = (await import('prettier')).default;
+    mainJsContents = await prettier.format(dedent(mainJsContents), {
+      ...(await prettier.resolveConfig(mainPath)),
+      filepath: mainPath,
+    });
+  } catch {
+    logger.verbose(`Failed to prettify ${mainPath}`);
+  }
+
+  await fse.writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
@@ -134,7 +144,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     .filter(Boolean)
     .join('\n');
 
-  const preview = dedent`
+  let preview = dedent`
     ${prefix}${prefix.length > 0 ? '\n' : ''}
     ${
       !isTypescript && rendererPackage
@@ -142,11 +152,10 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
         : ''
     }const preview${isTypescript ? ': Preview' : ''} = {
       parameters: {
-        actions: { argTypesRegex: '^on[A-Z].*' },
         controls: {
           matchers: {
            color: /(background|color)$/i,
-           date: /Date$/,
+           date: /Date$/i,
           },
         },
       },
@@ -157,11 +166,15 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     .replace('  \n', '')
     .trim();
 
-  const prettier = (await import('prettier')).default;
+  try {
+    const prettier = (await import('prettier')).default;
+    preview = await prettier.format(preview, {
+      ...(await prettier.resolveConfig(previewPath)),
+      filepath: previewPath,
+    });
+  } catch {
+    logger.verbose(`Failed to prettify ${previewPath}`);
+  }
 
-  const prettyPreview = prettier.format(preview, {
-    ...prettier.resolveConfig.sync(process.cwd()),
-    filepath: previewPath,
-  });
-  await fse.writeFile(previewPath, prettyPreview, { encoding: 'utf8' });
+  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
 }

@@ -4,24 +4,10 @@
 import Button from './Button.svelte';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/svelte/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Button',
   component: Button,
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/svelte/api/csf
- * to learn how to use render functions.
- */
 export const Primary = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
   args: {
     backgroundColor: '#ff0',
     label: 'Button',
@@ -29,10 +15,6 @@ export const Primary = {
 };
 
 export const Secondary = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
   args: {
     ...Primary.args,
     label: '😄👍😍💯',
@@ -40,10 +22,6 @@ export const Secondary = {
 };
 
 export const Tertiary = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
   args: {
     ...Primary.args,
     label: '📚📕📈🤓',

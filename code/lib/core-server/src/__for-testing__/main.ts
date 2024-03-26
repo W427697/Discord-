@@ -29,14 +29,9 @@ const config: StorybookConfig = {
     disableTelemetry: true,
   },
   logLevel: 'debug',
-  features: {
-    breakingChangesV7: false,
-    storyStoreV7: false,
-  },
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      fastRefresh: true,
       strictMode: true,
     },
   },

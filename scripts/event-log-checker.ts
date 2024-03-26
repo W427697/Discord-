@@ -2,7 +2,9 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
+import { esMain } from './utils/esmain';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
+import versions from '../code/lib/core-common/src/versions';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
 
 const PORT = process.env.PORT || 6007;
@@ -48,29 +50,16 @@ async function run() {
 
     const [bootEvent, mainEvent] = events;
 
+    test(`both events should have cliVersion in context`, () => {
+      const cliVersion = versions.storybook;
+      assert.equal(bootEvent.context.cliVersion, cliVersion);
+      assert.equal(mainEvent.context.cliVersion, cliVersion);
+    });
+
     test(`Should log a boot event with a payload of type ${eventType}`, () => {
       assert.equal(bootEvent.eventType, 'boot');
       assert.equal(bootEvent.payload?.eventType, eventType);
     });
-
-    // Test only StoryStoreV7 projects, as ssv6 does not support the storyIndex
-    if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
-      const { exampleStoryCount, exampleDocsCount } = mainEvent.payload?.storyIndex || {};
-      if (['build', 'dev'].includes(eventType)) {
-        test(`${eventType} event should contain 8 stories and 3 docs entries`, () => {
-          assert.equal(
-            exampleStoryCount,
-            8,
-            `Expected 8 stories but received ${exampleStoryCount} instead.`
-          );
-          assert.equal(
-            exampleDocsCount,
-            3,
-            `Expected 3 docs entries but received ${exampleDocsCount} instead.`
-          );
-        });
-      }
-    }
 
     test(`main event should be ${eventType} and contain correct id and session id`, () => {
       assert.equal(mainEvent.eventType, eventType);
@@ -106,7 +95,7 @@ async function run() {
 
 export {};
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   run()
     .then(() => process.exit(0))
     .catch((err) => {

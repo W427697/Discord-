@@ -1,54 +1,61 @@
-import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { describe, it, expect } from 'vitest';
+import type { JsPackageManager } from '@storybook/core-common';
 import { sbBinary } from './sb-binary';
 
 const checkStorybookBinary = async ({
-  packageJson,
+  packageManager,
   storybookVersion = '7.0.0',
 }: {
-  packageJson: PackageJson;
+  packageManager: Partial<JsPackageManager>;
   storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig: {}, storybookVersion });
-  return sbBinary.check({ packageManager: makePackageManager(packageJson) });
+  return sbBinary.check({
+    packageManager: packageManager as any,
+    storybookVersion,
+    mainConfig: {} as any,
+  });
 };
 
 describe('storybook-binary fix', () => {
-  describe('sb < 7.0', () => {
-    describe('does nothing', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
-      it('should no-op', async () => {
-        await expect(
-          checkStorybookBinary({
-            packageJson,
-            storybookVersion: '6.2.0',
-          })
-        ).resolves.toBeFalsy();
-      });
-    });
-  });
-
   describe('sb >= 7.0', () => {
     it('should no-op in NX projects', async () => {
-      const packageJson = {
-        dependencies: { '@storybook/react': '^7.0.0', '@nrwl/storybook': '^15.7.1' },
-      };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0');
+            case '@nrwl/storybook':
+              return Promise.resolve('15.7.1');
+            default:
+              return null;
+          }
+        },
+        retrievePackageJson: () => Promise.resolve({}),
+      } as Partial<JsPackageManager>;
+
       await expect(
         checkStorybookBinary({
-          packageJson,
+          packageManager,
         })
       ).resolves.toBeFalsy();
     });
 
     it('should add storybook dependency if not present', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            default:
+              return null;
+          }
         },
-      };
+        retrievePackageJson: () => Promise.resolve({}),
+      } as Partial<JsPackageManager>;
+
       await expect(
         checkStorybookBinary({
-          packageJson,
+          packageManager,
         })
       ).resolves.toEqual(
         expect.objectContaining({
@@ -59,15 +66,23 @@ describe('storybook-binary fix', () => {
     });
 
     it('should remove sb dependency if it is present', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
-          sb: '6.5.0',
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            case 'sb':
+              return Promise.resolve('6.5.0');
+            default:
+              return null;
+          }
         },
-      };
+        retrievePackageJson: () => Promise.resolve({}),
+      } as Partial<JsPackageManager>;
+
       await expect(
         checkStorybookBinary({
-          packageJson,
+          packageManager,
         })
       ).resolves.toEqual(
         expect.objectContaining({
@@ -78,15 +93,23 @@ describe('storybook-binary fix', () => {
     });
 
     it('should no op if storybook is present and sb is not present', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
-          storybook: '^7.0.0-alpha.0',
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            case 'storybook':
+              return Promise.resolve('7.0.0-alpha.0');
+            default:
+              return null;
+          }
         },
-      };
+        retrievePackageJson: () => Promise.resolve({}),
+      } as Partial<JsPackageManager>;
+
       await expect(
         checkStorybookBinary({
-          packageJson,
+          packageManager,
         })
       ).resolves.toBeNull();
     });

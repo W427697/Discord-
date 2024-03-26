@@ -14,7 +14,7 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-app
-npx storybook init -t server
+npx storybook@latest init -t server
 ```
 
 To configure the server that Storybook will connect to, export a global parameter `parameters.server.url` in `.storybook/preview.js`:
@@ -33,7 +33,7 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 
 ## Writing Stories
 
-To write a story, use whatever API is natural for your server-side rendering framework to generate set of JSON or YAML files of stories analogous to CSF files (see the [`server-kitchen-sink`](../../examples/server-kitchen-sink/stories) example for ideas).
+To write a story, use whatever API is natural for your server-side rendering framework to generate set of JSON or YAML files of stories analogous to CSF files (see the [`server-kitchen-sink`](../../../test-storybooks/server-kitchen-sink/stories) example for ideas).
 
 ```json
 {

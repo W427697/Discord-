@@ -6,6 +6,8 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
+import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
 import { install } from './tasks/install';
@@ -15,13 +17,17 @@ import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { generate } from './tasks/generate';
 import { sandbox } from './tasks/sandbox';
+import { syncDocs } from './tasks/sync-docs';
 import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
 import { serve } from './tasks/serve';
-import { testRunner } from './tasks/test-runner';
+import { testRunnerBuild } from './tasks/test-runner-build';
+import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
-import { e2eTests } from './tasks/e2e-tests';
+import { e2eTestsBuild } from './tasks/e2e-tests-build';
+import { e2eTestsDev } from './tasks/e2e-tests-dev';
+import { bench } from './tasks/bench';
 
 import {
   allTemplates as TEMPLATES,
@@ -31,15 +37,14 @@ import {
 
 import { version } from '../code/package.json';
 
-const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
-const codeDir = resolve(__dirname, '../code');
-const junitDir = resolve(__dirname, '../test-results');
+const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
 export const extraAddons = ['a11y', 'storysource'];
 
 export type Path = string;
 export type TemplateDetails = {
   key: TemplateKey;
+  selectedTask: TaskKey;
   template: Template;
   codeDir: Path;
   sandboxDir: Path;
@@ -69,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -90,6 +95,7 @@ export const tasks = {
   compile,
   check,
   publish,
+  'sync-docs': syncDocs,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
   generate,
@@ -98,14 +104,17 @@ export const tasks = {
   'smoke-test': smokeTest,
   build,
   serve,
-  'test-runner': testRunner,
+  'test-runner': testRunnerBuild,
+  'test-runner-dev': testRunnerDev,
   chromatic,
-  'e2e-tests': e2eTests,
+  'e2e-tests': e2eTestsBuild,
+  'e2e-tests-dev': e2eTestsDev,
+  bench,
 };
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check', 'sync-docs'].includes(taskKey);
 }
 
 export const options = createOptions({
@@ -168,6 +177,11 @@ export const options = createOptions({
     description: 'Do not include template stories and their addons',
     promptType: false,
   },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
+    promptType: false,
+  },
 });
 
 type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
@@ -175,7 +189,7 @@ type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom
 const logger = console;
 
 function getJunitFilename(taskKey: TaskKey) {
-  return join(junitDir, `${taskKey}.xml`);
+  return join(JUNIT_DIRECTORY, `${taskKey}.xml`);
 }
 
 async function writeJunitXml(
@@ -294,12 +308,20 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   const { junitFilename } = details;
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
+    let updatedOptions = optionValues;
+    if (details.template?.modifications?.skipTemplateStories) {
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
+    }
+    const controller = await task.run(details, updatedOptions);
 
     if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
@@ -316,7 +338,12 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   }
 }
 
+const controllers: AbortController[] = [];
+
 async function run() {
+  // useful for other scripts to know whether they're running in the creation of a sandbox in the monorepo
+  process.env.IN_STORYBOOK_SANDBOX = 'true';
+
   const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
@@ -326,10 +353,11 @@ async function run() {
   const template = TEMPLATES[templateKey];
 
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
-  const details = {
+  const details: TemplateDetails = {
     key: templateKey,
     template,
-    codeDir,
+    codeDir: CODE_DIRECTORY,
+    selectedTask: taskKey,
     sandboxDir: templateSandboxDir,
     builtSandboxDir: templateKey && join(templateSandboxDir, 'storybook-static'),
     junitFilename: junit && getJunitFilename(taskKey),
@@ -417,7 +445,6 @@ async function run() {
     setUnready(startFromTask);
   }
 
-  const controllers: AbortController[] = [];
   for (let i = 0; i < sortedTasks.length; i += 1) {
     const task = sortedTasks[i];
     const status = statuses.get(task);
@@ -439,16 +466,11 @@ async function run() {
           // Always debug the final task so we can see it's output fully
           debug: task === finalTask ? true : optionValues.debug,
         });
-
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        // If it is the last task, we don't need to log the full trace
-        if (task === finalTask) {
-          logger.error(err.message);
-        } else {
-          logger.error(err);
-        }
+        logger.error(JSON.stringify(err, null, 2));
 
         if (process.env.CI) {
           logger.error(
@@ -474,7 +496,7 @@ async function run() {
           controller.abort();
         });
 
-        return 1;
+        throw err;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
 
@@ -484,11 +506,16 @@ async function run() {
       }
     }
   }
+
+  return 0;
+}
+
+process.on('exit', () => {
+  // Make sure to kill any running tasks 🎉
   controllers.forEach((controller) => {
     controller.abort();
   });
-  return 0;
-}
+});
 
 if (require.main === module) {
   run()

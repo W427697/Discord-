@@ -1,32 +1,25 @@
-/* eslint-disable no-param-reassign */
-import path, { join } from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
-import chalk from 'chalk';
-import { satisfies } from 'semver';
+import path, { join } from 'path';
+import { coerce, satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
+import findUp from 'find-up';
+import invariant from 'tiny-invariant';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
-} from './js-package-manager';
-import type { SupportedFrameworks, SupportedRenderers } from './project_types';
+} from '@storybook/core-common';
+import type { SupportedFrameworks } from '@storybook/types';
+import type { SupportedRenderers } from './project_types';
+import { CoreBuilder } from './project_types';
 import { SupportedLanguage } from './project_types';
-import storybookMonorepoPackages from './versions';
+import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 
 const logger = console;
-
-export function getBowerJson() {
-  const bowerJsonPath = path.resolve('bower.json');
-  if (!fs.existsSync(bowerJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(bowerJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
 
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
   const filePath = path.resolve(jsonPath);
@@ -55,70 +48,9 @@ export const writeFileAsJson = (jsonPath: string, content: unknown) => {
   return true;
 };
 
-export const commandLog = (message: string) => {
-  process.stdout.write(chalk.cyan(' • ') + message);
-
-  // Need `void` to be able to use this function in a then of a Promise<void>
-  return (errorMessage?: string | void, errorInfo?: string) => {
-    if (errorMessage) {
-      process.stdout.write(`. ${chalk.red('✖')}\n`);
-      logger.error(`\n     ${chalk.red(errorMessage)}`);
-
-      if (!errorInfo) {
-        return;
-      }
-
-      const newErrorInfo = errorInfo
-        .split('\n')
-        .map((line) => `     ${chalk.dim(line)}`)
-        .join('\n');
-      logger.error(`${newErrorInfo}\n`);
-      return;
-    }
-
-    process.stdout.write(`. ${chalk.green('✓')}\n`);
-  };
-};
-
-export function paddedLog(message: string) {
-  const newMessage = message
-    .split('\n')
-    .map((line) => `    ${line}`)
-    .join('\n');
-
-  logger.log(newMessage);
-}
-
-export function getChars(char: string, amount: number) {
-  let line = '';
-  for (let lc = 0; lc < amount; lc += 1) {
-    line += char;
-  }
-
-  return line;
-}
-
-export function codeLog(codeLines: string[], leftPadAmount?: number) {
-  let maxLength = 0;
-  const newLines = codeLines.map((line) => {
-    maxLength = line.length > maxLength ? line.length : maxLength;
-    return line;
-  });
-
-  const finalResult = newLines
-    .map((line) => {
-      const rightPadAmount = maxLength - line.length;
-      let newLine = line + getChars(' ', rightPadAmount);
-      newLine = getChars(' ', leftPadAmount || 2) + chalk.inverse(` ${newLine} `);
-      return newLine;
-    })
-    .join('\n');
-
-  logger.log(finalResult);
-}
-
 /**
  * Detect if any babel dependencies need to be added to the project
+ * This is currently used by react-native generator
  * @param {Object} packageJson The current package.json so we can inspect its contents
  * @returns {Array} Contains the packages and versions that need to be installed
  * @example
@@ -171,8 +103,14 @@ export function addToDevDependenciesIfNotPresent(
   name: string,
   packageVersion: string
 ) {
-  if (!packageJson.dependencies[name] && !packageJson.devDependencies[name]) {
-    packageJson.devDependencies[name] = packageVersion;
+  if (!packageJson.dependencies?.[name] && !packageJson.devDependencies?.[name]) {
+    if (packageJson.devDependencies) {
+      packageJson.devDependencies[name] = packageVersion;
+    } else {
+      packageJson.devDependencies = {
+        [name]: packageVersion,
+      };
+    }
   }
 }
 
@@ -194,6 +132,63 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
+export const frameworkToRenderer: Record<
+  SupportedFrameworks | SupportedRenderers,
+  SupportedRenderers | 'vue'
+> = {
+  // frameworks
+  angular: 'angular',
+  ember: 'ember',
+  'html-vite': 'html',
+  'html-webpack5': 'html',
+  nextjs: 'react',
+  'preact-vite': 'preact',
+  'preact-webpack5': 'preact',
+  qwik: 'qwik',
+  'react-vite': 'react',
+  'react-webpack5': 'react',
+  'server-webpack5': 'server',
+  solid: 'solid',
+  'svelte-vite': 'svelte',
+  'svelte-webpack5': 'svelte',
+  sveltekit: 'svelte',
+  'vue3-vite': 'vue3',
+  'vue3-webpack5': 'vue3',
+  'web-components-vite': 'web-components',
+  'web-components-webpack5': 'web-components',
+  // renderers
+  html: 'html',
+  preact: 'preact',
+  'react-native': 'react-native',
+  react: 'react',
+  server: 'server',
+  svelte: 'svelte',
+  vue3: 'vue3',
+  'web-components': 'web-components',
+};
+
+export const frameworkToDefaultBuilder: Record<SupportedFrameworks, CoreBuilder> = {
+  angular: CoreBuilder.Webpack5,
+  ember: CoreBuilder.Webpack5,
+  'html-vite': CoreBuilder.Vite,
+  'html-webpack5': CoreBuilder.Webpack5,
+  nextjs: CoreBuilder.Webpack5,
+  'preact-vite': CoreBuilder.Vite,
+  'preact-webpack5': CoreBuilder.Webpack5,
+  qwik: CoreBuilder.Vite,
+  'react-vite': CoreBuilder.Vite,
+  'react-webpack5': CoreBuilder.Webpack5,
+  'server-webpack5': CoreBuilder.Webpack5,
+  solid: CoreBuilder.Vite,
+  'svelte-vite': CoreBuilder.Vite,
+  'svelte-webpack5': CoreBuilder.Webpack5,
+  sveltekit: CoreBuilder.Vite,
+  'vue3-vite': CoreBuilder.Vite,
+  'vue3-webpack5': CoreBuilder.Webpack5,
+  'web-components-vite': CoreBuilder.Vite,
+  'web-components-webpack5': CoreBuilder.Webpack5,
+};
+
 export async function copyTemplateFiles({
   packageManager,
   renderer,
@@ -201,17 +196,20 @@ export async function copyTemplateFiles({
   destination,
   includeCommonAssets = true,
 }: CopyTemplateFilesOptions) {
-  const languageFolderMapping: Record<SupportedLanguage, string> = {
+  const languageFolderMapping: Record<SupportedLanguage | 'typescript', string> = {
+    // keeping this for backwards compatibility in case community packages are using it
+    typescript: 'ts',
     [SupportedLanguage.JAVASCRIPT]: 'js',
     [SupportedLanguage.TYPESCRIPT_3_8]: 'ts-3-8',
     [SupportedLanguage.TYPESCRIPT_4_9]: 'ts-4-9',
   };
   const templatePath = async () => {
     const baseDir = await getRendererDir(packageManager, renderer);
-    const assetsDir = join(baseDir, 'template/cli');
+    const assetsDir = join(baseDir, 'template', 'cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
+    const assetsTS = join(assetsDir, languageFolderMapping.typescript);
     const assetsTS38 = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT_3_8]);
 
     // Ideally use the assets that match the language & version.
@@ -221,6 +219,10 @@ export async function copyTemplateFiles({
     // Use fallback typescript 3.8 assets if new ones aren't available
     if (language === SupportedLanguage.TYPESCRIPT_4_9 && (await fse.pathExists(assetsTS38))) {
       return assetsTS38;
+    }
+    // Fallback further to TS (for backwards compatibility purposes)
+    if (await fse.pathExists(assetsTS)) {
+      return assetsTS;
     }
     // Fallback further to JS
     if (await fse.pathExists(assetsJS)) {
@@ -242,22 +244,41 @@ export async function copyTemplateFiles({
 
   const destinationPath = destination ?? (await targetPath());
   if (includeCommonAssets) {
-    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    await fse.copy(join(getCliDir(), 'rendererAssets', 'common'), destinationPath, {
       overwrite: true,
     });
   }
   await fse.copy(await templatePath(), destinationPath, { overwrite: true });
+
+  if (includeCommonAssets) {
+    const rendererType = frameworkToRenderer[renderer] || 'react';
+    await adjustTemplate(join(destinationPath, 'Configure.mdx'), { renderer: rendererType });
+  }
+}
+
+export async function adjustTemplate(templatePath: string, templateData: Record<string, any>) {
+  // for now, we're just doing a simple string replace
+  // in the future we might replace this with a proper templating engine
+  let template = await fse.readFile(templatePath, 'utf8');
+
+  Object.keys(templateData).forEach((key) => {
+    template = template.replaceAll(`{{${key}}}`, `${templateData[key]}`);
+  });
+
+  await fse.writeFile(templatePath, template);
 }
 
 // Given a package.json, finds any official storybook package within it
 // and if it exists, returns the version of that package from the specified package.json
 export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
-  const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
-  const storybookPackage = Object.keys(allDeps).find(
-    (name: keyof typeof storybookMonorepoPackages) => {
-      return storybookMonorepoPackages[name];
-    }
-  );
+  const allDeps = {
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+    ...packageJson.optionalDependencies,
+  };
+  const storybookPackage = Object.keys(allDeps).find((name: string) => {
+    return storybookMonorepoPackages[name as keyof typeof storybookMonorepoPackages];
+  });
 
   if (!storybookPackage) {
     throw new Error(`Couldn't find any official storybook packages in package.json`);
@@ -266,6 +287,18 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   return allDeps[storybookPackage];
 }
 
-export function isNxProject(packageJSON: PackageJson) {
-  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
+export async function isNxProject() {
+  return findUp.sync('nx.json');
+}
+
+export function coerceSemver(version: string) {
+  const coercedSemver = coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
+}
+
+export async function hasStorybookDependencies(packageManager: JsPackageManager) {
+  const currentPackageDeps = await packageManager.getAllDependencies();
+
+  return Object.keys(currentPackageDeps).some((dep) => dep.includes('storybook'));
 }

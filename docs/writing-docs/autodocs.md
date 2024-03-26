@@ -2,6 +2,8 @@
 title: 'Automatic documentation and Storybook'
 ---
 
+<YouTubeCallout id="BLUmt0j7OLY" title="INSTANT documentation with Storybook 7 AUTODOCS" />
+
 Storybook Autodocs is a powerful tool that can help you quickly generate comprehensive documentation for your UI components. By leveraging Autodocs, you're transforming your stories into living documentation which can be further extended with [MDX](./mdx.md) and [Doc Blocks](./doc-blocks.md) to provide a clear and concise understanding of your components' functionality.
 
 ## Setup automated documentation
@@ -18,6 +20,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
     'vue/button-story-auto-docs.ts.mdx',
     'angular/button-story-auto-docs.ts.mdx',
     'svelte/button-story-auto-docs.js.mdx',
+    'svelte/button-story-auto-docs.ts.mdx',
     'web-components/button-story-auto-docs.js.mdx',
     'web-components/button-story-auto-docs.ts.mdx',
   ]}
@@ -27,8 +30,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
 
 ![Storybook autodocs](./autodocs.png)
 
-
-Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
+Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/arg-types.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
 
@@ -45,14 +47,16 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 <!-- prettier-ignore-end -->
 
-| Option        | Description                                                                                                                         |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default) <br/> `docs: { autodocs: false }` |
-| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`                                         |
+| Option        | Description                                                                                                                                                                                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default). `true`/`false` enable/disable autodocs globally. `tag` allows you to opt in per component by adding the `tags: ['autodocs']` annotation in the component's default export. <br/> Default: `docs: { autodocs: 'tag' }` |
+| `defaultName` | Renames the auto-generated documentation page<br/> Default: `docs: { defaultName: 'Documentation' }`                                                                                                                                                                                                                     |
 
 ### Write a custom template
 
-To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
+<YouTubeCallout id="q8SY4yyNE6Q" title="Custom Autodocs with Storybook 7 Docs Page | Quick Tips" />
+
+To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js|ts`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -65,17 +69,17 @@ To replace the default documentation template used by Storybook, you can extend 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) if you want to learn more about how Doc Blocks work.
+Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) to learn more about how Doc Blocks work.
 
-</div>
+</Callout>
 
 Going over the code snippet in more detail. When Storybook starts up, it will override the default template with the custom one composed of the following:
 
 1. A header with the component's metadata retrieved by the `Title`, `Subtitle`, and `Description` Doc Blocks.
 2. The first story defined in the file via the `Primary` Doc Block with a handy set of UI controls to zoom in and out of the component.
-3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/argtypes.md) defined in the story via the `Controls` Doc Block.
+3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/arg-types.md) defined in the story via the `Controls` Doc Block.
 4. A overview of the remaining stories via the `Stories` Doc Block.
 
 #### With MDX
@@ -104,17 +108,110 @@ Then you can use it in your `.storybook/preview.js` or an individual story file 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you only need to override the documentation page for a single component, we recommend creating an MDX file and referencing it directly via the `<Meta of={} />` Doc Block.
+If you only need to override the documentation page for a single component, we recommend creating an MDX file and referencing it directly via the `<Meta of={} />` Doc Block.
 
-</div>
+</Callout>
+
+### Generate a table of contents
+
+Storybook's auto-generated documentation pages can be quite long and difficult to navigate. To help with this, you can enable the table of contents feature to provide a quick overview of the documentation page and allow users to jump to a specific section. To enable it, extend your Storybook UI configuration file (i.e., `.storybook/preview.js`) and provide a `docs` [parameter](../writing-stories/parameters.md#global-parameters) with a `toc` property.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-enable-toc.js.mdx',
+    'common/storybook-preview-enable-toc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Configure the table of contents
+
+By default, the table of contents on the documentation page will only show the `h3` headings that are automatically generated. However, if you want to customize the table of contents, you can add more parameters to the `toc` property. The following options and examples of how to use them are available.
+
+| Option                | Description                                                                                                                                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `contentsSelector`    | Defines the container's CSS selector for search for the headings <br/> `toc: { contentsSelector: '.sbdocs-content' }`                                                                                           |
+| `disable`             | Hides the table of contents for the documentation pages <br/> `toc: { disable: true }`                                                                                                                          |
+| `headingSelector`     | Defines the list of headings to feature in the table of contents <br/> `toc: { headingSelector: 'h1, h2, h3' }`                                                                                                 |
+| `ignoreSelector`      | Configures the table of contents to ignore specific headings or stories. By default, the table of contents will ignore all content placed within Story blocks <br/> `toc: { ignoreSelector: '.docs-story h2' }` |
+| `title`               | Defines a title caption for the table of contents. <br/>Accepts one of: `string`, `null`, React element <br/> `toc: { title: 'Table of Contents' }`                                                             |
+| `unsafeTocbotOptions` | Provides additional [`TocBot`](https://tscanlin.github.io/tocbot/) configuration options <br/> `toc: { unsafeTocbotOptions: { orderedList: true } }`                                                            |
+
+<Callout variant="info">
+
+The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow additional customization. For more information on using them, see the [`Tocbot` documentation](https://tscanlin.github.io/tocbot/).
+
+</Callout>
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-custom-toc.js.mdx',
+    'common/storybook-preview-custom-toc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+#### Component-level configuration
+
+If you want to customize the table of contents for a specific story, you can include a `toc` property in the story's default export and provide the required [configuration](#configure-the-table-of-contents). For example, if you need to hide the table of contents for a specific story, adjust your story as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'angular/my-component-disable-toc.ts.mdx',
+    'web-components/my-component-disable-toc.js.mdx',
+    'web-components/my-component-disable-toc.ts.mdx',
+    'common/my-component-disable-toc.js.mdx',
+    'common/my-component-disable-toc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Customize component documentation
 
 Creating automated documentation with Storybook's Autodocs provides you with the starting point to build a sustainable documentation pattern. Nevertheless, it may not be suited for every case, and you may want to extend it and provide additional information. We recommend combining [MDX](./mdx.md) alongside Storybook's [Doc Blocks](./doc-blocks.md) for such cases to author your documentation.
 
 ## Advanced configuration
+
+### Documenting multiple components
+
+Sometimes it's helpful to document multiple components together. For example, a component library’s ButtonGroup and Button components might not make sense without one another.
+
+Autodocs allows you to document your "main" component, defined by the `component` property, as well as one or more `subcomponents` related to it.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
+/>
+
+<!-- prettier-ignore-end -->
+
+![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
+
+The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
+
+If you want to organize your documentation differently for component groups, we recommend [using MDX](./mdx.md). It gives you complete control over how your components are displayed and supports any configuration.
 
 ### Customize the Docs Container
 
@@ -161,13 +258,31 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a detail of how MDX works. From their [migration guide](https://mdxjs.com/migrating/v2/#update-mdx-content):
 
-</div>
+“We now ‘sandbox’ components, for lack of a better name. It means that when you pass a component for h1, it does get used for `# hi` but not for `<h1>hi</h1>`”
+
+</Callout>
 
 ## Troubleshooting
+
+### The table of contents doesn't render as expected
+
+When using Autodocs's table of contents, you may encounter situations where it appears differently than expected. To help you resolve these problems, we have compiled a list of possible scenarios that may cause issues.
+
+#### With simple documentation pages
+
+If you have a documentation page with only one matching heading and create a table of contents for it, the table of contents will not be hidden by default. A potential solution for this issue would be to add a second heading or turn it off entirely.
+
+#### With small screens
+
+If the screen width is less than 1200px, the table of contents will be hidden by default. Currently, there's no built-in solution for this issue that doesn't impact the documentation page's style compatibility.
+
+#### With MDX
+
+If you're writing [unattached documentation](./mdx.md#writing-unattached-documentation) using MDX, you cannot customize the table of contents primarily due to the lack of support for defining parameters based on the current implementation. As a result, the table of contents will always revert to the default [configuration](#configure-the-table-of-contents) provided globally.
 
 ### The auto-generated documentation is not showing up in a monorepo setup
 
@@ -201,9 +316,13 @@ Additionally, if you're developing using TypeScript, you may need to update Stor
 
 <!-- prettier-ignore-end -->
 
-If you're still encountering issues, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 
-#### Learn more about Storybook documentation
+### The controls are not updating the story within the auto-generated documentation
+
+If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
+
+**Learn more about Storybook documentation**
 
 - Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

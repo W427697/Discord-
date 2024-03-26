@@ -1,10 +1,8 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import semver from 'semver';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
-import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
-import { getStorybookData } from '../helpers/mainConfigFile';
+import type { PackageJsonWithDepsAndDevDeps } from '@storybook/core-common';
 
 interface SbBinaryRunOptions {
   storybookVersion: string;
@@ -25,18 +23,22 @@ const logger = console;
 export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
-  async check({ packageManager, configDir }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const allDependencies = packageManager.getAllDependencies();
-    const { storybookVersion } = await getStorybookData({ packageManager, configDir });
+  versionRange: ['<7', '>=7'],
+
+  async check({ packageManager, storybookVersion }) {
+    const packageJson = await packageManager.retrievePackageJson();
+
+    const nrwlStorybookVersion = await packageManager.getPackageVersion('@nrwl/storybook');
+    const sbBinaryVersion = await packageManager.getPackageVersion('sb');
+    const storybookBinaryVersion = await packageManager.getPackageVersion('storybook');
 
     // Nx provides their own binary, so we don't need to do anything
-    if (allDependencies['@nrwl/storybook'] || semver.lt(storybookVersion, '7.0.0')) {
+    if (nrwlStorybookVersion) {
       return null;
     }
 
-    const hasSbBinary = !!allDependencies.sb;
-    const hasStorybookBinary = !!allDependencies.storybook;
+    const hasSbBinary = !!sbBinaryVersion;
+    const hasStorybookBinary = !!storybookBinaryVersion;
 
     if (!hasSbBinary && hasStorybookBinary) {
       return null;
@@ -82,7 +84,7 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
     if (hasSbBinary) {
       logger.info(`✅ Removing 'sb' dependency`);
       if (!dryRun) {
-        packageManager.removeDependencies(
+        await packageManager.removeDependencies(
           { skipInstall: skipInstall || !hasStorybookBinary, packageJson },
           ['sb']
         );
@@ -95,7 +97,7 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       logger.log();
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
-        packageManager.addDependencies(
+        await packageManager.addDependencies(
           { installAsDevDependencies: true, packageJson, skipInstall },
           [`storybook@${versionToInstall}`]
         );

@@ -24,15 +24,14 @@ function areAllRequiredElementsHighlighted(
   highlighted: string[]
 ): CheckBoxStates {
   const highlightedCount = elementsToHighlight.filter((item) =>
-    highlighted.includes(item.target[0])
+    highlighted.includes(item.target[0] as any)
   ).length;
 
-  // eslint-disable-next-line no-nested-ternary
   return highlightedCount === 0
     ? CheckBoxStates.UNCHECKED
     : highlightedCount === elementsToHighlight.length
-    ? CheckBoxStates.CHECKED
-    : CheckBoxStates.INDETERMINATE;
+      ? CheckBoxStates.CHECKED
+      : CheckBoxStates.INDETERMINATE;
 }
 
 const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight = [] }) => {
@@ -52,7 +51,7 @@ const HighlightToggle: React.FC<ToggleProps> = ({ toggleId, elementsToHighlight 
 
   const handleToggle = React.useCallback((): void => {
     toggleHighlight(
-      elementsToHighlight.map((e) => e.target[0]),
+      elementsToHighlight.map((e) => e.target[0] as any),
       checkBoxState !== CheckBoxStates.CHECKED
     );
   }, [elementsToHighlight, checkBoxState, toggleHighlight]);

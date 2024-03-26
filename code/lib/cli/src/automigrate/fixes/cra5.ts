@@ -20,16 +20,16 @@ interface CRA5RunOptions {
 export const cra5: Fix<CRA5RunOptions> = {
   id: 'cra5',
 
-  async check({ packageManager, configDir }) {
-    const allDependencies = packageManager.getAllDependencies();
-    const craVersion = allDependencies['react-scripts'];
-    const craCoerced = semver.coerce(craVersion)?.version;
+  versionRange: ['<7', '>=7'],
 
-    if (!craCoerced || semver.lt(craCoerced, '5.0.0')) {
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const craVersion = await packageManager.getPackageVersion('react-scripts');
+
+    if (!craVersion || semver.lt(craVersion, '5.0.0')) {
       return null;
     }
 
-    const builderInfo = await checkWebpack5Builder({ configDir, packageManager });
+    const builderInfo = await checkWebpack5Builder({ mainConfig, storybookVersion });
     return builderInfo ? { craVersion, ...builderInfo } : null;
   },
 

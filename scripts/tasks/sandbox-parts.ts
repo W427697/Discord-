@@ -1,37 +1,48 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop, no-param-reassign */
 import {
   copy,
   ensureSymlink,
   ensureDir,
   existsSync,
   pathExists,
+  readFileSync,
   readJson,
   writeJson,
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-
+import JSON5 from 'json5';
+import { createRequire } from 'module';
 import slash from 'slash';
+
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
-import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
+import {
+  installYarn2,
+  configureYarn2ForVerdaccio,
+  addPackageResolutions,
+  addWorkaroundResolutions,
+} from '../utils/yarn';
 import { exec } from '../utils/exec';
-import type { ConfigFile } from '../../code/lib/csf-tools';
-import { writeConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools/src';
+import { writeConfig } from '../../code/lib/csf-tools/src';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
 import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
+import {
+  type JsPackageManager,
+  versions as storybookPackages,
+  JsPackageManagerFactory,
+} from '../../code/lib/core-common/src';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
+import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
+import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
 
-const reprosDir = resolve(__dirname, '../../repros');
-const codeDir = resolve(__dirname, '../../code');
 const logger = console;
 
 export const essentialsAddons = [
@@ -51,7 +62,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   await ensureDir(parentDir);
 
   if ('inDevelopment' in template && template.inDevelopment) {
-    const srcDir = join(reprosDir, key, 'after-storybook');
+    const srcDir = join(REPROS_DIRECTORY, key, 'after-storybook');
     if (!existsSync(srcDir)) {
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
@@ -59,7 +70,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
+      optionValues: { output: sandboxDir, init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -67,27 +78,42 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async (
-  { sandboxDir, template },
-  { link, dryRun, debug, addon: addons, skipTemplateStories }
-) => {
+export const install: Task['run'] = async ({ sandboxDir, key }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
     await executeCLIStep(steps.link, {
       argument: sandboxDir,
-      cwd: codeDir,
+      cwd: CODE_DIRECTORY,
       optionValues: { local: true, start: false },
       dryRun,
       debug,
     });
+    await addWorkaroundResolutions({ cwd, dryRun, debug });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
     // the top. In theory this could mask issues where different versions cause problems.
     await addPackageResolutions({ cwd, dryRun, debug });
-    await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
+    await configureYarn2ForVerdaccio({ cwd, dryRun, debug, key });
+
+    // Add vite plugin workarounds for frameworks that need it
+    // (to support vite 5 without peer dep errors)
+    const sandboxesNeedingWorkarounds: TemplateKey[] = [
+      'bench/react-vite-default-ts',
+      'bench/react-vite-default-ts-nodocs',
+      'bench/react-vite-default-ts-test-build',
+      'react-vite/default-js',
+      'react-vite/default-ts',
+      'svelte-vite/default-js',
+      'svelte-vite/default-ts',
+      'vue3-vite/default-js',
+      'vue3-vite/default-ts',
+    ];
+    if (sandboxesNeedingWorkarounds.includes(key)) {
+      await addWorkaroundResolutions({ cwd, dryRun, debug });
+    }
 
     await exec(
       'yarn install',
@@ -100,8 +126,20 @@ export const install: Task['run'] = async (
       }
     );
   }
+};
 
-  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+export const init: Task['run'] = async (
+  { sandboxDir, template },
+  { dryRun, debug, addon: addons, skipTemplateStories }
+) => {
+  const cwd = sandboxDir;
+
+  let extra = {};
+  if (template.expected.renderer === '@storybook/html') {
+    extra = { type: 'html' };
+  } else if (template.expected.renderer === '@storybook/server') {
+    extra = { type: 'server' };
+  }
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -124,7 +162,7 @@ export const install: Task['run'] = async (
   }
 
   const nodeOptionsString = nodeOptions.join(' ');
-  const prefix = `NODE_OPTIONS="${nodeOptionsString}" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
+  const prefix = `NODE_OPTIONS='${nodeOptionsString}' STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
 
   await updatePackageScripts({
     cwd,
@@ -133,7 +171,7 @@ export const install: Task['run'] = async (
 
   switch (template.expected.framework) {
     case '@storybook/angular':
-      await prepareAngularSandbox(cwd);
+      await prepareAngularSandbox(cwd, template.name);
       break;
     default:
   }
@@ -152,12 +190,8 @@ export const install: Task['run'] = async (
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const require = createRequire(import.meta.url);
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
-  const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx2-csf/loader'
-  );
-  const babelLoaderPath = require.resolve('babel-loader');
-  const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -168,11 +202,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         {
           test: [/\\/template-stories\\//],
           exclude: [/\\.mdx$/],
-          /**
-           * We need to run esbuild-loader after the csf-plugin loader, so we use the "enforce: 'post'" option.
-           * Otherwise, the csf-plugin loader does not have any effect.
-           */
-          enforce: 'post',
           loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
@@ -180,45 +209,13 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
           },
         },
         // Handle MDX files per the addon-docs presets (ish)
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.stories\\.mdx$/],
+        {        
+          test: /template-stories\\/.*\\.mdx$/,
+          exclude: /\\.stories\\.mdx$/,
           use: [
             {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
+              loader: require.resolve('@storybook/addon-docs/mdx-loader'),
             },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: false,
-              }
-            }
-          ],
-        },
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.mdx$/],
-          exclude: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: true,
-              }
-            }
           ],
         },
         // Ensure no other loaders from the framework apply
@@ -231,7 +228,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   })`;
   mainConfig.setFieldNode(
     ['webpackFinal'],
-    // @ts-expect-error (not sure why TS complains here, it does exist)
     babelParse(webpackFinalCode).program.body[0].expression
   );
 }
@@ -255,11 +251,7 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
       },
     },
   })`;
-  mainConfig.setFieldNode(
-    ['viteFinal'],
-    // @ts-expect-error (not sure why TS complains here, it does exist)
-    babelParse(viteFinalCode).program.body[0].expression
-  );
+  mainConfig.setFieldNode(['viteFinal'], babelParse(viteFinalCode).program.body[0].expression);
 }
 
 // Update the stories field to ensure that no TS files
@@ -269,119 +261,141 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
+  // TODO: We should definitely improve the logic here, as it will break every time the stories field change format in the generated sandboxes.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => specifier.replace('|ts|tsx', ''))
     : stories;
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
 }
 
 // Add a stories field entry for the passed symlink
-function addStoriesEntry(mainConfig: ConfigFile, path: string) {
+function addStoriesEntry(mainConfig: ConfigFile, path: string, disableDocs: boolean) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
     directory: slash(join('../template-stories', path)),
     titlePrefix: slash(path),
-    files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+    files: disableDocs ? '**/*.stories.@(js|jsx|ts|tsx)' : '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
 
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
 }
 
-function addVariantToFolder(variant?: string, folder = 'stories') {
+function getStoriesFolderWithVariant(variant?: string, folder = 'stories') {
   return variant ? `${folder}_${variant}` : folder;
 }
 
 // packageDir is eg 'renderers/react', 'addons/actions'
 async function linkPackageStories(
   packageDir: string,
-  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
-  frameworkVariant?: string
+  {
+    mainConfig,
+    cwd,
+    linkInDir,
+    disableDocs,
+  }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string; disableDocs: boolean },
+  variant?: string
 ) {
-  const storiesFolderName = frameworkVariant ? addVariantToFolder(frameworkVariant) : 'stories';
-  const source = join(codeDir, packageDir, 'template', storiesFolderName);
+  const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
+  const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
-  //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
-  // if the directory <code>/lib/store/template/stories exists
+  //   e.g '../../../code/lib/preview-api/template/stories' to 'template-stories/lib/preview-api'
+  // if the directory <code>/lib/preview-api/template/stories exists
   //
   // The files must be linked in the cwd, in order to ensure that any dependencies they
   // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
   const target = linkInDir
-    ? resolve(
-        linkInDir,
-        frameworkVariant ? addVariantToFolder(frameworkVariant, packageDir) : packageDir
-      )
+    ? resolve(linkInDir, variant ? getStoriesFolderWithVariant(variant, packageDir) : packageDir)
     : resolve(cwd, 'template-stories', packageDir);
 
   await ensureSymlink(source, target);
 
   if (!linkInDir) {
-    addStoriesEntry(mainConfig, packageDir);
+    addStoriesEntry(mainConfig, packageDir, disableDocs);
   }
 
   // Add `previewAnnotation` entries of the form
-  //   './template-stories/lib/store/preview.[tj]s'
-  // if the file <code>/lib/store/template/stories/preview.[jt]s exists
+  //   './template-stories/lib/preview-api/preview.[tj]s'
+  // if the file <code>/lib/preview-api/template/stories/preview.[jt]s exists
   await Promise.all(
     ['js', 'ts'].map(async (ext) => {
       const previewFile = `preview.${ext}`;
-      const previewPath = join(codeDir, packageDir, 'template', storiesFolderName, previewFile);
+      const previewPath = join(
+        CODE_DIRECTORY,
+        packageDir,
+        'template',
+        storiesFolderName,
+        previewFile
+      );
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
-            ? `src/${storiesFolderName}`
-            : storiesFolderName;
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
-        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
+        addPreviewAnnotations(mainConfig, [
+          `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
+        ]);
       }
     })
   );
 }
 
-function addExtraDependencies({
+export async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
+  extraDeps,
 }: {
   cwd: string;
   dryRun: boolean;
   debug: boolean;
+  extraDeps?: string[];
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = [
-    '@storybook/jest',
-    '@storybook/testing-library@next',
-    '@storybook/test-runner@next',
-  ];
-  if (debug) logger.log('🎁 Adding extra deps', extraDeps);
+  const extraDevDeps = ['@storybook/testing-library@next', '@storybook/test-runner@next'];
+  if (debug) logger.log('🎁 Adding extra dev deps', extraDevDeps);
+  let packageManager: JsPackageManager;
   if (!dryRun) {
-    const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
-    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+    packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, extraDevDeps);
+  }
+  if (extraDeps) {
+    if (debug) logger.log('🎁 Adding extra deps', extraDeps);
+    await packageManager.addDependencies({ installAsDevDependencies: false }, extraDeps);
   }
 }
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
-  { addon: extraAddons, dryRun, debug }
+  { addon: extraAddons, disableDocs }
 ) => {
   logger.log('💃 adding stories');
   const cwd = sandboxDir;
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
   const mainConfig = await readMainConfig({ cwd });
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, sandboxDir);
 
   // Ensure that we match the right stories in the stories directory
-  const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
+  updateStoriesField(
+    mainConfig,
+    (await detectLanguage(packageManager as any as Parameters<typeof detectLanguage>[0])) ===
+      SupportedLanguage.JAVASCRIPT
+  );
 
-  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  const isCoreRenderer =
+    template.expected.renderer.startsWith('@storybook/') &&
+    template.expected.renderer !== '@storybook/server';
+
+  const sandboxSpecificStoriesFolder = key.replaceAll('/', '-');
+  const storiesVariantFolder = getStoriesFolderWithVariant(sandboxSpecificStoriesFolder);
+
   if (isCoreRenderer) {
-    // Link in the template/components/index.js from store, the renderer and the addons
+    // Link in the template/components/index.js from preview-api, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
     await ensureSymlink(
-      join(codeDir, rendererPath, 'template', 'components'),
+      join(CODE_DIRECTORY, rendererPath, 'template', 'components'),
       resolve(cwd, storiesPath, 'components')
     );
     addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
@@ -391,7 +405,25 @@ export const addStories: Task['run'] = async (
       mainConfig,
       cwd,
       linkInDir: resolve(cwd, storiesPath),
+      disableDocs,
     });
+
+    if (
+      await pathExists(
+        resolve(CODE_DIRECTORY, rendererPath, join('template', storiesVariantFolder))
+      )
+    ) {
+      await linkPackageStories(
+        rendererPath,
+        {
+          mainConfig,
+          cwd,
+          linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
+        },
+        sandboxSpecificStoriesFolder
+      );
+    }
   }
 
   const isCoreFramework = template.expected.framework.startsWith('@storybook/');
@@ -400,36 +432,40 @@ export const addStories: Task['run'] = async (
     const frameworkPath = await workspacePath('frameworks', template.expected.framework);
 
     // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
-    if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+    if (await pathExists(resolve(CODE_DIRECTORY, frameworkPath, join('template', 'stories')))) {
       await linkPackageStories(frameworkPath, {
         mainConfig,
         cwd,
         linkInDir: resolve(cwd, storiesPath),
+        disableDocs,
       });
     }
 
-    const frameworkVariant = key.split('/')[1];
-    const storiesVariantFolder = addVariantToFolder(frameworkVariant);
-
-    if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
+    if (
+      await pathExists(
+        resolve(CODE_DIRECTORY, frameworkPath, join('template', storiesVariantFolder))
+      )
+    ) {
       await linkPackageStories(
         frameworkPath,
         {
           mainConfig,
           cwd,
           linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
         },
-        frameworkVariant
+        sandboxSpecificStoriesFolder
       );
     }
   }
 
   if (isCoreRenderer) {
-    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // Add stories for lib/preview-api (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
+    await linkPackageStories(await workspacePath('core package', '@storybook/preview-api'), {
       mainConfig,
       cwd,
+      disableDocs,
     });
   }
 
@@ -440,7 +476,10 @@ export const addStories: Task['run'] = async (
       if (!match) return acc;
       const suffix = match[1];
       if (suffix === 'essentials') {
-        return [...acc, ...essentialsAddons];
+        const essentials = disableDocs
+          ? essentialsAddons.filter((a) => a !== 'docs')
+          : essentialsAddons;
+        return [...acc, ...essentials];
       }
       return [...acc, suffix];
     },
@@ -448,15 +487,18 @@ export const addStories: Task['run'] = async (
   );
 
   const addonDirs = await Promise.all(
-    [...mainAddons, ...extraAddons].map(async (addon) =>
-      workspacePath('addon', `@storybook/addon-${addon}`)
-    )
+    [...mainAddons, ...extraAddons]
+      // only include addons that are in the monorepo
+      .filter((addon: string) =>
+        Object.keys(storybookPackages).find((pkg: string) => pkg === `@storybook/addon-${addon}`)
+      )
+      .map(async (addon) => workspacePath('addon', `@storybook/addon-${addon}`))
   );
 
   if (isCoreRenderer) {
     const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
     for (const packageDir of existingStories) {
-      await linkPackageStories(packageDir, { mainConfig, cwd });
+      await linkPackageStories(packageDir, { mainConfig, cwd, disableDocs });
     }
 
     // Add some extra settings (see above for what these do)
@@ -465,13 +507,10 @@ export const addStories: Task['run'] = async (
     }
   }
 
-  // Some addon stories require extra dependencies
-  addExtraDependencies({ cwd, dryRun, debug });
-
   await writeConfig(mainConfig);
 };
 
-export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disableDocs }) => {
   logger.log('📝 Extending main.js');
   const mainConfig = await readMainConfig({ cwd: sandboxDir });
   const templateConfig = template.modifications?.mainConfig || {};
@@ -480,9 +519,36 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
     features: {
       ...templateConfig.features,
     },
+    ...(template.modifications?.editAddons
+      ? {
+          addons: template.modifications?.editAddons(mainConfig.getFieldValue(['addons']) || []),
+        }
+      : {}),
+    core: {
+      ...templateConfig.core,
+      // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests
+      disableWhatsNewNotifications: true,
+    },
   };
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  // Simulate Storybook Lite
+  if (disableDocs) {
+    const addons = mainConfig.getFieldValue(['addons']);
+    const addonsNoDocs = addons.map((addon: any) =>
+      addon !== '@storybook/addon-essentials' ? addon : { name: addon, options: { docs: false } }
+    );
+    mainConfig.setFieldValue(['addons'], addonsNoDocs);
+
+    // remove the docs options so that docs tags are ignored
+    mainConfig.setFieldValue(['docs'], {});
+    mainConfig.setFieldValue(['typescript'], { reactDocgen: false });
+
+    let updatedStories = mainConfig.getFieldValue(['stories']) as string[];
+    updatedStories = updatedStories.filter((specifier) => !specifier.endsWith('.mdx'));
+    mainConfig.setFieldValue(['stories'], updatedStories);
+  }
 
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
@@ -494,7 +560,7 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
  * In a second step a docs:json script is placed into the package.json to generate the
  * Compodoc documentation.json, which respects symlinks
  * */
-async function prepareAngularSandbox(cwd: string) {
+async function prepareAngularSandbox(cwd: string, templateName: string) {
   const angularJson = await readJson(join(cwd, 'angular.json'));
 
   Object.keys(angularJson.projects).forEach((projectName: string) => {
@@ -509,10 +575,39 @@ async function prepareAngularSandbox(cwd: string) {
 
   packageJson.scripts = {
     ...packageJson.scripts,
-    'docs:json': 'DIR=$PWD; cd ../../scripts; yarn ts-node combine-compodoc $DIR',
+    'docs:json':
+      'DIR=$PWD; cd ../../scripts; node --loader esbuild-register/loader -r esbuild-register combine-compodoc $DIR',
     storybook: `yarn docs:json && ${packageJson.scripts.storybook}`,
     'build-storybook': `yarn docs:json && ${packageJson.scripts['build-storybook']}`,
   };
 
   await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+
+  // Set tsConfig compilerOptions
+
+  const tsConfigPath = join(cwd, '.storybook', 'tsconfig.json');
+  const tsConfigContent = readFileSync(tsConfigPath, { encoding: 'utf-8' });
+  // This does not preserve comments, but that shouldn't be an issue for sandboxes
+  const tsConfigJson = JSON5.parse(tsConfigContent);
+
+  tsConfigJson.compilerOptions.noImplicitOverride = false;
+  tsConfigJson.compilerOptions.noPropertyAccessFromIndexSignature = false;
+  tsConfigJson.compilerOptions.jsx = 'react';
+  tsConfigJson.compilerOptions.skipLibCheck = true;
+  tsConfigJson.compilerOptions.noImplicitAny = false;
+  tsConfigJson.compilerOptions.strict = false;
+  tsConfigJson.include = [
+    ...tsConfigJson.include,
+    '../template-stories/**/*.stories.ts',
+    // This is necessary since template stories depend on globalThis.components, which Typescript can't look up automatically
+    '../src/stories/**/*',
+  ];
+
+  if (templateName === 'Angular CLI (Version 15)') {
+    tsConfigJson.compilerOptions.paths = {
+      '@angular-devkit/*': ['node_modules/@angular-devkit/*'],
+    };
+  }
+
+  await writeJson(tsConfigPath, tsConfigJson, { spaces: 2 });
 }

@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SourceType } from '@storybook/docs-tools';
 
+import type { StoryContext } from '@storybook/types';
+
+import dedent from 'ts-dedent';
 import { EmptyExample } from './EmptyExample';
 
 const code = `query HeroNameAndFriends($episode: Episode) {
@@ -22,6 +25,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const NoParameters: Story = {
+  args: { something: 'else' },
   // This is here so we can tell if we are looking at the real vs emitted source
 };
 
@@ -29,8 +33,21 @@ export const TypeCode: Story = {
   parameters: { docs: { source: { type: SourceType.CODE } } },
 };
 
-export const TransformSource = {
-  parameters: { docs: { source: { transformSource: () => `const transformed = "source";` } } },
+export const Transform = {
+  args: { something: 'else' },
+  parameters: {
+    docs: {
+      source: {
+        transform: (
+          src: string,
+          storyContext: StoryContext
+        ) => dedent`// this comment has been added via parameters.docs.source.transform!
+        // this is the story id: ${storyContext.id}
+        // these are the current args: ${JSON.stringify(storyContext.args)}
+        ${src}`,
+      },
+    },
+  },
 };
 
 export const Code = {

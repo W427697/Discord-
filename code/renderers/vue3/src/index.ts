@@ -2,8 +2,15 @@
 
 import './globals';
 
-export * from './public-api';
+export { setup } from './render';
 export * from './public-types';
+export * from './portable-stories';
 
 // optimization: stop HMR propagation in webpack
-module?.hot?.decline();
+try {
+  if (module?.hot?.decline) {
+    module.hot.decline();
+  }
+} catch (e) {
+  /* do nothing */
+}

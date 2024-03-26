@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import { readJson } from 'fs-extra';
 import { join } from 'path';
-import { execaCommand } from './utils/exec';
+import { execaCommand } from 'execa';
+import { esMain } from './utils/esmain';
+import { CODE_DIRECTORY } from './utils/constants';
 
 type Branch = 'main' | 'next' | 'alpha' | 'next-release' | 'latest-release';
 type Workflow = 'merged' | 'daily';
@@ -13,7 +15,7 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
 
   // The CI workflows can run on release branches and we should display the version number
   if (branch === 'next-release' || branch === 'latest-release') {
-    const packageJson = await readJson(join(__dirname, '..', 'code', 'package.json'));
+    const packageJson = await readJson(join(CODE_DIRECTORY, 'package.json'));
 
     // running in alpha branch we should just show the version which failed
     return `\n**Version: ${packageJson.version}**`;
@@ -26,7 +28,7 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
       : // show last 24h merges for daily workflow
         `git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar %s [%an]"`;
 
-  const result = await execaCommand(mergeCommits, { shell: true });
+  const result = await execaCommand(mergeCommits, { shell: true, cleanup: true });
   const formattedResult = result.stdout
     // discord needs escaped line breaks
     .replace(/\n/g, '\\n')
@@ -62,7 +64,7 @@ async function run() {
   console.log(`${title}${body}${footer}`.replace(/\n/g, '\\n'));
 }
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   run().catch((err) => {
     console.error(err);
     process.exit(1);

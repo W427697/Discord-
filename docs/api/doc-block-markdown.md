@@ -24,6 +24,8 @@ import { Button } from "@storybook/design-system";
 
 <!-- prettier-ignore-start -->
 ```md
+<!-- Header.mdx -->
+
 // DON'T do this, will error
 import ReadMe from './README.md';
 // DO this, will work
@@ -33,7 +35,7 @@ import { Markdown } from '@storybook/blocks';
 
 # A header 
 
-<Markdown>{ReadMe}</Markdown />
+<Markdown>{ReadMe}</Markdown>
 ```
 <!-- prettier-ignore-end -->
 

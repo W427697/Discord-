@@ -1,60 +1,36 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
-import { getBowerJson } from './helpers';
-import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
-import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
-import type { PackageJsonWithMaybeDeps } from './js-package-manager';
+import { detect, detectFrameworkPreset, detectLanguage } from './detect';
+import { ProjectType, SupportedLanguage } from './project_types';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
 
-jest.mock('./helpers', () => ({
-  isNxProject: jest.fn(),
-  getBowerJson: jest.fn(),
+vi.mock('./helpers', () => ({
+  isNxProject: vi.fn(),
 }));
 
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  stat: jest.fn(),
-  lstat: jest.fn(),
-  access: jest.fn(),
+vi.mock('fs', () => ({
+  existsSync: vi.fn(),
+  stat: vi.fn(),
+  lstat: vi.fn(),
+  access: vi.fn(),
 }));
 
-jest.mock('fs-extra', () => ({
-  pathExistsSync: jest.fn(() => true),
+vi.mock('fs-extra', () => ({
+  pathExistsSync: vi.fn(() => true),
 }));
 
-jest.mock('path', () => ({
+vi.mock('path', () => ({
   // make it return just the second path, for easier testing
-  join: jest.fn((_, p) => p),
+  join: vi.fn((_, p) => p),
 }));
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
   files: Record<'package.json', PackageJsonWithMaybeDeps> | Record<string, string>;
 }[] = [
-  {
-    name: ProjectType.SFC_VUE,
-    files: {
-      'package.json': {
-        dependencies: {
-          vuetify: '1.0.0',
-        },
-        devDependencies: {
-          'vue-loader': '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.VUE,
-    files: {
-      'package.json': {
-        dependencies: {
-          vue: '1.0.0',
-        },
-      },
-    },
-  },
   {
     name: ProjectType.VUE3,
     files: {
@@ -213,46 +189,6 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
-    name: ProjectType.MITHRIL,
-    files: {
-      'package.json': {
-        dependencies: {
-          mithril: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARIONETTE,
-    files: {
-      'package.json': {
-        dependencies: {
-          'backbone.marionette': '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARKO,
-    files: {
-      'package.json': {
-        dependencies: {
-          marko: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.RIOT,
-    files: {
-      'package.json': {
-        dependencies: {
-          riot: '1.0.0',
-        },
-      },
-    },
-  },
-  {
     name: ProjectType.PREACT,
     files: {
       'package.json': {
@@ -272,119 +208,216 @@ const MOCK_FRAMEWORK_FILES: {
       },
     },
   },
-  {
-    name: ProjectType.RAX,
-    files: {
-      '.rax': 'file content',
-      'package.json': {
-        dependencies: {
-          rax: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.AURELIA,
-    files: {
-      'package.json': {
-        dependencies: {
-          'aurelia-bootstrapper': '1.0.0',
-        },
-      },
-    },
-  },
 ];
 
 describe('Detect', () => {
-  it(`should return type HTML if html option is passed`, () => {
-    expect(detect({ dependencies: {} }, { html: true })).toBe(ProjectType.HTML);
+  it(`should return type HTML if html option is passed`, async () => {
+    const packageManager = {
+      retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+      getAllDependencies: () => Promise.resolve({}),
+      getPackageVersion: () => Promise.resolve(null),
+    } as Partial<JsPackageManager>;
+
+    await expect(detect(packageManager as any, { html: true })).resolves.toBe(ProjectType.HTML);
   });
 
-  it(`should return type UNDETECTED if neither packageJson or bowerJson exist`, () => {
-    (getBowerJson as jest.Mock).mockImplementation(() => false);
-    expect(detect(undefined)).toBe(ProjectType.UNDETECTED);
-  });
+  it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
+    vi.mocked(logger.warn).mockClear();
 
-  it(`should return language javascript if the TS dependency is present but less than minimum supported`, () => {
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
-    expect(detectLanguage({ dependencies: { typescript: '1.0.0' } })).toBe(
-      SupportedLanguage.JAVASCRIPT
-    );
+    const packageManager = {
+      retrievePackageJson: () =>
+        Promise.resolve({
+          dependencies: {},
+          devDependencies: {
+            typescript: '1.0.0',
+          },
+        }),
+      getAllDependencies: () =>
+        Promise.resolve({
+          typescript: '1.0.0',
+        }),
+      getPackageVersion: (packageName) => {
+        switch (packageName) {
+          case 'typescript':
+            return Promise.resolve('1.0.0');
+          default:
+            return Promise.resolve(null);
+        }
+      },
+    } as Partial<JsPackageManager>;
+
+    await expect(detectLanguage(packageManager as any)).resolves.toBe(SupportedLanguage.JAVASCRIPT);
     expect(logger.warn).toHaveBeenCalledWith(
       'Detected TypeScript < 3.8, populating with JavaScript examples'
     );
   });
 
-  it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, () => {
-    expect(detectLanguage({ dependencies: { typescript: '3.8.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_3_8
-    );
-    expect(detectLanguage({ dependencies: { typescript: '4.8.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_3_8
-    );
+  it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '3.8.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '3.8.0',
+          }),
+        getPackageVersion: (packageName: string) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('3.8.0');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.TYPESCRIPT_3_8);
+
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.8.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.8.0',
+          }),
+        getPackageVersion: (packageName: string) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.8.0');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.TYPESCRIPT_3_8);
   });
 
-  it(`should return language typescript-4-9 if the dependency is >TS4.9`, () => {
-    expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_4_9
-    );
+  it(`should return language typescript-4-9 if the dependency is >TS4.9`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.1',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.1',
+          }),
+        getPackageVersion: (packageName: string) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.9.1');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.TYPESCRIPT_4_9);
   });
 
-  it(`should return language typescript if the dependency is =TS4.9`, () => {
-    expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_4_9
-    );
+  it(`should return language typescript if the dependency is =TS4.9`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.0',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.0',
+          }),
+        getPackageVersion: (packageName: string) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.9.0');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.TYPESCRIPT_4_9);
   });
 
-  it(`should return language typescript if the dependency is =TS4.9beta`, () => {
-    expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_4_9
-    );
+  it(`should return language typescript if the dependency is =TS4.9beta`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () =>
+          Promise.resolve({
+            dependencies: {},
+            devDependencies: {
+              typescript: '4.9.0-beta',
+            },
+          }),
+        getAllDependencies: () =>
+          Promise.resolve({
+            typescript: '4.9.0-beta',
+          }),
+        getPackageVersion: (packageName: string) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.9.0-beta');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.TYPESCRIPT_3_8);
   });
 
-  it(`should return language javascript by default`, () => {
-    expect(detectLanguage()).toBe(SupportedLanguage.JAVASCRIPT);
+  it(`should return language javascript by default`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        getAllDependencies: () => Promise.resolve({}),
+        getPackageVersion: () => {
+          return Promise.resolve(null);
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.JAVASCRIPT);
   });
 
-  describe('isStorybookInstalled should return', () => {
-    it('false if empty devDependency', () => {
-      expect(isStorybookInstalled({ devDependencies: {} }, false)).toBe(false);
-    });
-
-    it('false if no devDependency', () => {
-      expect(isStorybookInstalled({}, false)).toBe(false);
-    });
-
-    SUPPORTED_RENDERERS.forEach((framework) => {
-      it(`true if devDependencies has ${framework} Storybook version`, () => {
-        const devDependencies = {
-          [`@storybook/${framework}`]: '4.0.0-alpha.21',
-        };
-        expect(isStorybookInstalled({ devDependencies }, false)).toBeTruthy();
-      });
-    });
-
-    it('false if forced flag', () => {
-      expect(
-        isStorybookInstalled(
-          {
-            devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
-          },
-          true
-        )
-      ).toBe(false);
-    });
+  it(`should return language Javascript even when Typescript is detected in the node_modules but not listed as a direct dependency`, async () => {
+    await expect(
+      detectLanguage({
+        retrievePackageJson: () => Promise.resolve({ dependencies: {}, devDependencies: {} }),
+        getAllDependencies: () => Promise.resolve({}),
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case 'typescript':
+              return Promise.resolve('4.9.0');
+            default:
+              return Promise.resolve(null);
+          }
+        },
+      } as Partial<JsPackageManager> as JsPackageManager)
+    ).resolves.toBe(SupportedLanguage.JAVASCRIPT);
   });
 
   describe('detectFrameworkPreset should return', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-          return Object.keys(structure.files).includes(filePath);
+        vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+          return typeof filePath === 'string' && Object.keys(structure.files).includes(filePath);
         });
 
         const result = detectFrameworkPreset(
@@ -416,8 +449,10 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
-        return Object.keys(forkedReactScriptsConfig).includes(filePath);
+      vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+        return (
+          typeof filePath === 'string' && Object.keys(forkedReactScriptsConfig).includes(filePath)
+        );
       });
 
       const result = detectFrameworkPreset();

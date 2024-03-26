@@ -1,75 +1,59 @@
-import { ApplicationRef, enableProdMode, importProvidersFrom, NgModule } from '@angular/core';
+import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
+
+import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
-import { componentNgModules } from './StorybookWrapperComponent';
 import { PropertyExtractor } from './utils/PropertyExtractor';
+import { queueBootstrapping } from './utils/BootstrapQueue';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
   moduleMetadataSnapshot: string;
 };
 
-const applicationRefs = new Set<ApplicationRef>();
+const applicationRefs = new Map<HTMLElement, ApplicationRef>();
+
+/**
+ * Attribute name for the story UID that may be written to the targetDOMNode.
+ *
+ * If a target DOM node has a story UID attribute, it will be used as part of
+ * the selector for the Angular component.
+ */
+export const STORY_UID_ATTRIBUTE = 'data-sb-story-uid';
 
 export abstract class AbstractRenderer {
   /**
    * Wait and destroy the platform
    */
-  public static resetApplications() {
-    componentNgModules.clear();
-    applicationRefs.forEach((appRef) => {
-      if (!appRef.destroyed) {
+  public static resetApplications(domNode?: HTMLElement) {
+    applicationRefs.forEach((appRef, appDOMNode) => {
+      if (!appRef.destroyed && (!domNode || appDOMNode === domNode)) {
         appRef.destroy();
       }
     });
   }
 
-  /**
-   * Reset compiled components because we often want to compile the same component with
-   * more than one NgModule.
-   */
-  protected static resetCompiledComponents = async () => {
-    try {
-      // Clear global Angular component cache in order to be able to re-render the same component across multiple stories
-      //
-      // References:
-      // https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/build_angular/src/webpack/plugins/hmr/hmr-accept.ts#L50
-      // https://github.com/angular/angular/blob/2ebe2bcb2fe19bf672316b05f15241fd7fd40803/packages/core/src/render3/jit/module.ts#L377-L384
-      const { ɵresetCompiledComponents } = await import('@angular/core');
-      ɵresetCompiledComponents();
-    } catch (e) {
-      /**
-       * noop catch
-       * This means angular removed or modified ɵresetCompiledComponents
-       */
-    }
-  };
-
-  protected previousStoryRenderInfo: StoryRenderInfo;
+  protected previousStoryRenderInfo = new Map<HTMLElement, StoryRenderInfo>();
 
   // Observable to change the properties dynamically without reloading angular module&component
   protected storyProps$: Subject<ICollection | undefined>;
 
-  constructor(public storyId: string) {
+  constructor() {
     if (typeof NODE_ENV === 'string' && NODE_ENV !== 'development') {
       try {
         // platform should be set after enableProdMode()
         enableProdMode();
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.debug(e);
       }
     }
   }
 
-  protected abstract beforeFullRender(): Promise<void>;
-
-  protected abstract afterFullRender(): Promise<void>;
+  protected abstract beforeFullRender(domNode?: HTMLElement): Promise<void>;
 
   /**
    * Bootstrap main angular module with main component or send only new `props` with storyProps$
@@ -79,19 +63,16 @@ export abstract class AbstractRenderer {
    * - true render will only use the StoryFn `props' in storyProps observable that will update sotry's component/template properties. Improves performance without reloading the whole module&component if props changes
    * - false fully recharges or initializes angular module & component
    * @param component {Component}
-   * @param parameters {Parameters}
    */
   public async render({
     storyFnAngular,
     forced,
-    parameters,
     component,
     targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     component?: any;
-    parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
     const targetSelector = this.generateTargetSelectorFromStoryId(targetDOMNode.id);
@@ -100,6 +81,7 @@ export abstract class AbstractRenderer {
 
     if (
       !this.fullRendererRequired({
+        targetDOMNode,
         storyFnAngular,
         moduleMetadata: {
           ...storyFnAngular.moduleMetadata,
@@ -112,7 +94,7 @@ export abstract class AbstractRenderer {
       return;
     }
 
-    await this.beforeFullRender();
+    await this.beforeFullRender(targetDOMNode);
 
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
@@ -124,26 +106,32 @@ export abstract class AbstractRenderer {
 
     const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
 
-    const providers = [
-      // Providers for BrowserAnimations & NoopAnimationsModule
-      analyzedMetadata.singletons,
-      importProvidersFrom(
-        ...analyzedMetadata.imports.filter((imported) => {
-          const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
-          return !isStandalone;
-        })
-      ),
-      analyzedMetadata.providers,
-      storyPropsProvider(newStoryProps$),
-    ].filter(Boolean);
+    const storyUid = targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE);
+    const componentSelector = storyUid !== null ? `${targetSelector}[${storyUid}]` : targetSelector;
+    if (storyUid !== null) {
+      const element = targetDOMNode.querySelector(targetSelector);
+      element.toggleAttribute(storyUid, true);
+    }
 
-    const application = getApplication({ storyFnAngular, component, targetSelector });
+    const application = getApplication({
+      storyFnAngular,
+      component,
+      targetSelector: componentSelector,
+      analyzedMetadata,
+    });
 
-    const applicationRef = await bootstrapApplication(application, { providers });
+    const applicationRef = await queueBootstrapping(() => {
+      return bootstrapApplication(application, {
+        ...storyFnAngular.applicationConfig,
+        providers: [
+          storyPropsProvider(newStoryProps$),
+          ...analyzedMetadata.applicationProviders,
+          ...(storyFnAngular.applicationConfig?.providers ?? []),
+        ],
+      });
+    });
 
-    applicationRefs.add(applicationRef);
-
-    await this.afterFullRender();
+    applicationRefs.set(targetDOMNode, applicationRef);
   }
 
   /**
@@ -164,30 +152,33 @@ export abstract class AbstractRenderer {
     return storyIdIsInvalidHtmlTagName ? `sb-${id.replace(invalidHtmlTag, '')}-component` : id;
   }
 
+  /**
+   * Adds DOM element that angular will use as bootstrap component.
+   */
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
-    // Adds DOM element that angular will use as bootstrap component
-    // eslint-disable-next-line no-param-reassign
     targetDOMNode.innerHTML = '';
     targetDOMNode.appendChild(document.createElement(targetSelector));
   }
 
   private fullRendererRequired({
+    targetDOMNode,
     storyFnAngular,
     moduleMetadata,
     forced,
   }: {
+    targetDOMNode: HTMLElement;
     storyFnAngular: StoryFnAngularReturnType;
     moduleMetadata: NgModule;
     forced: boolean;
   }) {
-    const { previousStoryRenderInfo } = this;
+    const previousStoryRenderInfo = this.previousStoryRenderInfo.get(targetDOMNode);
 
     const currentStoryRender = {
       storyFnAngular,
-      moduleMetadataSnapshot: stringify(moduleMetadata),
+      moduleMetadataSnapshot: stringify(moduleMetadata, { allowFunction: false }),
     };
 
-    this.previousStoryRenderInfo = currentStoryRender;
+    this.previousStoryRenderInfo.set(targetDOMNode, currentStoryRender);
 
     if (
       // check `forceRender` of story RenderContext

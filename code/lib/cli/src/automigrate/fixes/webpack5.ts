@@ -8,7 +8,7 @@ import { updateMainConfig } from '../helpers/mainConfigFile';
 const logger = console;
 
 interface Webpack5RunOptions {
-  webpackVersion: string;
+  webpackVersion: string | null;
   storybookVersion: string;
 }
 
@@ -22,23 +22,22 @@ interface Webpack5RunOptions {
  * - Add core.builder = 'webpack5' to main.js
  * - Add 'webpack5' as a project dependency
  */
-export const webpack5: Fix<Webpack5RunOptions> = {
+export const webpack5 = {
   id: 'webpack5',
 
-  async check({ configDir, packageManager }) {
-    const allDependencies = packageManager.retrievePackageJson().dependencies;
+  versionRange: ['<7', '>=7'],
 
-    const webpackVersion = allDependencies.webpack;
-    const webpackCoerced = semver.coerce(webpackVersion)?.version;
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const webpackVersion = await packageManager.getPackageVersion('webpack');
 
     if (
-      !webpackCoerced ||
-      semver.lt(webpackCoerced, '5.0.0') ||
-      semver.gte(webpackCoerced, '6.0.0')
+      !webpackVersion ||
+      semver.lt(webpackVersion, '5.0.0') ||
+      semver.gte(webpackVersion, '6.0.0')
     )
       return null;
 
-    const builderInfo = await checkWebpack5Builder({ configDir, packageManager });
+    const builderInfo = await checkWebpack5Builder({ mainConfig, storybookVersion });
     return builderInfo ? { webpackVersion, ...builderInfo } : null;
   },
 
@@ -72,13 +71,15 @@ export const webpack5: Fix<Webpack5RunOptions> = {
       deps.push('webpack@5');
     }
     logger.info(`✅ Adding dependencies: ${deps}`);
-    if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
+    if (!dryRun) {
+      await packageManager.addDependencies({ installAsDevDependencies: true }, deps);
+    }
 
     logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
     if (!dryRun) {
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['core', 'builder'], '@storybook/builder-webpack5');
       });
     }
   },
-};
+} satisfies Fix<Webpack5RunOptions>;

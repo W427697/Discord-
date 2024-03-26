@@ -1,25 +1,23 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import type { ComponentProps, FC } from 'react';
+import { createRoot } from 'react-dom/client';
+import React, { useCallback, useMemo } from 'react';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import {
-  ThemeProvider,
-  ensure as ensureTheme,
-  CacheProvider,
-  createCache,
-} from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/manager-errors';
+
 import { HelmetProvider } from 'react-helmet-async';
 
-import App from './app';
+import type { Addon_PageType } from '@storybook/types';
+import { App } from './App';
 
 import Provider from './provider';
-
-const emotionCache = createCache({ key: 'sto' });
-emotionCache.compat = true;
+import { settingsPageAddon } from './settings/index';
+import { LayoutProvider } from './components/layout/LayoutProvider';
+import type { Layout } from './components/layout/Layout';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -41,6 +39,7 @@ export const Root: FC<RootProps> = ({ provider }) => (
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {
   const navigate = useNavigate();
+
   return (
     <Location key="location.consumer">
       {(locationData) => (
@@ -51,24 +50,37 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           navigate={navigate}
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
-          {({ state, api }: Combo) => {
-            const panelCount = Object.keys(api.getPanels()).length;
-            const story = api.getData(state.storyId, state.refId);
-            const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
-              : !state.previewInitialized;
+          {(combo: Combo) => {
+            const { state, api } = combo;
+            const setManagerLayoutState = useCallback<
+              ComponentProps<typeof Layout>['setManagerLayoutState']
+            >(
+              (sizes) => {
+                api.setSizes(sizes);
+              },
+              [api]
+            );
+
+            const pages: Addon_PageType[] = useMemo(
+              () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
+              [Object.keys(api.getElements(types.experimental_PAGE)).join()]
+            );
 
             return (
-              <CacheProvider value={emotionCache}>
-                <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+              <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+                <LayoutProvider>
                   <App
                     key="app"
-                    viewMode={state.viewMode}
-                    layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
-                    panelCount={panelCount}
+                    pages={pages}
+                    managerLayoutState={{
+                      ...state.layout,
+                      viewMode: state.viewMode,
+                    }}
+                    hasTab={!!api.getQueryParam('tab')}
+                    setManagerLayoutState={setManagerLayoutState}
                   />
-                </ThemeProvider>
-              </CacheProvider>
+                </LayoutProvider>
+              </ThemeProvider>
             );
           }}
         </ManagerProvider>
@@ -79,10 +91,11 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
 export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
   if (!(provider instanceof Provider)) {
-    throw new Error('provider is not extended from the base Provider');
+    throw new ProviderDoesNotExtendBaseProviderError();
   }
 
-  ReactDOM.render(<Root key="root" provider={provider} />, domNode);
+  const root = createRoot(domNode);
+  root.render(<Root key="root" provider={provider} />);
 }
 
 export { Provider };

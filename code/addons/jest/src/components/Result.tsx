@@ -1,14 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+// eslint-disable-next-line import/no-named-as-default
 import Message from './Message';
+import { ChevronSmallDownIcon } from '@storybook/icons';
 
 const Wrapper = styled.div<{ status: string }>(({ theme, status }) => ({
   display: 'flex',
   width: '100%',
   borderTop: `1px solid ${theme.appBorderColor}`,
   '&:hover': {
-    background: status === `failed` ? theme.background.hoverable : null,
+    background: status === `failed` ? theme.background.hoverable : undefined,
   },
 }));
 
@@ -18,7 +19,7 @@ const HeaderBar = styled.div<{ status: string }>(({ theme, status }) => ({
   background: 'none',
   color: 'inherit',
   textAlign: 'left',
-  cursor: status === `failed` ? 'pointer' : null,
+  cursor: status === `failed` ? 'pointer' : undefined,
   borderLeft: '3px solid transparent',
   width: '100%',
   display: 'flex',
@@ -29,10 +30,7 @@ const HeaderBar = styled.div<{ status: string }>(({ theme, status }) => ({
   },
 }));
 
-const Icon = styled(Icons)(({ theme }) => ({
-  height: 10,
-  width: 10,
-  minWidth: 10,
+const Icon = styled(ChevronSmallDownIcon)(({ theme }) => ({
   color: theme.textMutedColor,
   marginRight: 10,
   transition: 'transform 0.1s ease-in-out',
@@ -65,20 +63,18 @@ export function Result(props: ResultProps) {
         <HeaderBar onClick={onToggle} role="button" status={status}>
           {status === `failed` ? (
             <Icon
-              icon="arrowdown"
               color={convert(themes.light).textMutedColor}
               style={{
                 transform: `rotate(${isOpen ? 0 : -90}deg)`,
               }}
             />
           ) : null}
-          <div>{capitalizeFirstLetter(fullName) || capitalizeFirstLetter(title)}</div>
+          <div>{capitalizeFirstLetter(fullName ?? '') || capitalizeFirstLetter(title ?? '')}</div>
         </HeaderBar>
       </Wrapper>
       {isOpen ? (
         <Fragment>
           {failureMessages.map((msg: string, i: number) => (
-            // eslint-disable-next-line react/no-array-index-key
             <Message msg={msg} key={i} />
           ))}
         </Fragment>

@@ -2,13 +2,15 @@
 title: 'Controls'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Controls Doc Block" params='start=240' />
+
 The `Controls` block can be used to show a dynamic table of args for a given story, as a way to document its interface, and to allow you to change the args for a (separately) rendered story (via the [`Story`](./doc-block-story.md) or [`Canvas`](./doc-block-canvas.md) blocks).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re looking for a static table that shows a component's arg types with no controls, see the [`ArgTypes`](./doc-block-argtypes.md) block instead.
+If you’re looking for a static table that shows a component's arg types with no controls, see the [`ArgTypes`](./doc-block-argtypes.md) block instead.
 
-</div>
+</Callout>
 
 ![Screenshot of Controls block](./doc-block-controls.png)
 
@@ -26,6 +28,12 @@ import * as ButtonStories from './Button.stories'
 <Controls of={ButtonStories.Primary} />
 ```
 <!-- prettier-ignore-end -->
+
+<Callout variant="warning">
+
+The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/index.md)) and haven't turned off inline stories with the [`inline`](./doc-block-story.md#inline) configuration option.
+
+</Callout>
 
 ## Controls
 
@@ -65,6 +73,12 @@ The following `exclude` configurations are equivalent:
 The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
 
 </details>
+
+<Callout variant="info" icon="💡">
+
+This API configures Controls blocks used within docs pages. To configure the Controls addon panel, see the [Controls addon docs](../essentials/controls.md). To configure individual controls, you can specify [argTypes](./arg-types.md#control) for each.
+
+</Callout>
 
 ### `exclude`
 

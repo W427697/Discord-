@@ -1,17 +1,29 @@
-import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
-import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
+import { useStorybookApi, useStorybookState, types } from '@storybook/manager-api';
+import { IconButton, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 
-import { AboutPage } from './about_page';
-import { ReleaseNotesPage } from './release_notes_page';
-import { ShortcutsPage } from './shortcuts_page';
+import type { Addon_PageType } from '@storybook/types';
+import { CloseIcon } from '@storybook/icons';
+import { AboutPage } from './AboutPage';
+import { ShortcutsPage } from './ShortcutsPage';
+import { WhatsNewPage } from './whats_new_page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
+
+const Header = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: 40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: theme.barBg,
+  paddingRight: 8,
+}));
 
 const TabBarButton = React.memo(function TabBarButton({
   changeTab,
@@ -44,26 +56,16 @@ const TabBarButton = React.memo(function TabBarButton({
   );
 });
 
-const Content = styled(ScrollArea)(
-  {
-    position: 'absolute',
-    top: 40,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'auto',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-  })
-);
+const Content = styled(ScrollArea)(({ theme }) => ({
+  background: theme.background.content,
+}));
 
 const Pages: FC<{
   onClose: () => void;
   enableShortcuts?: boolean;
-  hasReleaseNotes?: boolean;
   changeTab: (tab: string) => void;
-}> = ({ changeTab, onClose, enableShortcuts = true, hasReleaseNotes = false }) => {
+  enableWhatsNew: boolean;
+}> = ({ changeTab, onClose, enableShortcuts = true, enableWhatsNew }) => {
   React.useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (!enableShortcuts || event.repeat) return;
@@ -78,11 +80,11 @@ const Pages: FC<{
 
   return (
     <Fragment>
-      <FlexBar border>
+      <Header className="sb-bar">
         <TabBar role="tablist">
           <TabBarButton id="about" title="About" changeTab={changeTab} />
-          {hasReleaseNotes && (
-            <TabBarButton id="release-notes" title="Release notes" changeTab={changeTab} />
+          {enableWhatsNew && (
+            <TabBarButton id="whats-new" title="What's new?" changeTab={changeTab} />
           )}
           <TabBarButton id="shortcuts" title="Keyboard shortcuts" changeTab={changeTab} />
         </TabBar>
@@ -93,15 +95,15 @@ const Pages: FC<{
           }}
           title="Close settings page"
         >
-          <Icons icon="close" />
+          <CloseIcon />
         </IconButton>
-      </FlexBar>
+      </Header>
       <Content vertical horizontal={false}>
         <Route path="about">
           <AboutPage key="about" />
         </Route>
-        <Route path="release-notes">
-          <ReleaseNotesPage key="release-notes" />
+        <Route path="whats-new">
+          <WhatsNewPage key="whats-new" />
         </Route>
         <Route path="shortcuts">
           <ShortcutsPage key="shortcuts" />
@@ -118,7 +120,7 @@ const SettingsPages: FC = () => {
 
   return (
     <Pages
-      hasReleaseNotes={!!api.releaseNotesVersion()}
+      enableWhatsNew={state.whatsNewData?.status === 'SUCCESS'}
       enableShortcuts={state.ui.enableShortcuts}
       changeTab={changeTab}
       onClose={api.closeSettings}
@@ -126,4 +128,14 @@ const SettingsPages: FC = () => {
   );
 };
 
-export { SettingsPages as default };
+export const settingsPageAddon: Addon_PageType = {
+  id: 'settings',
+  url: '/settings/',
+  title: 'Settings',
+  type: types.experimental_PAGE,
+  render: () => (
+    <Route path="/settings/" startsWith>
+      <SettingsPages />
+    </Route>
+  ),
+};

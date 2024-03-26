@@ -1,20 +1,43 @@
 import semver from 'semver';
 import type { Configuration as WebpackConfig, RuleSetRule } from 'webpack';
-import { addScopedAlias, getNextjsVersion } from '../utils';
+import type { NextConfig } from 'next';
+import path from 'path';
+import { getNextjsVersion } from '../utils';
 
-export const configureImages = (baseConfig: WebpackConfig): void => {
-  configureStaticImageImport(baseConfig);
-  addScopedAlias(baseConfig, 'next/image');
+export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
+  configureStaticImageImport(baseConfig, nextConfig);
+  configureImageDefaults(baseConfig);
 };
 
-const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
+const fallbackFilename = 'static/media/[path][name][ext]';
+
+const configureImageDefaults = (baseConfig: WebpackConfig): void => {
+  const version = getNextjsVersion();
+  const resolve = baseConfig.resolve ?? {};
+  resolve.alias = {
+    ...resolve.alias,
+    'sb-original/next/image': require.resolve('next/image'),
+    'next/image': path.resolve(__dirname, './images/next-image'),
+  };
+
+  if (semver.satisfies(version, '>=13.0.0')) {
+    resolve.alias = {
+      ...resolve.alias,
+      'sb-original/next/legacy/image': require.resolve('next/legacy/image'),
+      'next/legacy/image': path.resolve(__dirname, './images/next-legacy-image'),
+    };
+  }
+};
+
+const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const version = getNextjsVersion();
   if (semver.lt(version, '11.0.0')) return;
 
   const rules = baseConfig.module?.rules;
 
   const assetRule = rules?.find(
-    (rule) => typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
+    (rule) =>
+      rule && typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
   ) as RuleSetRule;
 
   if (!assetRule) {
@@ -30,7 +53,8 @@ const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
       {
         loader: require.resolve('@storybook/nextjs/next-image-loader-stub.js'),
         options: {
-          filename: assetRule.generator?.filename,
+          filename: assetRule.generator?.filename ?? fallbackFilename,
+          nextConfig,
         },
       },
     ],
@@ -40,7 +64,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
     issuer: /\.(css|scss|sass)$/,
     type: 'asset/resource',
     generator: {
-      filename: assetRule.generator?.filename,
+      filename: assetRule.generator?.filename ?? fallbackFilename,
     },
   });
 };

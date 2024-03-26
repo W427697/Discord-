@@ -1,29 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { addons, types } from '@storybook/manager-api';
+import React from 'react';
+import { addons, types, useAddonState, useChannel } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
+import { Badge, Spaced } from '@storybook/components';
 import ActionLogger from './containers/ActionLogger';
-import { ADDON_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
+import { ADDON_ID, CLEAR_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
+
+function Title() {
+  const [{ count }, setCount] = useAddonState(ADDON_ID, { count: 0 });
+
+  useChannel({
+    [EVENT_ID]: () => {
+      setCount((c) => ({ ...c, count: c.count + 1 }));
+    },
+    [STORY_CHANGED]: () => {
+      setCount((c) => ({ ...c, count: 0 }));
+    },
+    [CLEAR_ID]: () => {
+      setCount((c) => ({ ...c, count: 0 }));
+    },
+  });
+
+  const suffix = count === 0 ? '' : <Badge status="neutral">{count}</Badge>;
+
+  return (
+    <div>
+      <Spaced col={1}>
+        <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>Actions</span>
+        {suffix}
+      </Spaced>
+    </div>
+  );
+}
 
 addons.register(ADDON_ID, (api) => {
-  addons.addPanel(PANEL_ID, {
-    title() {
-      const [actionsCount, setActionsCount] = useState(0);
-      const onEvent = () => setActionsCount((previous) => previous + 1);
-      const onChange = () => setActionsCount(0);
-
-      useEffect(() => {
-        api.on(EVENT_ID, onEvent);
-        api.on(STORY_CHANGED, onChange);
-        return () => {
-          api.off(EVENT_ID, onEvent);
-          api.off(STORY_CHANGED, onChange);
-        };
-      });
-      const suffix = actionsCount === 0 ? '' : ` (${actionsCount})`;
-      return `Actions${suffix}`;
-    },
+  addons.add(PANEL_ID, {
+    title: Title,
     type: types.PANEL,
-    render: ({ active, key }) => <ActionLogger key={key} api={api} active={!!active} />,
+    render: ({ active }) => <ActionLogger api={api} active={!!active} />,
     paramKey: PARAM_KEY,
   });
 });

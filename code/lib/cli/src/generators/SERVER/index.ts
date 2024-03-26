@@ -1,16 +1,18 @@
-import { join } from 'path';
+import { CoreBuilder } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
-import { copyTemplate } from '../../helpers';
-import { getCliDir } from '../../dirs';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
-  await baseGenerator(packageManager, npmOptions, options, 'server', {
-    extensions: ['json'],
-  });
-
-  const templateDir = join(getCliDir(), 'templates', 'server');
-  copyTemplate(templateDir);
+  await baseGenerator(
+    packageManager,
+    npmOptions,
+    { ...options, builder: CoreBuilder.Webpack5 },
+    'server',
+    {
+      webpackCompiler: () => 'swc',
+      extensions: ['json', 'yaml', 'yml'],
+    }
+  );
 };
 
 export default generator;

@@ -1,4 +1,7 @@
 import type { PackageJson, StorybookConfig } from '@storybook/types';
+import path from 'path';
+import { frameworkPackages } from '@storybook/core-common';
+import { cleanPaths } from './sanitize';
 import { getActualPackageJson } from './package-json';
 
 const knownRenderers = [
@@ -30,20 +33,44 @@ function findMatchingPackage(packageJson: PackageJson, suffixes: string[]) {
   return suffixes.map((suffix) => `@storybook/${suffix}`).find((pkg) => allDependencies[pkg]);
 }
 
+export const getFrameworkPackageName = (packageNameOrPath: string) => {
+  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+
+  const knownFramework = Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg));
+
+  return knownFramework || cleanPaths(packageNameOrPath).replace(/.*node_modules[\\/]/, '');
+};
+
 export async function getFrameworkInfo(mainConfig: StorybookConfig) {
-  const { framework: frameworkInput } = mainConfig;
+  if (!mainConfig?.framework) {
+    return {};
+  }
 
-  if (!frameworkInput) return {};
+  const rawName =
+    typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
+  if (!rawName) {
+    return {};
+  }
 
-  const framework = typeof frameworkInput === 'string' ? { name: frameworkInput } : frameworkInput;
+  const frameworkPackageJson = await getActualPackageJson(rawName);
 
-  const frameworkPackageJson = await getActualPackageJson(framework.name);
+  if (!frameworkPackageJson) {
+    return {};
+  }
 
   const builder = findMatchingPackage(frameworkPackageJson, knownBuilders);
   const renderer = findMatchingPackage(frameworkPackageJson, knownRenderers);
 
+  // parse framework name and strip off pnp paths etc.
+  const sanitizedFrameworkName = getFrameworkPackageName(rawName);
+  const frameworkOptions =
+    typeof mainConfig.framework === 'object' ? mainConfig.framework.options : {};
+
   return {
-    framework,
+    framework: {
+      name: sanitizedFrameworkName,
+      options: frameworkOptions,
+    },
     builder,
     renderer,
   };

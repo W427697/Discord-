@@ -1,18 +1,18 @@
 {
   "name": "@storybook/telemetry",
-  "version": "7.0.0-rc.4",
+  "version": "8.1.0-alpha.4",
   "description": "Telemetry logging for crash reports and usage statistics",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/telemetry",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/telemetry",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/telemetry"
+    "directory": "code/lib/telemetry"
   },
   "funding": {
     "type": "opencollective",
@@ -22,10 +22,10 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -36,25 +36,27 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-rc.4",
-    "@storybook/core-common": "7.0.0-rc.4",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
     "chalk": "^4.1.0",
     "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
     "fs-extra": "^11.1.0",
-    "isomorphic-unfetch": "^3.1.0",
-    "nanoid": "^3.3.1",
     "read-pkg-up": "^7.0.1"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "nanoid": "^4.0.2",
+    "node-fetch": "^3.3.1",
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"
@@ -65,5 +67,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

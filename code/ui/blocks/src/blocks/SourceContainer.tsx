@@ -1,7 +1,6 @@
-import type { FC, Context } from 'react';
+import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { dequal as deepEqual } from 'dequal';
 import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -12,7 +11,7 @@ import { stringify } from 'telejson';
 
 type ArgsHash = string;
 export function argsHash(args: Args): ArgsHash {
-  return stringify(args);
+  return stringify(args, { allowFunction: false });
 }
 
 export interface SourceItem {
@@ -38,7 +37,10 @@ type SnippetRenderedEvent = {
 
 export const UNKNOWN_ARGS_HASH = '--unknown--';
 
-export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel }) => {
+export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
+  children,
+  channel,
+}) => {
   const [sources, setSources] = useState<StorySources>({});
 
   useEffect(() => {
@@ -61,11 +63,14 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
         : idOrEvent;
 
       const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
-
-      // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id][hash] && sources[id][hash].code === source) {
-        return;
-      }
+      // FIXME: In SB8.0 when we remove the Source block deprecations,
+      // we should restore this optimizationand make the Source block
+      // smarter about understanding when its args change.
+      //
+      // See https://github.com/storybookjs/storybook/pull/22807
+      //
+      // optimization: don't update if the source is the same
+      // if (deepEqual(currentSource, { code: source, format })) return;
 
       setSources((current) => {
         const newSources = {
@@ -76,10 +81,7 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
           },
         };
 
-        if (!deepEqual(current, newSources)) {
-          return newSources;
-        }
-        return current;
+        return newSources;
       });
     };
 

@@ -3,11 +3,11 @@ import prettier from 'prettier';
 import * as t from '@babel/types';
 import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
-import { loadCsf } from '@storybook/csf-tools';
+import { loadCsf, printCsf } from '@storybook/csf-tools';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
-import * as recast from 'recast';
+import invariant from 'tiny-invariant';
 import { upgradeDeprecatedTypes } from './upgrade-deprecated-types';
 
 const logger = console;
@@ -16,7 +16,7 @@ const renameAnnotation = (annotation: string) => {
   return annotation === 'storyName' ? 'name' : annotation;
 };
 
-const getTemplateBindVariable = (init: t.Expression) =>
+const getTemplateBindVariable = (init: t.Expression | undefined) =>
   t.isCallExpression(init) &&
   t.isMemberExpression(init.callee) &&
   t.isIdentifier(init.callee.object) &&
@@ -37,12 +37,6 @@ const isStoryAnnotation = (stmt: t.Statement, objectExports: Record<string, any>
   t.isMemberExpression(stmt.expression.left) &&
   t.isIdentifier(stmt.expression.left.object) &&
   objectExports[stmt.expression.left.object.name];
-
-const isTemplateDeclaration = (stmt: t.Statement, templates: Record<string, any>) =>
-  t.isVariableDeclaration(stmt) &&
-  stmt.declarations.length === 1 &&
-  t.isIdentifier(stmt.declarations[0].id) &&
-  templates[stmt.declarations[0].id.name];
 
 const getNewExport = (stmt: t.Statement, objectExports: Record<string, any>) => {
   if (
@@ -94,7 +88,29 @@ const isReactGlobalRenderFn = (csf: CsfFile, storyFn: t.Expression) => {
 const isSimpleCSFStory = (init: t.Expression, annotations: t.ObjectProperty[]) =>
   annotations.length === 0 && t.isArrowFunctionExpression(init) && init.params.length === 0;
 
-export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
+function removeUnusedTemplates(csf: CsfFile) {
+  Object.entries(csf._templates).forEach(([template, templateExpression]) => {
+    const references: NodePath[] = [];
+    babel.traverse(csf._ast, {
+      Identifier: (path) => {
+        if (path.node.name === template) references.push(path as NodePath);
+      },
+    });
+    // if there is only one reference and this reference is the variable declaration initializing the template
+    // then we are sure the template is unused
+    if (references.length === 1) {
+      const reference = references[0];
+      if (
+        reference.parentPath?.isVariableDeclarator() &&
+        reference.parentPath.node.init === templateExpression
+      ) {
+        reference.parentPath.remove();
+      }
+    }
+  });
+}
+
+export default async function transform(info: FileInfo, api: API, options: { parser?: string }) {
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
   };
@@ -109,6 +125,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
 
   // This allows for showing buildCodeFrameError messages
   // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+
   const file: BabelFile = new babel.File(
     { filename: info.path },
     { code: info.source, ast: csf._ast }
@@ -122,8 +139,9 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       return t.objectProperty(t.identifier(renameAnnotation(annotation)), val as t.Expression);
     });
 
-    if (t.isVariableDeclarator(decl)) {
-      const { init, id } = decl;
+    if (t.isVariableDeclarator(decl as t.Node)) {
+      const { init, id } = decl as any;
+      invariant(init, 'Inital value should be declared');
       // only replace arrow function expressions && template
       const template = getTemplateBindVariable(init);
       if (!t.isArrowFunctionExpression(init) && !template) return;
@@ -137,15 +155,15 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
         return;
       }
 
+      const storyFn: t.Expression = template ? t.identifier(template) : init;
+
       // Remove the render function when we can hoist the template
       // const Template = (args) => <Cat {...args} />;
       // export const A = Template.bind({});
-      let storyFn: t.Expression = template && (csf._templates[template] as any as t.Expression);
-      if (!storyFn) {
-        storyFn = init;
-      }
-
-      const renderAnnotation = isReactGlobalRenderFn(csf, storyFn)
+      const renderAnnotation = isReactGlobalRenderFn(
+        csf,
+        template ? csf._templates[template] : storyFn
+      )
         ? []
         : [t.objectProperty(t.identifier('render'), storyFn)];
 
@@ -160,15 +178,10 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
     }
   });
 
-  importHelper.removeDeprecatedStoryImport();
-
-  csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
-    const statement = stmt as t.Statement;
+  csf._ast.program.body = csf._ast.program.body.reduce((acc: t.Statement[], stmt: t.Statement) => {
+    const statement = stmt;
     // remove story annotations & template declarations
-    if (
-      isStoryAnnotation(statement, objectExports) ||
-      isTemplateDeclaration(statement, csf._templates)
-    ) {
+    if (isStoryAnnotation(statement, objectExports)) {
       return acc;
     }
 
@@ -185,21 +198,14 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   }, []);
 
   upgradeDeprecatedTypes(file);
+  importHelper.removeDeprecatedStoryImport();
+  removeUnusedTemplates(csf);
 
-  let output = recast.print(csf._ast, {}).code;
+  let output = printCsf(csf).code;
 
   try {
-    const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
-      printWidth: 100,
-      tabWidth: 2,
-      bracketSpacing: true,
-      trailingComma: 'es5',
-      singleQuote: true,
-    };
-
-    output = prettier.format(output, {
-      ...prettierConfig,
-      // This will infer the parser from the filename.
+    output = await prettier.format(output, {
+      ...(await prettier.resolveConfig(info.path)),
       filepath: info.path,
     });
   } catch (e) {
@@ -236,8 +242,23 @@ class StorybookImportHelper {
           }
           if (!specifier.isImportSpecifier()) return false;
           const imported = specifier.get('imported');
-          if (!imported.isIdentifier()) return false;
 
+          if (Array.isArray(imported)) {
+            return imported.some((importedSpecifier) => {
+              if (!importedSpecifier.isIdentifier()) return false;
+              return [
+                'Story',
+                'StoryFn',
+                'StoryObj',
+                'Meta',
+                'ComponentStory',
+                'ComponentStoryFn',
+                'ComponentStoryObj',
+                'ComponentMeta',
+              ].includes(importedSpecifier.node.name);
+            });
+          }
+          if (!imported.isIdentifier()) return false;
           return [
             'Story',
             'StoryFn',
@@ -306,7 +327,7 @@ class StorybookImportHelper {
           ...id,
           typeAnnotation: t.tsTypeAnnotation(
             t.tsTypeReference(
-              t.identifier(localTypeImport),
+              t.identifier(localTypeImport ?? ''),
               id.typeAnnotation.typeAnnotation.typeParameters
             )
           ),

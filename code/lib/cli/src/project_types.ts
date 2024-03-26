@@ -1,18 +1,12 @@
 import { minVersion, validRange } from 'semver';
-
-function ltMajor(versionRange: string, major: number) {
-  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major < major;
-}
-
-function gtMajor(versionRange: string, major: number) {
-  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major > major;
-}
+import type { SupportedFrameworks } from '@storybook/types';
 
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major === major;
+  if (validRange(versionRange)) {
+    return minVersion(versionRange)?.major === major;
+  }
+  return false;
 }
 
 /** A list of all frameworks that are supported, but use a package outside the storybook monorepo */
@@ -28,26 +22,16 @@ export const externalFrameworks: ExternalFramework[] = [
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
 ];
 
-// Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
-
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
   | 'react'
   | 'react-native'
-  | 'vue'
   | 'vue3'
   | 'angular'
-  | 'mithril'
-  | 'riot'
   | 'ember'
-  | 'marionette'
-  | 'marko'
   | 'preact'
   | 'svelte'
   | 'qwik'
-  | 'rax'
-  | 'aurelia'
   | 'html'
   | 'web-components'
   | 'server'
@@ -56,48 +40,33 @@ export type SupportedRenderers =
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
   'react-native',
-  'vue',
   'vue3',
   'angular',
-  'mithril',
-  'riot',
   'ember',
-  'marionette',
-  'marko',
   'preact',
   'svelte',
   'qwik',
-  'rax',
-  'aurelia',
   'solid',
 ];
 
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
   UNSUPPORTED = 'UNSUPPORTED',
-  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT = 'REACT',
+  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   NEXTJS = 'NEXTJS',
-  VUE = 'VUE',
   VUE3 = 'VUE3',
-  SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
-  MITHRIL = 'MITHRIL',
-  MARIONETTE = 'MARIONETTE',
-  MARKO = 'MARKO',
   HTML = 'HTML',
   QWIK = 'QWIK',
-  RIOT = 'RIOT',
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
   SVELTEKIT = 'SVELTEKIT',
-  RAX = 'RAX',
-  AURELIA = 'AURELIA',
   SERVER = 'SERVER',
   NX = 'NX',
   SOLID = 'SOLID',
@@ -107,6 +76,21 @@ export enum CoreBuilder {
   Webpack5 = 'webpack5',
   Vite = 'vite',
 }
+
+export enum CoreWebpackCompilers {
+  Babel = 'babel',
+  SWC = 'swc',
+}
+
+export const compilerNameToCoreCompiler: Record<string, CoreWebpackCompilers> = {
+  '@storybook/addon-webpack5-compiler-babel': CoreWebpackCompilers.Babel,
+  '@storybook/addon-webpack5-compiler-swc': CoreWebpackCompilers.SWC,
+};
+
+export const builderNameToCoreBuilder: Record<string, CoreBuilder> = {
+  '@storybook/builder-webpack5': CoreBuilder.Webpack5,
+  '@storybook/builder-vite': CoreBuilder.Vite,
+};
 
 // The `& {}` bit allows for auto-complete, see: https://github.com/microsoft/TypeScript/issues/29729
 export type Builder = CoreBuilder | (string & {});
@@ -141,71 +125,48 @@ export type TemplateConfiguration = {
  */
 export const supportedTemplates: TemplateConfiguration[] = [
   {
-    preset: ProjectType.SFC_VUE,
-    dependencies: {
-      'vue-loader': (versionRange) => ltMajor(versionRange, 16),
-      vuetify: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.VUE,
-    // This Vue template only works with Vue or Nuxt under v3
-    dependencies: {
-      vue: (versionRange) => ltMajor(versionRange, 3),
-      nuxt: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
     preset: ProjectType.VUE3,
     dependencies: {
       // This Vue template works with Vue 3
       vue: (versionRange) => versionRange === 'next' || eqMajor(versionRange, 3),
     },
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
     preset: ProjectType.EMBER,
     dependencies: ['ember-cli'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.NEXTJS,
-    dependencies: {
-      next: (versionRange) => eqMajor(versionRange, 9) || gtMajor(versionRange, 9),
-    },
+    dependencies: ['next'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.QWIK,
     dependencies: ['@builder.io/qwik'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT_PROJECT,
     peerDependencies: ['react'],
     matcherFunction: ({ peerDependencies }) => {
-      return peerDependencies.every(Boolean);
+      return peerDependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT_NATIVE,
     dependencies: ['react-native', 'react-native-scripts'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
@@ -215,56 +176,28 @@ export const supportedTemplates: TemplateConfiguration[] = [
     // For standard CRA projects
     dependencies: ['react-scripts'],
     matcherFunction: ({ dependencies, files }) => {
-      return dependencies.every(Boolean) || files.every(Boolean);
+      return (dependencies?.every(Boolean) || files?.every(Boolean)) ?? false;
     },
   },
   {
     preset: ProjectType.ANGULAR,
     dependencies: ['@angular/core'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.WEB_COMPONENTS,
     dependencies: ['lit-element', 'lit-html', 'lit'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.some(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.MITHRIL,
-    dependencies: ['mithril'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.MARIONETTE,
-    dependencies: ['backbone.marionette'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.MARKO,
-    dependencies: ['marko'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.RIOT,
-    dependencies: ['riot'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.some(Boolean) ?? false;
     },
   },
   {
     preset: ProjectType.PREACT,
     dependencies: ['preact'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
@@ -272,35 +205,21 @@ export const supportedTemplates: TemplateConfiguration[] = [
     preset: ProjectType.SVELTEKIT,
     dependencies: ['@sveltejs/kit'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.SVELTE,
     dependencies: ['svelte'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.RAX,
-    dependencies: ['rax'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.AURELIA,
-    dependencies: ['aurelia-bootstrapper'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.SOLID,
     dependencies: ['solid-js'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   // DO NOT MOVE ANY TEMPLATES BELOW THIS LINE
@@ -309,14 +228,14 @@ export const supportedTemplates: TemplateConfiguration[] = [
     preset: ProjectType.WEBPACK_REACT,
     dependencies: ['react', 'webpack'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
   {
     preset: ProjectType.REACT,
     dependencies: ['react'],
     matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
+      return dependencies?.every(Boolean) ?? true;
     },
   },
 ];
@@ -331,11 +250,15 @@ export const unsupportedTemplate: TemplateConfiguration = {
     nuxt: (versionRange) => eqMajor(versionRange, 3),
   },
   matcherFunction: ({ dependencies }) => {
-    return dependencies.some(Boolean);
+    return dependencies?.some(Boolean) ?? false;
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
+const notInstallableProjectTypes: ProjectType[] = [
+  ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
+  ProjectType.NX,
+];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

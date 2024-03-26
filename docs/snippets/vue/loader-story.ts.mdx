@@ -8,11 +8,6 @@ import TodoItem from './TodoItem.vue';
 import fetch from 'node-fetch';
 
 const meta: Meta<typeof TodoItem> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Examples/Loader',
   component: TodoItem,
 };
 
@@ -21,7 +16,7 @@ type Story = StoryObj<typeof TodoItem>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
 export const Primary: Story = {

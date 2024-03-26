@@ -1,5 +1,3 @@
-/* eslint-disable operator-assignment */
-/* eslint-disable no-param-reassign */
 type LabelType = 'margin' | 'padding' | 'border' | 'content';
 type LabelPosition = 'top' | 'right' | 'bottom' | 'left' | 'center';
 type Direction = 'top' | 'right' | 'bottom' | 'left';
@@ -285,7 +283,7 @@ export function labelStacks(
       acc[l.position] = [];
     }
 
-    acc[l.position].push(l);
+    acc[l.position]?.push(l);
 
     return acc;
   }, {});

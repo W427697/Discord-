@@ -1,24 +1,36 @@
 import { global as globalThis } from '@storybook/global';
 import {
-  within,
-  waitFor,
+  expect,
+  fn,
   fireEvent,
   userEvent,
+  waitFor,
   waitForElementToBeRemoved,
-} from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+  within,
+} from '@storybook/test';
 
 export default {
   component: globalThis.Components.Form,
-  argTypes: {
-    onSuccess: { type: 'function' },
+  args: {
+    onSuccess: fn(),
+  },
+};
+
+export const Validation = {
+  play: async (context) => {
+    const { args, canvasElement, step } = context;
+    const canvas = within(canvasElement);
+
+    await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
+
+    await expect(args.onSuccess).not.toHaveBeenCalled();
   },
 };
 
 export const Type = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.type(canvas.getByTestId('value'), 'test');
+    await userEvent.type(canvas.getByTestId('value'), 'foobar');
   },
 };
 
@@ -31,10 +43,9 @@ export const Step = {
 export const TypeAndClear = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    // TODO: seems like userEvent.type + userEvent.clear + userEvent.type is not working for Svelte and Vue2/3. We should probably investigate, might be a bug in userEvent or in our implementation.
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'initial value' } });
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: '' } });
-    await fireEvent.input(canvas.getByTestId('value'), { target: { value: 'final value' } });
+    await userEvent.type(canvas.getByTestId('value'), 'initial value');
+    await userEvent.clear(canvas.getByTestId('value'));
+    await userEvent.type(canvas.getByTestId('value'), 'final value');
   },
 };
 
@@ -86,13 +97,26 @@ export const WithLoaders = {
   },
 };
 
-export const Validation = {
+export const UserEventSetup = {
   play: async (context) => {
     const { args, canvasElement, step } = context;
+    const user = userEvent.setup();
     const canvas = within(canvasElement);
-
-    await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
-
-    await expect(args.onSuccess).not.toHaveBeenCalled();
+    await step('Select and type on input using user-event v14 setup', async () => {
+      const input = canvas.getByRole('textbox');
+      await user.click(input);
+      await user.type(input, 'Typing ...');
+    });
+    await step('Tab and press enter on submit button', async () => {
+      await user.pointer([
+        { keys: '[TouchA>]', target: canvas.getByRole('textbox') },
+        { keys: '[/TouchA]' },
+      ]);
+      await user.tab();
+      await user.keyboard('{enter}');
+      const submitButton = await canvas.findByRole('button');
+      await expect(submitButton).toHaveFocus();
+      await expect(args.onSuccess).toHaveBeenCalled();
+    });
   },
 };

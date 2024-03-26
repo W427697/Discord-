@@ -1,14 +1,49 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import type { ChannelTransport, Listener } from '.';
-import { Channel } from '.';
+import { Channel, WebsocketTransport } from '.';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
+
+const MockedWebsocket = vi.hoisted(() => {
+  const ref = { current: undefined as unknown as InstanceType<typeof MyMockedWebsocket> };
+  class MyMockedWebsocket {
+    onopen: () => void;
+
+    onmessage: (event: { data: string }) => void;
+
+    onerror: (e: any) => void;
+
+    onclose: () => void;
+
+    constructor(url: string) {
+      this.onopen = vi.fn();
+      this.onmessage = vi.fn();
+      this.onerror = vi.fn();
+      this.onclose = vi.fn();
+
+      ref.current = this;
+    }
+
+    send(data: string) {
+      this.onmessage({ data });
+    }
+  }
+  return { MyMockedWebsocket, ref };
+});
+
+vi.mock('@storybook/global', () => ({
+  global: {
+    ...global,
+    WebSocket: MockedWebsocket.MyMockedWebsocket,
+  },
+}));
 
 describe('Channel', () => {
   let transport: ChannelTransport;
   let channel: Channel;
 
   beforeEach(() => {
-    transport = { setHandler: jest.fn(), send: jest.fn() };
+    transport = { setHandler: vi.fn(), send: vi.fn() };
     channel = new Channel({ transport });
   });
 
@@ -19,7 +54,7 @@ describe('Channel', () => {
     });
 
     it('should not set transport if not passed as an argument', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.hasTransport).toBeFalsy();
     });
 
@@ -29,7 +64,7 @@ describe('Channel', () => {
     });
 
     it('should set isAsync to false as default value', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.isAsync).toBeFalsy();
     });
 
@@ -43,8 +78,8 @@ describe('Channel', () => {
     it('should create one listener', () => {
       const eventName = 'event1';
 
-      channel.addListener(eventName, jest.fn());
-      expect(channel.listeners(eventName).length).toBe(1);
+      channel.addListener(eventName, vi.fn());
+      expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
 
@@ -52,20 +87,20 @@ describe('Channel', () => {
     it('should do the same as addListener', () => {
       const eventName = 'event1';
 
-      channel.on(eventName, jest.fn());
-      expect(channel.listeners(eventName).length).toBe(1);
+      channel.on(eventName, vi.fn());
+      expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
 
   describe('method:off', () => {
     it('should remove listeners', () => {
       const eventName = 'event1';
-      const fn = jest.fn();
+      const fn = vi.fn();
 
       channel.on(eventName, fn);
-      expect(channel.listeners(eventName).length).toBe(1);
+      expect(channel.listeners(eventName)?.length).toBe(1);
       channel.off(eventName, fn);
-      expect(channel.listeners(eventName).length).toBe(0);
+      expect(channel.listeners(eventName)?.length).toBe(0);
     });
   });
 
@@ -73,7 +108,7 @@ describe('Channel', () => {
     it('should execute the callback fn of a listener', () => {
       const eventName = 'event1';
       const listenerInputData = ['string1', 'string2', 'string3'];
-      let listenerOutputData: string[] = null;
+      let listenerOutputData: string[] | null = null;
       const mockListener: Listener = (data) => {
         listenerOutputData = data;
       };
@@ -86,7 +121,7 @@ describe('Channel', () => {
     it('should be callable with a spread operator as event arguments', () => {
       const eventName = 'event1';
       const listenerInputData = ['string1', 'string2', 'string3'];
-      let listenerOutputData: string[] = null;
+      let listenerOutputData: string[] | null = null;
 
       channel.addListener(eventName, (...data) => {
         listenerOutputData = data;
@@ -103,24 +138,33 @@ describe('Channel', () => {
       channel.addListener(eventName, (...data) => {
         listenerOutputData = data;
       });
-      const sendSpy = jest.fn();
-      // @ts-expect-error (Converted from ts-ignore)
-      channel.transport.send = sendSpy;
+      const sendSpy = vi.fn();
+      // @ts-expect-error (access private property for testing purposes)
+      channel.transports.forEach((t) => {
+        t.send = sendSpy;
+      });
       channel.emit(eventName, ...listenerInputData);
       expect(listenerOutputData).toEqual(listenerInputData);
       expect(sendSpy.mock.calls[0][1]).toEqual({ depth: 1 });
     });
 
     it('should use setImmediate if async is true', () => {
+      // @ts-expect-error no idea what's going on here!
+      global.setImmediate = vi.fn(setImmediate);
+
       channel = new Channel({ async: true, transport });
-      channel.addListener('event1', jest.fn());
+      channel.addListener('event1', vi.fn());
+
+      channel.emit('event1', 'test-data');
+
+      expect(setImmediate).toHaveBeenCalled();
     });
   });
 
   describe('method:eventNames', () => {
     it('should return a list of all registered events', () => {
       const eventNames = ['event1', 'event2', 'event3'];
-      eventNames.forEach((eventName) => channel.addListener(eventName, jest.fn()));
+      eventNames.forEach((eventName) => channel.addListener(eventName, vi.fn()));
 
       expect(channel.eventNames()).toEqual(eventNames);
     });
@@ -129,13 +173,13 @@ describe('Channel', () => {
   describe('method:listenerCount', () => {
     it('should return a list of all registered events', () => {
       const events = [
-        { eventName: 'event1', listeners: [jest.fn(), jest.fn(), jest.fn()], listenerCount: 0 },
-        { eventName: 'event2', listeners: [jest.fn()], listenerCount: 0 },
+        { eventName: 'event1', listeners: [vi.fn(), vi.fn(), vi.fn()], listenerCount: 0 },
+        { eventName: 'event2', listeners: [vi.fn()], listenerCount: 0 },
       ];
       events.forEach((event) => {
         event.listeners.forEach((listener) => {
           channel.addListener(event.eventName, listener);
-          // eslint-disable-next-line no-plusplus, no-param-reassign
+
           event.listenerCount++;
         });
       });
@@ -149,7 +193,7 @@ describe('Channel', () => {
   describe('method:once', () => {
     it('should execute a listener once and remove it afterwards', () => {
       const eventName = 'event1';
-      channel.once(eventName, jest.fn());
+      channel.once(eventName, vi.fn());
       channel.emit(eventName);
 
       expect(channel.listenerCount(eventName)).toBe(0);
@@ -171,7 +215,7 @@ describe('Channel', () => {
 
     it('should be removable', () => {
       const eventName = 'event1';
-      const listenerToBeRemoved = jest.fn();
+      const listenerToBeRemoved = vi.fn();
 
       channel.once(eventName, listenerToBeRemoved);
       channel.removeListener(eventName, listenerToBeRemoved);
@@ -182,8 +226,8 @@ describe('Channel', () => {
     it('should remove all listeners', () => {
       const eventName1 = 'event1';
       const eventName2 = 'event2';
-      const listeners1 = [jest.fn(), jest.fn(), jest.fn()];
-      const listeners2 = [jest.fn()];
+      const listeners1 = [vi.fn(), vi.fn(), vi.fn()];
+      const listeners2 = [vi.fn()];
 
       listeners1.forEach((fn) => channel.addListener(eventName1, fn));
       listeners2.forEach((fn) => channel.addListener(eventName2, fn));
@@ -195,7 +239,7 @@ describe('Channel', () => {
 
     it('should remove all listeners of a certain event', () => {
       const eventName = 'event1';
-      const listeners = [jest.fn(), jest.fn(), jest.fn()];
+      const listeners = [vi.fn(), vi.fn(), vi.fn()];
 
       listeners.forEach((fn) => channel.addListener(eventName, fn));
       expect(channel.listenerCount(eventName)).toBe(listeners.length);
@@ -208,10 +252,10 @@ describe('Channel', () => {
   describe('method:removeListener', () => {
     it('should remove one listener', () => {
       const eventName = 'event1';
-      const listenerToBeRemoved = jest.fn();
-      const listeners = [jest.fn(), jest.fn()];
+      const listenerToBeRemoved = vi.fn();
+      const listeners = [vi.fn(), vi.fn()];
       const findListener = (listener: Listener) =>
-        channel.listeners(eventName).find((_listener) => _listener === listener);
+        channel.listeners(eventName)?.find((_listener) => _listener === listener);
 
       listeners.forEach((fn) => channel.addListener(eventName, fn));
       channel.addListener(eventName, listenerToBeRemoved);
@@ -220,5 +264,80 @@ describe('Channel', () => {
       channel.removeListener(eventName, listenerToBeRemoved);
       expect(findListener(listenerToBeRemoved)).toBeUndefined();
     });
+  });
+});
+
+describe('WebsocketTransport', () => {
+  it('should connect', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onopen();
+
+    expect(handler).toHaveBeenCalledTimes(0);
+  });
+  it('should send message upon disconnect', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onclose();
+
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "channelWSDisconnect",
+      }
+    `);
+  });
+  it('should send message when send', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.send('{ "type": "test", "args": [], "from": "preview" }');
+
+    expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
+      {
+        "args": [],
+        "from": "preview",
+        "type": "test",
+      }
+    `);
+  });
+  it('should call onError handler', async () => {
+    const onError = vi.fn();
+    const handler = vi.fn();
+
+    const transport = new WebsocketTransport({
+      url: 'ws://localhost:6006',
+      page: 'preview',
+      onError,
+    });
+
+    transport.setHandler(handler);
+    MockedWebsocket.ref.current.onerror(new Error('testError'));
+
+    expect(onError.mock.calls[0][0]).toMatchInlineSnapshot(`[Error: testError]`);
   });
 });

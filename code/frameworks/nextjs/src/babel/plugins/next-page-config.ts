@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable no-restricted-syntax */
-
 /**
  * Source: https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/plugins/next-page-config.ts
  */
@@ -47,19 +44,15 @@ export default function nextPageConfig({ types: t }: { types: typeof BabelTypes 
             {
               ExportDeclaration(exportPath, exportState) {
                 if (
-                  BabelTypes.isExportNamedDeclaration(exportPath) &&
-                  (exportPath.node as BabelTypes.ExportNamedDeclaration).specifiers?.some(
-                    (specifier) => {
-                      return (
-                        (t.isIdentifier(specifier.exported)
-                          ? specifier.exported.name
-                          : specifier.exported.value) === CONFIG_KEY
-                      );
-                    }
-                  ) &&
-                  BabelTypes.isStringLiteral(
-                    (exportPath.node as BabelTypes.ExportNamedDeclaration).source
-                  )
+                  exportPath.isExportNamedDeclaration() &&
+                  exportPath.node.specifiers?.some((specifier) => {
+                    return (
+                      (t.isIdentifier(specifier.exported)
+                        ? specifier.exported.name
+                        : specifier.exported.value) === CONFIG_KEY
+                    );
+                  }) &&
+                  BabelTypes.isStringLiteral(exportPath.node.source)
                 ) {
                   throw new Error(errorMessage(exportState, 'Expected object but got export from'));
                 }

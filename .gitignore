@@ -21,6 +21,7 @@ test-results
 !/**/.yarn/plugins
 !/**/.yarn/sdks
 !/**/.yarn/versions
+!/**/.yarn/patches
 /**/.pnp.*
 !/node_modules
 
@@ -37,7 +38,6 @@ coverage/
 /**/LICENSE
 code/docs/public
 package-lock.json
-.nvmrc
 storybook-static
 .jest-test-results.json
 *.jar
@@ -49,3 +49,7 @@ code/test-results/
 code/playwright-results/
 code/playwright-report/
 code/playwright/.cache/
+code/bench-results/
+
+/packs
+code/.nx/cache

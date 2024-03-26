@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { global } from '@storybook/global';
@@ -44,7 +43,7 @@ export function renderToCanvas(
     if (forceRemount || !canvasElement.querySelector('[id="root-inner"]')) {
       canvasElement.innerHTML = '<div id="root-inner"></div>';
     }
-    const renderTo = canvasElement.querySelector<HTMLElement>('[id="root-inner"]');
+    const renderTo = canvasElement.querySelector<HTMLElement>('[id="root-inner"]') as HTMLElement;
 
     litRender(element, renderTo);
     simulatePageLoad(canvasElement);

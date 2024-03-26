@@ -38,12 +38,14 @@ When you are building screens in this way, it is typical that the inputs of a co
   paths={[
     'react/simple-page-implementation.js.mdx',
     'react/simple-page-implementation.ts.mdx',
-    'vue/simple-page-implementation.2.js.mdx',
     'vue/simple-page-implementation.3.js.mdx',
     'angular/simple-page-implementation.ts.mdx',
     'web-components/simple-page-implementation.js.mdx',
     'web-components/simple-page-implementation.ts.mdx',
     'svelte/simple-page-implementation.js.mdx',
+    'svelte/simple-page-implementation.ts.mdx',
+    'solid/simple-page-implementation.js.mdx',
+    'solid/simple-page-implementation.ts.mdx',
   ]}
 />
 
@@ -99,11 +101,11 @@ Run the following commands to install MSW, the addon, and generate a mock servic
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you're working with Angular, you'll need to adjust the command to save the mock service worker file in a different directory (e.g., `src`).
+If you're working with Angular, you'll need to adjust the command to save the mock service worker file in a different directory (e.g., `src`).
 
-</div>
+</Callout>
 
 Update your `.storybook/preview.js` file and enable the addon via a [global decorator](./decorators.md#global-decorators).
 
@@ -118,7 +120,7 @@ Update your `.storybook/preview.js` file and enable the addon via a [global deco
 
 <!-- prettier-ignore-end -->
 
-Finally, update your [`.storybook/main.js|ts`](../configure/overview.md#using-storybook-api) to allow Storybook to load the generated mock service worker file as follows:
+Finally, update your [`.storybook/main.js|ts`](../configure/index.md#using-storybook-api) to allow Storybook to load the generated mock service worker file as follows:
 
 <!-- prettier-ignore-start -->
 
@@ -139,11 +141,14 @@ If you're working with pure presentational screens, adding stories through [args
 <CodeSnippets
   paths={[
     'react/document-screen-fetch.js.mdx',
+    'react/document-screen-fetch.ts.mdx',
     'vue/document-screen-fetch.3.js.mdx',
     'vue/document-screen-fetch.3.ts.mdx',
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
+    'svelte/document-screen-fetch.ts.mdx',
     'web-components/document-screen-fetch.js.mdx',
+    'solid/document-screen-fetch.js.mdx',
   ]}
 />
 
@@ -167,9 +172,11 @@ To test your screen with the mocked data, you could write a similar set of stori
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 This example details how you can mock the REST request with fetch. Similar HTTP clients such as <a href="https://axios-http.com/">axios</a> can be used as well.
-</div>
+<Callout variant="info" icon="💡">
+
+This example details how you can mock the REST request with fetch. Similar HTTP clients such as [`axios`](https://axios-http.com/) can be used as well.
+
+</Callout>
 
 The mocked data (i.e., `TestData`) will be injected via [parameters](./parameters.md), enabling you to configure it per-story basis.
 
@@ -187,6 +194,7 @@ In addition to mocking RESTful requests, the other noteworthy feature of the [MS
     'vue/document-screen-with-graphql.3.ts.mdx',
     'angular/document-screen-with-graphql.ts.mdx',
     'svelte/document-screen-with-grapqhl.js.mdx',
+    'svelte/document-screen-with-grapqhl.ts.mdx',
   ]}
 />
 
@@ -206,7 +214,9 @@ To test your screen with the GraphQL mocked data, you could write the following 
     'angular/apollo-module.mock-apollo-module.ts.mdx',
     'angular/documentscreen-story-msw-graphql-query.ts.mdx',
     'svelte/documentscreen-story-msw-graphql-query.js.mdx',
+    'svelte/documentscreen-story-msw-graphql-query.ts.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.js.mdx',
+    'svelte/apollo-wrapper-component.with-mock-implementation.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-graphql-query"
@@ -235,7 +245,7 @@ Inside a directory called `__mocks__`, create a new file called
 
 The code above creates a decorator which reads story-specific data off the story's [parameters](./parameters.md), enabling you to configure the mock on a per-story basis.
 
-To use the mock in place of the real import, we use [webpack aliasing](https://webpack.js.org/configuration/resolve/#resolvealias):
+To use the mock in place of the real import, we use [Webpack aliasing](https://webpack.js.org/configuration/resolve/#resolvealias):
 
 <!-- prettier-ignore-start -->
 
@@ -247,7 +257,7 @@ To use the mock in place of the real import, we use [webpack aliasing](https://w
 
 <!-- prettier-ignore-end -->
 
-Add the decorator you've just implemented to your [storybook/preview.js](../configure/overview.md#configure-story-rendering):
+Add the decorator you've just implemented to your [`storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -284,6 +294,8 @@ Another mocking approach is to use libraries that intercept calls at a lower lev
 
 Like the [import mocking](##mocking-imports) above, once you have a mock, you’ll still want to set the return value of the mock per-story basis. Do this in Storybook with a [decorator](./decorators.md) that reads the story's [parameters](./parameters.md).
 
+<IfRenderer renderer={['react', 'solid']}>
+
 ### Avoiding mocking dependencies
 
 It's possible to avoid mocking the dependencies of connected "container" components entirely by passing them around via props or React context. However, it requires a strict split of the container and presentational component logic. For example, if you have a component responsible for data fetching logic and rendering DOM, it will need to be mocked as previously described.
@@ -301,11 +313,11 @@ ProfilePageContainer.js
 ProfilePageContext.js
 ```
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 It’s also often helpful to set up a “global” container context (perhaps named `GlobalContainerContext`) for container components that may be rendered on every page of your app and add them to the top level of your application. While it’s possible to place every container within this global context, it should only provide globally required containers.
 
-</div>
+</Callout>
 
 Let’s look at an example implementation of this approach.
 
@@ -316,6 +328,7 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
 <CodeSnippets
   paths={[
     'react/mock-context-create.js.mdx',
+    'solid/mock-context-create.js.mdx',
   ]}
 />
 
@@ -328,6 +341,7 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
 <CodeSnippets
   paths={[
     'react/mock-context-in-use.js.mdx',
+    'solid/mock-context-in-use.js.mdx',
   ]}
 />
 
@@ -342,6 +356,7 @@ In the context of Storybook, instead of providing container components through c
 <CodeSnippets
   paths={[
     'react/mock-context-container.js.mdx',
+    'solid/mock-context-container.js.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-mock-context-container"
@@ -349,11 +364,11 @@ In the context of Storybook, instead of providing container components through c
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 If the same context applies to all `ProfilePage` stories, we can use a [decorator](./decorators.md).
 
-</div>
+</Callout>
 
 #### Providing containers to your application
 
@@ -366,6 +381,7 @@ For example, in Next.js, this would be your `pages/profile.js` component.
 <CodeSnippets
   paths={[
     'react/mock-context-container-provider.js.mdx',
+    'solid/mock-context-container-provider.js.mdx',
   ]}
 />
 
@@ -379,9 +395,13 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 
 <CodeSnippets
   paths={[
-    'react/mock-context-container-global.js.mdx',
+    'react/mock-context-container-global.js.mdx',    
     'react/mock-context-container-global.ts.mdx',
+    'solid/mock-context-container-global.js.mdx',
+    'solid/mock-context-container-global.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>

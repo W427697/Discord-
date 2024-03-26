@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import mapValues from 'lodash/mapValues.js';
 import { PureArgsTable as ArgsTable } from '@storybook/blocks';
+import type { StoryObj } from '@storybook/react';
 import type { Args, Parameters, StoryContext } from '@storybook/types';
 import { inferControls } from '@storybook/preview-api';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
@@ -23,6 +24,7 @@ import { component as TsComponentPropsComponent } from './docgen-components/9922
 import { component as TsJsdocComponent } from './docgen-components/ts-jsdoc/input';
 import { component as TsTypesComponent } from './docgen-components/ts-types/input';
 import { component as TsHtmlComponent } from './docgen-components/ts-html/input';
+import { component as TsFCComponent } from './docgen-components/ts-react-fc/input';
 
 export default {
   component: {},
@@ -76,6 +78,8 @@ export const TsComponentProps = { parameters: { component: TsComponentPropsCompo
 
 export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
 
-export const TsTypes = { parameters: { component: TsTypesComponent } };
+export const TsFC = { parameters: { component: TsFCComponent } };
+
+export const TsTypes: StoryObj = { parameters: { component: TsTypesComponent } };
 
 export const TsHtml = { parameters: { component: TsHtmlComponent } };

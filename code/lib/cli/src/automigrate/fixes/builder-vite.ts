@@ -4,8 +4,9 @@ import { dedent } from 'ts-dedent';
 import { writeConfig } from '@storybook/csf-tools';
 
 import type { Fix } from '../types';
-import type { PackageJson } from '../../js-package-manager';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import type { PackageJson } from '@storybook/core-common';
+import { updateMainConfig } from '../helpers/mainConfigFile';
+import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
@@ -26,9 +27,10 @@ interface BuilderViteOptions {
 export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
 
-  async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig } = await getStorybookData({ configDir, packageManager });
+  versionRange: ['<7', '>=7'],
+
+  async check({ packageManager, mainConfig }) {
+    const packageJson = await packageManager.retrievePackageJson();
     const builder = mainConfig.core?.builder;
     const builderName = typeof builder === 'string' ? builder : builder?.name;
 
@@ -64,19 +66,22 @@ export const builderVite: Fix<BuilderViteOptions> = {
     if (!dryRun) {
       delete dependencies['storybook-builder-vite'];
       delete devDependencies['storybook-builder-vite'];
-      packageManager.writePackageJson(packageJson);
+      await packageManager.writePackageJson(packageJson);
     }
 
     logger.info(`✅ Adding '@storybook/builder-vite' as dev dependency`);
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/builder-vite',
+      const versionToInstall = getStorybookVersionSpecifier(
+        await packageManager.retrievePackageJson()
+      );
+      await packageManager.addDependencies({ installAsDevDependencies: true }, [
+        `@storybook/builder-vite@${versionToInstall}`,
       ]);
     }
 
     logger.info(`✅ Updating main.js to use vite builder`);
     if (!dryRun) {
-      await updateMainConfig({ dryRun, mainConfigPath }, async (main) => {
+      await updateMainConfig({ dryRun: !!dryRun, mainConfigPath }, async (main) => {
         const updatedBuilder =
           typeof builder === 'string'
             ? '@storybook/builder-vite'

@@ -1,14 +1,9 @@
-const base = require('@storybook/linter-config/prettier.config');
+// eslint-disable-next-line import/extensions
+import base from '@storybook/linter-config/prettier.config.js';
 
-module.exports = {
+export default {
   ...base,
   overrides: [
-    {
-      files: '*.html',
-      // We need the Angular parser for this file types
-      excludedFiles: '*.component.html',
-      options: { parser: 'babel' },
-    },
     {
       files: '*.component.html',
       options: { parser: 'angular' },

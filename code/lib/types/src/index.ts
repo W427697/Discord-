@@ -6,7 +6,7 @@ export * from './modules/builder';
 export * from './modules/api';
 export * from './modules/docs';
 export * from './modules/api-stories';
-
-export * from './modules/storyIndex';
+export * from './modules/indexer';
 export * from './modules/composedStory';
 export * from './modules/channelApi';
+export * from './modules/frameworks';

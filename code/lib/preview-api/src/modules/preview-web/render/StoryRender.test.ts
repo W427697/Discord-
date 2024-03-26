@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+import { describe, it, expect, vi } from 'vitest';
 import { Channel } from '@storybook/channels';
 import type { Renderer, StoryIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
@@ -25,17 +27,17 @@ describe('StoryRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
-      loadStory: jest.fn(async () => {
+      loadStory: vi.fn(async () => {
         await importGate;
         return {};
       }),
-      cleanupStory: jest.fn(),
+      cleanupStory: vi.fn(),
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       mockStore as unknown as StoryStore<Renderer>,
-      jest.fn(),
+      vi.fn(),
       {} as any,
       entry.id,
       'story'
@@ -56,16 +58,16 @@ describe('StoryRender', () => {
       title: 'title',
       name: 'name',
       tags: [],
-      applyLoaders: jest.fn(),
-      unboundStoryFn: jest.fn(),
-      playFunction: jest.fn(),
-      prepareContext: jest.fn(),
+      applyLoaders: vi.fn(),
+      unboundStoryFn: vi.fn(),
+      playFunction: vi.fn(),
+      prepareContext: vi.fn(),
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       { getStoryContext: () => ({}) } as any,
-      jest.fn() as any,
+      vi.fn() as any,
       {} as any,
       entry.id,
       'story',
@@ -83,16 +85,16 @@ describe('StoryRender', () => {
       title: 'title',
       name: 'name',
       tags: [],
-      applyLoaders: jest.fn(),
-      unboundStoryFn: jest.fn(),
-      playFunction: jest.fn(),
-      prepareContext: jest.fn(),
+      applyLoaders: vi.fn(),
+      unboundStoryFn: vi.fn(),
+      playFunction: vi.fn(),
+      prepareContext: vi.fn(),
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       { getStoryContext: () => ({}) } as any,
-      jest.fn() as any,
+      vi.fn() as any,
       {} as any,
       entry.id,
       'story',
@@ -102,49 +104,5 @@ describe('StoryRender', () => {
 
     await render.renderToElement({} as any);
     expect(story.playFunction).not.toHaveBeenCalled();
-  });
-
-  it('passes the initialArgs to loaders and render function if forceInitialArgs is true', async () => {
-    const story = {
-      id: 'id',
-      title: 'title',
-      name: 'name',
-      tags: [],
-      initialArgs: { a: 'b' },
-      applyLoaders: jest.fn(),
-      unboundStoryFn: jest.fn(),
-      playFunction: jest.fn(),
-      prepareContext: jest.fn((ctx) => ctx),
-    };
-
-    const renderToScreen = jest.fn();
-
-    const render = new StoryRender(
-      new Channel(),
-      { getStoryContext: () => ({ args: { a: 'c ' } }) } as any,
-      renderToScreen as any,
-      {} as any,
-      entry.id,
-      'story',
-      { forceInitialArgs: true },
-      story as any
-    );
-
-    await render.renderToElement({} as any);
-
-    expect(story.applyLoaders).toHaveBeenCalledWith(
-      expect.objectContaining({
-        args: { a: 'b' },
-      })
-    );
-
-    expect(renderToScreen).toHaveBeenCalledWith(
-      expect.objectContaining({
-        storyContext: expect.objectContaining({
-          args: { a: 'b' },
-        }),
-      }),
-      expect.any(Object)
-    );
   });
 });

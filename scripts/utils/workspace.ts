@@ -1,16 +1,17 @@
 import memoize from 'memoizerific';
-import { resolve } from 'path';
-import { execaCommand } from './exec';
+import { execaCommand } from 'execa';
+import { CODE_DIRECTORY } from './constants';
 
 export type Workspace = { name: string; location: string };
 
-const codeDir = resolve(__dirname, '../../code');
-
-async function getWorkspaces() {
-  const { stdout } = await execaCommand('yarn workspaces list --json', {
-    cwd: codeDir,
-    shell: true,
-  });
+export async function getWorkspaces(includePrivate = true) {
+  const { stdout } = await execaCommand(
+    `yarn workspaces list --json ${includePrivate ? '' : '--no-private'}`,
+    {
+      cwd: CODE_DIRECTORY,
+      shell: true,
+    }
+  );
   return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
 }
 

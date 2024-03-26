@@ -1,19 +1,19 @@
+import { fn } from '@storybook/test';
 import { createHeader } from './Header';
 
 export default {
   title: 'Example/Header',
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/7.0/html/writing-docs/docs-page
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   render: (args) => createHeader(args),
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/7.0/html/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  // More on argTypes: https://storybook.js.org/docs/7.0/html/api/argtypes
-  argTypes: {
-    onLogin: { action: 'onLogin' },
-    onLogout: { action: 'onLogout' },
-    onCreateAccount: { action: 'onCreateAccount' },
+  args: {
+    onLogin: fn(),
+    onLogout: fn(),
+    onCreateAccount: fn(),
   },
 };
 

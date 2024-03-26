@@ -1,24 +1,24 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
-import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { resolve } from 'path';
+import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_RENDERERS,
   SupportedLanguage,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { getBowerJson, isNxProject, paddedLog } from './helpers';
-import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectWebpack } from './detect-webpack';
+import { isNxProject } from './helpers';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
+import { commandLog, HandledError } from '@storybook/core-common';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
+const webpackConfigFiles = ['webpack.config.js'];
 
 const hasDependency = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -44,7 +44,7 @@ const hasPeerDependency = (
   return !!version;
 };
 
-type SearchTuple = [string, (version: string) => boolean | undefined];
+type SearchTuple = [string, ((version: string) => boolean) | undefined];
 
 const getFrameworkPreset = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -109,116 +109,115 @@ export function detectFrameworkPreset(
  *
  * @returns CoreBuilder
  */
-export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
+export async function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
-  if (viteConfig) {
-    paddedLog('Detected Vite project. Setting builder to Vite');
+  const webpackConfig = findUp.sync(webpackConfigFiles);
+  const dependencies = await packageManager.getAllDependencies();
+
+  if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
+    commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
   }
 
-  if (detectWebpack(packageManager)) {
-    paddedLog('Detected webpack project. Setting builder to webpack');
+  // REWORK
+  if (webpackConfig || (dependencies['webpack'] && dependencies['vite'] !== undefined)) {
+    commandLog('Detected webpack project. Setting builder to webpack')();
     return CoreBuilder.Webpack5;
   }
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SVELTE:
-    case ProjectType.SVELTEKIT:
-    case ProjectType.VUE:
-    case ProjectType.VUE3:
-    case ProjectType.SFC_VUE:
-      return CoreBuilder.Vite;
-    default:
+    case ProjectType.REACT_SCRIPTS:
+    case ProjectType.ANGULAR:
+    case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
+    case ProjectType.NEXTJS:
+    case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
+    default:
+      const { builder } = await prompts(
+        {
+          type: 'select',
+          name: 'builder',
+          message:
+            '\nWe were not able to detect the right builder for your project. Please select one:',
+          choices: [
+            { title: 'Vite', value: CoreBuilder.Vite },
+            { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+          ],
+        },
+        {
+          onCancel: () => {
+            throw new HandledError('Canceled by the user');
+          },
+        }
+      );
+
+      return builder;
   }
 }
 
-export function isStorybookInstalled(
-  dependencies: Pick<PackageJson, 'devDependencies'> | false,
-  force?: boolean
-) {
-  if (!dependencies) {
-    return false;
-  }
-
-  if (!force && dependencies.devDependencies) {
-    if (
-      SUPPORTED_RENDERERS.reduce(
-        (storybookPresent, framework) =>
-          storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
-        false
-      )
-    ) {
-      return true;
-    }
-  }
-  return false;
+export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.storybook')) {
+  return fs.existsSync(configDir);
 }
 
-export function detectPnp() {
-  return pathExistsSync(join(process.cwd(), '.pnp.cjs'));
+export async function detectPnp() {
+  return !!findUp.sync(['.pnp.js', '.pnp.cjs']);
 }
 
-export function detectLanguage(packageJson?: PackageJson) {
+export async function detectLanguage(packageManager: JsPackageManager) {
   let language = SupportedLanguage.JAVASCRIPT;
 
-  // TODO: we may need to also detect whether a jsconfig.json file is present
-  // in a monorepo root directory
-  if (!packageJson || fs.existsSync('jsconfig.json')) {
+  if (fs.existsSync('jsconfig.json')) {
     return language;
   }
 
-  if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.gte(semver.coerce(version), '4.9.0')
-    ) &&
-    (!hasDependency(packageJson, 'prettier') ||
-      hasDependency(packageJson, 'prettier', (version) =>
-        semver.gte(semver.coerce(version), '2.8.0')
-      )) &&
-    (!hasDependency(packageJson, '@babel/plugin-transform-typescript') ||
-      hasDependency(packageJson, '@babel/plugin-transform-typescript', (version) =>
-        semver.gte(semver.coerce(version), '7.20.0')
-      )) &&
-    (!hasDependency(packageJson, '@typescript-eslint/parser') ||
-      hasDependency(packageJson, '@typescript-eslint/parser', (version) =>
-        semver.gte(semver.coerce(version), '5.44.0')
-      )) &&
-    (!hasDependency(packageJson, 'eslint-plugin-storybook') ||
-      hasDependency(packageJson, 'eslint-plugin-storybook', (version) =>
-        semver.gte(semver.coerce(version), '0.6.8')
-      ))
-  ) {
-    language = SupportedLanguage.TYPESCRIPT_4_9;
-  } else if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.gte(semver.coerce(version), '3.8.0')
-    )
-  ) {
-    language = SupportedLanguage.TYPESCRIPT_3_8;
-  } else if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.lt(semver.coerce(version), '3.8.0')
-    )
-  ) {
-    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+  const isTypescriptDirectDependency = await packageManager
+    .getAllDependencies()
+    .then((deps) => Boolean(deps['typescript']));
+
+  const typescriptVersion = await packageManager.getPackageVersion('typescript');
+  const prettierVersion = await packageManager.getPackageVersion('prettier');
+  const babelPluginTransformTypescriptVersion = await packageManager.getPackageVersion(
+    '@babel/plugin-transform-typescript'
+  );
+  const typescriptEslintParserVersion = await packageManager.getPackageVersion(
+    '@typescript-eslint/parser'
+  );
+
+  const eslintPluginStorybookVersion =
+    await packageManager.getPackageVersion('eslint-plugin-storybook');
+
+  if (isTypescriptDirectDependency && typescriptVersion) {
+    if (
+      semver.gte(typescriptVersion, '4.9.0') &&
+      (!prettierVersion || semver.gte(prettierVersion, '2.8.0')) &&
+      (!babelPluginTransformTypescriptVersion ||
+        semver.gte(babelPluginTransformTypescriptVersion, '7.20.0')) &&
+      (!typescriptEslintParserVersion || semver.gte(typescriptEslintParserVersion, '5.44.0')) &&
+      (!eslintPluginStorybookVersion || semver.gte(eslintPluginStorybookVersion, '0.6.8'))
+    ) {
+      language = SupportedLanguage.TYPESCRIPT_4_9;
+    } else if (semver.gte(typescriptVersion, '3.8.0')) {
+      language = SupportedLanguage.TYPESCRIPT_3_8;
+    } else if (semver.lt(typescriptVersion, '3.8.0')) {
+      logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+    }
   }
 
   return language;
 }
 
-export function detect(
-  packageJson: PackageJson,
+export async function detect(
+  packageManager: JsPackageManager,
   options: { force?: boolean; html?: boolean } = {}
 ) {
-  const bowerJson = getBowerJson();
+  const packageJson = await packageManager.retrievePackageJson();
 
-  if (!packageJson && !bowerJson) {
+  if (!packageJson) {
     return ProjectType.UNDETECTED;
   }
 
-  if (isNxProject(packageJson)) {
+  if (await isNxProject()) {
     return ProjectType.NX;
   }
 
@@ -226,5 +225,5 @@ export function detect(
     return ProjectType.HTML;
   }
 
-  return detectFrameworkPreset(packageJson || bowerJson);
+  return detectFrameworkPreset(packageJson);
 }

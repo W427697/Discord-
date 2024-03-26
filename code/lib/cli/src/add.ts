@@ -1,63 +1,52 @@
-import path from 'path';
-import fs from 'fs';
-import { sync as spawnSync } from 'cross-spawn';
-
-import { getStorybookInfo } from '@storybook/core-common';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-
-import { commandLog } from './helpers';
 import {
+  getStorybookInfo,
+  serverRequire,
   JsPackageManagerFactory,
-  useNpmWarning,
+  getCoercedStorybookVersion,
   type PackageManagerName,
-} from './js-package-manager';
+  versions,
+} from '@storybook/core-common';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { isAbsolute, join } from 'path';
+import SemVer from 'semver';
+import dedent from 'ts-dedent';
+import { postinstallAddon } from './postinstallAddon';
 
-const logger = console;
+export interface PostinstallOptions {
+  packageManager: PackageManagerName;
+}
 
-const LEGACY_CONFIGS = ['addons', 'config', 'presets'];
-
-const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => {
-  let skipMsg = null;
-  if (!isOfficialAddon) {
-    skipMsg = 'unofficial addon';
-  } else if (!fs.existsSync('.storybook')) {
-    skipMsg = 'no .storybook config';
-  } else {
-    skipMsg = 'no codmods found';
-    LEGACY_CONFIGS.forEach((config) => {
-      try {
-        const codemod = require.resolve(
-          // @ts-expect-error (it is broken)
-          `${getPackageName(addonName, isOfficialAddon)}/postinstall/${config}.js`
-        );
-        commandLog(`Running postinstall script for ${addonName}`)();
-        let configFile = path.join('.storybook', `${config}.ts`);
-        if (!fs.existsSync(configFile)) {
-          configFile = path.join('.storybook', `${config}.js`);
-          if (!fs.existsSync(configFile)) {
-            fs.writeFileSync(configFile, '', 'utf8');
-          }
-        }
-        spawnSync('npx', ['jscodeshift', '-t', codemod, configFile], {
-          stdio: 'inherit',
-          shell: true,
-        });
-        skipMsg = null;
-      } catch (err) {
-        // resolve failed, skip
-      }
-    });
+/**
+ * Extract the addon name and version specifier from the input string
+ * @param addon - the input string
+ * @returns [addonName, versionSpecifier]
+ * @example
+ * getVersionSpecifier('@storybook/addon-docs@7.0.1') => ['@storybook/addon-docs', '7.0.1']
+ */
+export const getVersionSpecifier = (addon: string) => {
+  const groups = /^(@{0,1}[^@]+)(?:@(.+))?$/.exec(addon);
+  if (groups) {
+    return [groups[1], groups[2]] as const;
   }
-
-  if (skipMsg) {
-    commandLog(`Skipping postinstall for ${addonName}, ${skipMsg}`)();
-  }
+  return [addon, undefined] as const;
 };
 
-const getVersionSpecifier = (addon: string) => {
-  const groups = /^(...*)@(.*)$/.exec(addon);
-  return groups ? [groups[1], groups[2]] : [addon, undefined];
+const requireMain = (configDir: string) => {
+  const absoluteConfigDir = isAbsolute(configDir) ? configDir : join(process.cwd(), configDir);
+  const mainFile = join(absoluteConfigDir, 'main');
+
+  return serverRequire(mainFile) ?? {};
 };
+
+const checkInstalled = (addonName: string, main: any) => {
+  const existingAddon = main.addons?.find((entry: string | { name: string }) => {
+    const name = typeof entry === 'string' ? entry : entry.name;
+    return name?.endsWith(addonName);
+  });
+  return !!existingAddon;
+};
+
+const isCoreAddon = (addonName: string) => Object.hasOwn(versions, addonName);
 
 /**
  * Install the given addon package and add it to main.js
@@ -72,48 +61,68 @@ const getVersionSpecifier = (addon: string) => {
  */
 export async function add(
   addon: string,
-  options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
+  options: { packageManager: PackageManagerName; skipPostinstall: boolean },
+  logger = console
 ) {
-  let { packageManager: pkgMgr } = options;
-  if (options.useNpm) {
-    useNpmWarning();
-    pkgMgr = 'npm';
-  }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const packageJson = packageManager.retrievePackageJson();
-  const [addonName, versionSpecifier] = getVersionSpecifier(addon);
+  const { packageManager: pkgMgr } = options;
+  const [addonName, inputVersion] = getVersionSpecifier(addon);
 
-  const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageJson = await packageManager.retrievePackageJson();
+  const { mainConfig, configDir } = getStorybookInfo(packageJson);
+
+  if (typeof configDir === 'undefined') {
+    throw new Error(dedent`
+      Unable to find storybook config directory
+    `);
+  }
+
   if (!mainConfig) {
     logger.error('Unable to find storybook main.js config');
     return;
   }
+
+  if (checkInstalled(addonName, requireMain(configDir))) {
+    throw new Error(dedent`
+      Addon ${addonName} is already installed; we skipped adding it to your ${mainConfig}.
+    `);
+  }
+
   const main = await readConfig(mainConfig);
-  const addons = main.getFieldValue(['addons']);
-  if (addons && !Array.isArray(addons)) {
-    logger.error('Expected addons array in main.js config');
-  }
-
   logger.log(`Verifying ${addonName}`);
-  const latestVersion = packageManager.latestVersion(addonName);
-  if (!latestVersion) {
-    logger.error(`Unknown addon ${addonName}`);
+
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
+
+  let version = inputVersion;
+
+  if (!version && isCoreAddon(addonName) && storybookVersion) {
+    version = storybookVersion;
+  }
+  if (!version) {
+    version = await packageManager.latestVersion(addonName);
   }
 
-  // add to package.json
-  const isStorybookAddon = addonName.startsWith('@storybook/');
-  const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = `${addonName}@${version}`;
-  logger.log(`Installing ${addonWithVersion}`);
-  packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
+  if (isCoreAddon(addonName) && version !== storybookVersion) {
+    logger.warn(
+      `The version of ${addonName} you are installing is not the same as the version of Storybook you are using. This may lead to unexpected behavior.`
+    );
+  }
 
-  // add to main.js
+  const addonWithVersion = isValidVersion(version)
+    ? `${addonName}@^${version}`
+    : `${addonName}@${version}`;
+
+  logger.log(`Installing ${addonWithVersion}`);
+  await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
+
   logger.log(`Adding '${addon}' to main.js addons field.`);
-  const updatedAddons = [...(addons || []), addonName];
-  main.setFieldValue(['addons'], updatedAddons);
+  main.appendValueToArray(['addons'], addonName);
   await writeConfig(main);
 
-  if (!options.skipPostinstall) {
-    await postinstallAddon(addon, isStorybookAddon);
+  if (!options.skipPostinstall && isCoreAddon(addonName)) {
+    await postinstallAddon(addonName, { packageManager: packageManager.type });
   }
+}
+function isValidVersion(version: string) {
+  return SemVer.valid(version) || version.match(/^\d+$/);
 }

@@ -1,95 +1,304 @@
-import { describe, expect, test } from '@jest/globals';
-import type { Args } from '@storybook/types';
-import { generateSource } from './sourceDecorator';
+import { describe, expect, it } from 'vitest';
+
+import {
+  mapAttributesAndDirectives,
+  generateAttributesSource,
+  attributeSource,
+  htmlEventAttributeToVueEventAttribute as htmlEventToVueEvent,
+} from './sourceDecorator';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val: unknown) => typeof val === 'string',
 });
-function generateArgTypes(args: Args, slotProps: string[] | undefined) {
-  return Object.keys(args).reduce((acc, prop) => {
-    acc[prop] = { table: { category: slotProps?.includes(prop) ? 'slots' : 'props' } };
-    return acc;
-  }, {} as Record<string, any>);
-}
-function generateForArgs(args: Args, slotProps: string[] | undefined = undefined) {
-  return generateSource({ name: 'Component' }, args, generateArgTypes(args, slotProps), true);
-}
-function generateMultiComponentForArgs(args: Args, slotProps: string[] | undefined = undefined) {
-  return generateSource(
-    [{ name: 'Component' }, { name: 'Component' }],
-    args,
-    generateArgTypes(args, slotProps),
-    true
-  );
-}
 
-describe('generateSource Vue3', () => {
-  test('boolean true', () => {
-    expect(generateForArgs({ booleanProp: true })).toMatchInlineSnapshot(
-      `<Component :boolean-prop='booleanProp'/>`
-    );
-  });
-  test('boolean false', () => {
-    expect(generateForArgs({ booleanProp: false })).toMatchInlineSnapshot(
-      `<Component :boolean-prop='booleanProp'/>`
-    );
-  });
-  test('null property', () => {
-    expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(
-      `<Component :null-prop='nullProp'/>`
-    );
-  });
-  test('string property', () => {
-    expect(generateForArgs({ stringProp: 'mystr' })).toMatchInlineSnapshot(
-      `<Component :string-prop='stringProp'/>`
-    );
-  });
-  test('number property', () => {
-    expect(generateForArgs({ numberProp: 42 })).toMatchInlineSnapshot(
-      `<Component :number-prop='numberProp'/>`
-    );
-  });
-  test('object property', () => {
-    expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(
-      `<Component :obj-prop='objProp'/>`
-    );
-  });
-  test('multiple properties', () => {
-    expect(generateForArgs({ a: 1, b: 2 })).toMatchInlineSnapshot(`<Component :a='a' :b='b'/>`);
-  });
-  test('1 slot property', () => {
-    expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content'])).toMatchInlineSnapshot(`
-      <Component :my-prop='myProp'>
-        {{ content }}
-      </Component>
+describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
+  it('camelCase boolean Arg', () => {
+    expect(mapAttributesAndDirectives({ camelCaseBooleanArg: true })).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: camel-case-boolean-arg,
+            loc: {
+              source: camel-case-boolean-arg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: true,
+            },
+          },
+          loc: {
+            source: :camel-case-boolean-arg="true",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
     `);
   });
-  test('multiple slot property with second slot value not set', () => {
-    expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content', 'footer']))
-      .toMatchInlineSnapshot(`
-      <Component :my-prop='myProp'>
-        {{ content }}
-      </Component>
+  it('camelCase string Arg', () => {
+    expect(mapAttributesAndDirectives({ camelCaseStringArg: 'foo' })).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: camel-case-string-arg,
+            loc: {
+              source: camel-case-string-arg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: foo,
+            },
+          },
+          loc: {
+            source: camel-case-string-arg="foo",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
     `);
   });
-  test('multiple slot property with second slot value is set', () => {
-    expect(generateForArgs({ content: 'xyz', footer: 'foo', myProp: 'abc' }, ['content', 'footer']))
-      .toMatchInlineSnapshot(`
-      <Component :my-prop='myProp'>
-        <template #content>{{ content }}</template>
-        <template #footer>{{ footer }}</template>
-      </Component>
+  it('boolean arg', () => {
+    expect(mapAttributesAndDirectives({ booleanarg: true })).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: booleanarg,
+            loc: {
+              source: booleanarg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: true,
+            },
+          },
+          loc: {
+            source: :booleanarg="true",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
     `);
   });
-  // test mutil components
-  test('multi component with boolean true', () => {
-    expect(generateMultiComponentForArgs({ booleanProp: true })).toMatchInlineSnapshot(`
-      <Component :boolean-prop='booleanProp'/>
-      <Component :boolean-prop='booleanProp'/>
+  it('string arg', () => {
+    expect(mapAttributesAndDirectives({ stringarg: 'bar' })).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: stringarg,
+            loc: {
+              source: stringarg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: bar,
+            },
+          },
+          loc: {
+            source: stringarg="bar",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
     `);
   });
-  test('component is not set', () => {
-    expect(generateSource(null, {}, {})).toBeNull();
+  it('number arg', () => {
+    expect(mapAttributesAndDirectives({ numberarg: 2023 })).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: numberarg,
+            loc: {
+              source: numberarg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: 2023,
+            },
+          },
+          loc: {
+            source: :numberarg="2023",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
+    `);
+  });
+  it('camelCase boolean, string, and number Args', () => {
+    expect(
+      mapAttributesAndDirectives({
+        camelCaseBooleanArg: true,
+        camelCaseStringArg: 'foo',
+        cameCaseNumberArg: 2023,
+      })
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          arg: {
+            content: camel-case-boolean-arg,
+            loc: {
+              source: camel-case-boolean-arg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: true,
+            },
+          },
+          loc: {
+            source: :camel-case-boolean-arg="true",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+        {
+          arg: {
+            content: camel-case-string-arg,
+            loc: {
+              source: camel-case-string-arg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: foo,
+            },
+          },
+          loc: {
+            source: camel-case-string-arg="foo",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+        {
+          arg: {
+            content: came-case-number-arg,
+            loc: {
+              source: came-case-number-arg,
+            },
+          },
+          exp: {
+            isStatic: false,
+            loc: {
+              source: 2023,
+            },
+          },
+          loc: {
+            source: :came-case-number-arg="2023",
+          },
+          modifiers: [
+            ,
+          ],
+          name: bind,
+          type: 6,
+        },
+      ]
+    `);
+  });
+});
+
+describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
+  it('camelCase boolean Arg', () => {
+    expect(
+      generateAttributesSource(
+        mapAttributesAndDirectives({ camelCaseBooleanArg: true }),
+        { camelCaseBooleanArg: true },
+        [{ camelCaseBooleanArg: { type: 'boolean' } }] as any
+      )
+    ).toMatchInlineSnapshot(`:camel-case-boolean-arg="true"`);
+  });
+  it('camelCase string Arg', () => {
+    expect(
+      generateAttributesSource(
+        mapAttributesAndDirectives({ camelCaseStringArg: 'foo' }),
+        { camelCaseStringArg: 'foo' },
+        [{ camelCaseStringArg: { type: 'string' } }] as any
+      )
+    ).toMatchInlineSnapshot(`camel-case-string-arg="foo"`);
+  });
+
+  it('camelCase boolean, string, and number Args', () => {
+    expect(
+      generateAttributesSource(
+        mapAttributesAndDirectives({
+          camelCaseBooleanArg: true,
+          camelCaseStringArg: 'foo',
+          cameCaseNumberArg: 2023,
+        }),
+        {
+          camelCaseBooleanArg: true,
+          camelCaseStringArg: 'foo',
+          cameCaseNumberArg: 2023,
+        },
+        [] as any
+      )
+    ).toMatchInlineSnapshot(
+      `:camel-case-boolean-arg="true" camel-case-string-arg="foo" :came-case-number-arg="2023"`
+    );
+  });
+});
+
+describe('Vue3: sourceDecorator->attributeSoure()', () => {
+  it('camelCase boolean Arg', () => {
+    expect(attributeSource('stringArg', 'foo')).toMatchInlineSnapshot(`stringArg="foo"`);
+  });
+
+  it('html event attribute should convert to vue event directive', () => {
+    expect(attributeSource('onClick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
+    expect(attributeSource('onclick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
+  });
+  it('normal html attribute should not convert to vue event directive', () => {
+    expect(attributeSource('on-click', () => {})).toMatchInlineSnapshot(`on-click='()=>({})'`);
+  });
+  it('The value undefined or empty string must not be returned.', () => {
+    expect(attributeSource('icon', undefined)).toMatchInlineSnapshot(`icon=""`);
+    expect(attributeSource('icon', '')).toMatchInlineSnapshot(`icon=""`);
+  });
+  it('htmlEventAttributeToVueEventAttribute  onEv => v-on:', () => {
+    const htmlEventAttributeToVueEventAttribute = (attribute: string) => {
+      return htmlEventToVueEvent(attribute);
+    };
+    expect(/^on[A-Za-z]/.test('onClick')).toBeTruthy();
+    expect(htmlEventAttributeToVueEventAttribute('onclick')).toMatchInlineSnapshot(`v-on:click`);
+    expect(htmlEventAttributeToVueEventAttribute('onClick')).toMatchInlineSnapshot(`v-on:click`);
+    expect(htmlEventAttributeToVueEventAttribute('onChange')).toMatchInlineSnapshot(`v-on:change`);
+    expect(htmlEventAttributeToVueEventAttribute('onFocus')).toMatchInlineSnapshot(`v-on:focus`);
+    expect(htmlEventAttributeToVueEventAttribute('on-focus')).toMatchInlineSnapshot(`on-focus`);
   });
 });

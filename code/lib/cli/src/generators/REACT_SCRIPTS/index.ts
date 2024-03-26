@@ -1,12 +1,11 @@
 import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
-
 import dedent from 'ts-dedent';
+
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
-import versions from '../../versions';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
@@ -25,25 +24,16 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
       }
     : {};
 
-  const craVersion = semver.coerce(
-    packageManager.retrievePackageJson().dependencies['react-scripts']
-  )?.version;
-  const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
-  const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
+  const craVersion = await packageManager.getPackageVersion('react-scripts');
 
-  const extraPackages = [];
-  if (isCra5OrHigher) {
-    extraPackages.push('webpack');
-    // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
-    extraPackages.push('babel-plugin-named-exports-order');
-    // Miscellaneous dependency to add to be sure Storybook + CRA is working fine with Yarn PnP mode
-    extraPackages.push('prop-types');
+  if (craVersion === null) {
+    throw new Error(dedent`
+      It looks like you're trying to initialize Storybook in a CRA project that does not have react-scripts installed.
+      Please install it and make sure it's of version 5 or higher, which are the versions supported by Storybook 7.0+.
+    `);
   }
 
-  const version = versions['@storybook/preset-create-react-app'];
-  const extraAddons = [`@storybook/preset-create-react-app@${version}`];
-
-  if (!isCra5OrHigher) {
+  if (!craVersion && semver.gte(craVersion, '5.0.0')) {
     throw new Error(dedent`
       Storybook 7.0+ doesn't support react-scripts@<5.0.0.
 
@@ -51,14 +41,26 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     `);
   }
 
-  await baseGenerator(packageManager, npmOptions, updatedOptions, 'react', {
-    extraAddons,
-    extraPackages,
-    staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
-    addBabel: false,
-    addESLint: true,
-    extraMain,
-  });
+  const extraPackages = [];
+  extraPackages.push('webpack');
+  // Miscellaneous dependency to add to be sure Storybook + CRA is working fine with Yarn PnP mode
+  extraPackages.push('prop-types');
+
+  const extraAddons = [`@storybook/preset-create-react-app`, `@storybook/addon-onboarding`];
+
+  await baseGenerator(
+    packageManager,
+    npmOptions,
+    { ...options, builder: CoreBuilder.Webpack5 },
+    'react',
+    {
+      webpackCompiler: () => undefined,
+      extraAddons,
+      extraPackages,
+      staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
+      extraMain,
+    }
+  );
 };
 
 export default generator;
