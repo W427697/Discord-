@@ -63,12 +63,10 @@ export const createService = (worker: Worker): WorkerAPI => {
 
   worker.addListener('message', receive);
   worker.addListener('error', (err) =>
-    // eslint-disable-next-line no-console
     console.error(`Worker encountered error: ${err?.toString()}`)
   );
   worker.addListener('exit', (code) => {
     if (code) {
-      // eslint-disable-next-line no-console
       console.error(`Worker exited with non-zero exit code ${code}`);
     }
   });

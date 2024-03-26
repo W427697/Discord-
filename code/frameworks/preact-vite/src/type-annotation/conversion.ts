@@ -23,7 +23,7 @@ export const convertToStorybook = (value: ValueType): SBType | undefined => {
     }
     case 'object': {
       result = { name: 'object', value: {} };
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const [prop, propValue] of Object.entries(value.fields)) {
         // @ts-expect-error (not type-safe)
         result.value[prop] = convertToStorybook(propValue);

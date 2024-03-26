@@ -17,7 +17,7 @@ const formatArgTypes = ({ name, args }: { name: string; args: SBType }) => {
   const { value } = args as SBObjectType;
   if (!value) return '';
   const argTypes: ArgTypes = {};
-  // eslint-disable-next-line no-restricted-syntax
+
   for (const [propName, type] of Object.entries(value)) {
     // mapping as per https://storybook.js.org/docs/7.0/react/essentials/controls#annotation
     if (type.name === 'boolean') {

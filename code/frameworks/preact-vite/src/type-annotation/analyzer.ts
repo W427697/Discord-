@@ -13,10 +13,9 @@ export const create = (options: { rootDir: string }) => {
     async analyze(fileName: string): Promise<{ name: string; args: SBType }[]> {
       const components = await frameworkPlugin.detectComponents(reader, typeAnalyzer, [fileName]);
       const results: { name: string; args: any }[] = [];
-      // eslint-disable-next-line no-restricted-syntax
+
       for (const component of components) {
         if (component.info.kind === 'story') {
-          // eslint-disable-next-line no-await-in-loop
           const detectedType = (await component.info?.associatedComponent?.analyze())?.propsType;
           if (detectedType) {
             results.push({
@@ -25,7 +24,6 @@ export const create = (options: { rootDir: string }) => {
             });
           }
         } else {
-          // eslint-disable-next-line no-await-in-loop
           const detectedType = (await component.info?.analyze())?.propsType;
           if (detectedType) {
             results.push({

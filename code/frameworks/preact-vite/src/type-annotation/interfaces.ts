@@ -2,8 +2,8 @@ export type Asynced<T> = {
   [K in keyof T]: T[K] extends (...args: any[]) => PromiseLike<any>
     ? T[K]
     : T[K] extends (...args: infer A) => infer R
-    ? (...args: A) => Promise<R>
-    : never;
+      ? (...args: A) => Promise<R>
+      : never;
 };
 
 interface Serial {
