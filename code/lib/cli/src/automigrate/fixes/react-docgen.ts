@@ -46,7 +46,7 @@ export const reactDocgen: Fix<Options> = {
     `;
     } else {
       return dedent`
-      Since Storybook 8, ${chalk.cyan(
+      Since Storybook 8.0, ${chalk.cyan(
         'react-docgen'
       )} is now the default for generating component controls, replacing ${chalk.cyan(
         'react-docgen-typescript'
