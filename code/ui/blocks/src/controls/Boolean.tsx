@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { opacify, transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 
-import { Form } from '@storybook/components';
+import { Button } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, BooleanValue, BooleanConfig } from './types';
@@ -19,6 +19,13 @@ const Label = styled.label(({ theme }) => ({
   background: theme.boolean.background,
   borderRadius: '3em',
   padding: 1,
+  '&[aria-disabled="true"]': {
+    opacity: 0.5,
+
+    input: {
+      cursor: 'not-allowed',
+    },
+  },
 
   input: {
     appearance: 'none',
@@ -98,13 +105,27 @@ export type BooleanProps = ControlProps<BooleanValue> & BooleanConfig;
  * <BooleanControl name="isTrue" value={value} onChange={handleValueChange}/>
  * ```
  */
-export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur, onFocus }) => {
+export const BooleanControl: FC<BooleanProps> = ({
+  name,
+  value,
+  onChange,
+  onBlur,
+  onFocus,
+  argType,
+}) => {
   const onSetFalse = useCallback(() => onChange(false), [onChange]);
+  const readonly = !!argType?.table?.readonly;
   if (value === undefined) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onSetFalse}>
+      <Button
+        variant="outline"
+        size="medium"
+        id={getControlSetterButtonId(name)}
+        onClick={onSetFalse}
+        disabled={readonly}
+      >
         Set boolean
-      </Form.Button>
+      </Button>
     );
   }
   const controlId = getControlId(name);
@@ -112,13 +133,14 @@ export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur
   const parsedValue = typeof value === 'string' ? parse(value) : value;
 
   return (
-    <Label htmlFor={controlId} aria-label={name}>
+    <Label aria-disabled={readonly} htmlFor={controlId} aria-label={name}>
       <input
         id={controlId}
         type="checkbox"
         onChange={(e) => onChange(e.target.checked)}
         checked={parsedValue}
         role="switch"
+        disabled={readonly}
         {...{ name, onBlur, onFocus }}
       />
       <span aria-hidden="true">False</span>

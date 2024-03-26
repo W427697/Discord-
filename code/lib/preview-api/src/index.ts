@@ -41,22 +41,6 @@ export { DocsContext } from './preview-web';
  */
 export { simulatePageLoad, simulateDOMContentLoaded } from './preview-web';
 
-/**
- * STORIES API
- */
-export {
-  addArgTypes,
-  addArgTypesEnhancer,
-  addArgs,
-  addArgsEnhancer,
-  addDecorator,
-  addLoader,
-  addParameters,
-  addStepRunner,
-} from './client-api';
-export { getQueryParam, getQueryParams } from './client-api';
-export { setGlobalRender } from './client-api';
-
 export {
   combineArgs,
   combineParameters,
@@ -78,12 +62,13 @@ export {
   sortStoriesV7,
 } from './store';
 
+export { createPlaywrightTest } from './modules/store/csf/portable-stories';
+
 export type { PropDescriptor } from './store';
 
 /**
  * STORIES API
  */
-export { ClientApi } from './client-api';
 export { StoryStore } from './store';
-export { Preview, PreviewWeb } from './preview-web';
-export { start } from './core-client';
+export { Preview, PreviewWeb, PreviewWithSelection, UrlStore, WebView } from './preview-web';
+export type { SelectionStore, View } from './preview-web';

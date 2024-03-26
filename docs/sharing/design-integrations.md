@@ -110,6 +110,7 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
     'vue/component-story-figma-integration.ts.mdx',
     'angular/component-story-figma-integration.ts.mdx',
     'svelte/component-story-figma-integration.js.mdx',
+    'svelte/component-story-figma-integration.ts.mdx',
     'web-components/component-story-figma-integration.js.mdx',
     'web-components/component-story-figma-integration.ts.mdx',
     'solid/component-story-figma-integration.js.mdx',
@@ -176,5 +177,5 @@ Integrate Adobe XD with Storybook using the [design addon](https://storybook.js.
 
 Extend and customize Storybook by building an integration. Integrate with lower-level Storybook APIs or bootstrap an addon to customize Storybook's UI and behavior.
 
-- [Addon documentation](../addons/introduction.md)
+- [Addon documentation](../addons/index.md)
 - [Create an addon tutorial](https://storybook.js.org/tutorials/create-an-addon/)

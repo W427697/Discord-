@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum events {
+  CHANNEL_WS_DISCONNECT = 'channelWSDisconnect',
   CHANNEL_CREATED = 'channelCreated',
   // There was an error executing the config, likely an bug in the user's preview.js
   CONFIG_ERROR = 'configError',
@@ -38,6 +39,8 @@ enum events {
   STORY_RENDER_PHASE_CHANGED = 'storyRenderPhaseChanged',
   // Emitted when the play function throws
   PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
+  // Emitted when there were unhandled errors while playing the story
+  UNHANDLED_ERRORS_WHILE_PLAYING = 'unhandledErrorsWhilePlaying',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
   // The values of a stories args just changed
@@ -78,6 +81,7 @@ export default events;
 // Enables: `import * as Events from ...` or `import { CHANNEL_CREATED } as Events from ...`
 // This is the preferred method
 export const {
+  CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
@@ -88,6 +92,7 @@ export const {
   GLOBALS_UPDATED,
   NAVIGATE_URL,
   PLAY_FUNCTION_THREW_EXCEPTION,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
   PRELOAD_ENTRIES,
   PREVIEW_BUILDER_PROGRESS,
   PREVIEW_KEYDOWN,
@@ -123,10 +128,6 @@ export const {
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
   TELEMETRY_ERROR,
 } = events;
-
-// Used to break out of the current render without showing a redbox
-// eslint-disable-next-line local-rules/no-uncategorized-errors
-export const IGNORED_EXCEPTION = new Error('ignoredException');
 
 export interface WhatsNewCache {
   lastDismissedPost?: string;

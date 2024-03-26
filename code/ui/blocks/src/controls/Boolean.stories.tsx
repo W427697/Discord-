@@ -1,6 +1,5 @@
-import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent, waitFor } from '@storybook/testing-library';
+import { within, fireEvent, waitFor, expect, fn } from '@storybook/test';
 import { addons } from '@storybook/preview-api';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { BooleanControl } from './Boolean';
@@ -15,31 +14,36 @@ const meta = {
     info: 'This is info for the Boolean control stories',
     jsx: { useBooleanShorthandSyntax: false },
   },
-} as Meta<typeof BooleanControl>;
+  args: {
+    onChange: fn(),
+  },
+} satisfies Meta<typeof BooleanControl>;
 
 export default meta;
 
-export const True: StoryObj<typeof BooleanControl> = {
+type Story = StoryObj<typeof meta>;
+
+export const True: Story = {
   args: {
     value: true,
     name: 'True',
   },
 };
-export const False: StoryObj<typeof BooleanControl> = {
+export const False: Story = {
   args: {
     value: false,
     name: 'False',
   },
 };
 
-export const Undefined: StoryObj<typeof BooleanControl> = {
+export const Undefined: Story = {
   args: {
     value: undefined,
     name: 'Undefined',
   },
 };
 
-export const Toggling: StoryObj<typeof BooleanControl> = {
+export const Toggling: Story = {
   args: {
     value: undefined,
     name: 'Toggling',
@@ -79,7 +83,7 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
   },
 };
 
-export const TogglingInDocs: StoryObj<typeof BooleanControl> = {
+export const TogglingInDocs: Story = {
   ...Toggling,
   args: {
     name: 'Toggling In Docs',
@@ -88,5 +92,21 @@ export const TogglingInDocs: StoryObj<typeof BooleanControl> = {
     docs: {
       autoplay: true,
     },
+  },
+};
+
+export const Readonly: Story = {
+  args: {
+    name: 'readonly',
+    value: true,
+    argType: { table: { readonly: true } },
+  },
+};
+
+export const ReadonlyAndUndefined: Story = {
+  args: {
+    name: 'readonly-and-undefined',
+    value: undefined,
+    argType: { table: { readonly: true } },
   },
 };

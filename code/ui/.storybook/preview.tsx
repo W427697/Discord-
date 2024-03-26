@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import React, { Fragment, useEffect } from 'react';
-import isChromatic from 'chromatic/isChromatic';
+import { isChromatic } from './isChromatic';
 import {
   Global,
   ThemeProvider,
@@ -11,7 +11,6 @@ import {
   useTheme,
 } from '@storybook/theming';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
-import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
@@ -158,20 +157,11 @@ export const decorators = [
       <Story />
     ),
   /**
-   * This decorator adds Symbols that the sidebar icons references.
-   * Any sidebar story that uses the icons must set the parameter withSymbols: true .
-   */
-  (Story, { parameters: { withSymbols } }) => (
-    <>
-      {withSymbols && <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />}
-      <Story />
-    </>
-  ),
-  /**
    * This decorator renders the stories side-by-side, stacked or default based on the theme switcher in the toolbar
    */
-  (StoryFn, { globals, parameters, playFunction }) => {
-    const defaultTheme = isChromatic() && !playFunction ? 'stacked' : 'light';
+  (StoryFn, { globals, parameters, playFunction, args }) => {
+    const defaultTheme =
+      isChromatic() && !playFunction && args.autoplay !== true ? 'stacked' : 'light';
     const theme = globals.theme || parameters.theme || defaultTheme;
 
     switch (theme) {
@@ -270,7 +260,6 @@ export const decorators = [
 ];
 
 export const parameters = {
-  actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>
       a.title === b.title ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),

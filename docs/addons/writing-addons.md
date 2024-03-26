@@ -94,14 +94,20 @@ By default, code for the UI-based addons is located in one of the following file
 Going through the code blocks in sequence:
 
 ```ts
-import { useGlobals, useStorybookApi } from '@storybook/manager-api';
+// src/Tool.tsx
 
-import { Icons, IconButton } from '@storybook/components';
+import { useGlobals, useStorybookApi } from '@storybook/manager-api';
+import { IconButton } from '@storybook/components';
+import { LightningIcon } from '@storybook/icons';
 ```
 
-The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
+The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it.
+
+The `IconButton` or `Button` component from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package can be used to render the buttons in the toolbar. The [`@storybook/icons`](https://github.com/storybookjs/icons) package provides a large set of appropriately sized and styled icons to choose from.
 
 ```ts
+// src/Tool.tsx
+
 export const Tool = memo(function MyAddonSelector() {
   const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
@@ -125,13 +131,8 @@ export const Tool = memo(function MyAddonSelector() {
   }, [toggleMyTool, api]);
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Apply outlines to the preview"
-      onClick={toggleMyTool}
-    >
-      <Icons icon="lightning" />
+    <IconButton key={TOOL_ID} active={isActive} title="Enable my addon" onClick={toggleMyTool}>
+      <LightningIcon />
     </IconButton>
   );
 });
@@ -151,7 +152,14 @@ Moving onto the manager, here we register the addon with Storybook using a uniqu
 
 <!-- prettier-ignore-end -->
 
-Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you must adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
+### Conditionally render the addon
+
+Notice the `match` property. It allows you to control the view mode (story or docs) and tab (the story canvas or [custom tabs](./addon-types.md#tabs)) where the toolbar addon is visible. For example:
+
+- `({ tabId }) => tabId === 'my-addon/tab'` will show your addon when viewing the tab with the ID `my-addon/tab`.
+- `({ viewMode }) => viewMode === 'story'` will show your addon when viewing a story in the canvas.
+- `({ viewMode }) => viewMode === 'docs'` will show your addon when viewing the documentation for a component.
+- `({ tabId, viewMode }) => !tabId && viewMode === 'story'` will show your addon when viewing a story in the canvas and not in a custom tab (i.e. when `tabId === undefined`).
 
 Run the `start` script to build and start Storybook and verify that the addon is registered correctly and showing in the UI.
 
@@ -201,55 +209,46 @@ Storybook addons, similar to most packages in the JavaScript ecosystem, are dist
 
 1. Have a `dist` folder with the transpiled code.
 2. A `package.json` file declaring:
-   - Peer dependencies
    - Module-related information
    - Integration catalog metadata
 
 ### Module Metadata
 
-The first category of metadata is related to the addon itself. This includes the entry for the module and which files to include when the addon is published. And all the peer-dependencies of the addon (e.g., `react`,`react-dom`, and Storybook's related APIs).
+The first category of metadata is related to the addon itself. This includes the entry for the module, which files to include when the addon is published. And the required configuration to integrate the addon with Storybook, allowing it to be used by its consumers.
 
 ```json
 {
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
-    "./preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
-    },
+    "./manager": "./dist/manager.mjs",
+    "./preview": "./dist/preview.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": ["dist/**/*", "README.md", "*.js", "*.d.ts"],
-  "peerDependencies": {
+  "devDependencies": {
     "@storybook/blocks": "^7.0.0",
     "@storybook/components": "^7.0.0",
     "@storybook/core-events": "^7.0.0",
     "@storybook/manager-api": "^7.0.0",
     "@storybook/preview-api": "^7.0.0",
     "@storybook/theming": "^7.0.0",
-    "@storybook/types": "^7.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/types": "^7.0.0"
+  },
+  "bundler": {
+    "exportEntries": ["src/index.ts"],
+    "managerEntries": ["src/manager.ts"],
+    "previewEntries": ["src/preview.ts"]
   }
 }
 ```
-
-#### Why peer-dependencies?
-
-A standard practice in the JavaScript ecosystem ensuring compatibility between modules or packages that are meant to work together, often in a plugin or extension scenario. Peer-dependencies are dependencies that are not bundled with the addon but are expected to be installed by the consumer of the addon. When a module relies on a specific version of another module, it might assume certain features, APIs, or behavior provided by that dependency. By specifying a peer dependency, the module can indicate its compatibility requirements and avoid potential conflicts or unexpected behavior due to incompatible versions.
 
 ### Integration Catalog Metadata
 
@@ -320,7 +319,7 @@ By default, the Addon Kit comes pre-configured with a GitHub Actions workflow, e
 
 Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the token you generated earlier. Whenever you merge a pull request to the default branch, the workflow will run and publish a new release, automatically incrementing the version number and updating the changelog.
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - Writing addons for the basics of addon development

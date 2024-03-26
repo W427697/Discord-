@@ -3,8 +3,9 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
-import { JsonTree, getObjectType } from './react-editable-json-tree';
+import { Form, IconButton, Button } from '@storybook/components';
+import { AddIcon, EyeCloseIcon, EyeIcon, SubtractIcon } from '@storybook/icons';
+import { JsonTree } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
 
@@ -15,6 +16,10 @@ type JsonTreeProps = ComponentProps<typeof JsonTree>;
 const Wrapper = styled.div(({ theme }) => ({
   position: 'relative',
   display: 'flex',
+
+  '&[aria-readonly="true"]': {
+    opacity: 0.5,
+  },
 
   '.rejt-tree': {
     marginLeft: '1rem',
@@ -120,7 +125,7 @@ const Wrapper = styled.div(({ theme }) => ({
   },
 }));
 
-const Button = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
+const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
   border: 0,
   height: 20,
   margin: 1,
@@ -132,9 +137,7 @@ const Button = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
   order: primary ? 'initial' : 9,
 }));
 
-type ActionIconProps = IconsProps & { disabled?: boolean };
-
-const ActionIcon = styled(Icons)(({ theme, icon, disabled }: ActionIconProps) => ({
+const ActionAddIcon = styled(AddIcon)<{ disabled?: boolean }>(({ theme, disabled }) => ({
   display: 'inline-block',
   verticalAlign: 'middle',
   width: 15,
@@ -143,11 +146,22 @@ const ActionIcon = styled(Icons)(({ theme, icon, disabled }: ActionIconProps) =>
   marginLeft: 5,
   cursor: disabled ? 'not-allowed' : 'pointer',
   color: theme.textMutedColor,
-  '&:hover': disabled
-    ? {}
-    : {
-        color: icon === 'subtract' ? theme.color.negative : theme.color.ancillary,
-      },
+  '&:hover': disabled ? {} : { color: theme.color.ancillary },
+  'svg + &': {
+    marginLeft: 0,
+  },
+}));
+
+const ActionSubstractIcon = styled(SubtractIcon)<{ disabled?: boolean }>(({ theme, disabled }) => ({
+  display: 'inline-block',
+  verticalAlign: 'middle',
+  width: 15,
+  height: 15,
+  padding: 3,
+  marginLeft: 5,
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  color: theme.textMutedColor,
+  '&:hover': disabled ? {} : { color: theme.color.negative },
   'svg + &': {
     marginLeft: 0,
   },
@@ -211,10 +225,7 @@ const selectValue = (event: SyntheticEvent<HTMLInputElement>) => {
   event.currentTarget.select();
 };
 
-export type ObjectProps = ControlProps<ObjectValue> &
-  ObjectConfig & {
-    theme: any; // TODO: is there a type for this?
-  };
+export type ObjectProps = ControlProps<ObjectValue> & ObjectConfig;
 
 const getCustomStyleFunction: (theme: Theme) => JsonTreeProps['getStyle'] = (theme) => () => ({
   name: {
@@ -233,13 +244,13 @@ const getCustomStyleFunction: (theme: Theme) => JsonTreeProps['getStyle'] = (the
   },
 });
 
-export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
+export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType }) => {
   const theme = useTheme();
   const data = useMemo(() => value && cloneDeep(value), [value]);
   const hasData = data !== null && data !== undefined;
-
   const [showRaw, setShowRaw] = useState(!hasData);
   const [parseError, setParseError] = useState<Error>(null);
+  const readonly = !!argType?.table?.readonly;
   const updateRaw: (raw: string) => void = useCallback(
     (raw) => {
       try {
@@ -265,9 +276,9 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
 
   if (!hasData) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button disabled={readonly} id={getControlSetterButtonId(name)} onClick={onForceVisible}>
         Set object
-      </Form.Button>
+      </Button>
     );
   }
 
@@ -281,38 +292,43 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
       placeholder="Edit JSON string..."
       autoFocus={forceVisible}
       valid={parseError ? 'error' : null}
+      readOnly={readonly}
     />
   );
 
+  const isObjectOrArray =
+    Array.isArray(value) || (typeof value === 'object' && value?.constructor === Object);
+
   return (
-    <Wrapper>
-      {['Object', 'Array'].includes(getObjectType(data)) && (
+    <Wrapper aria-readonly={readonly}>
+      {isObjectOrArray && (
         <RawButton
-          href="#"
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
             setShowRaw((v) => !v);
           }}
         >
-          <Icons icon={showRaw ? 'eyeclose' : 'eye'} />
+          {showRaw ? <EyeCloseIcon /> : <EyeIcon />}
           <span>RAW</span>
         </RawButton>
       )}
       {!showRaw ? (
         <JsonTree
+          readOnly={readonly || !isObjectOrArray}
+          isCollapsed={isObjectOrArray ? /* default value */ undefined : () => true}
           data={data}
           rootName={name}
           onFullyUpdate={onChange}
           getStyle={getCustomStyleFunction(theme)}
-          cancelButtonElement={<Button type="button">Cancel</Button>}
-          editButtonElement={<Button type="submit">Save</Button>}
+          cancelButtonElement={<ButtonInline type="button">Cancel</ButtonInline>}
+          editButtonElement={<ButtonInline type="submit">Save</ButtonInline>}
           addButtonElement={
-            <Button type="submit" primary>
+            <ButtonInline type="submit" primary>
               Save
-            </Button>
+            </ButtonInline>
           }
-          plusMenuElement={<ActionIcon icon="add" />}
-          minusMenuElement={<ActionIcon icon="subtract" />}
+          plusMenuElement={<ActionAddIcon />}
+          minusMenuElement={<ActionSubstractIcon />}
           inputElement={(_: any, __: any, ___: any, key: string) =>
             key ? <Input onFocus={selectValue} onBlur={dispatchEnterKey} /> : <Input />
           }

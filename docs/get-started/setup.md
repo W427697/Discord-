@@ -13,8 +13,6 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.2.js.mdx',
-    'vue/your-component.2.ts.mdx',
     'vue/your-component.3.js.mdx',
     'vue/your-component.3.ts.mdx',
     'web-components/your-component.js.mdx',
@@ -57,7 +55,7 @@ Don't see the tool that you're looking for? Check out the [styling and css](../c
 
 ## Configure Storybook for your stack
 
-Storybook comes with a permissive [default configuration](../configure/overview.md). It attempts to customize itself to fit your setup. But it’s not foolproof.
+Storybook comes with a permissive [default configuration](../configure/index.md). It attempts to customize itself to fit your setup. But it’s not foolproof.
 
 Your project may have additional requirements before components can be rendered in isolation. This warrants customizing configuration further. There are three broad categories of configuration you might need.
 
@@ -67,7 +65,7 @@ Your project may have additional requirements before components can be rendered 
 If you see errors on the CLI when you run the `yarn storybook` command, you likely need to make changes to Storybook’s build configuration. Here are some things to try:
 
 - [Presets](../addons/addon-types.md) bundle common configurations for various technologies into Storybook. In particular, presets exist for Create React App and Ant Design.
-- Specify a custom [Babel configuration](../configure/babel.md#custom-babel-config) for Storybook. Storybook automatically tries to use your project’s config if it can.
+- Specify a custom [Babel configuration](../configure/compilers.md#babel) for Storybook. Storybook automatically tries to use your project’s config if it can.
 - Adjust the [Webpack configuration](../builders/webpack.md) that Storybook uses. Try patching in your own configuration if needed.
 
 </details>
@@ -86,7 +84,7 @@ If a particular story has a problem rendering, often it means your component exp
 
 A common frontend pattern is for components to assume that they render in a specific “context” with parent components higher up the rendering hierarchy (for instance, theme providers).
 
-Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fontawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
+Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fontawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
 
 <!-- prettier-ignore-start -->
 
@@ -94,16 +92,10 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
     'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
     'solid/storybook-preview-with-styled-components-decorator.js.mdx',
     'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
@@ -116,6 +108,4 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
 
 ## Load assets and resources
 
-If you want to [link to static files](../configure/images-and-assets.md) in your project or stories (e.g., `/fonts/XYZ.woff`), use the `-s path/to/folder` flag to specify a static folder to serve from when you start up Storybook. To do so, edit the `storybook` and `build-storybook` scripts in `package.json`.
-
-We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories.
+We recommend serving external resources and assets requested in your components statically with Storybook. It ensures that assets are always available to your stories. Read our [documentation](../configure/images-and-assets.md) to learn how to hosting static files with Storybook.

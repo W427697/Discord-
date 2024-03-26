@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.6.0-beta.2",
+  "version": "8.1.0-alpha.4",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -26,9 +26,16 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./experimental-playwright": {
+      "types": "./dist/playwright.d.ts",
+      "node": "./dist/playwright.js",
+      "require": "./dist/playwright.js",
+      "import": "./dist/playwright.mjs"
+    },
     "./preset": "./preset.js",
     "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
+    "./dist/entry-preview-rsc.mjs": "./dist/entry-preview-rsc.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -48,7 +55,6 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
-    "@storybook/core-client": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
@@ -65,22 +71,24 @@
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react-element-to-jsx-string": "^15.0.0",
+    "semver": "^7.3.7",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
     "@storybook/test": "workspace:*",
+    "@types/babel-plugin-react-docgen": "^4",
+    "@types/semver": "^7.3.4",
     "@types/util-deprecate": "^1.0.0",
+    "babel-plugin-react-docgen": "^4.2.1",
     "expect-type": "^0.15.0",
-    "jest-specific-snapshot": "^8.0.0",
     "require-from-string": "^2.0.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "typescript": "*"
+    "typescript": ">= 4.2.x"
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -88,7 +96,7 @@
     }
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -98,7 +106,9 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/entry-preview.ts",
-      "./src/entry-preview-docs.ts"
+      "./src/entry-preview-docs.ts",
+      "./src/entry-preview-rsc.tsx",
+      "./src/playwright.ts"
     ],
     "platform": "browser"
   },

@@ -1,12 +1,13 @@
 import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { within, expect } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Pre,
   play: async ({ canvasElement, name }: PlayFunctionContext) => {
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
+    await expect(
+      JSON.parse(within(canvasElement as HTMLPreElement).getByTestId('pre').innerText)
+    ).toEqual({
       name,
     });
   },

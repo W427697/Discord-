@@ -8,7 +8,7 @@ Storybook has built-in TypeScript support, so you can get started with zero conf
 
 ## Typing stories with `Meta` and `StoryObj`
 
-When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./introduction.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./introduction.md#defining-stories).
+When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./index.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./index.md#defining-stories).
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 
@@ -55,7 +55,7 @@ For more information, please refer to [this discussion](https://github.com/story
 
 If you are using TypeScript 4.9+, you can take advantage of the new [`satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html) operator to get stricter type checking. Now you will receive type errors for missing required args, not just invalid ones.
 
-Using `satisfies` to apply a story's type helps maintain type safety when sharing a `play` function across stories. Without it, TypeScript will throw an error that the `play` function may be undefined. The `satisfies` operator enables TypeScript to infer whether the play function is defined or not.
+Using `satisfies` to apply a story's type helps maintain type safety when sharing a [play function](./play-function.md) across stories. Without it, TypeScript will throw an error that the `play` function may be undefined. The `satisfies` operator enables TypeScript to infer whether the play function is defined or not.
 
 Finally, use of `satisfies` allows you to pass `typeof meta` to the `StoryObj` generic. This informs TypeScript of the connection between the `meta` and `StoryObj` types, which allows it to infer the `args` type from the `meta` type. In other words, TypeScript will understand that args can be defined both at the story and meta level and won't throw an error when a required arg is defined at the meta level, but not at the story level.
 
@@ -68,7 +68,6 @@ Sometimes stories need to define args that aren’t included in the component's 
 <CodeSnippets
   paths={[
     'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
     'web-components/page-story-slots.ts.mdx',
@@ -80,11 +79,11 @@ Sometimes stories need to define args that aren’t included in the component's 
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['vue']}>
+<IfRenderer renderer='vue'>
 
 ### Vue specific tips
 
-Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue3 single file component (SFC):
+Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue 3 single file component (SFC):
 
 ```html
 <script setup lang="ts">
@@ -111,7 +110,7 @@ This setup will add type support for `*.vue` imports to your `*.stories.ts` file
 
 </IfRenderer>
 
-<IfRenderer renderer={['svelte']}>
+<IfRenderer renderer='svelte'>
 
 ### Svelte specific tips
 

@@ -8,7 +8,7 @@ import { updateMainConfig } from '../helpers/mainConfigFile';
 const logger = console;
 
 interface Webpack5RunOptions {
-  webpackVersion: string;
+  webpackVersion: string | null;
   storybookVersion: string;
 }
 
@@ -22,10 +22,12 @@ interface Webpack5RunOptions {
  * - Add core.builder = 'webpack5' to main.js
  * - Add 'webpack5' as a project dependency
  */
-export const webpack5: Fix<Webpack5RunOptions> = {
+export const webpack5 = {
   id: 'webpack5',
 
-  async check({ configDir, packageManager, mainConfig, storybookVersion }) {
+  versionRange: ['<7', '>=7'],
+
+  async check({ packageManager, mainConfig, storybookVersion }) {
     const webpackVersion = await packageManager.getPackageVersion('webpack');
 
     if (
@@ -75,9 +77,9 @@ export const webpack5: Fix<Webpack5RunOptions> = {
 
     logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
     if (!dryRun) {
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.setFieldValue(['core', 'builder'], '@storybook/builder-webpack5');
       });
     }
   },
-};
+} satisfies Fix<Webpack5RunOptions>;

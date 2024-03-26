@@ -83,23 +83,7 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/addon-onboarding':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/mdx1-csf':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/mdx2-csf':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/expect':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/jest':
     access: $all
     publish: $all
     proxy: npmjs
@@ -107,12 +91,24 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/babel-plugin-require-context-hook':
+  '@storybook/semver':
+    # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/semver':
-    # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
+  '@storybook/icons':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/ember-cli-storybook':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-webpack5-compiler-swc':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-webpack5-compiler-babel':
     access: $all
     publish: $all
     proxy: npmjs

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import * as t from '@babel/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 
@@ -42,14 +41,15 @@ function getReferenceToRequireWrapper(config: ConfigFile, value: string) {
  * @returns Name of the require wrapper function.
  */
 export function getRequireWrapperName(config: ConfigFile) {
-  const declarationName = config.getBodyDeclarations().flatMap((node) =>
-    // eslint-disable-next-line no-nested-ternary
-    doesVariableOrFunctionDeclarationExist(node, 'wrapForPnp')
-      ? ['wrapForPnp']
-      : doesVariableOrFunctionDeclarationExist(node, defaultRequireWrapperName)
-      ? [defaultRequireWrapperName]
-      : []
-  );
+  const declarationName = config
+    .getBodyDeclarations()
+    .flatMap((node) =>
+      doesVariableOrFunctionDeclarationExist(node, 'wrapForPnp')
+        ? ['wrapForPnp']
+        : doesVariableOrFunctionDeclarationExist(node, defaultRequireWrapperName)
+          ? [defaultRequireWrapperName]
+          : []
+    );
 
   if (declarationName.length) {
     return declarationName[0];
@@ -85,7 +85,7 @@ export function isRequireWrapperNecessary(
 
   if (
     t.isArrayExpression(node) &&
-    node.elements.some((element) => isRequireWrapperNecessary(element))
+    node.elements.some((element) => element && isRequireWrapperNecessary(element))
   ) {
     cb(node);
     return true;
@@ -164,11 +164,11 @@ export function wrapValueWithRequireWrapper(config: ConfigFile, node: t.Node) {
   isRequireWrapperNecessary(node, (n) => {
     if (t.isStringLiteral(n)) {
       const wrapperNode = getReferenceToRequireWrapper(config, n.value);
-      Object.keys(n).forEach((k: keyof typeof n) => {
-        delete n[k];
+      Object.keys(n).forEach((k) => {
+        delete n[k as keyof typeof n];
       });
-      Object.keys(wrapperNode).forEach((k: keyof typeof wrapperNode) => {
-        (n as any)[k] = wrapperNode[k];
+      Object.keys(wrapperNode).forEach((k) => {
+        (n as any)[k] = wrapperNode[k as keyof typeof wrapperNode];
       });
     }
 
