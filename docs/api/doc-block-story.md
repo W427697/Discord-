@@ -96,6 +96,12 @@ Default: `parameters.docs.story.inline` or `true` (for [supported frameworks](..
 
 Determines whether the story is rendered `inline` (in the same browser frame as the other docs content) or in an iframe.
 
+<Callout variant="info">
+
+Setting the `inline` option to false will prevent the associated [controls](./doc-block-controls.md) from updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
+
+</Callout>
+
 ### `meta`
 
 Type: CSF file exports
@@ -127,83 +133,3 @@ Type: Story export
 Specifies which story is rendered by the `Story` block. If no `of` is defined and the MDX file is [attached](./doc-block-meta.md#attached-vs-unattached), the primary (first) story will be rendered.
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Story Doc Block configuration" params='start=160' />
-
-### `args`
-
-(⛔️ **Deprecated**)
-
-Type: `Partial<TArgs>`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `argTypes`
-
-(⛔️ **Deprecated**)
-
-Type: `Partial<ArgTypes<TArgs>>`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `decorators`
-
-(⛔️ **Deprecated**)
-
-Type: `DecoratorFunction<TRenderer, TArgs>[]`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `loaders`
-
-(⛔️ **Deprecated**)
-
-Type: `LoaderFunction<TRenderer, TArgs>[]`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `name`
-
-(⛔️ **Deprecated**)
-
-Type: `StoryName`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `parameters`
-
-(⛔️ **Deprecated**)
-
-Type: `Parameters`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `play`
-
-(⛔️ **Deprecated**)
-
-Type: `PlayFunction<TRenderer, TArgs>`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `render`
-
-(⛔️ **Deprecated**)
-
-Type: `ArgsStoryFn<TRenderer, TArgs>`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `story`
-
-(⛔️ **Deprecated**)
-
-Type: `Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-### `storyName`
-
-(⛔️ **Deprecated**)
-
-Type: `StoryName`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.

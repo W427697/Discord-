@@ -1,16 +1,18 @@
 /* eslint-disable react/destructuring-assignment */
-import type { Renderer } from '@storybook/csf';
+import type { Renderer, Parameters, StrictArgTypes } from '@storybook/csf';
 import type { ModuleExports } from '@storybook/types';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { filterArgTypes } from '@storybook/preview-api';
 import type { PropDescriptor } from '@storybook/preview-api';
+import type { ArgTypesExtractor } from '@storybook/docs-tools';
 
 import type { SortType } from '../components';
-import { ArgsTable as PureArgsTable } from '../components';
+import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
 import { DocsContext } from './DocsContext';
 import { useGlobals } from './useGlobals';
 import { useArgs } from './useArgs';
+import { getComponentName } from './utils';
 
 type ControlsParameters = {
   include?: PropDescriptor;
@@ -22,6 +24,17 @@ type ControlsProps = ControlsParameters & {
   of?: Renderer['component'] | ModuleExports;
 };
 
+function extractComponentArgTypes(
+  component: Renderer['component'],
+  parameters: Parameters
+): StrictArgTypes {
+  const { extractArgTypes }: { extractArgTypes: ArgTypesExtractor } = parameters.docs || {};
+  if (!extractArgTypes) {
+    throw new Error(ArgsTableError.ARGS_UNSUPPORTED);
+  }
+  return extractArgTypes(component);
+}
+
 export const Controls: FC<ControlsProps> = (props) => {
   const { of } = props;
   if ('of' in props && of === undefined) {
@@ -30,7 +43,7 @@ export const Controls: FC<ControlsProps> = (props) => {
 
   const context = useContext(DocsContext);
   const { story } = context.resolveOf(of || 'story', ['story']);
-  const { parameters, argTypes } = story;
+  const { parameters, argTypes, component, subcomponents } = story;
   const controlsParameters = parameters.docs?.controls || ({} as ControlsParameters);
 
   const include = props.include ?? controlsParameters.include;
@@ -42,14 +55,46 @@ export const Controls: FC<ControlsProps> = (props) => {
 
   const filteredArgTypes = filterArgTypes(argTypes, include, exclude);
 
+  const hasSubcomponents = Boolean(subcomponents) && Object.keys(subcomponents).length > 0;
+
+  if (!hasSubcomponents) {
+    if (!(Object.keys(filteredArgTypes).length > 0 || Object.keys(args).length > 0)) {
+      return null;
+    }
+    return (
+      <PureArgsTable
+        rows={filteredArgTypes}
+        sort={sort}
+        args={args}
+        globals={globals}
+        updateArgs={updateArgs}
+        resetArgs={resetArgs}
+      />
+    );
+  }
+
+  const mainComponentName = getComponentName(component);
+  const subcomponentTabs = Object.fromEntries(
+    Object.entries(subcomponents).map(([key, comp]) => [
+      key,
+      {
+        rows: filterArgTypes(extractComponentArgTypes(comp, parameters), include, exclude),
+        sort,
+      },
+    ])
+  );
+  const tabs = {
+    [mainComponentName]: { rows: filteredArgTypes, sort },
+    ...subcomponentTabs,
+  };
   return (
-    <PureArgsTable
-      rows={filteredArgTypes}
+    <TabbedArgsTable
+      tabs={tabs}
+      sort={sort}
       args={args}
       globals={globals}
       updateArgs={updateArgs}
       resetArgs={resetArgs}
-      sort={sort}
     />
   );
 };

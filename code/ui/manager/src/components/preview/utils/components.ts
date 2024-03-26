@@ -16,6 +16,21 @@ export const FrameWrap = styled.div({
   background: 'transparent',
   flex: 1,
 });
+export const CanvasWrap = styled.div<{ show: boolean }>(
+  {
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    justifyItems: 'center',
+    overflow: 'auto',
+    gridTemplateColumns: '100%',
+    gridTemplateRows: '100%',
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+  },
+  ({ show }) => ({ display: show ? 'grid' : 'none' })
+);
 
 export const UnstyledLink = styled(Link)({
   color: 'inherit',

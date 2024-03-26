@@ -1,13 +1,14 @@
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import { vi } from 'vitest';
+import type { JsPackageManager, PackageJson } from '@storybook/core-common';
 
-jest.mock('./mainConfigFile', () => ({
-  ...jest.requireActual('./mainConfigFile'),
-  getStorybookData: jest.fn(),
+vi.mock('./mainConfigFile', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./mainConfigFile')>()),
+  getStorybookData: vi.fn(),
 }));
 
-jest.mock('@storybook/core-common', () => ({
-  ...jest.requireActual('@storybook/core-common'),
-  loadMainConfig: jest.fn(),
+vi.mock('@storybook/core-common', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@storybook/core-common')>()),
+  loadMainConfig: vi.fn(),
 }));
 
 export const makePackageManager = (packageJson: PackageJson) => {

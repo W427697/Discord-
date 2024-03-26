@@ -13,7 +13,7 @@ import { TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
-// eslint-disable-next-line import/no-cycle
+
 import { statusMapping } from '../../utils/status';
 import { UseSymbol } from './IconSymbols';
 
@@ -111,10 +111,10 @@ const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function 
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
     ({ cursor, nodes }, [start, end], index, { length }) => {
-      nodes.push(<span>{value.slice(cursor, start)}</span>);
-      nodes.push(<Mark>{value.slice(start, end + 1)}</Mark>);
+      nodes.push(<span key={`${index}-1`}>{value.slice(cursor, start)}</span>);
+      nodes.push(<Mark key={`${index}-2`}>{value.slice(start, end + 1)}</Mark>);
       if (index === length - 1) {
-        nodes.push(<span>{value.slice(end + 1)}</span>);
+        nodes.push(<span key={`${index}-3`}>{value.slice(end + 1)}</span>);
       }
       return { cursor: end + 1, nodes };
     },
@@ -128,7 +128,6 @@ const Title = styled.div(({ theme }) => ({
   justifyContent: 'start',
   gridAutoColumns: 'auto',
   gridAutoFlow: 'column',
-  color: theme.textMutedColor,
 
   '& > span': {
     display: 'block',
@@ -143,7 +142,6 @@ const Path = styled.div(({ theme }) => ({
   justifyContent: 'start',
   gridAutoColumns: 'auto',
   gridAutoFlow: 'column',
-  color: theme.textMutedColor,
   fontSize: `${theme.typography.size.s1 - 1}px`,
 
   '& > span': {
@@ -177,13 +175,8 @@ const Result: FC<
 
   const api = useStorybookApi();
   useEffect(() => {
-    if (api && props.isHighlighted && item.isComponent) {
-      api.emit(
-        PRELOAD_ENTRIES,
-        // @ts-expect-error (TODO)
-        { ids: [item.isLeaf ? item.id : item.children[0]] },
-        { options: { target: item.refId } }
-      );
+    if (api && props.isHighlighted && item.type === 'component') {
+      api.emit(PRELOAD_ENTRIES, { ids: [item.children[0]] }, { options: { target: item.refId } });
     }
   }, [props.isHighlighted, item]);
 
@@ -217,7 +210,6 @@ const Result: FC<
         </Title>
         <Path>
           {item.path.map((group, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <span key={index}>
               <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
                 {group}
@@ -275,9 +267,9 @@ export const SearchResults: FC<{
     const currentTarget = event.currentTarget as HTMLElement;
     const storyId = currentTarget.getAttribute('data-id');
     const refId = currentTarget.getAttribute('data-refid');
-    const item = api.getData(storyId, refId === 'storybook_internal' ? undefined : refId);
+    const item = api.resolveStory(storyId, refId === 'storybook_internal' ? undefined : refId);
 
-    if (item?.isComponent) {
+    if (item?.type === 'component') {
       api.emit(PRELOAD_ENTRIES, {
         // @ts-expect-error (TODO)
         ids: [item.isLeaf ? item.id : item.children[0]],

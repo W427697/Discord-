@@ -1,5 +1,5 @@
+import { describe, it, expect } from 'vitest';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import { expect } from '@jest/globals';
 
 import { userOrAutoTitleFromSpecifier as userOrAuto } from './autoTitle';
 
@@ -175,6 +175,16 @@ describe('userOrAutoTitleFromSpecifier', () => {
             undefined
           )
         ).toMatchInlineSnapshot(`to/button`);
+      });
+
+      it('match with case-insensitive trailing duplicate', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/Button.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/Button`);
       });
 
       it('match with trailing index', () => {

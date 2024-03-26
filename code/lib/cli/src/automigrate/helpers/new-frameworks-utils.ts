@@ -1,7 +1,7 @@
 import { frameworkPackages } from '@storybook/core-common';
 import type { Preset, StorybookConfigRaw } from '@storybook/types';
 import findUp from 'find-up';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
 
 const logger = console;
@@ -23,10 +23,6 @@ export const packagesMap: Record<string, { webpack5?: string; vite?: string }> =
   },
   '@storybook/angular': {
     webpack5: '@storybook/angular',
-  },
-  '@storybook/vue': {
-    webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -111,12 +107,10 @@ export const detectBuilderInfo = async ({
 
   // if builder is still not detected, rely on package dependencies
   if (!builderOrFrameworkName) {
-    const storybookBuilderViteVersion = await packageManager.getPackageVersion(
-      '@storybook/builder-vite'
-    );
-    const storybookBuilderVite2Version = await packageManager.getPackageVersion(
-      'storybook-builder-vite'
-    );
+    const storybookBuilderViteVersion =
+      await packageManager.getPackageVersion('@storybook/builder-vite');
+    const storybookBuilderVite2Version =
+      await packageManager.getPackageVersion('storybook-builder-vite');
     const storybookBuilderWebpack5Version = await packageManager.getPackageVersion(
       '@storybook/builder-webpack5'
     );
