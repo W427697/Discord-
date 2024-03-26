@@ -89,7 +89,7 @@ export async function runCodemod(
         '-t',
         `${TRANSFORM_DIR}/${codemod}.js`,
         ...parserArgs,
-        ...files.map(file => `"${file}"`),
+        ...files.map((file) => `"${file}"`),
       ],
       {
         stdio: 'inherit',
