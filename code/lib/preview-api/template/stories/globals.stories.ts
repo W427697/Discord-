@@ -40,3 +40,21 @@ export const Events = {
     await within(canvasElement).findByText('fooValue');
   },
 };
+
+export const Overrides = {
+  // Compose all the globals into `object`, so the pre component only needs a single prop
+  decorators: [
+    (storyFn: PartialStoryFn, context: StoryContext) =>
+      storyFn({ args: { object: context.globals } }),
+  ],
+  globalOverrides: {
+    foo: 'fooOverridden',
+    bar: 'barOverridden',
+  },
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toMatchObject({
+      foo: 'fooOverridden',
+      bar: 'barOverridden',
+    });
+  },
+};
