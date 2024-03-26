@@ -39,5 +39,5 @@ export const DevOnly = {
 };
 
 export const TagRemoval = {
-  tags: ['-component-two'],
+  tags: ['!component-two'],
 };

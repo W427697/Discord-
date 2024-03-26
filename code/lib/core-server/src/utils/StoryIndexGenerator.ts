@@ -55,7 +55,7 @@ export type StoryIndexGeneratorOptions = {
 };
 
 export const AUTODOCS_TAG = 'autodocs';
-export const NO_AUTODOCS_TAG = `-${AUTODOCS_TAG}`;
+export const NO_AUTODOCS_TAG = `!${AUTODOCS_TAG}`;
 export const STORIES_MDX_TAG = 'stories-mdx';
 export const PLAY_FN_TAG = 'play-fn';
 
