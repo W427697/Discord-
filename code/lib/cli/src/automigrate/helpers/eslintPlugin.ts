@@ -1,12 +1,12 @@
 import fse, { readFile, readJson, writeJson } from 'fs-extra';
-
 import { dedent } from 'ts-dedent';
 import detectIndent from 'detect-indent';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
 import prompts from 'prompts';
 import chalk from 'chalk';
-import type { JsPackageManager } from '../../js-package-manager';
-import { paddedLog } from '../../helpers';
+
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+import type { JsPackageManager } from '@storybook/core-common';
+import { paddedLog } from '@storybook/core-common';
 
 export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs', 'json'];
 const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml'];
@@ -47,7 +47,10 @@ export async function extractEslintInfo(packageManager: JsPackageManager): Promi
   return { hasEslint, isStorybookPluginInstalled, eslintConfigFile };
 }
 
-export async function configureEslintPlugin(eslintFile: string, packageManager: JsPackageManager) {
+export async function configureEslintPlugin(
+  eslintFile: string | undefined,
+  packageManager: JsPackageManager
+) {
   if (eslintFile) {
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
@@ -55,7 +58,10 @@ export async function configureEslintPlugin(eslintFile: string, packageManager: 
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
         : [eslintConfig.extends].filter(Boolean);
-      eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
+      eslintConfig.extends = [
+        ...(existingConfigValue || []),
+        'plugin:storybook/recommended',
+      ] as string[];
 
       const eslintFileContents = await readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;

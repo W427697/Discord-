@@ -1,10 +1,13 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { global } from '@storybook/global';
+
 import { init as initVersions } from '../modules/versions';
 
-jest.mock('../version', () => ({
+vi.mock('../version', () => ({
   version: '3.0.0',
 }));
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     VERSIONCHECK: JSON.stringify({
       success: true,
@@ -21,7 +24,7 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 function createMockStore() {
   let state = {
@@ -35,14 +38,14 @@ function createMockStore() {
     },
   };
   return {
-    getState: jest.fn().mockImplementation(() => state),
-    setState: jest.fn().mockImplementation((s) => {
+    getState: vi.fn().mockImplementation(() => state),
+    setState: vi.fn().mockImplementation((s) => {
       state = { ...state, ...s };
     }),
   };
 }
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 describe('versions API', () => {
   it('sets initial state with current version', async () => {
@@ -118,6 +121,135 @@ describe('versions API', () => {
 
     expect(api.getLatestVersion()).toMatchObject({
       version: '5.2.3',
+    });
+  });
+
+  describe('METHOD: getDocsUrl()', () => {
+    beforeEach(() => {
+      global.STORYBOOK_RENDERER = undefined;
+    });
+
+    it('returns the latest url when current version is latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.1' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the latest url when version has patch diff with latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.6.1' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/');
+    });
+
+    it('returns the versioned url when current has different docs to latest', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '7.2.5' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/7.2/');
+    });
+
+    it('returns the versioned url when current is a prerelease', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+
+      await init();
+
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '8.0.0-beta' },
+          latest: { version: '7.6.10' },
+        },
+      });
+
+      expect(api.getDocsUrl({ versioned: true })).toEqual('https://storybook.js.org/docs/8.0/');
+    });
+
+    it('returns a Url with a renderer query param when "renderer" is true', async () => {
+      const store = createMockStore();
+      const {
+        init,
+        api,
+        state: initialState,
+      } = initVersions({
+        store,
+      });
+      store.setState({
+        ...initialState,
+        versions: {
+          ...initialState.versions,
+          current: { version: '5.2.1' },
+          latest: { version: '5.2.1' },
+        },
+      });
+
+      await init();
+
+      global.STORYBOOK_RENDERER = 'vue';
+
+      expect(api.getDocsUrl({ renderer: true })).toEqual(
+        'https://storybook.js.org/docs/?renderer=vue'
+      );
     });
   });
 

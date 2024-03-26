@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import type { InstallationMetadata } from '@storybook/core-common';
 import { hasMultipleVersions } from './hasMultipleVersions';
-import type { InstallationMetadata } from '../js-package-manager/types';
 
 export const messageDivider = '\n\n';
 
@@ -44,6 +44,7 @@ export function getDuplicatedDepsWarnings(
 ): string[] | undefined {
   try {
     if (
+      !installationMetadata ||
       !installationMetadata?.duplicatedDependencies ||
       Object.keys(installationMetadata.duplicatedDependencies).length === 0
     ) {
@@ -100,15 +101,15 @@ export function getDuplicatedDepsWarnings(
 
     messages.push(
       '\n',
-      `You can find more information for a given dependency by running ${chalk.cyan(
-        `${installationMetadata.infoCommand} <package-name>`
+      `Please try de-duplicating these dependencies by running ${chalk.cyan(
+        `${installationMetadata.dedupeCommand}`
       )}`
     );
 
     messages.push(
       '\n',
-      `Please try de-duplicating these dependencies by running ${chalk.cyan(
-        `${installationMetadata.dedupeCommand}`
+      `You can find more information for a given dependency by running ${chalk.cyan(
+        `${installationMetadata.infoCommand} <package-name>`
       )}`
     );
 

@@ -9,12 +9,14 @@ export type EventType =
   | 'build'
   | 'upgrade'
   | 'init'
+  | 'scaffolded-empty'
   | 'browser'
   | 'canceled'
   | 'error'
   | 'error-metadata'
   | 'version-update'
-  | 'core-config';
+  | 'core-config'
+  | 'remove';
 
 export interface Dependency {
   version: string | undefined;

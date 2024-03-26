@@ -46,13 +46,17 @@ Use this boilerplate code to add a new `button` to Storybook's Toolbar:
 
 <Callout variant="info">
 
+The `match` property allows you to conditionally render your toolbar addon, [based on the current view](./writing-addons.md#conditionally-render-the-addon).
+
+<hr style="margin: -0.75em 0 0.75em" />
+
 The `icon` element used in the example loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
 </Callout>
 
 ### Tabs
 
-Tab addons allow you to create your own custom tabs in Storybook. For example, the official [@storybook/addon-docs](../writing-docs/introduction.md) uses this pattern.
+Tab addons allow you to create your own custom tabs in Storybook. For example, the official [@storybook/addon-docs](../writing-docs/index.md) uses this pattern.
 
 ![Storybook tab addon](./storybook-tab.png)
 
@@ -90,7 +94,7 @@ Use this boilerplate code while writing your own preset addon.
 
 <!-- prettier-ignore-end -->
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - Types of addons for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

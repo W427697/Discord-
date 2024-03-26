@@ -1,8 +1,8 @@
-import { expect } from '@jest/globals';
+import { describe, it, expect, vi } from 'vitest';
 
 import { ArgsStore } from './ArgsStore';
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 const stringType = { type: { name: 'string' } };
 const booleanType = { type: { name: 'boolean' } };
@@ -186,7 +186,6 @@ describe('ArgsStore', () => {
         b: ['1', '2', '3'],
       });
 
-      // eslint-disable-next-line no-sparse-arrays
       store.updateFromPersisted(story, { b: [, , '4'] });
       expect(store.get('id')).toEqual({
         a: { foo: 'bar', baz: 'bing' },

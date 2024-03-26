@@ -27,7 +27,6 @@ module.exports = {
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
     'import/extensions': 'off', // for mjs, we sometimes need extensions
-    'jest/no-done-callback': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     '@typescript-eslint/dot-notation': [
       'error',
@@ -35,6 +34,19 @@ module.exports = {
         allowIndexSignaturePropertyAccess: true,
       },
     ],
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'vite',
+            message: 'Please dynamically import from vite instead, to force the use of ESM',
+            allowTypeImports: true,
+          },
+        ],
+      },
+    ],
+    '@typescript-eslint/default-param-last': 'off',
   },
   overrides: [
     {
@@ -53,15 +65,7 @@ module.exports = {
       },
     },
     {
-      files: [
-        '*.js',
-        '*.jsx',
-        '*.json',
-        '*.html',
-        '**/.storybook/*.ts',
-        '**/.storybook/*.tsx',
-        'setup-jest.ts',
-      ],
+      files: ['*.js', '*.jsx', '*.json', '*.html', '**/.storybook/*.ts', '**/.storybook/*.tsx'],
       parserOptions: {
         project: null,
       },
@@ -198,12 +202,6 @@ module.exports = {
       },
     },
     {
-      files: ['**/e2e-tests/**/*'],
-      rules: {
-        'jest/no-test-callback': 'off', // These aren't jest tests
-      },
-    },
-    {
       files: ['**/builder-vite/input/iframe.html'],
       rules: {
         'no-undef': 'off', // ignore "window" undef errors
@@ -218,6 +216,7 @@ module.exports = {
     },
     {
       files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      excludedFiles: ['**/*.test.*', '**/*.mockdata.*'],
       rules: {
         'local-rules/no-uncategorized-errors': 'warn',
       },

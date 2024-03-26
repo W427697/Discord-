@@ -1,12 +1,6 @@
-import type {
-  BuilderOptions,
-  CLIOptions,
-  CoreConfig,
-  LoadOptions,
-  Options,
-  StorybookConfig,
-} from '@storybook/types';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
+  getProjectRoot,
   loadAllPresets,
   loadMainConfig,
   resolveAddonName,
@@ -17,20 +11,21 @@ import {
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
-import { telemetry } from '@storybook/telemetry';
+import { oneWayHash, telemetry } from '@storybook/telemetry';
 
-import { join, resolve } from 'path';
+import { join, relative, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
-import { getServerPort, getServerChannelUrl } from './utils/server-address';
+import { getServerChannelUrl, getServerPort } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { warnWhenUsingArgTypesRegex } from './utils/warnWhenUsingArgTypesRegex';
 import { buildOrThrow } from './utils/build-or-throw';
 
 export async function buildDevStandalone(
@@ -43,7 +38,7 @@ export async function buildDevStandalone(
   );
   // updateInfo are cached, so this is typically pretty fast
   const [port, versionCheck] = await Promise.all([
-    getServerPort(options.port),
+    getServerPort(options.port, { exactPort: options.exactPort }),
     versionUpdates
       ? updateCheck(packageJson.version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
@@ -56,34 +51,52 @@ export async function buildDevStandalone(
       name: 'shouldChangePort',
       message: `Port ${options.port} is not available. Would you like to run Storybook on port ${port} instead?`,
     });
-    if (!shouldChangePort) process.exit(1);
+    if (!shouldChangePort) {
+      process.exit(1);
+    }
   }
 
-  /* eslint-disable no-param-reassign */
+  const rootDir = getProjectRoot();
+  const configDir = resolve(options.configDir);
+  const cacheKey = oneWayHash(relative(rootDir, configDir));
+
+  const cacheOutputDir = resolvePathInStorybookCache('public', cacheKey);
+  let outputDir = resolve(options.outputDir || cacheOutputDir);
+  if (options.smokeTest) {
+    outputDir = cacheOutputDir;
+  }
+
   options.port = port;
   options.versionCheck = versionCheck;
   options.configType = 'DEVELOPMENT';
-  options.configDir = resolve(options.configDir);
-  options.outputDir = options.smokeTest
-    ? resolvePathInStorybookCache('public')
-    : resolve(options.outputDir || resolvePathInStorybookCache('public'));
+  options.configDir = configDir;
+  options.cacheKey = cacheKey;
+  options.outputDir = outputDir;
   options.serverChannelUrl = getServerChannelUrl(port, options);
-  /* eslint-enable no-param-reassign */
 
   const config = await loadMainConfig(options);
   const { framework } = config;
   const corePresets = [];
 
-  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
-  validateFrameworkName(frameworkName);
+  let frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  if (!options.ignorePreview) {
+    validateFrameworkName(frameworkName);
+  }
+  if (frameworkName) {
+    corePresets.push(join(frameworkName, 'preset'));
+  }
 
-  corePresets.push(join(frameworkName, 'preset'));
+  frameworkName = frameworkName || 'custom';
 
   try {
-    await warnOnIncompatibleAddons(config);
+    await warnOnIncompatibleAddons(packageJson.version);
   } catch (e) {
     console.warn('Storybook failed to check addon compatibility', e);
   }
+
+  try {
+    await warnWhenUsingArgTypesRegex(packageJson, configDir, config);
+  } catch (e) {}
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account
@@ -97,7 +110,7 @@ export async function buildDevStandalone(
     isCritical: true,
   });
 
-  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
+  const { renderer, builder, disableTelemetry } = await presets.apply('core', {});
 
   if (!builder) {
     throw new MissingBuilderError();
@@ -143,7 +156,6 @@ export async function buildDevStandalone(
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: [
       ...(previewBuilder.overridePresets || []),
@@ -152,7 +164,7 @@ export async function buildDevStandalone(
     ...options,
   });
 
-  const features = await presets.apply<StorybookConfig['features']>('features');
+  const features = await presets.apply('features');
   global.FEATURES = features;
 
   const fullOptions: Options = {
@@ -170,15 +182,26 @@ export async function buildDevStandalone(
   const previewStats = previewResult?.stats;
   const managerStats = managerResult?.stats;
 
-  if (options.webpackStatsJson) {
-    const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+  const statsOption = options.webpackStatsJson || options.statsJson;
+  if (statsOption) {
+    const target = statsOption === true ? options.outputDir : statsOption;
+
     await outputStats(target, previewStats);
   }
 
   if (options.smokeTest) {
     const warnings: Error[] = [];
     warnings.push(...(managerStats?.toJson()?.warnings || []));
-    warnings.push(...(previewStats?.toJson()?.warnings || []));
+    try {
+      warnings.push(...(previewStats?.toJson()?.warnings || []));
+    } catch (err) {
+      if (err instanceof NoStatsForViteDevError) {
+        // pass, the Vite builder has no warnings in the stats object anyway,
+        // but no stats at all in dev mode
+      } else {
+        throw err;
+      }
+    }
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
@@ -187,7 +210,6 @@ export async function buildDevStandalone(
         (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
       );
 
-    // eslint-disable-next-line no-console
     console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
   } else {

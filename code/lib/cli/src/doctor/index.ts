@@ -5,14 +5,16 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 import { join } from 'path';
 
-import { JsPackageManagerFactory } from '../js-package-manager';
-import type { PackageManagerName } from '../js-package-manager';
+import { JsPackageManagerFactory } from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core-common';
 import { getStorybookData } from '../automigrate/helpers/mainConfigFile';
 import { cleanLog } from '../automigrate/helpers/cleanLog';
-import { incompatibleAddons } from '../automigrate/fixes/incompatible-addons';
-import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
-import { getIncompatibleAddons } from './getIncompatibleAddons';
 import { getMismatchingVersionsWarnings } from './getMismatchingVersionsWarning';
+import {
+  getIncompatiblePackagesSummary,
+  getIncompatibleStorybookPackages,
+} from './getIncompatibleStorybookPackages';
+import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
 
 const logger = console;
 const LOG_FILE_NAME = 'doctor-storybook.log';
@@ -50,9 +52,21 @@ export const doctor = async ({
   packageManager: pkgMgr,
 }: DoctorOptions = {}) => {
   augmentLogsToFile();
-  const diagnosticMessages: string[] = [];
 
-  logger.info('🩺 checking the health of your Storybook..');
+  let foundIssues = false;
+  const logDiagnostic = (title: string, message: string) => {
+    foundIssues = true;
+    logger.info(
+      boxen(message, {
+        borderStyle: 'round',
+        padding: 1,
+        title,
+        borderColor: '#F1618C',
+      })
+    );
+  };
+
+  logger.info('🩺 The doctor is checking the health of your Storybook..');
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   let storybookVersion;
@@ -65,7 +79,7 @@ export const doctor = async ({
     });
     storybookVersion = storybookData.storybookVersion;
     mainConfig = storybookData.mainConfig;
-  } catch (err) {
+  } catch (err: any) {
     if (err.message.includes('No configuration files have been found')) {
       logger.info(
         dedent`[Storybook doctor] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
@@ -85,9 +99,21 @@ export const doctor = async ({
     process.exit(1);
   }
 
-  const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
-  if (incompatibleAddonList.length > 0) {
-    diagnosticMessages.push(incompatibleAddons.prompt({ incompatibleAddonList }));
+  if (!mainConfig) {
+    throw new Error('mainConfig is undefined');
+  }
+
+  const allDependencies = (await packageManager.getAllDependencies()) as Record<string, string>;
+
+  const incompatibleStorybookPackagesList = await getIncompatibleStorybookPackages({
+    currentStorybookVersion: storybookVersion,
+  });
+  const incompatiblePackagesMessage = getIncompatiblePackagesSummary(
+    incompatibleStorybookPackagesList,
+    storybookVersion
+  );
+  if (incompatiblePackagesMessage) {
+    logDiagnostic('Incompatible packages found', incompatiblePackagesMessage);
   }
 
   const installationMetadata = await packageManager.findInstallations([
@@ -95,34 +121,40 @@ export const doctor = async ({
     'storybook',
   ]);
 
-  const allDependencies = await packageManager.getAllDependencies();
-  const mismatchingVersionMessage = getMismatchingVersionsWarnings(
-    installationMetadata,
-    allDependencies
-  );
-  if (mismatchingVersionMessage) {
-    diagnosticMessages.push(mismatchingVersionMessage);
-  } else {
-    diagnosticMessages.push(getDuplicatedDepsWarnings(installationMetadata)?.join('\n'));
+  // If we found incompatible packages, we let the users fix that first
+  // If they run doctor again and there are still issues, we show the other warnings
+  if (!incompatiblePackagesMessage) {
+    const mismatchingVersionMessage = getMismatchingVersionsWarnings(
+      installationMetadata,
+      allDependencies
+    );
+    if (mismatchingVersionMessage) {
+      logDiagnostic('Diagnostics', [mismatchingVersionMessage].join('\n\n-------\n\n'));
+    } else {
+      const list = installationMetadata
+        ? getDuplicatedDepsWarnings(installationMetadata)
+        : getDuplicatedDepsWarnings();
+      if (Array.isArray(list) && list.length > 0) {
+        logDiagnostic('Duplicated dependencies found', list?.join('\n'));
+      }
+    }
   }
+
+  const commandMessage = `You can always recheck the health of your project by running:\n${chalk.cyan(
+    'npx storybook doctor'
+  )}`;
   logger.info();
 
-  const finalMessages = diagnosticMessages.filter(Boolean);
+  if (foundIssues) {
+    logger.info(commandMessage);
+    logger.info();
 
-  if (finalMessages.length > 0) {
-    finalMessages.push(`You can find the full logs in ${chalk.cyan(LOG_FILE_PATH)}`);
+    logger.info(`Full logs are available in ${chalk.cyan(LOG_FILE_PATH)}`);
 
-    logger.info(
-      boxen(finalMessages.join('\n\n-------\n\n'), {
-        borderStyle: 'round',
-        padding: 1,
-        title: 'Diagnostics',
-        borderColor: 'red',
-      })
-    );
     await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
   } else {
-    logger.info('🥳 Your Storybook project looks good!');
+    logger.info(`🥳 Your Storybook project looks good!`);
+    logger.info(commandMessage);
     await remove(TEMP_LOG_FILE_PATH);
   }
   logger.info();

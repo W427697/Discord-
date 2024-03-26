@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, ReactElement } from 'react';
+import type { MouseEvent, ReactElement } from 'react';
 import React from 'react';
 
 import { styled } from '@storybook/theming';
@@ -66,10 +66,9 @@ export interface ActionBarProps {
   actionItems: ActionItem[];
 }
 
-export const ActionBar: FC<ActionBarProps> = ({ actionItems, ...props }) => (
+export const ActionBar = ({ actionItems, ...props }: ActionBarProps) => (
   <Container {...props}>
     {actionItems.map(({ title, className, onClick, disabled }, index: number) => (
-      // eslint-disable-next-line react/no-array-index-key
       <ActionButton key={index} className={className} onClick={onClick} disabled={disabled}>
         {title}
       </ActionButton>

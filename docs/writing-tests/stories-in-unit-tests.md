@@ -2,39 +2,11 @@
 title: 'Unit tests'
 ---
 
-Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests in the same way and reuse that across tools.
+Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests similarly and reuse that across tools.
 
-Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules cross-compatible with the whole JavaScript ecosystem.
+Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules that are cross-compatible with the whole JavaScript ecosystem.
 
 Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/), to save time and maintenance work.
-
-<IfRenderer renderer='vue'>
-
-## Set up the testing addon
-
-Storybook's [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3/) addon is a powerful tool that simplifies the testing process by allowing you to reuse your stories inside alongside their associated mocks, dependencies, and context, saving time and ensuring consistency and accuracy in the testing process.
-
-Run the following command to install the addon.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'vue/storybook-testing-library-install.yarn.js.mdx',
-    'vue/storybook-testing-library-install.npm.js.mdx',
-    'vue/storybook-testing-library-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info">
-
-If you're using Storybook 7 or higher, the `@storybook/testing-vue3` addon is the only one we support. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
-
-</Callout>
-
-</IfRenderer>
 
 ## Write a test with Testing Library
 
@@ -94,7 +66,7 @@ Update your test script to include the configuration file:
 
 <IfRenderer renderer='vue'>
 
-Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/), or your test script if you're using [Jest](https://jestjs.io/):
+Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/) or your test script if you're using [Jest](https://jestjs.io/):
 
 <!-- prettier-ignore-start -->
 
@@ -134,7 +106,7 @@ By default, the `setProjectAnnotations` function injects into your existing test
 
 ## Run tests on a single story
 
-You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
+You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/index.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -210,7 +182,7 @@ When using the `composeStories` or `composeStory` functions, the components bein
 
 </IfRenderer>
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

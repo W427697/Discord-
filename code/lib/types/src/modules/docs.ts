@@ -32,7 +32,7 @@ export type ResolvedModuleExportType = 'component' | 'meta' | 'story';
  */
 export type ResolvedModuleExportFromType<
   TType extends ResolvedModuleExportType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > = TType extends 'component'
   ? {
       type: 'component';
@@ -40,8 +40,8 @@ export type ResolvedModuleExportFromType<
       projectAnnotations: NormalizedProjectAnnotations<Renderer>;
     }
   : TType extends 'meta'
-  ? { type: 'meta'; csfFile: CSFFile<TRenderer>; preparedMeta: PreparedMeta }
-  : { type: 'story'; story: PreparedStory<TRenderer> };
+    ? { type: 'meta'; csfFile: CSFFile<TRenderer>; preparedMeta: PreparedMeta }
+    : { type: 'story'; story: PreparedStory<TRenderer> };
 
 export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> = {
   type: ResolvedModuleExportType;
@@ -82,6 +82,11 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Syncronously find all stories of the component referenced by the CSF file.
    */
   componentStories: () => PreparedStory<TRenderer>[];
+
+  /**
+   * Syncronously find all stories by CSF file.
+   */
+  componentStoriesFromCSFFile: (csfFile: CSFFile<TRenderer>) => PreparedStory<TRenderer>[];
 
   /**
    * Get the story context of the referenced story.

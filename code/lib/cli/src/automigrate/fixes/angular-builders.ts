@@ -1,12 +1,11 @@
 import { dedent } from 'ts-dedent';
-import semver from 'semver';
 import type { StorybookConfig } from '@storybook/types';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import type { Fix } from '../types';
 import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface AngularBuildersRunOptions {
@@ -16,6 +15,8 @@ interface AngularBuildersRunOptions {
 
 export const angularBuilders: Fix<AngularBuildersRunOptions> = {
   id: 'angular-builders',
+
+  versionRange: ['<7', '>=7'],
 
   async check({ packageManager, mainConfig }) {
     const angularVersion = await packageManager.getPackageVersion('@angular/core');
@@ -29,13 +30,6 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
       framewworkPackageName !== '@storybook/angular'
     ) {
       return null;
-    }
-
-    if (semver.lt(angularVersion, '14.0.0')) {
-      throw new Error(dedent`
-      ❌ Your project uses Angular < 14.0.0. Storybook 7.0 for Angular requires Angular 14.0.0 or higher. 
-      Please upgrade your Angular version to at least version 14.0.0 to use Storybook 7.0 in your project.
-      `);
     }
 
     const angularJSON = new AngularJSON();
