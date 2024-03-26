@@ -11,8 +11,8 @@ import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import path from 'path';
-import type { JsPackageManager } from '../../js-package-manager';
-import { getStorybookVersion } from '../../utils';
+import type { JsPackageManager } from '@storybook/core-common';
+import { getCoercedStorybookVersion } from '@storybook/core-common';
 
 const logger = console;
 
@@ -42,10 +42,19 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
  * @returns - The package name of the builder. If not found, returns null.
  */
 export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
-  const packageNameOrPath =
+  const frameworkOptions = getFrameworkOptions(mainConfig);
+
+  const frameworkBuilder = frameworkOptions?.builder;
+
+  const frameworkBuilderName =
+    typeof frameworkBuilder === 'string' ? frameworkBuilder : frameworkBuilder?.options?.name;
+
+  const coreBuilderName =
     typeof mainConfig?.core?.builder === 'string'
       ? mainConfig.core.builder
       : mainConfig?.core?.builder?.name;
+
+  const packageNameOrPath = coreBuilderName ?? frameworkBuilderName;
 
   if (!packageNameOrPath) {
     return null;
@@ -54,6 +63,17 @@ export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
   const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
+};
+
+/**
+ * Given a Storybook configuration object, retrieves the configuration for the framework.
+ * @param mainConfig - The main Storybook configuration object to lookup.
+ * @returns - The configuration for the framework. If not found, returns null.
+ */
+export const getFrameworkOptions = (
+  mainConfig?: StorybookConfigRaw
+): Record<string, any> | null => {
+  return typeof mainConfig?.framework === 'string' ? null : mainConfig?.framework?.options ?? null;
 };
 
 /**
@@ -84,7 +104,7 @@ export const getStorybookData = async ({
   configDir: userDefinedConfigDir,
 }: {
   packageManager: JsPackageManager;
-  configDir: string;
+  configDir?: string;
 }) => {
   const packageJson = await packageManager.retrievePackageJson();
   const {
@@ -93,7 +113,7 @@ export const getStorybookData = async ({
     configDir: configDirFromScript,
     previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
-  const storybookVersion = await getStorybookVersion(packageManager);
+  const storybookVersion = await getCoercedStorybookVersion(packageManager);
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 
@@ -102,7 +122,7 @@ export const getStorybookData = async ({
     mainConfig = (await loadMainConfig({ configDir, noCache: true })) as StorybookConfigRaw;
   } catch (err) {
     throw new Error(
-      dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`
+      dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${String(err)}`
     );
   }
 
@@ -178,5 +198,5 @@ export const getAddonNames = (mainConfig: StorybookConfig): string[] => {
       .replace(/\/preset$/, '');
   });
 
-  return addonList.filter(Boolean);
+  return addonList.filter((item): item is NonNullable<typeof item> => item != null);
 };

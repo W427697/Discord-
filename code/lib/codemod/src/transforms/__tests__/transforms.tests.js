@@ -1,9 +1,9 @@
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import fs from 'fs';
-import 'jest-specific-snapshot';
 import { applyTransform } from 'jscodeshift/dist/testUtils';
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const inputRegExp = /\.input\.js$/;
 
@@ -20,13 +20,11 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
         const inputPath = path.join(transformFixturesDir, fileName);
         it(`transforms correctly using "${fileName}" data`, () =>
           expect(
-            applyTransform(
-              // eslint-disable-next-line global-require,import/no-dynamic-require
-              require(path.join(__dirname, '..', transformName)),
-              null,
-              { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
-            )
-          ).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
+            applyTransform(require(path.join(__dirname, '..', transformName)), null, {
+              path: inputPath,
+              source: fs.readFileSync(inputPath, 'utf8'),
+            })
+          ).toMatchFileSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
       });
   });
 });

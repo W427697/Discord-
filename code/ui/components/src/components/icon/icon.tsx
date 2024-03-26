@@ -1,11 +1,14 @@
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React, { memo } from 'react';
+
 import * as StorybookIcons from '@storybook/icons';
 import { styled } from '@storybook/theming';
 import { deprecate, logger } from '@storybook/client-logger';
 
 export type IconType = keyof typeof icons;
-type NewIconTypes = typeof icons[IconType];
+type NewIconTypes = (typeof icons)[IconType];
+
+const NEW_ICON_MAP = StorybookIcons as Record<NewIconTypes, (props: unknown) => React.ReactNode>;
 
 const Svg = styled.svg`
   display: inline-block;
@@ -21,18 +24,27 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
   icon: IconType;
   useSymbol?: boolean;
   onClick?: () => void;
+  __suppressDeprecationWarning?: boolean;
 }
 
 /**
  * @deprecated No longer used, will be removed in Storybook 9.0
  * Please use the `@storybook/icons` package instead.
  * */
-export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps) => {
-  deprecate(
-    `Use of the deprecated Icons ${
-      `(${icon})` || ''
-    } component detected. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
-  );
+export const Icons = ({
+  icon,
+  useSymbol,
+  __suppressDeprecationWarning = false,
+  ...props
+}: IconsProps) => {
+  if (!__suppressDeprecationWarning) {
+    deprecate(
+      `Use of the deprecated Icons ${
+        `(${icon})` || ''
+      } component detected. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
+    );
+  }
+
   const findIcon: NewIconTypes = icons[icon] || null;
   if (!findIcon) {
     logger.warn(
@@ -42,8 +54,8 @@ export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps)
     );
     return null;
   }
-  // TODO: Find a better way to type this component
-  const Icon: FC = (StorybookIcons as any)[findIcon];
+
+  const Icon = NEW_ICON_MAP[findIcon];
 
   return <Icon {...props} />;
 };

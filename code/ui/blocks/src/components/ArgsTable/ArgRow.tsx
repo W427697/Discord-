@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
+import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
 import type { ArgType, Args, TableAnnotation } from './types';
@@ -39,10 +40,10 @@ const Description = styled.div(({ theme }) => ({
   },
 
   code: {
-    ...codeCommon({ theme }),
+    ...(codeCommon({ theme }) as CSSObject),
     fontSize: 12,
     fontFamily: theme.typography.fonts.mono,
-  },
+  } as CSSObject,
 
   '& code': {
     margin: 0,
@@ -75,12 +76,18 @@ const StyledTd = styled.td<{ expandable: boolean }>(({ theme, expandable }) => (
   paddingLeft: expandable ? '40px !important' : '20px !important',
 }));
 
+const toSummary = (value: any) => {
+  if (!value) return value;
+  const val = typeof value === 'string' ? value : value.name;
+  return { summary: val };
+};
+
 export const ArgRow: FC<ArgRowProps> = (props) => {
   const [isHovered, setIsHovered] = useState(false);
   const { row, updateArgs, compact, expandable, initialExpandedArgs } = props;
   const { name, description } = row;
   const table = (row.table || {}) as TableAnnotation;
-  const type = table.type || row.type;
+  const type = table.type || toSummary(row.type);
   const defaultValue = table.defaultValue || row.defaultValue;
   const required = row.type?.required;
   const hasDescription = description != null && description !== '';

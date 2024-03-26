@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { dedent } from 'ts-dedent';
 import { getStorySortParameter } from './getStorySortParameter';
 
@@ -39,19 +40,19 @@ describe('getStorySortParameter', () => {
           };
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "Pages",
-          Array [
-            "Home",
-            "Login",
-            "Admin",
-          ],
-          "Components",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "Pages",
+            [
+              "Home",
+              "Login",
+              "Admin",
+            ],
+            "Components",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('arrow function', () => {
@@ -99,12 +100,12 @@ describe('getStorySortParameter', () => {
           };
         `)
         ).toMatchInlineSnapshot(`
-        Object {
-          "locales": "",
-          "method": "",
-          "order": Array [],
-        }
-      `);
+          {
+            "locales": "",
+            "method": "",
+            "order": [],
+          }
+        `);
       });
 
       it('parameters typescript', () => {
@@ -121,12 +122,12 @@ describe('getStorySortParameter', () => {
           } as Parameters;
         `)
         ).toMatchInlineSnapshot(`
-        Object {
-          "locales": "",
-          "method": "",
-          "order": Array [],
-        }
-      `);
+          {
+            "locales": "",
+            "method": "",
+            "order": [],
+          }
+        `);
       });
 
       it('parameters typescript satisfies', () => {
@@ -143,12 +144,12 @@ describe('getStorySortParameter', () => {
           } satisfies Parameters;
         `)
         ).toMatchInlineSnapshot(`
-        Object {
-          "locales": "",
-          "method": "",
-          "order": Array [],
-        }
-      `);
+          {
+            "locales": "",
+            "method": "",
+            "order": [],
+          }
+        `);
       });
     });
 
@@ -193,16 +194,16 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Unexpected 'options'. Parameter 'options.storySort' should be defined inline e.g.:
+          [Error: Unexpected 'options'. Parameter 'options.storySort' should be defined inline e.g.:
 
-          export default {
-            parameters: {
-              options: {
-                storySort: <array | object | function>
-              },
-            },
-          };"
-        `);
+export default {
+  parameters: {
+    options: {
+      storySort: <array | object | function>
+    },
+  },
+};]
+`);
       });
 
       it('storySort var', () => {
@@ -220,15 +221,15 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Unexpected 'storySort'. Parameter 'options.storySort' should be defined inline e.g.:
+          [Error: Unexpected 'storySort'. Parameter 'options.storySort' should be defined inline e.g.:
 
-          export default {
-            parameters: {
-              options: {
-                storySort: <array | object | function>
-              },
-            },
-          };"
+export default {
+  parameters: {
+    options: {
+      storySort: <array | object | function>
+    },
+  },
+};]
         `);
       });
 
@@ -247,16 +248,16 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-          "Unexpected 'order'. Parameter 'options.storySort' should be defined inline e.g.:
+          [Error: Unexpected 'order'. Parameter 'options.storySort' should be defined inline e.g.:
 
-          export default {
-            parameters: {
-              options: {
-                storySort: <array | object | function>
-              },
-            },
-          };"
-        `);
+export default {
+  parameters: {
+    options: {
+      storySort: <array | object | function>
+    },
+  },
+};]
+`);
       });
     });
   });
@@ -279,19 +280,18 @@ describe('getStorySortParameter', () => {
           };
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('no storysort', () => {
         expect(
           getStorySortParameter(dedent`
           const config = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
@@ -309,7 +309,6 @@ describe('getStorySortParameter', () => {
         expect(
           getStorySortParameter(dedent`
           const parameters = {
-            actions: { argTypesRegex: '^on[A-Z].*' },
             controls: {
               matchers: {
                 color: /(background|color)$/i,
@@ -345,12 +344,12 @@ describe('getStorySortParameter', () => {
           export default preview;
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('inline typescript', () => {
@@ -369,12 +368,12 @@ describe('getStorySortParameter', () => {
           } satisfies Preview;
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('variable', () => {
@@ -394,12 +393,12 @@ describe('getStorySortParameter', () => {
           export default preview;
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('typescript var', () => {
@@ -419,12 +418,12 @@ describe('getStorySortParameter', () => {
           export default preview;
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
       });
 
       it('typescript satisfies var', () => {
@@ -444,12 +443,37 @@ describe('getStorySortParameter', () => {
           export default preview;
         `)
         ).toMatchInlineSnapshot(`
-        Array [
-          "Intro",
-          "*",
-          "WIP",
-        ]
-      `);
+          [
+            "Intro",
+            "*",
+            "WIP",
+          ]
+        `);
+      });
+
+      it('storysort satisfies inline', () => {
+        expect(
+          getStorySortParameter(dedent`
+          enum ComponentGroups {
+            General = 'General'
+          }
+          export default {
+            parameters: {
+              options: {
+                storySort: {
+                  order: ['General'] satisfies ComponentGroups[]
+                }
+              }
+            }
+          };
+        `)
+        ).toMatchInlineSnapshot(`
+          {
+            "order": [
+              "General",
+            ],
+          }
+        `);
       });
     });
     describe('unsupported', () => {

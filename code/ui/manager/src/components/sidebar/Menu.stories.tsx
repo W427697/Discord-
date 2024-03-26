@@ -1,14 +1,13 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { screen, userEvent, within } from '@storybook/testing-library';
+import { screen, userEvent, within, expect } from '@storybook/test';
 import type { State } from '@storybook/manager-api';
 import { LinkIcon } from '@storybook/icons';
-import { SidebarMenu, ToolbarMenu } from './Menu';
+import { SidebarMenu } from './Menu';
 import { useMenu } from '../../container/Menu';
 import { LayoutProvider } from '../layout/LayoutProvider';
 
@@ -34,11 +33,10 @@ export const Items: Story = {
 };
 
 export const Real: Story = {
-  render: () => <SidebarMenu menu={fakemenu} isHighlighted />,
-};
-
-export const Toolbar = {
-  render: () => <ToolbarMenu menu={fakemenu} />,
+  args: {
+    isHighlighted: true,
+  },
+  render: (args) => <SidebarMenu menu={fakemenu} {...args} />,
 };
 
 const DoubleThemeRenderingHack = styled.div({
@@ -57,6 +55,7 @@ export const Expanded: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => true,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,
@@ -100,6 +99,7 @@ export const ExpandedWithoutWhatsNew: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => false,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,

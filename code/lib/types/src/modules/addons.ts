@@ -156,7 +156,6 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
@@ -172,7 +171,7 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
 export interface Addon_BaseAnnotations<
   TArgs,
   StoryFnReturnType,
-  TRenderer extends Renderer = Renderer
+  TRenderer extends Renderer = Renderer,
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
@@ -305,11 +304,6 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  /**
-   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
-   * This property will be removed in 8.0.
-   * */
-  key?: unknown;
 }
 
 export type Addon_Type =
@@ -357,14 +351,19 @@ export interface Addon_BaseType {
   /**
    * This will determine the value of `active` prop of your render function.
    */
-  match?: (matchOptions: RouterData) => boolean;
+  match?: (matchOptions: RouterData & { tabId?: string }) => boolean;
   /**
    * The actual contents of your addon.
    *
    * This is called as a function, so if you want to use hooks,
    * your function needs to return a JSX.Element within which components are rendered
    */
-  render: (renderOptions: Partial<Addon_RenderOptions>) => ReactElement<any, any> | null;
+  render: (props: Partial<Addon_RenderOptions>) => ReturnType<FC<Partial<Addon_RenderOptions>>>;
+  // TODO: for Storybook 9 I'd like to change this to be:
+  // render: FC<Partial<Addon_RenderOptions>>;
+  // This would bring it in line with how every other addon is set up.
+  // We'd need to change how the render function is called in the manager:
+  // https://github.com/storybookjs/storybook/blob/4e6fc0dde0842841d99cb3cf5148ca293a950301/code/ui/manager/src/components/preview/Preview.tsx#L105
   /**
    * @unstable
    */
@@ -429,7 +428,6 @@ export interface Addon_WrapperType {
       children: ReactNode;
       id: string;
       storyId: StoryId;
-      active: boolean;
     }>
   >;
 }
@@ -533,9 +531,4 @@ export enum Addon_TypesEnum {
    * @unstable This will get replaced with a new API in 8.0, use at your own risk.
    */
   experimental_SIDEBAR_TOP = 'sidebar-top',
-
-  /**
-   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
-   */
-  NOTES_ELEMENT = 'notes-element',
 }
