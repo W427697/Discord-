@@ -22,7 +22,7 @@ const getQueryString = ({
   selection?: Selection;
   extraParams?: qs.ParsedQs;
 }) => {
-  const search = (document && document.location && document.location.search) || '';
+  const search = typeof document !== 'undefined' ? document.location.search : '';
   const { path, selectedKind, selectedStory, ...rest } = qs.parse(search, {
     ignoreQueryPrefix: true,
   });
@@ -65,7 +65,7 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
 };
 
 export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = () => {
-  if (document && document.location && document.location.search) {
+  if (typeof document !== 'undefined') {
     const query = qs.parse(document.location.search, { ignoreQueryPrefix: true });
     const args = typeof query.args === 'string' ? parseArgsParam(query.args) : undefined;
     const globals = typeof query.globals === 'string' ? parseArgsParam(query.globals) : undefined;

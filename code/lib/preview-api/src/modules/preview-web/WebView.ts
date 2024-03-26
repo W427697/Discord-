@@ -38,7 +38,7 @@ const ansiConverter = new AnsiToHtml({
 });
 
 export class WebView implements View<HTMLElement> {
-  private currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
+  private currentLayoutClass?: (typeof layoutClassMap)[keyof typeof layoutClassMap] | null;
 
   private testing = false;
 
@@ -46,7 +46,7 @@ export class WebView implements View<HTMLElement> {
 
   constructor() {
     // Special code for testing situations
-    if (document && document.location && document.location.search) {
+    if (typeof document !== 'undefined') {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {
         ignoreQueryPrefix: true,
@@ -116,8 +116,10 @@ export class WebView implements View<HTMLElement> {
   checkIfLayoutExists(layout: keyof typeof layoutClassMap) {
     if (!layoutClassMap[layout]) {
       logger.warn(
-        dedent`The desired layout: ${layout} is not a valid option.
-         The possible options are: ${Object.keys(layoutClassMap).join(', ')}, none.`
+        dedent`
+          The desired layout: ${layout} is not a valid option.
+          The possible options are: ${Object.keys(layoutClassMap).join(', ')}, none.
+        `
       );
     }
   }
