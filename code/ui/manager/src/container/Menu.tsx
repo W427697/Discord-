@@ -5,7 +5,7 @@ import { Badge } from '@storybook/components';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
-import { CheckIcon } from '@storybook/icons';
+import { CheckIcon, InfoIcon, ShareAltIcon, WandIcon } from '@storybook/icons';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',
@@ -61,10 +61,22 @@ export const useMenu = (
     () => ({
       id: 'about',
       title: 'About your Storybook',
-      onClick: () => api.navigateToSettingsPage('/settings/about'),
+      onClick: () => api.changeSettingsTab('about'),
+      icon: <InfoIcon />,
     }),
     [api]
   );
+
+  const documentation = useMemo(() => {
+    const docsUrl = api.getDocsUrl({ versioned: true, renderer: true });
+
+    return {
+      id: 'documentation',
+      title: 'Documentation',
+      href: docsUrl,
+      icon: <ShareAltIcon />,
+    };
+  }, [api]);
 
   const whatsNewNotificationsEnabled =
     state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
@@ -73,10 +85,11 @@ export const useMenu = (
     () => ({
       id: 'whats-new',
       title: "What's new?",
-      onClick: () => api.navigateToSettingsPage('/settings/whats-new'),
+      onClick: () => api.changeSettingsTab('whats-new'),
       right: whatsNewNotificationsEnabled && isWhatsNewUnread && (
         <Badge status="positive">Check it out</Badge>
       ),
+      icon: <WandIcon />,
     }),
     [api, whatsNewNotificationsEnabled, isWhatsNewUnread]
   );
@@ -85,7 +98,7 @@ export const useMenu = (
     () => ({
       id: 'shortcuts',
       title: 'Keyboard shortcuts',
-      onClick: () => api.navigateToSettingsPage('/settings/shortcuts'),
+      onClick: () => api.changeSettingsTab('shortcuts'),
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.shortcutsPage} /> : null,
       style: {
         borderBottom: `4px solid ${theme.appBorderColor}`,
@@ -101,7 +114,7 @@ export const useMenu = (
       onClick: () => api.toggleNav(),
       active: isNavShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toggleNav} /> : null,
-      left: isNavShown ? <CheckIcon /> : null,
+      icon: isNavShown ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isNavShown]
   );
@@ -113,7 +126,7 @@ export const useMenu = (
       onClick: () => api.toggleToolbar(),
       active: showToolbar,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toolbar} /> : null,
-      left: showToolbar ? <CheckIcon /> : null,
+      icon: showToolbar ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, showToolbar]
   );
@@ -125,7 +138,7 @@ export const useMenu = (
       onClick: () => api.togglePanel(),
       active: isPanelShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.togglePanel} /> : null,
-      left: isPanelShown ? <CheckIcon /> : null,
+      icon: isPanelShown ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isPanelShown]
   );
@@ -147,7 +160,7 @@ export const useMenu = (
       onClick: () => api.toggleFullscreen(),
       active: isFullscreen,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.fullScreen} /> : null,
-      left: isFullscreen ? <CheckIcon /> : null,
+      icon: isFullscreen ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isFullscreen]
   );
@@ -229,6 +242,7 @@ export const useMenu = (
     () => [
       about,
       ...(state.whatsNewData?.status === 'SUCCESS' ? [whatsNew] : []),
+      documentation,
       shortcuts,
       sidebarToggle,
       toolbarToogle,
@@ -247,6 +261,7 @@ export const useMenu = (
       about,
       state,
       whatsNew,
+      documentation,
       shortcuts,
       sidebarToggle,
       toolbarToogle,

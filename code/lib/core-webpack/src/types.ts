@@ -1,4 +1,4 @@
-import type { Options, StorybookConfigRaw as StorybookConfigBase } from '@storybook/types';
+import type { Options, StorybookConfig as StorybookConfigBase } from '@storybook/types';
 
 export type { Options, Preset, BuilderResult, TypescriptOptions } from '@storybook/types';
 
@@ -24,7 +24,6 @@ export interface WebpackConfiguration {
 
 export type BuilderOptions = {
   fsCache?: boolean;
-  useSWC?: boolean;
   lazyCompilation?: boolean;
 };
 

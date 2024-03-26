@@ -6,15 +6,31 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
 
+<IfRenderer renderer='react'>
+
 ```ts
 {
   check?: boolean;
   checkOptions?: CheckOptions;
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
-  skipBabel?: boolean;
+  skipCompiler?: boolean;
 }
 ```
+
+</IfRenderer>
+
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik','solid' ]}>
+
+```ts
+{
+  check?: boolean;
+  checkOptions?: CheckOptions;
+  skipCompiler?: boolean;
+}
+```
+
+</IfRenderer>
 
 Configures how Storybook handles [TypeScript files](../configure/typescript.md).
 
@@ -50,6 +66,8 @@ Options to pass to `fork-ts-checker-webpack-plugin`, if [enabled](#check). See [
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer='react'>
+
 ## `reactDocgen`
 
 Type: `'react-docgen' | 'react-docgen-typescript' | false`
@@ -57,16 +75,15 @@ Type: `'react-docgen' | 'react-docgen-typescript' | false`
 Default:
 
 - `false`: if `@storybook/react` is not installed
-- `'react-docgen-typescript'`: if `@storybook/react` and `typescript` are installed
 - `'react-docgen'`: if `@storybook/react` is installed
 
-Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
+Configures which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/main-config-typescript-react-docgen.ts.mdx',
+    'react/main-config-typescript-react-docgen.ts.mdx',
   ]}
 />
 
@@ -76,35 +93,19 @@ Only available for React Storybook projects. Configure which library, if any, St
 
 Type: `ReactDocgenTypescriptOptions`
 
-Only available for React Storybook projects. Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
+Configures the options to pass to `react-docgen-typescript-plugin` if `react-docgen-typescript` is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/main-config-typescript-react-docgen-typescript-options.ts.mdx',
+    'react/main-config-typescript-react-docgen-typescript-options.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-## `skipBabel`
-
-Deprecated: Will be removed in Storybook 8.0. Use `skipCompiler` instead.
-
-Type: `boolean`
-
-Disable parsing of TypeScript files through Babel.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-typescript-skip-babel.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+</IfRenderer>
 
 ## `skipCompiler`
 

@@ -8,7 +8,6 @@ import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/r
 export type { BuilderResult } from '@storybook/core-webpack';
 
 export interface ReactOptions {
-  fastRefresh?: boolean;
   strictMode?: boolean;
   /**
    * Use React's legacy root API to mount components
@@ -24,7 +23,7 @@ export type TypescriptOptions = TypescriptOptionsBase & {
   /**
    * Sets the type of Docgen when working with React and TypeScript
    *
-   * @default `'react-docgen-typescript'`
+   * @default `'react-docgen'`
    */
   reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
   /**

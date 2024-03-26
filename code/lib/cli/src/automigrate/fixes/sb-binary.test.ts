@@ -1,4 +1,5 @@
-import type { JsPackageManager } from '../../js-package-manager';
+import { describe, it, expect } from 'vitest';
+import type { JsPackageManager } from '@storybook/core-common';
 import { sbBinary } from './sb-binary';
 
 const checkStorybookBinary = async ({
@@ -16,31 +17,6 @@ const checkStorybookBinary = async ({
 };
 
 describe('storybook-binary fix', () => {
-  describe('sb < 7.0', () => {
-    describe('does nothing', () => {
-      const packageManager = {
-        getPackageVersion: (packageName) => {
-          switch (packageName) {
-            case '@storybook/react':
-              return Promise.resolve('6.2.0');
-            default:
-              return null;
-          }
-        },
-        retrievePackageJson: () => Promise.resolve({}),
-      } as Partial<JsPackageManager>;
-
-      it('should no-op', async () => {
-        await expect(
-          checkStorybookBinary({
-            packageManager,
-            storybookVersion: '6.2.0',
-          })
-        ).resolves.toBeFalsy();
-      });
-    });
-  });
-
   describe('sb >= 7.0', () => {
     it('should no-op in NX projects', async () => {
       const packageManager = {

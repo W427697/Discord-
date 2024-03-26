@@ -1,5 +1,6 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import { webpack5 } from './webpack5';
 
 const checkWebpack5 = async ({
@@ -21,7 +22,9 @@ const checkWebpack5 = async ({
 };
 
 describe('webpack5 fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('sb < 6.3', () => {
     describe('webpack5 dependency', () => {
@@ -132,6 +135,7 @@ describe('webpack5 fix', () => {
       });
     });
     describe('no webpack dependency', () => {
+      // @ts-expect-error (Type 'null' is not comparable)
       const packageManager = {
         getPackageVersion: () => {
           return null;

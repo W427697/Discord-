@@ -1,79 +1,12 @@
-/* eslint-disable no-param-reassign,no-underscore-dangle */
-/// <reference types="node" />
-
-import { addons } from '@storybook/preview-api';
-import { global } from '@storybook/global';
-import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import type {
-  Renderer,
   ArgsEnhancer,
   PlayFunction,
   PlayFunctionContext,
+  Renderer,
   StepLabel,
-  Args,
 } from '@storybook/types';
+import { fn, isMockFunction } from '@storybook/test';
 import { instrument } from '@storybook/instrumenter';
-import { ModuleMocker } from 'jest-mock';
-
-const JestMock = new ModuleMocker(global);
-const fn = JestMock.fn.bind(JestMock);
-
-// Aliasing `fn` to `action` here, so we get a more descriptive label in the UI.
-const { action } = instrument({ action: fn }, { retain: true });
-const channel = addons.getChannel();
-const spies: any[] = [];
-
-channel.on(FORCE_REMOUNT, () => spies.forEach((mock) => mock?.mockClear?.()));
-channel.on(STORY_RENDER_PHASE_CHANGED, ({ newPhase }) => {
-  if (newPhase === 'loading') spies.forEach((mock) => mock?.mockClear?.());
-});
-
-const addSpies = (id: string, val: any, key?: string): any => {
-  try {
-    if (Object.prototype.toString.call(val) === '[object Object]') {
-      // We have to mutate the original object for this to survive HMR.
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [k, v] of Object.entries(val)) val[k] = addSpies(id, v, k);
-      return val;
-    }
-    if (Array.isArray(val)) {
-      return val.map((item, index) => addSpies(id, item, `${key}[${index}]`));
-    }
-    if (typeof val === 'function' && val.isAction && !val._isMockFunction) {
-      Object.defineProperty(val, 'name', { value: key, writable: false });
-      Object.defineProperty(val, '__storyId__', { value: id, writable: false });
-      const spy = action(val);
-      spies.push(spy);
-      return spy;
-    }
-  } catch (e) {
-    // ignore
-  }
-  return val;
-};
-
-const addActionsFromArgTypes: ArgsEnhancer<Renderer> = ({ id, initialArgs }) =>
-  addSpies(id, initialArgs);
-
-const instrumentSpies: ArgsEnhancer = ({ initialArgs }) => {
-  const argTypesWithAction = Object.entries(initialArgs).filter(
-    ([, value]) =>
-      typeof value === 'function' &&
-      '_isMockFunction' in value &&
-      value._isMockFunction &&
-      !value._instrumented
-  );
-
-  return argTypesWithAction.reduce((acc, [key, value]) => {
-    const instrumented = instrument({ [key]: () => value }, { retain: true })[key];
-    acc[key] = instrumented();
-    // this enhancer is being called multiple times
-    value._instrumented = true;
-    return acc;
-  }, {} as Args);
-};
-
-export const argsEnhancers = [addActionsFromArgTypes, instrumentSpies];
 
 export const { step: runStep } = instrument(
   {
@@ -82,6 +15,50 @@ export const { step: runStep } = instrument(
   },
   { intercept: true }
 );
+
+export const traverseArgs = (value: unknown, depth = 0, key?: string): unknown => {
+  // Make sure to not get in infinite loops with self referencing args
+  if (depth > 5) return value;
+  if (value == null) return value;
+  if (isMockFunction(value)) {
+    // Makes sure we get the arg name in the interactions panel
+    if (key) value.mockName(key);
+    return value;
+  }
+
+  // wrap explicit actions in a spy
+  if (
+    typeof value === 'function' &&
+    'isAction' in value &&
+    value.isAction &&
+    !('implicit' in value && value.implicit)
+  ) {
+    const mock = fn(value as any);
+    if (key) mock.mockName(key);
+    return mock;
+  }
+
+  if (Array.isArray(value)) {
+    depth++;
+    return value.map((item) => traverseArgs(item, depth));
+  }
+
+  if (typeof value === 'object' && value.constructor === Object) {
+    depth++;
+    for (const [k, v] of Object.entries(value)) {
+      if (Object.getOwnPropertyDescriptor(value, k).writable) {
+        // We have to mutate the original object for this to survive HMR.
+        (value as Record<string, unknown>)[k] = traverseArgs(v, depth, k);
+      }
+    }
+    return value;
+  }
+  return value;
+};
+
+const wrapActionsInSpyFns: ArgsEnhancer<Renderer> = ({ initialArgs }) => traverseArgs(initialArgs);
+
+export const argsEnhancers = [wrapActionsInSpyFns];
 
 export const parameters = {
   throwPlayFunctionExceptions: false,
