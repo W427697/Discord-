@@ -191,7 +191,8 @@ jobs:
           clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
-      - nx/set-shas
+      - nx/set-shas:
+          main-branch-name: "next"
       - run:
           name: Check
           command: |
