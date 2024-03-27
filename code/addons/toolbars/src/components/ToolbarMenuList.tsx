@@ -25,7 +25,6 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     const currentValue = globals[id];
     const hasGlobalValue = !!currentValue;
     const isOverridden = !deepEqual(currentValue, userGlobals[id]);
-    console.log({ currentValue, raw: userGlobals[id], isOverridden });
     let icon = _icon;
     let title = _title;
 
