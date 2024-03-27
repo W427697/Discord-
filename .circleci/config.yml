@@ -193,11 +193,10 @@ jobs:
           at: .
       - nx/set-shas:
           main-branch-name: "next"
+          workflow-name: << pipeline.parameters.workflow >>
       - run:
           name: Check
           command: |
-            echo $NX_BASE
-            echo $NX_HEAD
             yarn nx affected -t check --base=$NX_BASE --head=$NX_HEAD
             git diff --exit-code
       - report-workflow-on-failure
