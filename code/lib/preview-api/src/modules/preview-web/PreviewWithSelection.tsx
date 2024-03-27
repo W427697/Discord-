@@ -46,7 +46,6 @@ import { MdxDocsRender } from './render/MdxDocsRender';
 import type { Selection, SelectionStore } from './SelectionStore';
 import type { View } from './View';
 import type { StorySpecifier } from '../store/StoryIndexStore';
-import { shallowEqual } from '../store';
 
 const globalWindow = globalThis;
 
@@ -416,9 +415,9 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
         args: unmappedArgs,
       });
 
-      if (!shallowEqual(userGlobals, globals)) {
-        this.channel.emit(GLOBALS_UPDATED, { userGlobals, globals, initialGlobals });
-      }
+      // We need to update globals whenever we go in or out of an overridden story.
+      // As an optimization we could check if that's the case, but it seems complex and error-prone
+      this.channel.emit(GLOBALS_UPDATED, { userGlobals, globals, initialGlobals });
 
       // For v6 mode / compatibility
       // If the implementation changed, or args were persisted, the args may have changed,

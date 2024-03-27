@@ -144,15 +144,6 @@ export const deepDiff = (value: any, update: any): any => {
   return update;
 };
 
-// Do two objects have equal keys + values (by reference)
-export const shallowEqual = (first: Record<string, any>, second: Record<string, any>) => {
-  const firstKeys = Object.keys(first);
-
-  if (firstKeys.length !== Object.keys(second).length) return false;
-
-  return !!firstKeys.find((key) => first[key] !== second[key]);
-};
-
 export const UNTARGETED = 'UNTARGETED';
 export function groupArgsByTarget<TArgs extends Args = Args>({
   args,
