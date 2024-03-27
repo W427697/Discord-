@@ -197,7 +197,7 @@ jobs:
       - run:
           name: Check
           command: |
-            yarn nx affected -t check --base=$NX_BASE --head=$NX_HEAD
+            yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
       - report-workflow-on-failure
       - cancel-workflow-on-failure
