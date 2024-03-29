@@ -21,6 +21,7 @@ import type {
   StrictArgTypes,
 } from '@storybook/types';
 import { includeConditionalArg, combineTags } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
@@ -140,7 +141,10 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
+  const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
+
   const tags = combineTags(
+    ...extraTags,
     ...(projectAnnotations.tags ?? []),
     ...(componentAnnotations.tags ?? []),
     ...(storyAnnotations?.tags ?? []),
