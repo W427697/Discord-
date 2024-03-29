@@ -22,7 +22,7 @@ import type {
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { logger, once } from '@storybook/node-logger';
-import { getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter, loadConfig } from '@storybook/csf-tools';
 import { storyNameFromExport, toId, combineTags } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
@@ -156,8 +156,11 @@ export class StoryIndexGenerator {
       this.specifierToCache.set(specifier, cache)
     );
 
+    const previewCode = await this.getPreviewCode();
+    const projectTags = previewCode && this.getProjectTags(previewCode);
+
     // Extract stories for each file
-    await this.ensureExtracted();
+    await this.ensureExtracted({ projectTags });
   }
 
   /**
@@ -211,7 +214,11 @@ export class StoryIndexGenerator {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<(IndexEntry | ErrorEntry)[]> {
+  async ensureExtracted({
+    projectTags,
+  }: {
+    projectTags?: Tag[];
+  }): Promise<(IndexEntry | ErrorEntry)[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={XStories} />` syntax, which requires
@@ -234,17 +241,24 @@ export class StoryIndexGenerator {
       );
       return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
-        if (entry.type === 'docs') return [entry];
+        if (entry.type === 'docs') return [this.addProjectTags(entry, projectTags)];
         if (entry.type === 'error') return [entry];
 
         return entry.entries.map((item) => {
-          if (item.type === 'docs') return item;
+          if (item.type === 'docs') return this.addProjectTags(item, projectTags);
           // Drop the meta id as it isn't part of the index, we just used it for record keeping in `extractDocs`
           const { metaId, ...existing } = item;
-          return existing;
+          return this.addProjectTags(existing, projectTags);
         });
       });
     });
+  }
+
+  addProjectTags(entry: IndexEntry, projectTags?: Tag[]) {
+    return {
+      ...entry,
+      metaTags: combineTags(...(projectTags || []), ...(entry.metaTags || [])),
+    };
   }
 
   findDependencies(absoluteImports: Path[]) {
@@ -535,10 +549,8 @@ export class StoryIndexGenerator {
     return betterEntry;
   }
 
-  async sortStories(entries: StoryIndex['entries']) {
+  async sortStories(entries: StoryIndex['entries'], storySortParameter: any) {
     const sortableStories = Object.values(entries);
-
-    const storySortParameter = await this.getStorySortParameter();
     const fileNameOrder = this.storyFileNames();
     sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
@@ -555,9 +567,12 @@ export class StoryIndexGenerator {
     if (this.lastIndex) return this.lastIndex;
     if (this.lastError) throw this.lastError;
 
+    const previewCode = await this.getPreviewCode();
+    const projectTags = previewCode && this.getProjectTags(previewCode);
+
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
-    const storiesList = await this.ensureExtracted();
+    const storiesList = await this.ensureExtracted({ projectTags });
 
     try {
       const errorEntries = storiesList.filter((entry) => entry.type === 'error');
@@ -581,7 +596,10 @@ export class StoryIndexGenerator {
       });
       if (duplicateErrors.length) throw new MultipleIndexingError(duplicateErrors);
 
-      const sorted = await this.sortStories(indexEntries);
+      const sorted = await this.sortStories(
+        indexEntries,
+        previewCode && getStorySortParameter(previewCode)
+      );
 
       this.lastIndex = {
         v: 4,
@@ -641,17 +659,18 @@ export class StoryIndexGenerator {
     this.lastError = null;
   }
 
-  async getStorySortParameter() {
-    const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
+  async getPreviewCode() {
+    const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'mts']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
       .find((fname) => fs.existsSync(fname));
-    let storySortParameter;
-    if (previewFile) {
-      const previewCode = (await fs.readFile(previewFile, 'utf-8')).toString();
-      storySortParameter = await getStorySortParameter(previewCode);
-    }
 
-    return storySortParameter;
+    return previewFile && (await fs.readFile(previewFile, 'utf-8')).toString();
+  }
+
+  getProjectTags(previewCode: string) {
+    const projectAnnotations = loadConfig(previewCode).parse();
+    const projectTags = projectAnnotations.getFieldValue(['tags']);
+    return projectTags;
   }
 
   // Get the story file names in "imported order"

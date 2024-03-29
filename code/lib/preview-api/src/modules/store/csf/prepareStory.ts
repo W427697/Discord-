@@ -125,6 +125,10 @@ export function prepareMeta<TRenderer extends Renderer>(
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>,
   moduleExport: ModuleExport
 ): PreparedMeta<TRenderer> {
+  console.log('prepareMeta', {
+    metaTags: componentAnnotations.tags,
+    projectAnnotations,
+  });
   return {
     ...preparePartialAnnotations(undefined, componentAnnotations, projectAnnotations),
     moduleExport,
@@ -141,8 +145,9 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // will have a limited cost. If this proves misguided, we can refactor it.
 
   const tags = combineTags(
-    ...(storyAnnotations?.tags ?? []),
+    ...(projectAnnotations.tags ?? []),
     ...(componentAnnotations.tags ?? []),
+    ...(storyAnnotations?.tags ?? []),
     'story'
   );
 
