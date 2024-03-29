@@ -44,7 +44,9 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       // skip duplicate and global props
       if (!argType || argTypes[argType.name]) return;
 
-      if (section !== 'props') {
+      // disable controls for events and exposed since they can not be controlled
+      const sectionsToDisableControls: (typeof section)[] = ['events', 'expose', 'exposed'];
+      if (sectionsToDisableControls.includes(section)) {
         argType.control = { disable: true };
       }
 
