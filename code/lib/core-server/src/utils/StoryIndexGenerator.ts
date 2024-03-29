@@ -55,7 +55,6 @@ export type StoryIndexGeneratorOptions = {
 };
 
 export const AUTODOCS_TAG = 'autodocs';
-export const NO_AUTODOCS_TAG = `!${AUTODOCS_TAG}`;
 export const STORIES_MDX_TAG = 'stories-mdx';
 export const PLAY_FN_TAG = 'play-fn';
 
@@ -254,10 +253,18 @@ export class StoryIndexGenerator {
     });
   }
 
+  getExtraTags() {
+    return this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
+  }
+
   addProjectTags(entry: IndexEntry, projectTags?: Tag[]) {
     return {
       ...entry,
-      metaTags: combineTags(...(projectTags || []), ...(entry.metaTags || [])),
+      metaTags: combineTags(
+        ...this.getExtraTags(),
+        ...(projectTags ?? []),
+        ...(entry.metaTags ?? [])
+      ),
     };
   }
 
@@ -306,7 +313,13 @@ export class StoryIndexGenerator {
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
-        const tags = combineTags(...(input.tags ?? []), ...(input.metaTags ?? []), 'story');
+        const extraTags = this.getExtraTags();
+        const tags = combineTags(
+          ...extraTags,
+          ...(input.metaTags ?? []),
+          ...(input.tags ?? []),
+          'story'
+        );
 
         return {
           type: 'story',
@@ -320,23 +333,18 @@ export class StoryIndexGenerator {
         };
       });
 
-    const { autodocs } = this.options.docs;
     // We need a docs entry attached to the CSF file if either:
-    //  a) autodocs is globally enabled
-    //  b) we have autodocs enabled for this file
-    //  c) it is a stories.mdx transpiled to CSF
+    //  a) we have autodocs enabled for this file
+    //  b) it is a stories.mdx transpiled to CSF
     const hasAutodocsTag = entries.some((entry) => entry.tags.includes(AUTODOCS_TAG));
     const isStoriesMdx = entries.some((entry) => entry.tags.includes(STORIES_MDX_TAG));
-    const createDocEntry =
-      (autodocs === true && !entries.some((entry) => entry.tags.includes(NO_AUTODOCS_TAG))) ||
-      (autodocs === 'tag' && hasAutodocsTag) ||
-      isStoriesMdx;
+    const createDocEntry = (hasAutodocsTag && this.options.docs.autodocs !== false) || isStoriesMdx;
 
     if (createDocEntry && this.options.build?.test?.disableAutoDocs !== true) {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
-      const metaTags = indexInputs[0].metaTags || [];
+      const metaTags = indexInputs[0].metaTags ?? [];
       const id = toId(metaId ?? title, name);
       entries.unshift({
         id,
@@ -457,7 +465,8 @@ export class StoryIndexGenerator {
         type: 'docs',
         // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
         tags: combineTags(
-          ...(result.tags || []),
+          ...this.getExtraTags(),
+          ...(result.tags ?? []),
           csfEntry ? 'attached-mdx' : 'unattached-mdx',
           'docs'
         ),

@@ -125,10 +125,6 @@ export function prepareMeta<TRenderer extends Renderer>(
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>,
   moduleExport: ModuleExport
 ): PreparedMeta<TRenderer> {
-  console.log('prepareMeta', {
-    metaTags: componentAnnotations.tags,
-    projectAnnotations,
-  });
   return {
     ...preparePartialAnnotations(undefined, componentAnnotations, projectAnnotations),
     moduleExport,
