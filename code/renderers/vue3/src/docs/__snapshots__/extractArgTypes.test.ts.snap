@@ -798,9 +798,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract props for component 2
 exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1`] = `
 {
   "default": {
-    "control": {
-      "disable": true,
-    },
     "description": undefined,
     "name": "default",
     "table": {
@@ -818,9 +815,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     },
   },
   "named": {
-    "control": {
-      "disable": true,
-    },
     "description": undefined,
     "name": "named",
     "table": {
@@ -838,9 +832,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     },
   },
   "no-bind": {
-    "control": {
-      "disable": true,
-    },
     "description": undefined,
     "name": "no-bind",
     "table": {
@@ -856,9 +847,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
     },
   },
   "vbind": {
-    "control": {
-      "disable": true,
-    },
     "description": undefined,
     "name": "vbind",
     "table": {
@@ -881,9 +869,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots for component 1
 exports[`extractArgTypes (vue-docgen-api) > should extract slots type for Vue component 1`] = `
 {
   "default": {
-    "control": {
-      "disable": true,
-    },
     "description": "",
     "name": "default",
     "table": {
@@ -898,9 +883,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots type for Vue co
     },
   },
   "named": {
-    "control": {
-      "disable": true,
-    },
     "description": "",
     "name": "named",
     "table": {
@@ -915,9 +897,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots type for Vue co
     },
   },
   "no-bind": {
-    "control": {
-      "disable": true,
-    },
     "description": "",
     "name": "no-bind",
     "table": {
@@ -932,9 +911,6 @@ exports[`extractArgTypes (vue-docgen-api) > should extract slots type for Vue co
     },
   },
   "vbind": {
-    "control": {
-      "disable": true,
-    },
     "description": "",
     "name": "vbind",
     "table": {
