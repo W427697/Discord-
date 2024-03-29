@@ -172,7 +172,9 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         loadedContext = await applyLoaders({
           ...this.storyContext(),
           viewMode: this.viewMode,
-        } as StoryContextForLoaders<TRenderer>);
+          // TODO add this to CSF
+          canvasElement,
+        } as unknown as StoryContextForLoaders<TRenderer>);
       });
       if (abortSignal.aborted) {
         return;
