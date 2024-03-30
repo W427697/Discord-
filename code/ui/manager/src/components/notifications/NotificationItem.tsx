@@ -61,6 +61,9 @@ const Notification = styled.div<{ duration?: number }>(
 
 const NotificationWithInteractiveStates = styled(Notification)(() => ({
   cursor: 'pointer',
+  border: 'none',
+  outline: 'none',
+  textAlign: 'left',
   transition: 'all 150ms ease-out',
   transform: 'translate3d(0, 0, 0)',
   '&:hover': {
@@ -75,9 +78,10 @@ const NotificationWithInteractiveStates = styled(Notification)(() => ({
   },
   '&:focus': {
     boxShadow:
-      '0 1px 3px 0 rgba(30,167,253,0.5), 0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)',
+      'rgba(2,156,253,1) 0 0 0 1px inset, 0 1px 3px 0 rgba(30,167,253,0.5), 0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)',
   },
 }));
+const NotificationButton = NotificationWithInteractiveStates.withComponent('button');
 const NotificationLink = NotificationWithInteractiveStates.withComponent(Link);
 
 const NotificationIconWrapper = styled.div(() => ({
@@ -207,10 +211,10 @@ const NotificationItem: FC<{
 
   if (onClick) {
     return (
-      <NotificationWithInteractiveStates onClick={() => onClick({ onDismiss })} duration={duration}>
+      <NotificationButton duration={duration} onClick={() => onClick({ onDismiss })}>
         <ItemContent icon={icon} content={content} />
         <DismissNotificationItem onDismiss={onDismiss} />
-      </NotificationWithInteractiveStates>
+      </NotificationButton>
     );
   }
 

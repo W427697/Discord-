@@ -53,6 +53,7 @@ export const Timeout: Story = {
     notification: {
       id: 'Timeout',
       onClear,
+      onClick,
       content: {
         headline: 'Storybook cool!',
       },
