@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 import { LocationProvider } from '@storybook/router';
 import type { Meta, StoryObj } from '@storybook/react';
 import NotificationItem from './NotificationItem';
@@ -7,7 +8,6 @@ import {
   BookIcon as BookIconIcon,
   FaceHappyIcon,
 } from '@storybook/icons';
-import { fn } from '@storybook/test';
 
 const meta = {
   component: NotificationItem,
@@ -30,8 +30,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const onClear = fn();
-const onDismissNotification = fn();
+const onClear = action('onClear');
+const onDismissNotification = () => {};
 
 export const Simple: Story = {
   args: {
