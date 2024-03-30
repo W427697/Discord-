@@ -41,7 +41,20 @@ export const Simple: Story = {
       content: {
         headline: 'Storybook cool!',
       },
-      link: undefined,
+    },
+    onDismissNotification,
+  },
+};
+
+export const Timeout: Story = {
+  args: {
+    notification: {
+      id: '1',
+      onClear,
+      content: {
+        headline: 'Storybook cool!',
+      },
+      duration: 5000,
     },
     onDismissNotification,
   },

@@ -1,26 +1,51 @@
 import type { FC, SyntheticEvent } from 'react';
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { type State } from '@storybook/manager-api';
 import { Link } from '@storybook/router';
-import { styled, useTheme } from '@storybook/theming';
+import { keyframes, styled, useTheme } from '@storybook/theming';
 import type { IconsProps } from '@storybook/components';
 import { IconButton, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import { CloseAltIcon } from '@storybook/icons';
 
-const Notification = styled.div(({ theme }) => ({
-  position: 'relative',
-  display: 'flex',
-  padding: 15,
-  width: 280,
-  borderRadius: 4,
-  alignItems: 'center',
+const grow = keyframes({
+  '0%': {
+    width: '0%',
+  },
+  '100%': {
+    width: '100%',
+  },
+});
 
-  background: theme.base === 'light' ? 'hsla(203, 50%, 20%, .97)' : 'hsla(203, 30%, 95%, .97)',
-  boxShadow: `0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)`,
-  color: theme.color.inverseText,
-  textDecoration: 'none',
-}));
+const Notification = styled.div<{ duration?: number }>(
+  ({ theme }) => ({
+    position: 'relative',
+    display: 'flex',
+    padding: 15,
+    width: 280,
+    borderRadius: 4,
+    alignItems: 'center',
+
+    background: theme.base === 'light' ? 'hsla(203, 50%, 20%, .97)' : 'hsla(203, 30%, 95%, .97)',
+    boxShadow: `0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)`,
+    color: theme.color.inverseText,
+    textDecoration: 'none',
+    overflow: 'hidden',
+  }),
+  ({ duration, theme }) =>
+    duration && {
+      '&::after': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        height: 3,
+        background: theme.color.secondary,
+        animation: `${grow} ${duration}ms linear forwards reverse`,
+      },
+    }
+);
 
 const NotificationWithInteractiveStates = styled(Notification)(() => ({
   transition: 'all 150ms ease-out',
@@ -135,22 +160,34 @@ export const NotificationItemSpacer = styled.div({
 const NotificationItem: FC<{
   notification: State['notifications'][0];
   onDismissNotification: (id: string) => void;
-}> = ({ notification: { content, link, onClear, id, icon }, onDismissNotification }) => {
-  const dismissNotificationItem = () => {
+}> = ({ notification: { content, duration, link, onClear, id, icon }, onDismissNotification }) => {
+  const onTimeout = useCallback(() => {
     onDismissNotification(id);
-    if (onClear) {
-      onClear({ dismissed: true });
-    }
-  };
+    if (onClear) onClear({ dismissed: false, timeout: true });
+  }, [onDismissNotification, onClear]);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    if (!duration) return;
+    timer.current = setTimeout(onTimeout, duration);
+    return () => clearTimeout(timer.current);
+  }, [duration, onTimeout]);
+
+  const onDismiss = useCallback(() => {
+    clearTimeout(timer.current);
+    onDismissNotification(id);
+    if (onClear) onClear({ dismissed: true, timeout: false });
+  }, [onDismissNotification, onClear]);
+
   return link ? (
-    <NotificationLink to={link}>
+    <NotificationLink to={link} duration={duration}>
       <ItemContent icon={icon} content={content} />
-      <DismissNotificationItem onDismiss={dismissNotificationItem} />
+      <DismissNotificationItem onDismiss={onDismiss} />
     </NotificationLink>
   ) : (
-    <Notification>
+    <Notification duration={duration}>
       <ItemContent icon={icon} content={content} />
-      <DismissNotificationItem onDismiss={dismissNotificationItem} />
+      <DismissNotificationItem onDismiss={onDismiss} />
     </Notification>
   );
 };
