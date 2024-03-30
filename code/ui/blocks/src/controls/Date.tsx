@@ -22,6 +22,7 @@ export const parseTime = (value: string) => {
 };
 
 export const formatDate = (value: Date | number) => {
+  if (!value) return '';
   const date = new Date(value);
   const year = `000${date.getFullYear()}`.slice(-4);
   const month = `0${date.getMonth() + 1}`.slice(-2);
@@ -30,6 +31,7 @@ export const formatDate = (value: Date | number) => {
 };
 
 export const formatTime = (value: Date | number) => {
+  if (!value) return '';
   const date = new Date(value);
   const hours = `0${date.getHours()}`.slice(-2);
   const minutes = `0${date.getMinutes()}`.slice(-2);
@@ -83,7 +85,9 @@ export const DateControl: FC<DateProps> = ({ name, value, onChange, onFocus, onB
   }, [value]);
 
   const onDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const parsed = parseDate(e.target.value);
+    const inputValue = e.target.value;
+    if (!inputValue) return onChange();
+    const parsed = parseDate(inputValue);
     const result = new Date(value);
     result.setFullYear(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
     const time = result.getTime();
@@ -92,6 +96,8 @@ export const DateControl: FC<DateProps> = ({ name, value, onChange, onFocus, onB
   };
 
   const onTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (!inputValue) return onChange();
     const parsed = parseTime(e.target.value);
     const result = new Date(value);
     result.setHours(parsed.getHours());
