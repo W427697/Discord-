@@ -25,13 +25,16 @@ const meta = {
     ),
   ],
   excludeStories: /.*Data$/,
+  args: {
+    onDismissNotification: () => {},
+  },
 } satisfies Meta<typeof NotificationItem>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 const onClear = action('onClear');
-const onDismissNotification = () => {};
+const onClick = action('onClick');
 
 export const Simple: Story = {
   args: {
@@ -42,27 +45,24 @@ export const Simple: Story = {
         headline: 'Storybook cool!',
       },
     },
-    onDismissNotification,
   },
 };
 
 export const Timeout: Story = {
   args: {
     notification: {
-      id: '1',
+      id: 'Timeout',
       onClear,
       content: {
         headline: 'Storybook cool!',
       },
       duration: 5000,
     },
-    onDismissNotification,
   },
 };
 
 export const LongHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '2',
       onClear,
@@ -74,9 +74,21 @@ export const LongHeadline: Story = {
   },
 };
 
+export const Clickable: Story = {
+  args: {
+    notification: {
+      id: 'Clickable',
+      onClear,
+      onClick,
+      content: {
+        headline: 'Storybook cool!',
+      },
+    },
+  },
+};
+
 export const Link: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '3',
       onClear,
@@ -90,7 +102,6 @@ export const Link: Story = {
 
 export const LinkIconWithColor: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '4',
       onClear,
@@ -105,7 +116,6 @@ export const LinkIconWithColor: Story = {
 
 export const LinkIconWithColorSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '5',
       onClear,
@@ -121,7 +131,6 @@ export const LinkIconWithColorSubHeadline: Story = {
 
 export const BookIcon: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '6',
       onClear,
@@ -136,7 +145,6 @@ export const BookIcon: Story = {
 
 export const StrongSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '7',
       onClear,
@@ -152,7 +160,6 @@ export const StrongSubHeadline: Story = {
 
 export const StrongEmphasizedSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '8',
       onClear,
@@ -172,7 +179,6 @@ export const StrongEmphasizedSubHeadline: Story = {
 
 export const BookIconSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '9',
       onClear,
@@ -188,7 +194,6 @@ export const BookIconSubHeadline: Story = {
 
 export const BookIconLongSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '10',
       onClear,
@@ -205,7 +210,6 @@ export const BookIconLongSubHeadline: Story = {
 
 export const AccessibilityIcon: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '11',
       onClear,
@@ -221,7 +225,6 @@ export const AccessibilityIcon: Story = {
 
 export const AccessibilityGoldIcon: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '12',
       onClear,
@@ -237,7 +240,6 @@ export const AccessibilityGoldIcon: Story = {
 
 export const AccessibilityGoldIconLongHeadLineNoSubHeadline: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '13',
       onClear,
@@ -252,7 +254,6 @@ export const AccessibilityGoldIconLongHeadLineNoSubHeadline: Story = {
 
 export const WithOldIconFormat: Story = {
   args: {
-    ...Simple.args,
     notification: {
       id: '13',
       onClear,

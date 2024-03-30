@@ -124,6 +124,13 @@ interface OnClearOptions {
   timeout: boolean;
 }
 
+interface OnClickOptions {
+  /**
+   *  Function to dismiss the notification.
+   */
+  onDismiss: () => void;
+}
+
 /**
  * @deprecated Use ReactNode for the icon instead.
  * @see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated
@@ -143,6 +150,7 @@ export interface API_Notification {
   // TODO: Remove DeprecatedIconType in 9.0
   icon?: React.ReactNode | DeprecatedIconType;
   onClear?: (options: OnClearOptions) => void;
+  onClick?: (options: OnClickOptions) => void;
 }
 
 type API_Versions = Record<string, string>;

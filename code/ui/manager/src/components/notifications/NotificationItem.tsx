@@ -60,6 +60,7 @@ const Notification = styled.div<{ duration?: number }>(
 );
 
 const NotificationWithInteractiveStates = styled(Notification)(() => ({
+  cursor: 'pointer',
   transition: 'all 150ms ease-out',
   transform: 'translate3d(0, 0, 0)',
   '&:hover': {
@@ -158,6 +159,7 @@ const DismissNotificationItem: FC<{
     title="Dismiss notification"
     onClick={(e: SyntheticEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       onDismiss();
     }}
   >
@@ -172,7 +174,10 @@ export const NotificationItemSpacer = styled.div({
 const NotificationItem: FC<{
   notification: State['notifications'][0];
   onDismissNotification: (id: string) => void;
-}> = ({ notification: { content, duration, link, onClear, id, icon }, onDismissNotification }) => {
+}> = ({
+  notification: { content, duration, link, onClear, onClick, id, icon },
+  onDismissNotification,
+}) => {
   const onTimeout = useCallback(() => {
     onDismissNotification(id);
     if (onClear) onClear({ dismissed: false, timeout: true });
@@ -191,12 +196,25 @@ const NotificationItem: FC<{
     if (onClear) onClear({ dismissed: true, timeout: false });
   }, [onDismissNotification, onClear]);
 
-  return link ? (
-    <NotificationLink to={link} duration={duration}>
-      <ItemContent icon={icon} content={content} />
-      <DismissNotificationItem onDismiss={onDismiss} />
-    </NotificationLink>
-  ) : (
+  if (link) {
+    return (
+      <NotificationLink to={link} duration={duration}>
+        <ItemContent icon={icon} content={content} />
+        <DismissNotificationItem onDismiss={onDismiss} />
+      </NotificationLink>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <NotificationWithInteractiveStates onClick={() => onClick({ onDismiss })} duration={duration}>
+        <ItemContent icon={icon} content={content} />
+        <DismissNotificationItem onDismiss={onDismiss} />
+      </NotificationWithInteractiveStates>
+    );
+  }
+
+  return (
     <Notification duration={duration}>
       <ItemContent icon={icon} content={content} />
       <DismissNotificationItem onDismiss={onDismiss} />
