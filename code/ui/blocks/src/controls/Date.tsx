@@ -22,7 +22,6 @@ export const parseTime = (value: string) => {
 };
 
 export const formatDate = (value: Date | number) => {
-  if (!value) return '';
   const date = new Date(value);
   const year = `000${date.getFullYear()}`.slice(-4);
   const month = `0${date.getMonth() + 1}`.slice(-2);
@@ -31,7 +30,6 @@ export const formatDate = (value: Date | number) => {
 };
 
 export const formatTime = (value: Date | number) => {
-  if (!value) return '';
   const date = new Date(value);
   const hours = `0${date.getHours()}`.slice(-2);
   const minutes = `0${date.getMinutes()}`.slice(-2);
