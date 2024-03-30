@@ -30,7 +30,7 @@ export const init: ModuleFn = ({ store }) => {
       store.setState(({ notifications }) => {
         const [existing, others] = partition(notifications, (n) => n.id === newNotification.id);
         existing.forEach((notification) => {
-          if (notification.onClear) notification.onClear({ dismissed: false });
+          if (notification.onClear) notification.onClear({ dismissed: false, timeout: false });
         });
         return { notifications: [...others, newNotification] };
       });
@@ -40,7 +40,7 @@ export const init: ModuleFn = ({ store }) => {
       store.setState(({ notifications }) => {
         const [matching, others] = partition(notifications, (n) => n.id === notificationId);
         matching.forEach((notification) => {
-          if (notification.onClear) notification.onClear({ dismissed: false });
+          if (notification.onClear) notification.onClear({ dismissed: false, timeout: false });
         });
         return { notifications: others };
       });
