@@ -7,6 +7,7 @@ import {
   BookIcon as BookIconIcon,
   FaceHappyIcon,
 } from '@storybook/icons';
+import { fn } from '@storybook/test';
 
 const meta = {
   component: NotificationItem,
@@ -29,8 +30,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const onClear = () => {};
-const onDismissNotification = () => {};
+const onClear = fn();
+const onDismissNotification = fn();
 
 export const Simple: Story = {
   args: {
@@ -40,7 +41,7 @@ export const Simple: Story = {
       content: {
         headline: 'Storybook cool!',
       },
-      link: '/some/path',
+      link: undefined,
     },
     onDismissNotification,
   },
@@ -55,7 +56,7 @@ export const LongHeadline: Story = {
       content: {
         headline: 'This is a long message that extends over two lines!',
       },
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -115,7 +116,7 @@ export const BookIcon: Story = {
         headline: 'Storybook has a book icon!',
       },
       icon: <BookIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -131,7 +132,7 @@ export const StrongSubHeadline: Story = {
         subHeadline: <strong>Strong subHeadline</strong>,
       },
       icon: <BookIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -151,7 +152,7 @@ export const StrongEmphasizedSubHeadline: Story = {
         ),
       },
       icon: <BookIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -167,7 +168,7 @@ export const BookIconSubHeadline: Story = {
         subHeadline: 'Find out more!',
       },
       icon: <BookIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -184,7 +185,7 @@ export const BookIconLongSubHeadline: Story = {
           'Find out more! by clicking on on buttons and downloading some applications. Find out more! by clicking on buttons and downloading some applications',
       },
       icon: <BookIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -200,7 +201,7 @@ export const AccessibilityIcon: Story = {
         subHeadline: 'It is here!',
       },
       icon: <AccessibilityIconIcon />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -216,7 +217,7 @@ export const AccessibilityGoldIcon: Story = {
         subHeadline: 'It is gold!',
       },
       icon: <AccessibilityIconIcon color="gold" />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -231,7 +232,7 @@ export const AccessibilityGoldIconLongHeadLineNoSubHeadline: Story = {
         headline: 'Storybook notifications has a accessibility icon it can be any color!',
       },
       icon: <AccessibilityIconIcon color="gold" />,
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
@@ -249,7 +250,7 @@ export const WithOldIconFormat: Story = {
         name: 'accessibility',
         color: 'gold',
       },
-      link: '/some/path',
+      link: undefined,
     },
   },
 };
