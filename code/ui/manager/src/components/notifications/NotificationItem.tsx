@@ -8,6 +8,17 @@ import { IconButton, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import { CloseAltIcon } from '@storybook/icons';
 
+const slideIn = keyframes({
+  '0%': {
+    opacity: 0,
+    transform: 'translateY(30px)',
+  },
+  '100%': {
+    opacity: 1,
+    transform: 'translateY(0)',
+  },
+});
+
 const grow = keyframes({
   '0%': {
     width: '0%',
@@ -26,6 +37,7 @@ const Notification = styled.div<{ duration?: number }>(
     borderRadius: 4,
     alignItems: 'center',
 
+    animation: `${slideIn} 500ms`,
     background: theme.base === 'light' ? 'hsla(203, 50%, 20%, .97)' : 'hsla(203, 30%, 95%, .97)',
     boxShadow: `0 2px 5px 0 rgba(0,0,0,0.05), 0 5px 15px 0 rgba(0,0,0,0.1)`,
     color: theme.color.inverseText,
