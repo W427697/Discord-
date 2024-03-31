@@ -8,6 +8,7 @@ import {
   BookIcon as BookIconIcon,
   FaceHappyIcon,
 } from '@storybook/icons';
+import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
 
 const meta = {
   component: NotificationItem,
@@ -33,8 +34,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const onClear = action('onClear');
-const onClick = action('onClick');
+const onClear = fn(action('onClear'));
+const onClick = fn(action('onClick'));
 
 export const Simple: Story = {
   args: {
@@ -57,8 +58,18 @@ export const Timeout: Story = {
       content: {
         headline: 'Storybook cool!',
       },
-      duration: 5000,
+      duration: 3000,
     },
+  },
+  play: async ({ args }) => {
+    await waitFor(
+      () => {
+        expect(args.notification.onClear).toHaveBeenCalledWith({ dismissed: false, timeout: true });
+      },
+      {
+        timeout: 4000,
+      }
+    );
   },
 };
 
@@ -85,6 +96,12 @@ export const Clickable: Story = {
         headline: 'Storybook cool!',
       },
     },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [button] = await canvas.findAllByRole('button');
+    await userEvent.click(button);
+    await expect(args.notification.onClick).toHaveBeenCalledWith({ onDismiss: expect.anything() });
   },
 };
 
