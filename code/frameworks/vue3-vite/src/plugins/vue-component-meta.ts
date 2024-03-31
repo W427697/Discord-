@@ -19,7 +19,7 @@ type MetaSource = {
 } & ComponentMeta &
   MetaCheckerOptions['schema'];
 
-export async function vueComponentMeta(): Promise<PluginOption> {
+export async function vueComponentMeta(tsconfigPath = 'tsconfig.json'): Promise<PluginOption> {
   const { createFilter } = await import('vite');
 
   // exclude stories, virtual modules and storybook internals
@@ -28,7 +28,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
   const include = /\.(vue|ts|js|tsx|jsx)$/;
   const filter = createFilter(include, exclude);
 
-  const checker = await createCheckerWithWorkaround();
+  const checker = await createCheckerWithWorkaround(tsconfigPath);
 
   return {
     name: 'storybook:vue-component-meta-plugin',
@@ -130,7 +130,7 @@ export async function vueComponentMeta(): Promise<PluginOption> {
  * Includes a workaround for projects using references in their tsconfig.json which
  * is currently not supported by vue-component-meta.
  */
-async function createCheckerWithWorkaround() {
+async function createCheckerWithWorkaround(tsconfigPath = 'tsconfig.json') {
   const checkerOptions: MetaCheckerOptions = {
     forceUseTs: true,
     noDeclarations: true,
@@ -138,7 +138,7 @@ async function createCheckerWithWorkaround() {
   };
 
   const projectRoot = getProjectRoot();
-  const projectTsConfigPath = path.join(projectRoot, 'tsconfig.json');
+  const projectTsConfigPath = path.join(projectRoot, tsconfigPath);
 
   const defaultChecker = createCheckerByJson(projectRoot, { include: ['**/*'] }, checkerOptions);
 
