@@ -30,6 +30,8 @@ export type FrameworkOptions = {
          * like `tsconfig.app.json` which `vue-component-meta` does currently not support.
          * Otherwise docgen might not be generated correctly (e.g. import aliases are not resolved).
          *
+         * Make sure that the specified tsconfig file does not contain `references`.
+         *
          * For further information about `vue-component-meta` limitations, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#limitations).
          *
          * @default "tsconfig.json"
