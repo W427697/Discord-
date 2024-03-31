@@ -184,7 +184,7 @@ export const transformStoryIndexToStoriesHash = (
 
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;
-    const groups = title.trim().split(TITLE_PATH_SEPARATOR);
+    const groups = title.replace(/\/$/, '').trim().split(TITLE_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
     const names = [...root, ...groups];
 
