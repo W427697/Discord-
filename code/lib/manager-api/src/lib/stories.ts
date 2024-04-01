@@ -27,6 +27,7 @@ import { type API, combineParameters, type State } from '../index';
 import merge from './merge';
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
+const FIND_TRAILING_SLASH = /\/$/;
 
 export const denormalizeStoryParameters = ({
   globalParameters,
@@ -184,7 +185,7 @@ export const transformStoryIndexToStoriesHash = (
 
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;
-    const groups = title.replace(/\/$/, '').trim().split(TITLE_PATH_SEPARATOR);
+    const groups = title.replace(FIND_TRAILING_SLASH, '').trim().split(TITLE_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
     const names = [...root, ...groups];
 
