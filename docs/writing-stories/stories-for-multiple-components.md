@@ -41,7 +41,7 @@ Let's talk about some techniques you can use to mitigate the above, which are es
 
 ## Reusing story definitions
 
-We can also reduce repitition in our stories by reusing story definitions. Here, we can reuse the `ListItem` stories' args in the story for `List`:
+We can also reduce repetition in our stories by reusing story definitions. Here, we can reuse the `ListItem` stories' args in the story for `List`:
 
 <!-- prettier-ignore-start -->
 
@@ -92,13 +92,11 @@ Now that `children` is an arg, we can potentially reuse it in another story.
 
 However, there are some caveats when using this approach that you should be aware of.
 
-The `children` arg, just like all args, needs to be JSON serializable. It means that you should:
+The `children` arg, just like all args, needs to be JSON serializable. To avoid errors with your Storybook, you should:
 
 - Avoid using empty values
 - Use [mapping](../essentials/controls.md#dealing-with-complex-values) if you want to adjust the value with [controls](../essentials/controls.md)
 - Use caution with components that include third party libraries
-
-As they could lead into errors with your Storybook.
 
 <Callout variant="info">
 
