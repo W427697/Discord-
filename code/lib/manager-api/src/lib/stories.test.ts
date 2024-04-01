@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import type { StoryIndexV2, StoryIndexV3 } from '@storybook/types';
-import { transformStoryIndexV2toV3, transformStoryIndexV3toV4 } from './stories';
+import {
+  transformStoryIndexV2toV3,
+  transformStoryIndexV3toV4,
+  transformStoryIndexToStoriesHash,
+} from './stories';
 
 const baseV2: StoryIndexV2['stories'][0] = {
   id: '1',
@@ -149,5 +153,45 @@ describe('transformStoryIndexV3toV4', () => {
         "v": 4,
       }
     `);
+  });
+});
+
+describe('transformStoryIndexToStoriesHash', () => {
+  it('should correctly remove trailing slash from story titles without throwing errors', () => {
+    const indexV3: StoryIndexV3 = {
+      v: 3,
+      stories: {
+        '1': {
+          ...baseV3,
+          id: '1',
+          kind: 'story',
+          title: 'scenes/MessageComposition/shared/ComposerImageLibraryPanel/',
+          parameters: {
+            docsOnly: true,
+          },
+        },
+        '2': {
+          ...baseV3,
+          id: '2',
+          kind: 'story',
+          title: 'scenes/MessageComposition/shared/ComposerImageLibraryPanel',
+          parameters: {
+            docsOnly: true,
+          },
+        },
+      },
+    };
+
+    const options = {
+      provider: { getConfig: () => ({}), handleAPI: () => {} },
+      docsOptions: { docsMode: false },
+      filters: {},
+      status: {},
+    };
+
+    const result = transformStoryIndexToStoriesHash(indexV3, options);
+
+    expect(() => transformStoryIndexToStoriesHash(indexV3, options)).not.toThrow();
+    expect(result['1']).toBeDefined();
   });
 });
