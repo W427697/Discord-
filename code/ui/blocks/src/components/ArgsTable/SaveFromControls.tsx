@@ -8,20 +8,24 @@ const slideIn = keyframes({
   to: { transform: 'translateY(0)' },
 });
 
-const Bar = styled(BaseBar)(({ theme }) => ({
+const Container = styled.div({
+  containerType: 'size',
   position: 'sticky',
   bottom: 0,
+  height: 39,
+  overflow: 'hidden',
+});
+
+const Bar = styled(BaseBar)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  height: 39,
   gap: 6,
   padding: '6px 10px',
-  fontSize: theme.typography.size.s2,
-  containerType: 'size',
+  animation: `${slideIn} 300ms forwards`,
   background: theme.background.bar,
   borderTop: `1px solid ${theme.appBorderColor}`,
-  animation: `${slideIn} 300ms forwards`,
+  fontSize: theme.typography.size.s2,
 }));
 
 const Content = styled.div({
@@ -116,71 +120,77 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
   };
 
   return (
-    <Bar>
-      <Content>
-        <Label data-short-label="Unsaved changes">
-          You modified this story. Do you want to save your changes?
-        </Label>
-      </Content>
+    <Container>
+      <Bar>
+        <Content>
+          <Label data-short-label="Unsaved changes">
+            You modified this story. Do you want to save your changes?
+          </Label>
+        </Content>
 
-      {creating ? (
-        <InlineForm onSubmit={onSubmitForm}>
-          <InlineInput
-            onChange={onChange}
-            placeholder="NewStoryName"
-            ref={inputRef}
-            value={storyName}
-          />
-          <IconButton
-            aria-label="Save story to file system"
-            disabled={saving || !storyName}
-            type="submit"
-          >
-            Save
-          </IconButton>
-          <IconButton onClick={onCancelForm} disabled={saving} type="reset">
-            Cancel
-          </IconButton>
-        </InlineForm>
-      ) : (
-        <Actions>
-          <WithTooltip
-            as="div"
-            hasChrome={false}
-            trigger="hover"
-            tooltip={<TooltipNote note="Save changes to story" />}
-          >
-            <IconButton aria-label="Save changes to story" disabled={saving} onClick={onSaveStory}>
-              <CheckIcon />
-              <Label data-short-label="Save">Update story</Label>
+        {creating ? (
+          <InlineForm onSubmit={onSubmitForm}>
+            <InlineInput
+              onChange={onChange}
+              placeholder="NewStoryName"
+              ref={inputRef}
+              value={storyName}
+            />
+            <IconButton
+              aria-label="Save story to file system"
+              disabled={saving || !storyName}
+              type="submit"
+            >
+              Save
             </IconButton>
-          </WithTooltip>
+            <IconButton onClick={onCancelForm} disabled={saving} type="reset">
+              Cancel
+            </IconButton>
+          </InlineForm>
+        ) : (
+          <Actions>
+            <WithTooltip
+              as="div"
+              hasChrome={false}
+              trigger="hover"
+              tooltip={<TooltipNote note="Save changes to story" />}
+            >
+              <IconButton
+                aria-label="Save changes to story"
+                disabled={saving}
+                onClick={onSaveStory}
+              >
+                <CheckIcon />
+                <Label data-short-label="Save">Update story</Label>
+              </IconButton>
+            </WithTooltip>
 
-          <WithTooltip
-            as="div"
-            hasChrome={false}
-            trigger="hover"
-            tooltip={<TooltipNote note="Create new story with these settings" />}
-          >
-            <IconButton aria-label="Create new story with these settings" onClick={onShowForm}>
-              <AddIcon />
-              <Label data-short-label="New">Create new story</Label>
-            </IconButton>
-          </WithTooltip>
+            <WithTooltip
+              as="div"
+              hasChrome={false}
+              trigger="hover"
+              tooltip={<TooltipNote note="Create new story with these settings" />}
+            >
+              <IconButton aria-label="Create new story with these settings" onClick={onShowForm}>
+                <AddIcon />
+                <Label data-short-label="New">Create new story</Label>
+              </IconButton>
+            </WithTooltip>
 
-          <WithTooltip
-            as="div"
-            hasChrome={false}
-            trigger="hover"
-            tooltip={<TooltipNote note="Reset changes" />}
-          >
-            <IconButton aria-label="Reset changes" onClick={() => resetArgs()}>
-              <UndoIcon />
-              <span>Reset</span>
-            </IconButton>
-          </WithTooltip>
-        </Actions>
-      )}
-    </Bar>
+            <WithTooltip
+              as="div"
+              hasChrome={false}
+              trigger="hover"
+              tooltip={<TooltipNote note="Reset changes" />}
+            >
+              <IconButton aria-label="Reset changes" onClick={() => resetArgs()}>
+                <UndoIcon />
+                <span>Reset</span>
+              </IconButton>
+            </WithTooltip>
+          </Actions>
+        )}
+      </Bar>
+    </Container>
   );
 };
