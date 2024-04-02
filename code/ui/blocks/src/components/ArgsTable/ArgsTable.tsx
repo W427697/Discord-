@@ -17,9 +17,12 @@ import { Skeleton } from './Skeleton';
 import { Empty } from './Empty';
 import { SaveFromControls } from './SaveFromControls';
 
-const ContentWrapper = styled(ResetWrapper)({
+const AddonWrapper = styled.div({
+  display: 'grid',
+  gridTemplateRows: '1fr 39px',
+  height: '100%',
   maxHeight: '100vh',
-  overflow: 'auto',
+  overflowY: 'auto',
 });
 
 export const TableWrapper = styled.table<{
@@ -361,8 +364,8 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs };
 
-  return (
-    <ContentWrapper>
+  const table = (
+    <ResetWrapper>
       <TableWrapper {...{ compact, inAddonPanel }} className="docblock-argstable sb-unstyled">
         <thead className="docblock-argstable-head">
           <tr>
@@ -439,10 +442,15 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
           ))}
         </tbody>
       </TableWrapper>
+    </ResetWrapper>
+  );
 
-      {inAddonPanel && (
-        <SaveFromControls saveStory={() => {}} createStory={() => {}} resetArgs={resetArgs} />
-      )}
-    </ContentWrapper>
+  if (!inAddonPanel) return table;
+
+  return (
+    <AddonWrapper>
+      {table}
+      <SaveFromControls saveStory={() => {}} createStory={() => {}} resetArgs={resetArgs} />
+    </AddonWrapper>
   );
 };
