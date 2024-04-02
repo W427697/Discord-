@@ -1,4 +1,4 @@
-import { ReactParser } from './parser/react';
+import { CommonParser } from './parser/common';
 
 export type SupportedRenderer = 'react';
 
@@ -15,9 +15,7 @@ export interface Parser {
 
 export function getParser(renderer: SupportedRenderer): Parser {
   switch (renderer) {
-    case 'react':
-      return new ReactParser();
     default:
-      throw new Error(`Unsupported renderer: ${renderer}`);
+      return new CommonParser();
   }
 }

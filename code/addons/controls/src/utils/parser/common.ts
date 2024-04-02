@@ -3,7 +3,7 @@ import { parse as parseEs } from 'es-module-lexer';
 
 import type { Parser } from '../parser';
 
-export class ReactParser implements Parser {
+export class CommonParser implements Parser {
   async parse(source: string) {
     try {
       // Do NOT remove await here. The types are wrong! It has to be awaited,
