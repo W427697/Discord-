@@ -6048,6 +6048,7 @@ __metadata:
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.1"
     "@storybook/node-logger": "workspace:*"
+    "@storybook/react-docgen-typescript-plugin": "npm:1.0.6--canary.9.0c3f3b7.0"
     "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@types/semver": "npm:^7.5.6"
