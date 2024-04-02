@@ -75,6 +75,8 @@ enum events {
   TELEMETRY_ERROR = 'telemetryError',
   FILE_COMPONENT_SEARCH = 'fileComponentSearch',
   FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
+  SAVE_STORY_REQUEST = 'saveStoryRequest',
+  SAVE_STORY_RESULT = 'saveStoryResult',
 }
 
 // Enables: `import Events from ...`
