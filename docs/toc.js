@@ -137,6 +137,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'tags',
+          title: 'Tags',
+          type: 'link',
+        },
+        {
           pathSegment: 'naming-components-and-hierarchy',
           title: 'Naming components and hierarchy',
           type: 'link',
@@ -611,9 +616,14 @@ module.exports = {
               pathSegment: 'main-config-static-dirs',
               type: 'link',
             },
-             {
+            {
               title: 'swc',
               pathSegment: 'main-config-swc',
+              type: 'link',
+            },
+            {
+              title: 'tags',
+              pathSegment: 'main-config-tags',
               type: 'link',
             },
             {
