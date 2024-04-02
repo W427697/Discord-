@@ -1,7 +1,12 @@
 import { Bar as BaseBar, IconButton, TooltipNote, WithTooltip, Form } from '@storybook/components';
 import { AddIcon, CheckIcon, UndoIcon } from '@storybook/icons';
-import { styled } from '@storybook/theming';
+import { keyframes, styled } from '@storybook/theming';
 import React from 'react';
+
+const slideIn = keyframes({
+  from: { transform: 'translateY(40px)' },
+  to: { transform: 'translateY(0)' },
+});
 
 const Bar = styled(BaseBar)(({ theme }) => ({
   position: 'sticky',
@@ -16,6 +21,7 @@ const Bar = styled(BaseBar)(({ theme }) => ({
   containerType: 'size',
   background: theme.background.bar,
   borderTop: `1px solid ${theme.appBorderColor}`,
+  animation: `${slideIn} 300ms forwards`,
 }));
 
 const Content = styled.div({
@@ -23,16 +29,17 @@ const Content = styled.div({
   alignItems: 'center',
   marginLeft: 10,
   gap: 6,
+});
 
-  'span:last-of-type': {
-    display: 'none',
-  },
-  '@container (min-width: 800px)': {
-    'span:first-of-type': {
-      display: 'none',
-    },
-    'span:last-of-type': {
-      display: 'inline',
+const Label = styled.div({
+  '@container (max-width: 799px)': {
+    lineHeight: 0,
+    textIndent: '-9999px',
+    '&::after': {
+      content: 'attr(data-short-label)',
+      display: 'block',
+      lineHeight: 'initial',
+      textIndent: '0',
     },
   },
 });
@@ -64,15 +71,6 @@ const Actions = styled.div(({ theme }) => ({
   color: theme.color.mediumdark,
   fontSize: theme.typography.size.s2,
 }));
-
-const ActionButton = styled(IconButton)({
-  span: {
-    display: 'none',
-    '@container (min-width: 800px)': {
-      display: 'inline',
-    },
-  },
-});
 
 type SaveFromControlsProps = {
   saveStory: () => void;
@@ -120,8 +118,9 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
   return (
     <Bar>
       <Content>
-        <span>Unsaved changes</span>
-        <span>You modified this story. Do you want to save your changes?</span>
+        <Label data-short-label="Unsaved changes">
+          You modified this story. Do you want to save your changes?
+        </Label>
       </Content>
 
       {creating ? (
@@ -132,16 +131,16 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
             ref={inputRef}
             value={storyName}
           />
-          <ActionButton
+          <IconButton
             aria-label="Save story to file system"
             disabled={saving || !storyName}
             type="submit"
           >
             Save
-          </ActionButton>
-          <ActionButton onClick={onCancelForm} disabled={saving} type="reset">
+          </IconButton>
+          <IconButton onClick={onCancelForm} disabled={saving} type="reset">
             Cancel
-          </ActionButton>
+          </IconButton>
         </InlineForm>
       ) : (
         <Actions>
@@ -151,14 +150,10 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
             trigger="hover"
             tooltip={<TooltipNote note="Save changes to story" />}
           >
-            <ActionButton
-              aria-label="Save changes to story"
-              disabled={saving}
-              onClick={onSaveStory}
-            >
+            <IconButton aria-label="Save changes to story" disabled={saving} onClick={onSaveStory}>
               <CheckIcon />
-              Update story
-            </ActionButton>
+              <Label data-short-label="Save">Update story</Label>
+            </IconButton>
           </WithTooltip>
 
           <WithTooltip
@@ -167,10 +162,10 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
             trigger="hover"
             tooltip={<TooltipNote note="Create new story with these settings" />}
           >
-            <ActionButton aria-label="Create new story with these settings" onClick={onShowForm}>
+            <IconButton aria-label="Create new story with these settings" onClick={onShowForm}>
               <AddIcon />
-              <span>Create new story</span>
-            </ActionButton>
+              <Label data-short-label="New">Create new story</Label>
+            </IconButton>
           </WithTooltip>
 
           <WithTooltip
@@ -179,10 +174,10 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
             trigger="hover"
             tooltip={<TooltipNote note="Reset changes" />}
           >
-            <ActionButton aria-label="Reset changes" onClick={() => resetArgs()}>
+            <IconButton aria-label="Reset changes" onClick={() => resetArgs()}>
               <UndoIcon />
               <span>Reset</span>
-            </ActionButton>
+            </IconButton>
           </WithTooltip>
         </Actions>
       )}

@@ -447,6 +447,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   if (!inAddonPanel) return table;
 
+  const hasControls = Object.values(rows).some((row) => row?.control);
+  if (!hasControls) return table;
+
   return (
     <AddonWrapper>
       {table}
