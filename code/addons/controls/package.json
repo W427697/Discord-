@@ -33,6 +33,7 @@
       "import": "./dist/index.mjs"
     },
     "./manager": "./dist/manager.js",
+    "./preset": "./dist/preset.js",
     "./register": "./dist/manager.js",
     "./package.json": "./package.json"
   },
@@ -52,6 +53,10 @@
   },
   "dependencies": {
     "@storybook/blocks": "workspace:*",
+    "cjs-module-lexer": "^1.2.3",
+    "es-module-lexer": "^1.5.0",
+    "glob": "^10.3.12",
+    "globby": "^14.0.1",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -71,6 +76,9 @@
     "access": "public"
   },
   "bundler": {
+    "nodeEntries": [
+      "./src/preset.ts"
+    ],
     "exportEntries": [
       "./src/index.ts"
     ],
