@@ -73,6 +73,9 @@ enum events {
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
+
+  SAVE_STORY_REQUEST = 'saveStoryRequest',
+  SAVE_STORY_RESULT = 'saveStoryResult',
 }
 
 // Enables: `import Events from ...`
