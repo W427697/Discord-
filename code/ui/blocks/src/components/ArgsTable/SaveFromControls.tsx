@@ -7,16 +7,15 @@ const Bar = styled(BaseBar)(({ theme }) => ({
   position: 'sticky',
   bottom: 0,
   display: 'flex',
-  flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'space-between',
+  height: 39,
   gap: 6,
   padding: '6px 10px',
   fontSize: theme.typography.size.s2,
   containerType: 'size',
   background: theme.background.bar,
-  borderTop: `1px solid ${theme.color.border}`,
-  overflow: 'visible',
+  borderTop: `1px solid ${theme.appBorderColor}`,
 }));
 
 const Content = styled.div({
