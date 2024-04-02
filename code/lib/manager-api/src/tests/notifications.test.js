@@ -14,7 +14,7 @@ describe('notifications API', () => {
     },
   };
 
-  it.only('allows adding notifications', () => {
+  it('allows adding notifications', () => {
     const { api } = initNotifications({ store });
 
     api.addNotification({ id: '1' });
