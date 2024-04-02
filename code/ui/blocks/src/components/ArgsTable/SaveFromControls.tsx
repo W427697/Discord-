@@ -4,6 +4,8 @@ import { styled } from '@storybook/theming';
 import React from 'react';
 
 const Bar = styled(BaseBar)(({ theme }) => ({
+  position: 'sticky',
+  bottom: 0,
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',

@@ -15,6 +15,12 @@ import type { ArgType, ArgTypes, Args, Globals } from './types';
 import { EmptyBlock } from '..';
 import { Skeleton } from './Skeleton';
 import { Empty } from './Empty';
+import { SaveFromControls } from './SaveFromControls';
+
+const ContentWrapper = styled(ResetWrapper)({
+  maxHeight: '100vh',
+  overflow: 'auto',
+});
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -356,7 +362,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs };
 
   return (
-    <ResetWrapper>
+    <ContentWrapper>
       <TableWrapper {...{ compact, inAddonPanel }} className="docblock-argstable sb-unstyled">
         <thead className="docblock-argstable-head">
           <tr>
@@ -377,7 +383,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
               <th>
                 <ControlHeadingWrapper>
                   Control{' '}
-                  {!isLoading && resetArgs && (
+                  {!isLoading && !inAddonPanel && resetArgs && (
                     <StyledIconButton onClick={() => resetArgs()} title="Reset controls">
                       <UndoIcon aria-hidden />
                     </StyledIconButton>
@@ -433,6 +439,10 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
           ))}
         </tbody>
       </TableWrapper>
-    </ResetWrapper>
+
+      {inAddonPanel && (
+        <SaveFromControls saveStory={() => {}} createStory={() => {}} resetArgs={resetArgs} />
+      )}
+    </ContentWrapper>
   );
 };
