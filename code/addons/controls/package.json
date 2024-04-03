@@ -53,9 +53,9 @@
   },
   "dependencies": {
     "@storybook/blocks": "workspace:*",
+    "@storybook/core-common": "workspace:*",
     "cjs-module-lexer": "^1.2.3",
     "es-module-lexer": "^1.5.0",
-    "glob": "^10.3.12",
     "globby": "^14.0.1",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
@@ -63,7 +63,6 @@
   "devDependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
-    "@storybook/core-common": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
