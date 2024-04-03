@@ -1,3 +1,1 @@
-module.exports = () => {
-  return 'commonjs-default';
-};
+module.exports = require('./commonjs');
