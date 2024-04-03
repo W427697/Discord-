@@ -1,5 +1,3 @@
-export type SupportedRenderer = 'react';
-
 export type ParserResult = {
   exports: Array<{
     name: string;

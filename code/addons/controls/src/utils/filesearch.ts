@@ -2,9 +2,9 @@ import { globby } from 'globby';
 import path from 'path';
 import fs from 'fs';
 
-import type { SupportedRenderer } from './parser/types';
 import { getParser } from './parser';
 import { isNotNull } from './ts-utils';
+import type { SupportedRenderers } from '@storybook/types';
 
 export type SearchResult = Array<{
   filepath: string;
@@ -29,7 +29,7 @@ const globPatternChars = ['*', '+(', '@(', '?(', '!(', '[', ']'];
 export async function searchFiles(
   searchQuery: string,
   cwd: string,
-  renderer: SupportedRenderer
+  renderer: SupportedRenderers | null
 ): Promise<SearchResult> {
   const hasGlobChars = globPatternChars.some((char) => searchQuery.includes(char));
 
