@@ -13634,13 +13634,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "es-module-lexer@npm:1.5.0"
-  checksum: 10c0/d199853404f3381801eb102befb84a8fc48f93ed86b852c2461c2c4ad4bbbc91128f3d974ff9b8718628260ae3f36e661295ab3e419222868aa31269284e34c9
-  languageName: node
-  linkType: hard
-
 "es-set-tostringtag@npm:^2.0.2":
   version: 2.0.3
   resolution: "es-set-tostringtag@npm:2.0.3"
