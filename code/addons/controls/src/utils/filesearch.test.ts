@@ -10,6 +10,16 @@ describe('filesearch', () => {
       expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs-default.js', 'src/commonjs.js']);
     });
 
+    it('should return all files if the search query matches the parent folder', async (t) => {
+      const files = await searchFiles('src', path.join(__dirname, '__tests__'), 'react');
+
+      expect(files?.map((f) => f.filepath)).toEqual([
+        'src/commonjs-default.js',
+        'src/commonjs.js',
+        'src/esmodule.js',
+      ]);
+    });
+
     it('should work with glob search patterns', async (t) => {
       const files = await searchFiles('**/commonjs.js', path.join(__dirname, '__tests__'), 'react');
 
