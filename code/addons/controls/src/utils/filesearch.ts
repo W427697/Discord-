@@ -33,7 +33,7 @@ export async function searchFiles(
 ): Promise<SearchResult> {
   const hasGlobChars = globPatternChars.some((char) => searchQuery.includes(char));
 
-  const globbedSearchQuery = hasGlobChars ? searchQuery : `**/${searchQuery}**`;
+  const globbedSearchQuery = hasGlobChars ? searchQuery : `**/*${searchQuery}**`;
 
   const entries = await globby(globbedSearchQuery, {
     ignore: ['**/node_modules/**'],

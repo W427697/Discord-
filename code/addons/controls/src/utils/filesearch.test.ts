@@ -5,7 +5,7 @@ import { searchFiles } from './filesearch';
 describe('filesearch', () => {
   describe('search result', () => {
     it('should automatically convert normal search to a glob search', async (t) => {
-      const files = await searchFiles('commonjs', path.join(__dirname, '__tests__'), 'react');
+      const files = await searchFiles('ommonjs', path.join(__dirname, '__tests__'), 'react');
 
       expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs-default.js', 'src/commonjs.js']);
     });
