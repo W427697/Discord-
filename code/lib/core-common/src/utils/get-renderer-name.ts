@@ -3,6 +3,7 @@ import { getFrameworkName } from './get-framework-name';
 
 /**
  * Render is set as a string on core. It must be set by the framework
+ * It falls back to the framework name if not set
  */
 export async function getRendererName(options: Options) {
   const core = await options.presets.apply('core', {}, options);
