@@ -56,7 +56,7 @@ Options include:
 | `--preview-url [path]`          | Overrides the default Storybook preview with a custom built preview URL<br/>`storybook dev --preview-url=http://localhost:1337/external-iframe.html`                                                   |
 | `--force-build-preview`         | Forcefully builds Storybook's preview iframe.<br/>Useful if you're experiencing issues, or combined with `--preview-url` to ensure the preview is up-to-date<br/>`storybook dev --force-build-preview` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook dev --disable-telemetry`                                                           |
-| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook dev --enable-crash-reports`            |
+| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook dev --enable-crash-reports`             |
 
 <Callout variant="warning" id="static-dir-deprecation">
 
@@ -89,8 +89,8 @@ Options include:
 | `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test`    |
 | `--preview-url [path]`          | Overrides the default Storybook preview with a custom built preview URL<br/>`storybook build --preview-url=http://localhost:1337/external-iframe.html`                                                   |
 | `--force-build-preview`         | Forcefully builds Storybook's preview iframe.<br/>Useful if you're experiencing issues, or combined with `--preview-url` to ensure the preview is up-to-date<br/>`storybook build --force-build-preview` |
-| `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out).<br/>`storybook build --disable-telemetry`                                                          |
-| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook build --enable-crash-reports`            |
+| `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook build --disable-telemetry`                                                           |
+| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook build --enable-crash-reports`             |
 
 ### `init`
 
@@ -104,20 +104,20 @@ For example, `storybook@latest init` will install the latest version of Storyboo
 
 Options include:
 
-| Option                   | Description                                                                                                                                                                                  |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`           | Output usage information <br/>`storybook init --help`                                                                                                                                        |
-| `-b`, `--builder`        | Defines the [builder](../builders/index.md) to use for your Storybook instance<br/>`storybook init --builder webpack5`                                                                       |
-| `-f`,`--force`           | Forcefully installs Storybook into your project, prompting you to overwrite existing files<br/>`storybook init --force`                                                                      |
-| `-s`, `--skip-install`   | Skips the dependency installation step. Used only when you need to configure Storybook manually<br/>`storybook init --skip-install`                                                          |
-| `-t`, `--type`           | Defines the [framework](../configure/frameworks.md) to use for your Storybook instance<br/>`storybook init --type solid`                                                                     |
-| `-y`, `--yes`            | Skips interactive prompts and automatically installs Storybook per specified version<br/>`storybook init --yes`                                                                              |
-| `--package-manager`      | Sets the package manager to use when installing Storybook.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook init --package-manager pnpm`                     |
-| `--use-pnp`              | Enables [Plug'n'Play](https://yarnpkg.com/features/pnp) support for Yarn. This option is only available when using Yarn as your package manager<br/>`storybook init --use-pnp`               |
-| `-p`, `--parser`         | Sets the [jscodeshift parser](https://github.com/facebook/jscodeshift#parser).<br/> Available parsers include `babel`, `babylon`, `flow`, `ts`, and `tsx`<br/>`storybook init --parser tsx`  |
-| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook init --debug`                                                                                                                |
-| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook init --disable-telemetry`                                                |
-| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook init --enable-crash-reports` |
+| Option                   | Description                                                                                                                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`           | Output usage information <br/>`storybook init --help`                                                                                                                                       |
+| `-b`, `--builder`        | Defines the [builder](../builders/index.md) to use for your Storybook instance<br/>`storybook init --builder webpack5`                                                                      |
+| `-f`,`--force`           | Forcefully installs Storybook into your project, prompting you to overwrite existing files<br/>`storybook init --force`                                                                     |
+| `-s`, `--skip-install`   | Skips the dependency installation step. Used only when you need to configure Storybook manually<br/>`storybook init --skip-install`                                                         |
+| `-t`, `--type`           | Defines the [framework](../configure/frameworks.md) to use for your Storybook instance<br/>`storybook init --type solid`                                                                    |
+| `-y`, `--yes`            | Skips interactive prompts and automatically installs Storybook per specified version<br/>`storybook init --yes`                                                                             |
+| `--package-manager`      | Sets the package manager to use when installing Storybook.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook init --package-manager pnpm`                    |
+| `--use-pnp`              | Enables [Plug'n'Play](https://yarnpkg.com/features/pnp) support for Yarn. This option is only available when using Yarn as your package manager<br/>`storybook init --use-pnp`              |
+| `-p`, `--parser`         | Sets the [jscodeshift parser](https://github.com/facebook/jscodeshift#parser).<br/> Available parsers include `babel`, `babylon`, `flow`, `ts`, and `tsx`<br/>`storybook init --parser tsx` |
+| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook init --debug`                                                                                                               |
+| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook init --disable-telemetry`                                               |
+| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook init --enable-crash-reports` |
 
 ### `add`
 
@@ -146,13 +146,13 @@ storybook remove [addon] [options]
 
 Options include:
 
-| Option                   | Description                                                                                                                                                                                    |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`           | Output usage information <br/>`storybook remove --help`                                                                                                                                        |
-| `--package-manager`      | Sets the package manager to use when removing the addon.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook remove [addon]--package-manager pnpm`                 |
-| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook remove --debug`                                                                                                                |
-| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook remove --disable-telemetry`                                                |
-| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook remove --enable-crash-reports` |
+| Option                   | Description                                                                                                                                                                                   |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`           | Output usage information <br/>`storybook remove --help`                                                                                                                                       |
+| `--package-manager`      | Sets the package manager to use when removing the addon.<br/>Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook remove [addon]--package-manager pnpm`                |
+| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook remove --debug`                                                                                                               |
+| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook remove --disable-telemetry`                                               |
+| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook remove --enable-crash-reports` |
 
 ### `upgrade`
 
@@ -166,18 +166,18 @@ For example, `storybook@latest upgrade --dry-run` will perform a dry run (no act
 
 Options include:
 
-| Option                   | Description                                                                                                                                                                                     |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`           | Output usage information <br/>`storybook upgrade --help`                                                                                                                                        |
-| `-c`, `--config-dir`     | Directory where to load Storybook configurations from<br/>`storybook upgrade --config-dir .storybook`                                                                                           |
-| `-n`, `--dry-run`        | Checks for version upgrades without installing them<br/>`storybook upgrade --dry-run`                                                                                                           |
-| `-s`, `--skip-check`     | Skips the migration check step during the upgrade process<br/> `storybook upgrade --skip-check`                                                                                                 |
-| `-y`, `--yes`            | Skips interactive prompts and automatically upgrades Storybook to the latest version<br/>`storybook upgrade --yes`                                                                              |
-| `-f`,`--force`           | Force the upgrade, skipping autoblockers check<br/>`storybook upgrade --force`                                                                                                                  |
-| `--package-manager`      | Sets the package manager to use when upgrading Storybook.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook upgrade --package-manager pnpm`                      |
-| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook upgrade --debug`                                                                                                                |
-| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook upgrade --disable-telemetry`                                                |
-| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook upgrade --enable-crash-reports` |
+| Option                   | Description                                                                                                                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`           | Output usage information <br/>`storybook upgrade --help`                                                                                                                                       |
+| `-c`, `--config-dir`     | Directory where to load Storybook configurations from<br/>`storybook upgrade --config-dir .storybook`                                                                                          |
+| `-n`, `--dry-run`        | Checks for version upgrades without installing them<br/>`storybook upgrade --dry-run`                                                                                                          |
+| `-s`, `--skip-check`     | Skips the migration check step during the upgrade process<br/> `storybook upgrade --skip-check`                                                                                                |
+| `-y`, `--yes`            | Skips interactive prompts and automatically upgrades Storybook to the latest version<br/>`storybook upgrade --yes`                                                                             |
+| `-f`,`--force`           | Force the upgrade, skipping autoblockers check<br/>`storybook upgrade --force`                                                                                                                 |
+| `--package-manager`      | Sets the package manager to use when upgrading Storybook.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook upgrade --package-manager pnpm`                     |
+| `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook upgrade --debug`                                                                                                               |
+| `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook upgrade --disable-telemetry`                                               |
+| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook upgrade --enable-crash-reports` |
 
 ### `migrate`
 
@@ -221,18 +221,18 @@ For example, `storybook@latest automigrate --dry-run` scans your project for pot
 Options include:
 
 | Option                   | Description                                                                                                                                                                                                             |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `-h`, `--help`           | Output usage information <br/>`storybook automigrate --help`                                                                                                                                                            |
 | `-c`, `--config-dir`     | Directory where to load Storybook configurations from<br/>`storybook automigrate --config-dir .storybook`                                                                                                               |
 | `-n`, `--dry-run`        | Checks for available migrations without applying them<br/>`storybook automigrate --dry-run`                                                                                                                             |
 | `-s`, `--skip-install`   | Skip installing dependencies whenever applicable<br/> `storybook automigrate --skip-install`                                                                                                                            |
 | `-y`, `--yes`            | Applies available migrations automatically without prompting for confirmation<br/>`storybook automigrate --yes`                                                                                                         |
 | `-l`, `--list`           | Shows a list of available automigrations<br/> `storybook automigrate --list`                                                                                                                                            |
-| `--package-manager`      | Sets the package manager to use when running the auto migration.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook automigrate --package-manager pnpm`                                   |     |
-| `--renderer`             | Specifies Storybook's renderer to use when running the automigration.<br/> Useful for monorepo environments where multiple Storybook instances can exist in the same project<br/>`storybook automigrate --renderer vue` |     |
+| `--package-manager`      | Sets the package manager to use when running the auto migration.<br/> Available package managers include `npm`, `yarn`, and `pnpm`<br/>`storybook automigrate --package-manager pnpm`                                   |
+| `--renderer`             | Specifies Storybook's renderer to use when running the automigration.<br/> Useful for monorepo environments where multiple Storybook instances can exist in the same project<br/>`storybook automigrate --renderer vue` |
 | `--debug`                | Outputs more logs in the CLI to assist debugging<br/>`storybook automigrate --debug`                                                                                                                                    |
 | `--disable-telemetry`    | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook automigrate --disable-telemetry`                                                                    |
-| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook automigrate --enable-crash-reports`                     |
+| `--enable-crash-reports` | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook automigrate --enable-crash-reports`                      |
 
 ### `doctor`
 
@@ -302,14 +302,14 @@ The `framework-filter` argument is optional and can filter the list of available
 
 Options include:
 
-| Option                      | Description                                                                                                                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`              | Output usage information <br/>`storybook sandbox --help`                                                                                                                                        |
-| `-o`, `--output [dir-name]` | Configures the location of the sandbox project<br/>`storybook sandbox --output /my-sandbox-project`                                                                                             |
-| `--no-init`                 | Generates a sandbox project without without initializing Storybook<br/>`storybook sandbox --no-init`                                                                                            |
-| `--debug`                   | Outputs more logs in the CLI to assist debugging<br/>`storybook sandbox --debug`                                                                                                                |
-| `--disable-telemetry`       | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook sandbox --disable-telemetry`                                                |
-| `--enable-crash-reports`    | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook sandbox --enable-crash-reports` |
+| Option                      | Description                                                                                                                                                                                    |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`              | Output usage information <br/>`storybook sandbox --help`                                                                                                                                       |
+| `-o`, `--output [dir-name]` | Configures the location of the sandbox project<br/>`storybook sandbox --output /my-sandbox-project`                                                                                            |
+| `--no-init`                 | Generates a sandbox project without without initializing Storybook<br/>`storybook sandbox --no-init`                                                                                           |
+| `--debug`                   | Outputs more logs in the CLI to assist debugging<br/>`storybook sandbox --debug`                                                                                                               |
+| `--disable-telemetry`       | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out)<br/>`storybook sandbox --disable-telemetry`                                               |
+| `--enable-crash-reports`    | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default)<br/>`storybook sandbox --enable-crash-reports` |
 
 <Callout variant="info">
 
