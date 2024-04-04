@@ -1,17 +1,53 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+import type { Mock } from '@vitest/spy';
 import {
   spyOn,
   isMockFunction,
-  fn,
+  fn as vitestFn,
   mocks,
   type MaybeMocked,
   type MaybeMockedDeep,
   type MaybePartiallyMocked,
   type MaybePartiallyMockedDeep,
 } from '@vitest/spy';
+import type { SpyInternalImpl } from 'tinyspy';
+import * as tinyspy from 'tinyspy';
 
 export type * from '@vitest/spy';
 
-export { spyOn, isMockFunction, fn, mocks };
+export { spyOn, isMockFunction, mocks };
+
+type Listener = (mock: Mock, args: unknown[]) => void;
+let listeners: Listener[] = [];
+
+export function onMockCalled(callback: Listener): () => void {
+  listeners = [...listeners, callback];
+  return () => {
+    listeners = listeners.filter((listener) => listener !== callback);
+  };
+}
+
+export function fn<TArgs extends any[] = any, R = any>(): Mock<TArgs, R>;
+export function fn<TArgs extends any[] = any[], R = any>(
+  implementation: (...args: TArgs) => R
+): Mock<TArgs, R>;
+export function fn<TArgs extends any[] = any[], R = any>(implementation?: (...args: TArgs) => R) {
+  const mock = implementation ? vitestFn(implementation) : vitestFn();
+  const reactive = reactiveMock(mock);
+  const originalMockImplementation = reactive.mockImplementation.bind(null);
+  reactive.mockImplementation = (fn) => reactiveMock(originalMockImplementation(fn));
+  return reactive;
+}
+
+function reactiveMock(mock: Mock) {
+  const state = tinyspy.getInternalState(mock as unknown as SpyInternalImpl);
+  const impl = state.impl?.bind(null);
+  state.willCall((...args) => {
+    listeners.forEach((listener) => listener(mock, args));
+    impl?.(...args);
+  });
+  return mock;
+}
 
 /**
  * Calls [`.mockClear()`](https://vitest.dev/api/mock#mockclear) on every mocked function. This will only empty `.mock` state, it will not reset implementation.

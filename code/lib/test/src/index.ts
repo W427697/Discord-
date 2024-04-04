@@ -3,7 +3,7 @@ import { type LoaderFunction } from '@storybook/csf';
 import chai from 'chai';
 import { global } from '@storybook/global';
 import { expect as rawExpect } from './expect';
-import { clearAllMocks, resetAllMocks, restoreAllMocks } from './spy';
+import { clearAllMocks, onMockCalled, resetAllMocks, restoreAllMocks } from './spy';
 
 export * from './spy';
 
@@ -39,3 +39,5 @@ const resetAllMocksLoader: LoaderFunction = ({ parameters }) => {
 // We are using this as a default Storybook loader, when the test package is used. This avoids the need for optional peer dependency workarounds.
 // eslint-disable-next-line no-underscore-dangle
 (global as any).__STORYBOOK_TEST_LOADERS__ = [resetAllMocksLoader];
+// eslint-disable-next-line no-underscore-dangle
+(global as any).__STORYBOOK_TEST_ON_MOCK_CALLED__ = onMockCalled;

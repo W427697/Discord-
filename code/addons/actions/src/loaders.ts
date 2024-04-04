@@ -1,36 +1,26 @@
 /* eslint-disable no-underscore-dangle */
 import type { LoaderFunction } from '@storybook/types';
+import { global } from '@storybook/global';
+import type { onMockCalled as onMockCalledType } from '@storybook/test';
 import { action } from './runtime';
 
-export const tinySpyInternalState = Symbol.for('tinyspy:spy');
+let subscribed = false;
 
-const attachActionsToFunctionMocks: LoaderFunction = (context) => {
+const logActionsWhenMockCalled: LoaderFunction = (context) => {
   const {
-    args,
     parameters: { actions },
   } = context;
   if (actions?.disable) return;
 
-  Object.entries(args)
-    .filter(
-      ([, value]) =>
-        typeof value === 'function' && '_isMockFunction' in value && value._isMockFunction
-    )
-    .forEach(([key, value]) => {
-      // See this discussion for context:
-      // https://github.com/vitest-dev/vitest/pull/5352
-      const previous =
-        value.getMockImplementation() ??
-        (tinySpyInternalState in value ? value[tinySpyInternalState]?.getOriginal() : undefined);
-      if (previous?._actionAttached !== true && previous?.isAction !== true) {
-        const implementation = (...params: unknown[]) => {
-          action(key)(...params);
-          return previous?.(...params);
-        };
-        implementation._actionAttached = true;
-        value.mockImplementation(implementation);
-      }
-    });
+  if (
+    !subscribed &&
+    '__STORYBOOK_TEST_ON_MOCK_CALLED__' in global &&
+    typeof global.__STORYBOOK_TEST_ON_MOCK_CALLED__ === 'function'
+  ) {
+    const onMockCalled = global.__STORYBOOK_TEST_ON_MOCK_CALLED__ as typeof onMockCalledType;
+    onMockCalled((mock, args) => action(mock.getMockName())(args));
+    subscribed = true;
+  }
 };
 
-export const loaders: LoaderFunction[] = [attachActionsToFunctionMocks];
+export const loaders: LoaderFunction[] = [logActionsWhenMockCalled];
