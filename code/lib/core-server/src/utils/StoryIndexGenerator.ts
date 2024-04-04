@@ -9,13 +9,11 @@ import type {
   IndexEntry,
   StoryIndexEntry,
   DocsIndexEntry,
-  ComponentTitle,
   NormalizedStoriesSpecifier,
   DocsOptions,
   Path,
   Tag,
   StoryIndex,
-  StoryName,
   Indexer,
   StorybookConfigRaw,
 } from '@storybook/types';
@@ -156,7 +154,7 @@ export class StoryIndexGenerator {
     );
 
     const previewCode = await this.getPreviewCode();
-    const projectTags = previewCode && this.getProjectTags(previewCode);
+    const projectTags = previewCode ? this.getProjectTags(previewCode) : [];
 
     // Extract stories for each file
     await this.ensureExtracted({ projectTags });
@@ -223,11 +221,13 @@ export class StoryIndexGenerator {
     // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
+      this.isDocsMdx(absolutePath)
+        ? false
+        : this.extractStories(specifier, absolutePath, projectTags)
     );
 
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.extractDocs(specifier, absolutePath)
+      this.extractDocs(specifier, absolutePath, projectTags)
     );
 
     return this.specifiers.flatMap((specifier) => {
@@ -240,32 +240,17 @@ export class StoryIndexGenerator {
       );
       return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
-        if (entry.type === 'docs') return [this.addProjectTags(entry, projectTags)];
+        if (entry.type === 'docs') return [entry];
         if (entry.type === 'error') return [entry];
 
         return entry.entries.map((item) => {
-          if (item.type === 'docs') return this.addProjectTags(item, projectTags);
+          if (item.type === 'docs') return item;
           // Drop the meta id as it isn't part of the index, we just used it for record keeping in `extractDocs`
           const { metaId, ...existing } = item;
-          return this.addProjectTags(existing, projectTags);
+          return existing;
         });
       });
     });
-  }
-
-  getExtraTags() {
-    return this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
-  }
-
-  addProjectTags(entry: IndexEntry, projectTags?: Tag[]) {
-    return {
-      ...entry,
-      metaTags: combineTags(
-        ...this.getExtraTags(),
-        ...(projectTags ?? []),
-        ...(entry.metaTags ?? [])
-      ),
-    };
   }
 
   findDependencies(absoluteImports: Path[]) {
@@ -288,7 +273,8 @@ export class StoryIndexGenerator {
 
   async extractStories(
     specifier: NormalizedStoriesSpecifier,
-    absolutePath: Path
+    absolutePath: Path,
+    projectTags: Tag[] = []
   ): Promise<StoriesCacheEntry | DocsCacheEntry> {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const importPath = slash(normalizeStoryPath(relativePath));
@@ -313,13 +299,8 @@ export class StoryIndexGenerator {
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
-        const extraTags = this.getExtraTags();
-        const tags = combineTags(
-          ...extraTags,
-          ...(input.metaTags ?? []),
-          ...(input.tags ?? []),
-          'story'
-        );
+        const metaTags = combineTags(...projectTags, ...(input.metaTags ?? []));
+        const tags = combineTags(...metaTags, ...(input.tags ?? []));
 
         return {
           type: 'story',
@@ -328,7 +309,7 @@ export class StoryIndexGenerator {
           name,
           title,
           importPath,
-          metaTags: input.metaTags ?? [],
+          metaTags,
           tags,
         };
       });
@@ -344,8 +325,10 @@ export class StoryIndexGenerator {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
-      const metaTags = indexInputs[0].metaTags ?? [];
       const id = toId(metaId ?? title, name);
+      const metaTags = combineTags(...projectTags, ...(indexInputs[0].metaTags ?? []));
+      const tags = combineTags(...metaTags, ...(indexInputs[0].tags ?? []));
+
       entries.unshift({
         id,
         title,
@@ -353,11 +336,7 @@ export class StoryIndexGenerator {
         importPath,
         type: 'docs',
         metaTags,
-        tags: combineTags(
-          ...metaTags,
-          'docs',
-          ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])
-        ),
+        tags,
         storiesImports: [],
       });
     }
@@ -373,7 +352,11 @@ export class StoryIndexGenerator {
     };
   }
 
-  async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
+  async extractDocs(
+    specifier: NormalizedStoriesSpecifier,
+    absolutePath: Path,
+    projectTags: Tag[] = []
+  ) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
       const normalizedPath = normalizeStoryPath(relativePath);
@@ -381,14 +364,7 @@ export class StoryIndexGenerator {
 
       const content = await fs.readFile(absolutePath, 'utf8');
 
-      const result: {
-        title?: ComponentTitle;
-        of?: Path;
-        name?: StoryName;
-        isTemplate?: boolean;
-        imports?: Path[];
-        tags?: Tag[];
-      } = analyze(content);
+      const result = analyze(content);
 
       // Templates are not indexed
       if (result.isTemplate) return false;
@@ -454,7 +430,20 @@ export class StoryIndexGenerator {
       const name =
         result.name ||
         (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
+
       const id = toId(csfEntry?.metaId || title, name);
+
+      const metaTags = combineTags(
+        ...projectTags,
+        ...(result.metaTags ?? []),
+        ...(csfEntry?.metaTags ?? [])
+      );
+      const tags = combineTags(
+        ...metaTags,
+        ...(csfEntry?.tags ?? []),
+        csfEntry ? 'attached-mdx' : 'unattached-mdx'
+      );
+      console.log({ projectTags, metaTags, tags });
 
       const docsEntry: DocsCacheEntry = {
         id,
@@ -463,13 +452,8 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
-        tags: combineTags(
-          ...this.getExtraTags(),
-          ...(result.tags ?? []),
-          csfEntry ? 'attached-mdx' : 'unattached-mdx',
-          'docs'
-        ),
+        metaTags,
+        tags,
       };
       return docsEntry;
     } catch (err) {
@@ -577,7 +561,7 @@ export class StoryIndexGenerator {
     if (this.lastError) throw this.lastError;
 
     const previewCode = await this.getPreviewCode();
-    const projectTags = previewCode && this.getProjectTags(previewCode);
+    const projectTags = previewCode ? this.getProjectTags(previewCode) : [];
 
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
@@ -678,8 +662,10 @@ export class StoryIndexGenerator {
 
   getProjectTags(previewCode: string) {
     const projectAnnotations = loadConfig(previewCode).parse();
-    const projectTags = projectAnnotations.getFieldValue(['tags']);
-    return projectTags;
+    const defaultTags = ['dev', 'docs', 'test'];
+    const extraTags = this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
+    const projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
+    return [...defaultTags, ...projectTags, ...extraTags];
   }
 
   // Get the story file names in "imported order"

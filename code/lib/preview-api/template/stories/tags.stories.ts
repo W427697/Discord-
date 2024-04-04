@@ -4,7 +4,7 @@ import { within, expect } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['component-one', 'component-two', 'autodocs'],
+  tags: ['component-one', 'component-two', '!autodocs'],
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       return storyFn({
