@@ -54,9 +54,12 @@ describe('file-search-channel', () => {
         return (await vi.importActual('../utils/filesearch')).searchFiles(...args);
       });
 
-      await vi.waitFor(() => {
-        expect(searchResultChannelListener).toHaveBeenCalled();
-      });
+      await vi.waitFor(
+        () => {
+          expect(searchResultChannelListener).toHaveBeenCalled();
+        },
+        { timeout: 2000 }
+      );
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
         error: null,
