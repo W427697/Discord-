@@ -120,7 +120,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
   }
 
   isPending() {
-    return ['rendering', 'playing'].includes(this.phase as RenderPhase);
+    // TODO: add beforeRendering here when that is implemented
+    return ['loading', 'rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
   async renderToElement(canvasElement: TRenderer['canvasElement']) {
@@ -293,7 +294,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     // If the story has loaded, we need to cleanup
     if (this.story) this.store.cleanupStory(this.story);
 
-    // Check if we're done rendering/playing. If not, we may have to reload the page.
+    // Check if we're done loading/rendering/playing. If not, we may have to reload the page.
     // Wait several ticks that may be needed to handle the abort, then try again.
     // Note that there's a max of 5 nested timeouts before they're no longer "instant".
     for (let i = 0; i < 3; i += 1) {
