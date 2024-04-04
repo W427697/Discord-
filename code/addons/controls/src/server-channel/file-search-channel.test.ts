@@ -69,7 +69,7 @@ describe('file-search-channel', () => {
                   name: './commonjs',
                 },
               ],
-              filepath: 'src/commonjs-default.js',
+              filepath: 'src/commonjs-module-default.js',
             },
             {
               exportedComponents: [
@@ -94,7 +94,7 @@ describe('file-search-channel', () => {
                   name: 'e',
                 },
               ],
-              filepath: 'src/commonjs.js',
+              filepath: 'src/commonjs-module.js',
             },
           ],
           searchQuery: 'commonjs',
