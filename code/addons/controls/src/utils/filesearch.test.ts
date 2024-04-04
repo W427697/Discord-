@@ -72,5 +72,16 @@ describe('filesearch', () => {
 
       expect(files?.flatMap((f) => f.exportedComponents)).toHaveLength(5);
     });
+
+    it('should return null for exportedComponents if parsing fails', async (t) => {
+      const files = await searchFiles('no-export.js', path.join(__dirname, '__tests__'), 'react');
+
+      expect(files).toEqual([
+        {
+          exportedComponents: null,
+          filepath: 'src/no-export.js',
+        },
+      ]);
+    });
   });
 });

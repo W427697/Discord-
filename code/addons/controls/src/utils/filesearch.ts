@@ -6,11 +6,15 @@ import { isNotNull } from './ts-utils';
 import type { SupportedRenderers } from '@storybook/types';
 
 export type SearchResult = Array<{
+  /** The path to the file relative to the project root */
   filepath: string;
+  /**
+   * The exported components in the file.
+   * It is null if the file couldn't be parsed or doesn't have any exports */
   exportedComponents: Array<{
     name: string;
     default: boolean;
-  }>;
+  }> | null;
 }>;
 
 /**
@@ -67,7 +71,10 @@ export async function searchFiles(
         exportedComponents: info.exports,
       };
     } catch (e) {
-      return null;
+      return {
+        filepath: entry.path,
+        exportedComponents: null,
+      };
     }
   });
   return (await Promise.all(files)).filter(isNotNull);
