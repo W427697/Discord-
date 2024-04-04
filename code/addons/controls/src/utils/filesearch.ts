@@ -1,4 +1,3 @@
-import { globby } from 'globby';
 import path from 'path';
 import fs from 'fs';
 
@@ -36,6 +35,9 @@ export async function searchFiles(
   const globbedSearchQuery = hasGlobChars
     ? searchQuery
     : [`**/*${searchQuery}*`, `**/*${searchQuery}*/**`];
+
+  // Dynamically import globby because it is a pure ESM module
+  const { globby } = await import('globby');
 
   const entries = await globby(globbedSearchQuery, {
     ignore: ['**/node_modules/**'],
