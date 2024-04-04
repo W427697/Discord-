@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import type { Mock } from '@vitest/spy';
+import type { Mock, MockInstance } from '@vitest/spy';
 import {
-  spyOn,
+  spyOn as vitestSpyOn,
   isMockFunction,
   fn as vitestFn,
   mocks,
@@ -15,9 +15,9 @@ import * as tinyspy from 'tinyspy';
 
 export type * from '@vitest/spy';
 
-export { spyOn, isMockFunction, mocks };
+export { isMockFunction, mocks };
 
-type Listener = (mock: Mock, args: unknown[]) => void;
+type Listener = (mock: MockInstance, args: unknown[]) => void;
 let listeners: Listener[] = [];
 
 export function onMockCall(callback: Listener): () => void {
@@ -27,19 +27,29 @@ export function onMockCall(callback: Listener): () => void {
   };
 }
 
+// @ts-expect-error TS is hard you know
+export const spyOn: typeof vitestSpyOn = (...args) => {
+  const mock = vitestSpyOn(...(args as Parameters<typeof vitestSpyOn>));
+  return reactiveMock(mock);
+};
+
 export function fn<TArgs extends any[] = any, R = any>(): Mock<TArgs, R>;
 export function fn<TArgs extends any[] = any[], R = any>(
   implementation: (...args: TArgs) => R
 ): Mock<TArgs, R>;
 export function fn<TArgs extends any[] = any[], R = any>(implementation?: (...args: TArgs) => R) {
   const mock = implementation ? vitestFn(implementation) : vitestFn();
-  const reactive = reactiveMock(mock);
+  return reactiveMock(mock);
+}
+
+function reactiveMock(mock: MockInstance) {
+  const reactive = listenWhenCalled(mock);
   const originalMockImplementation = reactive.mockImplementation.bind(null);
-  reactive.mockImplementation = (fn) => reactiveMock(originalMockImplementation(fn));
+  reactive.mockImplementation = (fn) => listenWhenCalled(originalMockImplementation(fn));
   return reactive;
 }
 
-function reactiveMock(mock: Mock) {
+function listenWhenCalled(mock: MockInstance) {
   const state = tinyspy.getInternalState(mock as unknown as SpyInternalImpl);
   const impl = state.impl?.bind(null);
   state.willCall((...args) => {
