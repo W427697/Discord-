@@ -74,25 +74,23 @@ storybook build [options]
 
 Options include:
 
-| Option                          | Description                                                                                                                                                                                           |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`                  | Output usage information<br/>`storybook build --help`                                                                                                                                                 |
-| `-V`, `--version`               | Output the version number<br/>`storybook build -V`                                                                                                                                                    |
-| `-o`, `--output-dir [dir-name]` | Directory where to store built files<br/>`storybook build -o /my-deployed-storybook`                                                                                                                  |
-| `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from<br/>`storybook build -c .storybook`                                                                                                             |
-| `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`storybook build --loglevel warn`                                 |
-| `--quiet`                       | Suppress verbose build output<br/>`storybook build --quiet`                                                                                                                                           |
-| `--debug`                       | Outputs more logs in the CLI to assist debugging<br/>`storybook build --debug`                                                                                                                        |
-| `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`storybook build --debug-webpack`                                                                                                     |
-| `--stats-json [dir-name]`       | Write stats JSON to disk<br/>`storybook build --stats-json /tmp/stats`                                                                                                                                |
-| `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs`                           |
-| `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test` |
-| `--preview-url [path]`          | Overrides the default Storybook preview with a custom built preview URL<br/>`storybook build --preview-url=http://localhost:1337/external-iframe.html`                                                |
-| `--force-build-preview`         | Build the preview iframe even if you are using --preview-url<br/>`storybook build --force-build-preview`                                                                                              |
-| `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out).<br/>`storybook build --disable-telemetry`                                                       |
-| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook build --enable-crash-reports`         |
-
-<!-- Re-read this for accuracy -->
+| Option                          | Description                                                                                                                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`                  | Output usage information<br/>`storybook build --help`                                                                                                                                                    |
+| `-V`, `--version`               | Output the version number<br/>`storybook build -V`                                                                                                                                                       |
+| `-o`, `--output-dir [dir-name]` | Directory where to store built files<br/>`storybook build -o /my-deployed-storybook`                                                                                                                     |
+| `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from<br/>`storybook build -c .storybook`                                                                                                                |
+| `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`storybook build --loglevel warn`                                    |
+| `--quiet`                       | Suppress verbose build output<br/>`storybook build --quiet`                                                                                                                                              |
+| `--debug`                       | Outputs more logs in the CLI to assist debugging<br/>`storybook build --debug`                                                                                                                           |
+| `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`storybook build --debug-webpack`                                                                                                        |
+| `--stats-json [dir-name]`       | Write stats JSON to disk<br/>Requires Webpack<br/>`storybook build --stats-json /tmp/stats`                                                                                                              |
+| `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs`                              |
+| `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test`    |
+| `--preview-url [path]`          | Overrides the default Storybook preview with a custom built preview URL<br/>`storybook build --preview-url=http://localhost:1337/external-iframe.html`                                                   |
+| `--force-build-preview`         | Forcefully builds Storybook's preview iframe.<br/>Useful if you're experiencing issues, or combined with `--preview-url` to ensure the preview is up-to-date<br/>`storybook build --force-build-preview` |
+| `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#how-to-opt-out).<br/>`storybook build --disable-telemetry`                                                          |
+| `--enable-crash-reports`        | Enables sending crash reports to Storybook's telemetry. Learn more about it [here](../configure/telemetry.md#crash-reports-disabled-by-default).<br/>`storybook build --enable-crash-reports`            |
 
 ### `init`
 
