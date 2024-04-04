@@ -14,9 +14,9 @@ export type SearchResult = Array<{
 }>;
 
 /**
- * Characters that are used in glob patterns to identify search queries that are not just filenames
+ * File extensions that should be searched for
  */
-const globPatternChars = ['*', '+(', '@(', '?(', '!(', '[', ']'];
+const fileExtensions = ['js', 'mjs', 'cjs', 'jsx', 'mts', 'ts', 'tsx', 'cts'];
 
 /**
  * Search for files in a directory that match the search query
@@ -30,14 +30,23 @@ export async function searchFiles(
   cwd: string,
   renderer: SupportedRenderers | null
 ): Promise<SearchResult> {
-  const hasGlobChars = globPatternChars.some((char) => searchQuery.includes(char));
-
-  const globbedSearchQuery = hasGlobChars
-    ? searchQuery
-    : [`**/*${searchQuery}*`, `**/*${searchQuery}*/**`];
-
   // Dynamically import globby because it is a pure ESM module
-  const { globby } = await import('globby');
+  const { globby, isDynamicPattern } = await import('globby');
+
+  const hasSearchSpecialGlobChars = isDynamicPattern(searchQuery, { cwd });
+
+  const hasFileExtensionRegex = /(\.[a-z]+)$/i;
+  const searchQueryHasExtension = hasFileExtensionRegex.test(searchQuery);
+  const fileExtensionsPattern = `{${fileExtensions.join(',')}}`;
+
+  const globbedSearchQuery = hasSearchSpecialGlobChars
+    ? searchQuery
+    : searchQueryHasExtension
+      ? [`**/*${searchQuery}*`, `**/*${searchQuery}*/**`]
+      : [
+          `**/*${searchQuery}*.${fileExtensionsPattern}`,
+          `**/*${searchQuery}*/**/*.${fileExtensionsPattern}`,
+        ];
 
   const entries = await globby(globbedSearchQuery, {
     ignore: ['**/node_modules/**'],

@@ -4,26 +4,45 @@ import { searchFiles } from './filesearch';
 
 describe('filesearch', () => {
   describe('search result', () => {
-    it('should automatically convert normal search to a glob search', async (t) => {
+    it('should automatically convert static search to a dynamic glob search', async (t) => {
       const files = await searchFiles('ommonjs', path.join(__dirname, '__tests__'), 'react');
 
-      expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs-default.js', 'src/commonjs.js']);
-    });
-
-    it('should return all files if the search query matches the parent folder', async (t) => {
-      const files = await searchFiles('src', path.join(__dirname, '__tests__'), 'react');
-
       expect(files?.map((f) => f.filepath)).toEqual([
-        'src/commonjs-default.js',
-        'src/commonjs.js',
-        'src/esmodule.js',
+        'src/commonjs-module-default.js',
+        'src/commonjs-module.js',
       ]);
     });
 
-    it('should work with glob search patterns', async (t) => {
-      const files = await searchFiles('**/commonjs.js', path.join(__dirname, '__tests__'), 'react');
+    it('should automatically convert static search to a dynamic glob search (with file extension)', async (t) => {
+      const files = await searchFiles('module.js', path.join(__dirname, '__tests__'), 'react');
 
-      expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs.js']);
+      expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs-module.js', 'src/es-module.js']);
+    });
+
+    it('should return all files if the search query matches the parent folder', async (t) => {
+      const files = await searchFiles('module', path.join(__dirname, '__tests__'), 'react');
+
+      expect(files?.map((f) => f.filepath)).toEqual([
+        'src/commonjs-module-default.js',
+        'src/commonjs-module.js',
+        'src/es-module.js',
+      ]);
+    });
+
+    it('should ignore files that do not have the allowed extensions', async (t) => {
+      const files = await searchFiles('asset', path.join(__dirname, '__tests__'), 'react');
+
+      expect(files).toEqual([]);
+    });
+
+    it('should work with glob search patterns', async (t) => {
+      const files = await searchFiles(
+        '**/commonjs-module.js',
+        path.join(__dirname, '__tests__'),
+        'react'
+      );
+
+      expect(files?.map((f) => f.filepath)).toEqual(['src/commonjs-module.js']);
     });
 
     it('should ignore node_modules', async (t) => {
@@ -39,7 +58,11 @@ describe('filesearch', () => {
 
   describe('exported components', () => {
     it('should correctly return the exported components', async (t) => {
-      const files = await searchFiles('commonjs.js', path.join(__dirname, '__tests__'), 'react');
+      const files = await searchFiles(
+        'commonjs-module.js',
+        path.join(__dirname, '__tests__'),
+        'react'
+      );
 
       expect(files?.flatMap((f) => f.exportedComponents)).toHaveLength(5);
     });
