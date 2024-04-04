@@ -1,10 +1,10 @@
 import { it, vi, expect, beforeEach } from 'vitest';
-import { fn, onMockCalled } from './spy';
+import { fn, onMockCall } from './spy';
 
 const vitestSpy = vi.fn();
 
 beforeEach(() => {
-  const unsubscribe = onMockCalled(vitestSpy);
+  const unsubscribe = onMockCall(vitestSpy);
   return () => unsubscribe();
 });
 

@@ -20,7 +20,7 @@ export { spyOn, isMockFunction, mocks };
 type Listener = (mock: Mock, args: unknown[]) => void;
 let listeners: Listener[] = [];
 
-export function onMockCalled(callback: Listener): () => void {
+export function onMockCall(callback: Listener): () => void {
   listeners = [...listeners, callback];
   return () => {
     listeners = listeners.filter((listener) => listener !== callback);

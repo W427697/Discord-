@@ -3,7 +3,7 @@ import { type LoaderFunction } from '@storybook/csf';
 import chai from 'chai';
 import { global } from '@storybook/global';
 import { expect as rawExpect } from './expect';
-import { clearAllMocks, onMockCalled, resetAllMocks, restoreAllMocks } from './spy';
+import { clearAllMocks, onMockCall, resetAllMocks, restoreAllMocks } from './spy';
 
 export * from './spy';
 
@@ -40,4 +40,4 @@ const resetAllMocksLoader: LoaderFunction = ({ parameters }) => {
 // eslint-disable-next-line no-underscore-dangle
 (global as any).__STORYBOOK_TEST_LOADERS__ = [resetAllMocksLoader];
 // eslint-disable-next-line no-underscore-dangle
-(global as any).__STORYBOOK_TEST_ON_MOCK_CALLED__ = onMockCalled;
+(global as any).__STORYBOOK_TEST_ON_MOCK_CALL__ = onMockCall;
