@@ -44,7 +44,7 @@ function reactiveMock(mock: Mock) {
   const impl = state.impl?.bind(null);
   state.willCall((...args) => {
     listeners.forEach((listener) => listener(mock, args));
-    impl?.(...args);
+    return impl?.(...args);
   });
   return mock;
 }
