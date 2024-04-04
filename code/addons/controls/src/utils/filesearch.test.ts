@@ -35,6 +35,12 @@ describe('filesearch', () => {
       expect(files).toEqual([]);
     });
 
+    it('should ignore test files (*.spec.*, *.test.*)', async (t) => {
+      const files = await searchFiles('tests', path.join(__dirname, '__tests__'), 'react');
+
+      expect(files).toEqual([]);
+    });
+
     it('should work with glob search patterns', async (t) => {
       const files = await searchFiles(
         '**/commonjs-module.js',

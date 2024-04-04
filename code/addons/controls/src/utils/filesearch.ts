@@ -49,7 +49,7 @@ export async function searchFiles(
         ];
 
   const entries = await globby(globbedSearchQuery, {
-    ignore: ['**/node_modules/**'],
+    ignore: ['**/node_modules/**', '**/*.spec.*', '**/*.test.*'],
     gitignore: true,
     cwd,
     objectMode: true,
