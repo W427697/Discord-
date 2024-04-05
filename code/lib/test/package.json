@@ -69,7 +69,6 @@
       "./src/index.ts"
     ],
     "noExternal": [
-      "@testing-library/dom",
       "@testing-library/jest-dom",
       "@testing-library/user-event",
       "chai"
