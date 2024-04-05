@@ -231,7 +231,7 @@ describe('StoryRender', () => {
 
     it('reloads the page when remounting during loading', async () => {
       // Arrange - setup StoryRender and async gate blocking applyLoaders
-      const [loaderGate, openLoaderGate] = createGate();
+      const [loaderGate] = createGate();
       const story = {
         id: 'id',
         title: 'title',
@@ -255,31 +255,17 @@ describe('StoryRender', () => {
       );
 
       // Act - render, blocked by loaders
-      const renderPromise = render.renderToElement({} as any);
+      render.renderToElement({} as any);
       expect(story.applyLoaders).toHaveBeenCalledOnce();
       expect(render.phase).toBe('loading');
       // Act - remount
       render.remount();
 
-      // Assert - window is reloaded, keep ticking until it happens
-      await new Promise<void>((resolve) => {
-        setInterval(() => {
-          try {
-            expect(window.location.reload).toHaveBeenCalledOnce();
-            resolve();
-          } catch {
-            // empty catch to ignore the assertion failing
-          }
-        }, 0);
+      // Assert - window is reloaded
+      await vi.waitFor(() => {
+        expect(window.location.reload).toHaveBeenCalledOnce();
+        expect(store.cleanupStory).toHaveBeenCalledOnce();
       });
-
-      // Assert - everything is actually cleaned up, just in case
-      expect(store.cleanupStory).toHaveBeenCalledOnce();
-      expect(window.location.reload).toHaveBeenCalledOnce();
-
-      // clear dangling promise
-      openLoaderGate();
-      await renderPromise;
     });
   });
 });
