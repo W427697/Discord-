@@ -299,8 +299,7 @@ export class StoryIndexGenerator {
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
-        const metaTags = combineTags(...projectTags, ...(input.metaTags ?? []));
-        const tags = combineTags(...metaTags, ...(input.tags ?? []));
+        const tags = combineTags(...projectTags, ...(input.tags ?? []));
 
         return {
           type: 'story',
@@ -309,7 +308,6 @@ export class StoryIndexGenerator {
           name,
           title,
           importPath,
-          metaTags,
           tags,
         };
       });
@@ -326,8 +324,7 @@ export class StoryIndexGenerator {
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
       const id = toId(metaId ?? title, name);
-      const metaTags = combineTags(...projectTags, ...(indexInputs[0].metaTags ?? []));
-      const tags = combineTags(...metaTags, ...(indexInputs[0].tags ?? []));
+      const tags = combineTags(...projectTags, ...(indexInputs[0].tags ?? []));
 
       entries.unshift({
         id,
@@ -335,7 +332,6 @@ export class StoryIndexGenerator {
         name,
         importPath,
         type: 'docs',
-        metaTags,
         tags,
         storiesImports: [],
       });
@@ -433,17 +429,13 @@ export class StoryIndexGenerator {
 
       const id = toId(csfEntry?.metaId || title, name);
 
-      const metaTags = combineTags(
-        ...projectTags,
-        ...(result.metaTags ?? []),
-        ...(csfEntry?.metaTags ?? [])
-      );
       const tags = combineTags(
-        ...metaTags,
+        ...projectTags,
         ...(csfEntry?.tags ?? []),
+        ...(result.metaTags ?? []),
         csfEntry ? 'attached-mdx' : 'unattached-mdx'
       );
-      console.log({ projectTags, metaTags, tags });
+      console.log({ projectTags, tags });
 
       const docsEntry: DocsCacheEntry = {
         id,
@@ -452,7 +444,6 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        metaTags,
         tags,
       };
       return docsEntry;

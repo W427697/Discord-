@@ -8,7 +8,7 @@ import * as generate from '@babel/generator';
 import * as recast from 'recast';
 
 import * as traverse from '@babel/traverse';
-import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
+import { toId, isExportStory, storyNameFromExport, combineTags } from '@storybook/csf';
 import type {
   Tag,
   StoryAnnotations,
@@ -559,7 +559,7 @@ export class CsfFile {
     }
     return Object.entries(this._stories).map(([exportName, story]) => {
       // combine meta and story tags, removing any duplicates
-      const tags = Array.from(new Set([...(this._meta?.tags ?? []), ...(story.tags ?? [])]));
+      const tags = combineTags(...(this._meta?.tags ?? []), ...(story.tags ?? []));
       return {
         type: 'story',
         importPath: this._fileName,
@@ -568,7 +568,6 @@ export class CsfFile {
         title: this.meta?.title,
         metaId: this.meta?.id,
         tags,
-        metaTags: this.meta?.tags,
         __id: story.id,
       };
     });
