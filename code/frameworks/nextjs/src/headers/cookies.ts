@@ -1,22 +1,28 @@
 /* eslint-disable no-underscore-dangle */
 import { fn } from '@storybook/test';
+import type { HeadersStore } from './headers';
 import { headers } from './headers';
+import type { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import {
   parseCookie,
   stringifyCookie,
   type RequestCookie,
 } from 'next/dist/compiled/@edge-runtime/cookies';
 
-// Mostly copied from https://github.com/vercel/edge-runtime/blob/c25e2ded39104e2a3be82efc08baf8dc8fb436b3/packages/cookies/src/request-cookies.ts#L7
-class CookieStore {
-  /** @internal */
-  readonly _headers?: Headers;
+const stringifyCookies = (map: Map<string, RequestCookie>) => {
+  return Array.from(map)
+    .map(([_, v]) => stringifyCookie(v).replace(/; /, ''))
+    .join('; ');
+};
 
-  store = new Map();
+// Mostly copied from https://github.com/vercel/edge-runtime/blob/c25e2ded39104e2a3be82efc08baf8dc8fb436b3/packages/cookies/src/request-cookies.ts#L7
+class CookieStore implements RequestCookies {
+  /** @internal */
+  private readonly _headers: HeadersStore;
 
   _parsed: Map<string, RequestCookie> = new Map();
 
-  constructor(requestHeaders?: Headers) {
+  constructor(requestHeaders: HeadersStore) {
     this._headers = requestHeaders;
     const header = requestHeaders?.get('cookie');
     if (header) {
@@ -27,9 +33,14 @@ class CookieStore {
     }
   }
 
+  [Symbol.iterator]() {
+    return this._parsed[Symbol.iterator]();
+  }
+
   /** @internal */
   mockRestore = () => {
     this.clear();
+    this._headers.mockRestore();
   };
 
   get size(): number {
@@ -61,12 +72,7 @@ class CookieStore {
     const map = this._parsed;
     map.set(name, { name, value });
 
-    this._headers?.set(
-      'cookie',
-      Array.from(map)
-        .map(([_, v]) => stringifyCookie(v))
-        .join('; ')
-    );
+    this._headers.set('cookie', stringifyCookies(map));
     return this;
   }).mockName('cookies().set');
 
@@ -82,12 +88,7 @@ class CookieStore {
       const result = !Array.isArray(names)
         ? map.delete(names)
         : names.map((name) => map.delete(name));
-      this._headers?.set(
-        'cookie',
-        Array.from(map)
-          .map(([_, value]) => stringifyCookie(value))
-          .join('; ')
-      );
+      this._headers.set('cookie', stringifyCookies(map));
       return result;
     }
   ).mockName('cookies().delete');
@@ -99,6 +100,19 @@ class CookieStore {
     this.delete(Array.from(this._parsed.keys()));
     return this;
   }).mockName('cookies().clear');
+
+  /**
+   * Format the cookies in the request as a string for logging
+   */
+  [Symbol.for('edge-runtime.inspect.custom')]() {
+    return `RequestCookies ${JSON.stringify(Object.fromEntries(this._parsed))}`;
+  }
+
+  toString() {
+    return [...this._parsed.values()]
+      .map((v) => `${v.name}=${encodeURIComponent(v.value)}`)
+      .join('; ');
+  }
 }
 
 let cookieStore: CookieStore;

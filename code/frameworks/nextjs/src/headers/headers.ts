@@ -1,9 +1,13 @@
 import { fn } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
 import type { IncomingHttpHeaders } from 'http';
+import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapters/headers';
 
 // Mostly copied from https://github.com/vercel/next.js/blob/763b9a660433ec5278a10e59d7ae89d4010ba212/packages/next/src/server/web/spec-extension/adapters/headers.ts#L20
-export class HeadersStore extends Headers {
-  private readonly headers: IncomingHttpHeaders = {};
+// @ts-expect-error unfortunately the headers property is private (and not protected) in HeadersAdapter
+// and we can't access it so we need to redefine it, but that clashes with the type, hence the ts-expect-error comment.
+export class HeadersStore extends Headers implements HeadersAdapter {
+  private headers: IncomingHttpHeaders = {};
 
   /** @internal */
   mockRestore = () => {
@@ -32,6 +36,7 @@ export class HeadersStore extends Headers {
     } else {
       this.headers[name] = value;
     }
+    action('append')(name, value);
   }).mockName('headers().append');
 
   public delete = fn((name: string) => {
@@ -51,6 +56,8 @@ export class HeadersStore extends Headers {
 
   public set = fn((name: string, value: string): void => {
     this.headers[name] = value;
+    console.log({ name, value });
+    action('set')(name, value);
   }).mockName('headers().set');
 
   public forEach = fn(
