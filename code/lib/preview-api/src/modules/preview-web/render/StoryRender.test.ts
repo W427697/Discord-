@@ -22,6 +22,7 @@ const createGate = (): [Promise<void>, () => void] => {
   });
   return [gate, openGate];
 };
+const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 window.location = { reload: vi.fn() } as any;
 
@@ -127,18 +128,19 @@ describe('StoryRender', () => {
     });
 
     it('reloads the page when tearing down during loading', async () => {
+      // Arrange - setup StoryRender and async gate blocking applyLoaders
+      const [loaderGate, openLoaderGate] = createGate();
       const story = {
         id: 'id',
         title: 'title',
         name: 'name',
         tags: [],
-        applyLoaders: vi.fn(),
+        applyLoaders: vi.fn(() => loaderGate),
         unboundStoryFn: vi.fn(),
         playFunction: vi.fn(),
         prepareContext: vi.fn(),
       };
       const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
-
       const render = new StoryRender(
         new Channel({}),
         store as any,
@@ -150,16 +152,24 @@ describe('StoryRender', () => {
         story as any
       );
 
-      story.applyLoaders.mockImplementation(() => teardownAndWaitForReload(render));
-
-      await render.renderToElement({} as any);
-
+      // Act - render, blocked by loaders, teardown
+      // ... Assert - window is reloaded
+      const renderPromise = render.renderToElement({} as any);
       expect(story.applyLoaders).toHaveBeenCalledOnce();
+      await teardownAndWaitForReload(render);
+
+      // Assert - everything is actually cleaned up, just in case
       expect(store.cleanupStory).toHaveBeenCalledOnce();
       expect(window.location.reload).toHaveBeenCalledOnce();
+
+      // clear dangling promise
+      openLoaderGate();
+      await renderPromise;
     });
 
     it('reloads the page when tearing down during rendering', async () => {
+      // Arrange - setup StoryRender and async gate blocking renderToScreen
+      const [renderGate, openRenderGate] = createGate();
       const story = {
         id: 'id',
         title: 'title',
@@ -171,7 +181,7 @@ describe('StoryRender', () => {
         prepareContext: vi.fn(),
       };
       const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
-      const renderToScreen = vi.fn();
+      const renderToScreen = vi.fn(() => renderGate);
 
       const render = new StoryRender(
         new Channel({}),
@@ -184,16 +194,25 @@ describe('StoryRender', () => {
         story as any
       );
 
-      renderToScreen.mockImplementation(() => teardownAndWaitForReload(render));
-
-      await render.renderToElement({} as any);
-
+      // Act - render, blocked by renderToScreen, teardown
+      // ... Assert - window is reloaded
+      const renderPromise = render.renderToElement({} as any);
+      await tick(); // go from 'loading' to 'rendering' phase
       expect(renderToScreen).toHaveBeenCalledOnce();
+      await teardownAndWaitForReload(render);
+
+      // Assert - everything is actually cleaned up, just in case
       expect(store.cleanupStory).toHaveBeenCalledOnce();
       expect(window.location.reload).toHaveBeenCalledOnce();
+
+      // clear dangling promise
+      openRenderGate();
+      await renderPromise;
     });
 
     it('reloads the page when tearing down during playing', async () => {
+      // Arrange - setup StoryRender and async gate blocking playing
+      const [playGate, openPlayGate] = createGate();
       const story = {
         id: 'id',
         title: 'title',
@@ -201,7 +220,7 @@ describe('StoryRender', () => {
         tags: [],
         applyLoaders: vi.fn(),
         unboundStoryFn: vi.fn(),
-        playFunction: vi.fn(),
+        playFunction: vi.fn(() => playGate),
         prepareContext: vi.fn(),
       };
       const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
@@ -217,13 +236,20 @@ describe('StoryRender', () => {
         story as any
       );
 
-      story.playFunction.mockImplementation(() => teardownAndWaitForReload(render));
-
-      await render.renderToElement({} as any);
-
+      // Act - render, blocked by renderToScreen, teardown
+      // ... Assert - window is reloaded
+      const renderPromise = render.renderToElement({} as any);
+      await tick(); // go from 'loading' to 'playing' phase
       expect(story.playFunction).toHaveBeenCalledOnce();
+      await teardownAndWaitForReload(render);
+
+      // Assert - everything is actually cleaned up, just in case
       expect(store.cleanupStory).toHaveBeenCalledOnce();
       expect(window.location.reload).toHaveBeenCalledOnce();
+
+      // clear dangling promise
+      openPlayGate();
+      await renderPromise;
     });
   });
 });
