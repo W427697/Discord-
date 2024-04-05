@@ -152,10 +152,11 @@ describe('StoryRender', () => {
         story as any
       );
 
-      // Act - render, blocked by loaders, teardown
-      // ... Assert - window is reloaded
+      // Act - render, blocked by loaders
       const renderPromise = render.renderToElement({} as any);
       expect(story.applyLoaders).toHaveBeenCalledOnce();
+      expect(render.phase).toBe('loading');
+      // Act & Assert - teardown, assert window is reloaded
       await teardownAndWaitForReload(render);
 
       // Assert - everything is actually cleaned up, just in case
@@ -194,11 +195,12 @@ describe('StoryRender', () => {
         story as any
       );
 
-      // Act - render, blocked by renderToScreen, teardown
-      // ... Assert - window is reloaded
+      // Act - render, blocked by renderToScreen
       const renderPromise = render.renderToElement({} as any);
       await tick(); // go from 'loading' to 'rendering' phase
       expect(renderToScreen).toHaveBeenCalledOnce();
+      expect(render.phase).toBe('rendering');
+      // Act & Assert - teardown, assert window is reloaded
       await teardownAndWaitForReload(render);
 
       // Assert - everything is actually cleaned up, just in case
@@ -236,11 +238,12 @@ describe('StoryRender', () => {
         story as any
       );
 
-      // Act - render, blocked by renderToScreen, teardown
-      // ... Assert - window is reloaded
+      // Act - render, blocked by playFn
       const renderPromise = render.renderToElement({} as any);
       await tick(); // go from 'loading' to 'playing' phase
       expect(story.playFunction).toHaveBeenCalledOnce();
+      expect(render.phase).toBe('playing');
+      // Act & Assert - teardown, assert window is reloaded
       await teardownAndWaitForReload(render);
 
       // Assert - everything is actually cleaned up, just in case
