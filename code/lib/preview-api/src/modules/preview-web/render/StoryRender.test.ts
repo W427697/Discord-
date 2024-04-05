@@ -254,5 +254,58 @@ describe('StoryRender', () => {
       openPlayGate();
       await renderPromise;
     });
+
+    it('reloads the page when remounting during loading', async () => {
+      // Arrange - setup StoryRender and async gate blocking applyLoaders
+      const [loaderGate, openLoaderGate] = createGate();
+      const story = {
+        id: 'id',
+        title: 'title',
+        name: 'name',
+        tags: [],
+        applyLoaders: vi.fn(() => loaderGate),
+        unboundStoryFn: vi.fn(),
+        playFunction: vi.fn(),
+        prepareContext: vi.fn(),
+      };
+      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const render = new StoryRender(
+        new Channel({}),
+        store as any,
+        vi.fn() as any,
+        {} as any,
+        entry.id,
+        'story',
+        { autoplay: true },
+        story as any
+      );
+
+      // Act - render, blocked by loaders
+      const renderPromise = render.renderToElement({} as any);
+      expect(story.applyLoaders).toHaveBeenCalledOnce();
+      expect(render.phase).toBe('loading');
+      // Act - remount
+      render.remount();
+
+      // Assert - window is reloaded, keep ticking until it happens
+      await new Promise<void>((resolve) => {
+        setInterval(() => {
+          try {
+            expect(window.location.reload).toHaveBeenCalledOnce();
+            resolve();
+          } catch {
+            // empty catch to ignore the assertion failing
+          }
+        }, 0);
+      });
+
+      // Assert - everything is actually cleaned up, just in case
+      expect(store.cleanupStory).toHaveBeenCalledOnce();
+      expect(window.location.reload).toHaveBeenCalledOnce();
+
+      // clear dangling promise
+      openLoaderGate();
+      await renderPromise;
+    });
   });
 });
