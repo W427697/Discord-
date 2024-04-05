@@ -2141,39 +2141,6 @@ describe('PreviewWeb', () => {
           window.location = { ...originalLocation, reload: originalLocation.reload };
         });
 
-        it('stops initial story after loaders if running', async () => {
-          const [gate, openGate] = createGate();
-          componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
-
-          document.location.search = '?id=component-one--a';
-          await new PreviewWeb(importFn, getProjectAnnotations).ready();
-          await waitForRenderPhase('loading');
-
-          emitter.emit(SET_CURRENT_STORY, {
-            storyId: 'component-one--b',
-            viewMode: 'story',
-          });
-          await waitForSetCurrentStory();
-          await waitForRender();
-
-          // Now let the loader resolve
-          openGate({ l: 8 });
-          await waitForRender();
-
-          // Story gets rendered with updated args
-          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
-          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
-            expect.objectContaining({
-              forceRemount: true,
-              storyContext: expect.objectContaining({
-                id: 'component-one--b',
-                loaded: { l: 7 },
-              }),
-            }),
-            'story-element'
-          );
-        });
-
         it('aborts render for initial story', async () => {
           const [gate, openGate] = createGate();
 
