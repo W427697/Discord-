@@ -4,6 +4,7 @@ import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';
 import { StyledJsxDecorator } from './styledJsx/decorator';
 import { HeadManagerDecorator } from './head-manager/decorator';
+import { cookies, headers } from './headers';
 
 function addNextHeadCount() {
   const meta = document.createElement('meta');
@@ -20,6 +21,11 @@ export const decorators: Addon_DecoratorFunction<any>[] = [
   RouterDecorator,
   HeadManagerDecorator,
 ];
+
+export const loaders = async () => {
+  cookies().mockRestore();
+  headers().mockRestore();
+};
 
 export const parameters = {
   docs: {

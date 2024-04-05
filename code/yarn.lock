@@ -5948,6 +5948,7 @@ __metadata:
     "@storybook/preset-react-webpack": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/react": "workspace:*"
+    "@storybook/test": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/babel__core": "npm:^7"
     "@types/babel__plugin-transform-runtime": "npm:^7"

@@ -47,6 +47,7 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
+    "./headers": "./dist/headers/index.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -97,6 +98,7 @@
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.3.4",
@@ -158,6 +160,7 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
+      "./src/headers/index.ts",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
       "./src/images/next-legacy-image.tsx",
