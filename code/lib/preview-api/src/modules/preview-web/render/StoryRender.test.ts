@@ -81,7 +81,7 @@ describe('StoryRender', () => {
     expect(story.playFunction).not.toHaveBeenCalled();
   });
 
-  it.only('only rerenders once when triggered multiple times while pending', async () => {
+  it('only rerenders once when triggered multiple times while pending', async () => {
     // Arrange - setup StoryRender and async gate blocking applyLoaders
     const [loaderGate, openLoaderGate] = createGate();
     const story = {
