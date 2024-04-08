@@ -56,6 +56,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   private notYetRendered = true;
 
+  private rerenderEnqueued = false;
+
   public disableKeyListeners = false;
 
   private teardownRender: TeardownRenderToCanvas = () => {};
@@ -268,10 +270,25 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
       this.phase = 'errored';
       this.callbacks.showException(err as Error);
     }
+
+    // If a rerender was enqueued during the render, clear the queue and render again
+    if (this.rerenderEnqueued) {
+      this.rerenderEnqueued = false;
+      this.render();
+    }
   }
 
+  /**
+   * Rerender the story.
+   * If the story is currently pending (loading/rendering/playing), the rerender will be enqueued,
+   * and will be executed after the current render is completed.
+   */
   async rerender() {
-    return this.render();
+    if (this.isPending()) {
+      this.rerenderEnqueued = true;
+    } else {
+      return this.render();
+    }
   }
 
   async remount() {

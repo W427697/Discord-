@@ -81,6 +81,58 @@ describe('StoryRender', () => {
     expect(story.playFunction).not.toHaveBeenCalled();
   });
 
+  it.only('only rerenders once when triggered multiple times while pending', async () => {
+    // Arrange - setup StoryRender and async gate blocking applyLoaders
+    const [loaderGate, openLoaderGate] = createGate();
+    const story = {
+      id: 'id',
+      title: 'title',
+      name: 'name',
+      tags: [],
+      applyLoaders: vi.fn(() => loaderGate),
+      unboundStoryFn: vi.fn(),
+      playFunction: vi.fn(),
+      prepareContext: vi.fn(),
+    };
+    const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+    const renderToScreen = vi.fn();
+    const render = new StoryRender(
+      new Channel({}),
+      store as any,
+      renderToScreen,
+      {} as any,
+      entry.id,
+      'story',
+      { autoplay: true },
+      story as any
+    );
+    // Arrange - render (blocked by loaders)
+    render.renderToElement({} as any);
+    expect(story.applyLoaders).toHaveBeenCalledOnce();
+    expect(render.phase).toBe('loading');
+
+    // Act - rerender 3x
+    render.rerender();
+    render.rerender();
+    render.rerender();
+
+    // Assert - still loading, not yet rendered
+    expect(story.applyLoaders).toHaveBeenCalledOnce();
+    expect(render.phase).toBe('loading');
+    expect(renderToScreen).not.toHaveBeenCalled();
+
+    // Act - finish loading
+    openLoaderGate();
+
+    // Assert - loaded and rendered twice, played once
+    await vi.waitFor(async () => {
+      console.log(render.phase);
+      expect(story.applyLoaders).toHaveBeenCalledTimes(2);
+      expect(renderToScreen).toHaveBeenCalledTimes(2);
+      expect(story.playFunction).toHaveBeenCalledOnce();
+    });
+  });
+
   describe('teardown', () => {
     it('throws PREPARE_ABORTED if torndown during prepare', async () => {
       const [importGate, openImportGate] = createGate();
