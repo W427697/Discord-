@@ -277,15 +277,8 @@ The definition above will generate the following controls:
 
 ### Limitations
 
-`vue-component-meta` does currently not support `tsconfig.json` files that use `references` to other tsconfig files (see [this issue](https://github.com/vuejs/language-tools/issues/3896) for more information). As result, you might face missing component types/descriptions or unresolvable import aliases, for example:
-
-```ts
-// YourComponent.ts
-import type { MyProps } from '@/types'; // ❌ Cannot be resolved
-import type { MyProps } from '../types'; // ✅ Can be resolved
-```
-
-So if your project uses a `tsconfig.json` file that only includes references to e.g. `tsconfig.app.json`, `tsconfig.node.json` etc., you should set the following framework option to the tsconfig file used for your main application code:
+If your `tsconfig.json` file uses `references` to other config files like `tsconfig.app.json`, `tsconfig.node.json` etc., you should define the tsconfig file used for your main application code via the framework option shown below so `vue-component-meta` can use it properly.
+Otherwise, you might face missing component types/descriptions or unresolvable import aliases like `@/some/import`.
 
 ```ts
 // .storybook/main.ts
@@ -305,6 +298,8 @@ const config: StorybookConfig = {
 
 export default config;
 ```
+
+For further information, you can take a look at [this issue](https://github.com/vuejs/language-tools/issues/3896).
 
 ## Troubleshooting
 

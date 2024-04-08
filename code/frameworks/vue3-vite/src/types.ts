@@ -26,13 +26,11 @@ export type FrameworkOptions = {
     | {
         plugin: 'vue-component-meta';
         /**
-         * Tsconfig filename to use. Should be set if your main `tsconfig.json` only includes references to other tsconfig files
-         * like `tsconfig.app.json` which `vue-component-meta` does currently not support.
+         * Tsconfig filename to use. Should be set if your main `tsconfig.json` includes references to other tsconfig files
+         * like `tsconfig.app.json`.
          * Otherwise docgen might not be generated correctly (e.g. import aliases are not resolved).
          *
-         * Make sure that the specified tsconfig file does not contain `references`.
-         *
-         * For further information about `vue-component-meta` limitations, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#limitations).
+         * For further information, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#limitations).
          *
          * @default "tsconfig.json"
          */
