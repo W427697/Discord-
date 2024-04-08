@@ -1,5 +1,4 @@
 import { fn } from '@storybook/test';
-import { action } from '@storybook/addon-actions';
 import type { IncomingHttpHeaders } from 'http';
 import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapters/headers';
 
@@ -36,7 +35,6 @@ export class HeadersStore extends Headers implements HeadersAdapter {
     } else {
       this.headers[name] = value;
     }
-    action('append')(name, value);
   }).mockName('headers().append');
 
   public delete = fn((name: string) => {
@@ -56,8 +54,6 @@ export class HeadersStore extends Headers implements HeadersAdapter {
 
   public set = fn((name: string, value: string): void => {
     this.headers[name] = value;
-    console.log({ name, value });
-    action('set')(name, value);
   }).mockName('headers().set');
 
   public forEach = fn(
