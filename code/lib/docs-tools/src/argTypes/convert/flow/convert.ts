@@ -1,3 +1,4 @@
+import { UnknownFlowArgTypesError } from '@storybook/core-events/server-errors';
 import type { SBType } from '@storybook/types';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
@@ -18,7 +19,7 @@ const convertSig = (type: FlowSigType) => {
         value: values,
       };
     default:
-      throw new Error(`Unknown: ${type}`);
+      throw new UnknownFlowArgTypesError({ type: type });
   }
 };
 

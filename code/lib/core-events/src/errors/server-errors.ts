@@ -604,3 +604,22 @@ export class NoStatsForViteDevError extends StorybookError {
     `;
   }
 }
+
+export class UnknownFlowArgTypesError extends StorybookError {
+  readonly category = Category.DOCS_TOOLS;
+
+  readonly code = 1;
+
+  constructor(public data: { type: object }) {
+    super();
+  }
+
+  template() {
+    return dedent`We detected an Unknown Flow Type of type ${JSON.stringify(
+      this.data.type
+    )} in your configuration.
+    Storybook expects either a function or an object signature Flow type.
+    Please check the Storybook configuration and make sure it has a valid Flow type.
+    `;
+  }
+}
