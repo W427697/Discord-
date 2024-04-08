@@ -18,4 +18,4 @@ ember-output
 !.eslintrc-markdown.js
 !.storybook
 lib/core-common/templates/base-preview-head.html
-code/addons/controls/src/utils/__tests__
+addons/controls/src/utils/__tests__
