@@ -26,7 +26,7 @@ describe('UnknownFlowArgTypesError', () => {
 
     const message = dedent`We detected an Unknown Flow Type of type {"name":"signature","type":"number","signature":1} in your configuration.
     Storybook expects either a function or an object signature Flow type.
-    Please check the Storybook configuration and make sure it has a valid Flow type.`;
+    Please check the Storybook configuration and ensure it has a valid Flow type.`;
 
     const typeError = new UnknownFlowArgTypesError({ type });
     expect(typeError.message).toEqual(message);
