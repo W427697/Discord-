@@ -59,6 +59,7 @@
       "require": "./dist/measure/preview.js"
     },
     "./measure/manager": "./dist/measure/manager.js",
+    "./preset": "./dist/preset.js",
     "./outline/preview": {
       "types": "./dist/outline/preview.d.ts",
       "import": "./dist/outline/preview.mjs",

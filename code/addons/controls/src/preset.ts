@@ -7,4 +7,6 @@ import { initCreateNewStoryChannel } from './server-channel/create-new-story-cha
 export const experimental_serverChannel = async (channel: Channel, options: Options) => {
   initCreateNewStoryChannel(channel, options);
   initFileSearchChannel(channel, options);
+
+  return channel;
 };
