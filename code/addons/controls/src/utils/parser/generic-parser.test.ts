@@ -51,6 +51,10 @@ describe('generic-parser', () => {
       },
       {
         default: false,
+        name: 'C',
+      },
+      {
+        default: false,
         name: 'externalName',
       },
       {

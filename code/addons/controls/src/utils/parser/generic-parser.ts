@@ -40,10 +40,7 @@ export class GenericParser implements Parser {
       const { exports, reexports } = parseCjs(content);
       const filteredExports = [...exports, ...reexports].filter((e: string) => e !== '__esModule');
 
-      assert(
-        filteredExports.length > 0,
-        'No named exports found. Very likely that this is not a CJS module.'
-      );
+      assert(filteredExports.length > 0, 'No named exports found');
 
       return {
         exports: (filteredExports ?? []).map((name) => ({

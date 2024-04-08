@@ -1,14 +1,16 @@
 import type { Options, SupportedRenderers } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '../constants';
-import { searchFiles } from '../utils/filesearch';
 import {
   extractProperRendererNameFromFramework,
   getFrameworkName,
   getProjectRoot,
 } from '@storybook/core-common';
-import dedent from 'ts-dedent';
-import assert from 'node:assert';
+import path from 'path';
+import fs from 'fs/promises';
+
+import { getParser } from '../utils/parser';
+import { searchFiles } from '../utils/search-files';
+import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '../constants';
 
 interface Data {
   // A regular string or a glob pattern
@@ -38,13 +40,15 @@ interface SearchResult {
 
 export function initFileSearchChannel(channel: Channel, options: Options) {
   /**
-   * Listenes for a search query event and searches for files in the project
+   * Listens for a search query event and searches for files in the project
    */
   channel.on(FILE_COMPONENT_SEARCH, async (data: Data) => {
     try {
       const searchQuery = data?.searchQuery;
 
-      assert(searchQuery, 'searchQuery is required');
+      if (!searchQuery) {
+        return;
+      }
 
       const frameworkName = await getFrameworkName(options);
 
@@ -54,16 +58,35 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
 
       const projectRoot = getProjectRoot();
 
-      const files = await searchFiles(searchQuery, projectRoot, rendererName);
+      const files = await searchFiles({
+        searchQuery,
+        cwd: projectRoot,
+      });
 
-      /**
-       * Emits the search result event with the search result
-       */
+      const entries = files.map(async (file) => {
+        const parser = getParser(rendererName);
+
+        try {
+          const content = await fs.readFile(path.join(projectRoot, file), 'utf-8');
+          const info = await parser.parse(content);
+
+          return {
+            filepath: file,
+            exportedComponents: info.exports,
+          };
+        } catch (e) {
+          return {
+            filepath: file,
+            exportedComponents: null,
+          };
+        }
+      });
+
       channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
         success: true,
         result: {
           searchQuery,
-          files,
+          files: await Promise.all(entries),
         },
         error: null,
       } as SearchResult);
@@ -74,10 +97,7 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
       channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
         success: false,
         result: null,
-        error: dedent`
-          An error occurred while searching for components in the project.
-          ${e?.message}
-        `,
+        error: `An error occurred while searching for components in the project.\n${e?.message}`,
       } as SearchResult);
     }
   });

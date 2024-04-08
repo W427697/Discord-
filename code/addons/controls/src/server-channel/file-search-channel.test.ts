@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock('../utils/filesearch', () => {
+vi.mock('../utils/search-files', () => {
   return {
     searchFiles: mocks.searchFiles,
   };
@@ -51,7 +51,7 @@ describe('file-search-channel', () => {
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
-        return (await vi.importActual('../utils/filesearch')).searchFiles(...args);
+        return (await vi.importActual('../utils/search-files')).searchFiles(...args);
       });
 
       await vi.waitFor(
@@ -101,6 +101,37 @@ describe('file-search-channel', () => {
             },
           ],
           searchQuery: 'commonjs',
+        },
+        success: true,
+      });
+    });
+
+    it('should emit search result event with an empty search result', async () => {
+      const mockOptions = {};
+      const data = { searchQuery: 'no-file-for-search-query' };
+
+      initFileSearchChannel(mockChannel, mockOptions as any);
+
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
+      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+
+      mocks.searchFiles.mockImplementation(async (...args) => {
+        // @ts-expect-error Ignore type issue
+        return (await vi.importActual('../utils/search-files')).searchFiles(...args);
+      });
+
+      await vi.waitFor(
+        () => {
+          expect(searchResultChannelListener).toHaveBeenCalled();
+        },
+        { timeout: 2000 }
+      );
+
+      expect(searchResultChannelListener).toHaveBeenCalledWith({
+        error: null,
+        result: {
+          files: [],
+          searchQuery: 'no-file-for-search-query',
         },
         success: true,
       });

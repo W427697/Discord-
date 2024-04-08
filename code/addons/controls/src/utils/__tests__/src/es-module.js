@@ -5,6 +5,8 @@ export var p = 5;
 
 export function q() {}
 
+export class C {}
+
 export { x as externalName } from 'external';
 
 export { ns };
