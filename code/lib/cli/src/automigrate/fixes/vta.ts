@@ -12,7 +12,7 @@ interface Options {}
 export const vta: Fix<Options> = {
   id: 'visual-testing-addon',
 
-  versionRange: ['<7', '>=7'],
+  versionRange: ['<8.0.7', '>=7'],
 
   async check({ mainConfig }) {
     const hadAddonInstalled = !!mainConfig?.addons?.find((addon) =>
