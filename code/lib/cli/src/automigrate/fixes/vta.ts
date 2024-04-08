@@ -5,9 +5,7 @@ import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
-interface Options {
-  value?: boolean;
-}
+interface Options {}
 
 /**
  */
