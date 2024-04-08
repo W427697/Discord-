@@ -16,8 +16,9 @@ export function getTypeScriptTemplateForNewStoryFile(data: {
     : `import { ${importName} } from './${data.basename}'`;
 
   return dedent`
-  ${importStatement};
   import type { Meta, StoryObj } from '${data.frameworkPackageName}';
+
+  ${importStatement};
 
   const meta = {
     component: ${importName}

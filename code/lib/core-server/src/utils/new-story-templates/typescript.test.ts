@@ -12,8 +12,9 @@ describe('typescript', () => {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import Component from './foo';
-      import type { Meta, StoryObj } from '@storybook/nextjs';
+      "import type { Meta, StoryObj } from '@storybook/nextjs';
+
+      import Component from './foo';
 
       const meta = {
         component: Component
@@ -37,8 +38,9 @@ describe('typescript', () => {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import { Example } from './foo';
-      import type { Meta, StoryObj } from '@storybook/nextjs';
+      "import type { Meta, StoryObj } from '@storybook/nextjs';
+
+      import { Example } from './foo';
 
       const meta = {
         component: Example
