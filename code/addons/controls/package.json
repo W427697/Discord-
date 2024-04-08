@@ -53,6 +53,7 @@
   "dependencies": {
     "@storybook/blocks": "workspace:*",
     "lodash": "^4.17.21",
+    "slash": "^5.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -61,7 +62,6 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "react": "^18.2.0",
