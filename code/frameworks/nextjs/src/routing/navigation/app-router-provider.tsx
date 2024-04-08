@@ -9,10 +9,10 @@ import {
   SearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
-import type { RouteParams } from './types';
+import type { RouteParams } from '../types';
+import { createNavigation } from './index';
 
 type AppRouterProviderProps = {
-  action: (name: string) => (...args: any[]) => void;
   routeParams: RouteParams;
 };
 
@@ -28,7 +28,6 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
 
 export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProviderProps>> = ({
   children,
-  action,
   routeParams,
 }) => {
   const { pathname, query, segments = [], ...restRouteParams } = routeParams;
@@ -55,29 +54,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
             nextUrl: pathname,
           }}
         >
-          <AppRouterContext.Provider
-            value={{
-              push(...args) {
-                action('nextNavigation.push')(...args);
-              },
-              replace(...args) {
-                action('nextNavigation.replace')(...args);
-              },
-              forward(...args) {
-                action('nextNavigation.forward')(...args);
-              },
-              back(...args) {
-                action('nextNavigation.back')(...args);
-              },
-              prefetch(...args) {
-                action('nextNavigation.prefetch')(...args);
-              },
-              refresh: () => {
-                action('nextNavigation.refresh')();
-              },
-              ...restRouteParams,
-            }}
-          >
+          <AppRouterContext.Provider value={createNavigation({ overrides: restRouteParams })}>
             <LayoutRouterContext.Provider
               value={{
                 childNodes: new Map(),

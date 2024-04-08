@@ -1,16 +1,12 @@
-// usePathname and useSearchParams are only usable if experimental: {appDir: true} is set in next.config.js
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
-import { useRouter as useRouterMock } from '@storybook/nextjs/navigation';
+import { expect, within, userEvent } from '@storybook/test';
+import { useRouter as useRouterMock } from '@storybook/nextjs/router';
+import { useRouter } from 'next/router';
 
 function Component() {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const searchParamsList = searchParams ? Array.from(searchParams.entries()) : [];
+  const searchParams = router.query;
 
   const routerActions = [
     {
@@ -31,10 +27,6 @@ function Component() {
       name: 'Push HTML',
     },
     {
-      cb: () => router.refresh(),
-      name: 'Refresh',
-    },
-    {
       // @ts-expect-error (old API)
       cb: () => router.replace('/replaced-html', { forceOptimisticNavigation: true }),
       name: 'Replace',
@@ -43,11 +35,11 @@ function Component() {
 
   return (
     <div>
-      <div>pathname: {pathname}</div>
+      <div>pathname: {router.pathname}</div>
       <div>
         searchparams:{' '}
         <ul>
-          {searchParamsList.map(([key, value]) => (
+          {Object.entries(searchParams).map(([key, value]) => (
             <li key={key}>
               {key}: {value}
             </li>
@@ -69,8 +61,7 @@ export default {
   component: Component,
   parameters: {
     nextjs: {
-      appDirectory: true,
-      navigation: {
+      router: {
         pathname: '/hello',
         query: {
           foo: 'bar',
