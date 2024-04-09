@@ -31,7 +31,7 @@ let routerAPI: {
   };
 } & typeof defaultRouterState;
 
-export const createRouter = (overrides?: Partial<NextRouter>) => {
+export const createRouter = (overrides: Partial<NextRouter>) => {
   if (!routerAPI) {
     const routerActions: Partial<NextRouter> = {
       push: fn((..._args: any[]) => {

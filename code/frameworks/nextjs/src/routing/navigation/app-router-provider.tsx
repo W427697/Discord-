@@ -10,7 +10,7 @@ import {
 } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from '../types';
-import { createNavigation } from './index';
+import { useRouter } from './index';
 
 type AppRouterProviderProps = {
   routeParams: RouteParams;
@@ -30,7 +30,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
   children,
   routeParams,
 }) => {
-  const { pathname, query, segments = [], ...restRouteParams } = routeParams;
+  const { pathname, query, segments = [] } = routeParams;
 
   const tree: FlightRouterState = [pathname, { children: getParallelRoutes([...segments]) }];
 
@@ -54,7 +54,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
             nextUrl: pathname,
           }}
         >
-          <AppRouterContext.Provider value={createNavigation({ overrides: restRouteParams })}>
+          <AppRouterContext.Provider value={useRouter()}>
             <LayoutRouterContext.Provider
               value={{
                 childNodes: new Map(),

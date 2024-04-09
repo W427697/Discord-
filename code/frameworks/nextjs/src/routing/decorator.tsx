@@ -11,7 +11,7 @@ const defaultRouterParams: RouteParams = {
 
 export const RouterDecorator = (
   Story: React.FC,
-  { globals, parameters }: Addon_StoryContext
+  { parameters }: Addon_StoryContext
 ): React.ReactNode => {
   const nextAppDirectory =
     (parameters.nextjs?.appDirectory as NextAppDirectory | undefined) ?? false;
@@ -33,13 +33,7 @@ export const RouterDecorator = (
   }
 
   return (
-    <PageRouterProvider
-      globals={globals}
-      routeParams={{
-        ...defaultRouterParams,
-        ...parameters.nextjs?.router,
-      }}
-    >
+    <PageRouterProvider>
       <Story />
     </PageRouterProvider>
   );

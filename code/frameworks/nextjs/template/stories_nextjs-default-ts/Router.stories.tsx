@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within, userEvent } from '@storybook/test';
 import { useRouter as useRouterMock } from '@storybook/nextjs/router';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 function Component() {
   const router = useRouter();
@@ -79,10 +79,18 @@ export const Default: StoryObj<typeof Component> = {
     const canvas = within(canvasElement);
     const routerMock = useRouterMock();
 
-    await step('Router property overrides should be available', async () => {
-      await expect(routerMock.pathname).toBe('/hello');
-      await expect(routerMock.query).toEqual({ foo: 'bar' });
+    await step('Router property overrides should be available in useRouter fn', async () => {
+      await expect(Router.pathname).toBe('/hello');
+      await expect(Router.query).toEqual({ foo: 'bar' });
     });
+
+    await step(
+      'Router property overrides should be available in default export from next/router',
+      async () => {
+        await expect(Router.pathname).toBe('/hello');
+        await expect(Router.query).toEqual({ foo: 'bar' });
+      }
+    );
 
     await step('Asserts whether forward hook is called', async () => {
       const forwardBtn = await canvas.findByText('Go forward');

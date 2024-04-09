@@ -248,7 +248,7 @@ export class NextjsRouterMocksNotAvailable extends StorybookError {
 
   template() {
     return dedent`
-      Tried to access router mocks from ${this.data.importType} but they were not created yet. You might be running code in an unsupported environment.
+      Tried to access router mocks from "${this.data.importType}" but they were not created yet. You might be running code in an unsupported environment.
     `;
   }
 }
