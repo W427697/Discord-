@@ -5479,6 +5479,7 @@ __metadata:
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
     "@popperjs/core": "npm:^2.6.0"
+    "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/client-logger": "workspace:*"

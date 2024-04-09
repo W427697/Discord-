@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { SaveFromControls } from './SaveFromControls';
-import { expect, fn, userEvent, within } from '@storybook/test';
+import { expect, fireEvent, fn, userEvent, waitFor, within } from '@storybook/test';
 
 const meta = {
   component: SaveFromControls,
@@ -24,21 +24,23 @@ export const Default: Story = {};
 
 export const Creating: Story = {
   play: async ({ canvasElement }) => {
-    const createButton = await within(canvasElement).findByRole('button', { name: /create/i });
-    await userEvent.click(createButton);
+    const createButton = await within(canvasElement).findByRole('button', { name: /Create/i });
+    await fireEvent.click(createButton);
   },
 };
 
 export const Created: Story = {
   play: async (context) => {
     await Creating.play(context);
-    const { canvasElement, args } = context;
 
-    const input = await within(canvasElement).findByRole('textbox');
-    await userEvent.type(input, 'MyNewStory');
-    const submitButton = await within(canvasElement).findByRole('button', { name: /save/i });
-    await userEvent.click(submitButton);
+    await waitFor(async () => {
+      const dialog = await within(document.body).findByRole('dialog');
+      const input = await within(dialog).findByRole('textbox');
+      await userEvent.type(input, 'MyNewStory');
+      const submitButton = await within(dialog).findByRole('button', { name: /Create/i });
+      await userEvent.click(submitButton);
+    });
 
-    await expect(args.createStory).toHaveBeenCalledWith('MyNewStory');
+    await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
   },
 };
