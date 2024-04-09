@@ -47,7 +47,11 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
-    "./headers": "./dist/headers/index.mjs",
+    "./headers": {
+      "types": "./dist/headers/index.d.ts",
+      "require": "./dist/headers/index.js",
+      "import": "./dist/headers/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",

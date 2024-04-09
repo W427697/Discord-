@@ -11,6 +11,7 @@ import * as styledJsxStories from './StyledJsx.stories';
 import * as dynamicImportStories from './DynamicImport.stories';
 import * as fontStories from './Font.stories';
 import * as headStories from './Head.stories';
+import * as nextHeaderStories from './NextHeader.stories';
 import * as getImagePropsStories from './GetImageProps.stories';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
@@ -30,6 +31,7 @@ const runTests = (name: string, storiesModule: any) => {
 
 // // example with composeStory, returns a single story composed with args/decorators
 describe('renders', () => {
+  runTests('nextHeaderStories', nextHeaderStories);
   runTests('navigationStories', navigationStories);
   runTests('linkStories', linkStories);
   runTests('routerStories', routerStories);
