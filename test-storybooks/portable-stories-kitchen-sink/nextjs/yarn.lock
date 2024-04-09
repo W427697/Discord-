@@ -2985,7 +2985,7 @@ __metadata:
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=06106f&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=449323&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -3043,7 +3043,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 10/65a8ba601d1ab74a5b8af2e4399629e6cb1715a3003828664264792eabf68b403d15251287a819d930c25b612325ff58eb1fe603036f65f51d51682501672f6e
+  checksum: 10/cca75d58487e2dcba461dc15fb913f2ec60afa0fddbd0038eba3983f5286fa6555ab4c00e94b6eb1048fad85656a88fb7e5fd6534ec0907c3c46049ace5551dc
   languageName: node
   linkType: hard
 

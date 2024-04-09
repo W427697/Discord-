@@ -1,13 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import { fn } from '@storybook/test';
-import type { HeadersStore } from './headers';
-import { headers } from './headers';
 import type { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import {
   parseCookie,
   stringifyCookie,
   type RequestCookie,
 } from 'next/dist/compiled/@edge-runtime/cookies';
+// We need this import to be a singleton, and because it's used in multiple entrypoints
+// both in ESM and CJS, importing it via the package name instead of having a local import
+// is the only way to achieve it actually being a singleton
+import { headers, type HeadersStore } from '@storybook/nextjs/headers';
 
 const stringifyCookies = (map: Map<string, RequestCookie>) => {
   return Array.from(map)

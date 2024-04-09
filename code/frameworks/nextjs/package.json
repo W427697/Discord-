@@ -64,6 +64,9 @@
       ],
       "dist/image-context": [
         "dist/image-context.d.ts"
+      ],
+      "headers": [
+        "dist/headers/index.d.ts"
       ]
     }
   },

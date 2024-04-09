@@ -4,7 +4,10 @@ import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';
 import { StyledJsxDecorator } from './styledJsx/decorator';
 import { HeadManagerDecorator } from './head-manager/decorator';
-import { cookies, headers } from './headers';
+// We need this import to be a singleton, and because it's used in multiple entrypoints
+// both in ESM and CJS, importing it via the package name instead of having a local import
+// is the only way to achieve it actually being a singleton
+import { cookies, headers } from '@storybook/nextjs/headers';
 
 function addNextHeadCount() {
   const meta = document.createElement('meta');
