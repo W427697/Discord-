@@ -12,11 +12,13 @@ interface Options {}
 export const vta: Fix<Options> = {
   id: 'visual-testing-addon',
 
-  versionRange: ['<8.0.7', '>=7'],
+  versionRange: ['<8.0.7', '>=8.0.7'],
 
   async check({ mainConfig }) {
     const hadAddonInstalled = !!mainConfig?.addons?.find((addon) =>
-      addon.toString().includes('@chromatic-com/storybook')
+      typeof addon === 'string'
+        ? addon.includes('@chromatic-com/storybook')
+        : addon.name.includes('@chromatic-com/storybook')
     );
 
     // @ts-expect-error (user might be upgrading from an older version that still had it)
