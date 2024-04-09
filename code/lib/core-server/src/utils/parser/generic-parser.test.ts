@@ -5,7 +5,7 @@ import fs from 'fs';
 
 const genericParser = new GenericParser();
 
-const TEST_DIR = path.join(__dirname, '..', '__tests__');
+const TEST_DIR = path.join(__dirname, '..', '__search-files-tests__');
 
 describe('generic-parser', () => {
   it('should correctly return exports from CommonJS files', async () => {

@@ -1,8 +1,9 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
 import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
-import { initFileSearchChannel } from './file-search-channel';
 import { beforeEach, describe, expect, vi, it } from 'vitest';
+
+import { initFileSearchChannel } from './file-search-channel';
 
 const mocks = vi.hoisted(() => {
   return {
@@ -24,7 +25,7 @@ vi.mock('@storybook/core-common', async (importOriginal) => {
     extractProperRendererNameFromFramework: vi.fn().mockResolvedValue('react'),
     getProjectRoot: vi
       .fn()
-      .mockReturnValue(require('path').join(__dirname, '..', 'utils', '__tests__')),
+      .mockReturnValue(require('path').join(__dirname, '..', 'utils', '__search-files-tests__')),
   };
 });
 

@@ -6,7 +6,7 @@ describe('search-files', () => {
   it('should automatically convert static search to a dynamic glob search', async (t) => {
     const files = await searchFiles({
       searchQuery: 'ommonjs',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual(['src/commonjs-module-default.js', 'src/commonjs-module.js']);
@@ -15,7 +15,7 @@ describe('search-files', () => {
   it('should automatically convert static search to a dynamic glob search (with file extension)', async (t) => {
     const files = await searchFiles({
       searchQuery: 'module.js',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual(['src/commonjs-module.js', 'src/es-module.js']);
@@ -24,7 +24,7 @@ describe('search-files', () => {
   it('should return all files if the search query matches the parent folder', async (t) => {
     const files = await searchFiles({
       searchQuery: 'file-extensions',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual([
@@ -42,7 +42,7 @@ describe('search-files', () => {
   it('should ignore files that do not have the allowed extensions', async (t) => {
     const files = await searchFiles({
       searchQuery: 'asset',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual([]);
@@ -51,7 +51,7 @@ describe('search-files', () => {
   it('should ignore test files (*.spec.*, *.test.*)', async (t) => {
     const files = await searchFiles({
       searchQuery: 'tests',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual([]);
@@ -60,7 +60,7 @@ describe('search-files', () => {
   it('should work with glob search patterns', async (t) => {
     const files = await searchFiles({
       searchQuery: '**/commonjs-module.js',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual(['src/commonjs-module.js']);
@@ -69,7 +69,7 @@ describe('search-files', () => {
   it('should ignore node_modules', async (t) => {
     const files = await searchFiles({
       searchQuery: 'file-in-common.js',
-      cwd: path.join(__dirname, '__tests__'),
+      cwd: path.join(__dirname, '__search-files-tests__'),
     });
 
     expect(files).toEqual([]);
@@ -79,7 +79,7 @@ describe('search-files', () => {
     await expect(() =>
       searchFiles({
         searchQuery: '../**/*',
-        cwd: path.join(__dirname, '__tests__'),
+        cwd: path.join(__dirname, '__search-files-tests__'),
       })
     ).rejects.toThrowError();
   });
