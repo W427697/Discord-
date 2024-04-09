@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import type { Mock, MockInstance } from '@vitest/spy';
+import type { MockInstance } from '@vitest/spy';
 import {
   spyOn as vitestSpyOn,
   isMockFunction,
@@ -27,20 +27,17 @@ export function onMockCall(callback: Listener): () => void {
   };
 }
 
-// @ts-expect-error TS is hard you know
+// @ts-expect-error Make sure we export the exact same type as @vitest/spy
 export const spyOn: typeof vitestSpyOn = (...args) => {
   const mock = vitestSpyOn(...(args as Parameters<typeof vitestSpyOn>));
   return reactiveMock(mock);
 };
 
-export function fn<TArgs extends any[] = any, R = any>(): Mock<TArgs, R>;
-export function fn<TArgs extends any[] = any[], R = any>(
-  implementation: (...args: TArgs) => R
-): Mock<TArgs, R>;
-export function fn<TArgs extends any[] = any[], R = any>(implementation?: (...args: TArgs) => R) {
+// @ts-expect-error Make sure we export the exact same type as @vitest/spy
+export const fn: typeof vitestFn = (implementation) => {
   const mock = implementation ? vitestFn(implementation) : vitestFn();
   return reactiveMock(mock);
-}
+};
 
 function reactiveMock(mock: MockInstance) {
   const reactive = listenWhenCalled(mock);
