@@ -10,7 +10,10 @@ import {
 } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from '../types';
-import { useRouter } from './index';
+// We need this import to be a singleton, and because it's used in multiple entrypoints
+// both in ESM and CJS, importing it via the package name instead of having a local import
+// is the only way to achieve it actually being a singleton
+import { useRouter } from '@storybook/nextjs/navigation';
 
 type AppRouterProviderProps = {
   routeParams: RouteParams;

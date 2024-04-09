@@ -11,8 +11,8 @@ import { HeadManagerDecorator } from './head-manager/decorator';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore we must ignore types here as during compilation they are not generated yet
 import { cookies, headers } from '@storybook/nextjs/headers.mock';
-import { createRouter } from './routing/router';
-import { createNavigation } from './routing/navigation';
+import { createRouter } from '@storybook/nextjs/router';
+import { createNavigation } from '@storybook/nextjs/navigation';
 
 function addNextHeadCount() {
   const meta = document.createElement('meta');
