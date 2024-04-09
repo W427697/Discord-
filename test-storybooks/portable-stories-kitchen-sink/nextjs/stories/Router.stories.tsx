@@ -1,5 +1,8 @@
-import { useRouter } from 'next/router';
 import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within, userEvent } from '@storybook/test';
+import { useRouter as useRouterMock } from '@storybook/nextjs/router';
+import { useRouter } from 'next/router';
 
 function Component() {
   const router = useRouter();
@@ -19,10 +22,12 @@ function Component() {
       name: 'Prefetch',
     },
     {
+      // @ts-expect-error (old API)
       cb: () => router.push('/push-html', { forceOptimisticNavigation: true }),
       name: 'Push HTML',
     },
     {
+      // @ts-expect-error (old API)
       cb: () => router.replace('/replaced-html', { forceOptimisticNavigation: true }),
       name: 'Replace',
     },
@@ -61,9 +66,28 @@ export default {
         query: {
           foo: 'bar',
         },
+        prefetch: () => {
+          console.log('custom prefetch');
+        },
       },
     },
   },
-};
+} as Meta<typeof Component>;
 
-export const Default = {};
+export const Default: StoryObj<typeof Component> = {
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step('Asserts whether forward hook is called', async () => {
+      const forwardBtn = await canvas.findByText('Go forward');
+      await userEvent.click(forwardBtn);
+      await expect(useRouterMock().forward).toHaveBeenCalled();
+    });
+
+    await step('Asserts whether custom prefetch hook is called', async () => {
+      const prefetchBtn = await canvas.findByText('Prefetch');
+      await userEvent.click(prefetchBtn);
+      await expect(useRouterMock().prefetch).toHaveBeenCalledWith('/prefetched-html');
+    });
+  },
+};

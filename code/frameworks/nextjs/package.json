@@ -52,8 +52,16 @@
       "require": "./dist/headers/index.js",
       "import": "./dist/headers/index.mjs"
     },
-    "./router": "./dist/routing/router/index.mjs",
-    "./navigation": "./dist/routing/navigation/index.mjs",
+    "./router": {
+      "types": "./dist/routing/router/index.d.ts",
+      "require": "./dist/routing/router/index.js",
+      "import": "./dist/routing/router/index.mjs"
+    },
+    "./navigation": {
+      "types": "./dist/routing/navigation/index.d.ts",
+      "require": "./dist/routing/navigation/index.js",
+      "import": "./dist/routing/navigation/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
