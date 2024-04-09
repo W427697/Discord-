@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getStoryId, initCreateNewStoryChannel } from './create-new-story-channel';
+import { initCreateNewStoryChannel } from './create-new-story-channel';
 import path from 'path';
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
@@ -15,16 +15,16 @@ vi.mock('@storybook/core-common', async (importOriginal) => {
 
 const mockFs = vi.hoisted(() => {
   return {
-    writeFileSync: vi.fn(),
+    writeFile: vi.fn(),
   };
 });
 
-vi.mock('fs', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('fs')>();
+vi.mock('fs/promises', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs/promises')>();
   return {
     default: {
       ...actual,
-      writeFileSync: mockFs.writeFileSync,
+      writeFile: mockFs.writeFile,
     },
   };
 });
@@ -38,48 +38,6 @@ describe('createNewStoryChannel', () => {
     transport.setHandler.mockClear();
     transport.send.mockClear();
     createNewStoryFileEventListener.mockClear();
-  });
-
-  describe('getStoryId', () => {
-    it('should return the storyId', async () => {
-      const cwd = process.cwd();
-      const options = {
-        configDir: path.join(cwd, '.storybook'),
-        presets: {
-          apply: (val: string) => {
-            if (val === 'stories') {
-              return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
-            }
-          },
-        },
-      } as any;
-      const storyFilePath = path.join(cwd, 'src', 'components', 'stories', 'Page1.stories.ts');
-      const exportedStoryName = 'Default';
-
-      const storyId = await getStoryId(options, storyFilePath, exportedStoryName);
-
-      expect(storyId).toBe('components-stories-page1--default');
-    });
-
-    it('should throw an error if the storyId cannot be calculated', async () => {
-      const cwd = process.cwd();
-      const options = {
-        configDir: path.join(cwd, '.storybook'),
-        presets: {
-          apply: (val: string) => {
-            if (val === 'stories') {
-              return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
-            }
-          },
-        },
-      } as any;
-      const storyFilePath = path.join(cwd, 'not-covered-path', 'stories', 'Page1.stories.ts');
-      const exportedStoryName = 'Default';
-
-      await expect(() =>
-        getStoryId(options, storyFilePath, exportedStoryName)
-      ).rejects.toThrowError();
-    });
   });
 
   describe('initCreateNewStoryChannel', () => {
@@ -124,7 +82,7 @@ describe('createNewStoryChannel', () => {
       mockChannel.addListener(CREATE_NEW_STORYFILE_RESULT, createNewStoryFileEventListener);
       const cwd = process.cwd();
 
-      mockFs.writeFileSync.mockImplementation(() => {
+      mockFs.writeFile.mockImplementation(() => {
         throw new Error('Failed to write file');
       });
 

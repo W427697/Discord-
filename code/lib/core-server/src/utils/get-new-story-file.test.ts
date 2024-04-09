@@ -31,8 +31,9 @@ describe('get-new-story-file', () => {
 
     expect(exportedStoryName).toBe('Default');
     expect(storyFileContent).toMatchInlineSnapshot(`
-      "import { Page } from './Page';
-      import type { Meta, StoryObj } from '@storybook/nextjs';
+      "import type { Meta, StoryObj } from '@storybook/nextjs';
+
+      import { Page } from './Page';
 
       const meta = {
         component: Page
