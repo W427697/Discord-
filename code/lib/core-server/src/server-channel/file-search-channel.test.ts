@@ -1,6 +1,6 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '../constants';
+import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
 import { initFileSearchChannel } from './file-search-channel';
 import { beforeEach, describe, expect, vi, it } from 'vitest';
 

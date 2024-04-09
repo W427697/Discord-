@@ -10,7 +10,7 @@ import fs from 'fs/promises';
 
 import { getParser } from '../utils/parser';
 import { searchFiles } from '../utils/search-files';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '../constants';
+import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
 
 interface Data {
   // A regular string or a glob pattern
