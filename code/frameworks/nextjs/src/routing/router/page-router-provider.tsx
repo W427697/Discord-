@@ -16,18 +16,10 @@ export const PageRouterProvider: React.FC<PropsWithChildren<PageRouterProviderPr
   globals,
 }) => (
   <RouterContext.Provider
-    value={{
+    value={createRouter({
       locale: globals?.locale,
-      route: '/',
-      asPath: '/',
-      basePath: '/',
-      isFallback: false,
-      isLocaleDomain: false,
-      isReady: true,
-      isPreview: false,
       ...routeParams,
-      ...createRouter({ overrides: routeParams }),
-    }}
+    })}
   >
     {children}
   </RouterContext.Provider>

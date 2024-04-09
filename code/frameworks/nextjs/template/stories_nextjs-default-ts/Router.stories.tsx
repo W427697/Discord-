@@ -77,17 +77,23 @@ export default {
 export const Default: StoryObj<typeof Component> = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
+    const routerMock = useRouterMock();
+
+    await step('Router property overrides should be available', async () => {
+      await expect(routerMock.pathname).toBe('/hello');
+      await expect(routerMock.query).toEqual({ foo: 'bar' });
+    });
 
     await step('Asserts whether forward hook is called', async () => {
       const forwardBtn = await canvas.findByText('Go forward');
       await userEvent.click(forwardBtn);
-      await expect(useRouterMock().forward).toHaveBeenCalled();
+      await expect(routerMock.forward).toHaveBeenCalled();
     });
 
     await step('Asserts whether custom prefetch hook is called', async () => {
       const prefetchBtn = await canvas.findByText('Prefetch');
       await userEvent.click(prefetchBtn);
-      await expect(useRouterMock().prefetch).toHaveBeenCalledWith('/prefetched-html');
+      await expect(routerMock.prefetch).toHaveBeenCalledWith('/prefetched-html');
     });
   },
 };

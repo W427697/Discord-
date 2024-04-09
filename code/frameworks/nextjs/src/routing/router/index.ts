@@ -1,6 +1,20 @@
 import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
+import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
 import type { NextRouter } from 'next/router';
+import singletonRouter from 'next/router';
+
+const defaultRouterState = {
+  route: '/',
+  asPath: '/',
+  basePath: '/',
+  pathname: '/',
+  query: {},
+  isFallback: false,
+  isLocaleDomain: false,
+  isReady: true,
+  isPreview: false,
+};
 
 let routerAPI: {
   push: Mock;
@@ -15,9 +29,9 @@ let routerAPI: {
     off: Mock;
     emit: Mock;
   };
-};
+} & typeof defaultRouterState;
 
-export const createRouter = ({ overrides }: { overrides?: Partial<NextRouter> }) => {
+export const createRouter = (overrides?: Partial<NextRouter>) => {
   if (!routerAPI) {
     const routerActions: Partial<NextRouter> = {
       push: fn((..._args: any[]) => {
@@ -35,12 +49,10 @@ export const createRouter = ({ overrides }: { overrides?: Partial<NextRouter> })
       beforePopState: fn((..._args: any[]) => {}).mockName('nextRouter.beforePopState'),
     };
 
-    const routerEvents: Partial<NextRouter> = {
-      events: {
-        on: fn((..._args: any[]) => {}).mockName('nextRouter.events.on'),
-        off: fn((..._args: any[]) => {}).mockName('nextRouter.events.off'),
-        emit: fn((..._args: any[]) => {}).mockName('nextRouter.events.emit'),
-      },
+    const routerEvents: NextRouter['events'] = {
+      on: fn((..._args: any[]) => {}).mockName('nextRouter.events.on'),
+      off: fn((..._args: any[]) => {}).mockName('nextRouter.events.off'),
+      emit: fn((..._args: any[]) => {}).mockName('nextRouter.events.emit'),
     };
 
     if (overrides) {
@@ -54,9 +66,9 @@ export const createRouter = ({ overrides }: { overrides?: Partial<NextRouter> })
     }
 
     if (overrides?.events) {
-      Object.keys(routerEvents.events!).forEach((key) => {
-        if (key in routerEvents.events!) {
-          (routerEvents.events as any)[key] = fn((...args: any[]) => {
+      Object.keys(routerEvents).forEach((key) => {
+        if (key in routerEvents) {
+          (routerEvents as any)[key] = fn((...args: any[]) => {
             return (overrides.events as any)[key](...args);
           }).mockName(`nextRouter.events.${key}`);
         }
@@ -64,18 +76,27 @@ export const createRouter = ({ overrides }: { overrides?: Partial<NextRouter> })
     }
 
     routerAPI = {
+      ...defaultRouterState,
+      ...overrides,
       ...routerActions,
       // @ts-expect-error TODO improve typings
-      events: routerEvents.events,
+      events: routerEvents,
     };
+
+    // overwrite the singleton router from next/router
+    singletonRouter.router = routerAPI as any;
+    singletonRouter.readyCallbacks.forEach((cb) => cb());
+    singletonRouter.readyCallbacks = [];
   }
 
-  return routerAPI;
+  return routerAPI as unknown as NextRouter;
 };
 
 export const useRouter = () => {
   if (!routerAPI) {
-    throw new Error('Router not created yet');
+    throw new NextjsRouterMocksNotAvailable({
+      importType: 'next/router',
+    });
   }
 
   return routerAPI;

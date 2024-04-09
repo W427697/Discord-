@@ -1,5 +1,6 @@
 import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
+import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
 
 let navigationAPI: {
   push: Mock;
@@ -10,7 +11,7 @@ let navigationAPI: {
   refresh: Mock;
 };
 
-export const createNavigation = ({ overrides }: { overrides?: any }) => {
+export const createNavigation = (overrides: any) => {
   if (!navigationAPI) {
     const navigationActions = {
       push: fn().mockName('nextNavigation.push'),
@@ -39,8 +40,9 @@ export const createNavigation = ({ overrides }: { overrides?: any }) => {
 
 export const useRouter = () => {
   if (!navigationAPI) {
-    // TODO: improve error message
-    throw new Error('The router mock was not created yet. This is probably a bug.');
+    throw new NextjsRouterMocksNotAvailable({
+      importType: 'next/navigation',
+    });
   }
 
   return navigationAPI;
