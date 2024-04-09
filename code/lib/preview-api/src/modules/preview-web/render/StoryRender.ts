@@ -280,11 +280,13 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   /**
    * Rerender the story.
-   * If the story is currently pending (loading/rendering/playing), the rerender will be enqueued,
+   * If the story is currently pending (loading/rendering), the rerender will be enqueued,
    * and will be executed after the current render is completed.
+   * Rerendering while playing will not be enqueued, and will be executed immediately, to support
+   * rendering args changes while playing.
    */
   async rerender() {
-    if (this.isPending()) {
+    if (this.isPending() && this.phase !== 'playing') {
       this.rerenderEnqueued = true;
     } else {
       return this.render();
