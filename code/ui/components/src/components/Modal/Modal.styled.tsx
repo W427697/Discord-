@@ -28,7 +28,7 @@ export const Overlay = styled.div({
   width: '100%',
   height: '100%',
   zIndex: 10,
-  animation: `${fadeIn} 200ms forwards`,
+  animation: `${fadeIn} 200ms`,
 });
 
 export const Container = styled.div<{ width?: number; height?: number }>(({ width, height }) => ({
@@ -45,7 +45,7 @@ export const Container = styled.div<{ width?: number; height?: number }>(({ widt
   maxHeight: '85vh',
   overflow: 'hidden',
   zIndex: 11,
-  animation: `${zoomIn} 200ms forwards`,
+  animation: `${zoomIn} 200ms`,
 
   '&:focus-visible': {
     outline: 'none',
