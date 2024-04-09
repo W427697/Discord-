@@ -9,7 +9,7 @@ vi.mock('@storybook/core-common', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@storybook/core-common')>();
   return {
     ...actual,
-    getProjectRoot: vi.fn().mockReturnValue(require('path').join(__dirname)),
+    getProjectRoot: vi.fn().mockReturnValue(process.cwd()),
   };
 });
 
@@ -72,7 +72,7 @@ describe('createNewStoryChannel', () => {
       expect(createNewStoryFileEventListener).toHaveBeenCalledWith({
         error: null,
         result: {
-          storyId: 'server-channel-src-components-page--default',
+          storyId: 'components-page--default',
         },
         success: true,
       });
