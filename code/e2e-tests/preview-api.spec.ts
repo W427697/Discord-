@@ -53,7 +53,7 @@ test.describe('preview-api', () => {
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
   });
 
-  // if rerenders where interleaved the button would have rendered something like "Loading... Done. Done. Done. Done. Changed arg"
+  // if rerenders were interleaved the button would have rendered "Error: Interleaved loaders. Changed arg"
   test('should only render once at a time when rapidly changing args', async ({ page }) => {
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('lib/preview-api/rendering', 'slow-loader');
@@ -62,14 +62,14 @@ test.describe('preview-api', () => {
 
     const labelControl = await sbPage.page.locator('#control-label');
 
-    await expect(root.getByText('Loading... Done. Click me')).toBeVisible();
+    await expect(root.getByText('Loaded. Click me')).toBeVisible();
     await expect(labelControl).toBeVisible();
 
     await labelControl.fill('');
     await labelControl.type('Changed arg', { delay: 50 });
     await labelControl.blur();
 
-    await expect(root.getByText('Loading... Done. Changed arg')).toBeVisible();
+    await expect(root.getByText('Loaded. Changed arg')).toBeVisible();
   });
 
   test('should reload plage when remounting while loading', async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe('preview-api', () => {
 
     const root = sbPage.previewRoot();
 
-    await expect(root.getByText('Loading... Done. Click me')).toBeVisible();
+    await expect(root.getByText('Loaded. Click me')).toBeVisible();
 
     await sbPage.page.getByRole('button', { name: 'Remount component' }).click();
     await wait(200);
@@ -86,6 +86,6 @@ test.describe('preview-api', () => {
 
     // the loading spinner indicates the iframe is being fully reloaded
     await expect(sbPage.previewIframe().locator('.sb-preparing-story > .sb-loader')).toBeVisible();
-    await expect(root.getByText('Loading... Done. Click me')).toBeVisible();
+    await expect(root.getByText('Loaded. Click me')).toBeVisible();
   });
 });

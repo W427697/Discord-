@@ -72,7 +72,7 @@ let loadedLabel = 'Initial';
 /**
  * This story demonstrates what happens when rendering (loaders) have side effects, and can possibly interleave with each other
  * Triggering multiple force remounts quickly should only result in a single remount in the end
- * and the label should be 'Loading... Done. Click Me' at the end. If loaders are interleaving it could result in a label of 'Loading... Done. Done. Done. Done. Click Me'
+ * and the label should be 'Loaded. Click Me' at the end. If loaders are interleaving it would result in a label of 'Error: Interleaved loaders. Click Me'
  * Similarly, changing args rapidly should only cause one rerender at a time, producing the same result.
  */
 export const SlowLoader = {
@@ -80,7 +80,7 @@ export const SlowLoader = {
     async () => {
       loadedLabel = 'Loading...';
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      loadedLabel += ' Done.';
+      loadedLabel = loadedLabel === 'Loading...' ? 'Loaded.' : 'Error: Interleaved loaders.';
       return { label: loadedLabel };
     },
   ],
