@@ -59,7 +59,6 @@
       "require": "./dist/measure/preview.js"
     },
     "./measure/manager": "./dist/measure/manager.js",
-    "./preset": "./dist/preset.js",
     "./outline/preview": {
       "types": "./dist/outline/preview.d.ts",
       "import": "./dist/outline/preview.mjs",
@@ -99,12 +98,10 @@
     "@storybook/addon-outline": "workspace:*",
     "@storybook/addon-toolbars": "workspace:*",
     "@storybook/addon-viewport": "workspace:*",
-    "@storybook/channels": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
-    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -116,7 +113,6 @@
   "bundler": {
     "nodeEntries": [
       "./src/index.ts",
-      "./src/preset.ts",
       "./src/docs/preset.ts",
       "./src/docs/mdx-react-shim.ts"
     ],
