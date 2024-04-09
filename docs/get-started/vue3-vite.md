@@ -277,8 +277,7 @@ The definition above will generate the following controls:
 
 ### Limitations
 
-If your `tsconfig.json` file uses `references` to other config files like `tsconfig.app.json`, `tsconfig.node.json` etc., you should define the tsconfig file used for your main application code via the framework option shown below so `vue-component-meta` can use it properly.
-Otherwise, you might face missing component types/descriptions or unresolvable import aliases like `@/some/import`.
+If you're working with a project that relies on [`tsconfig references`](https://www.typescriptlang.org/docs/handbook/project-references.html) to link to other existing configuration files (e.g. `tsconfig.app.json`, `tsconfig.node.json`), we recommend that you update your [`.storybook/main.js|ts`](../configure/index.md) configuration file and add the following:
 
 ```ts
 // .storybook/main.ts
@@ -299,7 +298,13 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-For further information, you can take a look at [this issue](https://github.com/vuejs/language-tools/issues/3896).
+Otherwise, you might face missing component types/descriptions or unresolvable import aliases like `@/some/import`.
+
+<Callout variant="info">
+
+This is not a limitation of Storybook but instead from the `vue-component-meta` package. For more information, refer to the appropriate [GitHub issue](https://github.com/vuejs/language-tools/issues/3896).
+
+</Callout>
 
 ## Troubleshooting
 
