@@ -10,5 +10,5 @@ import path from 'path';
  * normalizePath('path\\to\\file') // => 'path/to/file'
  */
 export function normalizePath(p: string) {
-  return path.normalize(p.replace(/\\/g, '/'));
+  return path.posix.normalize(p.replace(/\\/g, '/'));
 }
