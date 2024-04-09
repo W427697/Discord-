@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import dedent from 'ts-dedent';
-import { UnknownFlowArgTypesError, WebpackCompilationError } from './server-errors';
+import { UnknownArgTypesError, WebpackCompilationError } from './server-errors';
 
 describe('WebpackCompilationError', () => {
   it('should correctly handle error with stats.compilation.errors', () => {
@@ -24,11 +24,11 @@ describe('UnknownFlowArgTypesError', () => {
       signature: 1,
     };
 
-    const message = dedent`We detected an Unknown Flow Type of type {"name":"signature","type":"number","signature":1} in your configuration.
-    Storybook expects either a function or an object signature Flow type.
-    Please check the Storybook configuration and ensure it has a valid Flow type.`;
+    const message = dedent`We detected a type {"name":"signature","type":"number","signature":1} in your configuration.
+    Your custom type does not match the TSFuncSigType or TSObjectSigType
+    Please check your Storybook configuration and ensure you have defined a valid type.`;
 
-    const typeError = new UnknownFlowArgTypesError({ type });
+    const typeError = new UnknownArgTypesError({ type });
     expect(typeError.message).toEqual(message);
   });
 });
