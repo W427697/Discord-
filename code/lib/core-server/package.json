@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "8.1.0-alpha.5",
+  "version": "8.1.0-alpha.6",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -78,12 +78,14 @@
     "@types/semver": "^7.3.4",
     "better-opn": "^3.0.2",
     "chalk": "^4.1.0",
+    "cjs-module-lexer": "^1.2.3",
     "cli-table3": "^0.6.1",
     "compression": "^1.7.4",
     "detect-port": "^1.3.0",
+    "es-module-lexer": "^1.5.0",
     "express": "^4.17.3",
     "fs-extra": "^11.1.0",
-    "globby": "^11.0.2",
+    "globby": "^14.0.1",
     "ip": "^2.0.1",
     "lodash": "^4.17.21",
     "open": "^8.4.0",
