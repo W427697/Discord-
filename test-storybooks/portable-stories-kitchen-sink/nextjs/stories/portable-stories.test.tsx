@@ -29,7 +29,7 @@ const runTests = (name: string, storiesModule: any) => {
   })
 }
 
-// // example with composeStory, returns a single story composed with args/decorators
+// example with composeStory, returns a single story composed with args/decorators
 describe('renders', () => {
   runTests('nextHeaderStories', nextHeaderStories);
   runTests('navigationStories', navigationStories);

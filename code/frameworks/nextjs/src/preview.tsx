@@ -11,6 +11,12 @@ import { HeadManagerDecorator } from './head-manager/decorator';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore we must ignore types here as during compilation they are not generated yet
 import { cookies, headers } from '@storybook/nextjs/headers.mock';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore we must ignore types here as during compilation they are not generated yet
+import { createRouter } from '@storybook/nextjs/router.mock';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore we must ignore types here as during compilation they are not generated yet
+import { createNavigation } from '@storybook/nextjs/navigation.mock';
 
 function addNextHeadCount() {
   const meta = document.createElement('meta');
@@ -28,9 +34,19 @@ export const decorators: Addon_DecoratorFunction<any>[] = [
   HeadManagerDecorator,
 ];
 
-export const loaders: Addon_LoaderFunction = async () => {
+export const loaders: Addon_LoaderFunction = async ({ globals, parameters }) => {
   cookies().mockRestore();
   headers().mockRestore();
+
+  const { router, appDirectory } = parameters.nextjs ?? {};
+  if (appDirectory) {
+    createNavigation(router);
+  } else {
+    createRouter({
+      locale: globals.locale,
+      ...router,
+    });
+  }
 };
 
 export const parameters = {
