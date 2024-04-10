@@ -8,9 +8,12 @@ import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapter
 export class HeadersStore extends Headers implements HeadersAdapter {
   private headers: IncomingHttpHeaders = {};
 
-  /** @internal */
+  /** Used to restore the mocks. Called internally by @storybook/nextjs
+   * to ensure that the mocks are restored between stories.
+   * @internal
+   * */
   mockRestore = () => {
-    this.forEach((key) => this.delete(key));
+    this.forEach((key: string) => this.delete(key));
   };
 
   /**
@@ -64,33 +67,39 @@ export class HeadersStore extends Headers implements HeadersAdapter {
     }
   ).mockName('headers().forEach');
 
-  public entries = fn(function* (this: HeadersStore): IterableIterator<[string, string]> {
-    for (const key of Object.keys(this.headers)) {
-      const name = key.toLowerCase();
-      // We assert here that this is a string because we got it from the
-      // Object.keys() call above.
-      const value = this.get(name) as string;
+  public entries = fn(
+    function* (this: HeadersStore): IterableIterator<[string, string]> {
+      for (const key of Object.keys(this.headers)) {
+        const name = key.toLowerCase();
+        // We assert here that this is a string because we got it from the
+        // Object.keys() call above.
+        const value = this.get(name) as string;
 
-      yield [name, value];
-    }
-  }).mockName('headers().entries');
+        yield [name, value];
+      }
+    }.bind(this)
+  ).mockName('headers().entries');
 
-  public keys = fn(function* (this: HeadersStore): IterableIterator<string> {
-    for (const key of Object.keys(this.headers)) {
-      const name = key.toLowerCase();
-      yield name;
-    }
-  }).mockName('headers().keys');
+  public keys = fn(
+    function* (this: HeadersStore): IterableIterator<string> {
+      for (const key of Object.keys(this.headers)) {
+        const name = key.toLowerCase();
+        yield name;
+      }
+    }.bind(this)
+  ).mockName('headers().keys');
 
-  public values = fn(function* (this: HeadersStore): IterableIterator<string> {
-    for (const key of Object.keys(this.headers)) {
-      // We assert here that this is a string because we got it from the
-      // Object.keys() call above.
-      const value = this.get(key) as string;
+  public values = fn(
+    function* (this: HeadersStore): IterableIterator<string> {
+      for (const key of Object.keys(this.headers)) {
+        // We assert here that this is a string because we got it from the
+        // Object.keys() call above.
+        const value = this.get(key) as string;
 
-      yield value;
-    }
-  }).mockName('headers().values');
+        yield value;
+      }
+    }.bind(this)
+  ).mockName('headers().values');
 
   public [Symbol.iterator](): IterableIterator<[string, string]> {
     return this.entries();
