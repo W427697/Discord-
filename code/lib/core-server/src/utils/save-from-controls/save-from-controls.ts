@@ -5,6 +5,7 @@ import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
 import type { OptionsWithRequiredCache } from '../whats-new';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
 import { join } from 'path';
+import { updateArgsInCsfFile } from './update-args-in-csf-file';
 // import { sendTelemetryError } from '../withTelemetry';
 
 interface RequestSaveStoryPayload {
@@ -50,7 +51,7 @@ export function initializeSaveFromControls(
       }
 
       // modify the AST node with the new args
-      console.log({ node });
+      updateArgsInCsfFile(node, data.args);
 
       // save the file
       await writeCsf(csf, location);
