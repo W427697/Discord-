@@ -2,7 +2,6 @@ import { interpolateName } from 'loader-utils';
 import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
 import type { NextConfig } from 'next';
-import sharp from 'sharp';
 import { cpus } from 'os';
 
 interface LoaderOptions {
@@ -10,10 +9,19 @@ interface LoaderOptions {
   nextConfig: NextConfig;
 }
 
-if (sharp.concurrency() > 1) {
-  // Reducing concurrency reduces the memory usage too.
-  const divisor = process.env.NODE_ENV === 'development' ? 4 : 2;
-  sharp.concurrency(Math.floor(Math.max(cpus().length / divisor, 1)));
+let sharp: typeof import('sharp') | undefined;
+
+try {
+  sharp = require('sharp');
+  if (sharp && sharp.concurrency() > 1) {
+    // Reducing concurrency reduces the memory usage too.
+    const divisor = process.env.NODE_ENV === 'development' ? 4 : 2;
+    sharp.concurrency(Math.floor(Math.max(cpus().length / divisor, 1)));
+  }
+} catch (e) {
+  console.warn(
+    'You have to install sharp in order to use image optimization features in Next.js. AVIF support is also disabled.'
+  );
 }
 
 const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = async function NextImageLoader(
@@ -37,10 +45,16 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = async function N
   let height;
 
   if (extension === 'avif') {
-    const transformer = sharp(content);
-    const result = await transformer.metadata();
-    width = result.width;
-    height = result.height;
+    if (sharp) {
+      const transformer = sharp(content);
+      const result = await transformer.metadata();
+      width = result.width;
+      height = result.height;
+    } else {
+      throw new Error(
+        'You have to install sharp in order to use image optimization features in Next.js.'
+      );
+    }
   } else {
     const result = imageSizeOf(this.resourcePath);
     width = result.width;
