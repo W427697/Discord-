@@ -1,7 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { getAddonNames, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
-import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
@@ -30,7 +29,11 @@ export const vta: Fix<Options> = {
 
   prompt() {
     return dedent`
-      We've detected that you're not yet using the Visual Testing Addon. Would you like to add it?
+      New to Storybook 8: Storybook's Visual Tests addon helps you catch unintentional changes/bugs in your stories. The addon is powered by Chromatic, a cloud-based testing tool developed by Storybook's core team.
+
+      Learn more: storybook.js.org/docs/writing-tests/visual-testing
+      
+      Install Visual Tests addon in your project?
     `;
   },
 
