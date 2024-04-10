@@ -1,24 +1,24 @@
 import { global as globalThis } from '@storybook/global';
 import { spyOn } from '@storybook/test';
 
-export default {
+const meta = {
   component: globalThis.Components.Button,
-  loaders() {
+  beforeEach() {
     spyOn(console, 'log').mockName('console.log');
-  },
-  args: {
-    label: 'Button',
-  },
-  parameters: {
-    chromatic: { disable: true },
+    console.log('first');
   },
 };
 
+export default meta;
+
 export const ShowSpyOnInActions = {
+  beforeEach() {
+    console.log('second');
+  },
   args: {
+    label: 'Button',
     onClick: () => {
-      console.log('first');
-      console.log('second');
+      console.log('third');
     },
   },
 };
