@@ -2,7 +2,7 @@
 import type { CoreConfig } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
-import type { OptionsWithRequiredCache } from './whats-new';
+import type { OptionsWithRequiredCache } from '../whats-new';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 // import { sendTelemetryError } from '../withTelemetry';

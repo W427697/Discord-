@@ -24,7 +24,7 @@ import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import type { OptionsWithRequiredCache } from '../utils/whats-new';
 import { initializeWhatsNew } from '../utils/whats-new';
-import { initializeSaveFromControls } from '../utils/save-from-controls';
+import { initializeSaveFromControls } from '../utils/save-from-controls/save-from-controls';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
