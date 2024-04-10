@@ -61,7 +61,7 @@ export function initializeSaveFromControls(
       channel.emit(SAVE_STORY_RESULT, {
         id: data.id,
         success: false,
-        error: e.stack || e.message || e.toString(),
+        error: `writing to CSF-file failed, is it a valid CSF-file?`,
       });
 
       console.error(e.stack || e.message || e.toString());
