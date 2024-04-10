@@ -47,7 +47,7 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
-    "./headers": {
+    "./headers.mock": {
       "types": "./dist/headers/index.d.ts",
       "require": "./dist/headers/index.js",
       "import": "./dist/headers/index.mjs"
@@ -65,7 +65,7 @@
       "dist/image-context": [
         "dist/image-context.d.ts"
       ],
-      "headers": [
+      "headers.mock": [
         "dist/headers/index.d.ts"
       ]
     }

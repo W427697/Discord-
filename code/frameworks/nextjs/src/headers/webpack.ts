@@ -13,6 +13,6 @@ export const configureNextHeaders = (baseConfig: WebpackConfig): void => {
   resolve.alias = {
     ...resolve.alias,
     'next/headers': headersPath,
-    '@storybook/nextjs/headers': headersPath,
+    '@storybook/nextjs/headers.mock': headersPath,
   };
 };

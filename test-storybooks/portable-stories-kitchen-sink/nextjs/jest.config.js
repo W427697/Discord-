@@ -13,7 +13,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['./jest.setup.ts'],
   // TODO add docs about this: alias next/headers to @storybook/nextjs/headers
   moduleNameMapper: {
-    '^next/headers$': '@storybook/nextjs/headers',
+    '^next/headers$': '@storybook/nextjs/headers.mock',
   },
 };
 
