@@ -155,7 +155,6 @@ export class WebView implements View<HTMLElement> {
 
     this.showMode(Mode.NOPREVIEW);
 
-    // In storyshots this can get called and these two can be null
     this.storyRoot()?.setAttribute('hidden', 'true');
     this.docsRoot()?.setAttribute('hidden', 'true');
   }
@@ -187,13 +186,13 @@ export class WebView implements View<HTMLElement> {
   }
 
   showDocs() {
-    this.storyRoot().setAttribute('hidden', 'true');
-    this.docsRoot().removeAttribute('hidden');
+    this.storyRoot()?.setAttribute('hidden', 'true');
+    this.docsRoot()?.removeAttribute('hidden');
   }
 
   showStory() {
-    this.docsRoot().setAttribute('hidden', 'true');
-    this.storyRoot().removeAttribute('hidden');
+    this.docsRoot()?.setAttribute('hidden', 'true');
+    this.storyRoot()?.removeAttribute('hidden');
   }
 
   showStoryDuringRender() {
