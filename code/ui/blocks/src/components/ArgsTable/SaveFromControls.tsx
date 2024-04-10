@@ -26,8 +26,10 @@ const Container = styled.div({
 
 const Bar = styled(BaseBar)(({ theme }) => ({
   display: 'flex',
+  flexDirection: 'row-reverse', // hide Info rather than Actions on overflow
   alignItems: 'center',
   justifyContent: 'space-between',
+  flexWrap: 'wrap',
   gap: 6,
   padding: '6px 10px',
   animation: `${slideIn} 300ms forwards`,
@@ -36,12 +38,22 @@ const Bar = styled(BaseBar)(({ theme }) => ({
   fontSize: theme.typography.size.s2,
 }));
 
-const Content = styled.div({
+const Info = styled.div({
   display: 'flex',
+  flex: '99 0 auto',
   alignItems: 'center',
   marginLeft: 10,
   gap: 6,
 });
+
+const Actions = styled.div(({ theme }) => ({
+  display: 'flex',
+  flex: '1 0 0',
+  alignItems: 'center',
+  gap: 2,
+  color: theme.color.mediumdark,
+  fontSize: theme.typography.size.s2,
+}));
 
 const Label = styled.div({
   '@container (max-width: 799px)': {
@@ -63,14 +75,6 @@ const ModalInput = styled(Form.Input)(({ theme }) => ({
   '&:invalid:not(:placeholder-shown)': {
     boxShadow: `${theme.color.negative} 0 0 0 1px inset`,
   },
-}));
-
-const Actions = styled.div(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 2,
-  color: theme.color.mediumdark,
-  fontSize: theme.typography.size.s2,
 }));
 
 type SaveFromControlsProps = {
@@ -116,12 +120,6 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
   return (
     <Container>
       <Bar>
-        <Content>
-          <Label data-short-label="Unsaved changes">
-            You modified this story. Do you want to save your changes?
-          </Label>
-        </Content>
-
         <Actions>
           <WithTooltip
             as="div"
@@ -159,6 +157,12 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
             </IconButton>
           </WithTooltip>
         </Actions>
+
+        <Info>
+          <Label data-short-label="Unsaved changes">
+            You modified this story. Do you want to save your changes?
+          </Label>
+        </Info>
 
         <Modal width={350} open={creating} onOpenChange={setCreating}>
           <Form onSubmit={onSubmitForm}>
