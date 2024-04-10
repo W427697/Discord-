@@ -24,28 +24,24 @@ export function initializeSaveFromControls(
   coreOptions: CoreConfig
 ) {
   channel.on(SAVE_STORY_REQUEST, async (data: RequestSaveStoryPayload) => {
-    console.log('SAVE_STORY_REQUEST', data);
     const id = data.id.split('--')[1];
     try {
       const location = join(process.cwd(), data.importPath);
-      console.log({ location });
+
       // open the story file
       const csf = await readCsf(location, {
         makeTitle: (userTitle: string) => userTitle,
       });
 
       const parsed = csf.parse();
-      // console.log(parsed._stories);
 
-      // find the AST node for the story
-
-      const [name, result] =
+      // find the export_name for the id
+      const [name] =
         Object.entries(parsed._stories).find(([key, value]) => value.id.endsWith(`--${id}`)) || [];
 
-      console.log({ name, result });
       let node;
 
-      // if none can be found, create one
+      // find the AST node for the export_name, if none can be found, create a new story
       if (!name) {
         node = undefined;
         throw new Error(`creation of new story: not yet implemented`);
@@ -54,7 +50,6 @@ export function initializeSaveFromControls(
       }
 
       // modify the AST node with the new args
-      // node
       console.log({ node });
 
       // save the file
@@ -68,6 +63,8 @@ export function initializeSaveFromControls(
         success: false,
         error: e.stack || e.message || e.toString(),
       });
+
+      console.error(e.stack || e.message || e.toString());
     }
   });
 }

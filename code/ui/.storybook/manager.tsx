@@ -2,7 +2,7 @@ import React from 'react';
 import { addons, types, useArgs } from '@storybook/manager-api';
 import startCase from 'lodash/startCase.js';
 import { add } from 'lodash';
-import { SAVE_STORY_REQUEST } from '@storybook/core-events';
+import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
 import { satisfies } from 'semver';
 
 addons.setConfig({
@@ -23,6 +23,14 @@ interface RequestSaveStoryPayload {
 }
 
 addons.register('my-addon', (api) => {
+  api.on(SAVE_STORY_RESULT, (data) => {
+    if (data.error) {
+      api.addNotification({
+        content: { headline: `Error saving story`, subHeadline: ` ${data.error}` },
+        id: 'save-story-error',
+      });
+    }
+  });
   addons.add('my-addon/panel', {
     type: types.PANEL,
     title: 'My Addon',
