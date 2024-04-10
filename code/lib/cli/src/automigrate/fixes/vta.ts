@@ -19,8 +19,6 @@ export const vta: Fix<Options> = {
       addon.includes('@chromatic-com/storybook')
     );
 
-    // @ts-expect-error (user might be upgrading from an older version that still had it)
-    const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;
     const skip = hadAddonInstalled;
 
     if (skip) {
