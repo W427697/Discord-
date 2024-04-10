@@ -1,12 +1,15 @@
-import type { Addon_DecoratorFunction } from '@storybook/types';
+import type { Addon_DecoratorFunction, Addon_LoaderFunction } from '@storybook/types';
 import './config/preview';
 import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';
 import { StyledJsxDecorator } from './styledJsx/decorator';
 import { HeadManagerDecorator } from './head-manager/decorator';
+
 // We need this import to be a singleton, and because it's used in multiple entrypoints
 // both in ESM and CJS, importing it via the package name instead of having a local import
 // is the only way to achieve it actually being a singleton
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore we must ignore types here as during compilation they are not generated yet
 import { cookies, headers } from '@storybook/nextjs/headers';
 
 function addNextHeadCount() {
@@ -25,7 +28,7 @@ export const decorators: Addon_DecoratorFunction<any>[] = [
   HeadManagerDecorator,
 ];
 
-export const loaders = async () => {
+export const loaders: Addon_LoaderFunction = async () => {
   cookies().mockRestore();
   headers().mockRestore();
 };
