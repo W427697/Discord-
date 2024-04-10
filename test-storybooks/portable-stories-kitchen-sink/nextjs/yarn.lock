@@ -2379,7 +2379,7 @@ __metadata:
 
 "@storybook/addon-actions@file:../../../code/addons/actions::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/addon-actions@file:../../../code/addons/actions#../../../code/addons/actions::hash=99649f&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-actions@file:../../../code/addons/actions#../../../code/addons/actions::hash=a58e61&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
@@ -2387,7 +2387,7 @@ __metadata:
     dequal: "npm:^2.0.2"
     polished: "npm:^4.2.2"
     uuid: "npm:^9.0.0"
-  checksum: 10/79a14c7a74591e404e5ec22c2b6c9eaa03dd48bf3316470dd2642e3c70abd7c90b168fd350e729b617967c7d759df2ef0107534d218d1138b12e737c8a3e888e
+  checksum: 10/448ef050488c32b161113c707a9bd3e4eb734f7a23f350d7cb05dd30927785c19b0eb1b2f01f8f5f7106e8f46dcc2cfc9496a089dee818754dc83ae5403d8ee6
   languageName: node
   linkType: hard
 
@@ -2403,17 +2403,13 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-controls@file:../../../code/addons/controls::locator=portable-stories-nextjs%40workspace%3A.":
-  version: 8.1.0-alpha.5
-  resolution: "@storybook/addon-controls@file:../../../code/addons/controls#../../../code/addons/controls::hash=358687&locator=portable-stories-nextjs%40workspace%3A."
+  version: 8.1.0-alpha.6
+  resolution: "@storybook/addon-controls@file:../../../code/addons/controls#../../../code/addons/controls::hash=b28ca0&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/blocks": "workspace:*"
-    "@storybook/core-common": "workspace:*"
-    cjs-module-lexer: "npm:^1.2.3"
-    es-module-lexer: "npm:^1.5.0"
-    globby: "npm:^14.0.1"
     lodash: "npm:^4.17.21"
     ts-dedent: "npm:^2.0.0"
-  checksum: 10/feb098e18f942562769dfdfb4afc70655f67f11e6d14acf8e3ca4cfe9a22e09e89ede9f17be6ff1c07a56bed8a6fa1961fa044137a3e7a34471345bcccd091f2
+  checksum: 10/f68a13e40bda392c1abc4cee2f2294fe98f11e8b34af8213532ae14027327efbafb3c9a8d75d300a3c58fb8d036a09f349e60cd064dd8dbde504add2945bab6b
   languageName: node
   linkType: hard
 
@@ -2478,7 +2474,7 @@ __metadata:
 
 "@storybook/addon-interactions@file:../../../code/addons/interactions::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/addon-interactions@file:../../../code/addons/interactions#../../../code/addons/interactions::hash=e7e04a&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/addon-interactions@file:../../../code/addons/interactions#../../../code/addons/interactions::hash=43a156&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/instrumenter": "workspace:*"
@@ -2486,7 +2482,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     polished: "npm:^4.2.2"
     ts-dedent: "npm:^2.2.0"
-  checksum: 10/c66d7db9c1356903d444211962054b0a692a56f7ed5debcaa1f2e40fd57575975b8de86c2fb3be3a140e69cdc8f36b25f81be6e2ca55fb4facf826694d8be65f
+  checksum: 10/7ab50dfb5ccfde231d5ebde1e695512c5bb3706e5fe9bc580fbf23d5298ac7685e9648fbbc5f65605779954dc2f04ac1ce799e47b387d7eaaff5c9d7e8485602
   languageName: node
   linkType: hard
 
@@ -2590,7 +2586,7 @@ __metadata:
 
 "@storybook/builder-webpack5@file:../../../code/builders/builder-webpack5::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/builder-webpack5@file:../../../code/builders/builder-webpack5#../../../code/builders/builder-webpack5::hash=983659&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/builder-webpack5@file:../../../code/builders/builder-webpack5#../../../code/builders/builder-webpack5::hash=c0c586&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -2629,26 +2625,26 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/f84f41cd8ac80376ba603f4bb58da565f2b0e95ed37593279d85c4e5573de64633f10b7c6f2bd399f6d40057f1c97934760b969326520250f6de5efd07ac967b
+  checksum: 10/f4fe0264184b91d9a96baf2d35fc7c7c212b516901650c852f61c2aec2e6b7d81f6828b7ca7ce34f1623bab5cd838936d5877d982df0fa75cab577af78ce79ef
   languageName: node
   linkType: hard
 
 "@storybook/channels@file:../../../code/lib/channels::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/channels@file:../../../code/lib/channels#../../../code/lib/channels::hash=3a33a2&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/channels@file:../../../code/lib/channels#../../../code/lib/channels::hash=413c8e&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     telejson: "npm:^7.2.0"
     tiny-invariant: "npm:^1.3.1"
-  checksum: 10/cda1b155f07fdac919a29e5a5287ae33ef4b3ed9c5c9816c29e17e3aa0dd788dc59da8775c40341ebcbd426ecf4f9ab629949dfe945834f48db7ca6053c062f1
+  checksum: 10/6091e0ca5a19b46589877a6a17cac725ef863a8cdf61d812261673e16227490f8b80fcf26daa8924dbcaad434c91118ac399f3a610c7eec5ed094e7b0dfd0947
   languageName: node
   linkType: hard
 
 "@storybook/cli@file:../../../code/lib/cli::locator=portable-stories-nextjs%40workspace%3A.":
-  version: 8.1.0-alpha.5
-  resolution: "@storybook/cli@file:../../../code/lib/cli#../../../code/lib/cli::hash=49e395&locator=portable-stories-nextjs%40workspace%3A."
+  version: 8.1.0-alpha.6
+  resolution: "@storybook/cli@file:../../../code/lib/cli#../../../code/lib/cli::hash=2914c7&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.0"
     "@babel/types": "npm:^7.23.0"
@@ -2689,16 +2685,16 @@ __metadata:
   bin:
     getstorybook: ./bin/index.js
     sb: ./bin/index.js
-  checksum: 10/37be78e7b11cfb9d712f9b948e3017665fcee970e1b3a4806f3f8307ea9db7e39f4b12fa919086a53efbe4e24a5e6196b2daafb958c11145e9e5d224fa70af55
+  checksum: 10/6c967c34ef47687aa6ccbc70d82f22e375be79af1bf5eec3e1163c7774b65fda69a414c0aa712039062a9f184bc84d70e7fcf713712c28d4a121cc3848a32600
   languageName: node
   linkType: hard
 
 "@storybook/client-logger@file:../../../code/lib/client-logger::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/client-logger@file:../../../code/lib/client-logger#../../../code/lib/client-logger::hash=f3ac76&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/client-logger@file:../../../code/lib/client-logger#../../../code/lib/client-logger::hash=6408e1&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/global": "npm:^5.0.0"
-  checksum: 10/00b5cfade208483f5ec85c8aa59cabf402502a4cf1d9c3ee24a311a396e65ce97f0a3d4356aac9f413c8d84c9804ccb07aaeda6f3d553799e6e036960f4a2fbe
+  checksum: 10/ff3312279cf1bcaa3fcf91149951e4b7b6cba79ddbb0f80e488126a38bf1f7ceab4ad43cf40324b5ec9c3a8a786695042bc7cd47a0ae0a4835f06dddc5fb214e
   languageName: node
   linkType: hard
 
@@ -2727,7 +2723,7 @@ __metadata:
 
 "@storybook/components@file:../../../code/ui/components::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/components@file:../../../code/ui/components#../../../code/ui/components::hash=2c348b&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/components@file:../../../code/ui/components#../../../code/ui/components::hash=636348&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@storybook/client-logger": "workspace:*"
@@ -2741,13 +2737,13 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/5ca7607bebb485e1dbb5c26f5dc3482e661d1646381be3ae26284c1e82cb0e2de51e05f5c4272ebe4d5fa6536aecb8dcd46e3da871aad90ba67a2e7e8987d278
+  checksum: 10/02326f8b50631922d80cf64163abf4e723c5a1fd78c1ae1b276c95ff7992c0a826736badf1b7222038d83775b2937ef60de426aab7a6d5262a7b1152f5825abc
   languageName: node
   linkType: hard
 
 "@storybook/core-common@file:../../../code/lib/core-common::locator=portable-stories-nextjs%40workspace%3A.":
-  version: 8.1.0-alpha.5
-  resolution: "@storybook/core-common@file:../../../code/lib/core-common#../../../code/lib/core-common::hash=55d292&locator=portable-stories-nextjs%40workspace%3A."
+  version: 8.1.0-alpha.6
+  resolution: "@storybook/core-common@file:../../../code/lib/core-common#../../../code/lib/core-common::hash=26f1e6&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-events": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
@@ -2777,22 +2773,22 @@ __metadata:
     tiny-invariant: "npm:^1.3.1"
     ts-dedent: "npm:^2.0.0"
     util: "npm:^0.12.4"
-  checksum: 10/e9308c3683651e2c925823e4bee0f91156ba544b0dc72ee6291810e7bd2e17690bce3f426c10d942fd5e18eb545589e5a3347cd02eb6ecceb058dad7a56bb775
+  checksum: 10/7b692d71f9d170253ad376d67d364d351eff3d6f9b21fcf2471aefbf78fe4fdfb61a24f444630ad0bcbe3d560b92350271087e03f7e040cedbbfbb142ef0bc7b
   languageName: node
   linkType: hard
 
 "@storybook/core-events@file:../../../code/lib/core-events::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/core-events@file:../../../code/lib/core-events#../../../code/lib/core-events::hash=840150&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/core-events@file:../../../code/lib/core-events#../../../code/lib/core-events::hash=8a7a19&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     ts-dedent: "npm:^2.0.0"
-  checksum: 10/ccfa4397af9c114f401ac87d232f66c0cb37e7ee104647b36dd34e7bf598ff7e3a22fb18a6fb9d1529cef35f053056e34fa3f7626e62c5e133d31bd58fd6b5cb
+  checksum: 10/ac72fe623b6bf6a6897db1cce99539e67c75ce958d29c09b53930e696e7b6aa6d23cfe0fe41a3415b8f281e972b5c010efe89b9fd8783960a0c982088ecbe928
   languageName: node
   linkType: hard
 
 "@storybook/core-server@file:../../../code/lib/core-server::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/core-server@file:../../../code/lib/core-server#../../../code/lib/core-server::hash=2c034c&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/core-server@file:../../../code/lib/core-server#../../../code/lib/core-server::hash=e5bcbd&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@aw-web-design/x-default-browser": "npm:1.4.126"
     "@babel/core": "npm:^7.23.9"
@@ -2817,9 +2813,11 @@ __metadata:
     "@types/semver": "npm:^7.3.4"
     better-opn: "npm:^3.0.2"
     chalk: "npm:^4.1.0"
+    cjs-module-lexer: "npm:^1.2.3"
     cli-table3: "npm:^0.6.1"
     compression: "npm:^1.7.4"
     detect-port: "npm:^1.3.0"
+    es-module-lexer: "npm:^1.5.0"
     express: "npm:^4.17.3"
     fs-extra: "npm:^11.1.0"
     globby: "npm:^14.0.1"
@@ -2837,20 +2835,20 @@ __metadata:
     util-deprecate: "npm:^1.0.2"
     watchpack: "npm:^2.2.0"
     ws: "npm:^8.2.3"
-  checksum: 10/83c58dfa24e67e8ea10107858e723eebe3ebafa17580fbe9526022e02d1ba2467ef5e75ba3b303436c470a7151f183ad2d781b4cef1201a73cdf8f10d317cc57
+  checksum: 10/1f4f9495d5d3158613966a1b84f8fb19d8fcee6d05f06c885d27315cf8416fe36b18c898d577ff2a5ad72157d7f7e63171d9b49bf0191cdc45519f224e5c5ad7
   languageName: node
   linkType: hard
 
 "@storybook/core-webpack@file:../../../code/lib/core-webpack::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/core-webpack@file:../../../code/lib/core-webpack#../../../code/lib/core-webpack::hash=d17dda&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/core-webpack@file:../../../code/lib/core-webpack#../../../code/lib/core-webpack::hash=1c6e9a&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-common": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     ts-dedent: "npm:^2.0.0"
-  checksum: 10/2e56db38374ec96f01c00c0fa4c8a9090c1db1d56c8c611a93d1a0c60769aa6a2c751ed29fa6c3a3a7adbf99d457287908e8e01ee1848ab6c59f6837934d81bf
+  checksum: 10/af79e1e751158c7d47475736c052cf1fd6535fbaa131168141a06eef2ed5f178165771dba4e4995a567d5d180d4af33a4e75c573153ec39a838901cbb16aa4c1
   languageName: node
   linkType: hard
 
@@ -2866,7 +2864,7 @@ __metadata:
 
 "@storybook/csf-tools@file:../../../code/lib/csf-tools::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/csf-tools@file:../../../code/lib/csf-tools#../../../code/lib/csf-tools::hash=69584a&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/csf-tools@file:../../../code/lib/csf-tools#../../../code/lib/csf-tools::hash=703916&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/generator": "npm:^7.23.0"
     "@babel/parser": "npm:^7.23.0"
@@ -2877,7 +2875,7 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     recast: "npm:^0.23.5"
     ts-dedent: "npm:^2.0.0"
-  checksum: 10/7fce79866ace04b9a2bc78a66a03e27e6e770b4279e1b40c08634bce01eb57be22f5f192f73c6a65cc959c8910f63a3d35e31a71fe3ac821aea095722e324710
+  checksum: 10/b597a467657223667710c73bcdd8d85e481a7c088e816539dd9513f2a42cb825e1d3fdd5461772d969201d2f6901280c30a9712d8711b7e12661a01d692f6871
   languageName: node
   linkType: hard
 
@@ -2908,7 +2906,7 @@ __metadata:
 
 "@storybook/docs-tools@file:../../../code/lib/docs-tools::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/docs-tools@file:../../../code/lib/docs-tools#../../../code/lib/docs-tools::hash=4be280&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/docs-tools@file:../../../code/lib/docs-tools#../../../code/lib/docs-tools::hash=0f1a92&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-common": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -2917,7 +2915,7 @@ __metadata:
     assert: "npm:^2.1.0"
     doctrine: "npm:^3.0.0"
     lodash: "npm:^4.17.21"
-  checksum: 10/121355441e903b87a0b9e590eca45a9b355af949148da6d23434f59b2aa753f00e0ffb8bc625d4ca91cf01e5e9782caceb561537d62729a2b2e240b6e640a0f4
+  checksum: 10/6efb67c748bf9616313844cc482a31b49834d7b94767a544b7a5ed9a2e2d28c3d8a945162040b09f39af3f36c5288c00a83a67166c5d6a91b38875b8ff039acd
   languageName: node
   linkType: hard
 
@@ -2940,7 +2938,7 @@ __metadata:
 
 "@storybook/instrumenter@file:../../../code/lib/instrumenter::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/instrumenter@file:../../../code/lib/instrumenter#../../../code/lib/instrumenter::hash=ffe9d7&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/instrumenter@file:../../../code/lib/instrumenter#../../../code/lib/instrumenter::hash=da2c8f&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -2949,13 +2947,13 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@vitest/utils": "npm:^1.3.1"
     util: "npm:^0.12.4"
-  checksum: 10/84948fcfafe05e5934117e6c514a1788f9d146d28f749c11313e5f65c60f3f20be0e659e97f14a6b5ce405b01afa4941571f644a9cb88d8b3a956c2c79413723
+  checksum: 10/a55b3615eee655ef969641128c408ad5a6f3a0196af135e4ea1aa9289b9a2c98d84b34c3a57a25ca8cf6e619faad5fe6440232097fb99ecf7fc0341395a8ce16
   languageName: node
   linkType: hard
 
 "@storybook/manager-api@file:../../../code/lib/manager-api::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/manager-api@file:../../../code/lib/manager-api#../../../code/lib/manager-api::hash=3e3312&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/manager-api@file:../../../code/lib/manager-api#../../../code/lib/manager-api::hash=4ab1f3&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -2972,20 +2970,20 @@ __metadata:
     store2: "npm:^2.14.2"
     telejson: "npm:^7.2.0"
     ts-dedent: "npm:^2.0.0"
-  checksum: 10/dcc92a7797ccf0f986ef2eb9077884799e4cc92603ca52a69071b4943ca149fd17d771c64bd1fd474c8287b4bda5385c7b24bada7acc9f7413deac152ec32157
+  checksum: 10/ef8fe488bd220f3b895d26895e5a55a9bc110ee799f062f06d3c32dfa5ccd834c04074d96d8d4dc8c41336e322b2d3a4e0f93dc518442b22a9b36ddbfc92f990
   languageName: node
   linkType: hard
 
 "@storybook/manager@file:../../../code/ui/manager::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/manager@file:../../../code/ui/manager#../../../code/ui/manager::hash=257346&locator=portable-stories-nextjs%40workspace%3A."
-  checksum: 10/cdfcb34cdfaa7b7fbd388c54f2ecc85e0b4276ba1d915cc4b36dfcdd9ab8c5391815ae502089aa77e5dad8e51a064f86771969f20e9d10b5b14973d8e4e80a8b
+  resolution: "@storybook/manager@file:../../../code/ui/manager#../../../code/ui/manager::hash=645d43&locator=portable-stories-nextjs%40workspace%3A."
+  checksum: 10/9708627cc2f3a886c53dfec9402088f6b18b40ba8f472289d08c6b25c0e2e1e71871d6a79f19e57586751b287b55506c72372d1a0fab2efa89847719bf7c50f7
   languageName: node
   linkType: hard
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=a5b14e&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=8cda79&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -3043,20 +3041,20 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 10/86d287d5088a26adabce7b6ca5e56eebedf44df95bd07b1085253e095bea2d1d54898eed384ff7ca75866b00ffa36dd0a0c8f252edc1b4feb48725b6ca2ca851
+  checksum: 10/6a1ccdb267a0a9dfc99716dc16fff89d1ec49d4abcf56631185ec57107a8a7a500771e65174e65b7c2f14a5049a17777bb3934034d9ec7793c685a945c3c93f5
   languageName: node
   linkType: hard
 
 "@storybook/node-logger@file:../../../code/lib/node-logger::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/node-logger@file:../../../code/lib/node-logger#../../../code/lib/node-logger::hash=0d5379&locator=portable-stories-nextjs%40workspace%3A."
-  checksum: 10/ba3b49b55a325ec5d885898e5cd61370c19ad27a54315025c315bb08b6a09a64cfd3097748225be1f4b07aad42245a239ac9ba6e957c854ebb48718a43e5c215
+  resolution: "@storybook/node-logger@file:../../../code/lib/node-logger#../../../code/lib/node-logger::hash=76992b&locator=portable-stories-nextjs%40workspace%3A."
+  checksum: 10/39a64d0cfc1ab16e4e808edc63fb9b5b76c038acb864b00d756260f9b5cf66116a758f6969dcc06daab8e69a8965fceef11c1d3cab8b524de1021b97dfd5b0e4
   languageName: node
   linkType: hard
 
 "@storybook/preset-react-webpack@file:../../../code/presets/react-webpack::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/preset-react-webpack@file:../../../code/presets/react-webpack#../../../code/presets/react-webpack::hash=3c5b01&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/preset-react-webpack@file:../../../code/presets/react-webpack#../../../code/presets/react-webpack::hash=f3317c&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/core-webpack": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -3079,13 +3077,13 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/3baffd6ce4e642f852c370ccd4ae8098a5e730f4493ce43c8414f0b44e59c8bc8a99d9975cf5149b655f1808e54d274754044f45983b9f1be7c9a28f00931ac2
+  checksum: 10/ee2981fac009bed8163403a304fc34ea8e6f307bd11c26dc6b9e1682e5116facfef0a1e6c59dafe179977b1f5e366912db7e6cac7530cd7074a7c2dd071bd91e
   languageName: node
   linkType: hard
 
 "@storybook/preview-api@file:../../../code/lib/preview-api::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/preview-api@file:../../../code/lib/preview-api#../../../code/lib/preview-api::hash=2e825a&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/preview-api@file:../../../code/lib/preview-api#../../../code/lib/preview-api::hash=8ed046&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
@@ -3101,14 +3099,14 @@ __metadata:
     tiny-invariant: "npm:^1.3.1"
     ts-dedent: "npm:^2.0.0"
     util-deprecate: "npm:^1.0.2"
-  checksum: 10/8cb6df33b082d43c40daa182241aef50e583fc3c45d954730df0fbf305645926b2904b5177661a7a6294969014bda8c647f24960afd6114333e7c4bb00caa869
+  checksum: 10/d5a6dc59d0cf9660869c7059567ffe09e1d590835aa781a5a94fc109ae67ae961f82db05a5e983b209e76a595ef3b9669f25897a174701fbcd2846a321ddd8e6
   languageName: node
   linkType: hard
 
 "@storybook/preview@file:../../../code/lib/preview::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/preview@file:../../../code/lib/preview#../../../code/lib/preview::hash=dccd68&locator=portable-stories-nextjs%40workspace%3A."
-  checksum: 10/834521c05fe7496e5d411dd9dc8cd3d2e3902bd101fcfe9e1caa2bace894fb6698d035fd190072a3cf2e294c86324315f30732c16bc30f75a1307feab53c16d1
+  resolution: "@storybook/preview@file:../../../code/lib/preview#../../../code/lib/preview::hash=98d894&locator=portable-stories-nextjs%40workspace%3A."
+  checksum: 10/a528ce775b0cbd9572b870f14837025294d771f9717f6f8d6cbb8ccab6c05b6d3392d5a4211f09a8ec3073080beaef18d86ebeb1f00d137b49f71f15815d2d51
   languageName: node
   linkType: hard
 
@@ -3132,17 +3130,17 @@ __metadata:
 
 "@storybook/react-dom-shim@file:../../../code/lib/react-dom-shim::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/react-dom-shim@file:../../../code/lib/react-dom-shim#../../../code/lib/react-dom-shim::hash=062b74&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/react-dom-shim@file:../../../code/lib/react-dom-shim#../../../code/lib/react-dom-shim::hash=4a12a1&locator=portable-stories-nextjs%40workspace%3A."
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/ba63271a1f2d663cd53354798c490d306787b8033586a1062175b89fe4409759cbc959aa34dad12ff8f9bf2e9c141a391784eda81f23cbc9d13495128c9e1611
+  checksum: 10/1328cd24014a00ea7b07c2359c0d6af7fd7973a8635e1e42ff8f462524ad0961fccfc3200f25f86e1fdd75d151f2f50038db70e88c5fb4c9ff7a93cfa387d4dd
   languageName: node
   linkType: hard
 
 "@storybook/react@file:../../../code/renderers/react::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=f60a6b&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=bd65ea&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -3172,18 +3170,18 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/aa5c6739bfda7f26dcf2155cc61cc02c7387046fd3f1ef0029fa851b56024e5c81e69ef11c7a3f167bf66715161586abc2e29bbcdd5e3ea4ff9f0a34bbdac095
+  checksum: 10/cd74c903f1353af291132c4a3a04f6dbdae6a131723d41f8cf38fb6181a0dc1c0b1a292e293338386f72b29f1f9cb2e4e660ab50ac61914e5236fad1f376a290
   languageName: node
   linkType: hard
 
 "@storybook/router@file:../../../code/lib/router::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/router@file:../../../code/lib/router#../../../code/lib/router::hash=f3d914&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/router@file:../../../code/lib/router#../../../code/lib/router::hash=2f121e&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     memoizerific: "npm:^1.11.3"
     qs: "npm:^6.10.0"
-  checksum: 10/ae4218eb5cb26c1fd31b334a5431a228a4fd6f30bff1e4feb68c188317ceece7b91510c0c98c4a2d4fe419baebb2da21ea03d65dfe5123257befdb8ad9e0770c
+  checksum: 10/8fcccb54ade96e59e716e74c9985633d6ff4a9e025f80e83cb1c8c61443910cb3205d2b2753f7a455544b8d39be832c456db4ecff2e58753b0fd45a0f828b6b6
   languageName: node
   linkType: hard
 
@@ -3205,7 +3203,7 @@ __metadata:
 
 "@storybook/test@file:../../../code/lib/test::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/test@file:../../../code/lib/test#../../../code/lib/test::hash=cd3c93&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/test@file:../../../code/lib/test#../../../code/lib/test::hash=4192cc&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
@@ -3218,13 +3216,13 @@ __metadata:
     "@vitest/spy": "npm:^1.3.1"
     chai: "npm:^4.4.1"
     util: "npm:^0.12.4"
-  checksum: 10/783d04972494921194bbf60ba366dd62c81340257671acdb2693156dc64c709c64a51efc5fcf528c5a43d11167b2193d4582d24e5012e86407b64fbeda4c1c66
+  checksum: 10/ae7add4394f4c590aaac487da53f0e335051560ecd18f0e831f6e62ffb15aad2299060f58e6149bf3637dd8ed48217e7ae3bd54b58a5ea35ab8fea3982aabbc2
   languageName: node
   linkType: hard
 
 "@storybook/theming@file:../../../code/lib/theming::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
-  resolution: "@storybook/theming@file:../../../code/lib/theming#../../../code/lib/theming::hash=9cc340&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/theming@file:../../../code/lib/theming#../../../code/lib/theming::hash=f968b9&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
     "@storybook/client-logger": "workspace:*"
@@ -3238,18 +3236,18 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10/e64850170fec111310877caa5a994ad53c9e072f324d0871d98e34f7d30688dadd7b24914441b3c50f3e9dc3f80909c60fa292e61f7fe6b257a6e19521a6c8e1
+  checksum: 10/e603c954ca9f8a99cb82deac40c66f1fd71d170900f6c8a4e0f3157921b6b1da6c0d644519960312eefa1def67a99c50a4e4cd6c6e92fd121d99a9fcb822f6b9
   languageName: node
   linkType: hard
 
 "@storybook/types@file:../../../code/lib/types::locator=portable-stories-nextjs%40workspace%3A.":
-  version: 8.1.0-alpha.5
-  resolution: "@storybook/types@file:../../../code/lib/types#../../../code/lib/types::hash=0524c9&locator=portable-stories-nextjs%40workspace%3A."
+  version: 8.1.0-alpha.6
+  resolution: "@storybook/types@file:../../../code/lib/types#../../../code/lib/types::hash=c292b3&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/channels": "workspace:*"
     "@types/express": "npm:^4.7.0"
     file-system-cache: "npm:2.3.0"
-  checksum: 10/b2835c9386c22e535e62263fe03ead9c43a1c9762b6524ed8a9b1954887e8853311d580caa7711d57a1eecc9ce30cd7cfd9d814a45723e8434397b7adced1871
+  checksum: 10/66db65b0e5185de6e9df7fb239b4a45beaf5e42d1f558ae465346b850f8626909aa7d415b49ed0ba0b837219ded47021c42bffff83f13eba29867ee8eafe7b0c
   languageName: node
   linkType: hard
 

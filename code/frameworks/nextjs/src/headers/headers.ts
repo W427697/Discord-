@@ -5,16 +5,8 @@ import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapter
 // Mostly copied from https://github.com/vercel/next.js/blob/763b9a660433ec5278a10e59d7ae89d4010ba212/packages/next/src/server/web/spec-extension/adapters/headers.ts#L20
 // @ts-expect-error unfortunately the headers property is private (and not protected) in HeadersAdapter
 // and we can't access it so we need to redefine it, but that clashes with the type, hence the ts-expect-error comment.
-export class HeadersStore extends Headers implements HeadersAdapter {
+export class HeadersAdapterMock extends Headers implements HeadersAdapter {
   private headers: IncomingHttpHeaders = {};
-
-  /** Used to restore the mocks. Called internally by @storybook/nextjs
-   * to ensure that the mocks are restored between stories.
-   * @internal
-   * */
-  mockRestore = () => {
-    this.forEach((key: string) => this.delete(key));
-  };
 
   /**
    * Merges a header value into a string. This stores multiple values as an
@@ -68,7 +60,7 @@ export class HeadersStore extends Headers implements HeadersAdapter {
   ).mockName('headers().forEach');
 
   public entries = fn(
-    function* (this: HeadersStore): IterableIterator<[string, string]> {
+    function* (this: HeadersAdapterMock): IterableIterator<[string, string]> {
       for (const key of Object.keys(this.headers)) {
         const name = key.toLowerCase();
         // We assert here that this is a string because we got it from the
@@ -81,7 +73,7 @@ export class HeadersStore extends Headers implements HeadersAdapter {
   ).mockName('headers().entries');
 
   public keys = fn(
-    function* (this: HeadersStore): IterableIterator<string> {
+    function* (this: HeadersAdapterMock): IterableIterator<string> {
       for (const key of Object.keys(this.headers)) {
         const name = key.toLowerCase();
         yield name;
@@ -90,7 +82,7 @@ export class HeadersStore extends Headers implements HeadersAdapter {
   ).mockName('headers().keys');
 
   public values = fn(
-    function* (this: HeadersStore): IterableIterator<string> {
+    function* (this: HeadersAdapterMock): IterableIterator<string> {
       for (const key of Object.keys(this.headers)) {
         // We assert here that this is a string because we got it from the
         // Object.keys() call above.
@@ -106,11 +98,14 @@ export class HeadersStore extends Headers implements HeadersAdapter {
   }
 }
 
-let headerStore: HeadersStore;
+let headersAdapterMock: HeadersAdapterMock;
 
-export const headers = (): HeadersStore => {
-  if (!headerStore) {
-    headerStore = new HeadersStore();
-  }
-  return headerStore;
+export const headers = () => {
+  if (!headersAdapterMock) headersAdapterMock = new HeadersAdapterMock();
+  return headersAdapterMock;
+};
+
+// This fn is called by ./cookies to restore the headers in the right order
+headers.mockRestore = () => {
+  headersAdapterMock = new HeadersAdapterMock();
 };

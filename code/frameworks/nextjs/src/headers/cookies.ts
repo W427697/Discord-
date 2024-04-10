@@ -20,7 +20,7 @@ const stringifyCookies = (map: Map<string, RequestCookie>) => {
 };
 
 // Mostly copied from https://github.com/vercel/edge-runtime/blob/c25e2ded39104e2a3be82efc08baf8dc8fb436b3/packages/cookies/src/request-cookies.ts#L7
-class CookieStore implements RequestCookies {
+class RequestCookiesMock implements RequestCookies {
   /** @internal */
   private readonly _headers: HeadersStore;
 
@@ -40,15 +40,6 @@ class CookieStore implements RequestCookies {
   [Symbol.iterator]() {
     return this._parsed[Symbol.iterator]();
   }
-
-  /** Used to restore the mocks. Called internally by @storybook/nextjs
-   * to ensure that the mocks are restored between stories.
-   * @internal
-   * */
-  mockRestore = () => {
-    this.clear();
-    this._headers.mockRestore();
-  };
 
   get size(): number {
     return this._parsed.size;
@@ -122,11 +113,20 @@ class CookieStore implements RequestCookies {
   }
 }
 
-let cookieStore: CookieStore;
+let requestCookiesMock: RequestCookiesMock;
 
-export const cookies = (): CookieStore => {
-  if (!cookieStore) {
-    cookieStore = new CookieStore(headers());
+export const cookies = fn(() => {
+  if (!requestCookiesMock) {
+    requestCookiesMock = new RequestCookiesMock(headers());
   }
-  return cookieStore;
+  return requestCookiesMock;
+});
+
+const originalRestore = cookies.mockRestore.bind(null);
+
+// will be called automatically by the test loader
+cookies.mockRestore = () => {
+  originalRestore();
+  headers.mockRestore();
+  requestCookiesMock = new RequestCookiesMock(headers());
 };

@@ -28,11 +28,6 @@ export const decorators: Addon_DecoratorFunction<any>[] = [
   HeadManagerDecorator,
 ];
 
-export const loaders: Addon_LoaderFunction = async () => {
-  cookies().mockRestore();
-  headers().mockRestore();
-};
-
 export const parameters = {
   docs: {
     source: {
