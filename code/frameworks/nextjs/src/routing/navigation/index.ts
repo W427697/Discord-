@@ -12,28 +12,26 @@ let navigationAPI: {
 };
 
 export const createNavigation = (overrides: any) => {
-  if (!navigationAPI) {
-    const navigationActions = {
-      push: fn().mockName('nextNavigation.push'),
-      replace: fn().mockName('nextNavigation.replace'),
-      forward: fn().mockName('nextNavigation.forward'),
-      back: fn().mockName('nextNavigation.back'),
-      prefetch: fn().mockName('nextNavigation.prefetch'),
-      refresh: fn().mockName('nextNavigation.refresh'),
-    };
+  const navigationActions = {
+    push: fn().mockName('nextNavigation.push'),
+    replace: fn().mockName('nextNavigation.replace'),
+    forward: fn().mockName('nextNavigation.forward'),
+    back: fn().mockName('nextNavigation.back'),
+    prefetch: fn().mockName('nextNavigation.prefetch'),
+    refresh: fn().mockName('nextNavigation.refresh'),
+  };
 
-    if (overrides) {
-      Object.keys(navigationActions).forEach((key) => {
-        if (key in overrides) {
-          (navigationActions as any)[key] = fn((...args: any[]) => {
-            return (overrides as any)[key](...args);
-          }).mockName(`nextNavigation.${key}`);
-        }
-      });
-    }
-
-    navigationAPI = navigationActions;
+  if (overrides) {
+    Object.keys(navigationActions).forEach((key) => {
+      if (key in overrides) {
+        (navigationActions as any)[key] = fn((...args: any[]) => {
+          return (overrides as any)[key](...args);
+        }).mockName(`nextNavigation.${key}`);
+      }
+    });
   }
+
+  navigationAPI = navigationActions;
 
   return navigationAPI;
 };
