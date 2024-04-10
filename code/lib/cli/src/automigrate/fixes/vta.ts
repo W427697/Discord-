@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { updateMainConfig } from '../helpers/mainConfigFile';
+import { getAddonNames, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 
@@ -15,10 +15,8 @@ export const vta: Fix<Options> = {
   versionRange: ['<8.0.7', '>=8.0.7'],
 
   async check({ mainConfig }) {
-    const hadAddonInstalled = !!mainConfig?.addons?.find((addon) =>
-      typeof addon === 'string'
-        ? addon.includes('@chromatic-com/storybook')
-        : addon.name.includes('@chromatic-com/storybook')
+    const hadAddonInstalled = !!getAddonNames(mainConfig).find((addon) =>
+      addon.includes('@chromatic-com/storybook')
     );
 
     // @ts-expect-error (user might be upgrading from an older version that still had it)
