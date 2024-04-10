@@ -5,17 +5,18 @@ import { userEvent, within, expect } from '@storybook/test';
 import { Modal } from './Modal';
 import { Button } from '../Button/Button';
 
-const meta: Meta<typeof Modal> = {
+type Story = StoryObj<typeof meta>;
+
+const meta = {
   component: Modal,
   decorators: [(storyFn) => <div style={{ width: '1200px', height: '800px' }}>{storyFn()}</div>],
-};
+} satisfies Meta<typeof Modal>;
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
 export const Default: Story = {
   args: {
+    children: undefined,
     width: undefined,
     height: undefined,
   },
