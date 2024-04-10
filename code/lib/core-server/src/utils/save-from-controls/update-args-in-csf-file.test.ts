@@ -13,8 +13,6 @@ const FILES = {
   tab: join(getProjectRoot(), 'code/ui/components/src/components/tabs/tabs.stories.tsx'),
 };
 
-// console.log(FILES);
-
 describe('success', () => {
   test('should return success', async () => {
     const before = await readFile(FILES.tab, 'utf-8');
@@ -29,5 +27,7 @@ describe('success', () => {
     const after = printCsf(parsed);
 
     expect(after.code).not.toBe(before);
+
+    // TODO, how to assert the change? without diffing the whole file
   });
 });
