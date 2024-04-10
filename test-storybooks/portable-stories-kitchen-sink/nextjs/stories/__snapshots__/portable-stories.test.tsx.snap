@@ -833,6 +833,10 @@ exports[`renders routerStories stories renders Default 1`] = `
       <br />
       <div>
         <div>
+          Router pathname: 
+          /hello
+        </div>
+        <div>
           pathname: 
           /hello
         </div>

@@ -52,6 +52,16 @@
       "require": "./dist/headers/index.js",
       "import": "./dist/headers/index.mjs"
     },
+    "./router.mock": {
+      "types": "./dist/routing/router/index.d.ts",
+      "require": "./dist/routing/router/index.js",
+      "import": "./dist/routing/router/index.mjs"
+    },
+    "./navigation.mock": {
+      "types": "./dist/routing/navigation/index.d.ts",
+      "require": "./dist/routing/navigation/index.js",
+      "import": "./dist/routing/navigation/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -67,6 +77,12 @@
       ],
       "headers.mock": [
         "dist/headers/index.d.ts"
+      ],
+      "router.mock": [
+        "dist/routing/router/index.d.ts"
+      ],
+      "navigation.mock": [
+        "dist/routing/navigation/index.d.ts"
       ]
     }
   },
@@ -97,7 +113,6 @@
     "@babel/preset-typescript": "^7.23.2",
     "@babel/runtime": "^7.23.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
@@ -168,6 +183,8 @@
       "./src/preset.ts",
       "./src/headers/index.ts",
       "./src/preview.tsx",
+      "./src/routing/router/index.ts",
+      "./src/routing/navigation/index.ts",
       "./src/next-image-loader-stub.ts",
       "./src/images/decorator.tsx",
       "./src/images/next-legacy-image.tsx",

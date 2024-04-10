@@ -2779,10 +2779,17 @@ __metadata:
 
 "@storybook/core-events@file:../../../code/lib/core-events::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
+<<<<<<< HEAD
   resolution: "@storybook/core-events@file:../../../code/lib/core-events#../../../code/lib/core-events::hash=8a7a19&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     ts-dedent: "npm:^2.0.0"
   checksum: 10/ac72fe623b6bf6a6897db1cce99539e67c75ce958d29c09b53930e696e7b6aa6d23cfe0fe41a3415b8f281e972b5c010efe89b9fd8783960a0c982088ecbe928
+=======
+  resolution: "@storybook/core-events@file:../../../code/lib/core-events#../../../code/lib/core-events::hash=3d1227&locator=portable-stories-nextjs%40workspace%3A."
+  dependencies:
+    ts-dedent: "npm:^2.0.0"
+  checksum: 10/9ecdadbfc30f79f4ef930595681e39197e8545d32308b9e9a1829f3f67047521d44c66664386f6be62a75019abe67e5b37d08bd9ced83eeee28c0602f8bed5fa
+>>>>>>> origin/yann/nextjs-headers-mocks
   languageName: node
   linkType: hard
 
@@ -2983,7 +2990,11 @@ __metadata:
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
+<<<<<<< HEAD
   resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=8cda79&locator=portable-stories-nextjs%40workspace%3A."
+=======
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=e17c4a&locator=portable-stories-nextjs%40workspace%3A."
+>>>>>>> origin/yann/nextjs-headers-mocks
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -2999,7 +3010,6 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/runtime": "npm:^7.23.2"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
-    "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
@@ -3041,7 +3051,11 @@ __metadata:
       optional: true
     webpack:
       optional: true
+<<<<<<< HEAD
   checksum: 10/6a1ccdb267a0a9dfc99716dc16fff89d1ec49d4abcf56631185ec57107a8a7a500771e65174e65b7c2f14a5049a17777bb3934034d9ec7793c685a945c3c93f5
+=======
+  checksum: 10/c683698db1894bd29caa5bedf5f9bef0378e5e9e391b8d986144ecc95a625bc22574fab9e60d56703975a69c558baa1d6a652eabdf5760aafb1a8f23d97798d9
+>>>>>>> origin/yann/nextjs-headers-mocks
   languageName: node
   linkType: hard
 
@@ -3105,8 +3119,13 @@ __metadata:
 
 "@storybook/preview@file:../../../code/lib/preview::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
+<<<<<<< HEAD
   resolution: "@storybook/preview@file:../../../code/lib/preview#../../../code/lib/preview::hash=98d894&locator=portable-stories-nextjs%40workspace%3A."
   checksum: 10/a528ce775b0cbd9572b870f14837025294d771f9717f6f8d6cbb8ccab6c05b6d3392d5a4211f09a8ec3073080beaef18d86ebeb1f00d137b49f71f15815d2d51
+=======
+  resolution: "@storybook/preview@file:../../../code/lib/preview#../../../code/lib/preview::hash=364559&locator=portable-stories-nextjs%40workspace%3A."
+  checksum: 10/cda37fa779743c888a72cc6329ce2d2d7d0171ae2c45d5854c90cf49a834c53e8334d36d95c255254440f4e6304251789f600c64a8f7925df1dc52e76aa18277
+>>>>>>> origin/yann/nextjs-headers-mocks
   languageName: node
   linkType: hard
 
@@ -3140,7 +3159,11 @@ __metadata:
 
 "@storybook/react@file:../../../code/renderers/react::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.6
+<<<<<<< HEAD
   resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=bd65ea&locator=portable-stories-nextjs%40workspace%3A."
+=======
+  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=e02d2f&locator=portable-stories-nextjs%40workspace%3A."
+>>>>>>> origin/yann/nextjs-headers-mocks
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -3170,7 +3193,11 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
+<<<<<<< HEAD
   checksum: 10/cd74c903f1353af291132c4a3a04f6dbdae6a131723d41f8cf38fb6181a0dc1c0b1a292e293338386f72b29f1f9cb2e4e660ab50ac61914e5236fad1f376a290
+=======
+  checksum: 10/bc3d21e78b36c3fa4133532858d0b32f1686a8227096c1079c4575cc29461e32ebeb742b74671c0c43523b738ec8186a1368036d3e9406f6e4cf561a67fc2b79
+>>>>>>> origin/yann/nextjs-headers-mocks
   languageName: node
   linkType: hard
 
