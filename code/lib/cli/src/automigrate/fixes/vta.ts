@@ -1,7 +1,7 @@
 import { dedent } from 'ts-dedent';
+import chalk from 'chalk';
 import { getAddonNames, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
-import chalk from 'chalk';
 
 const logger = console;
 
