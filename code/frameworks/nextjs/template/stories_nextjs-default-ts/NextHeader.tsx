@@ -22,7 +22,7 @@ export default async function Component() {
         })}
 
       <h3>Headers:</h3>
-      {Array.from(headers()).map(([name, value]: [string, string]) => {
+      {Array.from(headers().entries()).map(([name, value]: [string, string]) => {
         return (
           <p key={name} style={{ display: 'flex', flexDirection: 'row', gap: 8 }}>
             <strong>Name:</strong> <span>{name}</span>
