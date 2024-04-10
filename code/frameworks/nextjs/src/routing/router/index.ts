@@ -31,27 +31,32 @@ let routerAPI: {
   };
 } & typeof defaultRouterState;
 
+/**
+ * Creates a next/router router API mock. Used internally.
+ * @ignore
+ * @internal
+ * */
 export const createRouter = (overrides: Partial<NextRouter>) => {
   const routerActions: Partial<NextRouter> = {
     push: fn((..._args: any[]) => {
       return Promise.resolve(true);
-    }).mockName('nextRouter.push'),
+    }).mockName('useRouter().push'),
     replace: fn((..._args: any[]) => {
       return Promise.resolve(true);
-    }).mockName('nextRouter.replace'),
-    reload: fn((..._args: any[]) => {}).mockName('nextRouter.reload'),
-    back: fn((..._args: any[]) => {}).mockName('nextRouter.back'),
-    forward: fn(() => {}).mockName('nextRouter.forward'),
+    }).mockName('useRouter().replace'),
+    reload: fn((..._args: any[]) => {}).mockName('useRouter().reload'),
+    back: fn((..._args: any[]) => {}).mockName('useRouter().back'),
+    forward: fn(() => {}).mockName('useRouter().forward'),
     prefetch: fn((..._args: any[]) => {
       return Promise.resolve();
-    }).mockName('nextRouter.prefetch'),
-    beforePopState: fn((..._args: any[]) => {}).mockName('nextRouter.beforePopState'),
+    }).mockName('useRouter().prefetch'),
+    beforePopState: fn((..._args: any[]) => {}).mockName('useRouter().beforePopState'),
   };
 
   const routerEvents: NextRouter['events'] = {
-    on: fn((..._args: any[]) => {}).mockName('nextRouter.events.on'),
-    off: fn((..._args: any[]) => {}).mockName('nextRouter.events.off'),
-    emit: fn((..._args: any[]) => {}).mockName('nextRouter.events.emit'),
+    on: fn((..._args: any[]) => {}).mockName('useRouter().events.on'),
+    off: fn((..._args: any[]) => {}).mockName('useRouter().events.off'),
+    emit: fn((..._args: any[]) => {}).mockName('useRouter().events.emit'),
   };
 
   if (overrides) {
@@ -59,7 +64,7 @@ export const createRouter = (overrides: Partial<NextRouter>) => {
       if (key in overrides) {
         (routerActions as any)[key] = fn((...args: any[]) => {
           return (overrides as any)[key](...args);
-        }).mockName(`nextRouter.${key}`);
+        }).mockName(`useRouter().${key}`);
       }
     });
   }
@@ -69,7 +74,7 @@ export const createRouter = (overrides: Partial<NextRouter>) => {
       if (key in routerEvents) {
         (routerEvents as any)[key] = fn((...args: any[]) => {
           return (overrides.events as any)[key](...args);
-        }).mockName(`nextRouter.events.${key}`);
+        }).mockName(`useRouter().events.${key}`);
       }
     });
   }
@@ -90,7 +95,7 @@ export const createRouter = (overrides: Partial<NextRouter>) => {
   return routerAPI as unknown as NextRouter;
 };
 
-export const useRouter = () => {
+export const getRouter = () => {
   if (!routerAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/router',

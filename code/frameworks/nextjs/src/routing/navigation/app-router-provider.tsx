@@ -13,7 +13,9 @@ import type { RouteParams } from '../types';
 // We need this import to be a singleton, and because it's used in multiple entrypoints
 // both in ESM and CJS, importing it via the package name instead of having a local import
 // is the only way to achieve it actually being a singleton
-import { useRouter } from '@storybook/nextjs/navigation';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore we must ignore types here as during compilation they are not generated yet
+import { getRouter } from '@storybook/nextjs/navigation.mock';
 
 type AppRouterProviderProps = {
   routeParams: RouteParams;
@@ -57,7 +59,7 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
             nextUrl: pathname,
           }}
         >
-          <AppRouterContext.Provider value={useRouter()}>
+          <AppRouterContext.Provider value={getRouter()}>
             <LayoutRouterContext.Provider
               value={{
                 childNodes: new Map(),

@@ -11,14 +11,19 @@ let navigationAPI: {
   refresh: Mock;
 };
 
+/**
+ * Creates a next/navigation router API mock. Used internally.
+ * @ignore
+ * @internal
+ * */
 export const createNavigation = (overrides: any) => {
   const navigationActions = {
-    push: fn().mockName('nextNavigation.push'),
-    replace: fn().mockName('nextNavigation.replace'),
-    forward: fn().mockName('nextNavigation.forward'),
-    back: fn().mockName('nextNavigation.back'),
-    prefetch: fn().mockName('nextNavigation.prefetch'),
-    refresh: fn().mockName('nextNavigation.refresh'),
+    push: fn().mockName('useRouter().push'),
+    replace: fn().mockName('useRouter().replace'),
+    forward: fn().mockName('useRouter().forward'),
+    back: fn().mockName('useRouter().back'),
+    prefetch: fn().mockName('useRouter().prefetch'),
+    refresh: fn().mockName('useRouter().refresh'),
   };
 
   if (overrides) {
@@ -26,7 +31,7 @@ export const createNavigation = (overrides: any) => {
       if (key in overrides) {
         (navigationActions as any)[key] = fn((...args: any[]) => {
           return (overrides as any)[key](...args);
-        }).mockName(`nextNavigation.${key}`);
+        }).mockName(`useRouter().${key}`);
       }
     });
   }
@@ -36,7 +41,7 @@ export const createNavigation = (overrides: any) => {
   return navigationAPI;
 };
 
-export const useRouter = () => {
+export const getRouter = () => {
   if (!navigationAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/navigation',

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within, userEvent } from '@storybook/test';
-import { useRouter as useRouterMock } from '@storybook/nextjs/router';
+import { getRouter } from '@storybook/nextjs/router.mock';
 import Router, { useRouter } from 'next/router';
 
 function Component() {
@@ -35,6 +35,7 @@ function Component() {
 
   return (
     <div>
+      <div>Router pathname: {Router.pathname}</div>
       <div>pathname: {router.pathname}</div>
       <div>
         searchparams:{' '}
@@ -77,7 +78,7 @@ export default {
 export const Default: StoryObj<typeof Component> = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const routerMock = useRouterMock();
+    const routerMock = getRouter();
 
     await step('Router property overrides should be available in useRouter fn', async () => {
       await expect(Router.pathname).toBe('/hello');

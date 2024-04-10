@@ -3,7 +3,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
-import { useRouter as useRouterMock } from '@storybook/nextjs/navigation';
+import { getRouter } from '@storybook/nextjs/navigation.mock';
 
 function Component() {
   const router = useRouter();
@@ -86,7 +86,7 @@ export default {
 export const Default: StoryObj<typeof Component> = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const routerMock = useRouterMock();
+    const routerMock = getRouter();
 
     await step('Asserts whether forward hook is called', async () => {
       const forwardBtn = await canvas.findByText('Go forward');
