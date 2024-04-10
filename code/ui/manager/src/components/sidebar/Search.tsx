@@ -6,7 +6,8 @@ import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useRef, useState, useCallback } from 'react';
-import { CloseIcon, SearchIcon } from '@storybook/icons';
+import { CloseIcon, PlusIcon, SearchIcon } from '@storybook/icons';
+import { IconButton, TooltipNote, WithTooltip } from '@storybook/components';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
   CombinedDataset,
@@ -43,6 +44,16 @@ const options = {
   ],
 } as FuseOptions<SearchItem>;
 
+const SearchBar = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  columnGap: 6,
+});
+
+const TooltipNoteWrapper = styled(TooltipNote)({
+  margin: 0,
+});
+
 const ScreenReaderLabel = styled.label({
   position: 'absolute',
   left: -10000,
@@ -67,15 +78,17 @@ const SearchIconWrapper = styled.div(({ theme }) => ({
 const SearchField = styled.div({
   display: 'flex',
   flexDirection: 'column',
+  flexGrow: 1,
   position: 'relative',
 });
 
 const Input = styled.input(({ theme }) => ({
   appearance: 'none',
-  height: 32,
+  height: 28,
   paddingLeft: 28,
   paddingRight: 28,
-  border: `1px solid ${theme.appBorderColor}`,
+  border: 0,
+  boxShadow: `${theme.button.border} 0 0 0 1px inset`,
   background: 'transparent',
   borderRadius: 4,
   fontSize: `${theme.typography.size.s1 + 1}px`,
@@ -352,32 +365,43 @@ export const Search = React.memo<{
         return (
           <>
             <ScreenReaderLabel {...labelProps}>Search for components</ScreenReaderLabel>
-            <SearchField
-              {...getRootProps({ refKey: '' }, { suppressRefError: true })}
-              className="search-field"
-            >
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              {/* @ts-expect-error (TODO) */}
-              <Input {...inputProps} />
-              {!isMobile && enableShortcuts && !isOpen && (
-                <FocusKey>
-                  {searchShortcut === '⌘ K' ? (
-                    <>
-                      <FocusKeyCmd>⌘</FocusKeyCmd>K
-                    </>
-                  ) : (
-                    searchShortcut
-                  )}
-                </FocusKey>
-              )}
-              {isOpen && (
-                <ClearIcon onClick={() => clearSelection()}>
-                  <CloseIcon />
-                </ClearIcon>
-              )}
-            </SearchField>
+            <SearchBar>
+              <SearchField
+                {...getRootProps({ refKey: '' }, { suppressRefError: true })}
+                className="search-field"
+              >
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                {/* @ts-expect-error (TODO) */}
+                <Input {...inputProps} />
+                {!isMobile && enableShortcuts && !isOpen && (
+                  <FocusKey>
+                    {searchShortcut === '⌘ K' ? (
+                      <>
+                        <FocusKeyCmd>⌘</FocusKeyCmd>K
+                      </>
+                    ) : (
+                      searchShortcut
+                    )}
+                  </FocusKey>
+                )}
+                {isOpen && (
+                  <ClearIcon onClick={() => clearSelection()}>
+                    <CloseIcon />
+                  </ClearIcon>
+                )}
+              </SearchField>
+              <WithTooltip
+                trigger="hover"
+                hasChrome={false}
+                tooltip={<TooltipNoteWrapper note="Create a new story" />}
+              >
+                <IconButton variant="outline">
+                  <PlusIcon />
+                </IconButton>
+              </WithTooltip>
+            </SearchBar>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
               {children({
                 query: input,
