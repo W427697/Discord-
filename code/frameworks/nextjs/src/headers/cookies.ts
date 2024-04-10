@@ -41,7 +41,10 @@ class CookieStore implements RequestCookies {
     return this._parsed[Symbol.iterator]();
   }
 
-  /** @internal */
+  /** Used to restore the mocks. Called internally by @storybook/nextjs
+   * to ensure that the mocks are restored between stories.
+   * @internal
+   * */
   mockRestore = () => {
     this.clear();
     this._headers.mockRestore();
