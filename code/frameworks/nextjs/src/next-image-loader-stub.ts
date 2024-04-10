@@ -3,6 +3,7 @@ import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
 import type { NextConfig } from 'next';
 import { cpus } from 'os';
+import { NextJsSharpError } from '@storybook/core-events/preview-errors';
 
 interface LoaderOptions {
   filename: string;
@@ -51,9 +52,7 @@ const nextImageLoaderStub: RawLoaderDefinition<LoaderOptions> = async function N
       width = result.width;
       height = result.height;
     } else {
-      throw new Error(
-        'You have to install sharp in order to use image optimization features in Next.js.'
-      );
+      throw new NextJsSharpError();
     }
   } else {
     const result = imageSizeOf(this.resourcePath);
