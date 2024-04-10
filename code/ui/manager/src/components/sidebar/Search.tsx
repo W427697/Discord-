@@ -160,6 +160,7 @@ const ClearIcon = styled.div(({ theme }) => ({
 const FocusContainer = styled.div({ outline: 0 });
 
 const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
+const isRendererReact = global.STORYBOOK_RENDERER === 'react';
 
 export const Search = React.memo<{
   children: SearchChildrenFn;
@@ -174,7 +175,7 @@ export const Search = React.memo<{
   enableShortcuts = true,
   getLastViewed,
   initialQuery = '',
-  showCreateStoryButton = isDevelopment,
+  showCreateStoryButton = isDevelopment && isRendererReact,
 }) {
   const api = useStorybookApi();
   const inputRef = useRef<HTMLInputElement>(null);
