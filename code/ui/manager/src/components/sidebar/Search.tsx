@@ -159,18 +159,22 @@ const ClearIcon = styled.div(({ theme }) => ({
 
 const FocusContainer = styled.div({ outline: 0 });
 
+const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
+
 export const Search = React.memo<{
   children: SearchChildrenFn;
   dataset: CombinedDataset;
   enableShortcuts?: boolean;
   getLastViewed: () => Selection[];
   initialQuery?: string;
+  showCreateStoryButton?: boolean;
 }>(function Search({
   children,
   dataset,
   enableShortcuts = true,
   getLastViewed,
   initialQuery = '',
+  showCreateStoryButton = isDevelopment,
 }) {
   const api = useStorybookApi();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -392,15 +396,17 @@ export const Search = React.memo<{
                   </ClearIcon>
                 )}
               </SearchField>
-              <WithTooltip
-                trigger="hover"
-                hasChrome={false}
-                tooltip={<TooltipNoteWrapper note="Create a new story" />}
-              >
-                <IconButton variant="outline">
-                  <PlusIcon />
-                </IconButton>
-              </WithTooltip>
+              {showCreateStoryButton ? (
+                <WithTooltip
+                  trigger="hover"
+                  hasChrome={false}
+                  tooltip={<TooltipNoteWrapper note="Create a new story" />}
+                >
+                  <IconButton variant="outline">
+                    <PlusIcon />
+                  </IconButton>
+                </WithTooltip>
+              ) : null}
             </SearchBar>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
               {children({
