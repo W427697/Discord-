@@ -41,12 +41,9 @@ export const vta: Fix<Options> = {
   async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
       const packageJson = await packageManager.retrievePackageJson();
-      const versionToInstall = getStorybookVersionSpecifier(
-        await packageManager.retrievePackageJson()
-      );
       await packageManager.addDependencies(
         { installAsDevDependencies: true, skipInstall, packageJson },
-        [`@storybook/addon-mdx-gfm@${versionToInstall}`]
+        [`@chromatic-com/storybook@^1`]
       );
 
       await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
