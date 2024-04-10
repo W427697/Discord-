@@ -4,9 +4,9 @@ import { getJavaScriptTemplateForNewStoryFile } from './javascript';
 describe('javascript', () => {
   it('should return a TypeScript template with a default import', () => {
     const result = getJavaScriptTemplateForNewStoryFile({
-      basename: 'foo',
+      basenameWithoutExtension: 'foo',
       componentExportName: 'default',
-      default: true,
+      componentIsDefaultExport: true,
       exportedStoryName: 'Default',
     });
 
@@ -14,20 +14,20 @@ describe('javascript', () => {
       "import Component from './foo';
 
       const meta = {
-        component: Component
-      }
-
+        component: Component,
+      };
+      
       export default meta;
-
-      export const Default = {}"
+      
+      export const Default = {};"
     `);
   });
 
   it('should return a TypeScript template with a named import', () => {
     const result = getJavaScriptTemplateForNewStoryFile({
-      basename: 'foo',
+      basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
-      default: false,
+      componentIsDefaultExport: false,
       exportedStoryName: 'Default',
     });
 
@@ -35,12 +35,12 @@ describe('javascript', () => {
       "import { Example } from './foo';
 
       const meta = {
-        component: Example
-      }
+        component: Example,
+      };
 
       export default meta;
 
-      export const Default = {}"
+      export const Default = {};"
     `);
   });
 });

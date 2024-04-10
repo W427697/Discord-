@@ -4,9 +4,9 @@ import { getTypeScriptTemplateForNewStoryFile } from './typescript';
 describe('typescript', () => {
   it('should return a TypeScript template with a default import', () => {
     const result = getTypeScriptTemplateForNewStoryFile({
-      basename: 'foo',
+      basenameWithoutExtension: 'foo',
       componentExportName: 'default',
-      default: true,
+      componentIsDefaultExport: true,
       frameworkPackageName: '@storybook/nextjs',
       exportedStoryName: 'Default',
     });
@@ -17,22 +17,22 @@ describe('typescript', () => {
       import Component from './foo';
 
       const meta = {
-        component: Component
-      } satisfies Meta<typeof Component>
+        component: Component,
+      } satisfies Meta<typeof Component>;
 
       export default meta;
 
       type Story = StoryObj<typeof meta>;
 
-      export const Default: Story = {}"
+      export const Default: Story = {};"
     `);
   });
 
   it('should return a TypeScript template with a named import', () => {
     const result = getTypeScriptTemplateForNewStoryFile({
-      basename: 'foo',
+      basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
-      default: false,
+      componentIsDefaultExport: false,
       frameworkPackageName: '@storybook/nextjs',
       exportedStoryName: 'Default',
     });
@@ -43,14 +43,14 @@ describe('typescript', () => {
       import { Example } from './foo';
 
       const meta = {
-        component: Example
-      } satisfies Meta<typeof Example>
+        component: Example,
+      } satisfies Meta<typeof Example>;
 
       export default meta;
 
       type Story = StoryObj<typeof meta>;
 
-      export const Default: Story = {}"
+      export const Default: Story = {};"
     `);
   });
 });

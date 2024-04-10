@@ -14,9 +14,9 @@ describe('get-new-story-file', () => {
   it('should create a new story file (TypeScript)', async () => {
     const { exportedStoryName, storyFileContent, storyFilePath } = await getNewStoryFile(
       {
-        filepath: 'src/components/Page.tsx',
+        componentFilePath: 'src/components/Page.tsx',
         componentExportName: 'Page',
-        default: false,
+        componentIsDefaultExport: false,
       },
       {
         presets: {
@@ -36,14 +36,14 @@ describe('get-new-story-file', () => {
       import { Page } from './Page';
 
       const meta = {
-        component: Page
-      } satisfies Meta<typeof Page>
+        component: Page,
+      } satisfies Meta<typeof Page>;
 
       export default meta;
 
       type Story = StoryObj<typeof meta>;
 
-      export const Default: Story = {}"
+      export const Default: Story = {};"
     `);
     expect(storyFilePath).toBe(path.join(__dirname, 'src', 'components', 'Page.stories.tsx'));
   });
@@ -51,9 +51,9 @@ describe('get-new-story-file', () => {
   it('should create a new story file (JavaScript)', async () => {
     const { exportedStoryName, storyFileContent, storyFilePath } = await getNewStoryFile(
       {
-        filepath: 'src/components/Page.jsx',
+        componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
-        default: true,
+        componentIsDefaultExport: true,
       },
       {
         presets: {
@@ -71,12 +71,12 @@ describe('get-new-story-file', () => {
       "import Component from './Page';
 
       const meta = {
-        component: Component
-      }
+        component: Component,
+      };
 
       export default meta;
 
-      export const Default = {}"
+      export const Default = {};"
     `);
     expect(storyFilePath).toBe(path.join(__dirname, 'src', 'components', 'Page.stories.jsx'));
   });

@@ -5,25 +5,28 @@ import fs from 'fs';
 import { getTypeScriptTemplateForNewStoryFile } from './new-story-templates/typescript';
 import { getJavaScriptTemplateForNewStoryFile } from './new-story-templates/javascript';
 
-interface Data {
-  filepath: string;
+export interface NewStoryData {
+  // The filepath of the component for which the Story should be generated for (relative to the project root)
+  componentFilePath: string;
+  // The name of the exported component
   componentExportName: string;
-  default: boolean;
+  // is default export
+  componentIsDefaultExport: boolean;
 }
 
 export async function getNewStoryFile(
-  { filepath, componentExportName, default: isDefault }: Data,
+  { componentFilePath, componentExportName, componentIsDefaultExport }: NewStoryData,
   options: Options
 ) {
-  const isTypescript = /\.(ts|tsx|mts|cts)$/.test(filepath);
+  const isTypescript = /\.(ts|tsx|mts|cts)$/.test(componentFilePath);
   const cwd = getProjectRoot();
 
-  const frameworkPackage = await getFrameworkName(options);
+  const frameworkPackageName = await getFrameworkName(options);
 
-  const basename = path.basename(filepath);
-  const extension = path.extname(filepath);
+  const basename = path.basename(componentFilePath);
+  const extension = path.extname(componentFilePath);
   const basenameWithoutExtension = basename.replace(extension, '');
-  const dirname = path.dirname(filepath);
+  const dirname = path.dirname(componentFilePath);
 
   const storyFileExtension = isTypescript ? 'tsx' : 'jsx';
   const storyFileName = `${basenameWithoutExtension}.stories.${storyFileExtension}`;
@@ -33,20 +36,20 @@ export async function getNewStoryFile(
 
   const storyFileContent = isTypescript
     ? getTypeScriptTemplateForNewStoryFile({
-        basename: basenameWithoutExtension,
-        componentExportName: componentExportName,
-        default: isDefault,
-        frameworkPackageName: frameworkPackage,
+        basenameWithoutExtension,
+        componentExportName,
+        componentIsDefaultExport,
+        frameworkPackageName,
         exportedStoryName,
       })
     : getJavaScriptTemplateForNewStoryFile({
-        basename: basenameWithoutExtension,
-        componentExportName: componentExportName,
-        default: isDefault,
+        basenameWithoutExtension,
+        componentExportName,
+        componentIsDefaultExport,
         exportedStoryName,
       });
 
-  const doesStoryFileExist = fs.existsSync(path.join(cwd, filepath));
+  const doesStoryFileExist = fs.existsSync(path.join(cwd, componentFilePath));
 
   const storyFilePath = doesStoryFileExist
     ? path.join(cwd, dirname, alternativeStoryFileName)

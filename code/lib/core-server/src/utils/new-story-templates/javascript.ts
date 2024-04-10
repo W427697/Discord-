@@ -1,27 +1,29 @@
 import dedent from 'ts-dedent';
 
-export function getJavaScriptTemplateForNewStoryFile(data: {
+interface JavaScriptTemplateData {
   /** The components file name without the extension */
-  basename: string;
+  basenameWithoutExtension: string;
   componentExportName: string;
-  default: boolean;
+  componentIsDefaultExport: boolean;
   /** The exported name of the default story */
   exportedStoryName: string;
-}) {
-  const importName = data.default ? 'Component' : data.componentExportName;
-  const importStatement = data.default
-    ? `import ${importName} from './${data.basename}';`
-    : `import { ${importName} } from './${data.basename}';`;
+}
+
+export function getJavaScriptTemplateForNewStoryFile(data: JavaScriptTemplateData) {
+  const importName = data.componentIsDefaultExport ? 'Component' : data.componentExportName;
+  const importStatement = data.componentIsDefaultExport
+    ? `import ${importName} from './${data.basenameWithoutExtension}';`
+    : `import { ${importName} } from './${data.basenameWithoutExtension}';`;
 
   return dedent`
   ${importStatement}
 
   const meta = {
-    component: ${importName}
-  }
+    component: ${importName},
+  };
   
   export default meta;
   
-  export const ${data.exportedStoryName} = {}
+  export const ${data.exportedStoryName} = {};
   `;
 }
