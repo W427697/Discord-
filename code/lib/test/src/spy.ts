@@ -18,13 +18,11 @@ export type * from '@vitest/spy';
 export { isMockFunction, mocks };
 
 type Listener = (mock: MockInstance, args: unknown[]) => void;
-let listeners: Listener[] = [];
+const listeners = new Set<Listener>();
 
 export function onMockCall(callback: Listener): () => void {
-  listeners = [...listeners, callback];
-  return () => {
-    listeners = listeners.filter((listener) => listener !== callback);
-  };
+  listeners.add(callback);
+  return () => void listeners.delete(callback);
 }
 
 // @ts-expect-error Make sure we export the exact same type as @vitest/spy
