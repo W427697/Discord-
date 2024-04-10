@@ -64,25 +64,25 @@ export class HeadersStore extends Headers implements HeadersAdapter {
     }
   ).mockName('headers().forEach');
 
-  public *entries(): IterableIterator<[string, string]> {
+  public entries = fn(function* (this: HeadersStore): IterableIterator<[string, string]> {
     for (const key of Object.keys(this.headers)) {
       const name = key.toLowerCase();
       // We assert here that this is a string because we got it from the
       // Object.keys() call above.
       const value = this.get(name) as string;
 
-      yield [name, value] as [string, string];
+      yield [name, value];
     }
-  }
+  }).mockName('headers().entries');
 
-  public *keys(): IterableIterator<string> {
+  public keys = fn(function* (this: HeadersStore): IterableIterator<string> {
     for (const key of Object.keys(this.headers)) {
       const name = key.toLowerCase();
       yield name;
     }
-  }
+  }).mockName('headers().keys');
 
-  public *values(): IterableIterator<string> {
+  public values = fn(function* (this: HeadersStore): IterableIterator<string> {
     for (const key of Object.keys(this.headers)) {
       // We assert here that this is a string because we got it from the
       // Object.keys() call above.
@@ -90,7 +90,7 @@ export class HeadersStore extends Headers implements HeadersAdapter {
 
       yield value;
     }
-  }
+  }).mockName('headers().values');
 
   public [Symbol.iterator](): IterableIterator<[string, string]> {
     return this.entries();
