@@ -65,6 +65,19 @@ export function prepareStory<TRenderer extends Renderer>(
       const loaded: Record<string, any> = Object.assign({}, ...loadResults);
       updatedContext = { ...updatedContext, loaded: { ...updatedContext.loaded, ...loaded } };
     }
+
+    // TODO: What to do with those?
+    const cleanups = new Array<() => unknown>();
+    for (const beforeEach of [
+      ...normalizeArrays(projectAnnotations.beforeEach),
+      ...normalizeArrays(componentAnnotations.beforeEach),
+      ...normalizeArrays(storyAnnotations.beforeEach),
+    ]) {
+      const cleanup = await beforeEach(updatedContext);
+      if (cleanup) {
+        cleanups.push(cleanup);
+      }
+    }
     return updatedContext;
   };
 
