@@ -27,21 +27,30 @@ export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, an
       });
 
       if (argsProperty) {
-        const v = argsProperty.get('value');
-        if (t.isObjectExpression(v)) {
-          argsProperty.replaceWith(
-            t.objectProperty(
-              t.identifier('args'),
-              t.objectExpression(
-                Object.entries(args).map(([key, value]) =>
-                  t.objectProperty(t.identifier(key), value)
-                )
-              )
-            )
-          );
+        if (argsProperty.isObjectProperty()) {
+          // for each key in input, try to find the key in argsProperty>value>entries when found, replace the value with the new value
+          const a = argsProperty.get('value');
+          if (a.isObjectExpression()) {
+            a.traverse({
+              ObjectProperty(p) {
+                const key = p.get('key');
+                if (key.isIdentifier() && key.node.name in args) {
+                  p.get('value').replaceWith(args[key.node.name]);
+                  delete args[key.node.name];
+                }
+              },
+            });
+
+            const remainder = Object.entries(args);
+            if (Object.keys(args).length) {
+              remainder.forEach(([key, value]) => {
+                a.pushContainer('properties', t.objectProperty(t.identifier(key), value));
+              });
+            }
+          }
         }
       } else {
-        path.pushContainer(
+        path.unshiftContainer(
           'properties',
           t.objectProperty(
             t.identifier('args'),
