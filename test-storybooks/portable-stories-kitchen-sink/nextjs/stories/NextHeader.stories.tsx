@@ -19,10 +19,28 @@ export const Default: Story = {
     });
     headers().set('timezone', 'Central European Summer Time');
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const submitButton = await canvas.findByRole('button');
-    await userEvent.click(submitButton);
-    expect(headers().get('cookie')).toContain('user-id=encrypted-id');
+    const headersMock = headers();
+    const cookiesMock = cookies();
+    await step('Cookie and header store apis are called upon rendering', async () => {
+      await expect(cookiesMock.getAll).toHaveBeenCalled();
+      await expect(headersMock.entries).toHaveBeenCalled();
+    });
+
+    await step('Upon clicking on submit, the user-id cookie is set', async () => {
+      const submitButton = await canvas.findByRole('button');
+      await userEvent.click(submitButton);
+
+      await expect(cookiesMock.set).toHaveBeenCalledWith('user-id', 'encrypted-id');
+    });
+
+    await step('The user-id cookie is available in cookie and header stores', async () => {
+      await expect(headersMock.get('cookie')).toContain('user-id=encrypted-id');
+      await expect(cookiesMock.get('user-id')).toEqual({
+        name: 'user-id',
+        value: 'encrypted-id',
+      });
+    });
   },
 };
