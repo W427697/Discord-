@@ -88,7 +88,7 @@ describe('projectAnnotations', () => {
     expect(buttonElement).not.toBeNull();
   });
 
-  it('has spies when the test loader is loaded', async () => {
+  it('explicit action are spies when the test loader is loaded', async () => {
     const Story = composeStory(stories.WithActionArg, stories.default);
     await Story.load();
     expect(vi.mocked(Story.args.someActionArg!).mock).toBeDefined();
