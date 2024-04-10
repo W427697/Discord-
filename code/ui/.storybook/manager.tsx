@@ -1,9 +1,9 @@
 import React from 'react';
 import { addons, types, useArgs } from '@storybook/manager-api';
 import startCase from 'lodash/startCase.js';
-import { add } from 'lodash';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
-import { satisfies } from 'semver';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { CheckIcon, AlertIcon } from '@storybook/icons';
 
 addons.setConfig({
   sidebar: {
@@ -28,6 +28,14 @@ addons.register('my-addon', (api) => {
       api.addNotification({
         content: { headline: `Error saving story`, subHeadline: ` ${data.error}` },
         id: 'save-story-error',
+        icon: <AlertIcon />,
+      });
+    } else {
+      api.addNotification({
+        content: { headline: `Story saved`, subHeadline: ` ${data.id}` },
+        duration: 2000,
+        icon: <CheckIcon />,
+        id: 'save-story-success',
       });
     }
   });
