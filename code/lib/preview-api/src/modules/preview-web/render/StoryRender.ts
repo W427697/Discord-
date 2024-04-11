@@ -57,6 +57,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   private notYetRendered = true;
 
+  private rerenderEnqueued = false;
+
   public disableKeyListeners = false;
 
   private teardownRender: TeardownRenderToCanvas = () => {};
@@ -284,13 +286,31 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
       this.phase = 'errored';
       this.callbacks.showException(err as Error);
     }
+
+    // If a rerender was enqueued during the render, clear the queue and render again
+    if (this.rerenderEnqueued) {
+      this.rerenderEnqueued = false;
+      this.render();
+    }
   }
 
+  /**
+   * Rerender the story.
+   * If the story is currently pending (loading/rendering), the rerender will be enqueued,
+   * and will be executed after the current render is completed.
+   * Rerendering while playing will not be enqueued, and will be executed immediately, to support
+   * rendering args changes while playing.
+   */
   async rerender() {
-    return this.render();
+    if (this.isPending() && this.phase !== 'playing') {
+      this.rerenderEnqueued = true;
+    } else {
+      return this.render();
+    }
   }
 
   async remount() {
+    await this.teardown();
     return this.render({ forceRemount: true });
   }
 
@@ -312,7 +332,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
       await this.store.cleanupStory(this.story);
     }
 
-    // Check if we're done rendering/playing. If not, we may have to reload the page.
+    // Check if we're done loading/rendering/playing. If not, we may have to reload the page.
     // Wait several ticks that may be needed to handle the abort, then try again.
     // Note that there's a max of 5 nested timeouts before they're no longer "instant".
     for (let i = 0; i < 3; i += 1) {
