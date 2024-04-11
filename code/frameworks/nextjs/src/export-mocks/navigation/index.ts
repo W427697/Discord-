@@ -1,6 +1,7 @@
 import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
 import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
+import * as originalNavigation from 'next/navigation.actual';
 
 let navigationAPI: {
   push: Mock;
@@ -54,7 +55,37 @@ const getRouter = () => {
 // re-exports of the actual module
 export * from 'next/navigation.actual';
 
-// mock utilities/overrides
-export const redirect = fn().mockName('redirect');
+// mock utilities/overrides (as of Next v14.2.0)
+const redirect = fn().mockName('redirect');
 
-export { createNavigation, getRouter };
+// passthrough mocks - keep original implementation but allow for spying
+const useSearchParams = fn(originalNavigation.useSearchParams).mockName('useSearchParams');
+const usePathname = fn(originalNavigation.usePathname).mockName('usePathname');
+const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutSegment).mockName(
+  'useSelectedLayoutSegment'
+);
+const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
+  'useSelectedLayoutSegments'
+);
+const useParams = fn(originalNavigation.useParams).mockName('useParams');
+const useRouter = fn(originalNavigation.useRouter).mockName('useRouter');
+const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
+  'useServerInsertedHTML'
+);
+const notFound = fn(originalNavigation.notFound).mockName('notFound');
+const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName('permanentRedirect');
+
+export {
+  createNavigation,
+  getRouter,
+  redirect,
+  useSearchParams,
+  usePathname,
+  useSelectedLayoutSegment,
+  useSelectedLayoutSegments,
+  useParams,
+  useRouter,
+  useServerInsertedHTML,
+  notFound,
+  permanentRedirect,
+};
