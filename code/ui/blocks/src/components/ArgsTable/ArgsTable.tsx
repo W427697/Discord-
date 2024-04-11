@@ -200,6 +200,7 @@ const sortFns: Record<SortType, SortFn | null> = {
 
 export interface ArgsTableOptionProps {
   children?: React.ReactNode;
+  hasUpdatedArgs?: boolean;
   updateArgs?: (args: Args) => void;
   resetArgs?: (argNames?: string[]) => void;
   compact?: boolean;
@@ -316,6 +317,7 @@ const safeIncludeConditionalArg = (row: ArgType, args: Args, globals: Globals) =
  */
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const {
+    hasUpdatedArgs,
     updateArgs,
     resetArgs,
     compact,
@@ -450,10 +452,13 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const hasControls = Object.values(rows).some((row) => row?.control);
   if (!hasControls) return table;
 
+  const saveStory = () => {};
+  const createStory = () => {};
+
   return (
     <AddonWrapper>
       {table}
-      <SaveFromControls saveStory={() => {}} createStory={() => {}} resetArgs={resetArgs} />
+      {hasUpdatedArgs && <SaveFromControls {...{ resetArgs, saveStory, createStory }} />}
     </AddonWrapper>
   );
 };

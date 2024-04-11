@@ -1,3 +1,4 @@
+import { dequal as deepEqual } from 'dequal';
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import {
@@ -20,7 +21,7 @@ interface ControlsParameters {
 
 export const ControlsPanel: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [args, updateArgs, resetArgs] = useArgs();
+  const [args, updateArgs, resetArgs, initialArgs] = useArgs();
   const [globals] = useGlobals();
   const rows = useArgTypes();
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
@@ -40,6 +41,8 @@ export const ControlsPanel: FC = () => {
     return acc;
   }, {} as ArgTypes);
 
+  const hasUpdatedArgs = useMemo(() => !deepEqual(args, initialArgs), [args, initialArgs]);
+
   return (
     <ArgsTable
       key={path} // resets state when switching stories
@@ -47,6 +50,7 @@ export const ControlsPanel: FC = () => {
       rows={withPresetColors}
       args={args}
       globals={globals}
+      hasUpdatedArgs={hasUpdatedArgs}
       updateArgs={updateArgs}
       resetArgs={resetArgs}
       inAddonPanel

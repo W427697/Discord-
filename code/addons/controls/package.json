@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@storybook/blocks": "workspace:*",
+    "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },

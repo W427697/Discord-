@@ -4796,6 +4796,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
+    dequal: "npm:^2.0.2"
     lodash: "npm:^4.17.21"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
