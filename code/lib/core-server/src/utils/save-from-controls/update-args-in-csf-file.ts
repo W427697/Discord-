@@ -1,14 +1,59 @@
 import * as t from '@babel/types';
 import * as traverse from '@babel/traverse';
-import { astify } from './astify';
+import { valueToAST } from './valueToAST';
 
 export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, any>) => {
   let found = false;
   const args = Object.fromEntries(
     Object.entries(input).map(([k, v]) => {
-      return [k, astify(v)];
+      return [k, valueToAST(v)];
     })
   );
+
+  if (t.isObjectExpression(node)) {
+    const properties = node.properties;
+    const argsProperty = properties.find((property) => {
+      if (t.isObjectProperty(property)) {
+        const key = property.key;
+        return t.isIdentifier(key) && key.name === 'args';
+      }
+      return false;
+    });
+
+    if (argsProperty) {
+      if (t.isObjectProperty(argsProperty)) {
+        const a = argsProperty.value;
+        if (t.isObjectExpression(a)) {
+          a.properties.forEach((p) => {
+            if (t.isObjectProperty(p)) {
+              const key = p.key;
+              if (t.isIdentifier(key) && key.name in args) {
+                p.value = args[key.name];
+                delete args[key.name];
+              }
+            }
+          });
+
+          const remainder = Object.entries(args);
+          if (Object.keys(args).length) {
+            remainder.forEach(([key, value]) => {
+              a.properties.push(t.objectProperty(t.identifier(key), value));
+            });
+          }
+        }
+      }
+    } else {
+      properties.unshift(
+        t.objectProperty(
+          t.identifier('args'),
+          t.objectExpression(
+            Object.entries(args).map(([key, value]) => t.objectProperty(t.identifier(key), value))
+          )
+        )
+      );
+    }
+    return;
+  }
 
   traverse.default(node, {
     ObjectExpression(path) {
@@ -28,7 +73,6 @@ export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, an
 
       if (argsProperty) {
         if (argsProperty.isObjectProperty()) {
-          // for each key in input, try to find the key in argsProperty>value>entries when found, replace the value with the new value
           const a = argsProperty.get('value');
           if (a.isObjectExpression()) {
             a.traverse({

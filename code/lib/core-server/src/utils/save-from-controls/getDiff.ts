@@ -20,6 +20,8 @@ export function getDiff(before: string, after: string): string {
   const context = 4;
   return diffLines(before, after, { newlineIsToken: true })
     .map((r, index, l) => {
+      const lines = r.value.split('\n');
+
       if (r.removed) {
         return r.value
           .split('\n')
@@ -34,32 +36,31 @@ export function getDiff(before: string, after: string): string {
       }
 
       if (index === 0) {
-        return (
-          `...\n` +
-          r.value
-            .split('\n')
-            .slice(0 - context)
-            .map((v) => `  ${v}`)
-            .join('\n')
-        );
+        const sliced = lines.slice(0 - context);
+
+        if (sliced.length !== lines.length) {
+          sliced.unshift('...');
+        }
+        return sliced.map((v) => `  ${v}`).join('\n');
       }
 
       if (index === l.length - 1) {
-        return (
-          r.value
-            .split('\n')
-            .slice(0, context)
-            .map((v) => `  ${v}`)
-            .join('\n') + `\n...`
-        );
+        const sliced = lines.slice(0, context);
+
+        if (sliced.length !== lines.length) {
+          sliced.push('...');
+        }
+        return sliced.map((v) => `  ${v}`).join('\n');
       }
 
-      const all = r.value.split('\n').map((v) => `  ${v}`);
+      if (lines.length <= context * 2 + 1) {
+        return lines.map((v) => `  ${v}`).join('\n');
+      }
       return [
         //
-        ...all.slice(0, context),
+        ...lines.slice(0, context).map((v) => `  ${v}`),
         '...',
-        ...all.slice(0 - context),
+        ...lines.slice(0 - context).map((v) => `  ${v}`),
       ].join('\n');
     })
     .join('\n');
