@@ -11,7 +11,6 @@ const getPrettier = async (): Promise<
   | { instance: undefined; version: null }
   | { instance: typeof import('prettier-v2'); version: 2 }
   | { instance: typeof import('prettier-v3'); version: 3 }
-  | { instance: typeof import('prettier-v3'); version: 3 }
 > => {
   if (!prettierInstance) {
     try {
