@@ -13,6 +13,13 @@ import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@st
 import type { ArgTypes } from '@storybook/types';
 import { PARAM_KEY } from './constants';
 
+// Remove undefined values (top-level only)
+const clean = (obj: { [key: string]: any }) =>
+  Object.entries(obj).reduce(
+    (acc, [key, value]) => (value !== undefined ? Object.assign(acc, { [key]: value }) : acc),
+    {} as typeof obj
+  );
+
 interface ControlsParameters {
   sort?: SortType;
   expanded?: boolean;
@@ -41,7 +48,10 @@ export const ControlsPanel: FC = () => {
     return acc;
   }, {} as ArgTypes);
 
-  const hasUpdatedArgs = useMemo(() => !deepEqual(args, initialArgs), [args, initialArgs]);
+  const hasUpdatedArgs = useMemo(
+    () => !!args && !!initialArgs && !deepEqual(clean(args), clean(initialArgs)),
+    [args, initialArgs]
+  );
 
   return (
     <ArgsTable
