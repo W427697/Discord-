@@ -1502,6 +1502,9 @@ describe('PreviewWeb', () => {
       openGate();
       await waitForRenderPhase('aborted');
 
+      // allow teardown to complete its retries
+      vi.runOnlyPendingTimers();
+
       await waitForRenderPhase('rendering');
       expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
 

@@ -275,6 +275,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
   }
 
   async remount() {
+    await this.teardown();
     return this.render({ forceRemount: true });
   }
 

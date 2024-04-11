@@ -228,5 +228,44 @@ describe('StoryRender', () => {
         expect(store.cleanupStory).toHaveBeenCalledOnce();
       });
     });
+
+    it('reloads the page when remounting during loading', async () => {
+      // Arrange - setup StoryRender and async gate blocking applyLoaders
+      const [loaderGate] = createGate();
+      const story = {
+        id: 'id',
+        title: 'title',
+        name: 'name',
+        tags: [],
+        applyLoaders: vi.fn(() => loaderGate),
+        unboundStoryFn: vi.fn(),
+        playFunction: vi.fn(),
+        prepareContext: vi.fn(),
+      };
+      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const render = new StoryRender(
+        new Channel({}),
+        store as any,
+        vi.fn() as any,
+        {} as any,
+        entry.id,
+        'story',
+        { autoplay: true },
+        story as any
+      );
+
+      // Act - render, blocked by loaders
+      render.renderToElement({} as any);
+      expect(story.applyLoaders).toHaveBeenCalledOnce();
+      expect(render.phase).toBe('loading');
+      // Act - remount
+      render.remount();
+
+      // Assert - window is reloaded
+      await vi.waitFor(() => {
+        expect(window.location.reload).toHaveBeenCalledOnce();
+        expect(store.cleanupStory).toHaveBeenCalledOnce();
+      });
+    });
   });
 });
