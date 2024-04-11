@@ -48,7 +48,7 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "0.1.4--canary.82.5e73744.0",
+    "@storybook/csf": "0.1.4--canary.82.2a09ac2.0",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
