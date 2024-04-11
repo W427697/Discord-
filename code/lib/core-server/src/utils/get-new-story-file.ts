@@ -1,7 +1,7 @@
 import type { Options } from '@storybook/types';
 import { getFrameworkName, getProjectRoot } from '@storybook/core-common';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import { getTypeScriptTemplateForNewStoryFile } from './new-story-templates/typescript';
 import { getJavaScriptTemplateForNewStoryFile } from './new-story-templates/javascript';
 

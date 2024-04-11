@@ -19,8 +19,8 @@ const mockFs = vi.hoisted(() => {
   };
 });
 
-vi.mock('fs/promises', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('fs/promises')>();
+vi.mock('node:fs/promises', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('node:fs/promises')>();
   return {
     default: {
       ...actual,
@@ -60,9 +60,9 @@ describe('createNewStoryChannel', () => {
       } as any);
 
       mockChannel.emit(CREATE_NEW_STORYFILE, {
-        filepath: 'src/components/Page.jsx',
+        componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
-        default: true,
+        componentIsDefaultExport: true,
       });
 
       await vi.waitFor(() => {
@@ -101,9 +101,9 @@ describe('createNewStoryChannel', () => {
       } as any);
 
       mockChannel.emit(CREATE_NEW_STORYFILE, {
-        filepath: 'src/components/Page.jsx',
+        componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
-        default: true,
+        componentIsDefaultExport: true,
       });
 
       await vi.waitFor(() => {
