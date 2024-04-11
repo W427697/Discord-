@@ -6,6 +6,7 @@ import type { OptionsWithRequiredCache } from '../whats-new';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
+import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
 // import { sendTelemetryError } from '../withTelemetry';
 
 interface RequestSaveStoryPayload {
@@ -38,13 +39,17 @@ export function initializeSaveFromControls(
 
       // find the export_name for the id
       const [name] =
-        Object.entries(parsed._stories).find(([key, value]) => value.id.endsWith(`--${id}`)) || [];
+        Object.entries(parsed._stories).find(([_, value]) => value.id.endsWith(`--${id}`)) || [];
 
       let node;
 
-      // find the AST node for the export_name, if none can be found, create a new story
       if (!name) {
-        node = undefined;
+        throw new Error(`no story found with id: ${id}`);
+      }
+
+      // find the AST node for the export_name, if none can be found, create a new story
+      if (data.name) {
+        node = duplicateStoryWithNewName(parsed, data.name, name);
         throw new Error(`creation of new story: not yet implemented`);
       } else {
         node = csf.getStoryExport(name);

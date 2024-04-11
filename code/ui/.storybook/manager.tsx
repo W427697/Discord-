@@ -19,7 +19,7 @@ interface RequestSaveStoryPayload {
   // The updated list of set args
   args: Record<string, any>;
   // The exported name of the Story -> This information doesn't exist in the index.json yet.
-  name: string;
+  name?: string;
 }
 
 addons.register('my-addon', (api) => {
@@ -50,12 +50,11 @@ addons.register('my-addon', (api) => {
           <button
             onClick={() => {
               const current = api.getCurrentStoryData();
-              console.log('CLICK');
               const payload: RequestSaveStoryPayload = {
                 args,
                 id: current.id,
                 importPath: current.importPath,
-                name: 'StatelessWithCustomEmpty',
+                // name: 'StatelessWithCustomEmpty',
               };
               api.emit(SAVE_STORY_REQUEST, payload);
             }}
