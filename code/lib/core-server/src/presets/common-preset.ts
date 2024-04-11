@@ -22,9 +22,9 @@ import { dedent } from 'ts-dedent';
 import type { Channel } from '@storybook/channels';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
-import type { OptionsWithRequiredCache } from '../utils/whats-new';
-import { initializeWhatsNew } from '../utils/whats-new';
+import { initializeWhatsNew, type OptionsWithRequiredCache } from '../utils/whats-new';
 import { initializeSaveFromControls } from '../utils/save-from-controls/save-from-controls';
+import { initFileSearchChannel } from '../server-channel/file-search-channel';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -239,6 +239,8 @@ export const experimental_serverChannel = async (
 
   initializeWhatsNew(channel, options, coreOptions);
   initializeSaveFromControls(channel, options, coreOptions);
+
+  initFileSearchChannel(channel, options);
 
   return channel;
 };
