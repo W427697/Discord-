@@ -11,6 +11,10 @@ const customJestConfig = {
   testEnvironment: 'jsdom',
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['./jest.setup.ts'],
+  // TODO add docs about this: alias next/headers to @storybook/nextjs/headers
+  moduleNameMapper: {
+    '^next/headers$': '@storybook/nextjs/headers.mock',
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
