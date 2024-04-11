@@ -63,6 +63,10 @@ const ScreenReaderLabel = styled.label({
   overflow: 'hidden',
 });
 
+const CreateNewStoryButton = styled(IconButton)(({ theme }) => ({
+  color: theme.color.mediumdark,
+}));
+
 const SearchIconWrapper = styled.div(({ theme }) => ({
   position: 'absolute',
   top: 0,
@@ -397,17 +401,17 @@ export const Search = React.memo<{
                   </ClearIcon>
                 )}
               </SearchField>
-              {showCreateStoryButton ? (
+              {showCreateStoryButton && (
                 <WithTooltip
                   trigger="hover"
                   hasChrome={false}
                   tooltip={<TooltipNoteWrapper note="Create a new story" />}
                 >
-                  <IconButton variant="outline">
+                  <CreateNewStoryButton variant="outline">
                     <PlusIcon />
-                  </IconButton>
+                  </CreateNewStoryButton>
                 </WithTooltip>
-              ) : null}
+              )}
             </SearchBar>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
               {children({
