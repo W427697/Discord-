@@ -74,10 +74,10 @@ enum events {
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
 
-  SAVE_STORY_REQUEST = 'saveStoryRequest',
-  SAVE_STORY_RESULT = 'saveStoryResult',
   FILE_COMPONENT_SEARCH = 'fileComponentSearch',
   FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
+  SAVE_STORY_REQUEST = 'saveStoryRequest',
+  SAVE_STORY_RESULT = 'saveStoryResult',
 }
 
 // Enables: `import Events from ...`
