@@ -238,7 +238,6 @@ export const Search = React.memo<{
   );
 
   const onInputValueChange = useCallback((inputValue: string, stateAndHelpers: any) => {
-    console.log('LOG: onInputValue', inputValue, stateAndHelpers);
     showAllComponents(false);
   }, []);
 
