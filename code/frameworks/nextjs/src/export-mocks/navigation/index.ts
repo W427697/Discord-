@@ -16,7 +16,7 @@ let navigationAPI: {
  * @ignore
  * @internal
  * */
-export const createNavigation = (overrides: any) => {
+const createNavigation = (overrides: any) => {
   const navigationActions = {
     push: fn().mockName('useRouter().push'),
     replace: fn().mockName('useRouter().replace'),
@@ -41,7 +41,7 @@ export const createNavigation = (overrides: any) => {
   return navigationAPI;
 };
 
-export const getRouter = () => {
+const getRouter = () => {
   if (!navigationAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/navigation',
@@ -50,3 +50,11 @@ export const getRouter = () => {
 
   return navigationAPI;
 };
+
+// re-exports of the actual module
+export * from 'next/navigation.actual';
+
+// mock utilities/overrides
+export const redirect = fn().mockName('redirect');
+
+export { createNavigation, getRouter };

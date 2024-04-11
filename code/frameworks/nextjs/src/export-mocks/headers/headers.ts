@@ -5,7 +5,7 @@ import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapter
 // Mostly copied from https://github.com/vercel/next.js/blob/763b9a660433ec5278a10e59d7ae89d4010ba212/packages/next/src/server/web/spec-extension/adapters/headers.ts#L20
 // @ts-expect-error unfortunately the headers property is private (and not protected) in HeadersAdapter
 // and we can't access it so we need to redefine it, but that clashes with the type, hence the ts-expect-error comment.
-export class HeadersAdapterMock extends Headers implements HeadersAdapter {
+class HeadersAdapterMock extends Headers implements HeadersAdapter {
   private headers: IncomingHttpHeaders = {};
 
   /**

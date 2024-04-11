@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Addon_StoryContext } from '@storybook/types';
-import { AppRouterProvider } from './navigation/app-router-provider';
-import { PageRouterProvider } from './router/page-router-provider';
+import { AppRouterProvider } from './app-router-provider';
+import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
 
 const defaultRouterParams: RouteParams = {
