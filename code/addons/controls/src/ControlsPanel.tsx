@@ -1,6 +1,6 @@
 import { dequal as deepEqual } from 'dequal';
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   useArgs,
   useGlobals,
