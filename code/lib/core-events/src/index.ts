@@ -74,6 +74,8 @@ enum events {
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
 
+  FILE_COMPONENT_SEARCH = 'fileComponentSearch',
+  FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
   SAVE_STORY_RESULT = 'saveStoryResult',
 }
@@ -90,6 +92,8 @@ export const {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
+  FILE_COMPONENT_SEARCH,
+  FILE_COMPONENT_SEARCH_RESULT,
   FORCE_RE_RENDER,
   FORCE_REMOUNT,
   GLOBALS_UPDATED,
