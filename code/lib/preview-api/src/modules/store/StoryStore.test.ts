@@ -409,7 +409,7 @@ describe('StoryStore', () => {
 
       const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
       hooks.clean = vi.fn();
-      store.cleanupStory(story);
+      await store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
     });
   });
