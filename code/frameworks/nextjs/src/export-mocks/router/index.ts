@@ -111,34 +111,7 @@ export default singletonRouter;
 
 // mock utilities/overrides (as of Next v14.2.0)
 // passthrough mocks - keep original implementation but allow for spying
-const useSearchParams = fn(originalRouter.useSearchParams).mockName('useSearchParams');
-const usePathname = fn(originalRouter.usePathname).mockName('usePathname');
-const useSelectedLayoutSegment = fn(originalRouter.useSelectedLayoutSegment).mockName(
-  'useSelectedLayoutSegment'
-);
-const useSelectedLayoutSegments = fn(originalRouter.useSelectedLayoutSegments).mockName(
-  'useSelectedLayoutSegments'
-);
-const useParams = fn(originalRouter.useParams).mockName('useParams');
 const useRouter = fn(originalRouter.useRouter).mockName('useRouter');
-const useServerInsertedHTML = fn(originalRouter.useServerInsertedHTML).mockName(
-  'useServerInsertedHTML'
-);
-const notFound = fn(originalRouter.notFound).mockName('notFound');
-const redirect = fn(originalRouter.redirect).mockName('redirect');
-const permanentRedirect = fn(originalRouter.permanentRedirect).mockName('permanentRedirect');
+const withRouter = fn(originalRouter.withRouter).mockName('withRouter');
 
-export {
-  createRouter,
-  getRouter,
-  useSearchParams,
-  usePathname,
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments,
-  useParams,
-  useRouter,
-  useServerInsertedHTML,
-  notFound,
-  redirect,
-  permanentRedirect,
-};
+export { createRouter, getRouter, useRouter, withRouter };
