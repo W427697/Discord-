@@ -202,7 +202,7 @@ const StyledButton = styled('button', {
     : {}),
   color: (() => {
     if (variant === 'solid') return theme.color.lightest;
-    if (variant === 'outline') return theme.color.mediumdark;
+    if (variant === 'outline') return theme.input.color;
     if (variant === 'ghost' && active) return theme.color.secondary;
     if (variant === 'ghost') return theme.color.mediumdark;
     return theme.input.color;
