@@ -49,9 +49,8 @@ describe('success', () => {
           args: {
         
       -     initial: "bar",
+      - 
       +     initial: "test1",
-        
-        
       +     bordered: true,
       + 
           },
@@ -61,9 +60,8 @@ describe('success', () => {
           args: {
         
       -     initial: "bar",
+      - 
       +     initial: "test1",
-        
-        
       +     bordered: true,
       + 
           },
@@ -73,9 +71,8 @@ describe('success', () => {
           args: {
         
       -     initial: "bar",
+      - 
       +     initial: "test1",
-        
-        
       +     bordered: true,
       + 
           },
@@ -85,9 +82,8 @@ describe('success', () => {
           args: {
         
       -     initial: "bar",
+      - 
       +     initial: "test1",
-        
-        
       +     bordered: true,
       + 
           },
@@ -127,24 +123,20 @@ describe('success', () => {
         
         
       - export const Empty = {} satisfies Story;
+      - 
       + export const Empty = {
-        
-        
       +   args: {
-        
-        
       +     bordered: true,
       +     initial: "test1",
       +   },
       + } satisfies Story;
       + 
-      + 
+        
         export const EmptyWithComment = {
         
       -   // this is a useless comment, to test that it is preserved
+      - 
       +   args: {
-        
-        
       +     bordered: true,
       +     initial: "test1",
       +   },
@@ -189,22 +181,39 @@ describe('success', () => {
             bordered: true,
         
       -     initial: "test2",
+      - 
       +     initial: "test1",
-        
+      + 
           },
           render: (args) => <MyComponent {...args} />,
         } satisfies Story;
-      ...
+        
+        // The order of both the properties of the story and the order or args should be preserved
         export const OrderedArgs = {
           args: {
             bordered: true,
         
       -     initial: "test2",
+      - 
       +     initial: "test1",
-        
+      + 
             absolute: true,
           },
           render: (args) => <MyComponent {...args} />,
+        } satisfies Story;
+      ...
+        export const HasPlayFunction = {
+          args: {
+            bordered: true,
+        
+      -     initial: "test2",
+      - 
+      +     initial: "test1",
+      + 
+            absolute: true,
+          },
+          play: async ({ canvasElement }) => {
+            console.log("play");
         ..."
     `);
   });
@@ -243,9 +252,8 @@ describe('success', () => {
           args: {
         
       -     initial: "bar",
+      - 
       +     initial: "test1",
-        
-        
       +     bordered: true,
       + 
           },
@@ -301,29 +309,31 @@ describe('success', () => {
           args: {
         
       -     myArray: ["foo", "bar"],
-      +     myArray: ["FOO", "BAR"],
-        
-        
       -     myArrayDeep: [["foo"], ["bar"]],
+      - 
+      +     myArray: ["FOO", "BAR"],
       +     myArrayDeep: [["FOO"], ["BAR"]],
-        
+      + 
             myBoolean: true,
             myFunction: () => {},
             myNull: null,
         
       -     myNumber: 42,
+      - 
       +     myNumber: 41,
-        
+      + 
             myObject: {
         
       -       foo: "bar",
+      - 
       +       FOO: "BAR",
-        
+      + 
             },
         
       -     myString: "foo",
+      - 
       +     myString: "FOO",
-        
+      + 
             myUndefined: undefined,
           },
         } satisfies Story;
@@ -331,9 +341,8 @@ describe('success', () => {
         export const None = {
         
       -   args: {},
+      - 
       +   args: {
-        
-        
       +     myArray: ["FOO", "BAR"],
       +     myArrayDeep: [["FOO"], ["BAR"]],
       +     myBoolean: true,

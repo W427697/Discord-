@@ -18,7 +18,7 @@ import { diffLines } from 'diff';
  */
 export function getDiff(before: string, after: string): string {
   const context = 4;
-  return diffLines(before, after, { newlineIsToken: true })
+  return diffLines(before, after, {})
     .map((r, index, l) => {
       const lines = r.value.split('\n');
 

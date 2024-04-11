@@ -58,4 +58,19 @@ export const OrderedArgs = {
   render: (args) => <MyComponent {...args} />,
 } satisfies Story;
 
+// The order of both the properties of the story and the order or args should be preserved
+export const HasPlayFunction = {
+  args: {
+    bordered: true,
+    initial: 'test2',
+    absolute: true,
+  },
+  play: async ({ canvasElement }) => {
+    console.log('play');
+
+    canvasElement.style.backgroundColor = 'red';
+  },
+} satisfies Story;
+
+// editing this should fail
 export const CSF2 = () => <MyComponent absolute bordered initial="test2" />;
