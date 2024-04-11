@@ -16,6 +16,11 @@ const slideIn = keyframes({
   to: { transform: 'translateY(0)' },
 });
 
+const highlight = keyframes({
+  from: { background: 'var(--highlight-bg-color)' },
+  to: {},
+});
+
 const Container = styled.div({
   containerType: 'size',
   position: 'sticky',
@@ -25,6 +30,7 @@ const Container = styled.div({
 });
 
 const Bar = styled(BaseBar)(({ theme }) => ({
+  '--highlight-bg-color': theme.background.hoverable,
   display: 'flex',
   flexDirection: 'row-reverse', // hide Info rather than Actions on overflow
   alignItems: 'center',
@@ -32,7 +38,7 @@ const Bar = styled(BaseBar)(({ theme }) => ({
   flexWrap: 'wrap',
   gap: 6,
   padding: '6px 10px',
-  animation: `${slideIn} 300ms forwards`,
+  animation: `${slideIn} 300ms, ${highlight} 2s`,
   background: theme.background.bar,
   borderTop: `1px solid ${theme.appBorderColor}`,
   fontSize: theme.typography.size.s2,
