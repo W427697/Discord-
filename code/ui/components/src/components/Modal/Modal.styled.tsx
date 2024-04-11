@@ -103,3 +103,11 @@ export const Actions = styled.div({
   flexDirection: 'row-reverse',
   gap: 8,
 });
+
+export const Error = styled(Row)(({ theme }) => ({
+  alignItems: 'center',
+  padding: '8px 16px',
+  backgroundColor: theme.background.critical,
+  fontSize: theme.typography.size.s2,
+  color: theme.color.lightest,
+}));
