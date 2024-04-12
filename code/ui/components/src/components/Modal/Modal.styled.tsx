@@ -31,26 +31,28 @@ export const Overlay = styled.div({
   animation: `${fadeIn} 200ms`,
 });
 
-export const Container = styled.div<{ width?: number; height?: number }>(({ width, height }) => ({
-  backgroundColor: 'white',
-  borderRadius: 6,
-  boxShadow: 'rgba(14, 18, 22, 0.35) 0px 10px 38px -10px',
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: width ?? 740,
-  height: height ?? 'auto',
-  maxWidth: 'calc(100% - 40px)',
-  maxHeight: '85vh',
-  overflow: 'hidden',
-  zIndex: 11,
-  animation: `${zoomIn} 200ms`,
+export const Container = styled.div<{ width?: number; height?: number }>(
+  ({ theme, width, height }) => ({
+    backgroundColor: theme.background.bar,
+    borderRadius: 6,
+    boxShadow: `rgba(255, 255, 255, 0.05) 0 0 0 1px inset, rgba(14, 18, 22, 0.35) 0px 10px 38px -10px`,
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: width ?? 740,
+    height: height ?? 'auto',
+    maxWidth: 'calc(100% - 40px)',
+    maxHeight: '85vh',
+    overflow: 'hidden',
+    zIndex: 11,
+    animation: `${zoomIn} 200ms`,
 
-  '&:focus-visible': {
-    outline: 'none',
-  },
-}));
+    '&:focus-visible': {
+      outline: 'none',
+    },
+  })
+);
 
 export const CloseButton = (props: React.ComponentProps<typeof IconButton>) => (
   <Dialog.Close asChild>
