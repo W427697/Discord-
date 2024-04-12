@@ -14,11 +14,11 @@ describe('typescript', () => {
     expect(result).toMatchInlineSnapshot(`
       "import type { Meta, StoryObj } from '@storybook/nextjs';
 
-      import Component from './foo';
+      import Foo from './foo';
 
       const meta = {
-        component: Component,
-      } satisfies Meta<typeof Component>;
+        component: Foo,
+      } satisfies Meta<typeof Foo>;
 
       export default meta;
 

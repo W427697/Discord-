@@ -68,10 +68,10 @@ describe('get-new-story-file', () => {
 
     expect(exportedStoryName).toBe('Default');
     expect(storyFileContent).toMatchInlineSnapshot(`
-      "import Component from './Page';
+      "import Page from './Page';
 
       const meta = {
-        component: Component,
+        component: Page,
       };
 
       export default meta;

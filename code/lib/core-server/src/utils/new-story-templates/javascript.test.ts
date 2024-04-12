@@ -11,10 +11,10 @@ describe('javascript', () => {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import Component from './foo';
+      "import Foo from './foo';
 
       const meta = {
-        component: Component,
+        component: Foo,
       };
       
       export default meta;

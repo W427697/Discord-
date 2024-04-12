@@ -1,4 +1,5 @@
 import dedent from 'ts-dedent';
+import { getComponentVariableName } from '../get-component-variable-name';
 
 interface TypeScriptTemplateData {
   /** The components file name without the extension */
@@ -12,7 +13,9 @@ interface TypeScriptTemplateData {
 }
 
 export function getTypeScriptTemplateForNewStoryFile(data: TypeScriptTemplateData) {
-  const importName = data.componentIsDefaultExport ? 'Component' : data.componentExportName;
+  const importName = data.componentIsDefaultExport
+    ? getComponentVariableName(data.basenameWithoutExtension)
+    : data.componentExportName;
   const importStatement = data.componentIsDefaultExport
     ? `import ${importName} from './${data.basenameWithoutExtension}'`
     : `import { ${importName} } from './${data.basenameWithoutExtension}'`;
