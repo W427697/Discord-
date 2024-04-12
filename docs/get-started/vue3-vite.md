@@ -298,13 +298,13 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-Otherwise, you might face missing component types/descriptions or unresolvable import aliases like `@/some/import`.
-
 <Callout variant="info">
 
 This is not a limitation of Storybook but instead from the `vue-component-meta` package. For more information, refer to the appropriate [GitHub issue](https://github.com/vuejs/language-tools/issues/3896).
 
 </Callout>
+
+Otherwise, you might face missing component types/descriptions or unresolvable import aliases like `@/some/import`.
 
 ## Troubleshooting
 
