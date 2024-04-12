@@ -210,12 +210,12 @@ const LayoutContainer = styled.div<LayoutState & { showPanel: boolean }>(
   }
 );
 
-const SidebarContainer = styled.div({
-  backgroundColor: 'var(--sb-sidebar-background)',
+const SidebarContainer = styled.div(({ theme }) => ({
+  backgroundColor: theme.background.app,
   gridArea: 'sidebar',
   position: 'relative',
-  borderRight: `1px solid var(--sb-sidebar-borderRight)`,
-});
+  borderRight: `1px solid ${theme.color.border}`,
+}));
 
 const ContentContainer = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   flex: 1,
@@ -230,22 +230,24 @@ const ContentContainer = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   },
 }));
 
-const PagesContainer = styled.div({
+const PagesContainer = styled.div(({ theme }) => ({
   gridRowStart: 'sidebar-start',
   gridRowEnd: '-1',
   gridColumnStart: 'sidebar-end',
   gridColumnEnd: '-1',
-  backgroundColor: 'var(--sb-canvas-background)',
+  backgroundColor: theme.background.content,
   zIndex: 1,
-});
-
-const PanelContainer = styled.div<{ position: LayoutState['panelPosition'] }>(({ position }) => ({
-  gridArea: 'panel',
-  position: 'relative',
-  backgroundColor: 'var(--sb-addonsPanel-background)',
-  borderTop: position === 'bottom' ? `1px solid var(--sb-addonsPanel-border)` : null,
-  borderLeft: position === 'right' ? `1px solid var(--sb-addonsPanel-border)` : null,
 }));
+
+const PanelContainer = styled.div<{ position: LayoutState['panelPosition'] }>(
+  ({ theme, position }) => ({
+    gridArea: 'panel',
+    position: 'relative',
+    backgroundColor: theme.background.content,
+    borderTop: position === 'bottom' ? `1px solid ${theme.color.border}` : null,
+    borderLeft: position === 'right' ? `1px solid ${theme.color.border}` : null,
+  })
+);
 
 const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'left' | 'right' }>(
   ({ theme }) => ({
