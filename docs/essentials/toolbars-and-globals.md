@@ -144,13 +144,12 @@ By adding the configuration element `right`, the text will be displayed on the r
 
 Here's a list of the configuration options available.
 
-| MenuItem  |  Type  |                           Description                           | Required |
-| --------- | :----: | :-------------------------------------------------------------: | :------: |
-| **value** | String |    The string value of the menu that gets set in the globals    |   Yes    |
-| **title** | String |                   The main text of the title                    |   Yes    |
-| **left**  | String |      A string that gets shown on the left side of the menu      |    No    |
-| **right** | String |   A string that gets displayed on the right side of the menu    |    No    |
-| **icon**  | String | An icon that gets shown in the toolbar if this item is selected |    No    |
+| MenuItem  | Type   | Description                                                     | Required |
+| --------- | ------ | --------------------------------------------------------------- | -------- |
+| **value** | String | The string value of the menu that gets set in the globals       | Yes      |
+| **title** | String | The main text of the title                                      | Yes      |
+| **right** | String | A string that gets displayed on the right side of the menu      | No       |
+| **icon**  | String | An icon that gets shown in the toolbar if this item is selected | No       |
 
 ## Consuming globals from within a story
 
@@ -181,29 +180,6 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 />
 
 <!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-In Storybook 6.0, if you set the global option `passArgsFirst: false` for backward compatibility, the story context is passed as the first argument:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'vue/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'angular/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'svelte/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
-    'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
-    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-</Callout>
 
 ## Consuming globals from within an addon
 

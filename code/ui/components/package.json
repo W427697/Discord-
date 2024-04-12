@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "8.0.0-alpha.6",
+  "version": "8.1.0-alpha.7",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -61,9 +61,9 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
-    "@storybook/csf": "^0.1.2",
+    "@storybook/csf": "^0.1.4",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.1",
+    "@storybook/icons": "^1.2.5",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
@@ -72,11 +72,12 @@
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
     "@radix-ui/react-scroll-area": "^1.0.5",
+    "@storybook/test": "workspace:*",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
     "polished": "^4.2.2",
-    "prettier": "^2.8.0",
+    "prettier": "^3.1.1",
     "react-popper-tooltip": "^4.4.2",
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",

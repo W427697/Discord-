@@ -1,11 +1,10 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { screen, userEvent, within } from '@storybook/testing-library';
+import { screen, userEvent, within, expect } from '@storybook/test';
 import type { State } from '@storybook/manager-api';
 import { LinkIcon } from '@storybook/icons';
 import { SidebarMenu } from './Menu';
@@ -56,6 +55,7 @@ export const Expanded: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => true,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,
@@ -99,6 +99,7 @@ export const ExpandedWithoutWhatsNew: Story = {
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
         isWhatsNewUnread: () => false,
+        getDocsUrl: () => 'https://storybook.js.org/docs/',
       },
       false,
       false,

@@ -4,7 +4,7 @@ import { mdxgfm } from './mdx-gfm';
 
 vi.mock('globby', () => ({
   __esModule: true,
-  default: vi.fn().mockResolvedValue(['a/fake/file.mdx']),
+  globby: vi.fn().mockResolvedValue(['a/fake/file.mdx']),
 }));
 
 const check = async ({
@@ -40,6 +40,7 @@ describe('no-ops', () => {
         packageManager: {},
         main: {
           features: {
+            // @ts-expect-error (user might be upgrading from a version that had this option)
             legacyMdx1: true,
           },
         },

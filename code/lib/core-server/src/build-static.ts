@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
 import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
 import {
@@ -13,7 +13,6 @@ import {
   resolveAddonName,
 } from '@storybook/core-common';
 
-import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
 import { copyAllStaticFilesRelativeToMain } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
@@ -28,7 +27,6 @@ export type BuildStaticStandaloneOptions = CLIOptions &
   BuilderOptions & { outputDir: string };
 
 export async function buildStaticStandalone(options: BuildStaticStandaloneOptions) {
-  /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
   if (options.outputDir === '') {
@@ -37,7 +35,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   options.outputDir = resolve(options.outputDir);
   options.configDir = resolve(options.configDir);
-  /* eslint-enable no-param-reassign */
 
   logger.info(chalk`=> Cleaning outputDir: {cyan ${relative(process.cwd(), options.outputDir)}}`);
   if (options.outputDir === '/') {
@@ -84,7 +81,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       ...(previewBuilder.corePresets || []),
       ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: [
       ...(previewBuilder.overridePresets || []),
@@ -94,23 +90,14 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     build,
   });
 
-  const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
-    await Promise.all([
-      presets.apply('features'),
-      presets.apply('core'),
-      presets.apply('staticDirs'),
-      presets.apply('experimental_indexers', []),
-      presets.apply('storyIndexers', []),
-      presets.apply('stories'),
-      presets.apply('docs', {}),
-    ]);
-
-  if (features?.storyStoreV7 === false) {
-    deprecate(
-      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
-        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
-    );
-  }
+  const [features, core, staticDirs, indexers, stories, docsOptions] = await Promise.all([
+    presets.apply('features'),
+    presets.apply('core'),
+    presets.apply('staticDirs'),
+    presets.apply('experimental_indexers', []),
+    presets.apply('stories'),
+    presets.apply('docs', {}),
+  ]);
 
   const fullOptions: Options = {
     ...options,
@@ -141,7 +128,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
     Promise.resolve(undefined);
-  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
+  if (!options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
@@ -150,10 +137,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers: deprecatedStoryIndexers,
       indexers,
       docs: docsOptions,
-      storyStoreV7: !!features?.storyStoreV7,
       build,
     });
 
@@ -195,9 +180,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
             .then(async (previewStats) => {
               logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
 
-              if (options.webpackStatsJson) {
-                const target =
-                  options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+              const statsOption = options.webpackStatsJson || options.statsJson;
+              if (statsOption) {
+                const target = statsOption === true ? options.outputDir : statsOption;
                 await outputStats(target, previewStats);
               }
             })

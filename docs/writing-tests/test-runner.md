@@ -202,12 +202,12 @@ The test-runner renders a story and executes its [play function](../writing-stor
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook        | Description                                                                                                     |
-| ----------- | --------------------------------------------------------------------------------------------------------------- |
-| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`               |
-| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                         |
+| Hook        | Description                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`            |
+| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                      |
 | `preVisit`  | Executes before a story is initially visited and rendered in the browser<br/>`async preVisit(page, context) {}` |
-| `postVisit` | Executes after the story is is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
+| `postVisit` | Executes after the story is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
 
 <Callout variant="info" icon="💡">
 
@@ -465,7 +465,17 @@ As the test runner is based on Playwright, you might need to use specific docker
 
 If you've enabled filtering tests with tags and provided similar tags to the `include` and `exclude` lists, the test-runner will execute the tests based on the `exclude` list and ignore the `include` list. To avoid this, make sure the tags provided to the `include` and `exclude` lists differ.
 
-#### Learn about other UI tests
+### The test runner doesn't support Yarn PnP out of the box
+
+If you've enabled the test-runner in a project running on a newer version of Yarn with Plug'n'Play (PnP) enabled, the test-runner might not work as expected and may generate the following error when running tests:
+
+```shell
+PlaywrightError: jest-playwright-preset: Cannot find playwright package to use chromium
+```
+
+This is due to the test-runner using the community-maintained package [jest-playwright-preset](https://github.com/playwright-community/jest-playwright) that still needs to support this feature. To solve this, you can either switch the [`nodeLinker`](https://yarnpkg.com/features/linkers) setting to `node-modules` or install Playwright as a direct dependency in your project, followed by adding the browser binaries via the [`install`](https://playwright.dev/docs/browsers#install-browsers) command.
+
+**Learn about other UI tests**
 
 - Test runner to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

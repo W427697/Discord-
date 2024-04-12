@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/types';
 import { angularBuilders } from './angular-builders';
 import * as helpers from '../../helpers';
 import * as angularHelpers from '../../generators/ANGULAR/helpers';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
 const checkAngularBuilders = async ({
   packageManager,
@@ -71,24 +71,6 @@ describe('is not Nx project', () => {
       });
     });
 
-    describe('Angular < 15.0.0', () => {
-      const packageManager = {
-        getPackageVersion: (packageName: string) => {
-          if (packageName === '@angular/core') {
-            return Promise.resolve('14.0.0');
-          }
-
-          return null;
-        },
-      } as Partial<JsPackageManager>;
-
-      it('should throw an Error', async () => {
-        await expect(
-          checkAngularBuilders({ packageManager, mainConfig: { framework: '@storybook/angular' } })
-        ).rejects.toThrowErrorMatchingSnapshot();
-      });
-    });
-
     describe('Angular >= 16.0.0', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
@@ -107,7 +89,7 @@ describe('is not Nx project', () => {
             () =>
               ({
                 hasStorybookBuilder: true,
-              } as any)
+              }) as any
           );
         });
 
@@ -133,7 +115,7 @@ describe('is not Nx project', () => {
                   project2: { root: 'project2', architect: {} },
                 },
                 rootProject: null,
-              } as any)
+              }) as any
           );
         });
 
@@ -158,7 +140,7 @@ describe('is not Nx project', () => {
                   project1: { root: 'project1', architect: {} },
                 },
                 rootProject: 'project1',
-              } as any)
+              }) as any
           );
         });
 

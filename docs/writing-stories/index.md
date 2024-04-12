@@ -4,7 +4,8 @@ title: 'How to write stories'
 
 <YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />
 
-A story captures the rendered state of a UI component. It’s a function that returns a component’s state given a set of arguments.
+A story captures the rendered state of a UI component. It's an object with annotations that describe the component's behavior and appearance given a set
+of arguments.
 
 Storybook uses the generic term arguments (args for short) when talking about React’s `props`, Vue’s `props`, Angular’s `@Input`, and other similar concepts.
 
@@ -169,7 +170,7 @@ Your story will now be shown in the sidebar with the given text.
 
 ## How to write stories
 
-A story is a function that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
+A story is an object that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
 
 <!-- prettier-ignore-start -->
 
@@ -207,8 +208,6 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
   paths={[
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
-    'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.2.ts.mdx',
     'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
@@ -238,8 +237,6 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.js.mdx',
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
-    'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.2.ts.mdx',
     'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.3.ts.mdx',
     'web-components/button-group-story.js.mdx',
@@ -312,19 +309,11 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <CodeSnippets
   paths={[
-    'react/button-story-with-blue-args.js.mdx',
-    'react/button-story-with-blue-args.ts.mdx',
-    'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.ts.mdx',
-    'web-components/button-story-with-blue-args.js.mdx',
-    'web-components/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
-    'svelte/button-story-with-blue-args.ts.mdx',
-    'html/button-story-with-blue-args.js.mdx',
-    'html/button-story-with-blue-args.ts.mdx',
-    'solid/button-story-with-blue-args.js.mdx',
-    'solid/button-story-with-blue-args.ts.mdx',
+    'angular/parameters-in-meta.ts.mdx',
+    'web-components/parameters-in-meta.js.mdx',
+    'web-components/parameters-in-meta.ts.mdx',
+    'common/parameters-in-meta.js.mdx',
+    'common/parameters-in-meta.ts.mdx',
   ]}
 />
 
@@ -368,7 +357,7 @@ Decorators [can be more complex](./decorators.md#context-for-mocking) and are of
 
 ## Stories for two or more components
 
-When building design systems or component libraries, you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
+Sometimes you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
 
 <!-- prettier-ignore-start -->
 
@@ -416,7 +405,7 @@ In such cases, it makes sense to render a different function for each story:
 
 <!-- prettier-ignore-end -->
 
-You can also reuse stories from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to keep the identical story definitions updated in multiple places.
+You can also reuse _story data_ from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to update it in multiple places.
 
 <!-- prettier-ignore-start -->
 
@@ -425,8 +414,6 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'react/list-story-reuse-data.js.mdx',
     'react/list-story-reuse-data.ts.mdx',
     'angular/list-story-reuse-data.ts.mdx',
-    'vue/list-story-reuse-data.2.js.mdx',
-    'vue/list-story-reuse-data.2.ts.mdx',
     'vue/list-story-reuse-data.3.js.mdx',
     'vue/list-story-reuse-data.3.ts.mdx',
     'web-components/list-story-reuse-data.js.mdx',

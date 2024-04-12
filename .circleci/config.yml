@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['normal', 'merged', 'daily', 'skipped', 'docs']
-    default: 'skipped'
+    enum: ["normal", "merged", "daily", "skipped", "docs"]
+    default: "skipped"
 
 executors:
   sb_node_16_classic:
@@ -13,11 +13,11 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:18.18.0
+      - image: cimg/node:18.19.1
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -26,11 +26,11 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:18.18.0-browsers
+      - image: cimg/node:18.19.1-browsers
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -39,11 +39,24 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: mcr.microsoft.com/playwright:v1.36.0-focal
+        environment:
+          NODE_OPTIONS: --max_old_space_size=6144
+    resource_class: <<parameters.class>>
+  sb_playwright_component_testing:
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
+    working_directory: /tmp/storybook
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.42.1-jammy
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -53,10 +66,11 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
   discord: antonioned/discord@0.1.0
   codecov: codecov/codecov@3.2.4
+  nx: nrwl/nx@1.6.2
 
 commands:
   cancel-workflow-on-failure:
-    description: 'Cancels the entire workflow in case the previous step has failed'
+    description: "Cancels the entire workflow in case the previous step has failed"
     steps:
       - run:
           name: Cancel current workflow
@@ -66,13 +80,13 @@ commands:
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
   report-workflow-on-failure:
-    description: 'Reports failures to discord'
+    description: "Reports failures to discord"
     parameters:
       template:
         description: |
           Which template to report in discord. Applicable for parallel sandbox jobs
         type: string
-        default: 'none'
+        default: "none"
     steps:
       - run:
           when: on_fail
@@ -88,7 +102,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -114,7 +128,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -124,6 +138,7 @@ jobs:
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
+            yarn dedupe --check
       - run:
           name: Publish to Verdaccio
           command: |
@@ -157,7 +172,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -173,9 +188,12 @@ jobs:
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
+      - nx/set-shas:
+          main-branch-name: "next"
+          workflow-name: << pipeline.parameters.workflow >>
       - run:
           name: Check
           command: |
@@ -187,7 +205,7 @@ jobs:
     executor: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -215,7 +233,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -237,7 +255,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - codecov/upload
@@ -273,7 +291,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -297,7 +315,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -317,7 +335,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -356,7 +374,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -376,7 +394,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -415,7 +433,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -438,7 +456,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -461,7 +479,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -483,7 +501,7 @@ jobs:
         type: string
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - when:
@@ -564,7 +582,39 @@ jobs:
                   STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
                   STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
-
+  test-portable-stories:
+    parameters:
+      directory:
+        type: string
+    executor:
+      name: sb_playwright_component_testing
+      class: medium
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: "--depth 1 --verbose"
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install dependencies
+          command: yarn install --no-immutable
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - run:
+          name: Run Jest tests
+          command: yarn jest
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - run:
+          name: Run Vitest tests
+          command: yarn vitest
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - run:
+          name: Run Playwright CT tests
+          command: yarn playwright
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - run:
+          name: Run Cypress CT tests
+          command: yarn cypress
+          working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
+      - report-workflow-on-failure
 workflows:
   docs:
     when:
@@ -623,6 +673,12 @@ workflows:
           parallelism: 5
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3", "nextjs", "svelte"]
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -675,6 +731,12 @@ workflows:
           parallelism: 14
           requires:
             - build-sandboxes
+      - test-portable-stories:
+          requires:
+            - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3", "nextjs", "svelte"]
       - bench:
           parallelism: 5
           requires:
@@ -706,22 +768,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 32
+          parallelism: 35
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 32
+          parallelism: 35
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 29
+          parallelism: 32
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 27
+          parallelism: 30
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -729,10 +791,15 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 27
+          parallelism: 30
           requires:
             - build-sandboxes
-
+      - test-portable-stories:
+          requires:
+            - build
+          matrix:
+            parameters:
+              directory: ["react", "vue3", "nextjs", "svelte"]
       - test-empty-init:
           requires:
             - build
@@ -744,14 +811,14 @@ workflows:
                 # - "yarn1"
                 # - "yarn2"
                 # - "pnpm"
-              template: 
+              template:
                 - "react-vite-ts"
                 - "nextjs-ts"
                 - "vue-vite-ts"
                 # --smoke-test is not supported for the angular builder right now
                 # - "angular-cli"
                 - "lit-vite-ts"
-  
+
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4

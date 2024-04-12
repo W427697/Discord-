@@ -41,7 +41,7 @@ The `add` method allows you to register the type of UI component associated with
 
 <Callout variant="info">
 
-The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
+The render function is called with `active`. The `active` value will be true when the panel is focused on the UI.
 
 </Callout>
 
@@ -244,32 +244,32 @@ This method allows you to override the default Storybook UI configuration (e.g.,
 
 The following table details how to use the API values:
 
-| Name                  |      Type       |                       Description                       |             Example Value             |
-| --------------------- | :-------------: | :-----------------------------------------------------: | :-----------------------------------: |
-| **navSize**           | Number (pixels) |  The size of the sidebar that shows a list of stories   |                 `300`                 |
-| **bottomPanelHeight** | Number (pixels) | The size of the addon panel when in the bottom position |                 `200`                 |
-| **rightPanelWidth**   | Number (pixels) | The size of the addon panel when in the right position  |                 `200`                 |
-| **panelPosition**     |     String      |              Where to show the addon panel              |        `'bottom'` or `'right'`        |
-| **enableShortcuts**   |     Boolean     |                Enable/disable shortcuts                 |                `true`                 |
-| **showToolbar**       |     Boolean     |                    Show/hide toolbar                    |                `true`                 |
-| **theme**             |     Object      |            Storybook Theme, see next section            |              `undefined`              |
-| **selectedPanel**     |     String      |               Id to select an addon panel               |       `storybook/actions/panel`       |
-| **initialActive**     |     String      |         Select the default active tab on Mobile         |   `sidebar` or `canvas` or `addons`   |
-| **sidebar**           |     Object      |               Sidebar options, see below                |        `{ showRoots: false }`         |
-| **toolbar**           |     Object      |   Modify the tools in the toolbar using the addon id    | `{ fullscreen: { hidden: false } } }` |
+| Name                  | Type            | Description                                             | Example Value                         |
+| --------------------- | --------------- | ------------------------------------------------------- | ------------------------------------- |
+| **navSize**           | Number (pixels) | The size of the sidebar that shows a list of stories    | `300`                                 |
+| **bottomPanelHeight** | Number (pixels) | The size of the addon panel when in the bottom position | `200`                                 |
+| **rightPanelWidth**   | Number (pixels) | The size of the addon panel when in the right position  | `200`                                 |
+| **panelPosition**     | String          | Where to show the addon panel                           | `'bottom'` or `'right'`               |
+| **enableShortcuts**   | Boolean         | Enable/disable shortcuts                                | `true`                                |
+| **showToolbar**       | Boolean         | Show/hide toolbar                                       | `true`                                |
+| **theme**             | Object          | Storybook Theme, see next section                       | `undefined`                           |
+| **selectedPanel**     | String          | Id to select an addon panel                             | `storybook/actions/panel`             |
+| **initialActive**     | String          | Select the default active tab on Mobile                 | `sidebar` or `canvas` or `addons`     |
+| **sidebar**           | Object          | Sidebar options, see below                              | `{ showRoots: false }`                |
+| **toolbar**           | Object          | Modify the tools in the toolbar using the addon id      | `{ fullscreen: { hidden: false } } }` |
 
 The following options are configurable under the `sidebar` namespace:
 
-| Name               |   Type   |                          Description                          |                  Example Value                   |
-| ------------------ | :------: | :-----------------------------------------------------------: | :----------------------------------------------: |
-| **showRoots**      | Boolean  |    Display the top-level nodes as a "root" in the sidebar     |                     `false`                      |
-| **collapsedRoots** |  Array   |     Set of root node IDs to visually collapse by default      |               `['misc', 'other']`                |
+| Name               | Type     | Description                                                   | Example Value                                    |
+| ------------------ | -------- | ------------------------------------------------------------- | ------------------------------------------------ |
+| **showRoots**      | Boolean  | Display the top-level nodes as a "root" in the sidebar        | `false`                                          |
+| **collapsedRoots** | Array    | Set of root node IDs to visually collapse by default          | `['misc', 'other']`                              |
 | **renderLabel**    | Function | Create a custom label for tree nodes; must return a ReactNode | `(item) => <abbr title="...">{item.name}</abbr>` |
 
 The following options are configurable under the `toolbar` namespace:
 
-| Name   |  Type  |            Description             |    Example Value    |
-| ------ | :----: | :--------------------------------: | :-----------------: |
+| Name   | Type   | Description                        | Example Value       |
+| ------ | ------ | ---------------------------------- | ------------------- |
 | **id** | String | Toggle visibility for toolbar item | `{ hidden: false }` |
 
 ---
@@ -378,7 +378,7 @@ Hook that allows you to retrieve or update a story's [`args`](../writing-stories
 
 <!-- prettier-ignore-end -->
 
-## Learn more about the Storybook addon ecosystem
+**Learn more about the Storybook addon ecosystem**
 
 - [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development

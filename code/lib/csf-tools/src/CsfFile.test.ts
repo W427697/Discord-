@@ -619,7 +619,7 @@ describe('CsfFile', () => {
     });
 
     it('no metadata', () => {
-      expect(() =>
+      expect(
         parse(
           dedent`
           export default { foo: '5' };
@@ -627,7 +627,15 @@ describe('CsfFile', () => {
           export const B = () => {};
       `
         )
-      ).toThrow('CSF: missing title/component');
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: Default Title
+        stories:
+          - id: default-title--a
+            name: A
+          - id: default-title--b
+            name: B
+      `);
     });
 
     it('dynamic titles', () => {
@@ -844,7 +852,6 @@ describe('CsfFile', () => {
         - ./Check
       `);
     });
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('dynamic imports', () => {
       const input = dedent`
         const Button = await import('./Button');
@@ -853,7 +860,6 @@ describe('CsfFile', () => {
       const csf = loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('requires', () => {
       const input = dedent`
         const Button = require('./Button');
@@ -1098,6 +1104,8 @@ describe('CsfFile', () => {
             - component-tag
             - story-tag
             - play-fn
+          metaTags: &ref_0
+            - component-tag
           __id: component-id--a
         - type: story
           importPath: foo/bar.stories.js
@@ -1109,6 +1117,7 @@ describe('CsfFile', () => {
             - component-tag
             - story-tag
             - play-fn
+          metaTags: *ref_0
           __id: component-id--b
       `);
     });
@@ -1137,6 +1146,8 @@ describe('CsfFile', () => {
           title: custom foo title
           metaId: component-id
           tags:
+            - component-tag
+          metaTags:
             - component-tag
           __id: custom-story-id
       `);
@@ -1169,6 +1180,11 @@ describe('CsfFile', () => {
             - inherit-tag-dup
             - story-tag
             - story-tag-dup
+          metaTags:
+            - component-tag
+            - component-tag-dup
+            - component-tag-dup
+            - inherit-tag-dup
           __id: custom-foo-title--a
       `);
     });

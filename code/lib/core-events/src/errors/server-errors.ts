@@ -1,3 +1,4 @@
+import { bold, gray, grey, white, yellow, underline } from 'chalk';
 import dedent from 'ts-dedent';
 import { StorybookError } from './storybook-error';
 
@@ -76,7 +77,7 @@ export class MissingFrameworkFieldError extends StorybookError {
     return dedent`
       Could not find a 'framework' field in Storybook config.
 
-      Please run 'npx storybook@next automigrate' to automatically fix your config.
+      Please run 'npx storybook automigrate' to automatically fix your config.
     `;
   }
 }
@@ -97,7 +98,7 @@ export class InvalidFrameworkNameError extends StorybookError {
     return dedent`
       Invalid value of '${this.data.frameworkName}' in the 'framework' field of Storybook config.
 
-      Please run 'npx storybook@next automigrate' to automatically fix your config.
+      Please run 'npx storybook automigrate' to automatically fix your config.
     `;
   }
 }
@@ -120,6 +121,8 @@ export class CouldNotEvaluateFrameworkError extends StorybookError {
   }
 }
 
+// this error is not used anymore, but we keep it to maintain unique its error code
+// which is used for telemetry
 export class ConflictingStaticDirConfigError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
@@ -138,7 +141,6 @@ export class ConflictingStaticDirConfigError extends StorybookError {
     `;
   }
 }
-
 export class InvalidStoriesEntryError extends StorybookError {
   readonly category = Category.CORE_COMMON;
 
@@ -197,7 +199,6 @@ export class WebpackInvocationError extends StorybookError {
 }
 
 function removeAnsiEscapeCodes(input = '') {
-  // eslint-disable-next-line no-control-regex
   return input.replace(/\u001B\[[0-9;]*m/g, '');
 }
 
@@ -275,7 +276,7 @@ export class AngularLegacyBuildOptionsError extends StorybookError {
       Your Storybook startup script uses a solution that is not supported anymore.
       You must use Angular builder to have an explicit configuration on the project used in angular.json.
 
-      Please run 'npx storybook@next automigrate' to automatically fix your config.
+      Please run 'npx storybook automigrate' to automatically fix your config.
     `;
   }
 }
@@ -369,23 +370,6 @@ export class GoogleFontsLoadingError extends StorybookError {
   }
 }
 
-export class NextjsSWCNotSupportedError extends StorybookError {
-  readonly category = Category.FRAMEWORK_NEXTJS;
-
-  readonly code = 3;
-
-  public readonly documentation =
-    'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#manual-migration';
-
-  template() {
-    return dedent`
-    You have activated the SWC mode for Next.js, but you are not using Next.js 14.0.0 or higher. 
-    SWC is only supported in Next.js 14.0.0 and higher. Please go to your .storybook/main.<js|ts> file
-    and remove the { framework: { options: { builder: { useSWC: true } } } } option or upgrade to Next.js v14 or later.
-    `;
-  }
-}
-
 export class NoMatchingExportError extends StorybookError {
   readonly category = Category.CORE_SERVER;
 
@@ -406,7 +390,99 @@ export class NoMatchingExportError extends StorybookError {
       Correct example:
       { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.5.3", "storybook": "7.5.3" }
 
-      Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
+      Please run \`npx storybook doctor\` for guidance on how to fix this issue.
+    `;
+  }
+}
+
+export class MainFileESMOnlyImportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 5;
+
+  public documentation =
+    'https://github.com/storybookjs/storybook/issues/23972#issuecomment-1948534058';
+
+  constructor(
+    public data: { location: string; line: string | undefined; num: number | undefined }
+  ) {
+    super();
+  }
+
+  template() {
+    const message = [
+      `Storybook failed to load ${this.data.location}`,
+      '',
+      `It looks like the file tried to load/import an ESM only module.`,
+      `Support for this is currently limited in ${this.data.location}`,
+      `You can import ESM modules in your main file, but only as dynamic import.`,
+      '',
+    ];
+    if (this.data.line) {
+      message.push(
+        white(
+          `In your ${yellow(this.data.location)} file, line ${bold.cyan(
+            this.data.num
+          )} threw an error:`
+        ),
+        grey(this.data.line)
+      );
+    }
+
+    message.push(
+      '',
+      white(`Convert the static import to a dynamic import ${underline('where they are used')}.`),
+      white(`Example:`) + ' ' + gray(`await import(<your ESM only module>);`),
+      ''
+    );
+
+    return message.join('\n');
+  }
+}
+
+export class MainFileMissingError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 6;
+
+  readonly stack = '';
+
+  public readonly documentation = 'https://storybook.js.org/docs/configure';
+
+  constructor(public data: { location: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      No configuration files have been found in your configDir: ${yellow(this.data.location)}.
+      Storybook needs a "main.js" file, please add it.
+      
+      You can pass a --config-dir flag to tell Storybook, where your main.js file is located at).
+    `;
+  }
+}
+
+export class MainFileEvaluationError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 7;
+
+  readonly stack = '';
+
+  constructor(public data: { location: string; error: Error }) {
+    super();
+  }
+
+  template() {
+    const errorText = white(
+      (this.data.error.stack || this.data.error.message).replaceAll(process.cwd(), '')
+    );
+
+    return dedent`
+      Storybook couldn't evaluate your ${yellow(this.data.location)} file.
+
+      ${errorText}
     `;
   }
 }
@@ -422,13 +498,109 @@ export class GenerateNewProjectOnInitError extends StorybookError {
     super();
   }
 
-  template(): string {
+  template() {
     return dedent`
       There was an error while using ${this.data.packageManager} to create a new ${
-      this.data.projectType
-    } project.
+        this.data.projectType
+      } project.
       
       ${this.data.error instanceof Error ? this.data.error.message : ''}
       `;
+  }
+}
+
+export class UpgradeStorybookToLowerVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 3;
+
+  constructor(public data: { beforeVersion: string; currentVersion: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      You are trying to upgrade Storybook to a lower version than the version currently installed. This is not supported.
+
+      Storybook version ${this.data.beforeVersion} was detected in your project, but you are trying to "upgrade" to version ${this.data.currentVersion}.
+      
+      This usually happens when running the upgrade command without a version specifier, e.g. "npx storybook upgrade".
+      This will cause npm to run the globally cached storybook binary, which might be an older version.
+
+      Instead you should always run the Storybook CLI with a version specifier to force npm to download the latest version:
+      
+      "npx storybook@latest upgrade"
+    `;
+  }
+}
+
+export class UpgradeStorybookToSameVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 4;
+
+  constructor(public data: { beforeVersion: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      You are trying to upgrade Storybook to the same version that is currently installed in the project, version ${this.data.beforeVersion}. This is not supported.
+      
+      This usually happens when running the upgrade command without a version specifier, e.g. "npx storybook upgrade".
+      This will cause npm to run the globally cached storybook binary, which might be the same version that you already have.
+      This also happens if you're running the Storybook CLI that is locally installed in your project.
+
+      If you intended to upgrade to the latest version, you should always run the Storybook CLI with a version specifier to force npm to download the latest version:
+
+      "npx storybook@latest upgrade"
+
+      If you intended to re-run automigrations, you should run the "automigrate" command directly instead:
+
+      "npx storybook automigrate"
+    `;
+  }
+}
+
+export class UpgradeStorybookUnknownCurrentVersionError extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 5;
+
+  template() {
+    return dedent`
+      We couldn't determine the current version of Storybook in your project.
+
+      Are you running the Storybook CLI in a project without Storybook?
+      It might help if you specify your Storybook config directory with the --config-dir flag.
+    `;
+  }
+}
+
+export class UpgradeStorybookInWrongWorkingDirectory extends StorybookError {
+  readonly category = Category.CLI_UPGRADE;
+
+  readonly code = 6;
+
+  template() {
+    return dedent`
+      You are running the upgrade command in a CWD that does not contain Storybook dependencies.
+
+      Did you mean to run it in a different directory? Make sure the directory you run this command in contains a package.json with your Storybook dependencies.
+    `;
+  }
+}
+
+export class NoStatsForViteDevError extends StorybookError {
+  readonly category = Category.BUILDER_VITE;
+
+  readonly code = 1;
+
+  template() {
+    return dedent`
+      Unable to write preview stats as the Vite builder does not support stats in dev mode.
+
+      Please remove the \`--stats-json\` flag when running in dev mode.
+    `;
   }
 }

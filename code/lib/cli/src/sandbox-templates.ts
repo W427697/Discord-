@@ -66,7 +66,7 @@ export type Template = {
   inDevelopment?: boolean;
   /**
    * Some sandboxes might need extra modifications in the initialized Storybook,
-   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
+   * such as extend main.js, for setting specific feature flags.
    */
   modifications?: {
     skipTemplateStories?: boolean;
@@ -74,6 +74,7 @@ export type Template = {
     testBuild?: boolean;
     disableDocs?: boolean;
     extraDependencies?: string[];
+    editAddons?: (addons: string[]) => string[];
   };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
@@ -115,7 +116,7 @@ const baseTemplates = {
   'nextjs/13-ts': {
     name: 'Next.js v13.5 (Webpack | TypeScript)',
     script:
-      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-13/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^13.5.6" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -123,12 +124,11 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
@@ -141,7 +141,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -158,7 +158,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -175,7 +175,7 @@ const baseTemplates = {
     },
     modifications: {
       mainConfig: {
-        features: { experimentalNextRSC: true },
+        features: { experimentalRSC: true },
       },
       extraDependencies: ['server-only'],
     },
@@ -429,6 +429,9 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
@@ -439,11 +442,14 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'qwik-vite/default-ts': {
     name: 'Qwik CLI Latest (Vite | TypeScript)',
-    script: 'yarn create qwik basic {{beforeDir}}',
+    script: 'npm create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {
@@ -483,24 +489,23 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/swc-webpack': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'SWC (react-webpack/18-ts)',
-    isInternal: true,
-    inDevelopment: true,
-    modifications: {
-      mainConfig: {
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {
-            builder: {
-              useSWC: true,
-            },
-          },
-        },
-      },
+  'internal/react18-webpack-babel': {
+    name: 'React with Babel Latest (Webpack | TypeScript)',
+    script: 'yarn create webpack5-react {{beforeDir}}',
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
     },
-    skipTasks: ['bench'],
+    modifications: {
+      extraDependencies: ['@storybook/addon-webpack5-compiler-babel'],
+      editAddons: (addons) =>
+        [...addons, '@storybook/addon-webpack5-compiler-babel'].filter(
+          (a) => a !== '@storybook/addon-webpack5-compiler-swc'
+        ),
+    },
+    isInternal: true,
+    skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'internal/react16-webpack': {
     name: 'React 16 (Webpack | TypeScript)',
@@ -627,6 +632,7 @@ export const daily: TemplateKey[] = [
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
+  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',
@@ -635,6 +641,7 @@ export const daily: TemplateKey[] = [
   'preact-vite/default-js',
   'html-vite/default-js',
   'internal/react16-webpack',
+  'internal/react18-webpack-babel',
 ];
 
 export const templatesByCadence = { normal, merged, daily };

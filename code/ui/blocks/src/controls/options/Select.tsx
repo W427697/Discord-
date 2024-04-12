@@ -3,12 +3,12 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
-import { Icons } from '@storybook/components';
 
 import type { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
 
 import { selectedKey, selectedKeys, selectedValues } from './helpers';
 import { getControlId } from '../helpers';
+import { ChevronSmallDownIcon } from '@storybook/icons';
 
 const styleResets: CSSObject = {
   // resets
@@ -93,17 +93,19 @@ type SelectProps = ControlProps<OptionsSelection> & SelectConfig;
 
 const NO_SELECTION = 'Choose option...';
 
-const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
+const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange, argType }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange(options[e.currentTarget.value]);
   };
   const selection = selectedKey(value, options) || NO_SELECTION;
   const controlId = getControlId(name);
 
+  const readonly = !!argType?.table?.readonly;
+
   return (
     <SelectWrapper>
-      <Icons icon="arrowdown" />
-      <OptionsSelect id={controlId} value={selection} onChange={handleChange}>
+      <ChevronSmallDownIcon />
+      <OptionsSelect disabled={readonly} id={controlId} value={selection} onChange={handleChange}>
         <option key="no-selection" disabled>
           {NO_SELECTION}
         </option>
@@ -117,7 +119,7 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
   );
 };
 
-const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
+const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange, argType }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selection = Array.from(e.currentTarget.options)
       .filter((option) => option.selected)
@@ -127,9 +129,17 @@ const MultiSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
   const selection = selectedKeys(value, options);
   const controlId = getControlId(name);
 
+  const readonly = !!argType?.table?.readonly;
+
   return (
     <SelectWrapper>
-      <OptionsSelect id={controlId} multiple value={selection} onChange={handleChange}>
+      <OptionsSelect
+        disabled={readonly}
+        id={controlId}
+        multiple
+        value={selection}
+        onChange={handleChange}
+      >
         {Object.keys(options).map((key) => (
           <option key={key} value={key}>
             {key}

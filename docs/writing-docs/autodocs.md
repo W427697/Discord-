@@ -133,14 +133,14 @@ Storybook's auto-generated documentation pages can be quite long and difficult t
 
 By default, the table of contents on the documentation page will only show the `h3` headings that are automatically generated. However, if you want to customize the table of contents, you can add more parameters to the `toc` property. The following options and examples of how to use them are available.
 
-| Option                | Description                                                                                                                                          |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `contentsSelector`    | Defines the container's CSS selector for search for the headings <br/> `toc: { contentsSelector: '.sbdocs-content' }`                                |
-| `disable`             | Hides the table of contents for the documentation pages <br/> `toc: { disable: true }`                                                               |
-| `headingSelector`     | Defines the list of headings to feature in the table of contents <br/> `toc: { headingSelector: 'h1, h2, h3' }`                                      |
-| `ignoreSelector`      | Configures the table of contents to ignore specific headings or stories <br/> `toc: { ignoreSelector: 'h2' }`                                        |
-| `title`               | Defines a title caption for the table of contents. <br/>Accepts one of: `string`, `null`, React element <br/> `toc: { title: 'Table of Contents' }`  |
-| `unsafeTocbotOptions` | Provides additional [`TocBot`](https://tscanlin.github.io/tocbot/) configuration options <br/> `toc: { unsafeTocbotOptions: { orderedList: true } }` |
+| Option                | Description                                                                                                                                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `contentsSelector`    | Defines the container's CSS selector for search for the headings <br/> `toc: { contentsSelector: '.sbdocs-content' }`                                                                                           |
+| `disable`             | Hides the table of contents for the documentation pages <br/> `toc: { disable: true }`                                                                                                                          |
+| `headingSelector`     | Defines the list of headings to feature in the table of contents <br/> `toc: { headingSelector: 'h1, h2, h3' }`                                                                                                 |
+| `ignoreSelector`      | Configures the table of contents to ignore specific headings or stories. By default, the table of contents will ignore all content placed within Story blocks <br/> `toc: { ignoreSelector: '.docs-story h2' }` |
+| `title`               | Defines a title caption for the table of contents. <br/>Accepts one of: `string`, `null`, React element <br/> `toc: { title: 'Table of Contents' }`                                                             |
+| `unsafeTocbotOptions` | Provides additional [`TocBot`](https://tscanlin.github.io/tocbot/) configuration options <br/> `toc: { unsafeTocbotOptions: { orderedList: true } }`                                                            |
 
 <Callout variant="info">
 
@@ -182,6 +182,36 @@ If you want to customize the table of contents for a specific story, you can inc
 Creating automated documentation with Storybook's Autodocs provides you with the starting point to build a sustainable documentation pattern. Nevertheless, it may not be suited for every case, and you may want to extend it and provide additional information. We recommend combining [MDX](./mdx.md) alongside Storybook's [Doc Blocks](./doc-blocks.md) for such cases to author your documentation.
 
 ## Advanced configuration
+
+### Documenting multiple components
+
+Sometimes it's helpful to document multiple components together. For example, a component library’s ButtonGroup and Button components might not make sense without one another.
+
+Autodocs allows you to document your "main" component, defined by the `component` property, as well as one or more `subcomponents` related to it.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/list-story-with-subcomponents.js.mdx',
+    'react/list-story-with-subcomponents.ts.mdx',
+    'angular/list-story-with-subcomponents.ts.mdx',
+    'vue/list-story-with-sub-components.js.mdx',
+    'vue/list-story-with-sub-components.ts.mdx',
+    'web-components/list-story-with-subcomponents.js.mdx',
+    'web-components/list-story-with-subcomponents.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
+/>
+
+<!-- prettier-ignore-end -->
+
+![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
+
+The main component and its subcomponents will show up in a tabbed version of the [`ArgTypes` doc block](./doc-blocks.md#argtypes). The tab titles will correspond to the keys of the `subcomponents` object.
+
+If you want to organize your documentation differently for component groups, we recommend [using MDX](./mdx.md). It gives you complete control over how your components are displayed and supports any configuration.
 
 ### Customize the Docs Container
 
@@ -230,7 +260,9 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <Callout variant="info" icon="💡">
 
-This is not a Storybook issue but a breaking change introduced with MDX 2. For more information on this and other breaking changes, see our [MDX documentation](./mdx.md#breaking-changes).
+This is not a Storybook issue but a detail of how MDX works. From their [migration guide](https://mdxjs.com/migrating/v2/#update-mdx-content):
+
+“We now ‘sandbox’ components, for lack of a better name. It means that when you pass a component for h1, it does get used for `# hi` but not for `<h1>hi</h1>`”
 
 </Callout>
 
@@ -290,7 +322,7 @@ If you're still encountering issues, we recommend reaching out to the community 
 
 If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 
-#### Learn more about Storybook documentation
+**Learn more about Storybook documentation**
 
 - Autodocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import { vi, expect } from 'vitest';
 
 import { dedent } from 'ts-dedent';
 
@@ -10,6 +10,13 @@ const ignoreList = [
   (error: any) =>
     error.message.includes('react-async-component-lifecycle-hooks') &&
     error.stack.includes('addons/knobs/src/components/__tests__/Options.js'),
+  // React will log this error even if you catch an error with a boundary. I guess it's to
+  // help in development. See https://github.com/facebook/react/issues/15069
+  (error: any) =>
+    error.message.match(
+      /React will try to recreate this component tree from scratch using the error boundary you provided/
+    ),
+  (error: any) => error.message.includes('Lit is in dev mode. Not recommended for production!'),
 ];
 
 const throwMessage = (type: any, message: any) => {

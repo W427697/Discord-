@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
@@ -75,14 +74,14 @@ const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)({
   },
 });
 
-export const ScrollArea: FC<ScrollAreaProps> = ({
+export const ScrollArea = ({
   children,
   horizontal = false,
   vertical = false,
   offset = 2,
   scrollbarSize = 6,
   className,
-}) => (
+}: ScrollAreaProps) => (
   <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset} className={className}>
     <ScrollAreaViewport>{children}</ScrollAreaViewport>
     {horizontal && (

@@ -4,7 +4,7 @@ import fse from 'fs-extra';
 import { sep } from 'path';
 import * as helpers from './helpers';
 import { IS_WINDOWS } from '../../../vitest.helpers';
-import type { JsPackageManager } from './js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 
@@ -208,6 +208,22 @@ describe('Helpers', () => {
       expect(() => {
         helpers.coerceSemver(invalidSemverString);
       }).toThrowError(`Could not coerce ${invalidSemverString} into a semver.`);
+    });
+  });
+
+  describe('hasStorybookDependencies', () => {
+    it(`should return true when any storybook dependency exists`, async () => {
+      const result = await helpers.hasStorybookDependencies({
+        getAllDependencies: async () => ({ storybook: 'x.y.z' }),
+      } as unknown as JsPackageManager);
+      expect(result).toEqual(true);
+    });
+
+    it(`should return false when no storybook dependency exists`, async () => {
+      const result = await helpers.hasStorybookDependencies({
+        getAllDependencies: async () => ({ axios: 'x.y.z' }),
+      } as unknown as JsPackageManager);
+      expect(result).toEqual(false);
     });
   });
 });

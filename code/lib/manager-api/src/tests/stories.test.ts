@@ -39,7 +39,6 @@ vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     fetch: vi.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
-    FEATURES: { storyStoreV7: true },
     CONFIG_TYPE: 'DEVELOPMENT',
   },
 }));
@@ -226,7 +225,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a-b', 'a-b--1']);
       expect(index!.a).toMatchObject({
         type: 'root',
@@ -265,7 +264,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a--1']);
       expect(index!.a).toMatchObject({
         type: 'component',
@@ -296,7 +295,7 @@ describe('stories API', () => {
         },
       });
       const { index } = store.getState();
-      // We need exact key ordering, even if in theory JS doens't guarantee it
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index!)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
       expect(index!.a).toMatchObject({
         type: 'component',
@@ -1449,9 +1448,6 @@ describe('stories API', () => {
             ],
             "depth": 0,
             "id": "a",
-            "isComponent": true,
-            "isLeaf": false,
-            "isRoot": false,
             "name": "a",
             "parent": undefined,
             "renderLabel": undefined,
@@ -1461,10 +1457,6 @@ describe('stories API', () => {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
-            "isComponent": false,
-            "isLeaf": true,
-            "isRoot": false,
-            "kind": "a",
             "name": "1",
             "parent": "a",
             "prepared": false,
@@ -1476,10 +1468,6 @@ describe('stories API', () => {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",
-            "isComponent": false,
-            "isLeaf": true,
-            "isRoot": false,
-            "kind": "a",
             "name": "2",
             "parent": "a",
             "prepared": false,
@@ -1525,9 +1513,6 @@ describe('stories API', () => {
             ],
             "depth": 0,
             "id": "a",
-            "isComponent": true,
-            "isLeaf": false,
-            "isRoot": false,
             "name": "a",
             "parent": undefined,
             "renderLabel": undefined,
@@ -1537,10 +1522,6 @@ describe('stories API', () => {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
-            "isComponent": false,
-            "isLeaf": true,
-            "isRoot": false,
-            "kind": "a",
             "name": "1",
             "parent": "a",
             "prepared": false,
@@ -1573,9 +1554,6 @@ describe('stories API', () => {
             ],
             "depth": 0,
             "id": "a",
-            "isComponent": true,
-            "isLeaf": false,
-            "isRoot": false,
             "name": "a",
             "parent": undefined,
             "renderLabel": undefined,
@@ -1585,10 +1563,6 @@ describe('stories API', () => {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
-            "isComponent": false,
-            "isLeaf": true,
-            "isRoot": false,
-            "kind": "a",
             "name": "1",
             "parent": "a",
             "prepared": false,
@@ -1600,10 +1574,6 @@ describe('stories API', () => {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",
-            "isComponent": false,
-            "isLeaf": true,
-            "isRoot": false,
-            "kind": "a",
             "name": "2",
             "parent": "a",
             "prepared": false,

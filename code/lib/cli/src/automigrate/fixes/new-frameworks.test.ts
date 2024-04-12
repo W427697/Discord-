@@ -3,7 +3,7 @@ import type { StorybookConfig } from '@storybook/types';
 import * as findUp from 'find-up';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
-import type { JsPackageManager } from '../../js-package-manager';
+import type { JsPackageManager } from '@storybook/core-common';
 
 vi.mock('find-up');
 vi.mock('../helpers/detectRenderer', async (importOriginal) => ({
@@ -57,19 +57,6 @@ const getPackageManager = (packages: Record<string, string>) => {
 
 describe('new-frameworks fix', () => {
   describe('should no-op', () => {
-    it('in sb < 7', async () => {
-      const packageManager = getPackageManager({
-        '@storybook/vue': '6.2.0',
-      });
-
-      await expect(
-        checkNewFrameworks({
-          packageManager,
-          storybookVersion: '6.2.0',
-        })
-      ).resolves.toBeFalsy();
-    });
-
     it('in sb 7 with correct structure already', async () => {
       const packageManager = getPackageManager({
         '@storybook/angular': '7.0.0',
@@ -138,9 +125,6 @@ describe('new-frameworks fix', () => {
                 },
               },
             },
-            reactOptions: {
-              fastRefresh: true,
-            },
           },
         })
       ).resolves.toEqual(
@@ -149,9 +133,6 @@ describe('new-frameworks fix', () => {
           frameworkPackage: '@storybook/react-webpack5',
           dependenciesToAdd: ['@storybook/react-webpack5'],
           dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
-          frameworkOptions: {
-            fastRefresh: true,
-          },
           builderConfig: {
             name: 'webpack5',
             options: {
@@ -517,7 +498,7 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageManager,
           main: {
-            framework: { name: '@storybook/react-webpack5', options: { fastRefresh: true } },
+            framework: { name: '@storybook/react-webpack5' },
             addons: [
               {
                 name: 'storybook-addon-next',
@@ -541,7 +522,6 @@ describe('new-frameworks fix', () => {
           dependenciesToRemove: ['@storybook/react-webpack5', 'storybook-addon-next'],
           addonsToRemove: ['storybook-addon-next'],
           frameworkOptions: {
-            fastRefresh: true,
             nextConfigPath: '../next.config.js',
           },
           builderInfo: {

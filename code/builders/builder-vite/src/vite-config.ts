@@ -20,6 +20,7 @@ import {
   injectExportOrderPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
+  pluginWebpackStats,
 } from './plugins';
 
 import type { BuilderOptions } from './types';
@@ -112,11 +113,11 @@ export async function pluginConfig(options: Options) {
       },
     },
     await externalGlobalsPlugin(externals),
+    pluginWebpackStats({ workingDir: process.cwd() }),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/glimmerx-vite') {
-    // eslint-disable-next-line global-require
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }

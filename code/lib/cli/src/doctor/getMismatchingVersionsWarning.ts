@@ -1,8 +1,7 @@
 import chalk from 'chalk';
 import semver from 'semver';
-import { frameworkPackages } from '@storybook/core-common';
-import type { InstallationMetadata } from '../js-package-manager/types';
-import storybookCorePackages from '../versions';
+import { frameworkPackages, versions as storybookCorePackages } from '@storybook/core-common';
+import type { InstallationMetadata } from '@storybook/core-common';
 
 function getPrimaryVersion(name: string | undefined, installationMetadata?: InstallationMetadata) {
   if (!name) {
@@ -76,7 +75,7 @@ export function getMismatchingVersionsWarnings(
     if (filteredDependencies.length > 0) {
       const packageJsonSuffix = '(in your package.json)';
       messages.push(
-        `Based on your lockfile, these dependencies should be upgraded:`,
+        `Based on your lockfile, these dependencies should be aligned:`,
         filteredDependencies
           .map(
             ([name, dep]) =>

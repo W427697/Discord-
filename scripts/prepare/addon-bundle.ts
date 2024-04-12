@@ -71,6 +71,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     shims: false,
     watch,
     clean: false,
+  };
+
+  const browserOptions: Options = {
+    target: ['chrome100', 'safari15', 'firefox91'],
+    platform: 'browser',
     esbuildPlugins: [
       aliasPlugin({
         process: require.resolve('../node_modules/process/browser.js'),
@@ -78,6 +83,16 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         assert: require.resolve('browser-assert'),
       }),
     ],
+    format: ['esm'],
+    esbuildOptions: (options) => {
+      options.conditions = ['module'];
+      options.platform = 'browser';
+      options.loader = {
+        ...options.loader,
+        '.png': 'dataurl',
+      };
+      Object.assign(options, getESBuildOptions(optimized));
+    },
   };
 
   const commonExternals = [
@@ -98,33 +113,21 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       build({
         ...commonOptions,
         ...(optimized ? dtsConfig : {}),
+        ...browserOptions,
         entry: exportEntries,
-        format: ['esm'],
-        target: ['chrome100', 'safari15', 'firefox91'],
-        platform: 'browser',
         external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
-        esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
-          options.platform = 'browser';
-          Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
-        },
       }),
       build({
         ...commonOptions,
         ...(optimized ? dtsConfig : {}),
         entry: exportEntries,
         format: ['cjs'],
-        target: 'node18',
-        platform: 'node',
-        external: commonExternals,
+        target: browserOptions.target,
+        platform: 'neutral',
+        external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
-          options.platform = 'node';
+          options.platform = 'neutral';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -138,46 +141,38 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     tasks.push(
       build({
         ...commonOptions,
+        ...browserOptions,
         entry: managerEntries.map((e: string) => slash(join(cwd, e))),
         outExtension: () => ({
           js: '.js',
         }),
-        format: ['esm'],
-        target: ['chrome100', 'safari15', 'firefox91'],
-        platform: 'browser',
         external: [...commonExternals, ...globalManagerPackages],
-        esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
-          options.conditions = ['module'];
-          options.platform = 'browser';
-          Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
-        },
       })
     );
   }
+
   if (previewEntries.length > 0) {
+    const { dtsConfig, tsConfigExists } = await getDTSConfigs({
+      formats,
+      entries: previewEntries,
+      optimized,
+    });
     tasks.push(
       build({
         ...commonOptions,
+        ...(optimized ? dtsConfig : {}),
+        ...browserOptions,
+        format: ['esm', 'cjs'],
         entry: previewEntries.map((e: string) => slash(join(cwd, e))),
-        outExtension: () => ({
-          js: '.js',
-        }),
-        format: ['esm'],
-        target: ['chrome100', 'safari15', 'firefox91'],
-        platform: 'browser',
         external: [...commonExternals, ...globalPreviewPackages],
-        esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
-          c.conditions = ['module'];
-          c.platform = 'browser';
-          Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
-        },
       })
     );
+
+    if (tsConfigExists && !optimized) {
+      tasks.push(...previewEntries.map(generateDTSMapperFile));
+    }
   }
+
   if (nodeEntries.length > 0) {
     tasks.push(
       build({
@@ -188,10 +183,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );

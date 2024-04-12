@@ -2,7 +2,6 @@ import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
   DetailedHTMLProps,
-  FC,
   ForwardedRef,
   ForwardRefExoticComponent,
   ReactElement,
@@ -109,7 +108,7 @@ export const TabButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid }
 
     '&:focus': {
       outline: '0 none',
-      borderBottomColor: theme.color.secondary,
+      borderBottomColor: theme.barSelectedColor,
     },
   }),
   ({ active, textColor, theme }) =>
@@ -121,6 +120,9 @@ export const TabButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid }
       : {
           color: textColor || theme.barTextColor,
           borderBottomColor: 'transparent',
+          '&:hover': {
+            color: theme.barHoverColor,
+          },
         }
 );
 TabButton.displayName = 'TabButton';
@@ -147,7 +149,7 @@ const IconButtonSkeletonWrapper = styled.div(() => ({
  * @deprecated
  * This component will be removed in Storybook 9.0
  * */
-export const IconButtonSkeleton: FC = () => (
+export const IconButtonSkeleton = () => (
   <IconButtonSkeletonWrapper>
     <IconPlaceholder />
   </IconButtonSkeletonWrapper>
