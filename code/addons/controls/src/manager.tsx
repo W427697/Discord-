@@ -3,6 +3,8 @@ import { addons, types, useArgTypes } from '@storybook/manager-api';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
+import { AlertIcon, CheckIcon } from '@storybook/icons';
+import { SAVE_STORY_RESULT } from '@storybook/core-events';
 
 function Title() {
   const rows = useArgTypes();
@@ -36,5 +38,22 @@ addons.register(ADDON_ID, (api) => {
         </AddonPanel>
       );
     },
+  });
+
+  api.on(SAVE_STORY_RESULT, (data) => {
+    if (data.error) {
+      api.addNotification({
+        content: { headline: `Error saving story`, subHeadline: ` ${data.error}` },
+        id: 'save-story-error',
+        icon: <AlertIcon />,
+      });
+    } else {
+      api.addNotification({
+        content: { headline: `Story saved`, subHeadline: ` ${data.id}` },
+        duration: 2000,
+        icon: <CheckIcon />,
+        id: 'save-story-success',
+      });
+    }
   });
 });
