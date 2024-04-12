@@ -9,9 +9,11 @@ import {
   useStorybookState,
 } from '@storybook/manager-api';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
-
+import { styled } from '@storybook/theming';
 import type { ArgTypes } from '@storybook/types';
+
 import { PARAM_KEY } from './constants';
+import { SaveFromControls } from './SaveFromControls';
 
 // Remove undefined values (top-level only)
 const clean = (obj: { [key: string]: any }) =>
@@ -19,6 +21,14 @@ const clean = (obj: { [key: string]: any }) =>
     (acc, [key, value]) => (value !== undefined ? Object.assign(acc, { [key]: value }) : acc),
     {} as typeof obj
   );
+
+const AddonWrapper = styled.div({
+  display: 'grid',
+  gridTemplateRows: '1fr 39px',
+  height: '100%',
+  maxHeight: '100vh',
+  overflowY: 'auto',
+});
 
 interface ControlsParameters {
   sort?: SortType;
@@ -53,19 +63,26 @@ export const ControlsPanel: FC = () => {
     [args, initialArgs]
   );
 
+  const saveStory = () => {};
+  const createStory = () => {};
+
   return (
-    <ArgsTable
-      key={path} // resets state when switching stories
-      compact={!expanded && hasControls}
-      rows={withPresetColors}
-      args={args}
-      globals={globals}
-      hasUpdatedArgs={hasUpdatedArgs}
-      updateArgs={updateArgs}
-      resetArgs={resetArgs}
-      inAddonPanel
-      sort={sort}
-      isLoading={isLoading}
-    />
+    <AddonWrapper>
+      <ArgsTable
+        key={path} // resets state when switching stories
+        compact={!expanded && hasControls}
+        rows={withPresetColors}
+        args={args}
+        globals={globals}
+        updateArgs={updateArgs}
+        resetArgs={resetArgs}
+        inAddonPanel
+        sort={sort}
+        isLoading={isLoading}
+      />
+      {hasControls && hasUpdatedArgs && (
+        <SaveFromControls {...{ resetArgs, saveStory, createStory }} />
+      )}
+    </AddonWrapper>
   );
 };

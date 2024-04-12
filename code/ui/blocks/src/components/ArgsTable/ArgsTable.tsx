@@ -15,15 +15,6 @@ import type { ArgType, ArgTypes, Args, Globals } from './types';
 import { EmptyBlock } from '..';
 import { Skeleton } from './Skeleton';
 import { Empty } from './Empty';
-import { SaveFromControls } from './SaveFromControls';
-
-const AddonWrapper = styled.div({
-  display: 'grid',
-  gridTemplateRows: '1fr 39px',
-  height: '100%',
-  maxHeight: '100vh',
-  overflowY: 'auto',
-});
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -200,7 +191,6 @@ const sortFns: Record<SortType, SortFn | null> = {
 
 export interface ArgsTableOptionProps {
   children?: React.ReactNode;
-  hasUpdatedArgs?: boolean;
   updateArgs?: (args: Args) => void;
   resetArgs?: (argNames?: string[]) => void;
   compact?: boolean;
@@ -317,7 +307,6 @@ const safeIncludeConditionalArg = (row: ArgType, args: Args, globals: Globals) =
  */
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const {
-    hasUpdatedArgs,
     updateArgs,
     resetArgs,
     compact,
@@ -366,7 +355,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
 
   const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs };
 
-  const table = (
+  return (
     <ResetWrapper>
       <TableWrapper {...{ compact, inAddonPanel }} className="docblock-argstable sb-unstyled">
         <thead className="docblock-argstable-head">
@@ -445,20 +434,5 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
         </tbody>
       </TableWrapper>
     </ResetWrapper>
-  );
-
-  if (!inAddonPanel) return table;
-
-  const hasControls = Object.values(rows).some((row) => row?.control);
-  if (!hasControls) return table;
-
-  const saveStory = () => {};
-  const createStory = () => {};
-
-  return (
-    <AddonWrapper>
-      {table}
-      {hasUpdatedArgs && <SaveFromControls {...{ resetArgs, saveStory, createStory }} />}
-    </AddonWrapper>
   );
 };
