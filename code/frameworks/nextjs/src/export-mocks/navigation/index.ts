@@ -67,13 +67,18 @@ const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutSegment)
 const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
   'useSelectedLayoutSegments'
 );
-const useParams = fn(originalNavigation.useParams).mockName('useParams');
 const useRouter = fn(originalNavigation.useRouter).mockName('useRouter');
 const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
   'useServerInsertedHTML'
 );
 const notFound = fn(originalNavigation.notFound).mockName('notFound');
 const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName('permanentRedirect');
+
+// Params, not exported by Next.js, is manually declared to avoid inference issues.
+interface Params {
+  [key: string]: string | string[];
+}
+const useParams = fn<[], Params>(originalNavigation.useParams).mockName('useParams');
 
 export {
   createNavigation,
