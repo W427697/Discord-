@@ -237,10 +237,26 @@ export class StoryStoreAccessedBeforeInitializationError extends StorybookError 
   }
 }
 
-export class NextjsRouterMocksNotAvailable extends StorybookError {
+export class NextJsSharpError extends StorybookError {
   readonly category = Category.FRAMEWORK_NEXTJS;
 
   readonly code = 1;
+
+  readonly documentation = 'https://storybook.js.org/docs/get-started/nextjs#faq';
+
+  template() {
+    return dedent`
+    You are importing avif images, but you don't have sharp installed.
+
+    You have to install sharp in order to use image optimization features in Next.js.
+    `;
+  }
+}
+
+export class NextjsRouterMocksNotAvailable extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 2;
 
   constructor(public data: { importType: string }) {
     super();
