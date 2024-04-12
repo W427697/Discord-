@@ -49,8 +49,7 @@ export function initializeSaveFromControls(
 
       // find the AST node for the export_name, if none can be found, create a new story
       if (data.name) {
-        node = duplicateStoryWithNewName(parsed, data.name, name);
-        throw new Error(`creation of new story: not yet implemented`);
+        node = duplicateStoryWithNewName(parsed, name, data.name);
       } else {
         node = csf.getStoryExport(name);
       }

@@ -9,6 +9,10 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
   const node = csfFile._storyExports[storyName];
   const cloned = t.cloneNode(node) as t.VariableDeclarator;
 
+  if (!cloned) {
+    throw new Error(`cannot clone Node`);
+  }
+
   let found = false;
   traverse.default(cloned, {
     Identifier(path) {
