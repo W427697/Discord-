@@ -82,7 +82,7 @@ export const Action = styled.button<{ height?: number; width?: number }>(
   })
 );
 
-const CollapseButton = styled.button({
+const CollapseButton = styled.button(({ theme }) => ({
   all: 'unset',
   display: 'flex',
   padding: '0px 8px',
@@ -92,43 +92,42 @@ const CollapseButton = styled.button({
   alignItems: 'center',
   cursor: 'pointer',
   height: 28,
-  color: 'var(--sb-sidebar-sectionText)',
 
   '&:hover, &:focus': {
     outline: 'none',
-    background: 'var(--sb-sidebar-itemHoverBackground)',
+    background: transparentize(0.93, theme.color.secondary),
   },
-});
+}));
 
-export const LeafNodeStyleWrapper = styled.div({
+export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   paddingRight: 20,
-  color: 'var(--sb-sidebar-itemText)',
+  color: theme.color.defaultText,
   background: 'transparent',
   minHeight: 28,
   borderRadius: 4,
 
   '&:hover, &:focus': {
     outline: 'none',
-    background: 'var(--sb-sidebar-itemHoverBackground)',
+    background: transparentize(0.93, theme.color.secondary),
   },
 
   '&[data-selected="true"]': {
-    color: 'var(--sb-sidebar-itemActiveText)',
-    background: 'var(--sb-sidebar-itemActiveBackground)',
-    fontWeight: 700,
+    color: theme.color.lightest,
+    background: theme.color.secondary,
+    fontWeight: theme.typography.weight.bold,
 
     '&:hover, &:focus': {
-      background: 'var(--sb-sidebar-itemActiveBackground)',
+      background: theme.color.secondary,
     },
-    svg: { color: 'var(--sb-sidebar-itemActiveIcon)' },
+    svg: { color: theme.color.lightest },
   },
 
   a: { color: 'currentColor' },
-});
+}));
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
   display: 'none',

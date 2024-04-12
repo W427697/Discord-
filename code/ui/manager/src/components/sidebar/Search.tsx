@@ -52,17 +52,17 @@ const ScreenReaderLabel = styled.label({
   overflow: 'hidden',
 });
 
-const SearchIconWrapper = styled.div({
+const SearchIconWrapper = styled.div(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 8,
   zIndex: 1,
   pointerEvents: 'none',
-  color: 'var(--sb-sidebar-searchIcon)',
+  color: theme.textMutedColor,
   display: 'flex',
   alignItems: 'center',
   height: '100%',
-});
+}));
 
 const SearchField = styled.div({
   display: 'flex',
@@ -70,27 +70,27 @@ const SearchField = styled.div({
   position: 'relative',
 });
 
-const Input = styled.input({
+const Input = styled.input(({ theme }) => ({
   appearance: 'none',
   height: 32,
   paddingLeft: 28,
   paddingRight: 28,
-  border: '1px solid var(--sb-sidebar-searchBorder)',
-  background: 'var(--sb-sidebar-searchBackground)',
+  border: `1px solid ${theme.appBorderColor}`,
+  background: 'transparent',
   borderRadius: 4,
-  fontSize: '13px',
+  fontSize: `${theme.typography.size.s1 + 1}px`,
   fontFamily: 'inherit',
   transition: 'all 150ms',
-  color: 'var(--sb-sidebar-searchText)',
+  color: theme.color.defaultText,
   width: '100%',
 
   '&:focus, &:active': {
     outline: 0,
-    borderColor: 'var(--sb-sidebar-searchFocusBorder)',
-    background: 'var(--sb-sidebar-searchFocusBackground)',
+    borderColor: theme.color.secondary,
+    background: theme.background.app,
   },
   '&::placeholder': {
-    color: 'var(--sb-sidebar-searchPlaceholder)',
+    color: theme.textMutedColor,
     opacity: 1,
   },
   '&:valid ~ code, &:focus ~ code': {
@@ -109,9 +109,9 @@ const Input = styled.input({
     {
       display: 'none',
     },
-});
+}));
 
-const FocusKey = styled.code({
+const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
   top: 8,
   right: 9,
@@ -120,13 +120,13 @@ const FocusKey = styled.code({
   lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  color: 'var(--sb-sidebar-searchKey)',
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   userSelect: 'none',
   pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
   gap: 4,
-});
+}));
 
 const FocusKeyCmd = styled.span({
   fontSize: '14px',
@@ -137,7 +137,7 @@ const ClearIcon = styled.div(({ theme }) => ({
   top: 0,
   right: 8,
   zIndex: 1,
-  color: 'var(--sb-sidebar-searchKey)',
+  color: theme.textMutedColor,
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
