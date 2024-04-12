@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, SyntheticEvent } from 'react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { isPropValid, styled } from '@storybook/theming';
+import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
 import { deprecate } from '@storybook/client-logger';
 
@@ -160,16 +161,13 @@ const StyledButton = styled('button', {
   userSelect: 'none',
   opacity: disabled ? 0.5 : 1,
   margin: 0,
-  fontSize: '12px',
-  fontWeight: 700,
+  fontSize: `${theme.typography.size.s1}px`,
+  fontWeight: theme.typography.weight.bold,
   lineHeight: '1',
   background: (() => {
-    if (variant === 'solid') return 'var(--sb-button-solidBackground)';
-    if (variant === 'outline') return 'var(--sb-button-outlineBackground)';
-    if (variant === 'ghost') return 'var(--sb-button-ghostBackground)';
-    if (active && variant === 'solid') return 'var(--sb-button-solidActiveBackground)';
-    if (active && variant === 'outline') return 'var(--sb-button-outlineActiveBackground)';
-    if (active && variant === 'ghost') return 'var(--sb-button-ghostActiveBackground)';
+    if (variant === 'solid') return theme.color.secondary;
+    if (variant === 'outline') return theme.button.background;
+    if (variant === 'ghost' && active) return theme.background.hoverable;
     return 'transparent';
   })(),
   ...(variant === 'ghost'
@@ -203,56 +201,43 @@ const StyledButton = styled('button', {
       }
     : {}),
   color: (() => {
-    if (variant === 'solid') return 'var(--sb-button-solidText)';
-    if (variant === 'outline') return 'var(--sb-button-outlineText)';
-    if (variant === 'ghost') return 'var(--sb-button-ghostText)';
-    if (active && variant === 'solid') return 'var(--sb-button-solidActiveText)';
-    if (active && variant === 'outline') return 'var(--sb-button-outlineActiveText)';
-    if (active && variant === 'ghost') return 'var(--sb-button-ghostActiveText)';
-    return 'var(--sb-button-solidText)';
+    if (variant === 'solid') return theme.color.lightest;
+    if (variant === 'outline') return theme.input.color;
+    if (variant === 'ghost' && active) return theme.color.secondary;
+    if (variant === 'ghost') return theme.color.mediumdark;
+    return theme.input.color;
   })(),
-  boxShadow: (() => {
-    if (variant === 'solid') return 'var(--sb-button-solidBorder) 0 0 0 1px inset';
-    if (variant === 'outline') return 'var(--sb-button-outlineBorder) 0 0 0 1px inset';
-    if (variant === 'ghost') return 'var(--sb-button-ghostBorder) 0 0 0 1px inset';
-    return 'var(--sb-button-solidBorder) 0 0 0 1px inset';
-  })(),
-  borderRadius: 4,
+  boxShadow: variant === 'outline' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
+  borderRadius: theme.input.borderRadius,
   // Making sure that the button never shrinks below its minimum size
   flexShrink: 0,
 
   '&:hover': {
-    color: (() => {
-      if (variant === 'solid') return 'var(--sb-button-solidHoverText)';
-      if (variant === 'outline') return 'var(--sb-button-outlineHoverText)';
-      if (variant === 'ghost') return 'var(--sb-button-ghostHoverText)';
-      return 'var(--sb-button-solidHoverText)';
-    })(),
+    color: variant === 'ghost' ? theme.color.secondary : null,
     background: (() => {
-      if (variant === 'solid') return 'var(--sb-button-solidHoverBackground)';
-      if (variant === 'outline') return 'var(--sb-button-outlineHoverBackground)';
-      if (variant === 'ghost') return 'var(--sb-button-ghostHoverBackground)';
-      return 'var(--sb-button-solidHoverBackground)';
+      let bgColor = theme.color.secondary;
+      if (variant === 'solid') bgColor = theme.color.secondary;
+      if (variant === 'outline') bgColor = theme.button.background;
+
+      if (variant === 'ghost') return transparentize(0.86, theme.color.secondary);
+      return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })(),
   },
 
   '&:active': {
-    color: (() => {
-      if (variant === 'solid') return 'var(--sb-button-solidActiveText)';
-      if (variant === 'outline') return 'var(--sb-button-outlineActiveText)';
-      if (variant === 'ghost') return 'var(--sb-button-ghostActiveText)';
-      return 'var(--sb-button-solidActiveText)';
-    })(),
+    color: variant === 'ghost' ? theme.color.secondary : null,
     background: (() => {
-      if (variant === 'solid') return 'var(--sb-button-solidActiveBackground)';
-      if (variant === 'outline') return 'var(--sb-button-outlineActiveBackground)';
-      if (variant === 'ghost') return 'var(--sb-button-ghostActiveBackground)';
-      return 'var(--sb-button-solidActiveBackground)';
+      let bgColor = theme.color.secondary;
+      if (variant === 'solid') bgColor = theme.color.secondary;
+      if (variant === 'outline') bgColor = theme.button.background;
+
+      if (variant === 'ghost') return theme.background.hoverable;
+      return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })(),
   },
 
   '&:focus': {
-    boxShadow: 'var(--sb-button-focusBorder) 0 0 0 1px inset',
+    boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
     outline: 'none',
   },
 
