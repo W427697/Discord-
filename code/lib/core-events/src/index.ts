@@ -134,6 +134,8 @@ export const {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
   TELEMETRY_ERROR,
+  SAVE_STORY_REQUEST,
+  SAVE_STORY_RESULT,
 } = events;
 
 export interface WhatsNewCache {
