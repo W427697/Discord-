@@ -236,6 +236,25 @@ describe('composeStory', () => {
     expect(cleanupSpy).toHaveBeenNthCalledWith(3, 'cleanup from project');
   });
 
+  it('should call beforeEach after loaders', async () => {
+    const spyFn = vi.fn();
+
+    const Story: Story = {
+      render: () => 'foo',
+      loaders: async () => {
+        spyFn('from loaders');
+      },
+      beforeEach: async () => {
+        spyFn('from beforeEach');
+      },
+    };
+
+    const composedStory = composeStory(Story, {});
+    await composedStory.load();
+    expect(spyFn).toHaveBeenNthCalledWith(1, 'from loaders');
+    expect(spyFn).toHaveBeenNthCalledWith(2, 'from beforeEach');
+  });
+
   it('should throw an error if Story is undefined', () => {
     expect(() => {
       // @ts-expect-error (invalid input)
