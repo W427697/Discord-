@@ -478,11 +478,13 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
-export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void] {
+export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void, Args] {
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
   const args = data?.type === 'story' ? data.args : {};
+  const initialArgs = data?.type === 'story' ? data.initialArgs : {};
+
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
@@ -492,7 +494,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
     [data, resetStoryArgs]
   );
 
-  return [args!, updateArgs, resetArgs];
+  return [args!, updateArgs, resetArgs, initialArgs!];
 }
 
 export function useGlobals(): [Args, (newGlobals: Args) => void] {

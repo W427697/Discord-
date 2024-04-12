@@ -19,6 +19,10 @@ const allStories = [
     directory: '../blocks/src',
     titlePrefix: '@blocks',
   },
+  {
+    directory: '../../addons/controls', // TODO other addons?
+    titlePrefix: '@addons',
+  },
 ];
 
 /**
