@@ -122,7 +122,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/csf": "^0.1.2",
+    "@storybook/csf": "^0.1.4",
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
@@ -261,6 +261,7 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
+  "deferredNextVersion": "8.0.9",
   "pr-log": {
     "skipLabels": [
       "cleanup"
@@ -295,6 +296,5 @@
         "Dependency Upgrades"
       ]
     ]
-  },
-  "deferredNextVersion": "8.0.9"
+  }
 }
