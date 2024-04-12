@@ -27,6 +27,7 @@ const { AbortController } = globalThis;
 export type RenderPhase =
   | 'preparing'
   | 'loading'
+  | 'beforeEach'
   | 'rendering'
   | 'playing'
   | 'played'
@@ -103,7 +104,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     });
 
     if ((this.abortController as AbortController).signal.aborted) {
-      this.store.cleanupStory(this.story as PreparedStory<TRenderer>);
+      await this.store.cleanupStory(this.story as PreparedStory<TRenderer>);
       throw PREPARE_ABORTED;
     }
   }
@@ -122,8 +123,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
   }
 
   isPending() {
-    // TODO: add beforeRendering here when that is implemented
-    return ['loading', 'rendering', 'playing'].includes(this.phase as RenderPhase);
+    return ['loading', 'beforeEach', 'rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
   async renderToElement(canvasElement: TRenderer['canvasElement']) {
@@ -152,10 +152,20 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
   } = {}) {
     const { canvasElement } = this;
     if (!this.story) throw new Error('cannot render when not prepared');
+    const story = this.story;
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
-      this.story;
+    const {
+      id,
+      componentId,
+      title,
+      name,
+      tags,
+      applyLoaders,
+      applyBeforeEach,
+      unboundStoryFn,
+      playFunction,
+    } = story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -179,9 +189,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
           canvasElement,
         } as unknown as StoryContextForLoaders<TRenderer>);
       });
-      if (abortSignal.aborted) {
-        return;
-      }
+      if (abortSignal.aborted) return;
 
       const renderStoryContext: StoryContext<TRenderer> = {
         ...loadedContext!,
@@ -192,6 +200,14 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         // We should consider parameterizing the story types with TRenderer['canvasElement'] in the future
         canvasElement: canvasElement as any,
       };
+
+      await this.runPhase(abortSignal, 'beforeEach', async () => {
+        const cleanupCallbacks = await applyBeforeEach(renderStoryContext);
+        this.store.addCleanupCallbacks(story, cleanupCallbacks);
+      });
+
+      if (abortSignal.aborted) return;
+
       const renderContext: RenderContext<TRenderer> = {
         componentId,
         title,
@@ -311,8 +327,10 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     this.torndown = true;
     this.cancelRender();
 
-    // If the story has loaded, we need to cleanup
-    if (this.story) this.store.cleanupStory(this.story);
+    // If the story has loaded, we need to clean up
+    if (this.story) {
+      await this.store.cleanupStory(this.story);
+    }
 
     // Check if we're done loading/rendering/playing. If not, we may have to reload the page.
     // Wait several ticks that may be needed to handle the abort, then try again.

@@ -34,6 +34,7 @@ describe('StoryRender', () => {
       name: 'name',
       tags: [],
       applyLoaders: vi.fn(),
+      applyBeforeEach: vi.fn(),
       unboundStoryFn: vi.fn(),
       playFunction: vi.fn(),
       prepareContext: vi.fn(),
@@ -41,7 +42,7 @@ describe('StoryRender', () => {
 
     const render = new StoryRender(
       new Channel({}),
-      { getStoryContext: () => ({}) } as any,
+      { getStoryContext: () => ({}), addCleanupCallbacks: vi.fn() } as any,
       vi.fn() as any,
       {} as any,
       entry.id,
@@ -61,6 +62,7 @@ describe('StoryRender', () => {
       name: 'name',
       tags: [],
       applyLoaders: vi.fn(),
+      applyBeforeEach: vi.fn(),
       unboundStoryFn: vi.fn(),
       playFunction: vi.fn(),
       prepareContext: vi.fn(),
@@ -68,7 +70,7 @@ describe('StoryRender', () => {
 
     const render = new StoryRender(
       new Channel({}),
-      { getStoryContext: () => ({}) } as any,
+      { getStoryContext: () => ({}), addCleanupCallbacks: vi.fn() } as any,
       vi.fn() as any,
       {} as any,
       entry.id,
@@ -90,11 +92,16 @@ describe('StoryRender', () => {
       name: 'name',
       tags: [],
       applyLoaders: vi.fn(() => loaderGate),
+      applyBeforeEach: vi.fn(),
       unboundStoryFn: vi.fn(),
       playFunction: vi.fn(),
       prepareContext: vi.fn(),
     };
-    const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+    const store = {
+      getStoryContext: () => ({}),
+      cleanupStory: vi.fn(),
+      addCleanupCallbacks: vi.fn(),
+    };
     const renderToScreen = vi.fn();
     const render = new StoryRender(
       new Channel({}),
@@ -171,11 +178,16 @@ describe('StoryRender', () => {
         name: 'name',
         tags: [],
         applyLoaders: vi.fn(() => loaderGate),
+        applyBeforeEach: vi.fn(),
         unboundStoryFn: vi.fn(),
         playFunction: vi.fn(),
         prepareContext: vi.fn(),
       };
-      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const store = {
+        getStoryContext: () => ({}),
+        cleanupStory: vi.fn(),
+        addCleanupCallbacks: vi.fn(),
+      };
       const render = new StoryRender(
         new Channel({}),
         store as any,
@@ -209,11 +221,16 @@ describe('StoryRender', () => {
         name: 'name',
         tags: [],
         applyLoaders: vi.fn(),
+        applyBeforeEach: vi.fn(),
         unboundStoryFn: vi.fn(),
         playFunction: vi.fn(),
         prepareContext: vi.fn(),
       };
-      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const store = {
+        getStoryContext: () => ({}),
+        cleanupStory: vi.fn(),
+        addCleanupCallbacks: vi.fn(),
+      };
       const renderToScreen = vi.fn(() => renderGate);
 
       const render = new StoryRender(
@@ -250,11 +267,16 @@ describe('StoryRender', () => {
         name: 'name',
         tags: [],
         applyLoaders: vi.fn(),
+        applyBeforeEach: vi.fn(),
         unboundStoryFn: vi.fn(),
         playFunction: vi.fn(() => playGate),
         prepareContext: vi.fn(),
       };
-      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const store = {
+        getStoryContext: () => ({}),
+        cleanupStory: vi.fn(),
+        addCleanupCallbacks: vi.fn(),
+      };
 
       const render = new StoryRender(
         new Channel({}),
@@ -269,7 +291,8 @@ describe('StoryRender', () => {
 
       // Act - render (blocked by playFn), teardown
       render.renderToElement({} as any);
-      await tick(); // go from 'loading' to 'playing' phase
+      await tick(); // go from 'loading' to 'beforeEach' phase
+      await tick(); // go from 'beforeEach' to 'playing' phase
       expect(story.playFunction).toHaveBeenCalledOnce();
       expect(render.phase).toBe('playing');
       render.teardown();
@@ -290,11 +313,16 @@ describe('StoryRender', () => {
         name: 'name',
         tags: [],
         applyLoaders: vi.fn(() => loaderGate),
+        applyBeforeEach: vi.fn(),
         unboundStoryFn: vi.fn(),
         playFunction: vi.fn(),
         prepareContext: vi.fn(),
       };
-      const store = { getStoryContext: () => ({}), cleanupStory: vi.fn() };
+      const store = {
+        getStoryContext: () => ({}),
+        cleanupStory: vi.fn(),
+        addCleanupCallbacks: vi.fn(),
+      };
       const render = new StoryRender(
         new Channel({}),
         store as any,

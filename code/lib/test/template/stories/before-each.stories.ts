@@ -1,5 +1,5 @@
 import { global as globalThis } from '@storybook/global';
-import { spyOn } from '@storybook/test';
+import { expect, mocked, getByRole, spyOn, userEvent } from '@storybook/test';
 
 const meta = {
   component: globalThis.Components.Button,
@@ -11,7 +11,7 @@ const meta = {
 
 export default meta;
 
-export const ShowSpyOnInActions = {
+export const BeforeEachOrder = {
   beforeEach() {
     console.log('second');
   },
@@ -20,5 +20,10 @@ export const ShowSpyOnInActions = {
     onClick: () => {
       console.log('third');
     },
+  },
+  async play({ canvasElement }) {
+    await userEvent.click(getByRole(canvasElement, 'button'));
+
+    await expect(mocked(console.log).mock.calls).toEqual([['first'], ['second'], ['third']]);
   },
 };
