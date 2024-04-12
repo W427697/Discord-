@@ -36,6 +36,6 @@ export const configureNextExportMocks = (baseConfig: WebpackConfig): void => {
 
   resolve.alias = {
     ...resolve.alias,
-    ...getPackageAliases(),
+    ...getPackageAliases({ useESM: true }),
   };
 };
