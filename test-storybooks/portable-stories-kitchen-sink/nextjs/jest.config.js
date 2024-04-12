@@ -1,4 +1,5 @@
 const nextJest = require('next/jest.js');
+const { getPackageAliases } = require('@storybook/nextjs/export-mocks');
  
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
@@ -11,9 +12,8 @@ const customJestConfig = {
   testEnvironment: 'jsdom',
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['./jest.setup.ts'],
-  // TODO add docs about this: alias next/headers to @storybook/nextjs/headers
   moduleNameMapper: {
-    '^next/headers$': '@storybook/nextjs/headers.mock',
+    ...getPackageAliases()
   },
 };
 

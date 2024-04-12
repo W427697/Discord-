@@ -47,6 +47,11 @@
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs"
     },
+    "./export-mocks": {
+      "types": "./dist/export-mocks/index.d.ts",
+      "require": "./dist/export-mocks/index.js",
+      "import": "./dist/export-mocks/index.mjs"
+    },
     "./headers.mock": {
       "types": "./dist/export-mocks/headers/index.d.ts",
       "require": "./dist/export-mocks/headers/index.js",
@@ -74,6 +79,9 @@
       ],
       "dist/image-context": [
         "dist/image-context.d.ts"
+      ],
+      "export-mocks": [
+        "dist/export-mocks/index.d.ts"
       ],
       "cache.mock": [
         "dist/export-mocks/cache/index.d.ts"
@@ -187,6 +195,7 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
+      "./src/export-mocks/index.ts",
       "./src/export-mocks/cache/index.ts",
       "./src/export-mocks/headers/index.ts",
       "./src/export-mocks/router/index.ts",
