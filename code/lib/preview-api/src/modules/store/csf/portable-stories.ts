@@ -128,7 +128,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       id: story.id,
       storyName,
       load: async () => {
-        // First run any registerd cleanup function
+        // First run any registered cleanup function
         for (const callback of [...cleanupCallbacks].reverse()) await callback();
         cleanupCallbacks.length = 0;
 
