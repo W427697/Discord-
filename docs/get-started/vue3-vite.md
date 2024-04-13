@@ -300,7 +300,7 @@ export default config;
 
 <Callout variant="info">
 
-This is not a limitation of Storybook but instead from the `vue-component-meta` package. For more information, refer to the appropriate [GitHub issue](https://github.com/vuejs/language-tools/issues/3896).
+This is not a limitation of Storybook, but instead how `vue-component-meta` works. For more information, refer to the appropriate [GitHub issue](https://github.com/vuejs/language-tools/issues/3896).
 
 </Callout>
 
