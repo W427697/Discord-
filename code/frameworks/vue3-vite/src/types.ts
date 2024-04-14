@@ -30,7 +30,7 @@ export type FrameworkOptions = {
          * like `tsconfig.app.json`.
          * Otherwise docgen might not be generated correctly (e.g. import aliases are not resolved).
          *
-         * For further information, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#limitations).
+         * For further information, see our [docs](https://storybook.js.org/docs/get-started/vue3-vite#override-the-default-configuration).
          *
          * @default "tsconfig.json"
          */

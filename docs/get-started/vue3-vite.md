@@ -275,7 +275,7 @@ The definition above will generate the following controls:
 
 ![Controls generated from exposed properties and methods](./vue-component-meta-exposed-types-controls.png)
 
-### Limitations
+### Override the default configuration
 
 If you're working with a project that relies on [`tsconfig references`](https://www.typescriptlang.org/docs/handbook/project-references.html) to link to other existing configuration files (e.g. `tsconfig.app.json`, `tsconfig.node.json`), we recommend that you update your [`.storybook/main.js|ts`](../configure/index.md) configuration file and add the following:
 
