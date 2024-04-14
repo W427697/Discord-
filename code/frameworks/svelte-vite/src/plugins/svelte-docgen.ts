@@ -100,9 +100,7 @@ export async function svelteDocgen(svelteOptions: Record<string, any> = {}): Pro
 
       let docOptions;
       if (docPreprocessOptions) {
-        const rawSource = fs.readFileSync(resource).toString();
-
-        const { code: fileContent } = await preprocess(rawSource, docPreprocessOptions, {
+        const { code: fileContent } = await preprocess(src, docPreprocessOptions, {
           filename: resource,
         });
 
