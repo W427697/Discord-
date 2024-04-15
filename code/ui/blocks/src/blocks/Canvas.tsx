@@ -74,7 +74,10 @@ export const Canvas: FC<CanvasProps> = (props) => {
   const sourceProps = useSourceProps({ ...source, ...(of && { of }) }, docsContext, sourceContext);
 
   const layout =
-    props.layout ?? story.parameters.layout ?? story.parameters.docs?.canvas?.layout ?? 'padded';
+    props.layout ??
+    story.parameters.layout ??
+    story.parameters.docs?.canvas?.layout ??
+    (story.parameters?.mode === 'page' ? 'fullscreen' : 'padded');
   const withToolbar = props.withToolbar ?? story.parameters.docs?.canvas?.withToolbar ?? false;
   const additionalActions =
     props.additionalActions ?? story.parameters.docs?.canvas?.additionalActions;
