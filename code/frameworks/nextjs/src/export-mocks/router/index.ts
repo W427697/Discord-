@@ -1,8 +1,8 @@
 import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
 import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
-import type { NextRouter } from 'next/router';
-import singletonRouter from 'next/router';
+import type { NextRouter, SingletonRouter } from 'next/router';
+import singletonRouter, * as originalRouter from 'next/router.actual';
 
 const defaultRouterState = {
   route: '/',
@@ -36,7 +36,7 @@ let routerAPI: {
  * @ignore
  * @internal
  * */
-export const createRouter = (overrides: Partial<NextRouter>) => {
+const createRouter = (overrides: Partial<NextRouter>) => {
   const routerActions: Partial<NextRouter> = {
     push: fn((..._args: any[]) => {
       return Promise.resolve(true);
@@ -88,14 +88,14 @@ export const createRouter = (overrides: Partial<NextRouter>) => {
   };
 
   // overwrite the singleton router from next/router
-  singletonRouter.router = routerAPI as any;
-  singletonRouter.readyCallbacks.forEach((cb) => cb());
-  singletonRouter.readyCallbacks = [];
+  (singletonRouter as unknown as SingletonRouter).router = routerAPI as any;
+  (singletonRouter as unknown as SingletonRouter).readyCallbacks.forEach((cb) => cb());
+  (singletonRouter as unknown as SingletonRouter).readyCallbacks = [];
 
   return routerAPI as unknown as NextRouter;
 };
 
-export const getRouter = () => {
+const getRouter = () => {
   if (!routerAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/router',
@@ -104,3 +104,14 @@ export const getRouter = () => {
 
   return routerAPI;
 };
+
+// re-exports of the actual module
+export * from 'next/router.actual';
+export default singletonRouter;
+
+// mock utilities/overrides (as of Next v14.2.0)
+// passthrough mocks - keep original implementation but allow for spying
+const useRouter = fn(originalRouter.useRouter).mockName('useRouter');
+const withRouter = fn(originalRouter.withRouter).mockName('withRouter');
+
+export { createRouter, getRouter, useRouter, withRouter };
