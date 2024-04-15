@@ -142,6 +142,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'mocks',
+          title: 'Mocking data and modules',
+          type: 'link',
+        },
+        {
           pathSegment: 'build-pages-with-storybook',
           title: 'Build pages and screens',
           type: 'link',
