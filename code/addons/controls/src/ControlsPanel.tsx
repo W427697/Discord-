@@ -1,6 +1,7 @@
 import { dequal as deepEqual } from 'dequal';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { global } from '@storybook/global';
 import {
   useArgs,
   useGlobals,
@@ -108,7 +109,7 @@ export const ControlsPanel: FC = () => {
         sort={sort}
         isLoading={isLoading}
       />
-      {hasControls && hasUpdatedArgs && (
+      {hasControls && hasUpdatedArgs && global.CONFIG_TYPE === 'DEVELOPMENT' && (
         <SaveFromControls {...{ resetArgs, saveStory, createStory }} />
       )}
     </AddonWrapper>
