@@ -5788,6 +5788,7 @@ __metadata:
     "@types/ws": "npm:^8"
     better-opn: "npm:^3.0.2"
     boxen: "npm:^7.1.1"
+    camelcase: "npm:^8.0.0"
     chalk: "npm:^4.1.0"
     cjs-module-lexer: "npm:^1.2.3"
     cli-table3: "npm:^0.6.1"
@@ -11255,6 +11256,13 @@ __metadata:
   version: 7.0.1
   resolution: "camelcase@npm:7.0.1"
   checksum: 10c0/3adfc9a0e96d51b3a2f4efe90a84dad3e206aaa81dfc664f1bd568270e1bf3b010aad31f01db16345b4ffe1910e16ab411c7273a19a859addd1b98ef7cf4cfbd
+  languageName: node
+  linkType: hard
+
+"camelcase@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "camelcase@npm:8.0.0"
+  checksum: 10c0/56c5fe072f0523c9908cdaac21d4a3b3fb0f608fb2e9ba90a60e792b95dd3bb3d1f3523873ab17d86d146e94171305f73ef619e2f538bd759675bc4a14b4bff3
   languageName: node
   linkType: hard
 
