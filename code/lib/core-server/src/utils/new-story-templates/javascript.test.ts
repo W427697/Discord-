@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { getJavaScriptTemplateForNewStoryFile } from './javascript';
 
 describe('javascript', () => {
-  it('should return a TypeScript template with a default import', () => {
-    const result = getJavaScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a default import', async () => {
+    const result = await getJavaScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'default',
       componentIsDefaultExport: true,
@@ -11,10 +11,10 @@ describe('javascript', () => {
     });
 
     expect(result).toMatchInlineSnapshot(`
-      "import Component from './foo';
+      "import Foo from './foo';
 
       const meta = {
-        component: Component,
+        component: Foo,
       };
       
       export default meta;
@@ -23,8 +23,8 @@ describe('javascript', () => {
     `);
   });
 
-  it('should return a TypeScript template with a named import', () => {
-    const result = getJavaScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a named import', async () => {
+    const result = await getJavaScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
       componentIsDefaultExport: false,

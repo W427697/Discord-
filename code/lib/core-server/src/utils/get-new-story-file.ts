@@ -35,14 +35,14 @@ export async function getNewStoryFile(
   const exportedStoryName = 'Default';
 
   const storyFileContent = isTypescript
-    ? getTypeScriptTemplateForNewStoryFile({
+    ? await getTypeScriptTemplateForNewStoryFile({
         basenameWithoutExtension,
         componentExportName,
         componentIsDefaultExport,
         frameworkPackageName,
         exportedStoryName,
       })
-    : getJavaScriptTemplateForNewStoryFile({
+    : await getJavaScriptTemplateForNewStoryFile({
         basenameWithoutExtension,
         componentExportName,
         componentIsDefaultExport,

@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { getTypeScriptTemplateForNewStoryFile } from './typescript';
 
 describe('typescript', () => {
-  it('should return a TypeScript template with a default import', () => {
-    const result = getTypeScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a default import', async () => {
+    const result = await getTypeScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'default',
       componentIsDefaultExport: true,
@@ -14,11 +14,11 @@ describe('typescript', () => {
     expect(result).toMatchInlineSnapshot(`
       "import type { Meta, StoryObj } from '@storybook/nextjs';
 
-      import Component from './foo';
+      import Foo from './foo';
 
       const meta = {
-        component: Component,
-      } satisfies Meta<typeof Component>;
+        component: Foo,
+      } satisfies Meta<typeof Foo>;
 
       export default meta;
 
@@ -28,8 +28,8 @@ describe('typescript', () => {
     `);
   });
 
-  it('should return a TypeScript template with a named import', () => {
-    const result = getTypeScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a named import', async () => {
+    const result = await getTypeScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
       componentIsDefaultExport: false,
