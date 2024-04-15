@@ -69,14 +69,13 @@ export async function formatFileContent(filePath: string, content: string): Prom
           (prettier as any).version
         } is not supported to format files which were edited by Storybook. 
         Please raise an issue on the Storybook GitHub repository. 
-        Fallback to EditorConfig settings if available.
+        Falling back to EditorConfig settings, if available.
         `);
+        return await formatWithEditorConfig(filePath, content);
     }
   } catch (error) {
     return content;
   }
-
-  return content;
 }
 
 async function formatWithEditorConfig(filePath: string, content: string) {

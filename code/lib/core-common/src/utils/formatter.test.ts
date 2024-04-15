@@ -1,8 +1,6 @@
 import { formatFileContent } from './formatter';
 import { describe, it, expect, vi } from 'vitest';
 import path from 'node:path';
-import dedent from 'ts-dedent';
-import { resolveConfigFile } from 'prettier-v2';
 
 const mockPrettier = vi.hoisted(() => ({
   resolveConfig: vi.fn(),
