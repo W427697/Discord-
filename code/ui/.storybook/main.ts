@@ -20,7 +20,7 @@ const allStories = [
     titlePrefix: '@blocks',
   },
   {
-    directory: '../../addons/controls', // TODO other addons?
+    directory: '../../addons/controls/src', // TODO other addons?
     titlePrefix: '@addons',
   },
 ];
