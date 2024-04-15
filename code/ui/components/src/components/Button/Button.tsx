@@ -237,13 +237,7 @@ const StyledButton = styled('button', {
   },
 
   '&:focus': {
-    boxShadow: `${
-      variant === 'solid'
-        ? theme.base === 'light'
-          ? rgba(darken(0.2, theme.color.secondary), 1)
-          : 'rgba(255, 255, 255, 0.75)'
-        : rgba(theme.color.secondary, 1)
-    } 0 0 0 1px inset`,
+    boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
     outline: 'none',
   },
 

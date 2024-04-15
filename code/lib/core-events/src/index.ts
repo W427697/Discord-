@@ -78,6 +78,8 @@ enum events {
   FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
   SAVE_STORY_RESULT = 'saveStoryResult',
+  CREATE_NEW_STORYFILE = 'createNewStoryfile',
+  CREATE_NEW_STORYFILE_RESULT = 'createNewStoryfileResult',
 }
 
 // Enables: `import Events from ...`
@@ -89,6 +91,8 @@ export const {
   CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
+  CREATE_NEW_STORYFILE,
+  CREATE_NEW_STORYFILE_RESULT,
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
