@@ -412,13 +412,7 @@
 
 #### @storybook/nextjs requires specific path aliases to be setup
 
-In order to properly mock the `next/router`, `next/header`, `next/navigation` and `next/cache` APIs, the `@storybook/nextjs` framework includes internal Webpack aliases to those modules. If you use portable stories in your Jest configuration, you will run into the following issue:
-
-```
-Cannot find module 'next/navigation.actual' from 'node_modules/@storybook/nextjs/dist/export-mocks/navigation/index.js'
-```
-
-To fix it, you should set the aliases in your Jest config files `moduleNameMapper` property using the `getPackageAliases` helper from `@storybook/nextjs/export-mocks`:
+In order to properly mock the `next/router`, `next/header`, `next/navigation` and `next/cache` APIs, the `@storybook/nextjs` framework includes internal Webpack aliases to those modules. If you use portable stories in your Jest tests, you should set the aliases in your Jest config files `moduleNameMapper` property using the `getPackageAliases` helper from `@storybook/nextjs/export-mocks`:
 
 ```js
 const nextJest = require("next/jest.js");
@@ -431,6 +425,8 @@ const customJestConfig = {
 };
 module.exports = createJestConfig(customJestConfig);
 ```
+
+This will make sure you end using the correct implementation of the packages and avoid having issues in your tests.
 
 ## From version 7.x to 8.0.0
 
