@@ -1,7 +1,7 @@
 import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
 import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
-import * as originalNavigation from 'next/navigation.actual';
+import * as originalNavigation from 'next/dist/client/components/navigation';
 
 let navigationAPI: {
   push: Mock;
@@ -53,7 +53,7 @@ const getRouter = () => {
 };
 
 // re-exports of the actual module
-export * from 'next/navigation.actual';
+export * from 'next/dist/client/components/navigation';
 
 // mock utilities/overrides (as of Next v14.2.0)
 const redirect = fn().mockName('redirect');

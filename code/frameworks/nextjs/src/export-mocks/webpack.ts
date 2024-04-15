@@ -12,20 +12,15 @@ export const getPackageAliases = ({ useESM = false }: { useESM?: boolean } = {})
   const routerPath = join(packageLocation, `/dist/export-mocks/router/index.${extension}`);
 
   return {
-    // "*.actual" paths are used as reexports of the original module
-    'next/headers.actual': require.resolve('next/headers'),
     'next/headers': headersPath,
     '@storybook/nextjs/headers.mock': headersPath,
 
-    'next/navigation.actual': require.resolve('next/navigation'),
     'next/navigation': navigationPath,
     '@storybook/nextjs/navigation.mock': navigationPath,
 
-    'next/router.actual': require.resolve('next/router'),
     'next/router': routerPath,
     '@storybook/nextjs/router.mock': routerPath,
 
-    'next/cache.actual': require.resolve('next/cache'),
     'next/cache': cachePath,
     '@storybook/nextjs/cache.mock': cachePath,
   };

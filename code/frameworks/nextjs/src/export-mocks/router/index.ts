@@ -2,7 +2,7 @@ import type { Mock } from '@storybook/test';
 import { fn } from '@storybook/test';
 import { NextjsRouterMocksNotAvailable } from '@storybook/core-events/preview-errors';
 import type { NextRouter, SingletonRouter } from 'next/router';
-import singletonRouter, * as originalRouter from 'next/router.actual';
+import singletonRouter, * as originalRouter from 'next/dist/client/router';
 
 const defaultRouterState = {
   route: '/',
@@ -106,7 +106,7 @@ const getRouter = () => {
 };
 
 // re-exports of the actual module
-export * from 'next/router.actual';
+export * from 'next/dist/client/router';
 export default singletonRouter;
 
 // mock utilities/overrides (as of Next v14.2.0)
