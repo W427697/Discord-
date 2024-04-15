@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { getTypeScriptTemplateForNewStoryFile } from './typescript';
 
 describe('typescript', () => {
-  it('should return a TypeScript template with a default import', () => {
-    const result = getTypeScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a default import', async () => {
+    const result = await getTypeScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'default',
       componentIsDefaultExport: true,
@@ -28,8 +28,8 @@ describe('typescript', () => {
     `);
   });
 
-  it('should return a TypeScript template with a named import', () => {
-    const result = getTypeScriptTemplateForNewStoryFile({
+  it('should return a TypeScript template with a named import', async () => {
+    const result = await getTypeScriptTemplateForNewStoryFile({
       basenameWithoutExtension: 'foo',
       componentExportName: 'Example',
       componentIsDefaultExport: false,

@@ -12,9 +12,9 @@ interface TypeScriptTemplateData {
   exportedStoryName: string;
 }
 
-export function getTypeScriptTemplateForNewStoryFile(data: TypeScriptTemplateData) {
+export async function getTypeScriptTemplateForNewStoryFile(data: TypeScriptTemplateData) {
   const importName = data.componentIsDefaultExport
-    ? getComponentVariableName(data.basenameWithoutExtension)
+    ? await getComponentVariableName(data.basenameWithoutExtension)
     : data.componentExportName;
   const importStatement = data.componentIsDefaultExport
     ? `import ${importName} from './${data.basenameWithoutExtension}'`

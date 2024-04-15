@@ -10,9 +10,9 @@ interface JavaScriptTemplateData {
   exportedStoryName: string;
 }
 
-export function getJavaScriptTemplateForNewStoryFile(data: JavaScriptTemplateData) {
+export async function getJavaScriptTemplateForNewStoryFile(data: JavaScriptTemplateData) {
   const importName = data.componentIsDefaultExport
-    ? getComponentVariableName(data.basenameWithoutExtension)
+    ? await getComponentVariableName(data.basenameWithoutExtension)
     : data.componentExportName;
   const importStatement = data.componentIsDefaultExport
     ? `import ${importName} from './${data.basenameWithoutExtension}';`
