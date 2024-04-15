@@ -12,7 +12,7 @@ import {
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 import { styled } from '@storybook/theming';
 import type { ArgTypes } from '@storybook/types';
-import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
+import { SAVE_STORY_REQUEST } from '@storybook/core-events';
 
 import { PARAM_KEY } from './constants';
 import { SaveFromControls } from './SaveFromControls';

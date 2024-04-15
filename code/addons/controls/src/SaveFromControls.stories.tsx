@@ -22,12 +22,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const Creating: Story = {
+export const Creating = {
   play: async ({ canvasElement }) => {
     const createButton = await within(canvasElement).findByRole('button', { name: /Create/i });
     await fireEvent.click(createButton);
   },
-};
+} satisfies Story;
 
 export const Created: Story = {
   play: async (context) => {
