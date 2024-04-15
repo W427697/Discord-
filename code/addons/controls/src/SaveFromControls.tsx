@@ -108,15 +108,16 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-      .replace(/[^a-z-_ ]/gi, '')
-      .replaceAll(/([-_ ]+[a-z])/gi, (match) => match.toUpperCase().replace(/[-_ ]/g, ''));
+      .replace(/^[^a-z]/i, '')
+      .replace(/[^a-z0-9-_ ]/gi, '')
+      .replaceAll(/([-_ ]+[a-z0-9])/gi, (match) => match.toUpperCase().replace(/[-_ ]/g, ''));
     setStoryName(value.charAt(0).toUpperCase() + value.slice(1));
   };
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (saving) return;
     setSaving(true);
-    createStory(storyName.replaceAll(/[^a-z]/gi, ''));
+    createStory(storyName.replace(/^[^a-z]/i, '').replaceAll(/[^a-z0-9]/gi, ''));
     setTimeout(() => {
       setSaving(false);
       setCreating(false);
