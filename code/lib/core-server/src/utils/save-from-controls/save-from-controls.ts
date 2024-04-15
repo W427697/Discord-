@@ -32,7 +32,7 @@ export function initializeSaveFromControls(
 
       // open the story file
       const csf = await readCsf(location, {
-        makeTitle: (userTitle: string) => userTitle,
+        makeTitle: (userTitle: string) => userTitle || 'myTitle',
       });
 
       const parsed = csf.parse();
