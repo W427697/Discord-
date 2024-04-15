@@ -130,7 +130,7 @@ const Input = styled.input(({ theme }) => ({
 
 const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
-  top: 8,
+  top: 6,
   right: 9,
   height: 16,
   zIndex: 1,
