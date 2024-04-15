@@ -21,7 +21,7 @@ const allStories = [
   },
   {
     directory: '../../addons/controls/src', // TODO other addons?
-    titlePrefix: '@addons',
+    titlePrefix: '@addons/controls',
   },
 ];
 
