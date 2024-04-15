@@ -88,7 +88,7 @@ export const favicon = async (
     if (flatlist.length > 1) {
       logger.warn(dedent`
         Looks like multiple favicons were detected. Using the first one.
-        
+
         ${flatlist.join(', ')}
         `);
     }

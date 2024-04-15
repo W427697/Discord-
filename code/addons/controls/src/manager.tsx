@@ -1,10 +1,10 @@
 import React from 'react';
-import { addons, types, useArgTypes } from '@storybook/manager-api';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
+import { SAVE_STORY_RESULT } from '@storybook/core-events';
+import { addons, types, useArgTypes } from '@storybook/manager-api';
+import { color } from '@storybook/theming';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
-import { AlertIcon, CheckIcon } from '@storybook/icons';
-import { SAVE_STORY_RESULT } from '@storybook/core-events';
 
 function Title() {
   const rows = useArgTypes();
@@ -23,6 +23,16 @@ function Title() {
   );
 }
 
+// It might take a little while for a new story to be available, so we retry a few times
+const selectNewStory = (selectStory: (id: string) => void, storyId: string, attempt = 1) => {
+  if (attempt > 5) return;
+  try {
+    selectStory(storyId);
+  } catch (e) {
+    setTimeout(() => selectNewStory(selectStory, storyId, attempt + 1), 500);
+  }
+};
+
 addons.register(ADDON_ID, (api) => {
   addons.add(ADDON_ID, {
     title: Title,
@@ -40,20 +50,59 @@ addons.register(ADDON_ID, (api) => {
     },
   });
 
-  api.on(SAVE_STORY_RESULT, (data) => {
-    if (data.error) {
+  api.on(
+    SAVE_STORY_RESULT,
+    ({ errorMessage, newStoryId, newStoryName, sourceFileName, sourceStoryName }) => {
+      if (errorMessage) {
+        api.addNotification({
+          id: 'save-story-error',
+          content: {
+            headline: newStoryName ? 'Failed to add new story' : 'Failed to update story',
+            subHeadline: newStoryName ? (
+              <>
+                Could not add story to <b>{sourceFileName}</b>. {errorMessage}
+              </>
+            ) : (
+              <>
+                Could not update story in <b>{sourceFileName}</b>. {errorMessage}
+              </>
+            ),
+          },
+          duration: 20_000,
+          icon: {
+            name: 'failed',
+            color: color.negative,
+          },
+        });
+        return;
+      }
+
+      if (newStoryId) {
+        const data = api.getCurrentStoryData();
+        if (data.type === 'story') api.resetStoryArgs(data);
+        selectNewStory(api.selectStory, newStoryId);
+      }
+
       api.addNotification({
-        content: { headline: `Error saving story`, subHeadline: ` ${data.error}` },
-        id: 'save-story-error',
-        icon: <AlertIcon />,
-      });
-    } else {
-      api.addNotification({
-        content: { headline: `Story saved`, subHeadline: ` ${data.id}` },
-        duration: 2000,
-        icon: <CheckIcon />,
         id: 'save-story-success',
+        content: {
+          headline: newStoryName ? 'Story created' : 'Story saved',
+          subHeadline: newStoryName ? (
+            <>
+              Added story <b>{newStoryName}</b> based on <b>{sourceStoryName}</b>.
+            </>
+          ) : (
+            <>
+              Updated story <b>{sourceStoryName}</b>.
+            </>
+          ),
+        },
+        duration: 8_000,
+        icon: {
+          name: 'passed',
+          color: color.positive,
+        },
       });
     }
-  });
+  );
 });

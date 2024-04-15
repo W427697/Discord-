@@ -1,10 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import type { CoreConfig } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESULT } from '@storybook/core-events';
-import type { OptionsWithRequiredCache } from '../whats-new';
+import { storyNameFromExport, toId } from '@storybook/csf';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
-import { join } from 'path';
+import type { CoreConfig } from '@storybook/types';
+
+import type { OptionsWithRequiredCache } from '../whats-new';
+import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
 // import { sendTelemetryError } from '../withTelemetry';
@@ -20,56 +22,85 @@ interface RequestSaveStoryPayload {
   name?: string;
 }
 
+type RequestSaveStoryResultPayload = (
+  | { id: string; success: true }
+  | { id: string; success: false; errorMessage: string }
+) & {
+  newStoryId?: string;
+  newStoryName?: string;
+  sourceFileName?: string;
+  sourceStoryName?: string;
+};
+
 export function initializeSaveFromControls(
   channel: Channel,
   options: OptionsWithRequiredCache,
   coreOptions: CoreConfig
 ) {
-  channel.on(SAVE_STORY_REQUEST, async (data: RequestSaveStoryPayload) => {
-    const id = data.id.split('--')[1];
-    try {
-      const location = join(process.cwd(), data.importPath);
+  channel.on(
+    SAVE_STORY_REQUEST,
+    async ({ id, importPath, args, name }: RequestSaveStoryPayload) => {
+      let newStoryId;
+      let newStoryName;
+      let sourceFileName;
+      let sourceFilePath;
+      let sourceStoryName;
 
-      // open the story file
-      const csf = await readCsf(location, {
-        makeTitle: (userTitle: string) => userTitle || 'myTitle',
-      });
+      try {
+        sourceFileName = basename(importPath);
+        sourceFilePath = join(process.cwd(), importPath);
 
-      const parsed = csf.parse();
+        // open the story file
+        const csf = await readCsf(sourceFilePath, {
+          makeTitle: (userTitle: string) => userTitle || 'myTitle',
+        });
 
-      // find the export_name for the id
-      const [name] =
-        Object.entries(parsed._stories).find(([_, value]) => value.id.endsWith(`--${id}`)) || [];
+        const parsed = csf.parse();
+        const stories = Object.entries(parsed._stories);
 
-      let node;
+        const [componentId, storyId] = id.split('--');
+        newStoryName = name && storyNameFromExport(name);
+        newStoryId = newStoryName && toId(componentId, newStoryName);
 
-      if (!name) {
-        throw new Error(`no story found with id: ${id}`);
+        // find the export_name for the id
+        const [storyName] = stories.find(([key, value]) => value.id.endsWith(`--${storyId}`)) || [];
+        if (!storyName) throw new Error(`Source story not found.`);
+        if (name && csf.getStoryExport(name)) throw new Error(`Story already exists.`);
+
+        sourceStoryName = storyNameFromExport(storyName);
+
+        const node = name
+          ? duplicateStoryWithNewName(parsed, storyName, name)
+          : csf.getStoryExport(storyName);
+
+        // modify the AST node with the new args
+        updateArgsInCsfFile(node, args);
+
+        // save the file
+        await writeCsf(csf, sourceFilePath);
+
+        channel.emit(SAVE_STORY_RESULT, {
+          id,
+          success: true,
+          newStoryId,
+          newStoryName,
+          sourceFileName,
+          sourceStoryName,
+        } satisfies RequestSaveStoryResultPayload);
+      } catch (e: any) {
+        // sendTelemetryError(channel, e);
+        channel.emit(SAVE_STORY_RESULT, {
+          id,
+          success: false,
+          errorMessage: e.message,
+          newStoryId,
+          newStoryName,
+          sourceFileName,
+          sourceStoryName,
+        } satisfies RequestSaveStoryResultPayload);
+
+        console.error(`Error writing to ${sourceFilePath}:`, e.stack || e.message || e.toString());
       }
-
-      // find the AST node for the export_name, if none can be found, create a new story
-      if (data.name) {
-        node = duplicateStoryWithNewName(parsed, name, data.name);
-      } else {
-        node = csf.getStoryExport(name);
-      }
-
-      // modify the AST node with the new args
-      updateArgsInCsfFile(node, data.args);
-
-      // save the file
-      await writeCsf(csf, location);
-
-      channel.emit(SAVE_STORY_RESULT, { id: data.id, success: true });
-    } catch (e: any) {
-      // sendTelemetryError(channel, e);
-      channel.emit(SAVE_STORY_RESULT, {
-        id: data.id,
-        success: false,
-        error: `writing to CSF-file failed, is it a valid CSF-file?`,
-      });
-
-      console.error(e.stack || e.message || e.toString());
     }
-  });
+  );
 }
