@@ -24,6 +24,8 @@ const logActionsWhenMockCalled: LoaderFunction = (context) => {
       // TODO: Make this a configurable API in 8.2
       if (
         !/^next\/.*::/.test(name) ||
+        name.startsWith('next/router::useRouter()') ||
+        name.startsWith('next/navigation::useRouter()') ||
         ((name.startsWith('next/headers::cookies()') ||
           name.startsWith('next/headers::headers()')) &&
           (name.endsWith('set') || name.endsWith('delete')))
