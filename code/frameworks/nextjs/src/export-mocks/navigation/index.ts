@@ -73,7 +73,7 @@ export const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayout
 );
 export const useRouter = fn(originalNavigation.useRouter).mockName('next/navigation::useRouter');
 export const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
-  'useServerInsertedHTML'
+  'next/navigation::useServerInsertedHTML'
 );
 export const notFound = fn(originalNavigation.notFound).mockName('next/navigation::notFound');
 export const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName(
