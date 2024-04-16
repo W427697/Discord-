@@ -69,7 +69,7 @@ export const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutS
   'next/navigation::useSelectedLayoutSegment'
 );
 export const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
-  'useSelectedLayoutSegments'
+  'next/navigation::useSelectedLayoutSegments'
 );
 export const useRouter = fn(originalNavigation.useRouter).mockName('next/navigation::useRouter');
 export const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
