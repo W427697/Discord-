@@ -239,8 +239,7 @@ export const experimental_serverChannel = async (
   const coreOptions = await options.presets.apply('core');
 
   initializeWhatsNew(channel, options, coreOptions);
-  initializeSaveFromControls(channel, options, coreOptions);
-
+  initializeSaveFromControls(channel);
   initFileSearchChannel(channel, options);
   initCreateNewStoryChannel(channel, options);
 
