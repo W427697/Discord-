@@ -604,20 +604,3 @@ export class NoStatsForViteDevError extends StorybookError {
     `;
   }
 }
-
-export class UnknownArgTypesError extends StorybookError {
-  readonly category = Category.DOCS_TOOLS;
-
-  readonly code = 1;
-
-  constructor(public data: { type: object }) {
-    super();
-  }
-
-  template() {
-    return dedent`We detected a type ${JSON.stringify(this.data.type)} in your configuration.
-    Your custom type does not match the TSFuncSigType or TSObjectSigType
-    Please check your Storybook configuration and ensure you have defined a valid type.
-    `;
-  }
-}

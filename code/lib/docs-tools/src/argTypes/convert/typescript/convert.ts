@@ -1,4 +1,4 @@
-import { UnknownArgTypesError } from '@storybook/core-events/server-errors';
+import { UnknownArgTypesError } from '@storybook/core-events/preview-errors';
 import type { SBType } from '@storybook/types';
 import type { TSType, TSSigType } from './types';
 import { parseLiteral } from '../utils';
@@ -17,7 +17,7 @@ const convertSig = (type: TSSigType) => {
         value: values,
       };
     default:
-      throw new UnknownArgTypesError({ type });
+      throw new UnknownArgTypesError({ type, language: 'Typescript' });
   }
 };
 
