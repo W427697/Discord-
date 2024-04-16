@@ -63,6 +63,7 @@ const config: StorybookConfig = {
       disableDocgen: false,
     },
   },
+  staticDirs: ['../manager/static'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

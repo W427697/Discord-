@@ -2,35 +2,11 @@
   @media (prefers-color-scheme: light) {
     :root {
       --sb-accent: #029cfd;
-      --sb-background: #ffffff;
-
-      --sb-accentToolbar: #029cfd;
-      --sb-backgroundToolbar: #ffffff;
-
-      --sb-accentAddonsPanel: #029cfd;
-      --sb-backgroundAddonsPanel: #ffffff;
-
-      --sb-doc: #ffae00;
-      --sb-group: #6f2cac;
-      --sb-component: #029cfd;
-      --sb-story: #37d5d3;
     }
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --sb-accent: #029cfd;
-      --sb-background: #222425;
-
-      --sb-accentToolbar: #029cfd;
-      --sb-backgroundToolbar: #222425;
-
-      --sb-accentAddonsPanel: #029cfd;
-      --sb-backgroundAddonsPanel: #222425;
-
-      --sb-doc: #ffae00;
-      --sb-group: #6f2cac;
-      --sb-component: #029cfd;
-      --sb-story: #37d5d3;
+      --sb-accent: #150a8d;
     }
   }
 }
