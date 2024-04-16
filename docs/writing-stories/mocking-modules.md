@@ -93,6 +93,28 @@ webpackFinal: async (config) => {
 },
 ```
 
+<!-- OR? -->
+<!-- prettier-ignore-start -->
+
+<!-- <CodeSnippets
+  paths={[
+    'common/storybook-main-with-mock-decorator.js.mdx',
+  ]}
+/> -->
+
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+
+<!-- <CodeSnippets
+  paths={[
+    'common/storybook-preview-with-mock-decorator.js.mdx',
+    'common/storybook-preview-with-mock-decorator.ts.mdx',
+  ]}
+/> -->
+
+<!-- prettier-ignore-end -->
+
 ## Using mocked modules in stories
 
 When you use the `fn` utility to mock a module, you create full [mock functions](https://vitest.dev/api/mock.html) which have many useful methods. For example, you can use the [`mockReturnValue`](https://vitest.dev/api/mock.html#mockreturnvalue) method to set a return value for the mocked function or [`mockImplementation`](https://vitest.dev/api/mock.html#mockimplementation) to define a custom implementation.

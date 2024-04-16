@@ -4,7 +4,7 @@ title: Mocking providers
 
 <!-- TODO: React & Solid only? -->
 
-Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider. To mock a provider, you can wrap your component in a [decorator](./decorators.md) that includes the necessary context.
+Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider or Redux uses React context to provide components access to app data. To mock a provider, you can wrap your component in a [decorator](./decorators.md) that includes the necessary context.
 
 <!-- prettier-ignore-start -->
 
@@ -18,6 +18,12 @@ Components can receive data or configuration from context providers. For example
 />
 
 <!-- prettier-ignore-end -->
+
+<If renderer="react">
+
+For another example, reference the [Screens](https://storybook.js.org/tutorials/intro-to-storybook/react/en/screen/) chapter of the Intro to Storybook tutorial, where we mock a Redux provider with mock data.
+
+</If>
 
 ## Configuring the mock provider
 

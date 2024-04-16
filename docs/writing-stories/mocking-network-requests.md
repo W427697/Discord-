@@ -2,7 +2,7 @@
 title: Mocking network requests
 ---
 
-For components that make network requests (e.g. fetching data from a REST or GraphQL API), you can mock those requests using a tool like [Mock Service Worker (MSW)](https://mswjs.io/). MSW allows you to intercept requests made by your components and respond with fake data.
+For components that make network requests (e.g. fetching data from a REST or GraphQL API), you can mock those requests using a tool like [Mock Service Worker (MSW)](https://mswjs.io/). MSW is an API mocking library, which relies on service workers to capture network requests and provides mocked data in response.
 
 The [MSW addon](https://storybook.js.org/addons/msw-storybook-addon/) brings this functionality into Storybook, allowing you to mock API requests in your stories. Below is an overview of how to set up and use the addon.
 
