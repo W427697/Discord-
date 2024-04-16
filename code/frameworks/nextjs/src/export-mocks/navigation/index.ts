@@ -66,7 +66,7 @@ export const usePathname = fn(originalNavigation.usePathname).mockName(
   'next/navigation::usePathname'
 );
 export const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutSegment).mockName(
-  'useSelectedLayoutSegment'
+  'next/navigation::useSelectedLayoutSegment'
 );
 export const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
   'useSelectedLayoutSegments'
