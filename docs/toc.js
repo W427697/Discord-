@@ -142,9 +142,26 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'mocks',
+          pathSegment: '',
           title: 'Mocking data and modules',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'mocking-providers',
+              title: 'Providers',
+              type: 'link',
+            },
+            {
+              pathSegment: 'mocking-network-requests',
+              title: 'Network requests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'mocking-modules',
+              title: 'Modules',
+              type: 'link',
+            },
+          ],
         },
         {
           pathSegment: 'build-pages-with-storybook',
