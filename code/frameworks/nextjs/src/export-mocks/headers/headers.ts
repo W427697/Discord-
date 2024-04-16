@@ -7,23 +7,23 @@ class HeadersAdapterMock extends HeadersAdapter {
     super({});
   }
 
-  append = fn(super.append).mockName('next/headers::headers().append');
+  append = fn(super.append.bind(this)).mockName('next/headers::headers().append');
 
-  delete = fn(super.delete).mockName('next/headers::headers().delete');
+  delete = fn(super.delete.bind(this)).mockName('next/headers::headers().delete');
 
-  get = fn(super.get).mockName('next/headers::headers().get');
+  get = fn(super.get.bind(this)).mockName('next/headers::headers().get');
 
-  has = fn(super.has).mockName('next/headers::headers().has');
+  has = fn(super.has.bind(this)).mockName('next/headers::headers().has');
 
-  set = fn(super.set).mockName('next/headers::headers().set');
+  set = fn(super.set.bind(this)).mockName('next/headers::headers().set');
 
-  forEach = fn(super.forEach).mockName('next/headers::headers().forEach');
+  forEach = fn(super.forEach.bind(this)).mockName('next/headers::headers().forEach');
 
-  entries = fn(super.entries).mockName('next/headers::headers().entries');
+  entries = fn(super.entries.bind(this)).mockName('next/headers::headers().entries');
 
-  keys = fn(super.keys).mockName('next/headers::headers().keys');
+  keys = fn(super.keys.bind(this)).mockName('next/headers::headers().keys');
 
-  values = fn(super.values).mockName('next/headers::headers().values');
+  values = fn(super.values.bind(this)).mockName('next/headers::headers().values');
 }
 
 let headersAdapterMock: HeadersAdapterMock;

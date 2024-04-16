@@ -3167,7 +3167,7 @@ __metadata:
 
 "@storybook/nextjs@file:../../../code/frameworks/nextjs::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.7
-  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=246816&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/nextjs@file:../../../code/frameworks/nextjs#../../../code/frameworks/nextjs::hash=28a407&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.2"
     "@babel/plugin-syntax-bigint": "npm:^7.8.3"
@@ -3227,7 +3227,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 10/71732cc220e381872106dab3824883f4a77dcbb60901c939f58599bf92f156564a34fe646ce1159c307702be03cf532fbffaa1a515e271a6623f340d19000283
+  checksum: 10/fd9a469074e0b7aba065a0b0f81f272e75e708370362ff047a653d9a19c5b753fcfab8b2f30b3f9ae226a12739b7b11054358afe4707e8d7185b9dca11c75a7c
   languageName: node
   linkType: hard
 
@@ -3326,7 +3326,7 @@ __metadata:
 
 "@storybook/react@file:../../../code/renderers/react::locator=portable-stories-nextjs%40workspace%3A.":
   version: 8.1.0-alpha.7
-  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=cd73fa&locator=portable-stories-nextjs%40workspace%3A."
+  resolution: "@storybook/react@file:../../../code/renderers/react#../../../code/renderers/react::hash=faf3f4&locator=portable-stories-nextjs%40workspace%3A."
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -3356,7 +3356,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/834084c0092a8b179f7048c1111308b6a2381cf3ee119372ed2940833b02e13577b5bc334c3f14c3224bd2d8b786939a74fbaf4dea6e8423ff610b34047412b4
+  checksum: 10/f89fb42e87e17377af48b57b337dd4708053ae83d8558a0ae35af479b1faa6d7206b07934e18113707febed5ebcf94510caa89b8c92bc87cf7b5391296bbfef2
   languageName: node
   linkType: hard
 
