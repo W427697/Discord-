@@ -36,27 +36,27 @@ let routerAPI: {
  * @ignore
  * @internal
  * */
-const createRouter = (overrides: Partial<NextRouter>) => {
+export const createRouter = (overrides: Partial<NextRouter>) => {
   const routerActions: Partial<NextRouter> = {
     push: fn((..._args: any[]) => {
       return Promise.resolve(true);
-    }).mockName('useRouter().push'),
+    }).mockName('next/router::useRouter().push'),
     replace: fn((..._args: any[]) => {
       return Promise.resolve(true);
-    }).mockName('useRouter().replace'),
-    reload: fn((..._args: any[]) => {}).mockName('useRouter().reload'),
-    back: fn((..._args: any[]) => {}).mockName('useRouter().back'),
-    forward: fn(() => {}).mockName('useRouter().forward'),
+    }).mockName('next/router::useRouter().replace'),
+    reload: fn((..._args: any[]) => {}).mockName('next/router::useRouter().reload'),
+    back: fn((..._args: any[]) => {}).mockName('next/router::useRouter().back'),
+    forward: fn(() => {}).mockName('next/router::useRouter().forward'),
     prefetch: fn((..._args: any[]) => {
       return Promise.resolve();
-    }).mockName('useRouter().prefetch'),
-    beforePopState: fn((..._args: any[]) => {}).mockName('useRouter().beforePopState'),
+    }).mockName('next/router::useRouter().prefetch'),
+    beforePopState: fn((..._args: any[]) => {}).mockName('next/router::useRouter().beforePopState'),
   };
 
   const routerEvents: NextRouter['events'] = {
-    on: fn((..._args: any[]) => {}).mockName('useRouter().events.on'),
-    off: fn((..._args: any[]) => {}).mockName('useRouter().events.off'),
-    emit: fn((..._args: any[]) => {}).mockName('useRouter().events.emit'),
+    on: fn((..._args: any[]) => {}).mockName('next/router::useRouter().events.on'),
+    off: fn((..._args: any[]) => {}).mockName('next/router::useRouter().events.off'),
+    emit: fn((..._args: any[]) => {}).mockName('next/router::useRouter().events.emit'),
   };
 
   if (overrides) {
@@ -95,7 +95,7 @@ const createRouter = (overrides: Partial<NextRouter>) => {
   return routerAPI as unknown as NextRouter;
 };
 
-const getRouter = () => {
+export const getRouter = () => {
   if (!routerAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/router',
@@ -111,7 +111,5 @@ export default singletonRouter;
 
 // mock utilities/overrides (as of Next v14.2.0)
 // passthrough mocks - keep original implementation but allow for spying
-const useRouter = fn(originalRouter.useRouter).mockName('useRouter');
-const withRouter = fn(originalRouter.withRouter).mockName('withRouter');
-
-export { createRouter, getRouter, useRouter, withRouter };
+export const useRouter = fn(originalRouter.useRouter).mockName('next/router::useRouter');
+export const withRouter = fn(originalRouter.withRouter).mockName('next/router::withRouter');

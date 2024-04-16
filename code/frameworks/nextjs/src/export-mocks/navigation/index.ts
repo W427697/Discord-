@@ -17,14 +17,14 @@ let navigationAPI: {
  * @ignore
  * @internal
  * */
-const createNavigation = (overrides: any) => {
+export const createNavigation = (overrides: any) => {
   const navigationActions = {
-    push: fn().mockName('useRouter().push'),
-    replace: fn().mockName('useRouter().replace'),
-    forward: fn().mockName('useRouter().forward'),
-    back: fn().mockName('useRouter().back'),
-    prefetch: fn().mockName('useRouter().prefetch'),
-    refresh: fn().mockName('useRouter().refresh'),
+    push: fn().mockName('next/navigation::useRouter().push'),
+    replace: fn().mockName('next/navigation::useRouter().replace'),
+    forward: fn().mockName('next/navigation::useRouter().forward'),
+    back: fn().mockName('next/navigation::useRouter().back'),
+    prefetch: fn().mockName('next/navigation::useRouter().prefetch'),
+    refresh: fn().mockName('next/navigation::useRouter().refresh'),
   };
 
   if (overrides) {
@@ -42,7 +42,7 @@ const createNavigation = (overrides: any) => {
   return navigationAPI;
 };
 
-const getRouter = () => {
+export const getRouter = () => {
   if (!navigationAPI) {
     throw new NextjsRouterMocksNotAvailable({
       importType: 'next/navigation',
@@ -56,41 +56,34 @@ const getRouter = () => {
 export * from 'next/dist/client/components/navigation';
 
 // mock utilities/overrides (as of Next v14.2.0)
-const redirect = fn().mockName('redirect');
+export const redirect = fn().mockName('next/navigation::redirect');
 
 // passthrough mocks - keep original implementation but allow for spying
-const useSearchParams = fn(originalNavigation.useSearchParams).mockName('useSearchParams');
-const usePathname = fn(originalNavigation.usePathname).mockName('usePathname');
-const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutSegment).mockName(
+export const useSearchParams = fn(originalNavigation.useSearchParams).mockName(
+  'next/navigation::useSearchParams'
+);
+export const usePathname = fn(originalNavigation.usePathname).mockName(
+  'next/navigation::usePathname'
+);
+export const useSelectedLayoutSegment = fn(originalNavigation.useSelectedLayoutSegment).mockName(
   'useSelectedLayoutSegment'
 );
-const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
+export const useSelectedLayoutSegments = fn(originalNavigation.useSelectedLayoutSegments).mockName(
   'useSelectedLayoutSegments'
 );
-const useRouter = fn(originalNavigation.useRouter).mockName('useRouter');
-const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
+export const useRouter = fn(originalNavigation.useRouter).mockName('next/navigation::useRouter');
+export const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML).mockName(
   'useServerInsertedHTML'
 );
-const notFound = fn(originalNavigation.notFound).mockName('notFound');
-const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName('permanentRedirect');
+export const notFound = fn(originalNavigation.notFound).mockName('next/navigation::notFound');
+export const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName(
+  'permanentRedirect'
+);
 
 // Params, not exported by Next.js, is manually declared to avoid inference issues.
 interface Params {
   [key: string]: string | string[];
 }
-const useParams = fn<[], Params>(originalNavigation.useParams).mockName('useParams');
-
-export {
-  createNavigation,
-  getRouter,
-  redirect,
-  useSearchParams,
-  usePathname,
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments,
-  useParams,
-  useRouter,
-  useServerInsertedHTML,
-  notFound,
-  permanentRedirect,
-};
+export const useParams = fn<[], Params>(originalNavigation.useParams).mockName(
+  'next/navigation::useParams'
+);

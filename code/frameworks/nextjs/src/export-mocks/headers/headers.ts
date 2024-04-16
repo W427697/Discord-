@@ -1,101 +1,29 @@
 import { fn } from '@storybook/test';
-import type { IncomingHttpHeaders } from 'http';
-import type { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapters/headers';
 
-// Mostly copied from https://github.com/vercel/next.js/blob/763b9a660433ec5278a10e59d7ae89d4010ba212/packages/next/src/server/web/spec-extension/adapters/headers.ts#L20
-// @ts-expect-error unfortunately the headers property is private (and not protected) in HeadersAdapter
-// and we can't access it so we need to redefine it, but that clashes with the type, hence the ts-expect-error comment.
-class HeadersAdapterMock extends Headers implements HeadersAdapter {
-  private headers: IncomingHttpHeaders = {};
+import { HeadersAdapter } from 'next/dist/server/web/spec-extension/adapters/headers';
 
-  /**
-   * Merges a header value into a string. This stores multiple values as an
-   * array, so we need to merge them into a string.
-   *
-   * @param value a header value
-   * @returns a merged header value (a string)
-   */
-  private merge(value: string | string[]): string {
-    if (Array.isArray(value)) return value.join(', ');
-
-    return value;
+class HeadersAdapterMock extends HeadersAdapter {
+  constructor() {
+    super({});
   }
 
-  public append = fn((name: string, value: string): void => {
-    const existing = this.headers[name];
-    if (typeof existing === 'string') {
-      this.headers[name] = [existing, value];
-    } else if (Array.isArray(existing)) {
-      existing.push(value);
-    } else {
-      this.headers[name] = value;
-    }
-  }).mockName('headers().append');
+  append = fn(super.append).mockName('next/headers::headers().append');
 
-  public delete = fn((name: string) => {
-    delete this.headers[name];
-  }).mockName('headers().delete');
+  delete = fn(super.delete).mockName('next/headers::headers().delete');
 
-  public get = fn((name: string): string | null => {
-    const value = this.headers[name];
-    if (typeof value !== 'undefined') return this.merge(value);
+  get = fn(super.get).mockName('next/headers::headers().get');
 
-    return null;
-  }).mockName('headers().get');
+  has = fn(super.has).mockName('next/headers::headers().has');
 
-  public has = fn((name: string): boolean => {
-    return typeof this.headers[name] !== 'undefined';
-  }).mockName('headers().has');
+  set = fn(super.set).mockName('next/headers::headers().set');
 
-  public set = fn((name: string, value: string): void => {
-    this.headers[name] = value;
-  }).mockName('headers().set');
+  forEach = fn(super.forEach).mockName('next/headers::headers().forEach');
 
-  public forEach = fn(
-    (callbackfn: (value: string, name: string, parent: Headers) => void, thisArg?: any): void => {
-      for (const [name, value] of this.entries()) {
-        callbackfn.call(thisArg, value, name, this);
-      }
-    }
-  ).mockName('headers().forEach');
+  entries = fn(super.entries).mockName('next/headers::headers().entries');
 
-  public entries = fn(
-    function* (this: HeadersAdapterMock): IterableIterator<[string, string]> {
-      for (const key of Object.keys(this.headers)) {
-        const name = key.toLowerCase();
-        // We assert here that this is a string because we got it from the
-        // Object.keys() call above.
-        const value = this.get(name) as string;
+  keys = fn(super.keys).mockName('next/headers::headers().keys');
 
-        yield [name, value];
-      }
-    }.bind(this)
-  ).mockName('headers().entries');
-
-  public keys = fn(
-    function* (this: HeadersAdapterMock): IterableIterator<string> {
-      for (const key of Object.keys(this.headers)) {
-        const name = key.toLowerCase();
-        yield name;
-      }
-    }.bind(this)
-  ).mockName('headers().keys');
-
-  public values = fn(
-    function* (this: HeadersAdapterMock): IterableIterator<string> {
-      for (const key of Object.keys(this.headers)) {
-        // We assert here that this is a string because we got it from the
-        // Object.keys() call above.
-        const value = this.get(key) as string;
-
-        yield value;
-      }
-    }.bind(this)
-  ).mockName('headers().values');
-
-  public [Symbol.iterator](): IterableIterator<[string, string]> {
-    return this.entries();
-  }
+  values = fn(super.values).mockName('next/headers::headers().values');
 }
 
 let headersAdapterMock: HeadersAdapterMock;
