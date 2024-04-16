@@ -671,6 +671,106 @@ import 'styles/globals.scss';
 // ...
 ```
 
+<Callout variant="warning">
+
+Absolute imports **cannot** be mocked in stories/tests. See the [Mocking modules](#mocking-modules) section for more information.
+
+</Callout>
+
+## Module aliases
+
+[Module aliases](https://nextjs.org/docs/app/building-your-application/configuring/absolute-imports-and-module-aliases#module-aliases) are also supported.
+
+```jsx
+// index.js
+// All good!
+import Button from '@/components/button';
+// Also good!
+import styles from '@/styles/HomePage.module.css';
+
+export default function HomePage() {
+  return (
+    <>
+      <h1 className={styles.title}>Hello World</h1>
+      <Button />
+    </>
+  );
+}
+```
+
+## Subpath imports
+
+As an alternative to [module aliases](#module-aliases), you can use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports) to import modules. This follows Node package standards and has benefits when [mocking modules](#mocking-modules).
+
+To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for the `components` and `styles` internal modules:
+
+```json
+// package.json
+{
+  "imports": {
+    "#components": "./components",
+    "#styles": "./styles",
+    "#*": ["./*", "./*.ts", "./*.tsx"]
+  }
+}
+```
+
+<Callout variant="info">
+
+Because subpath imports take the place of module aliases, you can remove the path aliases from your TypeScript configuration.
+
+</Callout>
+
+Which can then be used like this:
+
+```jsx
+// index.js
+import Button from '#components/button';
+import styles from '#styles/HomePage.module.css';
+
+export default function HomePage() {
+  return (
+    <>
+      <h1 className={styles.title}>Hello World</h1>
+      <Button />
+    </>
+  );
+}
+```
+
+## Mocking modules
+
+Components often depend on modules that are imported into the component file. These can be from external packages or internal to your project. When rendering those components in Storybook or testing them, you may want to [mock those modules](../writing-stories/mocking-modules.md) to control and assert their behavior.
+
+### Built-in mocked modules
+
+This framework provides mocks for many of Next.js' internal modules:
+
+1. [`@storybook/nextjs/cache.mock`](#storybooknextjscachemock)
+2. [`@storybook/nextjs/headers.mock`](#storybooknextjsheadersmock)
+3. [`@storybook/nextjs/navigation.mock`](#storybooknextjsnavigationmock)
+4. [`@storybook/nextjs/router.mock`](#storybooknextjsroutermock)
+
+### Mocking other modules
+
+How you mock other modules in Storybook depends on how you import the module into your component.
+
+The first step, with either approach, is to [create a mock file](../writing-stories/mocking-modules.md#mock-files).
+
+TK: More here?
+
+#### With subpath imports
+
+If you're using [subpath imports](#subpath-imports), you can adjust your configuration to apply [conditions](../writing-stories/mocking-modules.md#conditional-imports) so that the mocked module is used inside Storybook.
+
+TK: Add example of mocking modules with subpath imports
+
+#### With module aliases
+
+If you're using [module aliases](#module-aliases), you can add a Webpack alias to your Storybook configuration to point to the mock file.
+
+TK: Add example of mocking modules with module aliases
+
 ## Runtime config
 
 Next.js allows for [Runtime Configuration](https://nextjs.org/docs/pages/api-reference/next-config-js/runtime-configuration) which lets you import a handy `getConfig` function to get certain configuration defined in your `next.config.js` file at runtime.
@@ -887,7 +987,21 @@ You can refer to the [Install `sharp` to Use Built-In Image Optimization](https:
 
 ### Modules
 
-The `@storybook/nextjs` package exports a number of modules that enables you to [mock](/TODO_LINK_TO_MOCKING) Next.js's internal behavior.
+The `@storybook/nextjs` package exports a number of modules that enables you to [mock](#mocking-modules) Next.js's internal behavior.
+
+#### `@storybook/nextjs/export-mocks`
+
+Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
+
+`getPackageAliases` is a helper to generate the aliases needed to set up [portable stories in a Jest environment](../api/portable-stories-jest.md).
+
+TK: Example snippet
+
+#### `@storybook/nextjs/cache.mock`
+
+Type: `typeof import('next/cache')`
+
+TK
 
 #### `@storybook/nextjs/headers.mock`
 
@@ -916,12 +1030,6 @@ Exports mocks that replaces the actual implementation of `next/navigation` expor
 Type: `typeof import('next/router')`
 
 Exports mocks that replaces the actual implementation of `next/router` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
-
-#### `@storybook/nextjs/export-mocks`
-
-Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
-
-`getPackageAliases` returns the aliases needed to set up Portable Stories in a Jest environment. See the [Portable Stories](TODO) section.
 
 ### Options
 
