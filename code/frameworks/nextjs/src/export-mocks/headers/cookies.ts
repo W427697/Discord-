@@ -8,15 +8,15 @@ import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { headers } from '@storybook/nextjs/headers.mock';
 
 class RequestCookiesMock extends RequestCookies {
-  get = fn(super.get).mockName('next/headers::get');
+  get = fn(super.get.bind(this)).mockName('next/headers::get');
 
-  getAll = fn(super.getAll).mockName('next/headers::cookies().getAll');
+  getAll = fn(super.getAll.bind(this)).mockName('next/headers::cookies().getAll');
 
-  has = fn(super.has).mockName('next/headers::cookies().has');
+  has = fn(super.has.bind(this)).mockName('next/headers::cookies().has');
 
-  set = fn(super.set).mockName('next/headers::cookies().set');
+  set = fn(super.set.bind(this)).mockName('next/headers::cookies().set');
 
-  delete = fn(super.delete).mockName('next/headers::cookies().delete');
+  delete = fn(super.delete.bind(this)).mockName('next/headers::cookies().delete');
 }
 
 let requestCookiesMock: RequestCookiesMock;
