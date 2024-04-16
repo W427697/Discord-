@@ -24,11 +24,16 @@ const logActionsWhenMockCalled: LoaderFunction = (context) => {
       // TODO: Make this a configurable API in 8.2
       if (
         !/^next\/.*::/.test(name) ||
-        name.startsWith('next/router::useRouter()') ||
-        name.startsWith('next/navigation::useRouter()') ||
-        ((name.startsWith('next/headers::cookies()') ||
-          name.startsWith('next/headers::headers()')) &&
-          (name.endsWith('set') || name.endsWith('delete')))
+        [
+          'next/router::useRouter()',
+          'next/navigation::useRouter()',
+          'next/navigation::redirect',
+          'next/cache::',
+          'next/headers::cookies().set',
+          'next/headers::cookies().delete',
+          'next/headers::headers().set',
+          'next/headers::headers().delete',
+        ].some((prefix) => name.startsWith(prefix))
       ) {
         action(name)(args);
       }
