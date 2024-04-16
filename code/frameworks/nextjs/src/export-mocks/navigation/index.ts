@@ -77,7 +77,7 @@ export const useServerInsertedHTML = fn(originalNavigation.useServerInsertedHTML
 );
 export const notFound = fn(originalNavigation.notFound).mockName('next/navigation::notFound');
 export const permanentRedirect = fn(originalNavigation.permanentRedirect).mockName(
-  'permanentRedirect'
+  'next/navigation::permanentRedirect'
 );
 
 // Params, not exported by Next.js, is manually declared to avoid inference issues.
