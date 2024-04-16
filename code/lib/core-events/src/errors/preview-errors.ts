@@ -264,9 +264,9 @@ export class UnknownArgTypesError extends StorybookError {
   }
 
   template() {
-    return dedent`There was a failure when generating ArgTypes in ${
+    return `There was a failure when generating ArgTypes in ${
       this.data.language
-    } for ${JSON.stringify(this.data.type)}.
+    } for ${JSON.stringify(this.data.type)}
     This type is either not supported or it is a bug in Storybook.
     If you think this is a bug, please open an issue in Github.`;
   }
