@@ -23,7 +23,7 @@ import type { Channel } from '@storybook/channels';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { initializeWhatsNew, type OptionsWithRequiredCache } from '../utils/whats-new';
-import { initializeSaveFromControls } from '../utils/save-from-controls/save-from-controls';
+import { initializeSaveStory } from '../utils/save-story/save-story';
 import { initFileSearchChannel } from '../server-channel/file-search-channel';
 import { initCreateNewStoryChannel } from '../server-channel/create-new-story-channel';
 
@@ -239,7 +239,8 @@ export const experimental_serverChannel = async (
   const coreOptions = await options.presets.apply('core');
 
   initializeWhatsNew(channel, options, coreOptions);
-  initializeSaveFromControls(channel);
+  initializeSaveStory(channel, options, coreOptions);
+
   initFileSearchChannel(channel, options);
   initCreateNewStoryChannel(channel, options);
 

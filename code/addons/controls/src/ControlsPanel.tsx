@@ -13,7 +13,7 @@ import { styled } from '@storybook/theming';
 import type { ArgTypes } from '@storybook/types';
 
 import { PARAM_KEY } from './constants';
-import { SaveFromControls } from './SaveFromControls';
+import { SaveStory } from './SaveStory';
 
 // Remove undefined values (top-level only)
 const clean = (obj: { [key: string]: any }) =>
@@ -88,7 +88,7 @@ export const ControlsPanel = ({ saveStory, createStory }: ControlsPanelProps) =>
         isLoading={isLoading}
       />
       {hasControls && hasUpdatedArgs && global.CONFIG_TYPE === 'DEVELOPMENT' && (
-        <SaveFromControls {...{ resetArgs, saveStory, createStory }} />
+        <SaveStory {...{ resetArgs, saveStory, createStory }} />
       )}
     </AddonWrapper>
   );

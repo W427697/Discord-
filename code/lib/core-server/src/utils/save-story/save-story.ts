@@ -7,7 +7,9 @@ import { readCsf, writeCsf } from '@storybook/csf-tools';
 import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
-// import { sendTelemetryError } from '../withTelemetry';
+import type { CoreConfig, Options } from '@storybook/types';
+import { telemetry } from '@storybook/telemetry';
+import { logger } from '@storybook/node-logger';
 
 interface SaveStoryRequest {
   id: string;
@@ -32,7 +34,9 @@ type SaveStoryResponse = (
   };
 };
 
-export function initializeSaveFromControls(channel: Channel) {
+class SaveStoryError extends Error {}
+
+export function initializeSaveStory(channel: Channel, options: Options, coreConfig: CoreConfig) {
   channel.on(SAVE_STORY_REQUEST, async ({ id, payload }: SaveStoryRequest) => {
     const { csfId, importPath, args, name } = payload;
 
@@ -46,7 +50,6 @@ export function initializeSaveFromControls(channel: Channel) {
       sourceFileName = basename(importPath);
       sourceFilePath = join(process.cwd(), importPath);
 
-      // open the story file
       const csf = await readCsf(sourceFilePath, {
         makeTitle: (userTitle: string) => userTitle || 'myTitle',
       });
@@ -58,21 +61,20 @@ export function initializeSaveFromControls(channel: Channel) {
       newStoryName = name && storyNameFromExport(name);
       newStoryId = newStoryName && toId(componentId, newStoryName);
 
-      // find the export_name for the id
       const [storyName] = stories.find(([key, value]) => value.id.endsWith(`--${storyId}`)) || [];
-      if (!storyName) throw new Error(`Source story not found.`);
-      if (name && csf.getStoryExport(name)) throw new Error(`Story already exists.`);
+      if (!storyName) {
+        throw new SaveStoryError(`Source story not found.`);
+      }
+      if (name && csf.getStoryExport(name)) {
+        throw new SaveStoryError(`Story already exists.`);
+      }
 
       sourceStoryName = storyNameFromExport(storyName);
 
-      const node = name
-        ? duplicateStoryWithNewName(parsed, storyName, name)
-        : csf.getStoryExport(storyName);
-
-      // modify the AST node with the new args
-      updateArgsInCsfFile(node, args);
-
-      // save the file
+      await updateArgsInCsfFile(
+        name ? duplicateStoryWithNewName(parsed, storyName, name) : csf.getStoryExport(storyName),
+        args
+      );
       await writeCsf(csf, sourceFilePath);
 
       channel.emit(SAVE_STORY_RESPONSE, {
@@ -86,12 +88,18 @@ export function initializeSaveFromControls(channel: Channel) {
           sourceStoryName,
         },
       } satisfies SaveStoryResponse);
-    } catch (e: any) {
-      // sendTelemetryError(channel, e);
+
+      if (!coreConfig.disableTelemetry) {
+        await telemetry('save-story', {
+          action: name ? 'createStory' : 'updateStory',
+          success: true,
+        });
+      }
+    } catch (error: any) {
       channel.emit(SAVE_STORY_RESPONSE, {
         id,
         success: false,
-        error: e.message,
+        error: error.message,
         payload: {
           csfId,
           newStoryId,
@@ -101,7 +109,17 @@ export function initializeSaveFromControls(channel: Channel) {
         },
       } satisfies SaveStoryResponse);
 
-      console.error(`Error writing to ${sourceFilePath}:`, e.stack || e.message || e.toString());
+      logger.error(
+        `Error writing to ${sourceFilePath}:\n${error.stack || error.message || error.toString()}`
+      );
+
+      if (!coreConfig.disableTelemetry && !(error instanceof SaveStoryError)) {
+        await telemetry('save-story', {
+          action: name ? 'createStory' : 'updateStory',
+          success: false,
+          error,
+        });
+      }
     }
   });
 }

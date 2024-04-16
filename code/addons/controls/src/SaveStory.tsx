@@ -83,13 +83,13 @@ const ModalInput = styled(Form.Input)(({ theme }) => ({
   },
 }));
 
-type SaveFromControlsProps = {
+type SaveStoryProps = {
   saveStory: () => Promise<unknown>;
   createStory: (storyName: string) => Promise<unknown>;
   resetArgs: () => void;
 };
 
-export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFromControlsProps) => {
+export const SaveStory = ({ saveStory, createStory, resetArgs }: SaveStoryProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [saving, setSaving] = React.useState(false);
   const [creating, setCreating] = React.useState(false);

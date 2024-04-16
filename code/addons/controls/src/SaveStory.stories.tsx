@@ -1,12 +1,11 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SaveFromControls } from './SaveFromControls';
+import { SaveStory } from './SaveStory';
 import { expect, fireEvent, fn, userEvent, waitFor, within } from '@storybook/test';
 
 const meta = {
-  component: SaveFromControls,
-  title: 'Components/ArgsTable/SaveFromControls',
+  component: SaveStory,
   args: {
     saveStory: (...args) => Promise.resolve(fn(action('saveStory'))(...args)),
     createStory: (...args) => Promise.resolve(fn(action('createStory'))(...args)),
@@ -15,7 +14,7 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof SaveFromControls>;
+} satisfies Meta<typeof SaveStory>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -47,6 +46,7 @@ export const Created: Story = {
 
 export const CreatingFailed: Story = {
   args: {
+    // eslint-disable-next-line local-rules/no-uncategorized-errors
     createStory: () => Promise.reject<any>(new Error('Story already exists.')),
   },
   play: async (context) => {
