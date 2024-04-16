@@ -1,5 +1,6 @@
 import { keyframes, styled } from '@storybook/theming';
 import * as Dialog from '@radix-ui/react-dialog';
+import type { ComponentProps } from 'react';
 import React from 'react';
 
 import { IconButton } from '../IconButton/IconButton';
@@ -8,6 +9,11 @@ import { CrossIcon } from '@storybook/icons';
 const fadeIn = keyframes({
   from: { opacity: 0 },
   to: { opacity: 1 },
+});
+
+const expand = keyframes({
+  from: { maxHeight: 0 },
+  to: {},
 });
 
 const zoomIn = keyframes({
@@ -106,10 +112,25 @@ export const Actions = styled.div({
   gap: 8,
 });
 
-export const Error = styled(Row)(({ theme }) => ({
-  alignItems: 'center',
-  padding: '8px 16px',
+export const ErrorWrapper = styled.div(({ theme }) => ({
+  maxHeight: 100,
+  overflow: 'auto',
+  animation: `${expand} 300ms, ${fadeIn} 300ms`,
   backgroundColor: theme.background.critical,
-  fontSize: theme.typography.size.s2,
   color: theme.color.lightest,
+  fontSize: theme.typography.size.s2,
+
+  '& > div': {
+    position: 'relative',
+    padding: '8px 16px',
+  },
 }));
+
+export const Error = ({
+  children,
+  ...props
+}: { children: React.ReactNode } & ComponentProps<typeof ErrorWrapper>) => (
+  <ErrorWrapper {...props}>
+    <div>{children}</div>
+  </ErrorWrapper>
+);

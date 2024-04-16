@@ -7,8 +7,8 @@ import { expect, fireEvent, fn, userEvent, waitFor, within } from '@storybook/te
 const meta = {
   component: SaveStory,
   args: {
-    saveStory: (...args) => Promise.resolve(fn(action('saveStory'))(...args)),
-    createStory: (...args) => Promise.resolve(fn(action('createStory'))(...args)),
+    saveStory: fn((...args) => Promise.resolve(action('saveStory')(...args))),
+    createStory: fn((...args) => Promise.resolve(action('createStory')(...args))),
     resetArgs: fn(action('resetArgs')),
   },
   parameters: {
@@ -47,19 +47,7 @@ export const Created: Story = {
 export const CreatingFailed: Story = {
   args: {
     // eslint-disable-next-line local-rules/no-uncategorized-errors
-    createStory: () => Promise.reject<any>(new Error('Story already exists.')),
+    createStory: fn((...args) => Promise.reject<any>(new Error('Story already exists.'))),
   },
-  play: async (context) => {
-    await Creating.play(context);
-
-    await waitFor(async () => {
-      const dialog = await within(document.body).findByRole('dialog');
-      const input = await within(dialog).findByRole('textbox');
-      await userEvent.type(input, 'MyNewStory');
-      const submitButton = await within(dialog).findByRole('button', { name: /Create/i });
-      await userEvent.click(submitButton);
-    });
-
-    await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
-  },
+  play: Created.play,
 };

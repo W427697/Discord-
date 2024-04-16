@@ -152,10 +152,7 @@ export const StyledComponents = {
           </Modal.Dialog.Close>
         </Modal.Actions>
       </Modal.Content>
-      <Modal.Error>
-        <span>Oops. Something went wrong.</span>
-        <CrossIcon />
-      </Modal.Error>
+      <Modal.Error>Oops. Something went wrong.</Modal.Error>
     </Modal>
   ),
 };
