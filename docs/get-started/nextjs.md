@@ -885,6 +885,86 @@ You can refer to the [Install `sharp` to Use Built-In Image Optimization](https:
 
 ## API
 
+### Modules
+
+The `@storybook/nextjs` package exports a number of modules that enables you to [mock](/TODO_LINK_TO_MOCKING) Next.js's internal behavior.
+
+#### `@storybook/nextjs/headers.mock`
+
+Type: [`cookies`](https://nextjs.org/docs/app/api-reference/functions/cookies#cookiessetname-value-options), [`headers`](https://nextjs.org/docs/app/api-reference/functions/headers) and [`draftMode`](https://nextjs.org/docs/app/api-reference/functions/draft-mode) from Next.js
+
+Exports _writable_ mocks that replaces the actual implementation of `next/headers` exports. Use this to set up cookies or headers that are read in your story, and to later assert that they have been called.
+
+Next.js's default [`headers()`](https://nextjs.org/docs/app/api-reference/functions/headers) export is read-only, but this module exposes methods allowing you to write to the headers:
+
+- **`headers().append(name: string, value: string)`**: Appends the value to the header if it exists already.
+- **`headers().delete(name: string)`**: Deletes the header
+- **`headers().set(name: string, value: string)`**: Sets the header to the value provided.
+
+For cookies, you can use the existing API to write them, eg. `cookies().set('firstName', 'Jane')`.
+
+Because `headers()`, `cookies()` and their sub-functions are all mocks you can use any [mock utilities](https://vitest.dev/api/mock.html) in your stories, like `headers().getAll.mock.calls`.
+
+#### `@storybook/nextjs/navigation.mock`
+
+Type: `typeof import('next/navigation')`
+
+Exports mocks that replaces the actual implementation of `next/navigation` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+
+#### `@storybook/nextjs/router.mock`
+
+Type: `typeof import('next/router')`
+
+Exports mocks that replaces the actual implementation of `next/router` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+
+#### `@storybook/nextjs/export-mocks`
+
+Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
+
+`getPackageAliases` returns the aliases needed to set up Portable Stories in a Jest environment. See the [Portable Stories](TODO) section.
+
+### Options
+
+You can pass an options object for additional configuration if needed:
+
+```js
+// .storybook/main.js
+import * as path from 'path';
+
+export default {
+  // ...
+  framework: {
+    name: '@storybook/nextjs',
+    options: {
+      image: {
+        loading: 'eager',
+      },
+      nextConfigPath: path.resolve(__dirname, '../next.config.js'),
+    },
+  },
+};
+```
+
+The available options are:
+
+#### `builder`
+
+Type: `Record<string, any>`
+
+Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.md).
+
+#### `image`
+
+Type: `object`
+
+Props to pass to every instance of `next/image`. See [next/image docs](https://nextjs.org/docs/pages/api-reference/components/image) for more details.
+
+#### `nextConfigPath`
+
+Type: `string`
+
+The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
+
 ### Parameters
 
 This framework contributes the following [parameters](../writing-stories/parameters.md) to Storybook, under the `nextjs` namespace:
@@ -933,48 +1013,6 @@ Type:
 ```
 
 The router object that is passed to the `next/router` context. See [Next.js's router docs](https://nextjs.org/docs/pages/building-your-application/routing) for more details.
-
-### Options
-
-You can pass an options object for additional configuration if needed:
-
-```js
-// .storybook/main.js
-import * as path from 'path';
-
-export default {
-  // ...
-  framework: {
-    name: '@storybook/nextjs',
-    options: {
-      image: {
-        loading: 'eager',
-      },
-      nextConfigPath: path.resolve(__dirname, '../next.config.js'),
-    },
-  },
-};
-```
-
-The available options are:
-
-#### `builder`
-
-Type: `Record<string, any>`
-
-Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.md).
-
-#### `image`
-
-Type: `object`
-
-Props to pass to every instance of `next/image`. See [next/image docs](https://nextjs.org/docs/pages/api-reference/components/image) for more details.
-
-#### `nextConfigPath`
-
-Type: `string`
-
-The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
 
 <!-- End supported renderers -->
 
