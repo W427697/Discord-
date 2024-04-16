@@ -1,6 +1,5 @@
 import { dequal as deepEqual } from 'dequal';
-import type { FC } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { global } from '@storybook/global';
 import {
   useArgs,
@@ -8,12 +7,10 @@ import {
   useArgTypes,
   useParameter,
   useStorybookState,
-  useStorybookApi,
 } from '@storybook/manager-api';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 import { styled } from '@storybook/theming';
 import type { ArgTypes } from '@storybook/types';
-import { SAVE_STORY_REQUEST } from '@storybook/core-events';
 
 import { PARAM_KEY } from './constants';
 import { SaveFromControls } from './SaveFromControls';
@@ -39,8 +36,12 @@ interface ControlsParameters {
   presetColors?: PresetColor[];
 }
 
-export const ControlsPanel: FC = () => {
-  const api = useStorybookApi();
+interface ControlsPanelProps {
+  saveStory: () => Promise<unknown>;
+  createStory: (storyName: string) => Promise<unknown>;
+}
+
+export const ControlsPanel = ({ saveStory, createStory }: ControlsPanelProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [args, updateArgs, resetArgs, initialArgs] = useArgs();
   const [globals] = useGlobals();
@@ -70,29 +71,6 @@ export const ControlsPanel: FC = () => {
   const hasUpdatedArgs = useMemo(
     () => !!args && !!initialArgs && !deepEqual(clean(args), clean(initialArgs)),
     [args, initialArgs]
-  );
-
-  const saveStory = useCallback(() => {
-    const data = api.getCurrentStoryData();
-
-    api.emit(SAVE_STORY_REQUEST, {
-      args: currentArgsRef.current,
-      id: data.id,
-      importPath: data.importPath,
-    });
-  }, [api]);
-  const createStory = useCallback(
-    (name: string) => {
-      const data = api.getCurrentStoryData();
-
-      api.emit(SAVE_STORY_REQUEST, {
-        args: currentArgsRef.current,
-        id: data.id,
-        importPath: data.importPath,
-        name,
-      });
-    },
-    [api]
   );
 
   return (

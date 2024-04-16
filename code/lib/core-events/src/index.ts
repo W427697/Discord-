@@ -77,7 +77,7 @@ enum events {
   FILE_COMPONENT_SEARCH = 'fileComponentSearch',
   FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
-  SAVE_STORY_RESULT = 'saveStoryResult',
+  SAVE_STORY_RESPONSE = 'saveStoryResponse',
   CREATE_NEW_STORYFILE = 'createNewStoryfile',
   CREATE_NEW_STORYFILE_RESULT = 'createNewStoryfileResult',
 }
@@ -139,7 +139,7 @@ export const {
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
   TELEMETRY_ERROR,
   SAVE_STORY_REQUEST,
-  SAVE_STORY_RESULT,
+  SAVE_STORY_RESPONSE,
 } = events;
 
 export interface WhatsNewCache {

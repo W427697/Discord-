@@ -8,8 +8,8 @@ const meta = {
   component: SaveFromControls,
   title: 'Components/ArgsTable/SaveFromControls',
   args: {
-    saveStory: fn(action('saveStory')),
-    createStory: fn(action('createStory')),
+    saveStory: (...args) => Promise.resolve(fn(action('saveStory'))(...args)),
+    createStory: (...args) => Promise.resolve(fn(action('createStory'))(...args)),
     resetArgs: fn(action('resetArgs')),
   },
   parameters: {
@@ -30,6 +30,25 @@ export const Creating = {
 } satisfies Story;
 
 export const Created: Story = {
+  play: async (context) => {
+    await Creating.play(context);
+
+    await waitFor(async () => {
+      const dialog = await within(document.body).findByRole('dialog');
+      const input = await within(dialog).findByRole('textbox');
+      await userEvent.type(input, 'MyNewStory');
+      const submitButton = await within(dialog).findByRole('button', { name: /Create/i });
+      await userEvent.click(submitButton);
+    });
+
+    await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
+  },
+};
+
+export const CreatingFailed: Story = {
+  args: {
+    createStory: () => Promise.reject(new Error('Story already exists.')),
+  },
   play: async (context) => {
     await Creating.play(context);
 
