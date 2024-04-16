@@ -47,7 +47,7 @@ export const Created: Story = {
 
 export const CreatingFailed: Story = {
   args: {
-    createStory: () => Promise.reject(new Error('Story already exists.')),
+    createStory: () => Promise.reject<any>(new Error('Story already exists.')),
   },
   play: async (context) => {
     await Creating.play(context);
