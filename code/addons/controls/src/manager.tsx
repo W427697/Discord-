@@ -112,11 +112,9 @@ addons.register(ADDON_ID, (api) => {
 
     const { newStoryId, newStoryName, sourceStoryName } = payload;
 
-    if (newStoryId) {
-      const data = api.getCurrentStoryData();
-      if (data.type === 'story') api.resetStoryArgs(data);
-      selectNewStory(api.selectStory, newStoryId);
-    }
+    const data = api.getCurrentStoryData();
+    if (data.type === 'story') api.resetStoryArgs(data);
+    if (newStoryId) selectNewStory(api.selectStory, newStoryId);
 
     api.addNotification({
       id: 'save-story-success',
