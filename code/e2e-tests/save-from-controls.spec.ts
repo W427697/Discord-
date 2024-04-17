@@ -63,7 +63,8 @@ test.describe('save-from-controls', () => {
     (await sbPage.page.waitForSelector('[type="submit"]')).click();
 
     // Assert the file is saved
-    const notification = await sbPage.page.waitForSelector('[title="Story saved"]');
+    const notification = await sbPage.page.waitForSelector('[title="Story created"]');
     await notification.isVisible();
+    await notification.click();
   });
 });
