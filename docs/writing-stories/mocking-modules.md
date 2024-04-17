@@ -75,7 +75,22 @@ The Storybook environment will match the conditions `storybook` and `test`, so y
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-TK: Vite version, too
+```js
+// .storybook/main.ts
+
+viteFinal: async (config) => {
+  return {
+    ...config,
+    resolve: {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
+        'lodash': require.resolve('./lodash.mock'),
+        '@/api/todo': path.resolve(__dirname, './api/todo.mock.ts')
+      }
+    }
+  }
+},
 
 ```js
 // .storybook/main.ts
