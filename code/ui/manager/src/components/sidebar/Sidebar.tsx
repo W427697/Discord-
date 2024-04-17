@@ -24,26 +24,30 @@ import { tint } from 'polished';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav<{ isDefaultTheme: boolean }>(({ isDefaultTheme }) => ({
-  position: 'absolute',
-  zIndex: 1,
-  left: 0,
-  top: 0,
-  bottom: 0,
-  right: 0,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  background: isDefaultTheme
-    ? '#F6F9FC'
-    : `var(--sb-backgroundSidebar, var(--sb-background, ${tint(
-        0.94,
-        cssVar('--sb-accentSidebar')
-          ? (cssVar('--sb-accentSidebar') as string)
-          : (cssVar('--sb-accent') as string)
-      )}))`,
-}));
+const Container = styled.nav(() => {
+  const shouldTintBackground =
+    !cssVar('--sb-backgroundSidebar') &&
+    !cssVar('--sb-background') &&
+    cssVar('--sb-accent') !== '#029cfd';
+
+  const background = shouldTintBackground
+    ? tint(0.94, cssVar('--sb-accentSidebar') ?? cssVar('--sb-accent'))
+    : 'var(--sb-backgroundSidebar, var(--sb-background, var(--sb-default-backgroundSidebar)))';
+
+  return {
+    position: 'absolute',
+    zIndex: 1,
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    background,
+  };
+});
 
 const Top = styled(Spaced)({
   paddingLeft: 12,
@@ -139,10 +143,9 @@ export const Sidebar = React.memo(function Sidebar({
   const dataset = useCombination(index, indexError, previewInitialized, status, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
-  const isDefaultTheme = cssVar('--sb-accent') === '#029cfd' && cssVar('--sb-background') === null;
 
   return (
-    <Container className="container sidebar-container" isDefaultTheme={isDefaultTheme}>
+    <Container className="container sidebar-container">
       <ScrollArea vertical offset={3} scrollbarSize={6}>
         <Top row={1.6}>
           <Heading
