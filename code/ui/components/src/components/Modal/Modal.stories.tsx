@@ -4,7 +4,6 @@ import { userEvent, within, expect } from '@storybook/test';
 
 import { Modal } from './Modal';
 import { Button } from '../Button/Button';
-import { CrossIcon } from '@storybook/icons';
 
 type Story = StoryObj<typeof meta>;
 
