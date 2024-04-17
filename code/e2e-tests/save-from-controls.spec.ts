@@ -28,30 +28,18 @@ test.describe('save-from-controls', () => {
     await sbPage.panelContent().locator('button').getByText('Update story').click();
 
     // Assert the file is saved
-    const notification = await sbPage.page.waitForSelector('[title="Story saved"]');
-    await notification.isVisible();
+    const notification1 = await sbPage.page.waitForSelector('[title="Story saved"]');
+    await notification1.isVisible();
 
     // dismiss
-    await notification.click();
-    await notification.isHidden();
-
-    // cleanup
-    await label.fill(value);
-    await sbPage.panelContent().locator('button').getByText('Update story').click();
-    await sbPage.page.waitForSelector('[title="Story saved"]');
-  });
-
-  test('Should be able to clone a story', async ({ page }) => {
-    await page.goto(storybookUrl);
-    const sbPage = new SbPage(page);
-    await sbPage.waitUntilLoaded();
+    await notification1.click();
+    await notification1.isHidden();
 
     await sbPage.navigateToStory('example/button', 'primary');
     await sbPage.viewAddonPanel('Controls');
 
     // Update an arg
-    const label = sbPage.panelContent().locator('textarea[name=label]');
-    await label.fill((await label.inputValue()) + ' Copied');
+    await label.fill(value + ' Copied');
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
@@ -63,8 +51,8 @@ test.describe('save-from-controls', () => {
     (await sbPage.page.waitForSelector('[type="submit"]')).click();
 
     // Assert the file is saved
-    const notification = await sbPage.page.waitForSelector('[title="Story created"]');
-    await notification.isVisible();
-    await notification.click();
+    const notification2 = await sbPage.page.waitForSelector('[title="Story created"]');
+    await notification2.isVisible();
+    await notification2.click();
   });
 });
