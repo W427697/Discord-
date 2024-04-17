@@ -12,9 +12,8 @@ For either approach, relative imports of the mocked module are not supported.
 
 To mock a module, create a file with the same name and in the same directory as the module you want to mock. For example, to mock a module named `session`, create a file next to it named `session.mock.js|ts`, with a few characteristics:
 
-- It should re-export all exports from the original module.
+- It should re-export all exports from the original module - using relative imports to import the original, as using a subpath or alias import would result in it importing itself.
 - It should use the `fn` utility to mock any necessary functionality from the original module.
-- It cannot use subpath imports or builder aliases for its dependencies.
 - It should not introduce side effects that could affect other tests or components. Mock files should be isolated and only affect the module they are mocking.
 
 Here's an example of a mock file for a module named `session`:
@@ -75,7 +74,7 @@ The Storybook environment will match the conditions `storybook` and `test`, so y
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-```js
+````js
 // .storybook/main.ts
 
 viteFinal: async (config) => {
@@ -106,7 +105,7 @@ webpackFinal: async (config) => {
 
   return config
 },
-```
+````
 
 <!-- OR? -->
 <!-- prettier-ignore-start -->
