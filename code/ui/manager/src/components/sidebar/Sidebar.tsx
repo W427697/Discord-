@@ -19,11 +19,12 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import type { CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
-import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
+import { cssVar } from '../../utils/cssVar';
+import { tint } from 'polished';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav(({ theme }) => ({
+const Container = styled.nav<{ isDefaultTheme: boolean }>(({ isDefaultTheme }) => ({
   position: 'absolute',
   zIndex: 1,
   left: 0,
@@ -34,11 +35,14 @@ const Container = styled.nav(({ theme }) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  background: theme.background.content,
-
-  [MEDIA_DESKTOP_BREAKPOINT]: {
-    background: theme.background.app,
-  },
+  background: isDefaultTheme
+    ? '#F6F9FC'
+    : `var(--sb-backgroundSidebar, var(--sb-background, ${tint(
+        0.94,
+        cssVar('--sb-accentSidebar')
+          ? (cssVar('--sb-accentSidebar') as string)
+          : (cssVar('--sb-accent') as string)
+      )}))`,
 }));
 
 const Top = styled(Spaced)({
@@ -135,9 +139,10 @@ export const Sidebar = React.memo(function Sidebar({
   const dataset = useCombination(index, indexError, previewInitialized, status, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
+  const isDefaultTheme = cssVar('--sb-accent') === '#029cfd' && cssVar('--sb-background') === null;
 
   return (
-    <Container className="container sidebar-container">
+    <Container className="container sidebar-container" isDefaultTheme={isDefaultTheme}>
       <ScrollArea vertical offset={3} scrollbarSize={6}>
         <Top row={1.6}>
           <Heading

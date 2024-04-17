@@ -117,11 +117,11 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
 
   '&[data-selected="true"]': {
     color: theme.color.lightest,
-    background: theme.color.secondary,
+    background: 'var(--sb-accent)',
     fontWeight: theme.typography.weight.bold,
 
     '&:hover, &:focus': {
-      background: theme.color.secondary,
+      background: 'var(--sb-accent)',
     },
     svg: { color: theme.color.lightest },
   },
