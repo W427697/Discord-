@@ -90,6 +90,38 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
   />
 </video>
 
+### Run code before each test
+
+It can be helpful to run code before each test to set up the initial state of the component or reset the state of modules. You can do this by adding an `async beforeEach` function to the meta in your stories file. This function will run before each test in the story file.
+
+<!-- TODO: Snippetize -->
+
+```js
+// Page.stories.tsx
+import { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+
+import { getUserFromSession } from '#api/session.mock';
+import { Page } from './Page';
+
+const meta: Meta<typeof Page> = {
+  component: Page,
+  async beforeEach() {
+    // 👇 Do this for each story
+    // TK
+    // 👇 Clear the mock between stories
+    getUserFromSession.mockClear();
+  },
+};
+export default meta;
+
+type Story = StoryObj<typeof Page>;
+
+export const Default: Story = {
+  // TK
+};
+```
+
 ### API for user-events
 
 Under the hood, Storybook’s `@storybook/test` package provides Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) APIs. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
@@ -151,6 +183,50 @@ For complex flows, it can be worthwhile to group sets of related interactions to
 This will show your interactions nested in a collapsible group:
 
 ![Interaction testing with labeled steps](./storybook-addon-interactions-steps.png)
+
+### Mocked modules
+
+If your component depends on modules that are imported into the component file, you can mock those modules to control and assert on their behavior. This is detailed in the [mocking modules](./mocking-modules.md) guide.
+
+You can then import the mocked module (which has all of the helpful methods of a [Vitest mocked function](https://vitest.dev/api/mock.html)) into your story and use it to assert on the behavior of your component:
+
+<!-- TODO: Snippetize -->
+
+```ts
+// NoteUI.stories.tsx
+import { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
+
+import { saveNote } from '#app/actions.mock';
+import { createNotes } from '#mocks/notes';
+import NoteUI from './note-ui';
+
+const meta = {
+  title: 'Mocked/NoteUI',
+  component: NoteUI,
+} satisfies Meta<typeof NoteUI>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+const notes = createNotes();
+
+export const SaveFlow: Story = {
+  name: 'Save Flow ▶',
+  args: {
+    isEditing: true,
+    note: notes[0],
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    const saveButton = canvas.getByRole('menuitem', { name: /done/i });
+    await userEvent.click(saveButton);
+    // 👇 This is the mock function, so you can assert its behavior
+    await expect(saveNote).toHaveBeenCalled();
+  },
+};
+```
 
 ### Interactive debugger
 

@@ -117,7 +117,7 @@ webpackFinal: async (config) => {
 
 ## Using mocked modules in stories
 
-When you use the `fn` utility to mock a module, you create full [mock functions](https://vitest.dev/api/mock.html) which have many useful methods. For example, you can use the [`mockReturnValue`](https://vitest.dev/api/mock.html#mockreturnvalue) method to set a return value for the mocked function or [`mockImplementation`](https://vitest.dev/api/mock.html#mockimplementation) to define a custom implementation.
+When you use the `fn` utility to mock a module, you create full [Vitest mock functions](https://vitest.dev/api/mock.html) which have many useful methods. For example, you can use the [`mockReturnValue`](https://vitest.dev/api/mock.html#mockreturnvalue) method to set a return value for the mocked function or [`mockImplementation`](https://vitest.dev/api/mock.html#mockimplementation) to define a custom implementation.
 
 Here, we define `beforeEach` on a story (which will run before the story is rendered) to set a mocked return value for the `getUserFromSession` function used by the Page component:
 
@@ -157,6 +157,8 @@ If you are [writing your stories in TypeScript](./typescript.md), you will need 
 The `fn` utility also spies on the original module's functions, which you can use to assert their behavior in your tests. For example, you can use [interaction tests](../writing-tests/interaction-testing.md) to verify that a function was called with specific arguments.
 
 For example, this story checks that the `saveNote` function was called when the user clicks the save button:
+
+<!-- TODO: Snippetize -->
 
 ```ts
 // NoteUI.stories.tsx
