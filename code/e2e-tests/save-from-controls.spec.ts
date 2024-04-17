@@ -33,7 +33,7 @@ test.describe('save-from-controls', () => {
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // update the story
-    await sbPage.panelContent().locator('[aria-label="Save changes to story"]').click();
+    await sbPage.panelContent().locator('button').getByText('Update story').click();
 
     // Assert the file is saved
     const notification1 = await sbPage.page.waitForSelector('[title="Story saved"]');
@@ -50,10 +50,7 @@ test.describe('save-from-controls', () => {
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // clone the story
-    await sbPage
-      .panelContent()
-      .locator('[aria-label="Create new story with these settings"]')
-      .click();
+    await sbPage.panelContent().locator('button').getByText('Create new story').click();
 
     const input = await sbPage.page.waitForSelector('[placeholder="Story export name"]');
     await input.fill('ClonedStory' + id);
