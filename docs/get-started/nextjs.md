@@ -702,14 +702,12 @@ export default function HomePage() {
 
 As an alternative to [module aliases](#module-aliases), you can use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports) to import modules. This follows Node package standards and has benefits when [mocking modules](#mocking-modules).
 
-To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for the `components` and `styles` internal modules:
+To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for all modules in the project:
 
 ```json
 // package.json
 {
   "imports": {
-    "#components": "./components",
-    "#styles": "./styles",
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }
