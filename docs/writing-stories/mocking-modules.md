@@ -233,16 +233,24 @@ export const SaveFlow: Story = {
 };
 ```
 
-### Shared setup and clearing mocks
+### Setting up and cleaning up
 
-You can use `beforeEach` at the component level to perform shared setup or clear the mocks between stories. This ensures that each test starts with a clean slate and is not affected by the mocks from previous stories.
+You can use `beforeEach` at the project, component or story level to perform any setup that you need, eg. setting up mock behavior. You can also return a cleanup-function from `beforeEach` which will be called after your story unmounts. This is useful for unsubscribing observers etc.
+
+<Callout variant="info">
+
+It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test`](../api/parameters.md#test) API for more information.
+
+</Callout>
+
+Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and resetting it when the story unmounts.
 
 <!-- TODO: Snippetize -->
 
 ```js
 // Page.stories.tsx
 import { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import MockDate from 'mockdate';
 
 import { getUserFromSession } from '#api/session.mock';
 import { Page } from './Page';
@@ -250,10 +258,10 @@ import { Page } from './Page';
 const meta: Meta<typeof Page> = {
   component: Page,
   async beforeEach() {
-    // 👇 Do this for each story
-    // TK
-    // 👇 Clear the mock between stories
-    getUserFromSession.mockClear();
+    MockDate.set('2024-02-14');
+    return () => {
+      MockDate.reset();
+    };
   },
 };
 export default meta;
