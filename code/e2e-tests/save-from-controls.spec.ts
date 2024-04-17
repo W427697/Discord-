@@ -8,7 +8,14 @@ const type = process.env.STORYBOOK_TYPE || 'dev';
 test.describe('save-from-controls', () => {
   test.skip(type === 'build', `Skipping save-from-controls tests for production Storybooks`);
 
-  test('Should be able to update a story', async ({ page }) => {
+  test('Should be able to update a story', async ({ page, browserName }) => {
+    // this is needed because the e2e test will generate a new file in the system
+    // which we dont know of its location (it runs in different sandboxes)
+    // so we just create a random id to make it easier to run tests
+    const id = Math.random().toString(36).substring(7);
+
+    test.skip(browserName !== 'chromium', `Skipping save-from-controls tests for ${browserName}`);
+
     await page.goto(storybookUrl);
     const sbPage = new SbPage(page);
     await sbPage.waitUntilLoaded();
@@ -19,13 +26,13 @@ test.describe('save-from-controls', () => {
     // Update an arg
     const label = sbPage.panelContent().locator('textarea[name=label]');
     const value = await label.inputValue();
-    await label.fill(value + ' Updated');
+    await label.fill(value + ' Updated ' + id);
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // update the story
-    await sbPage.panelContent().locator('button').getByText('Update story').click();
+    await sbPage.panelContent().locator('[aria-label="Save changes to story"]').click();
 
     // Assert the file is saved
     const notification1 = await sbPage.page.waitForSelector('[title="Story saved"]');
@@ -42,10 +49,13 @@ test.describe('save-from-controls', () => {
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // clone the story
-    await sbPage.panelContent().locator('button').getByText('Create new story').click();
+    await sbPage
+      .panelContent()
+      .locator('[aria-label="Create new story with these settings"]')
+      .click();
 
     const input = await sbPage.page.waitForSelector('[placeholder="Story export name"]');
-    await input.fill('ClonedStory');
+    await input.fill('ClonedStory' + id);
     const submit = await sbPage.page.waitForSelector('[type="submit"]');
     await submit.click();
 
