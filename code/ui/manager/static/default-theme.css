@@ -2,11 +2,15 @@
   @media (prefers-color-scheme: light) {
     :root {
       --sb-accent: #029cfd;
+      --sb-default-background: #fff;
+      --sb-default-backgroundSidebar: #f6f9fc;
     }
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --sb-accent: #150a8d;
+      --sb-accent: #029cfd;
+      --sb-default-background: #222425;
+      --sb-default-backgroundSidebar: #222425;
     }
   }
 }
