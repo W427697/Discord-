@@ -35,9 +35,6 @@ test.describe('save-from-controls', () => {
     await notification1.click();
     await notification1.isHidden();
 
-    await sbPage.navigateToStory('example/button', 'primary');
-    await sbPage.viewAddonPanel('Controls');
-
     // Update an arg
     await label.fill(value + ' Copied');
 
