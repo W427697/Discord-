@@ -47,7 +47,8 @@ test.describe('save-from-controls', () => {
     // clone the story
     await sbPage.panelContent().locator('button').getByText('Create new story').click();
 
-    (await sbPage.page.waitForSelector('[placeholder="Story export name"]')).fill('ClonedStory');
+    const input = await sbPage.page.waitForSelector('[placeholder="Story export name"]');
+    await input.fill('ClonedStory');
     const submit = await sbPage.page.waitForSelector('[type="submit"]');
     await submit.click();
 
