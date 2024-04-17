@@ -1,4 +1,5 @@
 import React from 'react';
+import { dequal as deepEqual } from 'dequal';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE } from '@storybook/core-events';
 import type { API } from '@storybook/manager-api';
@@ -67,7 +68,7 @@ addons.register(ADDON_ID, (api) => {
     return requestResponse(api, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
       // Only send updated args
       args: Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
-        if (value !== data.initialArgs?.[key]) acc[key] = value;
+        if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
         return acc;
       }, {}),
       csfId: data.id,
