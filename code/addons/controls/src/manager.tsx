@@ -24,16 +24,6 @@ function Title() {
   );
 }
 
-// It might take a little while for a new story to be available, so we retry a few times
-const selectNewStory = (selectStory: (id: string) => void, storyId: string, attempt = 1) => {
-  if (attempt > 10) return;
-  try {
-    selectStory(storyId);
-  } catch (e) {
-    setTimeout(() => selectNewStory(selectStory, storyId, attempt + 1), 500);
-  }
-};
-
 interface ResponseData {
   id: string;
   success: boolean;
@@ -114,7 +104,7 @@ addons.register(ADDON_ID, (api) => {
 
     const data = api.getCurrentStoryData();
     if (data.type === 'story') api.resetStoryArgs(data);
-    if (newStoryId) selectNewStory(api.selectStory, newStoryId);
+    if (newStoryId) api.selectStory(newStoryId);
 
     api.addNotification({
       id: 'save-story-success',
