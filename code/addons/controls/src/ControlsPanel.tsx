@@ -49,9 +49,6 @@ export const ControlsPanel = ({ saveStory, createStory }: ControlsPanelProps) =>
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path, previewInitialized } = useStorybookState();
 
-  const currentArgsRef = useRef(args);
-  currentArgsRef.current = args;
-
   // If the story is prepared, then show the args table
   // and reset the loading states
   useEffect(() => {
