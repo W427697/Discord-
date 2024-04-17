@@ -6,11 +6,12 @@ const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 const type = process.env.STORYBOOK_TYPE || 'dev';
 
 test.describe('save-from-controls', () => {
+  test.describe.configure({ mode: 'serial' });
   test.skip(type === 'build', `Skipping save-from-controls tests for production Storybooks`);
 
   test('Should be able to update a story', async ({ page, browserName }) => {
     // this is needed because the e2e test will generate a new file in the system
-    // which we dont know of its location (it runs in different sandboxes)
+    // which we don't know of its location (it runs in different sandboxes)
     // so we just create a random id to make it easier to run tests
     const id = Math.random().toString(36).substring(7);
 
