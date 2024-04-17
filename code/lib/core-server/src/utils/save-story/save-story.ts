@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Channel } from '@storybook/channels';
-import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE } from '@storybook/core-events';
+import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
 
@@ -75,7 +75,16 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
         name ? duplicateStoryWithNewName(parsed, storyName, name) : csf.getStoryExport(storyName),
         args
       );
-      await writeCsf(csf, sourceFilePath);
+
+      // Writing the CSF file should trigger HMR, which causes the story to rerender. Delay the
+      // response until that happens, but don't wait too long.
+      await Promise.all([
+        new Promise<void>((resolve) => {
+          channel.on(STORY_RENDERED, resolve);
+          setTimeout(() => resolve(channel.off(STORY_RENDERED, resolve)), 3000);
+        }),
+        writeCsf(csf, sourceFilePath),
+      ]);
 
       channel.emit(SAVE_STORY_RESPONSE, {
         id,
