@@ -17,7 +17,7 @@ const slideIn = keyframes({
 });
 
 const highlight = keyframes({
-  from: { background: 'var(--highlight-bg-color)' },
+  from: { background: '#E0F0FF' },
   to: {},
 });
 
@@ -31,7 +31,6 @@ const Container = styled.div({
 });
 
 const Bar = styled(BaseBar)(({ theme }) => ({
-  '--highlight-bg-color': theme.background.hoverable,
   display: 'flex',
   flexDirection: 'row-reverse', // hide Info rather than Actions on overflow
   alignItems: 'center',
