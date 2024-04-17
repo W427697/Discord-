@@ -1001,7 +1001,9 @@ TK: Example snippet
 
 Type: `typeof import('next/cache')`
 
-TK
+TK: Description
+
+TK: Example snippet
 
 #### `@storybook/nextjs/headers.mock`
 
@@ -1019,17 +1021,23 @@ For cookies, you can use the existing API to write them, eg. `cookies().set('fir
 
 Because `headers()`, `cookies()` and their sub-functions are all mocks you can use any [mock utilities](https://vitest.dev/api/mock.html) in your stories, like `headers().getAll.mock.calls`.
 
+TK: Example snippet
+
 #### `@storybook/nextjs/navigation.mock`
 
 Type: `typeof import('next/navigation')`
 
 Exports mocks that replaces the actual implementation of `next/navigation` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
 
+TK: Example snippet
+
 #### `@storybook/nextjs/router.mock`
 
 Type: `typeof import('next/router')`
 
 Exports mocks that replaces the actual implementation of `next/router` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+
+TK: Example snippet
 
 ### Options
 
