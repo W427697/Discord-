@@ -1,85 +1,15 @@
 import { global } from '@storybook/global';
-import React, { Fragment, useEffect } from 'react';
-import { isChromatic } from './isChromatic';
-import {
-  Global,
-  ThemeProvider,
-  themes,
-  createReset,
-  convert,
-  styled,
-  useTheme,
-} from '@storybook/theming';
+import React, { useEffect } from 'react';
+import { Global, ThemeProvider, themes, createReset, convert, useTheme } from '@storybook/theming';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 import { withThemeByClassName } from '@storybook/addon-themes';
-
 import { DocsContext } from '@storybook/blocks';
-
 import { DocsPageWrapper } from '../blocks/src/components';
 
 const { document } = global;
-
-const ThemeBlock = styled.div<{ side: 'left' | 'right' }>(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: '50vw',
-    width: '50vw',
-    height: '100vh',
-    bottom: 0,
-    overflow: 'auto',
-    padding: 10,
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  }),
-  ({ side }) =>
-    side === 'left'
-      ? {
-          left: 0,
-          right: '50vw',
-        }
-      : {
-          right: 0,
-          left: '50vw',
-        }
-);
-
-const ThemeStack = styled.div(
-  {
-    position: 'relative',
-    minHeight: 'calc(50vh - 15px)',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  })
-);
-
-const PlayFnNotice = styled.div(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    borderBottom: '1px solid #ccc',
-    padding: '3px 8px',
-    fontSize: '10px',
-    fontWeight: 'bold',
-    '> *': {
-      display: 'block',
-    },
-  },
-  ({ theme }) => ({
-    background: '#fffbd9',
-    color: theme.color.defaultText,
-  })
-);
 
 const ThemedSetRoot = () => {
   const theme = useTheme();
@@ -152,12 +82,13 @@ export const decorators = [
    */
   withThemeByClassName({
     themes: {
-      'Default light': 'theme-default-light',
-      'Default dark': 'theme-default-dark',
-      'Basic green': 'theme-basic-green',
-      'Full red': 'theme-full-red',
+      Light: 'theme-light',
+      Dark: 'theme-dark',
+      Green: 'theme-green',
+      Red: 'theme-red',
+      Yellow: 'theme-yellow',
     },
-    defaultTheme: 'Default light',
+    defaultTheme: 'Light',
   }),
   /**
    * This decorator adds wrappers that contains global styles for stories to be targeted by.
@@ -189,7 +120,7 @@ export const decorators = [
    *
    * If parameters.withRawArg is not set, this decorator will do nothing
    */
-  (StoryFn, { parameters, args, hooks }) => {
+  (StoryFn, { parameters, args }) => {
     const [, updateArgs] = useArgs();
     if (!parameters.withRawArg) {
       return <StoryFn />;
