@@ -31,7 +31,7 @@ export const getUserFromSession = fn(actual.getUserFromSession);
 
 The recommended method for mocking modules is to use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports), a feature of Node packages that is supported by both [Vite](../builders/vite.md) and [Webpack](../builders/webpack.md).
 
-To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for the `api` and `prisma` internal modules:
+To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
 
 TK: External module example?
 
@@ -43,13 +43,36 @@ TK: External module example?
       "storybook": "./api.mock.ts",
       "default": "./api.ts"
     },
-    "#prisma/prisma": {
-      "storybook": "./prisma/prisma.mock.ts",
-      "default": "./prisma/prisma.ts"
+    "#app/actions": {
+      "storybook": "./app/actions.mock.ts",
+      "default": "./app/actions.ts"
+    },
+    "#lib/session": {
+      "storybook": "./lib/session.mock.ts",
+      "default": "./lib/session.ts"
+    },
+    "#lib/db": {
+      "storybook": "./lib/db.mock.ts",
+      "default": "./lib/db.ts"
     },
     "#*": ["./*", "./*.ts", "./*.tsx"]
   }
 }
+```
+
+You can't directly mock an external module like `uuid` or `node:fs`, so instead of importing them directly in your components you can wrap them in your own modules that you import from instead, and that are mockable like any other internal module. Here's an example of wrapping `uuid` and creating a mock for the wrapper:
+
+```ts
+// lib/uuid.ts
+import { v4 } from 'uuid';
+export const uuidv4 = v4;
+```
+
+```ts
+// lib/uuid.mock.ts
+import { fn } from '@storybook/test';
+import * as actual from './uuid';
+export const uuidv4 = fn(actual.uuidv4);
 ```
 
 <Callout variant="info">
