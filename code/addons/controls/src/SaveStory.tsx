@@ -27,6 +27,7 @@ const Container = styled.div({
   bottom: 0,
   height: 39,
   overflow: 'hidden',
+  zIndex: 1,
 });
 
 const Bar = styled(BaseBar)(({ theme }) => ({
