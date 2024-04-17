@@ -4,7 +4,6 @@ import { userEvent, within, expect } from '@storybook/test';
 
 import { Modal } from './Modal';
 import { Button } from '../Button/Button';
-import { CrossIcon } from '@storybook/icons';
 
 type Story = StoryObj<typeof meta>;
 
@@ -152,10 +151,7 @@ export const StyledComponents = {
           </Modal.Dialog.Close>
         </Modal.Actions>
       </Modal.Content>
-      <Modal.Error>
-        <span>Oops. Something went wrong.</span>
-        <CrossIcon />
-      </Modal.Error>
+      <Modal.Error>Oops. Something went wrong.</Modal.Error>
     </Modal>
   ),
 };

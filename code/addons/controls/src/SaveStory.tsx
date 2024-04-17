@@ -83,22 +83,30 @@ const ModalInput = styled(Form.Input)(({ theme }) => ({
   },
 }));
 
-type SaveFromControlsProps = {
-  saveStory: () => void;
-  createStory: (storyName: string) => void;
+type SaveStoryProps = {
+  saveStory: () => Promise<unknown>;
+  createStory: (storyName: string) => Promise<unknown>;
   resetArgs: () => void;
 };
 
-export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFromControlsProps) => {
+export const SaveStory = ({ saveStory, createStory, resetArgs }: SaveStoryProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [saving, setSaving] = React.useState(false);
   const [creating, setCreating] = React.useState(false);
   const [storyName, setStoryName] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState(null);
 
-  const onSaveStory = () => {
-    setSaving(true);
-    saveStory();
-    setTimeout(() => setSaving(false), 1000);
+  const onSaveStory = async () => {
+    if (saving) return;
+    try {
+      setErrorMessage(null);
+      setSaving(true);
+      await saveStory();
+      setSaving(false);
+    } catch (e: any) {
+      setErrorMessage(e.message);
+      setSaving(false);
+    }
   };
 
   const onShowForm = () => {
@@ -108,19 +116,24 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-      .replace(/[^a-z-_ ]/gi, '')
-      .replaceAll(/([-_ ]+[a-z])/gi, (match) => match.toUpperCase().replace(/[-_ ]/g, ''));
+      .replace(/^[^a-z]/i, '')
+      .replace(/[^a-z0-9-_ ]/gi, '')
+      .replaceAll(/([-_ ]+[a-z0-9])/gi, (match) => match.toUpperCase().replace(/[-_ ]/g, ''));
     setStoryName(value.charAt(0).toUpperCase() + value.slice(1));
   };
-  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (saving) return;
-    setSaving(true);
-    createStory(storyName.replaceAll(/[^a-z]/gi, ''));
-    setTimeout(() => {
-      setSaving(false);
+    try {
+      setErrorMessage(null);
+      setSaving(true);
+      await createStory(storyName.replace(/^[^a-z]/i, '').replaceAll(/[^a-z0-9]/gi, ''));
       setCreating(false);
-    }, 1000);
+      setSaving(false);
+    } catch (e: any) {
+      setErrorMessage(e.message);
+      setSaving(false);
+    }
   };
 
   return (
@@ -198,6 +211,7 @@ export const SaveFromControls = ({ saveStory, createStory, resetArgs }: SaveFrom
               </Modal.Actions>
             </Modal.Content>
           </Form>
+          {errorMessage && <Modal.Error>{errorMessage}</Modal.Error>}
         </Modal>
       </Bar>
     </Container>

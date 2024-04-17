@@ -377,7 +377,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
               <th>
                 <ControlHeadingWrapper>
                   Control{' '}
-                  {!isLoading && !inAddonPanel && resetArgs && (
+                  {!isLoading && resetArgs && (
                     <StyledIconButton onClick={() => resetArgs()} title="Reset controls">
                       <UndoIcon aria-hidden />
                     </StyledIconButton>
