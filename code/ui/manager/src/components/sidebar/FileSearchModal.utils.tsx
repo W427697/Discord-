@@ -42,7 +42,7 @@ export function extractSeededRequiredArgs(argTypes: ArgTypes) {
   return extractedArgTypes;
 }
 
-export async function selectNewStory(
+export async function trySelectNewStory(
   selectStory: (id: string) => Promise<void> | void,
   storyId: string,
   attempt = 1
@@ -55,6 +55,6 @@ export async function selectNewStory(
     await selectStory(storyId);
   } catch (e) {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return selectNewStory(selectStory, storyId, attempt + 1);
+    return trySelectNewStory(selectStory, storyId, attempt + 1);
   }
 }

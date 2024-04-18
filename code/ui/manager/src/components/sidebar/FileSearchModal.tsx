@@ -35,7 +35,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 import type { SearchResult } from './FileSearchList';
 import { FileSearchList } from './FileSearchList';
 import type { Channel } from '@storybook/channels';
-import { extractSeededRequiredArgs, selectNewStory } from './FileSearchModal.utils';
+import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
 
 interface FileSearchModalProps {
   open: boolean;
@@ -43,11 +43,14 @@ interface FileSearchModalProps {
 }
 
 const ModalInput = styled(Form.Input)(({ theme }) => ({
-  color: theme.color.darkest,
   paddingLeft: 40,
   paddingRight: 28,
   fontSize: 14,
   height: 40,
+
+  ...(theme.base === 'light' && {
+    color: theme.color.darkest,
+  }),
 
   '::placeholder': {
     color: theme.color.mediumdark,
@@ -181,7 +184,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
 
           const storyId = createNewStoryResult.result.storyId;
 
-          await selectNewStory(api.selectStory, storyId);
+          await trySelectNewStory(api.selectStory, storyId);
 
           const argTypesInfoResult = await oncePromise<ArgTypesInfoPayload, ArgTypesInfoResult>({
             channel,
