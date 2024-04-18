@@ -32,6 +32,16 @@
       "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
+    "./dist/routing/path-params-provider": {
+      "types": "./dist/routing/path-params-provider.d.ts",
+      "require": "./dist/routing/path-params-provider.js",
+      "import": "./dist/routing/path-params-provider.mjs"
+    },
+    "./dist/routing/path-params-provider-mock": {
+      "types": "./dist/routing/path-params-provider-mock.d.ts",
+      "require": "./dist/routing/path-params-provider-mock.js",
+      "import": "./dist/routing/path-params-provider-mock.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -59,6 +69,9 @@
       ],
       "dist/image-context": [
         "dist/image-context.d.ts"
+      ],
+      "dist/routing/path-params-provider": [
+        "dist/routing/path-params-provider-mock.d.ts"
       ]
     }
   },
@@ -131,9 +144,6 @@
     "typescript": "^5.3.2",
     "webpack": "^5.65.0"
   },
-  "optionalDependencies": {
-    "sharp": "^0.33.3"
-  },
   "peerDependencies": {
     "next": "^13.5.0 || ^14.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -147,6 +157,9 @@
     "webpack": {
       "optional": true
     }
+  },
+  "optionalDependencies": {
+    "sharp": "^0.33.3"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -164,6 +177,8 @@
       "./src/images/decorator.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
+      "./src/routing/path-params-provider.tsx",
+      "./src/routing/path-params-provider-mock.tsx",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
       "./src/rsc/server-only.ts",
       "./src/swc/next-swc-loader-patch.ts"

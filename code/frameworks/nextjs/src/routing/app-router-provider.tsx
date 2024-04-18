@@ -8,6 +8,9 @@ import {
   PathnameContext,
   SearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+// Using absolute path import to 1) avoid prebundling and 2) being able to substitute the module for Next.js < 14.2
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PathParamsProvider } from '@storybook/nextjs/dist/routing/path-params-provider';
 import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
 
@@ -37,59 +40,61 @@ export const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProvid
 
   // https://github.com/vercel/next.js/blob/canary/packages/next/src/client/components/app-router.tsx#L436
   return (
-    <PathnameContext.Provider value={pathname}>
-      <SearchParamsContext.Provider value={new URLSearchParams(query)}>
-        <GlobalLayoutRouterContext.Provider
-          value={{
-            changeByServerResponse() {
-              // NOOP
-            },
-            buildId: 'storybook',
-            tree,
-            focusAndScrollRef: {
-              apply: false,
-              hashFragment: null,
-              segmentPaths: [tree],
-              onlyHashChange: false,
-            },
-            nextUrl: pathname,
-          }}
-        >
-          <AppRouterContext.Provider
+    <PathParamsProvider tree={tree}>
+      <PathnameContext.Provider value={pathname}>
+        <SearchParamsContext.Provider value={new URLSearchParams(query)}>
+          <GlobalLayoutRouterContext.Provider
             value={{
-              push(...args) {
-                action('nextNavigation.push')(...args);
+              changeByServerResponse() {
+                // NOOP
               },
-              replace(...args) {
-                action('nextNavigation.replace')(...args);
+              buildId: 'storybook',
+              tree,
+              focusAndScrollRef: {
+                apply: false,
+                hashFragment: null,
+                segmentPaths: [tree],
+                onlyHashChange: false,
               },
-              forward(...args) {
-                action('nextNavigation.forward')(...args);
-              },
-              back(...args) {
-                action('nextNavigation.back')(...args);
-              },
-              prefetch(...args) {
-                action('nextNavigation.prefetch')(...args);
-              },
-              refresh: () => {
-                action('nextNavigation.refresh')();
-              },
-              ...restRouteParams,
+              nextUrl: pathname,
             }}
           >
-            <LayoutRouterContext.Provider
+            <AppRouterContext.Provider
               value={{
-                childNodes: new Map(),
-                tree,
-                url: pathname,
+                push(...args) {
+                  action('nextNavigation.push')(...args);
+                },
+                replace(...args) {
+                  action('nextNavigation.replace')(...args);
+                },
+                forward(...args) {
+                  action('nextNavigation.forward')(...args);
+                },
+                back(...args) {
+                  action('nextNavigation.back')(...args);
+                },
+                prefetch(...args) {
+                  action('nextNavigation.prefetch')(...args);
+                },
+                refresh: () => {
+                  action('nextNavigation.refresh')();
+                },
+                ...restRouteParams,
               }}
             >
-              {children}
-            </LayoutRouterContext.Provider>
-          </AppRouterContext.Provider>
-        </GlobalLayoutRouterContext.Provider>
-      </SearchParamsContext.Provider>
-    </PathnameContext.Provider>
+              <LayoutRouterContext.Provider
+                value={{
+                  childNodes: new Map(),
+                  tree,
+                  url: pathname,
+                }}
+              >
+                {children}
+              </LayoutRouterContext.Provider>
+            </AppRouterContext.Provider>
+          </GlobalLayoutRouterContext.Provider>
+        </SearchParamsContext.Provider>
+      </PathnameContext.Provider>
+    </PathParamsProvider>
   );
 };
