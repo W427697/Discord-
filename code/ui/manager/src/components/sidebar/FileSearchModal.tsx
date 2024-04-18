@@ -39,6 +39,7 @@ import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.
 
 const MODAL_HEIGHT = 418;
 const MODAL_HEIGHT_MINIMIZED = 133;
+const MODAL_DIFF_EVEN = Math.round((MODAL_HEIGHT - MODAL_HEIGHT_MINIMIZED) / 2) * 2;
 
 interface FileSearchModalProps {
   open: boolean;
@@ -51,7 +52,7 @@ interface ModalStyledProps {
 
 const ModalStyled = styled(Modal)<ModalStyledProps>(({ minimized }) => ({
   top: minimized
-    ? `calc((100vh - ${MODAL_HEIGHT - MODAL_HEIGHT_MINIMIZED}px) / 2)`
+    ? `calc((100vh - ${MODAL_DIFF_EVEN}px) / 2)`
     : `calc((100vh - ${MODAL_HEIGHT}px) / 2)`,
   ...(!minimized && {
     transform: 'translate(-50%, 0)',
