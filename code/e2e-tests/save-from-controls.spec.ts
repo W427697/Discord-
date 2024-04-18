@@ -28,6 +28,7 @@ test.describe('save-from-controls', () => {
     const label = sbPage.panelContent().locator('textarea[name=label]');
     const value = await label.inputValue();
     await label.fill(value + ' Updated ' + id);
+    await label.blur();
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
@@ -45,6 +46,7 @@ test.describe('save-from-controls', () => {
 
     // Update an arg
     await label.fill(value + ' Copied');
+    await label.blur();
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
