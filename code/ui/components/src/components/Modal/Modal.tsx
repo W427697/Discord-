@@ -10,6 +10,7 @@ interface ModalProps extends Omit<React.ComponentProps<typeof Dialog.Root>, 'chi
   children: React.ReactNode;
   onEscapeKeyDown?: ContentProps['onEscapeKeyDown'];
   onInteractOutside?: ContentProps['onInteractOutside'];
+  className?: string;
 }
 
 export const initial = { opacity: 0 };
@@ -22,6 +23,7 @@ function BaseModal({
   height,
   onEscapeKeyDown,
   onInteractOutside = (ev) => ev.preventDefault(),
+  className,
   ...rootProps
 }: ModalProps) {
   return (
@@ -35,7 +37,7 @@ function BaseModal({
           onInteractOutside={onInteractOutside}
           onEscapeKeyDown={onEscapeKeyDown}
         >
-          <Components.Container width={width} height={height}>
+          <Components.Container className={className} width={width} height={height}>
             {children}
           </Components.Container>
         </Dialog.Content>

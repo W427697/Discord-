@@ -37,10 +37,28 @@ import { FileSearchList } from './FileSearchList';
 import type { Channel } from '@storybook/channels';
 import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
 
+const MODAL_HEIGHT = 418;
+const MODAL_HEIGHT_MINIMIZED = 133;
+
 interface FileSearchModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+interface ModalStyledProps {
+  minimized: boolean;
+}
+
+const ModalStyled = styled(Modal)<ModalStyledProps>(({ minimized }) => ({
+  top: minimized
+    ? `calc((100vh - ${MODAL_HEIGHT - MODAL_HEIGHT_MINIMIZED}px) / 2)`
+    : `calc((100vh - ${MODAL_HEIGHT}px) / 2)`,
+  ...(!minimized && {
+    transform: 'translate(-50%, 0)',
+    transition: 'height 0.2s ease',
+  }),
+  animation: 'none',
+}));
 
 const ModalInput = styled(Form.Input)(({ theme }) => ({
   paddingLeft: 40,
@@ -121,6 +139,8 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
   const emittedValue = useRef<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const api = useStorybookApi();
+
+  const minimized = !isLoading && fileSearchQueryDeferred === '';
 
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
 
@@ -261,8 +281,9 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
   }, [fileSearchQueryDeferred, setSearchResults, setLoading]);
 
   return (
-    <Modal
-      height={418}
+    <ModalStyled
+      minimized={minimized}
+      height={!minimized ? MODAL_HEIGHT : MODAL_HEIGHT_MINIMIZED}
       width={440}
       open={open}
       onOpenChange={onOpenChange}
@@ -318,7 +339,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
           />
         </ModalError>
       )}
-    </Modal>
+    </ModalStyled>
   );
 };
 
