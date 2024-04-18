@@ -50,7 +50,11 @@ test.describe('save-from-controls', () => {
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // clone the story
-    await sbPage.panelContent().locator('button').getByText('Create new story').click();
+    await sbPage
+      .panelContent()
+      .locator('button')
+      .getByLabel(/Create new story/)
+      .click();
 
     const input = await sbPage.page.waitForSelector('[placeholder="Story export name"]');
     await input.fill('ClonedStory' + id);
