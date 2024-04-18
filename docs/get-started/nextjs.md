@@ -806,7 +806,7 @@ In the future we will provide better mocking support in Storybook and support fo
 
 You can test your stories in a Jest environment by using the [portable stories](../api/portable-stories-jest.md) API.
 
-When using portable stories with Next.js, you need to mock the Next.js modules that your components depend on. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment.
+When using portable stories with Next.js, you need to mock the Next.js modules that your components depend on. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because - as Next.js does - Storybook sets up a set of aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well.
 
 ## Notes for Yarn v2 and v3 users
 
