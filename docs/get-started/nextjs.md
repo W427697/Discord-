@@ -301,41 +301,6 @@ The default values on the stubbed router are as follows (see [globals](../essent
 ```ts
 // Default router
 const defaultRouter = {
-  push(...args) {
-    action('nextRouter.push')(...args);
-    return Promise.resolve(true);
-  },
-  replace(...args) {
-    action('nextRouter.replace')(...args);
-    return Promise.resolve(true);
-  },
-  reload(...args) {
-    action('nextRouter.reload')(...args);
-  },
-  back(...args) {
-    action('nextRouter.back')(...args);
-  },
-  forward() {
-    action('nextRouter.forward')();
-  },
-  prefetch(...args) {
-    action('nextRouter.prefetch')(...args);
-    return Promise.resolve();
-  },
-  beforePopState(...args) {
-    action('nextRouter.beforePopState')(...args);
-  },
-  events: {
-    on(...args) {
-      action('nextRouter.events.on')(...args);
-    },
-    off(...args) {
-      action('nextRouter.events.off')(...args);
-    },
-    emit(...args) {
-      action('nextRouter.events.emit')(...args);
-    },
-  },
   // The locale should be configured globally: https://storybook.js.org/docs/essentials/toolbars-and-globals#globals
   locale: globals?.locale,
   asPath: '/',
@@ -350,20 +315,7 @@ const defaultRouter = {
 };
 ```
 
-### Actions integration caveats
-
-If you override a function, you lose the automatic action tab integration and have to build it out yourself, which looks something like this (make sure you install the `@storybook/addon-actions` package):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/nextjs-router-push-override-in-preview.js.mdx',
-    'react/nextjs-router-push-override-in-preview.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+All the functions (such as `back()`, `push()`) are mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
 
 ## Next.js navigation
 
@@ -493,43 +445,12 @@ The default values on the stubbed navigation context are as follows:
 ```ts
 // Default navigation context
 const defaultNavigationContext = {
-  push(...args) {
-    action('nextNavigation.push')(...args);
-  },
-  replace(...args) {
-    action('nextNavigation.replace')(...args);
-  },
-  forward(...args) {
-    action('nextNavigation.forward')(...args);
-  },
-  back(...args) {
-    action('nextNavigation.back')(...args);
-  },
-  prefetch(...args) {
-    action('nextNavigation.prefetch')(...args);
-  },
-  refresh: () => {
-    action('nextNavigation.refresh')();
-  },
   pathname: '/',
   query: {},
 };
 ```
 
-### Actions integration caveats
-
-If you override a function, you lose the automatic action tab integration and have to build it out yourself, which looks something like this (make sure you install the `@storybook/addon-actions` package):
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'react/nextjs-navigation-push-override-in-preview.js.mdx',
-    'react/nextjs-navigation-push-override-in-preview.ts.mdx'
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+All the functions (such as `back()`, `push()`) are mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
 
 ## Next.js Head
 
