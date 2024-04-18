@@ -78,6 +78,8 @@ enum events {
   FILE_COMPONENT_SEARCH_RESPONSE = 'fileComponentSearchResponse',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
   SAVE_STORY_RESPONSE = 'saveStoryResponse',
+  ARGTYPES_INFO_REQUEST = 'argtypesInfoRequest',
+  ARGTYPES_INFO_RESPONSE = 'argtypesInfoResponse',
   CREATE_NEW_STORYFILE_REQUEST = 'createNewStoryfileRequest',
   CREATE_NEW_STORYFILE_RESPONSE = 'createNewStoryfileResponse',
 }
@@ -140,10 +142,13 @@ export const {
   TELEMETRY_ERROR,
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
+  ARGTYPES_INFO_REQUEST,
+  ARGTYPES_INFO_RESPONSE,
 } = events;
 
 export * from './data/create-new-story';
 export * from './data/file-component-search';
+export * from './data/argtypes-info';
 export * from './data/save-story';
 
 export interface WhatsNewCache {

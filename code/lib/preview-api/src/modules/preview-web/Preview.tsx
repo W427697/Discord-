@@ -1,6 +1,9 @@
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/client-logger';
+import type { ArgTypesInfoResult } from '@storybook/core-events';
 import {
+  ARGTYPES_INFO_REQUEST,
+  ARGTYPES_INFO_RESPONSE,
   CONFIG_ERROR,
   FORCE_REMOUNT,
   FORCE_RE_RENDER,
@@ -129,6 +132,7 @@ export class Preview<TRenderer extends Renderer> {
     this.channel.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
     this.channel.on(UPDATE_GLOBALS, this.onUpdateGlobals.bind(this));
     this.channel.on(UPDATE_STORY_ARGS, this.onUpdateArgs.bind(this));
+    this.channel.on(ARGTYPES_INFO_REQUEST, this.onRequestArgTypesInfo.bind(this));
     this.channel.on(RESET_STORY_ARGS, this.onResetArgs.bind(this));
     this.channel.on(FORCE_RE_RENDER, this.onForceReRender.bind(this));
     this.channel.on(FORCE_REMOUNT, this.onForceRemount.bind(this));
@@ -293,6 +297,26 @@ export class Preview<TRenderer extends Renderer> {
       storyId,
       args: this.storyStoreValue.args.get(storyId),
     });
+  }
+
+  async onRequestArgTypesInfo({ storyId }: { storyId: string }) {
+    try {
+      await this.storeInitializationPromise;
+      const story = await this.storyStoreValue?.loadStory({ storyId });
+      this.channel.emit(ARGTYPES_INFO_RESPONSE, {
+        result: {
+          argTypes: story?.argTypes || {},
+        },
+        success: true,
+        error: null,
+      } as ArgTypesInfoResult);
+    } catch (e: any) {
+      this.channel.emit(ARGTYPES_INFO_RESPONSE, {
+        result: null,
+        success: false,
+        error: e?.message,
+      } as ArgTypesInfoResult);
+    }
   }
 
   async onResetArgs({ storyId, argNames }: { storyId: string; argNames?: string[] }) {
