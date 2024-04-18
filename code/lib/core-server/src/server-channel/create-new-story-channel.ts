@@ -6,19 +6,9 @@ import {
   CREATE_NEW_STORYFILE_RESPONSE,
 } from '@storybook/core-events';
 import fs from 'node:fs/promises';
-import type { NewStoryData } from '../utils/get-new-story-file';
 import { getNewStoryFile } from '../utils/get-new-story-file';
 import { getStoryId } from '../utils/get-story-id';
-
-interface CreateNewStoryPayload extends NewStoryData {}
-
-interface Result {
-  success: true | false;
-  result: null | {
-    storyId: string;
-  };
-  error: null | string;
-}
+import path from 'node:path';
 
 export function initCreateNewStoryChannel(channel: Channel, options: Options) {
   /**
@@ -39,6 +29,8 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
         success: true,
         result: {
           storyId,
+          storyFilePath: `./${path.relative(process.cwd(), storyFilePath)}`,
+          exportedStoryName,
         },
         error: null,
       } satisfies CreateNewStoryResult);

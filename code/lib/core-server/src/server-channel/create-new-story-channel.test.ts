@@ -73,6 +73,8 @@ describe('createNewStoryChannel', () => {
         error: null,
         result: {
           storyId: 'components-page--default',
+          storyFilePath: './src/components/Page.stories.jsx',
+          exportedStoryName: 'Default',
         },
         success: true,
       });
@@ -111,7 +113,7 @@ describe('createNewStoryChannel', () => {
       });
 
       expect(createNewStoryFileEventListener).toHaveBeenCalledWith({
-        error: 'An error occurred while creating a new story:\nFailed to write file',
+        error: 'Failed to write file',
         result: null,
         success: false,
       });
