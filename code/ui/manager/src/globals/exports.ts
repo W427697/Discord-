@@ -131,6 +131,8 @@ export default {
     'createBrowserChannel',
   ],
   '@storybook/core-events': [
+    'ARGTYPES_INFO_REQUEST',
+    'ARGTYPES_INFO_RESPONSE',
     'CHANNEL_CREATED',
     'CHANNEL_WS_DISCONNECT',
     'CONFIG_ERROR',

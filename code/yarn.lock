@@ -719,6 +719,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/parser@npm:^7.24.4":
+  version: 7.24.4
+  resolution: "@babel/parser@npm:7.24.4"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 10c0/8381e1efead5069cb7ed2abc3a583f4a86289b2f376c75cecc69f59a8eb36df18274b1886cecf2f97a6a0dff5334b27330f58535be9b3e4e26102cc50e12eac8
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:^7.23.3":
   version: 7.23.3
   resolution: "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:7.23.3"
@@ -5762,6 +5771,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
+    "@storybook/csf": "npm:^0.1.4"
     chalk: "npm:^4.1.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
@@ -5774,6 +5784,7 @@ __metadata:
   dependencies:
     "@aw-web-design/x-default-browser": "npm:1.4.126"
     "@babel/core": "npm:^7.23.9"
+    "@babel/parser": "npm:^7.24.4"
     "@discoveryjs/json-ext": "npm:^0.5.3"
     "@storybook/addon-docs": "workspace:*"
     "@storybook/builder-manager": "workspace:*"
@@ -5803,12 +5814,10 @@ __metadata:
     boxen: "npm:^7.1.1"
     camelcase: "npm:^8.0.0"
     chalk: "npm:^4.1.0"
-    cjs-module-lexer: "npm:^1.2.3"
     cli-table3: "npm:^0.6.1"
     compression: "npm:^1.7.4"
     detect-port: "npm:^1.3.0"
     diff: "npm:^5.2.0"
-    es-module-lexer: "npm:^1.5.0"
     express: "npm:^4.17.3"
     fs-extra: "npm:^11.1.0"
     globby: "npm:^14.0.1"
@@ -6103,6 +6112,7 @@ __metadata:
     "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
+    "@tanstack/react-virtual": "npm:^3.3.0"
     "@testing-library/react": "npm:^11.2.2"
     "@types/react-transition-group": "npm:^4"
     "@types/semver": "npm:^7.3.4"
@@ -7121,6 +7131,25 @@ __metadata:
   dependencies:
     defer-to-connect: "npm:^2.0.0"
   checksum: 10c0/73946918c025339db68b09abd91fa3001e87fc749c619d2e9c2003a663039d4c3cb89836c98a96598b3d47dec2481284ba85355392644911f5ecd2336536697f
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-virtual@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@tanstack/react-virtual@npm:3.3.0"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.3.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/52b30c87cbf2518cfe19812b290c60dd576587545bc910adf5a17ff16b241c4cf28690163db2063afd9e3adc0259086263071e63c8c8380ac56c0f6a54bde820
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.3.0":
+  version: 3.3.0
+  resolution: "@tanstack/virtual-core@npm:3.3.0"
+  checksum: 10c0/d31125fde6a3ef3aefd3754b37f4724772c8a567f4e8212cf02a64fba6fde9ab8f80a8c9f99d28b046f84a938aea390adbd591eb4858d849a05326b0cebdfc25
   languageName: node
   linkType: hard
 

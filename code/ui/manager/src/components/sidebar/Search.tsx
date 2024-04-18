@@ -22,6 +22,7 @@ import { isSearchResult, isExpandType } from './types';
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
+import { FileSearchModal } from './FileSearchModal';
 
 const { document } = global;
 
@@ -186,6 +187,7 @@ export const Search = React.memo<{
   const [inputPlaceholder, setPlaceholder] = useState('Find components');
   const [allComponents, showAllComponents] = useState(false);
   const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
+  const [isFileSearchModalOpen, setIsFileSearchModalOpen] = useState(false);
 
   const makeFuse = useCallback(() => {
     const list = dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
@@ -410,15 +412,26 @@ export const Search = React.memo<{
                 )}
               </SearchField>
               {showCreateStoryButton && (
-                <WithTooltip
-                  trigger="hover"
-                  hasChrome={false}
-                  tooltip={<TooltipNoteWrapper note="Create a new story" />}
-                >
-                  <CreateNewStoryButton variant="outline">
-                    <PlusIcon />
-                  </CreateNewStoryButton>
-                </WithTooltip>
+                <>
+                  <WithTooltip
+                    trigger="hover"
+                    hasChrome={false}
+                    tooltip={<TooltipNoteWrapper note="Create a new story" />}
+                  >
+                    <CreateNewStoryButton
+                      onClick={() => {
+                        setIsFileSearchModalOpen(true);
+                      }}
+                      variant="outline"
+                    >
+                      <PlusIcon />
+                    </CreateNewStoryButton>
+                  </WithTooltip>
+                  <FileSearchModal
+                    open={isFileSearchModalOpen}
+                    onOpenChange={setIsFileSearchModalOpen}
+                  />
+                </>
               )}
             </SearchBar>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
