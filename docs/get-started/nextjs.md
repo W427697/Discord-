@@ -999,7 +999,31 @@ Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
 
 `getPackageAliases` is a helper to generate the aliases needed to set up [portable stories](#portable-stories).
 
-TK: Example snippet
+```ts
+import type { Config } from 'jest';
+import nextJest from 'next/jest.js';
+// 👇 import the utility function
+import { getPackageAliases } from '@storybook/nextjs/export-mocks';
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+// Add any custom config to be passed to Jest
+const config: Config = {
+  coverageProvider: 'v8',
+  testEnvironment: 'jsdom',
+  // Add more setup options before each test is run
+  // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: {
+    ...getPackageAliases(), // 👈 add the utility as a moduleNameMapper
+  },
+};
+
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config);
+```
 
 #### `@storybook/nextjs/cache.mock`
 
