@@ -4,18 +4,10 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { getTypeScriptTemplateForNewStoryFile } from './new-story-templates/typescript';
 import { getJavaScriptTemplateForNewStoryFile } from './new-story-templates/javascript';
-
-export interface NewStoryData {
-  // The filepath of the component for which the Story should be generated for (relative to the project root)
-  componentFilePath: string;
-  // The name of the exported component
-  componentExportName: string;
-  // is default export
-  componentIsDefaultExport: boolean;
-}
+import type { CreateNewStoryPayload } from '@storybook/core-events';
 
 export async function getNewStoryFile(
-  { componentFilePath, componentExportName, componentIsDefaultExport }: NewStoryData,
+  { componentFilePath, componentExportName, componentIsDefaultExport }: CreateNewStoryPayload,
   options: Options
 ) {
   const isTypescript = /\.(ts|tsx|mts|cts)$/.test(componentFilePath);

@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Channel } from '@storybook/channels';
+import type { SaveStoryRequest, SaveStoryResponse } from '@storybook/core-events';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
@@ -10,29 +11,6 @@ import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
 import type { CoreConfig, Options } from '@storybook/types';
 import { telemetry } from '@storybook/telemetry';
 import { logger } from '@storybook/node-logger';
-
-interface SaveStoryRequest {
-  id: string;
-  payload: {
-    csfId: string;
-    importPath: string;
-    args: Record<string, any>;
-    name?: string;
-  };
-}
-
-type SaveStoryResponse = (
-  | { id: string; success: true }
-  | { id: string; success: false; error: string }
-) & {
-  payload: {
-    csfId: string;
-    newStoryId?: string;
-    newStoryName?: string;
-    sourceFileName?: string;
-    sourceStoryName?: string;
-  };
-};
 
 class SaveStoryError extends Error {}
 

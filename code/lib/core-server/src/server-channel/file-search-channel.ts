@@ -10,39 +10,17 @@ import fs from 'fs/promises';
 
 import { getParser } from '../utils/parser';
 import { searchFiles } from '../utils/search-files';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
-
-interface Data {
-  // A regular string or a glob pattern
-  searchQuery?: string;
-}
-
-interface SearchResult {
-  success: true | false;
-  result: null | {
-    searchQuery: string;
-    files: Array<{
-      // The filepath relative to the project root
-      filepath: string;
-      // The search query - Helps to identify the event on the frontend
-      searchQuery: string;
-      // A list of exported components
-      exportedComponents: Array<{
-        // the name of the exported component
-        name: string;
-        // True, if the exported component is a default export
-        default: boolean;
-      }>;
-    }> | null;
-  };
-  error: null | string;
-}
+import type { FileComponentSearchPayload, FileComponentSearchResult } from '@storybook/core-events';
+import {
+  FILE_COMPONENT_SEARCH_REQUEST,
+  FILE_COMPONENT_SEARCH_RESPONSE,
+} from '@storybook/core-events';
 
 export function initFileSearchChannel(channel: Channel, options: Options) {
   /**
    * Listens for a search query event and searches for files in the project
    */
-  channel.on(FILE_COMPONENT_SEARCH, async (data: Data) => {
+  channel.on(FILE_COMPONENT_SEARCH_REQUEST, async (data: FileComponentSearchPayload) => {
     try {
       const searchQuery = data?.searchQuery;
 
@@ -82,23 +60,23 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
         }
       });
 
-      channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
+      channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
         success: true,
         result: {
           searchQuery,
           files: await Promise.all(entries),
         },
         error: null,
-      } as SearchResult);
+      } as FileComponentSearchResult);
     } catch (e: any) {
       /**
        * Emits the search result event with an error message
        */
-      channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
+      channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
         success: false,
         result: null,
         error: `An error occurred while searching for components in the project.\n${e?.message}`,
-      } as SearchResult);
+      } as FileComponentSearchResult);
     }
   });
 
