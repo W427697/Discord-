@@ -43,7 +43,7 @@ describe('file-search-channel', () => {
   describe('initFileSearchChannel', async () => {
     it('should emit search result event with the search result', async () => {
       const mockOptions = {};
-      const data = { searchQuery: 'commonjs' };
+      const data = { searchQuery: 'es-module' };
 
       initFileSearchChannel(mockChannel, mockOptions as any);
 
@@ -70,38 +70,33 @@ describe('file-search-channel', () => {
               exportedComponents: [
                 {
                   default: false,
-                  name: './commonjs',
+                  name: 'p',
+                },
+                {
+                  default: false,
+                  name: 'q',
+                },
+                {
+                  default: false,
+                  name: 'C',
+                },
+                {
+                  default: false,
+                  name: 'externalName',
+                },
+                {
+                  default: false,
+                  name: 'ns',
+                },
+                {
+                  default: true,
+                  name: 'default',
                 },
               ],
-              filepath: 'src/commonjs-module-default.js',
-            },
-            {
-              exportedComponents: [
-                {
-                  default: false,
-                  name: 'a',
-                },
-                {
-                  default: false,
-                  name: 'b',
-                },
-                {
-                  default: false,
-                  name: 'c',
-                },
-                {
-                  default: false,
-                  name: 'd',
-                },
-                {
-                  default: false,
-                  name: 'e',
-                },
-              ],
-              filepath: 'src/commonjs-module.js',
+              filepath: 'src/es-module.js',
             },
           ],
-          searchQuery: 'commonjs',
+          searchQuery: 'es-module',
         },
         success: true,
       });
