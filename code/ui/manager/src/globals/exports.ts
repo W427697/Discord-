@@ -131,11 +131,13 @@ export default {
     'createBrowserChannel',
   ],
   '@storybook/core-events': [
+    'ARGTYPES_INFO_REQUEST',
+    'ARGTYPES_INFO_RESPONSE',
     'CHANNEL_CREATED',
     'CHANNEL_WS_DISCONNECT',
     'CONFIG_ERROR',
-    'CREATE_NEW_STORYFILE',
-    'CREATE_NEW_STORYFILE_RESULT',
+    'CREATE_NEW_STORYFILE_REQUEST',
+    'CREATE_NEW_STORYFILE_RESPONSE',
     'CURRENT_STORY_WAS_SET',
     'DOCS_PREPARED',
     'DOCS_RENDERED',
@@ -183,6 +185,7 @@ export default {
     'UPDATE_GLOBALS',
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
+    'experimental_requestResponse',
   ],
   '@storybook/core-events/manager-errors': [
     'Category',

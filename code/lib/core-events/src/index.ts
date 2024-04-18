@@ -78,8 +78,10 @@ enum events {
   FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
   SAVE_STORY_RESPONSE = 'saveStoryResponse',
-  CREATE_NEW_STORYFILE = 'createNewStoryfile',
-  CREATE_NEW_STORYFILE_RESULT = 'createNewStoryfileResult',
+  ARGTYPES_INFO_REQUEST = 'argtypesInfoRequest',
+  ARGTYPES_INFO_RESPONSE = 'argtypesInfoResponse',
+  CREATE_NEW_STORYFILE_REQUEST = 'createNewStoryfileRequest',
+  CREATE_NEW_STORYFILE_RESPONSE = 'createNewStoryfileResponse',
 }
 
 // Enables: `import Events from ...`
@@ -91,8 +93,8 @@ export const {
   CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
-  CREATE_NEW_STORYFILE,
-  CREATE_NEW_STORYFILE_RESULT,
+  CREATE_NEW_STORYFILE_REQUEST,
+  CREATE_NEW_STORYFILE_RESPONSE,
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
@@ -140,7 +142,13 @@ export const {
   TELEMETRY_ERROR,
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
+  ARGTYPES_INFO_REQUEST,
+  ARGTYPES_INFO_RESPONSE,
 } = events;
+
+export * from './request-response';
+
+export * from './data/argtypes-info';
 
 export interface WhatsNewCache {
   lastDismissedPost?: string;
