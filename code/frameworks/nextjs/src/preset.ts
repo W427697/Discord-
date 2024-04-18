@@ -23,7 +23,6 @@ import { configureBabelLoader } from './babel/loader';
 import { configureFastRefresh } from './fastRefresh/webpack';
 import { configureAliases } from './aliases/webpack';
 import { logger } from '@storybook/node-logger';
-import { configureAliasing } from './dependency-map';
 
 export const addons: PresetProperty<'addons'> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -135,7 +134,6 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
   configureAliases(baseConfig);
-  configureAliasing(baseConfig);
 
   if (isDevelopment) {
     configureFastRefresh(baseConfig);
