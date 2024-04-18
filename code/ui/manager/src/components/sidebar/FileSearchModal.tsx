@@ -36,30 +36,33 @@ import type { SearchResult } from './FileSearchList';
 import { FileSearchList } from './FileSearchList';
 import type { Channel } from '@storybook/channels';
 import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
+import { useMeasure } from './useMeasure';
 
 const MODAL_HEIGHT = 418;
-const MODAL_HEIGHT_MINIMIZED = 133;
-const MODAL_DIFF_EVEN = Math.round((MODAL_HEIGHT - MODAL_HEIGHT_MINIMIZED) / 2) * 2;
 
 interface FileSearchModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-interface ModalStyledProps {
-  minimized: boolean;
-}
-
-const ModalStyled = styled(Modal)<ModalStyledProps>(({ minimized }) => ({
-  top: minimized
-    ? `calc((100vh - ${MODAL_DIFF_EVEN}px) / 2)`
-    : `calc((100vh - ${MODAL_HEIGHT}px) / 2)`,
-  ...(!minimized && {
-    transform: 'translate(-50%, 0)',
-    transition: 'height 0.2s ease',
-  }),
-  animation: 'none',
+const ModalStyled = styled(Modal)(() => ({
+  boxShadow: 'none',
+  background: 'transparent',
 }));
+
+const ModalChild = styled.div<{ height?: number }>(({ theme, height }) => ({
+  backgroundColor: theme.background.bar,
+  borderRadius: 6,
+  boxShadow: `rgba(255, 255, 255, 0.05) 0 0 0 1px inset, rgba(14, 18, 22, 0.35) 0px 10px 18px -10px`,
+  padding: '16px',
+  transition: 'height 0.3s',
+  height: height ? `${height + 32}px` : 'auto',
+  overflow: 'hidden',
+}));
+
+const ModalContent = styled(Modal.Content)({
+  margin: 0,
+});
 
 const ModalInput = styled(Form.Input)(({ theme }) => ({
   paddingLeft: 40,
@@ -140,8 +143,14 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
   const emittedValue = useRef<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const api = useStorybookApi();
+  const [modalContentRef, modalContentDimensions] = useMeasure<HTMLDivElement>();
+  const [modalMaxHeight, setModalMaxHeight] = useState<number>(modalContentDimensions.height);
 
-  const minimized = !isLoading && fileSearchQueryDeferred === '';
+  useEffect(() => {
+    if (modalMaxHeight < modalContentDimensions.height) {
+      setModalMaxHeight(modalContentDimensions.height);
+    }
+  }, [modalContentDimensions.height, modalMaxHeight]);
 
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
 
@@ -254,14 +263,20 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
     const channel = addons.getChannel();
 
     const set = (data: FileComponentSearchResult) => {
+      const isLatestRequest =
+        data.result?.searchQuery === fileSearchQueryDeferred && data.result.files;
+
       if (data.success) {
-        if (data.result?.searchQuery === fileSearchQueryDeferred && data.result.files) {
+        if (isLatestRequest) {
           setSearchResults(data.result.files);
         }
       } else {
         setError(data.error);
       }
-      setLoading(false);
+
+      if (isLatestRequest) {
+        setLoading(false);
+      }
     };
 
     channel.on(FILE_COMPONENT_SEARCH_RESPONSE, set);
@@ -283,8 +298,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
 
   return (
     <ModalStyled
-      minimized={minimized}
-      height={!minimized ? MODAL_HEIGHT : MODAL_HEIGHT_MINIMIZED}
+      height={MODAL_HEIGHT}
       width={440}
       open={open}
       onOpenChange={onOpenChange}
@@ -295,51 +309,55 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
         onOpenChange(false);
       }}
     >
-      <Modal.Content>
-        <Modal.Header>
-          <Modal.Title>Add a new story</Modal.Title>
-          <Modal.Description>We will create a new story for your component</Modal.Description>
-        </Modal.Header>
-        <SearchField>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <ModalInput
-            placeholder="Search for a component file"
-            type="search"
-            required
-            autoFocus
-            value={fileSearchQuery}
-            onChange={(e) => {
-              startTransition(() => {
-                setFileSearchQuery((e.target as HTMLInputElement).value);
-              });
-            }}
-          />
-          {isLoading && (
-            <LoadingIcon>
-              <RefreshIcon />
-            </LoadingIcon>
-          )}
-        </SearchField>
-        {
-          <FileSearchList
-            isLoading={isLoading}
-            searchResults={searchResults}
-            onNewStory={handleCreateNewStory}
-          />
-        }
-      </Modal.Content>
-      {error && (
-        <ModalError>
-          {error}
-          <ModalErrorCloseIcon
-            onClick={() => {
-              setError(null);
-            }}
-          />
-        </ModalError>
-      )}
+      <ModalChild
+        height={fileSearchQueryDeferred === '' ? modalContentDimensions.height : modalMaxHeight}
+      >
+        <ModalContent ref={modalContentRef}>
+          <Modal.Header>
+            <Modal.Title>Add a new story</Modal.Title>
+            <Modal.Description>We will create a new story for your component</Modal.Description>
+          </Modal.Header>
+          <SearchField>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <ModalInput
+              placeholder="Search for a component file"
+              type="search"
+              required
+              autoFocus
+              value={fileSearchQuery}
+              onChange={(e) => {
+                startTransition(() => {
+                  setFileSearchQuery((e.target as HTMLInputElement).value);
+                });
+              }}
+            />
+            {isLoading && (
+              <LoadingIcon>
+                <RefreshIcon />
+              </LoadingIcon>
+            )}
+          </SearchField>
+          {
+            <FileSearchList
+              isLoading={isLoading}
+              searchResults={searchResults}
+              onNewStory={handleCreateNewStory}
+            />
+          }
+        </ModalContent>
+        {error && (
+          <ModalError>
+            {error}
+            <ModalErrorCloseIcon
+              onClick={() => {
+                setError(null);
+              }}
+            />
+          </ModalError>
+        )}
+      </ModalChild>
     </ModalStyled>
   );
 };

@@ -89,6 +89,7 @@ const FileListItemExport = styled('li')(({ theme }) => ({
   gap: '8px',
   alignItems: 'center',
   justifyContent: 'space-between',
+  fontSize: '14px',
   cursor: 'pointer',
 
   ':focus-visible': {
@@ -145,8 +146,10 @@ const ChevronDownIconStyled = styled(ChevronDownIcon)(({ theme }) => ({
 const DefaultExport = styled('span')(({ theme }) => ({
   display: 'inline-block',
   padding: `1px ${theme.appBorderRadius}px`,
-  color: '#727272',
-  backgroundColor: '#F2F4F5',
+  borderRadius: '2px',
+  fontSize: '10px',
+  color: theme.base === 'dark' ? theme.color.lightest : '#727272',
+  backgroundColor: theme.base === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#F2F4F5',
 }));
 
 const NoResults = styled('div')(({ theme }) => ({
@@ -390,9 +393,3 @@ export const FileSearchList = memo(function FileSearchList({
 
   return null;
 });
-
-// border-radius: 2px;
-// font-size: 10px;
-
-// apply font-size: 14px to sub items
-// input sizing and icon positioning

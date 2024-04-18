@@ -6,6 +6,7 @@ export const FileList = styled('div')(({ theme }) => ({
   overflow: 'auto',
   msOverflowStyle: 'none',
   scrollbarWidth: 'none',
+  position: 'relative',
   '::-webkit-scrollbar': {
     display: 'none',
   },
