@@ -149,6 +149,7 @@ export const {
 export * from './request-response';
 
 export * from './data/argtypes-info';
+export * from './data/save-story';
 
 export interface WhatsNewCache {
   lastDismissedPost?: string;

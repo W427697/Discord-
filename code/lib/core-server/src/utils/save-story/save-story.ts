@@ -1,16 +1,22 @@
 /* eslint-disable no-underscore-dangle */
 import { parse } from 'telejson';
 import type { Channel } from '@storybook/channels';
+import type {
+  RequestData,
+  ResponseData,
+  SaveStoryRequestPayload,
+  SaveStoryResponsePayload,
+} from '@storybook/core-events';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { readCsf, writeCsf } from '@storybook/csf-tools';
+import { logger } from '@storybook/node-logger';
+import type { CoreConfig, Options } from '@storybook/types';
+import { telemetry } from '@storybook/telemetry';
 
 import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
-import type { CoreConfig, Options } from '@storybook/types';
-import { telemetry } from '@storybook/telemetry';
-import { logger } from '@storybook/node-logger';
 
 const parseArgs = (args: string): Record<string, any> =>
   parse(args, {
@@ -20,33 +26,10 @@ const parseArgs = (args: string): Record<string, any> =>
     allowSymbol: true,
   });
 
-interface SaveStoryRequest {
-  id: string;
-  payload: {
-    csfId: string;
-    importPath: string;
-    args: string;
-    name?: string;
-  };
-}
-
-type SaveStoryResponse = (
-  | { id: string; success: true }
-  | { id: string; success: false; error: string }
-) & {
-  payload: {
-    csfId: string;
-    newStoryId?: string;
-    newStoryName?: string;
-    sourceFileName?: string;
-    sourceStoryName?: string;
-  };
-};
-
 class SaveStoryError extends Error {}
 
 export function initializeSaveStory(channel: Channel, options: Options, coreConfig: CoreConfig) {
-  channel.on(SAVE_STORY_REQUEST, async ({ id, payload }: SaveStoryRequest) => {
+  channel.on(SAVE_STORY_REQUEST, async ({ id, payload }: RequestData<SaveStoryRequestPayload>) => {
     const { csfId, importPath, args, name } = payload;
 
     let newStoryId;
@@ -82,7 +65,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
 
       await updateArgsInCsfFile(
         name ? duplicateStoryWithNewName(parsed, storyName, name) : csf.getStoryExport(storyName),
-        parseArgs(args)
+        args ? parseArgs(args) : {}
       );
 
       // Writing the CSF file should trigger HMR, which causes the story to rerender. Delay the
@@ -105,7 +88,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
           sourceFileName,
           sourceStoryName,
         },
-      } satisfies SaveStoryResponse);
+      } satisfies ResponseData<SaveStoryResponsePayload>);
 
       if (!coreConfig.disableTelemetry) {
         await telemetry('save-story', {
@@ -125,7 +108,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
           sourceFileName,
           sourceStoryName,
         },
-      } satisfies SaveStoryResponse);
+      } satisfies ResponseData<SaveStoryResponsePayload>);
 
       logger.error(
         `Error writing to ${sourceFilePath}:\n${error.stack || error.message || error.toString()}`
