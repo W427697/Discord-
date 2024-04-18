@@ -1,3 +1,4 @@
+import { stringify } from 'telejson';
 import React from 'react';
 import { dequal as deepEqual } from 'dequal';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
@@ -25,6 +26,14 @@ function Title() {
     </div>
   );
 }
+
+const stringifyArgs = (args: Record<string, any>) =>
+  stringify(args, {
+    allowDate: true,
+    allowFunction: true,
+    allowUndefined: true,
+    allowSymbol: true,
+  });
 
 interface ResponseData {
   id: string;
@@ -67,10 +76,12 @@ addons.register(ADDON_ID, (api) => {
     if (data.type !== 'story') throw new Error('Not a story');
     return requestResponse(api, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
       // Only send updated args
-      args: Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
-        if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
-        return acc;
-      }, {}),
+      args: stringifyArgs(
+        Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
+          if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
+          return acc;
+        }, {})
+      ),
       csfId: data.id,
       importPath: data.importPath,
     });
@@ -80,7 +91,7 @@ addons.register(ADDON_ID, (api) => {
     const data = api.getCurrentStoryData();
     if (data.type !== 'story') throw new Error('Not a story');
     return requestResponse(api, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
-      args: data.args,
+      args: data.args ? stringifyArgs(data.args) : data.args,
       csfId: data.id,
       importPath: data.importPath,
       name,

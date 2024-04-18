@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { parse } from 'telejson';
 import type { Channel } from '@storybook/channels';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
@@ -11,12 +12,20 @@ import type { CoreConfig, Options } from '@storybook/types';
 import { telemetry } from '@storybook/telemetry';
 import { logger } from '@storybook/node-logger';
 
+const parseArgs = (args: string): Record<string, any> =>
+  parse(args, {
+    allowDate: true,
+    allowFunction: true,
+    allowUndefined: true,
+    allowSymbol: true,
+  });
+
 interface SaveStoryRequest {
   id: string;
   payload: {
     csfId: string;
     importPath: string;
-    args: Record<string, any>;
+    args: string;
     name?: string;
   };
 }
@@ -73,7 +82,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
 
       await updateArgsInCsfFile(
         name ? duplicateStoryWithNewName(parsed, storyName, name) : csf.getStoryExport(storyName),
-        args
+        parseArgs(args)
       );
 
       // Writing the CSF file should trigger HMR, which causes the story to rerender. Delay the

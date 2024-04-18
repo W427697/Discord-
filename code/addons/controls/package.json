@@ -54,6 +54,7 @@
     "@storybook/blocks": "workspace:*",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
+    "telejson": "^7.2.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
