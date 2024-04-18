@@ -1,15 +1,7 @@
 import type { Channel } from '@storybook/channels';
+import type { RequestData, ResponseData } from '@storybook/core-events';
 
 class RequestResponseError extends Error {}
-
-export type RequestData<Payload = void> = {
-  id: string;
-  payload: Payload;
-};
-
-export type ResponseData<Payload = void> =
-  | { id: string; success: true; payload: Payload }
-  | { id: string; success: false; error?: string; payload?: Payload };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const experimental_requestResponse = <ResponsePayload = void>(

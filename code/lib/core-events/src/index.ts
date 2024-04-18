@@ -146,9 +146,8 @@ export const {
   ARGTYPES_INFO_RESPONSE,
 } = events;
 
-export * from './request-response';
-
 export * from './data/argtypes-info';
+export * from './data/request-response';
 export * from './data/save-story';
 
 export interface WhatsNewCache {

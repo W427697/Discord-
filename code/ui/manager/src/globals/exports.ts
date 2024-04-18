@@ -185,7 +185,6 @@ export default {
     'UPDATE_GLOBALS',
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
-    'experimental_requestResponse',
   ],
   '@storybook/core-events/manager-errors': [
     'Category',
@@ -476,6 +475,7 @@ export default {
     'controlOrMetaSymbol',
     'eventMatchesShortcut',
     'eventToShortcut',
+    'experimental_requestResponse',
     'isMacLike',
     'isShortcutTaken',
     'keyToSymbol',

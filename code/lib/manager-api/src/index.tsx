@@ -69,6 +69,7 @@ import type { ModuleFn } from './lib/types';
 
 import { types } from './lib/addons';
 
+export * from './lib/request-response';
 export * from './lib/shortcut';
 
 const { ActiveTabs } = layout;
