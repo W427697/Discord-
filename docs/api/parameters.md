@@ -184,7 +184,9 @@ Type: `boolean`
 
 Default: `false`
 
-Setting this to `true` will prevent the [play function](../writing-stories/play-function.md) from failing and showing a warning when an uncaught exception is thrown.
+Setting this to `true` will prevent the [play function](../writing-stories/play-function.md) from failing and showing a warning when unhandled errors are thrown during rendering or playing.
+
+Unhandled errors might cause false positive assertions, they can be ignored by setting this parameter to `true`.
 
 ---
 
