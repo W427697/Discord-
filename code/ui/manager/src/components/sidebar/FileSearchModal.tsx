@@ -125,12 +125,17 @@ const ModalError = styled(Modal.Error)({
   position: 'absolute',
   padding: '8px 40px 8px 16px',
   bottom: 0,
+  maxHeight: 'initial',
+
+  '> div': {
+    padding: 0,
+  },
 });
 
 const ModalErrorCloseIcon = styled(CloseAltIcon)({
   position: 'absolute',
   top: 8,
-  right: 16,
+  right: -24,
   cursor: 'pointer',
 });
 
@@ -259,6 +264,10 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
   );
 
   useEffect(() => {
+    setError(null);
+  }, [searchResults]);
+
+  useEffect(() => {
     setLoading(true);
     const channel = addons.getChannel();
 
@@ -347,17 +356,17 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
             />
           }
         </ModalContent>
-        {error && (
-          <ModalError>
-            {error}
-            <ModalErrorCloseIcon
-              onClick={() => {
-                setError(null);
-              }}
-            />
-          </ModalError>
-        )}
       </ModalChild>
+      {error && fileSearchQueryDeferred !== '' && (
+        <ModalError>
+          {error}
+          <ModalErrorCloseIcon
+            onClick={() => {
+              setError(null);
+            }}
+          />
+        </ModalError>
+      )}
     </ModalStyled>
   );
 };

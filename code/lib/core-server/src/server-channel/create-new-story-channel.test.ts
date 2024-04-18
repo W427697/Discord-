@@ -3,7 +3,10 @@ import { initCreateNewStoryChannel } from './create-new-story-channel';
 import path from 'path';
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
-import { CREATE_NEW_STORYFILE, CREATE_NEW_STORYFILE_RESULT } from '@storybook/core-events';
+import {
+  CREATE_NEW_STORYFILE_REQUEST,
+  CREATE_NEW_STORYFILE_RESPONSE,
+} from '@storybook/core-events';
 
 vi.mock('@storybook/core-common', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@storybook/core-common')>();
@@ -42,7 +45,7 @@ describe('createNewStoryChannel', () => {
 
   describe('initCreateNewStoryChannel', () => {
     it('should emit an event with a story id', async () => {
-      mockChannel.addListener(CREATE_NEW_STORYFILE_RESULT, createNewStoryFileEventListener);
+      mockChannel.addListener(CREATE_NEW_STORYFILE_RESPONSE, createNewStoryFileEventListener);
       const cwd = process.cwd();
 
       initCreateNewStoryChannel(mockChannel, {
@@ -59,7 +62,7 @@ describe('createNewStoryChannel', () => {
         },
       } as any);
 
-      mockChannel.emit(CREATE_NEW_STORYFILE, {
+      mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
         componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
         componentIsDefaultExport: true,
@@ -81,7 +84,7 @@ describe('createNewStoryChannel', () => {
     });
 
     it('should emit an error event if an error occurs', async () => {
-      mockChannel.addListener(CREATE_NEW_STORYFILE_RESULT, createNewStoryFileEventListener);
+      mockChannel.addListener(CREATE_NEW_STORYFILE_RESPONSE, createNewStoryFileEventListener);
       const cwd = process.cwd();
 
       mockFs.writeFile.mockImplementation(() => {
@@ -102,7 +105,7 @@ describe('createNewStoryChannel', () => {
         },
       } as any);
 
-      mockChannel.emit(CREATE_NEW_STORYFILE, {
+      mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
         componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
         componentIsDefaultExport: true,

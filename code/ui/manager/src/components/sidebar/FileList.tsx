@@ -13,7 +13,7 @@ export const FileList = styled('div')(({ theme }) => ({
   // after element which fades out the list
   '&::after': {
     content: '""',
-    position: 'absolute',
+    position: 'fixed',
     pointerEvents: 'none',
     bottom: 0,
     left: 0,

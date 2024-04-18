@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect, useState } from 'react';
+import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
 import { FileSearchListLoadingSkeleton } from './FileSearchListSkeleton';
@@ -185,6 +185,17 @@ export const FileSearchList = memo(function FileSearchList({
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const parentRef = React.useRef();
 
+  const sortedSearchResults = useMemo(() => {
+    // search results with no exports should be at the end of the list
+    return [...(searchResults ?? [])]?.sort((a, b) => {
+      if (a.exportedComponents?.length && b.exportedComponents?.length < 1) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }, [searchResults]);
+
   const rowVirtualizer = useVirtualizer({
     count: searchResults?.length || 0,
     getScrollElement: () => parentRef.current,
@@ -348,7 +359,7 @@ export const FileSearchList = memo(function FileSearchList({
     );
   }
 
-  if (searchResults?.length > 0) {
+  if (sortedSearchResults?.length > 0) {
     return (
       <FileList ref={parentRef}>
         <FileListUl
@@ -357,7 +368,7 @@ export const FileSearchList = memo(function FileSearchList({
           }}
         >
           {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-            const searchResult = searchResults[virtualItem.index];
+            const searchResult = sortedSearchResults[virtualItem.index];
             return searchResult.exportedComponents === null ||
               searchResult.exportedComponents?.length === 0 ? (
               <WithTooltip

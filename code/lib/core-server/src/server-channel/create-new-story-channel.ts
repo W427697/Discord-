@@ -6,6 +6,7 @@ import {
   CREATE_NEW_STORYFILE_RESPONSE,
 } from '@storybook/core-events';
 import fs from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { getNewStoryFile } from '../utils/get-new-story-file';
 import { getStoryId } from '../utils/get-story-id';
 import path from 'node:path';
@@ -21,6 +22,12 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
         options
       );
 
+      const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
+
+      if (existsSync(storyFilePath)) {
+        throw new Error(`Story file already exists at .${path.sep}${relativeStoryFilePath}`);
+      }
+
       await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
 
       const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
@@ -29,7 +36,7 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
         success: true,
         result: {
           storyId,
-          storyFilePath: `./${path.relative(process.cwd(), storyFilePath)}`,
+          storyFilePath: `./${relativeStoryFilePath}`,
           exportedStoryName,
         },
         error: null,

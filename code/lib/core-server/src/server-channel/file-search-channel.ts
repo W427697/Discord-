@@ -67,7 +67,7 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
           files: await Promise.all(entries),
         },
         error: null,
-      } as FileComponentSearchResult);
+      } satisfies FileComponentSearchResult);
     } catch (e: any) {
       /**
        * Emits the search result event with an error message
@@ -76,7 +76,7 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
         success: false,
         result: null,
         error: `An error occurred while searching for components in the project.\n${e?.message}`,
-      } as FileComponentSearchResult);
+      } satisfies FileComponentSearchResult);
     }
   });
 
