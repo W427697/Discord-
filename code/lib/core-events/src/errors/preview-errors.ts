@@ -272,7 +272,7 @@ export class UnknownArgTypesError extends StorybookError {
     
     ${JSON.stringify(this.data.type, null, 2)} 
     
-    so Storybook will fall back to a generic type description.
+    Storybook will fall back to use a generic type description instead.
 
     This type is either not supported or it is a bug in the docgen generation in Storybook.
     If you think this is a bug, please detail it as much as possible in the Github issue.`;
