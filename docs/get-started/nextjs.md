@@ -881,6 +881,12 @@ If your server components access data via the network, we recommend using the [M
 
 In the future we will provide better mocking support in Storybook and support for [Server Actions](https://nextjs.org/docs/app/api-reference/functions/server-actions).
 
+## Portable stories
+
+You can test your stories in a Jest environment by using the [portable stories](../api/portable-stories-jest.md) API.
+
+When using portable stories with Next.js, you need to mock the Next.js modules that your components depend on. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment.
+
 ## Notes for Yarn v2 and v3 users
 
 If you're using [Yarn](https://yarnpkg.com/) v2 or v3, you may run into issues where Storybook can't resolve `style-loader` or `css-loader`. For example, you might get errors like:
@@ -991,7 +997,7 @@ The `@storybook/nextjs` package exports a number of modules that enables you to 
 
 Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
 
-`getPackageAliases` is a helper to generate the aliases needed to set up [portable stories in a Jest environment](../api/portable-stories-jest.md).
+`getPackageAliases` is a helper to generate the aliases needed to set up [portable stories](#portable-stories).
 
 TK: Example snippet
 

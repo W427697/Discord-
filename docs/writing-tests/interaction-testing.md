@@ -92,25 +92,38 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
 
 ### Run code before each test
 
-It can be helpful to run code before each test to set up the initial state of the component or reset the state of modules. You can do this by adding an `async beforeEach` function to the meta in your stories file. This function will run before each test in the story file.
+It can be helpful to run code before each test to set up the initial state of the component or reset the state of modules. You can do this by adding an asynchronous `beforeEach` function to the story, meta (which will run before each story in the file), or the preview file (`.storybook/preview.js|ts`, which will run before every story in the project).
+
+Additionally, if you return a cleanup function from the `beforeEach` function, it will run **after** each test, when the story is remounted or navigated away from.
+
+<Callout variant="info">
+
+It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
+
+</Callout>
+
+Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and reset it when the story unmounts.
 
 <!-- TODO: Snippetize -->
 
 ```js
 // Page.stories.tsx
 import { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import MockDate from 'mockdate';
 
 import { getUserFromSession } from '#api/session.mock';
 import { Page } from './Page';
 
 const meta: Meta<typeof Page> = {
   component: Page,
+  // 👇 Set the current date for every story in the file
   async beforeEach() {
-    // 👇 Do this for each story
-    // TK
-    // 👇 Clear the mock between stories
-    getUserFromSession.mockClear();
+    MockDate.set('2024-02-14');
+
+    // 👇 Reset the date after each test
+    return () => {
+      MockDate.reset();
+    };
   },
 };
 export default meta;
@@ -118,7 +131,9 @@ export default meta;
 type Story = StoryObj<typeof Page>;
 
 export const Default: Story = {
-  // TK
+  async play({ canvasElement }) {
+    // ... This will run with the mocked date
+  },
 };
 ```
 

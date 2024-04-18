@@ -184,7 +184,7 @@ Type: `boolean`
 
 Default: `false`
 
-TK: Description
+Setting this to `true` will prevent the [play function](../writing-stories/play-function.md) from failing and showing a warning when an uncaught exception is thrown.
 
 ---
 

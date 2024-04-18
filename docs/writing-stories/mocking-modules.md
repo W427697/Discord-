@@ -12,7 +12,9 @@ For either approach, relative imports of the mocked module are not supported.
 
 To mock a module, create a file with the same name and in the same directory as the module you want to mock. For example, to mock a module named `session`, create a file next to it named `session.mock.js|ts`, with a few characteristics:
 
-- It should re-export all exports from the original module - using relative imports to import the original, as using a subpath or alias import would result in it importing itself.
+- It must import the original module using a relative import.
+  - Using a subpath or alias import would result in it importing itself.
+- It should re-export all exports from the original module.
 - It should use the `fn` utility to mock any necessary functionality from the original module.
 - It should not introduce side effects that could affect other tests or components. Mock files should be isolated and only affect the module they are mocking.
 
@@ -27,13 +29,35 @@ export * from './session';
 export const getUserFromSession = fn(actual.getUserFromSession);
 ```
 
+### Mock files for external modules
+
+You can't directly mock an external module like `uuid` or `node:fs`. Instead, you must wrap the module in you own module, which you can then mock like any other internal module. In this example, we wrap `uuid`:
+
+<!-- TODO: Snippetize -->
+
+```ts
+// lib/uuid.ts
+import { v4 } from 'uuid';
+
+export const uuidv4 = v4;
+```
+
+And create a mock for the wrapper:
+
+```ts
+// lib/uuid.mock.ts
+import { fn } from '@storybook/test';
+
+import * as actual from './uuid';
+
+export const uuidv4 = fn(actual.uuidv4);
+```
+
 ## Subpath imports
 
 The recommended method for mocking modules is to use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports), a feature of Node packages that is supported by both [Vite](../builders/vite.md) and [Webpack](../builders/webpack.md).
 
 To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
-
-TK: External module example?
 
 ```json
 // package.json
@@ -60,21 +84,6 @@ TK: External module example?
 }
 ```
 
-You can't directly mock an external module like `uuid` or `node:fs`, so instead of importing them directly in your components you can wrap them in your own modules that you import from instead, and that are mockable like any other internal module. Here's an example of wrapping `uuid` and creating a mock for the wrapper:
-
-```ts
-// lib/uuid.ts
-import { v4 } from 'uuid';
-export const uuidv4 = v4;
-```
-
-```ts
-// lib/uuid.mock.ts
-import { fn } from '@storybook/test';
-import * as actual from './uuid';
-export const uuidv4 = fn(actual.uuidv4);
-```
-
 <Callout variant="info">
 
 Each subpath must begin with `#`, to differentiate it from a regular module path. The `#*` entry is a catch-all that maps all subpaths to the root directory.
@@ -97,7 +106,7 @@ The Storybook environment will match the conditions `storybook` and `test`, so y
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-````js
+```js
 // .storybook/main.ts
 
 viteFinal: async (config) => {
@@ -113,6 +122,7 @@ viteFinal: async (config) => {
     }
   }
 },
+```
 
 ```js
 // .storybook/main.ts
@@ -128,7 +138,7 @@ webpackFinal: async (config) => {
 
   return config
 },
-````
+```
 
 <!-- OR? -->
 <!-- prettier-ignore-start -->
@@ -235,15 +245,17 @@ export const SaveFlow: Story = {
 
 ### Setting up and cleaning up
 
-You can use `beforeEach` at the project, component or story level to perform any setup that you need, eg. setting up mock behavior. You can also return a cleanup-function from `beforeEach` which will be called after your story unmounts. This is useful for unsubscribing observers etc.
+You can use the asynchronous `beforeEach` function to perform any setup that you need before the story is rendered, eg. setting up mock behavior. It can be defined at the story, component (which will run for all stories in the file), or project (defined in `.storybook/preview.js|ts`, which will run for all stories in the project) level.
+
+You can also return a cleanup function from `beforeEach` which will be called after your story unmounts. This is useful for tasks like unsubscribing observers, etc.
 
 <Callout variant="info">
 
-It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test`](../api/parameters.md#test) API for more information.
+It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
 
 </Callout>
 
-Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and resetting it when the story unmounts.
+Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and reset it when the story unmounts.
 
 <!-- TODO: Snippetize -->
 
@@ -257,8 +269,11 @@ import { Page } from './Page';
 
 const meta: Meta<typeof Page> = {
   component: Page,
+  // 👇 Set the current date for every story in the file
   async beforeEach() {
     MockDate.set('2024-02-14');
+
+    // 👇 Reset the date after each test
     return () => {
       MockDate.reset();
     };
@@ -268,7 +283,5 @@ export default meta;
 
 type Story = StoryObj<typeof Page>;
 
-export const Default: Story = {
-  // TK
-};
+export const Default: Story = {};
 ```
