@@ -1029,9 +1029,34 @@ export default createJestConfig(config);
 
 Type: `typeof import('next/cache')`
 
-TK: Description
+Exports mocks that replaces the actual implementation of `next/cache` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
 
-TK: Example snippet
+```ts
+import { expect, userEvent, within } from '@storybook/test';
+import { Meta, StoryObj } from '@storybook/react';
+// 👇 import from the Storybook package to get correct mock types
+import { revalidatePath } from '@storybook/nextjs/cache';
+import MyForm from './my-form';
+
+const meta = {
+  component: MyForm,
+} satisfies Meta<typeof MyForm>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Submitted: Story = {
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    const submitButton = canvas.getByRole('button', { name: /submit/i });
+    await userEvent.click(saveButton);
+    // 👇 use any mock assertions on the function
+    await expect(revalidatePath).toHaveBeenCalledWith('/');
+  },
+};
+```
 
 #### `@storybook/nextjs/headers.mock`
 
@@ -1049,23 +1074,123 @@ For cookies, you can use the existing API to write them, eg. `cookies().set('fir
 
 Because `headers()`, `cookies()` and their sub-functions are all mocks you can use any [mock utilities](https://vitest.dev/api/mock.html) in your stories, like `headers().getAll.mock.calls`.
 
-TK: Example snippet
+```ts
+import { expect, fireEvent, userEvent, within } from '@storybook/test';
+import { Meta, StoryObj } from '@storybook/react';
+// 👇 import from the Storybook package to get correct mock types
+import { cookies, headers } from '@storybook/nextjs/headers';
+import MyForm from './my-form';
+
+const meta = {
+  component: MyForm,
+} satisfies Meta<typeof MyForm>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const LoggedInEurope: Story = {
+  async beforeEach() {
+    // 👇 set mock cookies and headers ahead of rendering
+    cookies().set('username', 'Sol');
+    headers().set('timezone', 'Central European Summer Time');
+  },
+  play: () => {
+    // 👇 assert that your component called the mocks
+    expect(cookies().get).toHaveBeenCalledOnce();
+    expect(cookies().get).toHaveBeenCalledWith('username');
+    expect(headers().get).toHaveBeenCalledOnce();
+    expect(cookies().get).toHaveBeenCalledWith('timezone');
+  },
+};
+```
 
 #### `@storybook/nextjs/navigation.mock`
 
-Type: `typeof import('next/navigation')`
+Type: `typeof import('next/navigation') & getRouter: () => ReturnType<typeof import('next/navigation')['useRouter']>`
 
-Exports mocks that replaces the actual implementation of `next/navigation` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), so that the properties can be manipulated and asserted on.
+Use these to mock implementations or assert on mock calls in a story's `play`-function.
 
-TK: Example snippet
+```ts
+import { expect, fireEvent, userEvent, within } from '@storybook/test';
+import { Meta, StoryObj } from '@storybook/react';
+// 👇 import from the Storybook package to get correct mock types
+import { redirect, getRouter } from '@storybook/nextjs/navigation';
+import MyForm from './my-form';
+
+const meta = {
+  component: MyForm,
+  parameters: {
+    nextjs: {
+      // 👇 As in the Next.js application, next/navigation only works using App Router
+      appDirectory: true,
+    },
+  },
+} satisfies Meta<typeof MyForm>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Unauthenticated: Story = {
+  play: () => {
+    // 👇 assert that your component called redirect()
+    expect(redirect).toHaveBeenCalledWith('/login', 'replace');
+  },
+};
+
+export const GoBack: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const backBtn = await canvas.findByText('Go back');
+
+    await userEvent.click(backBtn);
+    // 👇 assert that your component called back()
+    await expect(getRouter().back).toHaveBeenCalled();
+  },
+};
+```
 
 #### `@storybook/nextjs/router.mock`
 
-Type: `typeof import('next/router')`
+Type: `typeof import('next/router') & getRouter: () => ReturnType<typeof import('next/router')['useRouter']>`
 
-Exports mocks that replaces the actual implementation of `next/router` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), so that the properties can be manipulated and asserted on.
+Use these to mock implementations or assert on mock calls in a story's `play`-function.
 
-TK: Example snippet
+```ts
+import { expect, fireEvent, userEvent, within } from '@storybook/test';
+import { Meta, StoryObj } from '@storybook/react';
+// 👇 import from the Storybook package to get correct mock types
+import { getRouter } from '@storybook/nextjs/router';
+import MyForm from './my-form';
+
+const meta = {
+  component: MyForm,
+  parameters: {
+    nextjs: {
+      // 👇 As in the Next.js application, next/router only works using Pages Router
+      appDirectory: false,
+    },
+  },
+} satisfies Meta<typeof MyForm>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const GoBack: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const backBtn = await canvas.findByText('Go back');
+
+    await userEvent.click(backBtn);
+    // 👇 assert that your component called back()
+    await expect(getRouter().back).toHaveBeenCalled();
+  },
+};
+```
 
 ### Options
 
