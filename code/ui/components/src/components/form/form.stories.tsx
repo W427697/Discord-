@@ -121,29 +121,3 @@ export const Input = {
     },
   },
 };
-
-export const Field2 = {
-  args: {
-    label: 'field',
-  },
-
-  render: (args: any) => (
-    <FieldComponent key="key" {...args}>
-      <InputComponents.Select value="val2" onChange={action('onChange')}>
-        <option value="val1">Value 1</option>
-        <option value="val2">Value 2</option>
-        <option value="val3">Value 3</option>
-      </InputComponents.Select>
-    </FieldComponent>
-  ),
-
-  argTypes: {
-    label: {
-      defaultValue: 'label',
-
-      control: {
-        type: 'text',
-      },
-    },
-  },
-};

@@ -1,4 +1,5 @@
 import React from 'react';
+import { dequal as deepEqual } from 'dequal';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE } from '@storybook/core-events';
 import type { API } from '@storybook/manager-api';
@@ -6,6 +7,7 @@ import { addons, types, useArgTypes } from '@storybook/manager-api';
 import { color } from '@storybook/theming';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
+import type { Args } from '@storybook/csf';
 
 function Title() {
   const rows = useArgTypes();
@@ -64,7 +66,11 @@ addons.register(ADDON_ID, (api) => {
     const data = api.getCurrentStoryData();
     if (data.type !== 'story') throw new Error('Not a story');
     return requestResponse(api, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
-      args: data.args,
+      // Only send updated args
+      args: Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
+        if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
+        return acc;
+      }, {}),
       csfId: data.id,
       importPath: data.importPath,
     });
