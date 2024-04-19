@@ -115,22 +115,22 @@ Want to know more about installing Storybook? Check out the [installation guide]
 Storybook is a powerful tool that can help you with many aspects of your UI development workflow. Here are some of the main concepts to get you started.
 
 <div class="sb-grid two-up">
-  <a href="../writing-stories/index.md" class="card card-large concept">
+  <a href="../writing-stories/" class="card card-large concept">
     <img src="/images/icons/icon-story.svg" alt="" width="20" height="20" class="img" />
     <h3>Stories</h3>
     <p>A story captures the rendered state of a UI component. Each component can have multiple stories, where each story describes a different component state.</p>
   </a>
-  <a href="../writing-docs/index.md" class="card card-large concept">
+  <a href="../writing-docs/" class="card card-large concept">
     <img src="/images/icons/icon-docs.svg" alt="" width="20" height="20" class="img" />
     <h3>Docs</h3>
     <p>Storybook can analyze your components to automatically create documentation alongside your stories. This automatic documentation makes it easier for you to create UI library usage guidelines, design system sites, and more.</p>
   </a>
-  <a href="../writing-tests/index.md" class="card card-large concept">
+  <a href="../writing-tests/" class="card card-large concept">
     <img src="/images/icons/icon-testing.svg" alt="" width="20" height="20" class="img" />
     <h3>Testing</h3>
     <p>Stories are a pragmatic starting point for your UI testing strategy. You already write stories as a natural part of UI development, so testing those stories is a low-effort way to prevent UI bugs over time.</p>
   </a>
-  <a href="../sharing/index.md" class="card card-large concept">
+  <a href="../sharing/" class="card card-large concept">
     <img src="/images/icons/icon-sharing.svg" alt="" width="20" height="20" class="img" />
     <h3>Sharing</h3>
     <p>Publishing your Storybook allows you to share your work with others. You can also embed your stories in places like Notion or Figma.</p>
@@ -142,7 +142,7 @@ Storybook is a powerful tool that can help you with many aspects of your UI deve
 Once you've learned the basics, explore these other ways to get the most out of Storybook.
 
 <div class="sb-grid three-up">
-  <a href="../essentials/index.md" class="resource">
+  <a href="../essentials/" class="resource">
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Essential addons
   </a>
@@ -154,19 +154,19 @@ Once you've learned the basics, explore these other ways to get the most out of 
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Recipes
   </a>
-  <a href="../builders/index.md" class="resource">
+  <a href="../builders/" class="resource">
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Builders
   </a>
-  <a href="../contribute/index.md" class="resource">
+  <a href="../contribute/" class="resource">
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     How to contribute
   </a>
-  <a href="../migration-guide/index.md" class="resource">
+  <a href="../migration-guide/" class="resource">
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     Migrate to 8.0
   </a>
-  <a href="../faq.md" class="resource">
+  <a href="../faq" class="resource">
     <img src="/images/icons/icon-more.svg" width="28" height="28" alt="" class="img" />
     FAQ
   </a>

@@ -115,23 +115,42 @@ export interface API_SidebarOptions {
 
 interface OnClearOptions {
   /**
-   *  True when the user dismissed the notification.
+   *  True when the user manually dismissed the notification.
    */
   dismissed: boolean;
+  /**
+   *  True when the notification timed out after the set duration.
+   */
+  timeout: boolean;
 }
 
+interface OnClickOptions {
+  /**
+   *  Function to dismiss the notification.
+   */
+  onDismiss: () => void;
+}
+
+/**
+ * @deprecated Use ReactNode for the icon instead.
+ * @see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated
+ */
+interface DeprecatedIconType {
+  name: string;
+  color?: string;
+}
 export interface API_Notification {
   id: string;
-  link: string;
   content: {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?: {
-    name: string;
-    color?: string;
-  };
+  duration?: number;
+  link?: string;
+  // TODO: Remove DeprecatedIconType in 9.0
+  icon?: React.ReactNode | DeprecatedIconType;
   onClear?: (options: OnClearOptions) => void;
+  onClick?: (options: OnClickOptions) => void;
 }
 
 type API_Versions = Record<string, string>;

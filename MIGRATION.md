@@ -510,8 +510,8 @@ For migrating to CSF, see: [`storyStoreV6` and `storiesOf` is deprecated](#story
 In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
 
 - `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
-- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
-- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channels`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channels`.
 - `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
@@ -554,7 +554,7 @@ export default defineConfig({
 
 ```ts
 import { defineConfig } from "vite";
-import svelte from "@sveltejs/vite-plugin-svelte";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -4177,7 +4177,7 @@ For more information, [see the documentation](https://github.com/storybookjs/sto
 
 Storybook has built-in Typescript support in 6.0. That means you should remove your complex Typescript configurations from your `.storybook` config. We've tried to pick sensible defaults that work out of the box, especially for nice prop table generation in `@storybook/addon-docs`.
 
-To migrate from an old setup, we recommend deleting any typescript-specific webpack/babel configurations in your project. You should also remove `@storybook/preset-typescript`, which is superceded by the built-in configuration.
+To migrate from an old setup, we recommend deleting any typescript-specific webpack/babel configurations in your project. You should also remove `@storybook/preset-typescript`, which is superseded by the built-in configuration.
 
 If you want to override the defaults, see the [typescript configuration docs](https://storybook.js.org/docs/react/configure/typescript).
 
@@ -5477,7 +5477,7 @@ Currently there is no recommended way of accessing the component options of a st
 
 ## From version 4.0.x to 4.1.x
 
-There are are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
+There are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
 
 ### Private addon config
 
@@ -5570,7 +5570,7 @@ The `@storybook/react-native` had built-in addons (`addon-actions` and `addon-li
 
 1. `imageSnapshot` test function was extracted from `addon-storyshots`
    and moved to a new package - `addon-storyshots-puppeteer` that now will
-   be dependant on puppeteer. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer)
+   be dependent on puppeteer. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer)
 2. `getSnapshotFileName` export was replaced with the `Stories2SnapsConverter`
    class that now can be overridden for a custom implementation of the
    snapshot-name generation. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-core#stories2snapsconverter)

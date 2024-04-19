@@ -1,7 +1,6 @@
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
 
@@ -124,7 +123,11 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
+
+        // Dynamically import globby because it is a pure ESM module
+        const { globby } = await import('globby');
+
+        const files = await globby(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
@@ -506,7 +509,7 @@ export class StoryIndexGenerator {
       // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.
     } else {
       // If both entries are templates (e.g. you have two CSF files with the same title), then
-      //   we need to merge the entries. We'll use the the first one's name and importPath,
+      //   we need to merge the entries. We'll use the first one's name and importPath,
       //   but ensure we include both as storiesImports so they are both loaded before rendering
       //   the story (for the <Stories> block & friends)
       return {
