@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import fs from 'node:fs/promises';
 import { parse } from 'telejson';
 import type { Channel } from '@storybook/channels';
 import type {
@@ -9,7 +10,7 @@ import type {
 } from '@storybook/core-events';
 import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
-import { readCsf, writeCsf } from '@storybook/csf-tools';
+import { printCsf, readCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
 import type { CoreConfig, Options } from '@storybook/types';
 import { telemetry } from '@storybook/telemetry';
@@ -17,6 +18,7 @@ import { telemetry } from '@storybook/telemetry';
 import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
+import { formatFileContent } from '@storybook/core-common';
 
 const parseArgs = (args: string): Record<string, any> =>
   parse(args, {
@@ -26,17 +28,34 @@ const parseArgs = (args: string): Record<string, any> =>
     allowSymbol: true,
   });
 
+// Removes extra newlines between story properties. See https://github.com/benjamn/recast/issues/242
+// Only updates the part of the code for the story with the given name.
+const removeExtraNewlines = (code: string, name: string) => {
+  const anything = '(.|\r\n|\r|\n)'; // Multiline match for any character.
+  const newline = '(\r\n|\r|\n)'; // Either newlines or carriage returns may be used in the file.
+  const closing = newline + '};' + newline; // Marks the end of the story definition.
+  const regex = new RegExp(
+    // Looks for an export by the given name, considers the first closing brace on its own line
+    // to be the end of the story definition.
+    `^(?<before>${anything}*)(?<story>export const ${name} =${anything}+?${closing})(?<after>${anything}*)$`
+  );
+  const { before, story, after } = code.match(regex)?.groups || {};
+  return story
+    ? before + story.replaceAll(/(\r\n|\r|\n)(\r\n|\r|\n)([ \t]*[a-z0-9_]+): /gi, '$2$3:') + after
+    : code;
+};
+
 class SaveStoryError extends Error {}
 
 export function initializeSaveStory(channel: Channel, options: Options, coreConfig: CoreConfig) {
   channel.on(SAVE_STORY_REQUEST, async ({ id, payload }: RequestData<SaveStoryRequestPayload>) => {
     const { csfId, importPath, args, name } = payload;
 
-    let newStoryId;
-    let newStoryName;
-    let sourceFileName;
-    let sourceFilePath;
-    let sourceStoryName;
+    let newStoryId: string | undefined;
+    let newStoryName: string | undefined;
+    let sourceFileName: string;
+    let sourceFilePath: string;
+    let sourceStoryName: string;
 
     try {
       sourceFileName = basename(importPath);
@@ -68,6 +87,11 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
         args ? parseArgs(args) : {}
       );
 
+      const code = await formatFileContent(
+        sourceFilePath,
+        removeExtraNewlines(printCsf(csf).code, name || storyName)
+      );
+
       // Writing the CSF file should trigger HMR, which causes the story to rerender. Delay the
       // response until that happens, but don't wait too long.
       await Promise.all([
@@ -75,7 +99,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
           channel.on(STORY_RENDERED, resolve);
           setTimeout(() => resolve(channel.off(STORY_RENDERED, resolve)), 3000);
         }),
-        writeCsf(csf, sourceFilePath),
+        fs.writeFile(sourceFilePath, code),
       ]);
 
       channel.emit(SAVE_STORY_RESPONSE, {
