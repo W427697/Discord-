@@ -3,6 +3,7 @@ import type { Addon_StoryContext } from '@storybook/types';
 import { AppRouterProvider } from './app-router-provider';
 import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
+import { RedirectBoundary } from 'next/dist/client/components/redirect-boundary';
 
 const defaultRouterParams: RouteParams = {
   pathname: '/',
@@ -27,7 +28,9 @@ export const RouterDecorator = (
           ...parameters.nextjs?.navigation,
         }}
       >
-        <Story />
+        <RedirectBoundary>
+          <Story />
+        </RedirectBoundary>
       </AppRouterProvider>
     );
   }
