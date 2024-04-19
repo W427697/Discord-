@@ -39,8 +39,9 @@ export const Created: Story = {
       const submitButton = await within(dialog).findByRole('button', { name: /Create/i });
       await userEvent.click(submitButton);
     });
-
-    await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
+    await waitFor(async () => {
+      await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
+    });
   },
 };
 
