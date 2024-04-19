@@ -32,7 +32,7 @@ import {
 import { addons, useStorybookApi } from '@storybook/manager-api';
 
 import { useDebounce } from '../../hooks/useDebounce';
-import type { SearchResult } from './FileSearchList';
+import type { NewStoryPayload, SearchResult } from './FileSearchList';
 import { FileSearchList } from './FileSearchList';
 import type { Channel } from '@storybook/channels';
 import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
@@ -126,6 +126,11 @@ const ModalError = styled(Modal.Error)({
   padding: '8px 40px 8px 16px',
   bottom: 0,
   maxHeight: 'initial',
+  width: '100%',
+
+  div: {
+    wordBreak: 'break-word',
+  },
 
   '> div': {
     padding: 0,
@@ -146,7 +151,9 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
   const fileSearchQueryDebounced = useDebounce(fileSearchQuery, 200);
   const fileSearchQueryDeferred = useDeferredValue(fileSearchQueryDebounced);
   const emittedValue = useRef<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ selectedItemId?: number | string; error: string } | null>(
+    null
+  );
   const api = useStorybookApi();
   const [modalContentRef, modalContentDimensions] = useMeasure<HTMLDivElement>();
   const [modalMaxHeight, setModalMaxHeight] = useState<number>(modalContentDimensions.height);
@@ -190,12 +197,53 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
     [api, onOpenChange]
   );
 
+  const handleFileSearch = useCallback(() => {
+    setLoading(true);
+    const channel = addons.getChannel();
+
+    const set = (data: FileComponentSearchResult) => {
+      const isLatestRequest =
+        data.result?.searchQuery === fileSearchQueryDeferred && data.result.files;
+
+      if (data.success) {
+        if (isLatestRequest) {
+          setSearchResults(data.result.files);
+        }
+      } else {
+        setError({ error: data.error });
+      }
+
+      if (isLatestRequest) {
+        channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
+        setLoading(false);
+        emittedValue.current = null;
+      }
+    };
+
+    channel.on(FILE_COMPONENT_SEARCH_RESPONSE, set);
+
+    if (fileSearchQueryDeferred !== '' && emittedValue.current !== fileSearchQueryDeferred) {
+      emittedValue.current = fileSearchQueryDeferred;
+      channel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        searchQuery: fileSearchQueryDeferred,
+      } satisfies FileComponentSearchPayload);
+    } else {
+      setSearchResults(null);
+      setLoading(false);
+    }
+
+    return () => {
+      channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
+    };
+  }, [fileSearchQueryDeferred]);
+
   const handleCreateNewStory = useCallback(
     async ({
       componentExportName,
       componentFilePath,
       componentIsDefaultExport,
-    }: CreateNewStoryPayload) => {
+      selectedItemId,
+    }: NewStoryPayload) => {
       try {
         const channel = addons.getChannel();
 
@@ -254,7 +302,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
 
           handleSuccessfullyCreatedStory(componentExportName);
         } else {
-          setError(createNewStoryResult.error);
+          setError({ selectedItemId: selectedItemId, error: createNewStoryResult.error });
         }
       } catch (e) {
         handleErrorWhenCreatingStory();
@@ -265,45 +313,11 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
 
   useEffect(() => {
     setError(null);
-  }, [searchResults]);
+  }, [fileSearchQueryDeferred]);
 
   useEffect(() => {
-    setLoading(true);
-    const channel = addons.getChannel();
-
-    const set = (data: FileComponentSearchResult) => {
-      const isLatestRequest =
-        data.result?.searchQuery === fileSearchQueryDeferred && data.result.files;
-
-      if (data.success) {
-        if (isLatestRequest) {
-          setSearchResults(data.result.files);
-        }
-      } else {
-        setError(data.error);
-      }
-
-      if (isLatestRequest) {
-        setLoading(false);
-      }
-    };
-
-    channel.on(FILE_COMPONENT_SEARCH_RESPONSE, set);
-
-    if (fileSearchQueryDeferred !== '' && emittedValue.current !== fileSearchQueryDeferred) {
-      emittedValue.current = fileSearchQueryDeferred;
-      channel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
-        searchQuery: fileSearchQueryDeferred,
-      } satisfies FileComponentSearchPayload);
-    } else {
-      setSearchResults(null);
-      setLoading(false);
-    }
-
-    return () => {
-      channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
-    };
-  }, [fileSearchQueryDeferred, setSearchResults, setLoading]);
+    return handleFileSearch();
+  }, [handleFileSearch]);
 
   return (
     <ModalStyled
@@ -350,6 +364,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
           </SearchField>
           {
             <FileSearchList
+              errorItemId={error?.selectedItemId}
               isLoading={isLoading}
               searchResults={searchResults}
               onNewStory={handleCreateNewStory}
@@ -359,7 +374,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
       </ModalChild>
       {error && fileSearchQueryDeferred !== '' && (
         <ModalError>
-          {error}
+          <div>{error.error}</div>
           <ModalErrorCloseIcon
             onClick={() => {
               setError(null);

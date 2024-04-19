@@ -1,6 +1,9 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
+import {
+  FILE_COMPONENT_SEARCH_RESPONSE,
+  FILE_COMPONENT_SEARCH_REQUEST,
+} from '@storybook/core-events';
 import { beforeEach, describe, expect, vi, it } from 'vitest';
 
 import { initFileSearchChannel } from './file-search-channel';
@@ -47,8 +50,8 @@ describe('file-search-channel', () => {
 
       initFileSearchChannel(mockChannel, mockOptions as any);
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -108,8 +111,8 @@ describe('file-search-channel', () => {
 
       initFileSearchChannel(mockChannel, mockOptions as any);
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -139,9 +142,9 @@ describe('file-search-channel', () => {
 
       initFileSearchChannel(mockChannel, mockOptions as any);
 
-      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESULT, searchResultChannelListener);
+      mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
 
-      mockChannel.emit(FILE_COMPONENT_SEARCH, data);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
 
       mocks.searchFiles.mockRejectedValue(new Error('ENOENT: no such file or directory'));
 

@@ -57,7 +57,7 @@ const config: StorybookConfig = {
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
     '@storybook/addon-a11y',
-    '@chromatic-com/storybook',
+    // '@chromatic-com/storybook',
   ],
   build: {
     test: {
@@ -66,6 +66,9 @@ const config: StorybookConfig = {
       // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
       disableDocgen: false,
     },
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
   framework: {
     name: '@storybook/react-vite',

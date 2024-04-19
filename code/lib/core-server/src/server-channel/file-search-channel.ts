@@ -7,6 +7,7 @@ import {
 } from '@storybook/core-common';
 import path from 'path';
 import fs from 'fs/promises';
+import { existsSync } from 'fs';
 
 import { getParser } from '../utils/parser';
 import { searchFiles } from '../utils/search-files';
@@ -15,6 +16,7 @@ import {
   FILE_COMPONENT_SEARCH_REQUEST,
   FILE_COMPONENT_SEARCH_RESPONSE,
 } from '@storybook/core-events';
+import { getStoryMetadata } from '../utils/get-new-story-file';
 
 export function initFileSearchChannel(channel: Channel, options: Options) {
   /**
@@ -46,15 +48,21 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
 
         try {
           const content = await fs.readFile(path.join(projectRoot, file), 'utf-8');
+          const { storyFileName } = getStoryMetadata(path.join(projectRoot, file));
+          const dirname = path.dirname(file);
+
+          const storyFileExists = existsSync(path.join(projectRoot, dirname, storyFileName));
           const info = await parser.parse(content);
 
           return {
             filepath: file,
             exportedComponents: info.exports,
+            storyFileExists,
           };
         } catch (e) {
           return {
             filepath: file,
+            storyFileExists: false,
             exportedComponents: null,
           };
         }

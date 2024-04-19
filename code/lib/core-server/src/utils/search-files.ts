@@ -5,7 +5,13 @@ export type SearchResult = Array<string>;
  */
 const FILE_EXTENSIONS = ['js', 'mjs', 'cjs', 'jsx', 'mts', 'ts', 'tsx', 'cts'];
 
-const IGNORED_FILES = ['**/node_modules/**', '**/*.spec.*', '**/*.test.*', '**/*.stories.*'];
+const IGNORED_FILES = [
+  '**/node_modules/**',
+  '**/*.spec.*',
+  '**/*.test.*',
+  '**/*.stories.*',
+  '**/storybook-static/**',
+];
 
 /**
  * Search for files in a directory that match the search query

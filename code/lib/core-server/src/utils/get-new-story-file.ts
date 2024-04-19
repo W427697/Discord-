@@ -15,7 +15,6 @@ export async function getNewStoryFile(
   { componentFilePath, componentExportName, componentIsDefaultExport }: CreateNewStoryPayload,
   options: Options
 ) {
-  const isTypescript = /\.(ts|tsx|mts|cts)$/.test(componentFilePath);
   const cwd = getProjectRoot();
 
   const frameworkPackageName = await getFrameworkName(options);
@@ -29,8 +28,8 @@ export async function getNewStoryFile(
   const basenameWithoutExtension = basename.replace(extension, '');
   const dirname = path.dirname(componentFilePath);
 
+  const { storyFileName, isTypescript } = getStoryMetadata(componentFilePath);
   const storyFileExtension = isTypescript ? 'tsx' : 'jsx';
-  const storyFileName = `${basenameWithoutExtension}.stories.${storyFileExtension}`;
   const alternativeStoryFileName = `${basenameWithoutExtension}.${componentExportName}.stories.${storyFileExtension}`;
 
   const exportedStoryName = 'Default';
@@ -59,3 +58,15 @@ export async function getNewStoryFile(
 
   return { storyFilePath, exportedStoryName, storyFileContent };
 }
+
+export const getStoryMetadata = (componentFilePath: string) => {
+  const isTypescript = /\.(ts|tsx|mts|cts)$/.test(componentFilePath);
+  const basename = path.basename(componentFilePath);
+  const extension = path.extname(componentFilePath);
+  const basenameWithoutExtension = basename.replace(extension, '');
+  const storyFileExtension = isTypescript ? 'tsx' : 'jsx';
+  return {
+    storyFileName: `${basenameWithoutExtension}.stories.${storyFileExtension}`,
+    isTypescript,
+  };
+};

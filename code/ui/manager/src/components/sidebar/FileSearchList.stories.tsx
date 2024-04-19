@@ -18,6 +18,7 @@ export const Default: Story = {
   args: {
     isLoading: true,
     searchResults: null,
+    errorItemId: null,
   },
 };
 
@@ -25,6 +26,7 @@ export const Empty: Story = {
   args: {
     isLoading: false,
     searchResults: [],
+    errorItemId: null,
   },
 };
 
@@ -76,12 +78,15 @@ export const WithResults: Story = {
   },
   args: {
     isLoading: false,
+    errorItemId: null,
     searchResults: [
       {
         exportedComponents: [],
+        storyFileExists: false,
         filepath: 'src/no-exports-module.js',
       },
       {
+        storyFileExists: false,
         exportedComponents: [
           {
             default: true,
@@ -95,10 +100,12 @@ export const WithResults: Story = {
         filepath: 'src/module-multiple-exports.js',
       },
       {
+        storyFileExists: false,
         exportedComponents: null,
         filepath: 'src/no-exports-module-1.js',
       },
       {
+        storyFileExists: false,
         exportedComponents: [
           {
             default: true,
@@ -106,6 +113,30 @@ export const WithResults: Story = {
           },
         ],
         filepath: 'src/module-single-export.js',
+      },
+      {
+        storyFileExists: true,
+        exportedComponents: [
+          {
+            default: true,
+            name: 'default',
+          },
+          {
+            default: false,
+            name: 'namedExportWithStory',
+          },
+        ],
+        filepath: 'src/has-story-file-with-multiple-exports.js',
+      },
+      {
+        storyFileExists: true,
+        exportedComponents: [
+          {
+            default: true,
+            name: 'default',
+          },
+        ],
+        filepath: 'src/has-story-file.js',
       },
     ],
   },
