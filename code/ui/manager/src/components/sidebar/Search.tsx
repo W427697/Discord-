@@ -22,7 +22,7 @@ import { isSearchResult, isExpandType } from './types';
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
-import { FileSearchModalContainer } from './FileSearchModal';
+import { CreateNewStoryFileModal } from './CreateNewStoryFileModal';
 
 const { document } = global;
 
@@ -427,7 +427,7 @@ export const Search = React.memo<{
                       <PlusIcon />
                     </CreateNewStoryButton>
                   </WithTooltip>
-                  <FileSearchModalContainer
+                  <CreateNewStoryFileModal
                     open={isFileSearchModalOpen}
                     onOpenChange={setIsFileSearchModalOpen}
                   />
