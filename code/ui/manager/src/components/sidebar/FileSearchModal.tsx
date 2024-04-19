@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { Modal, Form } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { AlertIcon, CheckIcon, CloseAltIcon, RefreshIcon, SearchIcon } from '@storybook/icons';
+import { AlertIcon, CheckIcon, CloseAltIcon, SearchIcon, SyncIcon } from '@storybook/icons';
 import type {
   ArgTypesInfoPayload,
   ArgTypesInfoResult,
@@ -39,11 +39,6 @@ import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.
 import { useMeasure } from './useMeasure';
 
 const MODAL_HEIGHT = 418;
-
-interface FileSearchModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
 
 const ModalStyled = styled(Modal)(() => ({
   boxShadow: 'none',
@@ -110,7 +105,7 @@ const LoadingIcon = styled.div(({ theme }) => ({
   top: 0,
   right: 16,
   zIndex: 1,
-  color: theme.textMutedColor,
+  color: theme.darkest,
   display: 'flex',
   alignItems: 'center',
   height: '100%',
@@ -139,185 +134,48 @@ const ModalError = styled(Modal.Error)({
 
 const ModalErrorCloseIcon = styled(CloseAltIcon)({
   position: 'absolute',
-  top: 8,
+  top: 4,
   right: -24,
   cursor: 'pointer',
 });
 
-export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) => {
-  const [, startTransition] = useTransition();
-  const [isLoading, setLoading] = useState(false);
-  const [fileSearchQuery, setFileSearchQuery] = useState('');
-  const fileSearchQueryDebounced = useDebounce(fileSearchQuery, 200);
-  const fileSearchQueryDeferred = useDeferredValue(fileSearchQueryDebounced);
-  const emittedValue = useRef<string | null>(null);
-  const [error, setError] = useState<{ selectedItemId?: number | string; error: string } | null>(
-    null
-  );
-  const api = useStorybookApi();
+type Error = { selectedItemId?: number | string; error: string } | null;
+
+interface FileSearchModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  fileSearchQuery: string;
+  fileSearchQueryDeferred: string;
+  setFileSearchQuery: (query: string) => void;
+  isLoading: boolean;
+  error: Error;
+  searchResults: SearchResult[] | null;
+  onCreateNewStory: (payload: NewStoryPayload) => void;
+  setError: (error: Error) => void;
+  container?: HTMLElement;
+}
+
+export const FileSearchModal = ({
+  open,
+  onOpenChange,
+  fileSearchQuery,
+  setFileSearchQuery,
+  isLoading,
+  error,
+  searchResults,
+  onCreateNewStory,
+  setError,
+  container,
+}: FileSearchModalProps) => {
   const [modalContentRef, modalContentDimensions] = useMeasure<HTMLDivElement>();
   const [modalMaxHeight, setModalMaxHeight] = useState<number>(modalContentDimensions.height);
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
     if (modalMaxHeight < modalContentDimensions.height) {
       setModalMaxHeight(modalContentDimensions.height);
     }
   }, [modalContentDimensions.height, modalMaxHeight]);
-
-  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
-
-  const handleErrorWhenCreatingStory = useCallback(() => {
-    api.addNotification({
-      id: 'create-new-story-file-error',
-      content: {
-        headline: 'Error while creating story file',
-        subHeadline: `Take a look at your developer console for more information`,
-      },
-      duration: 8_000,
-      icon: <AlertIcon />,
-    });
-
-    onOpenChange(false);
-  }, [api, onOpenChange]);
-
-  const handleSuccessfullyCreatedStory = useCallback(
-    (componentExportName: string) => {
-      api.addNotification({
-        id: 'create-new-story-file-success',
-        content: {
-          headline: 'Story file created',
-          subHeadline: `${componentExportName} was created`,
-        },
-        duration: 8_000,
-        icon: <CheckIcon />,
-      });
-
-      onOpenChange(false);
-    },
-    [api, onOpenChange]
-  );
-
-  const handleFileSearch = useCallback(() => {
-    setLoading(true);
-    const channel = addons.getChannel();
-
-    const set = (data: FileComponentSearchResult) => {
-      const isLatestRequest =
-        data.result?.searchQuery === fileSearchQueryDeferred && data.result.files;
-
-      if (data.success) {
-        if (isLatestRequest) {
-          setSearchResults(data.result.files);
-        }
-      } else {
-        setError({ error: data.error });
-      }
-
-      if (isLatestRequest) {
-        channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
-        setLoading(false);
-        emittedValue.current = null;
-      }
-    };
-
-    channel.on(FILE_COMPONENT_SEARCH_RESPONSE, set);
-
-    if (fileSearchQueryDeferred !== '' && emittedValue.current !== fileSearchQueryDeferred) {
-      emittedValue.current = fileSearchQueryDeferred;
-      channel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
-        searchQuery: fileSearchQueryDeferred,
-      } satisfies FileComponentSearchPayload);
-    } else {
-      setSearchResults(null);
-      setLoading(false);
-    }
-
-    return () => {
-      channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
-    };
-  }, [fileSearchQueryDeferred]);
-
-  const handleCreateNewStory = useCallback(
-    async ({
-      componentExportName,
-      componentFilePath,
-      componentIsDefaultExport,
-      selectedItemId,
-    }: NewStoryPayload) => {
-      try {
-        const channel = addons.getChannel();
-
-        const createNewStoryResult = await oncePromise<CreateNewStoryPayload, CreateNewStoryResult>(
-          {
-            channel,
-            request: {
-              name: CREATE_NEW_STORYFILE_REQUEST,
-              payload: {
-                componentExportName,
-                componentFilePath,
-                componentIsDefaultExport,
-              },
-            },
-            resolveEvent: CREATE_NEW_STORYFILE_RESPONSE,
-          }
-        );
-
-        if (createNewStoryResult.success) {
-          setError(null);
-
-          const storyId = createNewStoryResult.result.storyId;
-
-          await trySelectNewStory(api.selectStory, storyId);
-
-          const argTypesInfoResult = await oncePromise<ArgTypesInfoPayload, ArgTypesInfoResult>({
-            channel,
-            request: {
-              name: ARGTYPES_INFO_REQUEST,
-              payload: { storyId },
-            },
-            resolveEvent: ARGTYPES_INFO_RESPONSE,
-          });
-
-          if (argTypesInfoResult.success) {
-            const argTypes = argTypesInfoResult.result.argTypes;
-
-            const requiredArgs = extractSeededRequiredArgs(argTypes);
-
-            await oncePromise<SaveStoryRequest, SaveStoryResponse>({
-              channel,
-              request: {
-                name: SAVE_STORY_REQUEST,
-                payload: {
-                  id: storyId,
-                  payload: {
-                    args: requiredArgs,
-                    importPath: createNewStoryResult.result.storyFilePath,
-                    csfId: storyId,
-                  },
-                },
-              },
-              resolveEvent: SAVE_STORY_RESPONSE,
-            });
-          }
-
-          handleSuccessfullyCreatedStory(componentExportName);
-        } else {
-          setError({ selectedItemId: selectedItemId, error: createNewStoryResult.error });
-        }
-      } catch (e) {
-        handleErrorWhenCreatingStory();
-      }
-    },
-    [api, handleSuccessfullyCreatedStory, handleErrorWhenCreatingStory]
-  );
-
-  useEffect(() => {
-    setError(null);
-  }, [fileSearchQueryDeferred]);
-
-  useEffect(() => {
-    return handleFileSearch();
-  }, [handleFileSearch]);
 
   return (
     <ModalStyled
@@ -331,10 +189,9 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
       onInteractOutside={() => {
         onOpenChange(false);
       }}
+      container={container}
     >
-      <ModalChild
-        height={fileSearchQueryDeferred === '' ? modalContentDimensions.height : modalMaxHeight}
-      >
+      <ModalChild height={fileSearchQuery === '' ? modalContentDimensions.height : modalMaxHeight}>
         <ModalContent ref={modalContentRef}>
           <Modal.Header>
             <Modal.Title>Add a new story</Modal.Title>
@@ -358,7 +215,7 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
             />
             {isLoading && (
               <LoadingIcon>
-                <RefreshIcon />
+                <SyncIcon />
               </LoadingIcon>
             )}
           </SearchField>
@@ -367,12 +224,12 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
               errorItemId={error?.selectedItemId}
               isLoading={isLoading}
               searchResults={searchResults}
-              onNewStory={handleCreateNewStory}
+              onNewStory={onCreateNewStory}
             />
           }
         </ModalContent>
       </ModalChild>
-      {error && fileSearchQueryDeferred !== '' && (
+      {error && fileSearchQuery !== '' && (
         <ModalError>
           <div>{error.error}</div>
           <ModalErrorCloseIcon
@@ -385,31 +242,3 @@ export const FileSearchModal = ({ open, onOpenChange }: FileSearchModalProps) =>
     </ModalStyled>
   );
 };
-
-interface OncePromiseOptions<Payload> {
-  channel: Channel;
-  request: {
-    name: string;
-    payload: Payload;
-  };
-  resolveEvent: string;
-}
-
-function oncePromise<Payload, Result>({
-  channel,
-  request,
-  resolveEvent,
-}: OncePromiseOptions<Payload>): Promise<Result> {
-  return new Promise((resolve, reject) => {
-    channel.once(resolveEvent, (data: Result) => {
-      resolve(data);
-    });
-
-    channel.emit(request.name, request.payload as Payload);
-
-    // If the channel supports error events, you can reject the promise on error
-    channel.once(resolveEvent, (error: any) => {
-      reject(error);
-    });
-  });
-}

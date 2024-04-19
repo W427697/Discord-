@@ -154,14 +154,6 @@ export const FileSearchList = memo(function FileSearchList({
           aria-expanded={itemSelected}
           aria-controls={`file-list-export-${virtualItem.index}`}
           id={`file-list-item-wrapper-${virtualItem.index}`}
-          onClick={(event) => {
-            handleFileItemSelection({ virtualItem, itemId: searchResult.filepath, searchResult });
-          }}
-          onKeyUp={(event) => {
-            if (event.key === 'Enter') {
-              handleFileItemSelection({ virtualItem, itemId: searchResult.filepath, searchResult });
-            }
-          }}
         >
           <FileListItemContentWrapper
             selected={itemSelected}
@@ -243,7 +235,7 @@ export const FileSearchList = memo(function FileSearchList({
         </FileListItem>
       );
     },
-    [handleFileItemComponentSelection, handleFileItemSelection, errorItemId]
+    [handleFileItemComponentSelection, errorItemId]
   );
 
   if (isLoading && (searchResults === null || searchResults?.length === 0)) {
@@ -286,6 +278,22 @@ export const FileSearchList = memo(function FileSearchList({
                   key={virtualItem.key}
                   data-index={virtualItem.index}
                   ref={rowVirtualizer.measureElement}
+                  onClick={() => {
+                    handleFileItemSelection({
+                      virtualItem,
+                      itemId: searchResult.filepath,
+                      searchResult,
+                    });
+                  }}
+                  onKeyUp={(event) => {
+                    if (event.key === 'Enter') {
+                      handleFileItemSelection({
+                        virtualItem,
+                        itemId: searchResult.filepath,
+                        searchResult,
+                      });
+                    }
+                  }}
                   style={{
                     position: 'absolute',
                     top: 0,

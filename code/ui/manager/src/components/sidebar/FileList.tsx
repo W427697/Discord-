@@ -217,7 +217,7 @@ export const DefaultExport = styled('span')(({ theme }) => ({
 export const NoResults = styled('div')(({ theme }) => ({
   textAlign: 'center',
   maxWidth: '334px',
-  margin: '16px auto 0 auto',
+  margin: '16px auto 50px auto',
   fontSize: '14px',
   color: theme.base === 'dark' ? theme.color.lightest : '#000',
 }));

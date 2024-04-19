@@ -41,6 +41,7 @@ export const WithResults: Story = {
     fireEvent.click(exportedElement1);
 
     expect(args.onNewStory).toHaveBeenCalledWith({
+      selectedItemId: 'src/module-multiple-exports.js_0',
       componentExportName: 'default',
       componentFilePath: 'src/module-multiple-exports.js',
       componentIsDefaultExport: true,
@@ -50,6 +51,7 @@ export const WithResults: Story = {
     fireEvent.click(exportedElement2);
 
     expect(args.onNewStory).toHaveBeenCalledWith({
+      selectedItemId: 'src/module-multiple-exports.js_1',
       componentExportName: 'namedExport',
       componentFilePath: 'src/module-multiple-exports.js',
       componentIsDefaultExport: false,
@@ -59,6 +61,7 @@ export const WithResults: Story = {
     fireEvent.click(singleExport);
 
     expect(args.onNewStory).toHaveBeenCalledWith({
+      selectedItemId: 'src/module-single-export.js',
       componentExportName: 'default',
       componentFilePath: 'src/module-single-export.js',
       componentIsDefaultExport: true,
