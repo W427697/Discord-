@@ -533,6 +533,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           return;
         }
 
+        console.log('calling api.setIndex from api.fetchIndex');
         await api.setIndex(storyIndex);
       } catch (err: any) {
         await store.setState({ indexError: err });
@@ -543,6 +544,12 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     // so we can cast one to the other easily enough
     setIndex: async (input) => {
       const { index: oldHash, status, filters } = store.getState();
+      console.log(
+        `api.setIndex calling transformStoryIndexToStoriesHash with ${
+          Object.keys(filters).length
+        } filters`
+      );
+
       const newHash = transformStoryIndexToStoriesHash(input, {
         provider,
         docsOptions,
@@ -639,6 +646,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       if (index) {
         // We need to re-prepare the index
+        console.log('calling api.setIndex from experimental_updateStatus');
         await api.setIndex(index);
 
         const refs = await fullAPI.getRefs();
@@ -649,9 +657,15 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     experimental_setFilter: async (id, filterFunction) => {
       const { internal_index: index } = store.getState();
+      console.log('experimental_setFilter inner function', {
+        index,
+        filters: store.getState().filters,
+        filterFunction,
+      });
       await store.setState({ filters: { ...store.getState().filters, [id]: filterFunction } });
 
       if (index) {
+        console.log('calling api.setIndex from experimental_setFilter');
         await api.setIndex(index);
 
         const refs = await fullAPI.getRefs();
@@ -781,6 +795,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     const { ref } = getEventMetadata(this, fullAPI)!;
 
     if (!ref) {
+      console.log('calling api.setIndex from SET_INDEX listener when there is no ref');
       api.setIndex(index);
       const options = api.getCurrentParameter('options');
       fullAPI.setOptions(removeRemovedOptions(options!));
@@ -855,7 +870,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   provider.channel?.on(SET_CONFIG, () => {
     const config = provider.getConfig();
+    console.log('getting config');
     if (config?.sidebar?.filters) {
+      console.log("there are filters, let's set them");
       store.setState({
         filters: {
           ...store.getState().filters,
@@ -867,6 +884,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   const config = provider.getConfig();
 
+  console.log('setting initial state');
   return {
     api,
     state: {
@@ -878,8 +896,14 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       filters: config?.sidebar?.filters || {},
     },
     init: async () => {
-      provider.channel?.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
+      provider.channel?.on(STORY_INDEX_INVALIDATED, () => {
+        console.log('calling api.fetchIndex from STORY_INDEX_INVALIDATED event');
+        api.fetchIndex();
+      });
+
+      console.log('calling api.fetchIndex from stories module init - started');
       await api.fetchIndex();
+      console.log('calling api.fetchIndex from stories module init - completed');
     },
   };
 };

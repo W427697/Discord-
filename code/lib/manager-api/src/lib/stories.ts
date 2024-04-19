@@ -162,6 +162,10 @@ export const transformStoryIndexToStoriesHash = (
   const entryValues = Object.values(index.entries).filter((entry: any) => {
     let result = true;
 
+    console.log(
+      'Time to filter out the index - ' +
+        (Object.keys(filters).length > 0 ? 'and there is a filter' : 'but there is no filter')
+    );
     Object.values(filters).forEach((filter: any) => {
       if (result === false) {
         return;

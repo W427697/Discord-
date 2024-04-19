@@ -167,12 +167,19 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       navigate,
     } = props;
 
+    console.log('creating store', this.state);
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => {
-        this.setState(stateChange, () => callback(this.state));
-
-        return this.state;
+      setState: async (stateChange: Partial<State>, callback) => {
+        // attempting to turn this into async to fix timing issues
+        return new Promise((resolve) => {
+          console.log('calling setState with stateChange', stateChange);
+          this.setState(stateChange, () => {
+            console.log('calling the callback of setState with ', this.state);
+            callback(this.state);
+            resolve(this.state);
+          });
+        });
       },
     });
 
@@ -181,12 +188,14 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     this.state = store.getInitialState(getInitialState({ ...routeData, ...optionsData }));
 
+    console.log('initializing with state:', this.state);
     const apiData = {
       navigate,
       store,
       provider: props.provider,
     };
 
+    console.log('initializing modules');
     this.modules = [
       provider,
       channel,
@@ -208,6 +217,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
     const state = getInitialState(this.state, ...this.modules.map((m) => m.state!));
 
+    console.log('overriding with with state:', {
+      before: getInitialState(this.state),
+      after: state,
+    });
     // Get our API by combining the APIs exported by each module
     const api: API = Object.assign(this.api, { navigate }, ...this.modules.map((m) => m.api));
 
@@ -217,6 +230,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
   static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State {
     if (state.path !== props.path) {
+      console.log('derived state is:', state);
       return {
         ...state,
         location: props.location,
