@@ -1,42 +1,11 @@
-import React, {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { Modal, Form } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { AlertIcon, CheckIcon, CloseAltIcon, SearchIcon, SyncIcon } from '@storybook/icons';
-import type {
-  ArgTypesInfoPayload,
-  ArgTypesInfoResult,
-  CreateNewStoryPayload,
-  CreateNewStoryResult,
-  FileComponentSearchPayload,
-  FileComponentSearchResult,
-  SaveStoryRequest,
-  SaveStoryResponse,
-} from '@storybook/core-events';
-import {
-  ARGTYPES_INFO_REQUEST,
-  ARGTYPES_INFO_RESPONSE,
-  CREATE_NEW_STORYFILE_REQUEST,
-  CREATE_NEW_STORYFILE_RESPONSE,
-  FILE_COMPONENT_SEARCH_REQUEST,
-  FILE_COMPONENT_SEARCH_RESPONSE,
-  SAVE_STORY_REQUEST,
-  SAVE_STORY_RESPONSE,
-} from '@storybook/core-events';
-import { addons, useStorybookApi } from '@storybook/manager-api';
+import { CloseAltIcon, SearchIcon, SyncIcon } from '@storybook/icons';
 
-import { useDebounce } from '../../hooks/useDebounce';
 import type { NewStoryPayload, SearchResult } from './FileSearchList';
 import { FileSearchList } from './FileSearchList';
-import type { Channel } from '@storybook/channels';
-import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
-import { useMeasure } from './useMeasure';
+import { useMeasure } from '../../hooks/useMeasure';
 
 const MODAL_HEIGHT = 418;
 
