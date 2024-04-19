@@ -1,13 +1,9 @@
 import type { ArgTypes } from '@storybook/csf';
 
-export interface ArgTypesInfoPayload {
+export interface ArgTypesRequestPayload {
   storyId: string;
 }
 
-export interface ArgTypesInfoResult {
-  success: true | false;
-  result: null | {
-    argTypes: ArgTypes;
-  };
-  error: null | string;
+export interface ArgTypesResponsePayload {
+  argTypes: ArgTypes;
 }

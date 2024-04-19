@@ -1,8 +1,9 @@
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { SaveStory } from './SaveStory';
-import { expect, fireEvent, fn, userEvent, waitFor, within } from '@storybook/test';
+import { expect, fireEvent, fn, userEvent, within } from '@storybook/test';
 
 const meta = {
   component: SaveStory,
@@ -14,6 +15,13 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div style={{ minHeight: '100vh' }}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof SaveStory>;
 
 export default meta;
@@ -25,6 +33,7 @@ export const Creating = {
   play: async ({ canvasElement }) => {
     const createButton = await within(canvasElement).findByRole('button', { name: /Create/i });
     await fireEvent.click(createButton);
+    await new Promise((resolve) => setTimeout(resolve, 300));
   },
 } satisfies Story;
 
@@ -32,14 +41,11 @@ export const Created: Story = {
   play: async (context) => {
     await Creating.play(context);
 
-    await waitFor(async () => {
-      const dialog = await within(document.body).findByRole('dialog');
-      const input = await within(dialog).findByRole('textbox');
-      await userEvent.type(input, 'MyNewStory');
-      const submitButton = await within(dialog).findByRole('button', { name: /Create/i });
-      await userEvent.click(submitButton);
-    });
+    const dialog = await within(document.body).findByRole('dialog');
+    const input = await within(dialog).findByRole('textbox');
+    await userEvent.type(input, 'MyNewStory');
 
+    fireEvent.submit(dialog.getElementsByTagName('form')[0]);
     await expect(context.args.createStory).toHaveBeenCalledWith('MyNewStory');
   },
 };

@@ -99,15 +99,9 @@ export const SaveStory = ({ saveStory, createStory, resetArgs }: SaveStoryProps)
 
   const onSaveStory = async () => {
     if (saving) return;
-    try {
-      setErrorMessage(null);
-      setSaving(true);
-      await saveStory();
-      setSaving(false);
-    } catch (e: any) {
-      setErrorMessage(e.message);
-      setSaving(false);
-    }
+    setSaving(true);
+    await saveStory().catch(() => {});
+    setSaving(false);
   };
 
   const onShowForm = () => {

@@ -1,6 +1,11 @@
 import { global } from '@storybook/global';
 import { deprecate, logger } from '@storybook/client-logger';
-import type { ArgTypesInfoResult } from '@storybook/core-events';
+import type {
+  ArgTypesRequestPayload,
+  ArgTypesResponsePayload,
+  RequestData,
+  ResponseData,
+} from '@storybook/core-events';
 import {
   ARGTYPES_INFO_REQUEST,
   ARGTYPES_INFO_RESPONSE,
@@ -299,23 +304,21 @@ export class Preview<TRenderer extends Renderer> {
     });
   }
 
-  async onRequestArgTypesInfo({ storyId }: { storyId: string }) {
+  async onRequestArgTypesInfo({ id, payload }: RequestData<ArgTypesRequestPayload>) {
     try {
       await this.storeInitializationPromise;
-      const story = await this.storyStoreValue?.loadStory({ storyId });
+      const story = await this.storyStoreValue?.loadStory(payload);
       this.channel.emit(ARGTYPES_INFO_RESPONSE, {
-        result: {
-          argTypes: story?.argTypes || {},
-        },
+        id,
         success: true,
-        error: null,
-      } as ArgTypesInfoResult);
+        payload: { argTypes: story?.argTypes || {} },
+      } satisfies ResponseData<ArgTypesResponsePayload>);
     } catch (e: any) {
       this.channel.emit(ARGTYPES_INFO_RESPONSE, {
-        result: null,
+        id,
         success: false,
         error: e?.message,
-      } as ArgTypesInfoResult);
+      } satisfies ResponseData<ArgTypesResponsePayload>);
     }
   }
 

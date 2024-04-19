@@ -149,6 +149,7 @@ export const {
 export * from './data/create-new-story';
 export * from './data/file-component-search';
 export * from './data/argtypes-info';
+export * from './data/request-response';
 export * from './data/save-story';
 
 export interface WhatsNewCache {

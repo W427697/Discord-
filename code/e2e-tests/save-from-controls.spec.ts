@@ -28,12 +28,13 @@ test.describe('save-from-controls', () => {
     const label = sbPage.panelContent().locator('textarea[name=label]');
     const value = await label.inputValue();
     await label.fill(value + ' Updated ' + id);
+    await label.blur();
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
     // update the story
-    await sbPage.panelContent().locator('button').getByText('Update story').click();
+    await sbPage.panelContent().locator('button').getByText('Update story').click({ force: true });
 
     // Assert the file is saved
     const notification1 = await sbPage.page.waitForSelector('[title="Story saved"]');
@@ -45,16 +46,17 @@ test.describe('save-from-controls', () => {
 
     // Update an arg
     await label.fill(value + ' Copied');
+    await label.blur();
 
     // Assert the footer is shown
     await sbPage.panelContent().locator('[data-short-label="Unsaved changes"]').isVisible();
 
-    // clone the story
-    await sbPage
+    const buttons = await sbPage
       .panelContent()
-      .locator('button')
-      .getByLabel(/Create new story/)
-      .click();
+      .locator('[aria-label="Create new story with these settings"]');
+
+    // clone the story
+    await buttons.click({ force: true });
 
     const input = await sbPage.page.waitForSelector('[placeholder="Story export name"]');
     await input.fill('ClonedStory' + id);

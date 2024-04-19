@@ -475,6 +475,7 @@ export default {
     'controlOrMetaSymbol',
     'eventMatchesShortcut',
     'eventToShortcut',
+    'experimental_requestResponse',
     'isMacLike',
     'isShortcutTaken',
     'keyToSymbol',
