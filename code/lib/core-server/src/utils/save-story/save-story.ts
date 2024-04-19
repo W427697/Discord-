@@ -53,9 +53,9 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
 
     let newStoryId: string | undefined;
     let newStoryName: string | undefined;
-    let sourceFileName: string;
-    let sourceFilePath: string;
-    let sourceStoryName: string;
+    let sourceFileName: string | undefined;
+    let sourceFilePath: string | undefined;
+    let sourceStoryName: string | undefined;
 
     try {
       sourceFileName = basename(importPath);
@@ -124,7 +124,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
       channel.emit(SAVE_STORY_RESPONSE, {
         id,
         success: false,
-        error: error.message,
+        error: error instanceof SaveStoryError ? error.message : undefined,
         payload: {
           csfId,
           newStoryId,
