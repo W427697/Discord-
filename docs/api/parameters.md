@@ -186,7 +186,7 @@ Default: `false`
 
 Setting this to `true` will prevent the [play function](../writing-stories/play-function.md) from failing and showing a warning when unhandled errors are thrown during rendering or playing.
 
-Unhandled errors might cause false positive assertions, they can be ignored by setting this parameter to `true`.
+Unhandled errors might cause false positive assertions. They can be ignored by setting this parameter to `true`.
 
 ---
 

@@ -106,8 +106,8 @@ Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate
 
 <!-- TODO: Snippetize -->
 
-```js
-// Page.stories.tsx
+```ts
+// Page.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 import MockDate from 'mockdate';
 
@@ -208,7 +208,7 @@ You can then import the mocked module (which has all of the helpful methods of a
 <!-- TODO: Snippetize -->
 
 ```ts
-// NoteUI.stories.tsx
+// NoteUI.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 

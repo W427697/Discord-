@@ -131,7 +131,7 @@ This framework allows you to use Next.js's [next/image](https://nextjs.org/docs/
 [Local images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#local-images) are supported.
 
 ```jsx
-// index.js
+// index.jsx
 import Image from 'next/image';
 import profilePic from '../public/me.png';
 
@@ -158,7 +158,7 @@ function Home() {
 [Remote images](https://nextjs.org/docs/pages/building-your-application/optimizing/images#remote-images) are also supported.
 
 ```jsx
-// index.js
+// index.jsx
 import Image from 'next/image';
 
 export default function Home() {
@@ -315,7 +315,33 @@ const defaultRouter = {
 };
 ```
 
-All the functions (such as `back()`, `push()`) are mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
+Additionally, the [`router` object](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object) contains all of the original methods (such as `push()`, `replace()`, etc.) as mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
+
+To override these defaults, you can use [parameters](../writing-stories/parameters.md) and [`beforeEach`](../writing-stories/mocking-modules.md#setting-up-and-cleaning-up):
+
+```ts
+// .storybook/preview.ts
+import { Preview } from '@storybook/react';
+// 👇 Must use this import path to have mocks typed correctly
+import { getRouter } from '@storybook/nextjs/router.mock';
+
+const preview: Preview = {
+  paramters: {
+    nextjs: {
+      // 👇 Override the default router properties
+      router: {
+        basePath: '/app/',
+      },
+    },
+  },
+  async beforeEach() {
+    // 👇 Manipulate the default router method mocks
+    getRouter().push.mockImplementation(() => {
+      /* ... */
+    });
+  },
+};
+```
 
 ## Next.js navigation
 
@@ -450,7 +476,33 @@ const defaultNavigationContext = {
 };
 ```
 
-All the functions (such as `back()`, `push()`) are mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
+Additionally, the [`router` object](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter) contains all of the original methods (such as `push()`, `replace()`, etc.) as mock functions that can be manipulated and asserted on using [regular mock APIs](https://vitest.dev/api/mock.html).
+
+To override these defaults, you can use [parameters](../writing-stories/parameters.md) and [`beforeEach`](../writing-stories/mocking-modules.md#setting-up-and-cleaning-up):
+
+```ts
+// .storybook/preview.ts
+import { Preview } from '@storybook/react';
+// 👇 Must use this import path to have mocks typed correctly
+import { getRouter } from '@storybook/nextjs/navigation.mock';
+
+const preview: Preview = {
+  paramters: {
+    nextjs: {
+      // 👇 Override the default navigation properties
+      navigation: {
+        pathname: '/app/',
+      },
+    },
+  },
+  async beforeEach() {
+    // 👇 Manipulate the default navigation method mocks
+    getRouter().push.mockImplementation(() => {
+      /* ... */
+    });
+  },
+};
+```
 
 ## Next.js Head
 
@@ -566,7 +618,7 @@ This allows for cool things like zero-config Tailwind! (See [Next.js' example](h
 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases#absolute-imports) from the root directory are supported.
 
 ```jsx
-// index.js
+// index.jsx
 // All good!
 import Button from 'components/button';
 // Also good!
@@ -603,7 +655,7 @@ Absolute imports **cannot** be mocked in stories/tests. See the [Mocking modules
 [Module aliases](https://nextjs.org/docs/app/building-your-application/configuring/absolute-imports-and-module-aliases#module-aliases) are also supported.
 
 ```jsx
-// index.js
+// index.jsx
 // All good!
 import Button from '@/components/button';
 // Also good!
@@ -643,7 +695,7 @@ Because subpath imports take the place of module aliases, you can remove the pat
 Which can then be used like this:
 
 ```jsx
-// index.js
+// index.jsx
 import Button from '#components/button';
 import styles from '#styles/HomePage.module.css';
 
@@ -674,21 +726,81 @@ This framework provides mocks for many of Next.js' internal modules:
 
 How you mock other modules in Storybook depends on how you import the module into your component.
 
-The first step, with either approach, is to [create a mock file](../writing-stories/mocking-modules.md#mock-files).
+The first step, with either approach, is to [create a mock file](../writing-stories/mocking-modules.md#mock-files). Here's an example of a mock file for a module named `session`:
 
-TK: More here?
+<!-- TODO: Snippetize -->
+
+```ts
+// lib/session.mock.ts
+import { fn } from '@storybook/test';
+import * as actual from './session';
+
+export * from './session';
+export const getUserFromSession = fn(actual.getUserFromSession);
+```
 
 #### With subpath imports
 
-If you're using [subpath imports](#subpath-imports), you can adjust your configuration to apply [conditions](../writing-stories/mocking-modules.md#conditional-imports) so that the mocked module is used inside Storybook.
+If you're using [subpath imports](#subpath-imports), you can adjust your configuration to apply [conditions](../writing-stories/mocking-modules.md#conditional-imports) so that the mocked module is used inside Storybook. The example below configures subpath imports for four internal modules, which are then mocked in Storybook:
 
-TK: Add example of mocking modules with subpath imports
+<!-- TODO: Snippetize -->
+
+```json
+// package.json
+{
+  "imports": {
+    "#api": {
+      "storybook": "./api.mock.ts",
+      "default": "./api.ts"
+    },
+    "#app/actions": {
+      "storybook": "./app/actions.mock.ts",
+      "default": "./app/actions.ts"
+    },
+    "#lib/session": {
+      "storybook": "./lib/session.mock.ts",
+      "default": "./lib/session.ts"
+    },
+    "#lib/db": {
+      "storybook": "./lib/db.mock.ts",
+      "default": "./lib/db.ts"
+    },
+    "#*": ["./*", "./*.ts", "./*.tsx"]
+  }
+}
+```
+
+<Callout variant="info">
+
+Each subpath must begin with `#`, to differentiate it from a regular module path. The `#*` entry is a catch-all that maps all subpaths to the root directory.
+
+</Callout>
 
 #### With module aliases
 
 If you're using [module aliases](#module-aliases), you can add a Webpack alias to your Storybook configuration to point to the mock file.
 
-TK: Add example of mocking modules with module aliases
+<!-- TODO: Snippetize -->
+
+```ts
+// .storybook/main.ts
+webpackFinal: async (config) => {
+  if (config.resolve) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // 👇 External module
+      'lodash': require.resolve('./lodash.mock'),
+      // 👇 Internal modules
+      '@/api$': path.resolve(__dirname, "./api.mock.ts"),
+      '@/app/actions$': path.resolve(__dirname, "./app/actions.mock.ts"),
+      '@/lib/session$': path.resolve(__dirname, "./lib/session.mock.ts"),
+      '@/lib/db$': path.resolve(__dirname, "./lib/db.mock.ts"),
+    }
+  }
+
+  return config;
+},
+```
 
 ## Runtime config
 
@@ -806,7 +918,7 @@ In the future we will provide better mocking support in Storybook and support fo
 
 You can test your stories in a Jest environment by using the [portable stories](../api/portable-stories-jest.md) API.
 
-When using portable stories with Next.js, you need to mock the Next.js modules that your components depend on. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because - as Next.js does - Storybook sets up a set of aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well.
+When using portable stories with Next.js, you need to mock the Next.js modules that your components depend on. You can use the [`@storybook/nextjs/export-mocks` module](#storybooknextjsexport-mocks) to generate the aliases needed to set up portable stories in a Jest environment. This is needed because, to replicate Next.js configuration, Storybook sets up aliases in Webpack to make testing and developing your components easier. If you make use of the advanced functionality like the built-in mocks for common Next.js modules, you need to set up this aliasing in your Jest environment as well.
 
 ## Notes for Yarn v2 and v3 users
 
@@ -921,9 +1033,10 @@ Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
 `getPackageAliases` is a helper to generate the aliases needed to set up [portable stories](#portable-stories).
 
 ```ts
+// jest.config.ts
 import type { Config } from 'jest';
 import nextJest from 'next/jest.js';
-// 👇 import the utility function
+// 👇 Import the utility function
 import { getPackageAliases } from '@storybook/nextjs/export-mocks';
 
 const createJestConfig = nextJest({
@@ -931,18 +1044,14 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-// Add any custom config to be passed to Jest
 const config: Config = {
-  coverageProvider: 'v8',
   testEnvironment: 'jsdom',
-  // Add more setup options before each test is run
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  // ... rest of Jest config
   moduleNameMapper: {
-    ...getPackageAliases(), // 👈 add the utility as a moduleNameMapper
+    ...getPackageAliases(), // 👈 Add the utility as mapped module names
   },
 };
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 export default createJestConfig(config);
 ```
 
@@ -950,13 +1059,16 @@ export default createJestConfig(config);
 
 Type: `typeof import('next/cache')`
 
-Exports mocks that replaces the actual implementation of `next/cache` exports. Use these to mock implementations or assert on mock calls in a story's `play`-function.
+Exports mocks that replaces the actual implementation of `next/cache` exports. Use these to mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
+
+<!-- TODO: Snippetize -->
 
 ```ts
+// MyForm.stories.ts
 import { expect, userEvent, within } from '@storybook/test';
 import { Meta, StoryObj } from '@storybook/react';
-// 👇 import from the Storybook package to get correct mock types
-import { revalidatePath } from '@storybook/nextjs/cache';
+// 👇 Must use this import path to have mocks typed correctly
+import { revalidatePath } from '@storybook/nextjs/cache.mock';
 import MyForm from './my-form';
 
 const meta = {
@@ -968,12 +1080,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Submitted: Story = {
-  play: async ({ canvasElement, step }) => {
+  async play({ canvasElement }) {
     const canvas = within(canvasElement);
 
     const submitButton = canvas.getByRole('button', { name: /submit/i });
     await userEvent.click(saveButton);
-    // 👇 use any mock assertions on the function
+    // 👇 Use any mock assertions on the function
     await expect(revalidatePath).toHaveBeenCalledWith('/');
   },
 };
@@ -995,11 +1107,14 @@ For cookies, you can use the existing API to write them, eg. `cookies().set('fir
 
 Because `headers()`, `cookies()` and their sub-functions are all mocks you can use any [mock utilities](https://vitest.dev/api/mock.html) in your stories, like `headers().getAll.mock.calls`.
 
+<!-- TODO: Snippetize -->
+
 ```ts
+// MyForm.stories.ts
 import { expect, fireEvent, userEvent, within } from '@storybook/test';
 import { Meta, StoryObj } from '@storybook/react';
-// 👇 import from the Storybook package to get correct mock types
-import { cookies, headers } from '@storybook/nextjs/headers';
+// 👇 Must use this import path to have mocks typed correctly
+import { cookies, headers } from '@storybook/nextjs/headers.mock';
 import MyForm from './my-form';
 
 const meta = {
@@ -1012,16 +1127,16 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedInEurope: Story = {
   async beforeEach() {
-    // 👇 set mock cookies and headers ahead of rendering
+    // 👇 Set mock cookies and headers ahead of rendering
     cookies().set('username', 'Sol');
     headers().set('timezone', 'Central European Summer Time');
   },
-  play: () => {
-    // 👇 assert that your component called the mocks
-    expect(cookies().get).toHaveBeenCalledOnce();
-    expect(cookies().get).toHaveBeenCalledWith('username');
-    expect(headers().get).toHaveBeenCalledOnce();
-    expect(cookies().get).toHaveBeenCalledWith('timezone');
+  async play() {
+    // 👇 Assert that your component called the mocks
+    await expect(cookies().get).toHaveBeenCalledOnce();
+    await expect(cookies().get).toHaveBeenCalledWith('username');
+    await expect(headers().get).toHaveBeenCalledOnce();
+    await expect(cookies().get).toHaveBeenCalledWith('timezone');
   },
 };
 ```
@@ -1030,14 +1145,16 @@ export const LoggedInEurope: Story = {
 
 Type: `typeof import('next/navigation') & getRouter: () => ReturnType<typeof import('next/navigation')['useRouter']>`
 
-Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), so that the properties can be manipulated and asserted on.
-Use these to mock implementations or assert on mock calls in a story's `play`-function.
+Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), so that the properties can be manipulated and asserted on. Use these to mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
+
+<!-- TODO: Snippetize -->
 
 ```ts
+// MyForm.stories.ts
 import { expect, fireEvent, userEvent, within } from '@storybook/test';
 import { Meta, StoryObj } from '@storybook/react';
-// 👇 import from the Storybook package to get correct mock types
-import { redirect, getRouter } from '@storybook/nextjs/navigation';
+// 👇 Must use this import path to have mocks typed correctly
+import { redirect, getRouter } from '@storybook/nextjs/navigation.mock';
 import MyForm from './my-form';
 
 const meta = {
@@ -1055,19 +1172,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Unauthenticated: Story = {
-  play: () => {
-    // 👇 assert that your component called redirect()
-    expect(redirect).toHaveBeenCalledWith('/login', 'replace');
+  async play() => {
+    // 👇 Assert that your component called redirect()
+    await expect(redirect).toHaveBeenCalledWith('/login', 'replace');
   },
 };
 
 export const GoBack: Story = {
-  play: async ({ canvasElement }) => {
+  async play({ canvasElement }) {
     const canvas = within(canvasElement);
     const backBtn = await canvas.findByText('Go back');
 
     await userEvent.click(backBtn);
-    // 👇 assert that your component called back()
+    // 👇 Assert that your component called back()
     await expect(getRouter().back).toHaveBeenCalled();
   },
 };
@@ -1077,14 +1194,16 @@ export const GoBack: Story = {
 
 Type: `typeof import('next/router') & getRouter: () => ReturnType<typeof import('next/router')['useRouter']>`
 
-Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), so that the properties can be manipulated and asserted on.
-Use these to mock implementations or assert on mock calls in a story's `play`-function.
+Exports mocks that replaces the actual implementation of `next/navigation` exports. Also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), so that the properties can be manipulated and asserted on. Use these to mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
+
+<!-- TODO: Snippetize -->
 
 ```ts
+// MyForm.stories.ts
 import { expect, fireEvent, userEvent, within } from '@storybook/test';
 import { Meta, StoryObj } from '@storybook/react';
-// 👇 import from the Storybook package to get correct mock types
-import { getRouter } from '@storybook/nextjs/router';
+// 👇 Must use this import path to have mocks typed correctly
+import { getRouter } from '@storybook/nextjs/router.mock';
 import MyForm from './my-form';
 
 const meta = {
@@ -1102,12 +1221,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const GoBack: Story = {
-  play: async ({ canvasElement }) => {
+  async play({ canvasElement }) {
     const canvas = within(canvasElement);
     const backBtn = await canvas.findByText('Go back');
 
     await userEvent.click(backBtn);
-    // 👇 assert that your component called back()
+    // 👇 Assert that your component called back()
     await expect(getRouter().back).toHaveBeenCalled();
   },
 };

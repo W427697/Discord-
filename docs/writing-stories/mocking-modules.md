@@ -20,8 +20,10 @@ To mock a module, create a file with the same name and in the same directory as 
 
 Here's an example of a mock file for a module named `session`:
 
-```js
-// session.mock.js
+<!-- TODO: Snippetize -->
+
+```ts
+// lib/session.mock.ts
 import { fn } from '@storybook/test';
 import * as actual from './session';
 
@@ -32,8 +34,6 @@ export const getUserFromSession = fn(actual.getUserFromSession);
 ### Mock files for external modules
 
 You can't directly mock an external module like `uuid` or `node:fs`. Instead, you must wrap the module in you own module, which you can then mock like any other internal module. In this example, we wrap `uuid`:
-
-<!-- TODO: Snippetize -->
 
 ```ts
 // lib/uuid.ts
@@ -58,6 +58,8 @@ export const uuidv4 = fn(actual.uuidv4);
 The recommended method for mocking modules is to use [subpath imports](https://nodejs.org/api/packages.html#subpath-imports), a feature of Node packages that is supported by both [Vite](../builders/vite.md) and [Webpack](../builders/webpack.md).
 
 To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
+
+<!-- TODO: Snippetize -->
 
 ```json
 // package.json
@@ -93,7 +95,14 @@ Each subpath must begin with `#`, to differentiate it from a regular module path
 You can then update your component file to use the subpath import:
 
 ```ts
-TK: Component snippet
+// AuthButton.ts
+import { getUserFromSession } from '#lib/session';
+
+export const AuthButton = (props) => {
+  const user = getUserFromSession();
+
+  // ...
+};
 ```
 
 ### Conditional imports
@@ -106,61 +115,47 @@ The Storybook environment will match the conditions `storybook` and `test`, so y
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-```js
-// .storybook/main.ts
+<!-- TODO: Snippetize -->
 
+```ts
+// .storybook/main.ts
 viteFinal: async (config) => {
-  return {
-    ...config,
-    resolve: {
-      ...config.resolve,
-      alias: {
-        ...config.resolve?.alias,
-        'lodash': require.resolve('./lodash.mock'),
-        '@/api/todo': path.resolve(__dirname, './api/todo.mock.ts')
-      }
+  if (config.resolve) {
+    config.resolve.alias = {
+      ...config.resolve?.alias,
+      // 👇 External module
+      'lodash': require.resolve('./lodash.mock'),
+      // 👇 Internal modules
+      '@/api': path.resolve(__dirname, "./api.mock.ts"),
+      '@/app/actions': path.resolve(__dirname, "./app/actions.mock.ts"),
+      '@/lib/session': path.resolve(__dirname, "./lib/session.mock.ts"),
+      '@/lib/db': path.resolve(__dirname, "./lib/db.mock.ts"),
     }
   }
+
+  return config;
 },
 ```
 
-```js
+```ts
 // .storybook/main.ts
-
 webpackFinal: async (config) => {
   if (config.resolve) {
     config.resolve.alias = {
       ...config.resolve.alias,
-      'next/headers': require.resolve('./next-headers'),
-      '@/api/todo$': path.resolve(__dirname, './api/todo.mock.ts'),
+      // 👇 External module
+      'lodash': require.resolve('./lodash.mock'),
+      // 👇 Internal modules
+      '@/api$': path.resolve(__dirname, "./api.mock.ts"),
+      '@/app/actions$': path.resolve(__dirname, "./app/actions.mock.ts"),
+      '@/lib/session$': path.resolve(__dirname, "./lib/session.mock.ts"),
+      '@/lib/db$': path.resolve(__dirname, "./lib/db.mock.ts"),
     }
   }
 
-  return config
+  return config;
 },
 ```
-
-<!-- OR? -->
-<!-- prettier-ignore-start -->
-
-<!-- <CodeSnippets
-  paths={[
-    'common/storybook-main-with-mock-decorator.js.mdx',
-  ]}
-/> -->
-
-<!-- prettier-ignore-end -->
-
-<!-- prettier-ignore-start -->
-
-<!-- <CodeSnippets
-  paths={[
-    'common/storybook-preview-with-mock-decorator.js.mdx',
-    'common/storybook-preview-with-mock-decorator.ts.mdx',
-  ]}
-/> -->
-
-<!-- prettier-ignore-end -->
 
 ## Using mocked modules in stories
 
@@ -170,8 +165,8 @@ Here, we define `beforeEach` on a story (which will run before the story is rend
 
 <!-- TODO: Snippetize -->
 
-```js
-// Page.stories.tsx
+```ts
+// Page.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
@@ -208,7 +203,7 @@ For example, this story checks that the `saveNote` function was called when the 
 <!-- TODO: Snippetize -->
 
 ```ts
-// NoteUI.stories.tsx
+// NoteUI.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 
@@ -259,8 +254,8 @@ Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate
 
 <!-- TODO: Snippetize -->
 
-```js
-// Page.stories.tsx
+```ts
+// Page.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 import MockDate from 'mockdate';
 

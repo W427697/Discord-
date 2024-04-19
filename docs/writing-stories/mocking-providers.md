@@ -38,7 +38,7 @@ For example, we can adjust the decorator from above to read from `parameters.the
 <!-- TODO: Snippetize -->
 
 ```ts
-// .storybook/preview.js
+// .storybook/preview.ts
 import React from 'react';
 import { Preview } from '@storybook/react';
 import { ThemeProvider } from 'styled-components';
@@ -66,7 +66,7 @@ Now, you can define a `theme` parameter in your stories to adjust the theme prov
 <!-- TODO: Snippetize -->
 
 ```ts
-// Button.stories.tsx
+// Button.stories.ts|tsx
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from './Button';
