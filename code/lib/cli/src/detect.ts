@@ -120,7 +120,11 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   }
 
   // REWORK
-  if (webpackConfig || (dependencies['webpack'] && dependencies['vite'] !== undefined)) {
+  if (
+    webpackConfig ||
+    ((dependencies['webpack'] || dependencies['@nuxt/webpack-builder']) &&
+      dependencies['vite'] !== undefined)
+  ) {
     commandLog('Detected webpack project. Setting builder to webpack')();
     return CoreBuilder.Webpack5;
   }
@@ -133,6 +137,8 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.NEXTJS:
     case ProjectType.EMBER:
       return CoreBuilder.Webpack5;
+    case ProjectType.NUXT:
+      return CoreBuilder.Vite;
     default:
       const { builder } = await prompts(
         {
