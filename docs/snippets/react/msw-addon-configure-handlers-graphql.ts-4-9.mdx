@@ -48,7 +48,7 @@ const TestData = {
     },
   ],
 };
-const meta: Meta<typeof DocumentScreen> = {
+const meta = {
   component: DocumentScreen,
   decorators: [
     (Story) => (
@@ -57,41 +57,45 @@ const meta: Meta<typeof DocumentScreen> = {
       </ApolloProvider>
     ),
   ],
-};
+} satisfies Meta<typeof DocumentScreen>;
 
 export default meta;
-type Story = StoryObj<typeof SampleComponent>;
+type Story = StoryObj<typeof meta>;
 
 export const MockedSuccess: Story = {
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(
-          ctx.data({
-            allFilms: {
-              films,
-            },
-          })
-        );
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', () => {
+          return new HttpResponse.json({
+            data: {
+              allFilms: {
+                films,
+              },
+            }
+          });
+        }),
+      ],
+    },
   },
 };
 
 export const MockedError: Story = {
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(
-          ctx.delay(800),
-          ctx.errors([
-            {
-              message: 'Access denied',
-            },
-          ])
-        );
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', async () => {
+          delay(800);
+          return new HttpResponse.json({
+            errors: [
+              {
+                message: 'Access denied',
+              },
+            ],
+          });
+        }),
+      ],
+    },
   },
 };
 ```

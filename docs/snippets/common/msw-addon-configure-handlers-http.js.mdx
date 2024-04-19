@@ -1,7 +1,7 @@
 ```js
 // YourPage.stories.js|jsx
 
-import { rest } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 
 import { DocumentScreen } from './YourPage';
 
@@ -36,21 +36,28 @@ const TestData = {
 
 export const MockedSuccess = {
   parameters: {
-    msw: [
-      rest.get('https://your-restful-endpoint/', (_req, res, ctx) => {
-        return res(ctx.json(TestData));
-      }),
-    ],
+    msw: {
+      handlers: [
+        http.get('https://your-restful-endpoint/', () => {
+          return new HttpResponse.json(TestData);
+        }),
+      ],
+    },
   },
 };
 
 export const MockedError = {
   parameters: {
-    msw: [
-      rest.get('https://your-restful-endpoint', (_req, res, ctx) => {
-        return res(ctx.delay(800), ctx.status(403));
-      }),
-    ],
+    msw: {
+      handlers: [
+        http.get('https://your-restful-endpoint', async () => {
+          await delay(800);
+          return new HttpResponse(null, {
+            status: 403,
+          });
+        }),
+      ],
+    },
   },
 };
 ```

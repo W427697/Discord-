@@ -10,6 +10,9 @@ import MockApolloWrapperClient from './MockApolloWrapperClient.svelte';
 
 const meta: Meta<typeof DocumentScreen> = {
   component: DocumentScreen,
+  render: () => ({
+    Component: DocumentScreen,
+  }),
   decorators: [() => MockApolloWrapperClient],
 };
 
@@ -43,28 +46,38 @@ const TestData = {
 
 export const MockedSuccess: Story = {
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(ctx.data(TestData));
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', () => {
+          return new HttpResponse.json({
+            data: {
+              allFilms: {
+                films,
+              },
+            }
+          });
+        }),
+      ],
+    },
   },
 };
 
 export const MockedError: Story = {
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(
-          ctx.delay(800),
-          ctx.errors([
-            {
-              message: 'Access denied',
-            },
-          ]),
-        );
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', async () => {
+          delay(800);
+          return new HttpResponse.json({
+            errors: [
+              {
+                message: 'Access denied',
+              },
+            ],
+          });
+        }),
+      ],
+    },
   },
 };
 ```

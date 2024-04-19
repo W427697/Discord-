@@ -10,21 +10,26 @@ The [MSW addon](https://storybook.js.org/addons/msw-storybook-addon/) brings thi
 
 First, if necessary, run this command to install MSW:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```sh
-npm install msw --save-dev
-```
+<CodeSnippets
+  paths={[
+   'common/msw-install.npm.js.mdx',
+   'common/msw-install.yarn.js.mdx',
+   'common/msw-install.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Then generate the service worker file necessary for MSW to work:
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO: Rename files -->
 <CodeSnippets
   paths={[
-    'common/storybook-msw-generate.msw.js.mdx',
-    'common/storybook-msw-generate.msw-pnpm.js.mdx',
+   'common/msw-generate-service-worker.npx.js.mdx',
+   'common/msw-generate-service-worker.pnpm.js.mdx',
   ]}
 />
 
@@ -48,14 +53,14 @@ Next, install and register the MSW addon:
 npx storybook@latest add msw-storybook-addon
 ```
 
-Then ensure the [`staticDirs`](../api/main-config-static-dirs.md) property in your Storybook configuration will include the generated service worker file:
+Then ensure the [`staticDirs`](../api/main-config-static-dirs.md) property in your Storybook configuration will include the generated service worker file (in `/public`, by default):
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO: Update comment to mention how the dir needs to match -->
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-single-static-dir.js.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -65,11 +70,10 @@ Finally, initialize the addon and apply it to all stories with a [project-level 
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO: Update to use loader instead of decorator -->
 <CodeSnippets
   paths={[
-    'common/storybook-preview-register-msw-addon.js.mdx',
-    'common/storybook-preview-register-msw-addon.ts.mdx',
+    'common/msw-addon-initialize.js.mdx',
+    'common/msw-addon-initialize.ts.mdx',
   ]}
 />
 
@@ -107,14 +111,13 @@ With the MSW addon, we can write stories that use MSW to mock the REST requests.
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO: Update to use latest MSW -->
 <CodeSnippets
   paths={[
-    'common/documentscreen-story-msw-rest-request.js.mdx',
-    'common/documentscreen-story-msw-rest-request.ts.mdx',
-    'angular/documentscreen-story-msw-rest-request.ts.mdx',
-    'web-components/documentscreen-story-msw-rest-request.js.mdx',
-    'web-components/documentscreen-story-msw-rest-request.ts.mdx',
+    'common/msw-addon-configure-handlers-http.js.mdx',
+    'common/msw-addon-configure-handlers-http.ts.mdx',
+    'angular/msw-addon-configure-handlers-http.ts.mdx',
+    'web-components/msw-addon-configure-handlers-http.js.mdx',
+    'web-components/msw-addon-configure-handlers-http.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
@@ -152,18 +155,17 @@ The MSW addon allows you to write stories that use MSW to mock the GraphQL reque
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO: Update to use latest MSW -->
 <CodeSnippets
   paths={[
-    'react/documentscreen-story-msw-graphql-query.js.mdx',
-    'react/documentscreen-story-msw-graphql-query.ts.mdx',
+    'react/msw-addon-configure-handlers-graphql.js.mdx',
+    'react/msw-addon-configure-handlers-graphql.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation.3.js.mdx',
-    'vue/documentscreen-story-msw-graphql-query.js.mdx',
-    'vue/documentscreen-story-msw-graphql-query.ts.mdx',
+    'vue/msw-addon-configure-handlers-graphql.js.mdx',
+    'vue/msw-addon-configure-handlers-graphql.ts.mdx',
     'angular/apollo-module.mock-apollo-module.ts.mdx',
-    'angular/documentscreen-story-msw-graphql-query.ts.mdx',
-    'svelte/documentscreen-story-msw-graphql-query.js.mdx',
-    'svelte/documentscreen-story-msw-graphql-query.ts.mdx',
+    'angular/msw-addon-configure-handlers-graphql.ts.mdx',
+    'svelte/msw-addon-configure-handlers-graphql.js.mdx',
+    'svelte/msw-addon-configure-handlers-graphql.ts.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.js.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.ts.mdx',
   ]}

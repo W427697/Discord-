@@ -11,6 +11,10 @@ import WrapperComponent from './ApolloWrapperClient.vue';
 
 const meta = {
   component: DocumentScreen,
+  render: () => ({
+    components: { DocumentScreen, WrapperComponent },
+    template: '<WrapperComponent><DocumentScreen /></WrapperComponent>',
+  }),
 } satisfies Meta<typeof DocumentScreen>;
 
 //👇The mocked data that will be used in the story
@@ -41,43 +45,40 @@ const TestData = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/api/csf
- * to learn how to use render functions.
- */
 export const MockedSuccess: Story = {
-  render: () => ({
-    components: { DocumentScreen, WrapperComponent },
-    template: '<WrapperComponent><DocumentScreen /></WrapperComponent>',
-  }),
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(ctx.data(TestData));
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', () => {
+          return new HttpResponse.json({
+            data: {
+              allFilms: {
+                films,
+              },
+            }
+          });
+        }),
+      ],
+    },
   },
 };
 
 export const MockedError: Story = {
-  render: () => ({
-    components: { DocumentScreen, WrapperComponent },
-    template: '<WrapperComponent><DocumentScreen /></WrapperComponent>',
-  }),
   parameters: {
-    msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(
-          ctx.delay(800),
-          ctx.errors([
-            {
-              message: 'Access denied',
-            },
-          ]),
-        );
-      }),
-    ],
+    msw: {
+      handlers: [
+        graphql.query('AllInfoQuery', async () => {
+          delay(800);
+          return new HttpResponse.json({
+            errors: [
+              {
+                message: 'Access denied',
+              },
+            ],
+          });
+        }),
+      ],
+    },
   },
 };
 ```
