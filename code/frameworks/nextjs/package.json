@@ -52,20 +52,25 @@
       "require": "./dist/export-mocks/index.js",
       "import": "./dist/export-mocks/index.mjs"
     },
+    "./cache.mock": {
+      "types": "./dist/export-mocks/cache/index.d.ts",
+      "require": "./dist/export-mocks/cache/index.js",
+      "import": "./dist/export-mocks/cache/index.mjs"
+    },
     "./headers.mock": {
       "types": "./dist/export-mocks/headers/index.d.ts",
       "require": "./dist/export-mocks/headers/index.js",
       "import": "./dist/export-mocks/headers/index.mjs"
     },
-    "./router.mock": {
-      "types": "./dist/export-mocks/router/index.d.ts",
-      "require": "./dist/export-mocks/router/index.js",
-      "import": "./dist/export-mocks/router/index.mjs"
-    },
     "./navigation.mock": {
       "types": "./dist/export-mocks/navigation/index.d.ts",
       "require": "./dist/export-mocks/navigation/index.js",
       "import": "./dist/export-mocks/navigation/index.mjs"
+    },
+    "./router.mock": {
+      "types": "./dist/export-mocks/router/index.d.ts",
+      "require": "./dist/export-mocks/router/index.js",
+      "import": "./dist/export-mocks/router/index.mjs"
     },
     "./package.json": "./package.json"
   },
