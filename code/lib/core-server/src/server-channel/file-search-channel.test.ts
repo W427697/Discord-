@@ -97,6 +97,7 @@ describe('file-search-channel', () => {
                 },
               ],
               filepath: 'src/es-module.js',
+              storyFileExists: false,
             },
           ],
           searchQuery: 'es-module',
