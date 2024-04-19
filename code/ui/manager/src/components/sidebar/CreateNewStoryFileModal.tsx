@@ -181,6 +181,7 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
           }
 
           handleSuccessfullyCreatedStory(componentExportName);
+          handleFileSearch();
         } else {
           setError({ selectedItemId: selectedItemId, error: createNewStoryResult.error });
         }
@@ -188,7 +189,12 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
         handleErrorWhenCreatingStory();
       }
     },
-    [api, handleSuccessfullyCreatedStory, handleErrorWhenCreatingStory]
+    [
+      api.selectStory,
+      handleSuccessfullyCreatedStory,
+      handleFileSearch,
+      handleErrorWhenCreatingStory,
+    ]
   );
 
   useEffect(() => {
