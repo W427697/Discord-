@@ -312,6 +312,7 @@ export class Preview<TRenderer extends Renderer> {
         id,
         success: true,
         payload: { argTypes: story?.argTypes || {} },
+        error: null,
       } satisfies ResponseData<ArgTypesResponsePayload>);
     } catch (e: any) {
       this.channel.emit(ARGTYPES_INFO_RESPONSE, {

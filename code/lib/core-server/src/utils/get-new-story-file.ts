@@ -9,10 +9,14 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { getTypeScriptTemplateForNewStoryFile } from './new-story-templates/typescript';
 import { getJavaScriptTemplateForNewStoryFile } from './new-story-templates/javascript';
-import type { CreateNewStoryPayload } from '@storybook/core-events';
+import type { CreateNewStoryRequestPayload } from '@storybook/core-events';
 
 export async function getNewStoryFile(
-  { componentFilePath, componentExportName, componentIsDefaultExport }: CreateNewStoryPayload,
+  {
+    componentFilePath,
+    componentExportName,
+    componentIsDefaultExport,
+  }: CreateNewStoryRequestPayload,
   options: Options
 ) {
   const cwd = getProjectRoot();

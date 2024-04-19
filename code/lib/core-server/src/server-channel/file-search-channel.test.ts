@@ -1,5 +1,6 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
+import type { RequestData, FileComponentSearchRequestPayload } from '@storybook/core-events';
 import {
   FILE_COMPONENT_SEARCH_RESPONSE,
   FILE_COMPONENT_SEARCH_REQUEST,
@@ -51,7 +52,10 @@ describe('file-search-channel', () => {
       initFileSearchChannel(mockChannel, mockOptions as any);
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -66,8 +70,9 @@ describe('file-search-channel', () => {
       );
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
         error: null,
-        result: {
+        payload: {
           files: [
             {
               exportedComponents: [
@@ -100,7 +105,6 @@ describe('file-search-channel', () => {
               storyFileExists: false,
             },
           ],
-          searchQuery: 'es-module',
         },
         success: true,
       });
@@ -113,7 +117,10 @@ describe('file-search-channel', () => {
       initFileSearchChannel(mockChannel, mockOptions as any);
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
-      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockImplementation(async (...args) => {
         // @ts-expect-error Ignore type issue
@@ -128,10 +135,10 @@ describe('file-search-channel', () => {
       );
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
         error: null,
-        result: {
+        payload: {
           files: [],
-          searchQuery: 'no-file-for-search-query',
         },
         success: true,
       });
@@ -145,7 +152,10 @@ describe('file-search-channel', () => {
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
 
-      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, data);
+      mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
+        id: data.searchQuery,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
 
       mocks.searchFiles.mockRejectedValue(new Error('ENOENT: no such file or directory'));
 
@@ -154,9 +164,10 @@ describe('file-search-channel', () => {
       });
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
+        id: data.searchQuery,
+        payload: null,
         error:
           'An error occurred while searching for components in the project.\nENOENT: no such file or directory',
-        result: null,
         success: false,
       });
     });

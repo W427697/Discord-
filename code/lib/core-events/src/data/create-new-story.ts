@@ -1,4 +1,4 @@
-export interface CreateNewStoryPayload {
+export interface CreateNewStoryRequestPayload {
   // The filepath of the component for which the Story should be generated for (relative to the project root)
   componentFilePath: string;
   // The name of the exported component
@@ -7,12 +7,8 @@ export interface CreateNewStoryPayload {
   componentIsDefaultExport: boolean;
 }
 
-export interface CreateNewStoryResult {
-  success: true | false;
-  result: null | {
-    storyId: string;
-    storyFilePath: string;
-    exportedStoryName: string;
-  };
-  error: null | string;
+export interface CreateNewStoryResponsePayload {
+  storyId: string;
+  storyFilePath: string;
+  exportedStoryName: string;
 }

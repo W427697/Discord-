@@ -23,12 +23,16 @@ import {
 } from './FileList';
 import type { VirtualItem } from '@tanstack/react-virtual';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import type { CreateNewStoryPayload, FileComponentSearchResult } from '@storybook/core-events';
+import type {
+  CreateNewStoryRequestPayload,
+  FileComponentSearchResponsePayload,
+  ResponseData,
+} from '@storybook/core-events';
 import { WithTooltip, TooltipNote } from '@storybook/components';
 
-export type SearchResult = FileComponentSearchResult['result']['files'][0];
+export type SearchResult = ResponseData<FileComponentSearchResponsePayload>['payload']['files'][0];
 
-export interface NewStoryPayload extends CreateNewStoryPayload {
+export interface NewStoryPayload extends CreateNewStoryRequestPayload {
   selectedItemId: string | number;
 }
 
@@ -55,7 +59,6 @@ interface FileItemContentProps {
   virtualItem: VirtualItem;
   selected: number | null;
   searchResult: SearchResult;
-  as?: 'div';
 }
 
 interface FileItemSelectionPayload {
@@ -156,7 +159,7 @@ export const FileSearchList = memo(function FileSearchList({
   );
 
   const ListItem = useCallback(
-    ({ virtualItem, selected, searchResult, as }: FileItemContentProps) => {
+    ({ virtualItem, selected, searchResult }: FileItemContentProps) => {
       const itemError = errorItemId === searchResult.filepath;
       const itemSelected = selected === virtualItem.index;
 

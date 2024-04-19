@@ -1,6 +1,11 @@
 import type { Options } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import type { CreateNewStoryPayload, CreateNewStoryResult } from '@storybook/core-events';
+import type {
+  CreateNewStoryRequestPayload,
+  CreateNewStoryResponsePayload,
+  RequestData,
+  ResponseData,
+} from '@storybook/core-events';
 import {
   CREATE_NEW_STORYFILE_REQUEST,
   CREATE_NEW_STORYFILE_RESPONSE,
@@ -15,40 +20,45 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
   /**
    * Listens for events to create a new storyfile
    */
-  channel.on(CREATE_NEW_STORYFILE_REQUEST, async (data: CreateNewStoryPayload) => {
-    try {
-      const { storyFilePath, exportedStoryName, storyFileContent } = await getNewStoryFile(
-        data,
-        options
-      );
+  channel.on(
+    CREATE_NEW_STORYFILE_REQUEST,
+    async (data: RequestData<CreateNewStoryRequestPayload>) => {
+      try {
+        const { storyFilePath, exportedStoryName, storyFileContent } = await getNewStoryFile(
+          data.payload,
+          options
+        );
 
-      const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
+        const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
 
-      if (existsSync(storyFilePath)) {
-        throw new Error(`Story file already exists at .${path.sep}${relativeStoryFilePath}`);
+        if (existsSync(storyFilePath)) {
+          throw new Error(`Story file already exists at .${path.sep}${relativeStoryFilePath}`);
+        }
+
+        await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
+
+        const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
+
+        channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+          success: true,
+          id: storyId,
+          payload: {
+            storyId,
+            storyFilePath: `./${relativeStoryFilePath}`,
+            exportedStoryName,
+          },
+          error: null,
+        } satisfies ResponseData<CreateNewStoryResponsePayload>);
+      } catch (e: any) {
+        channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+          success: false,
+          id: data.id,
+          payload: null,
+          error: e?.message,
+        } satisfies ResponseData<CreateNewStoryResponsePayload>);
       }
-
-      await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
-
-      const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
-
-      channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
-        success: true,
-        result: {
-          storyId,
-          storyFilePath: `./${relativeStoryFilePath}`,
-          exportedStoryName,
-        },
-        error: null,
-      } satisfies CreateNewStoryResult);
-    } catch (e: any) {
-      channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
-        success: false,
-        result: null,
-        error: e?.message,
-      } satisfies CreateNewStoryResult);
     }
-  });
+  );
 
   return channel;
 }

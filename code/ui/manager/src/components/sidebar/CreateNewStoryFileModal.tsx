@@ -1,14 +1,17 @@
 import React, { useCallback, useDeferredValue, useEffect, useRef, useState } from 'react';
 import { AlertIcon, CheckIcon } from '@storybook/icons';
+import { stringify } from 'telejson';
 import type {
-  ArgTypesInfoPayload,
-  ArgTypesInfoResult,
-  CreateNewStoryPayload,
-  CreateNewStoryResult,
-  FileComponentSearchPayload,
-  FileComponentSearchResult,
-  SaveStoryRequest,
-  SaveStoryResponse,
+  ArgTypesRequestPayload,
+  ArgTypesResponsePayload,
+  CreateNewStoryRequestPayload,
+  CreateNewStoryResponsePayload,
+  FileComponentSearchRequestPayload,
+  FileComponentSearchResponsePayload,
+  RequestData,
+  ResponseData,
+  SaveStoryRequestPayload,
+  SaveStoryResponsePayload,
 } from '@storybook/core-events';
 import {
   ARGTYPES_INFO_REQUEST,
@@ -81,13 +84,12 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
     setLoading(true);
     const channel = addons.getChannel();
 
-    const set = (data: FileComponentSearchResult) => {
-      const isLatestRequest =
-        data.result?.searchQuery === fileSearchQueryDeferred && data.result.files;
+    const set = (data: ResponseData<FileComponentSearchResponsePayload>) => {
+      const isLatestRequest = data.id === fileSearchQueryDeferred && data.payload.files;
 
       if (data.success) {
         if (isLatestRequest) {
-          setSearchResults(data.result.files);
+          setSearchResults(data.payload.files);
         }
       } else {
         setError({ error: data.error });
@@ -105,8 +107,9 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
     if (fileSearchQueryDeferred !== '' && emittedValue.current !== fileSearchQueryDeferred) {
       emittedValue.current = fileSearchQueryDeferred;
       channel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
-        searchQuery: fileSearchQueryDeferred,
-      } satisfies FileComponentSearchPayload);
+        id: fileSearchQueryDeferred,
+        payload: {},
+      } satisfies RequestData<FileComponentSearchRequestPayload>);
     } else {
       setSearchResults(null);
       setLoading(false);
@@ -127,51 +130,58 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
       try {
         const channel = addons.getChannel();
 
-        const createNewStoryResult = await oncePromise<CreateNewStoryPayload, CreateNewStoryResult>(
-          {
-            channel,
-            request: {
-              name: CREATE_NEW_STORYFILE_REQUEST,
+        const createNewStoryResult = await oncePromise<
+          CreateNewStoryRequestPayload,
+          CreateNewStoryResponsePayload
+        >({
+          channel,
+          request: {
+            name: CREATE_NEW_STORYFILE_REQUEST,
+            payload: {
+              id: `${selectedItemId}`,
               payload: {
                 componentExportName,
                 componentFilePath,
                 componentIsDefaultExport,
               },
             },
-            resolveEvent: CREATE_NEW_STORYFILE_RESPONSE,
-          }
-        );
+          },
+          resolveEvent: CREATE_NEW_STORYFILE_RESPONSE,
+        });
 
         if (createNewStoryResult.success) {
           setError(null);
 
-          const storyId = createNewStoryResult.result.storyId;
+          const storyId = createNewStoryResult.payload.storyId;
 
           await trySelectNewStory(api.selectStory, storyId);
 
-          const argTypesInfoResult = await oncePromise<ArgTypesInfoPayload, ArgTypesInfoResult>({
+          const argTypesInfoResult = await oncePromise<
+            ArgTypesRequestPayload,
+            ArgTypesResponsePayload
+          >({
             channel,
             request: {
               name: ARGTYPES_INFO_REQUEST,
-              payload: { storyId },
+              payload: { id: storyId, payload: {} },
             },
             resolveEvent: ARGTYPES_INFO_RESPONSE,
           });
 
           if (argTypesInfoResult.success) {
-            const argTypes = argTypesInfoResult.result.argTypes;
+            const argTypes = argTypesInfoResult.payload.argTypes;
 
             const requiredArgs = extractSeededRequiredArgs(argTypes);
 
-            await oncePromise<SaveStoryRequest, SaveStoryResponse>({
+            await oncePromise<SaveStoryRequestPayload, SaveStoryResponsePayload>({
               channel,
               request: {
                 name: SAVE_STORY_REQUEST,
                 payload: {
                   id: storyId,
                   payload: {
-                    args: requiredArgs,
-                    importPath: createNewStoryResult.result.storyFilePath,
+                    args: stringify(requiredArgs),
+                    importPath: createNewStoryResult.payload.storyFilePath,
                     csfId: storyId,
                   },
                 },
@@ -234,9 +244,9 @@ function oncePromise<Payload, Result>({
   channel,
   request,
   resolveEvent,
-}: OncePromiseOptions<Payload>): Promise<Result> {
+}: OncePromiseOptions<RequestData<Payload>>): Promise<ResponseData<Result>> {
   return new Promise((resolve, reject) => {
-    channel.once(resolveEvent, (data: Result) => {
+    channel.once(resolveEvent, (data: ResponseData<Result>) => {
       resolve(data);
     });
 
