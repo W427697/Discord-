@@ -215,11 +215,14 @@ export const DefaultExport = styled('span')(({ theme }) => ({
 }));
 
 export const NoResults = styled('div')(({ theme }) => ({
-  padding: '0 10%',
   textAlign: 'center',
-  color: theme.base === 'dark' ? theme.color.lightest : theme.defaultText,
+  maxWidth: '334px',
+  margin: '16px auto 0 auto',
+  fontSize: '14px',
+  color: theme.base === 'dark' ? theme.color.lightest : '#000',
 }));
 
 export const NoResultsDescription = styled('p')(({ theme }) => ({
+  margin: 0,
   color: theme.base === 'dark' ? theme.color.defaultText : theme.color.mediumdark,
 }));
