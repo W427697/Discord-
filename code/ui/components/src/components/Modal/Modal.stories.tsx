@@ -128,30 +128,47 @@ export const FixedWidthAndHeight: Story = {
   },
 };
 
-export const StyledComponents = {
-  render: () => (
-    <Modal defaultOpen width={500}>
-      <Modal.Content>
-        <Modal.Header>
-          <Modal.Title>Hello</Modal.Title>
-          <Modal.Description>Lorem ipsum dolor sit amet.</Modal.Description>
-        </Modal.Header>
-        <Modal.Row>
-          <Modal.Col>
-            <span>One</span>
-            <span>Two</span>
-          </Modal.Col>
-          <Modal.Col>Right</Modal.Col>
-        </Modal.Row>
-        <Modal.Col>Another section</Modal.Col>
-        <Modal.Actions>
-          <Button variant="solid">Save</Button>
-          <Modal.Dialog.Close asChild>
-            <Button>Cancel</Button>
-          </Modal.Dialog.Close>
-        </Modal.Actions>
-      </Modal.Content>
-      <Modal.Error>Oops. Something went wrong.</Modal.Error>
-    </Modal>
-  ),
+export const StyledComponents: Story = {
+  args: {
+    ...Default.args,
+    width: 500,
+  },
+  render: (props) => {
+    const [isOpen, setOpen] = useState(false);
+
+    return (
+      <>
+        <Modal {...props} open={isOpen}>
+          <Modal.Content>
+            <Modal.Header>
+              <Modal.Title>Hello</Modal.Title>
+              <Modal.Description>Lorem ipsum dolor sit amet.</Modal.Description>
+            </Modal.Header>
+            <Modal.Row>
+              <Modal.Col>
+                <span>One</span>
+                <span>Two</span>
+              </Modal.Col>
+              <Modal.Col>Right</Modal.Col>
+            </Modal.Row>
+            <Modal.Col>Another section</Modal.Col>
+            <Modal.Actions>
+              <Button variant="solid">Save</Button>
+              <Modal.Dialog.Close asChild>
+                <Button>Cancel</Button>
+              </Modal.Dialog.Close>
+            </Modal.Actions>
+          </Modal.Content>
+          <Modal.Error>Oops. Something went wrong.</Modal.Error>
+        </Modal>
+        <button onClick={() => setOpen(true)}>Open modal</button>
+      </>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement.parentElement!);
+    const button = canvas.getAllByText('Open modal')[0];
+    await userEvent.click(button);
+    await expect(canvas.findByText('Hello')).resolves.toBeInTheDocument();
+  },
 };
