@@ -1,3 +1,4 @@
+import type { StyledComponent } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import { rgba } from 'polished';
 import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
@@ -191,18 +192,6 @@ export const FileListItemExportNameContent = styled('span')(({ theme }) => ({
   overflow: 'hidden',
   maxWidth: 'calc(100% - 160px)',
   display: 'inline-block',
-}));
-
-export const ChevronRightIconStyled = styled(ChevronRightIcon)(({ theme }) => ({
-  display: 'none',
-  alignSelf: 'center',
-  color: theme.color.mediumdark,
-}));
-
-export const ChevronDownIconStyled = styled(ChevronDownIcon)(({ theme }) => ({
-  display: 'none',
-  alignSelf: 'center',
-  color: theme.color.mediumdark,
 }));
 
 export const DefaultExport = styled('span')(({ theme }) => ({

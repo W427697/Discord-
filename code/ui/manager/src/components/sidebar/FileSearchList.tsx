@@ -1,9 +1,8 @@
 import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { ComponentIcon } from '@storybook/icons';
+import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
+import { styled } from '@storybook/theming';
 import { FileSearchListLoadingSkeleton } from './FileSearchListSkeleton';
 import {
-  ChevronDownIconStyled,
-  ChevronRightIconStyled,
   DefaultExport,
   FileList,
   FileListExport,
@@ -32,6 +31,18 @@ export type SearchResult = FileComponentSearchResult['result']['files'][0];
 export interface NewStoryPayload extends CreateNewStoryPayload {
   selectedItemId: string | number;
 }
+
+const ChevronRightIconStyled = styled(ChevronRightIcon)(({ theme }) => ({
+  display: 'none',
+  alignSelf: 'center',
+  color: theme.color.mediumdark,
+}));
+
+const ChevronDownIconStyled = styled(ChevronDownIcon)(({ theme }) => ({
+  display: 'none',
+  alignSelf: 'center',
+  color: theme.color.mediumdark,
+}));
 
 interface FileSearchListProps {
   isLoading: boolean;
