@@ -2737,11 +2737,11 @@ describe('PreviewWeb', () => {
 
     describe('if called twice simultaneously', () => {
       it('does not get renders confused', async () => {
-        const [importGate, openImportGate] = createGate();
-        const [importedGate, openImportedGate] = createGate();
+        const [blockImportFnGate, openBlockImportFnGate] = createGate();
+        const [importFnCalledGate, openImportFnCalledGate] = createGate();
         const newImportFn = vi.fn(async (path) => {
-          openImportedGate();
-          await importGate;
+          openImportFnCalledGate();
+          await blockImportFnGate;
           return importFn(path);
         });
 
@@ -2750,10 +2750,10 @@ describe('PreviewWeb', () => {
         mockChannel.emit.mockClear();
 
         preview.onStoriesChanged({ importFn: newImportFn });
-        await importedGate;
+        await importFnCalledGate;
         preview.onStoriesChanged({ importFn });
 
-        openImportGate();
+        openBlockImportFnGate();
         await waitForRender();
 
         expect(preview.storyRenders.length).toEqual(1);
