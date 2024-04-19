@@ -1,11 +1,9 @@
 ```ts
 // YourPage.stories.ts|tsx
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-
-import { graphql } from 'msw';
+import { graphql, HttpResponse, delay } from 'msw';
 
 import { DocumentScreen } from './YourPage';
 
@@ -85,7 +83,7 @@ export const MockedError: Story = {
     msw: {
       handlers: [
         graphql.query('AllInfoQuery', async () => {
-          delay(800);
+          await delay(800);
           return new HttpResponse.json({
             errors: [
               {

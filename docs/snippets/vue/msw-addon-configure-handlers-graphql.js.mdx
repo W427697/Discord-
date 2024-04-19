@@ -1,11 +1,9 @@
 ```js
 // YourPage.stories.js
-
-import DocumentScreen from './YourPage.vue';
+import { graphql, HttpResponse, delay } from 'msw';
 
 import WrapperComponent from './ApolloWrapperClient.vue';
-
-import { graphql } from 'msw';
+import DocumentScreen from './YourPage.vue';
 
 export default {
   component: DocumentScreen,
@@ -63,7 +61,7 @@ export const MockedError = {
     msw: {
       handlers: [
         graphql.query('AllInfoQuery', async () => {
-          delay(800);
+          await delay(800);
           return new HttpResponse.json({
             errors: [
               {

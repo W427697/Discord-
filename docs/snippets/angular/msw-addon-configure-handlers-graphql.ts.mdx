@@ -1,20 +1,16 @@
 ```ts
 // YourPage.stories.ts
-
-import { moduleMetadata } from '@storybook/angular';
-
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { graphql, HttpResponse, delay } from 'msw';
 
-import { graphql } from 'msw';
-
-import { DocumentScreen } from './YourPage.component';
-import { DocumentList } from './DocumentList.component';
 import { DocumentHeader } from './DocumentHeader.component';
+import { DocumentList } from './DocumentList.component';
 import { PageLayout } from './PageLayout.component';
-
+import { DocumentScreen } from './YourPage.component';
 import { MockGraphQLModule } from './mock-graphql.module';
 
 const meta: Meta<DocumentScreen> = {
@@ -79,7 +75,7 @@ export const MockedError: Story = {
     msw: {
       handlers: [
         graphql.query('AllInfoQuery', async () => {
-          delay(800);
+          await delay(800);
           return new HttpResponse.json({
             errors: [
               {

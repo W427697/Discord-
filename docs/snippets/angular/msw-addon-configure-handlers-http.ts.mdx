@@ -1,9 +1,8 @@
 ```ts
 // YourPage.stories.ts
-
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { rest } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 
 import { DocumentScreen } from './YourPage.component';
 

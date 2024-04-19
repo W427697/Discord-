@@ -1,13 +1,11 @@
 ```ts
 // YourPage.stories.ts
-
-import { graphql } from 'msw';
-
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import DocumentScreen from './YourPage.vue';
+import { graphql, HttpResponse, delay } from 'msw';
 
 import WrapperComponent from './ApolloWrapperClient.vue';
+import DocumentScreen from './YourPage.vue';
 
 const meta = {
   component: DocumentScreen,
@@ -68,7 +66,7 @@ export const MockedError: Story = {
     msw: {
       handlers: [
         graphql.query('AllInfoQuery', async () => {
-          delay(800);
+          await delay(800);
           return new HttpResponse.json({
             errors: [
               {

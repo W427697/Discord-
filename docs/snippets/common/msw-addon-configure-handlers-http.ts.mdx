@@ -1,10 +1,9 @@
 ```ts
 // YourPage.stories.ts|tsx
-
-// Replace your-framework with the name of your framework
+// Replace your-framework with the name of your framework (e.g. nextjs, vue3-vite)
 import type { Meta, StoryObj } from '@storybook/your-framework';
 
-import { rest } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 
 import { MyComponent } from './MyComponent';
 

@@ -1,18 +1,14 @@
 ```ts
 // YourPage.stories.ts
-
 import type { Meta, StoryObj } from '@storybook/svelte';
 
-import { graphql } from 'msw';
+import { graphql, HttpResponse, delay } from 'msw';
 
-import DocumentScreen from './YourPage.svelte';
 import MockApolloWrapperClient from './MockApolloWrapperClient.svelte';
+import DocumentScreen from './YourPage.svelte';
 
 const meta: Meta<typeof DocumentScreen> = {
   component: DocumentScreen,
-  render: () => ({
-    Component: DocumentScreen,
-  }),
   decorators: [() => MockApolloWrapperClient],
 };
 
@@ -67,7 +63,7 @@ export const MockedError: Story = {
     msw: {
       handlers: [
         graphql.query('AllInfoQuery', async () => {
-          delay(800);
+          await delay(800);
           return new HttpResponse.json({
             errors: [
               {

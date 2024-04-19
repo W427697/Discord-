@@ -1,9 +1,8 @@
 ```ts
 // YourPage.stories.ts
-
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import { rest } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 
 const meta: Meta = {
   component: 'demo-document-screen',
