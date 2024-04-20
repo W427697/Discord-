@@ -34,8 +34,9 @@ describe('FileSearchModal.utils', () => {
           type: {
             name: 'union',
             required: true,
-            value: ['a', 'b', 'c'] as any,
+            value: [],
           },
+          options: ['a', 'b', 'c'],
         },
         union: {
           type: { name: 'union', required: false, value: [] },
@@ -44,8 +45,9 @@ describe('FileSearchModal.utils', () => {
           type: {
             name: 'enum',
             required: true,
-            value: ['a', 'b', 'c'] as any,
+            value: [],
           },
+          options: ['a', 'b', 'c'],
         },
         enum: {
           type: { name: 'union', required: false, value: [] },
