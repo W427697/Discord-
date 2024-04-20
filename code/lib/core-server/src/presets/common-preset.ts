@@ -34,6 +34,8 @@ import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
+import { initFileSearchChannel } from '../server-channel/file-search-channel';
+import { initCreateNewStoryChannel } from '../server-channel/create-new-story-channel';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -339,6 +341,9 @@ export const experimental_serverChannel = async (
       });
     }
   });
+
+  initFileSearchChannel(channel, options);
+  initCreateNewStoryChannel(channel, options);
 
   return channel;
 };

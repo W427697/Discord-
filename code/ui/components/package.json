@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "8.1.0-alpha.5",
+  "version": "8.1.0-alpha.7",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -61,7 +61,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
-    "@storybook/csf": "^0.1.2",
+    "@storybook/csf": "^0.1.4",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/theming": "workspace:*",
