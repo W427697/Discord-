@@ -1,7 +1,5 @@
-import type { StyledComponent } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import { rgba } from 'polished';
-import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
 
 export const FileListWrapper = styled('div')(({ theme }) => ({
   marginTop: '-16px',

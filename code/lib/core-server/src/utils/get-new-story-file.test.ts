@@ -17,6 +17,7 @@ describe('get-new-story-file', () => {
         componentFilePath: 'src/components/Page.tsx',
         componentExportName: 'Page',
         componentIsDefaultExport: false,
+        componentExportCount: 1,
       },
       {
         presets: {
@@ -54,6 +55,7 @@ describe('get-new-story-file', () => {
         componentFilePath: 'src/components/Page.jsx',
         componentExportName: 'Page',
         componentIsDefaultExport: true,
+        componentExportCount: 1,
       },
       {
         presets: {

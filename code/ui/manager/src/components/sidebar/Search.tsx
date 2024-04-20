@@ -392,7 +392,6 @@ export const Search = React.memo<{
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
-                {/* @ts-expect-error (TODO) */}
                 <Input {...inputProps} />
                 {!isMobile && enableShortcuts && !isOpen && (
                   <FocusKey>
