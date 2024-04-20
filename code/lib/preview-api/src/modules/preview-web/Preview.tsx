@@ -318,6 +318,7 @@ export class Preview<TRenderer extends Renderer> {
       this.channel.emit(ARGTYPES_INFO_RESPONSE, {
         id,
         success: false,
+        payload: null,
         error: e?.message,
       } satisfies ResponseData<ArgTypesResponsePayload>);
     }

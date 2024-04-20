@@ -140,6 +140,7 @@ export const FileSearchList = memo(function FileSearchList({
           componentFilePath: searchResult.filepath,
           componentIsDefaultExport: searchResult.exportedComponents[0].default,
           selectedItemId: itemId,
+          componentExportCount: 1,
         });
       }
     },
@@ -153,6 +154,7 @@ export const FileSearchList = memo(function FileSearchList({
         componentFilePath: searchResult.filepath,
         componentIsDefaultExport: component.default,
         selectedItemId: id,
+        componentExportCount: searchResult.exportedComponents.length,
       });
     },
     [onNewStory]

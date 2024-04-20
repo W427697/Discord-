@@ -16,6 +16,7 @@ export async function getNewStoryFile(
     componentFilePath,
     componentExportName,
     componentIsDefaultExport,
+    componentExportCount,
   }: CreateNewStoryRequestPayload,
   options: Options
 ) {
@@ -54,13 +55,14 @@ export async function getNewStoryFile(
           exportedStoryName,
         });
 
-  const doesStoryFileExist = fs.existsSync(path.join(cwd, storyFileName));
+  const doesStoryFileExist = fs.existsSync(path.join(cwd, dirname, storyFileName));
 
-  const storyFilePath = doesStoryFileExist
-    ? path.join(cwd, dirname, alternativeStoryFileName)
-    : path.join(cwd, dirname, storyFileName);
+  const storyFilePath =
+    doesStoryFileExist && componentExportCount > 1
+      ? path.join(cwd, dirname, alternativeStoryFileName)
+      : path.join(cwd, dirname, storyFileName);
 
-  return { storyFilePath, exportedStoryName, storyFileContent };
+  return { storyFilePath, exportedStoryName, storyFileContent, dirname };
 }
 
 export const getStoryMetadata = (componentFilePath: string) => {

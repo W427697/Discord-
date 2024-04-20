@@ -17,13 +17,7 @@ export function extractSeededRequiredArgs(argTypes: ArgTypes) {
             break;
           case 'union':
           case 'enum':
-            const valueName = (argType.type.value?.[0] as any).name;
-            if (
-              'value' in argType.type &&
-              (valueName === 'string' || valueName === 'number' || valueName === 'boolean')
-            ) {
-              acc[key] = argType.type.value[0];
-            }
+            acc[key] = argType.options?.[0];
             break;
           case 'array':
             acc[key] = [];

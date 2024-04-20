@@ -47,22 +47,20 @@ addons.register(ADDON_ID, (api) => {
     if (data.type !== 'story') throw new Error('Not a story');
 
     try {
-      const response = await experimental_requestResponse<SaveStoryResponsePayload>(
-        channel,
-        SAVE_STORY_REQUEST,
-        SAVE_STORY_RESPONSE,
-        {
-          // Only send updated args
-          args: stringifyArgs(
-            Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
-              if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
-              return acc;
-            }, {})
-          ),
-          csfId: data.id,
-          importPath: data.importPath,
-        } satisfies SaveStoryRequestPayload
-      );
+      const response = await experimental_requestResponse<
+        SaveStoryRequestPayload,
+        SaveStoryResponsePayload
+      >(channel, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
+        // Only send updated args
+        args: stringifyArgs(
+          Object.entries(data.args || {}).reduce<Args>((acc, [key, value]) => {
+            if (!deepEqual(value, data.initialArgs?.[key])) acc[key] = value;
+            return acc;
+          }, {})
+        ),
+        csfId: data.id,
+        importPath: data.importPath,
+      });
 
       api.addNotification({
         id: 'save-story-success',
@@ -96,17 +94,15 @@ addons.register(ADDON_ID, (api) => {
     const data = api.getCurrentStoryData();
     if (data.type !== 'story') throw new Error('Not a story');
 
-    const response = await experimental_requestResponse<SaveStoryResponsePayload>(
-      channel,
-      SAVE_STORY_REQUEST,
-      SAVE_STORY_RESPONSE,
-      {
-        args: data.args && stringifyArgs(data.args),
-        csfId: data.id,
-        importPath: data.importPath,
-        name,
-      } satisfies SaveStoryRequestPayload
-    );
+    const response = await experimental_requestResponse<
+      SaveStoryRequestPayload,
+      SaveStoryResponsePayload
+    >(channel, SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, {
+      args: data.args && stringifyArgs(data.args),
+      csfId: data.id,
+      importPath: data.importPath,
+      name,
+    });
 
     api.addNotification({
       id: 'save-story-success',

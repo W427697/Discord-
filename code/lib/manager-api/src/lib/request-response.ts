@@ -4,11 +4,11 @@ import type { RequestData, ResponseData } from '@storybook/core-events';
 class RequestResponseError extends Error {}
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_requestResponse = <ResponsePayload = void>(
+export const experimental_requestResponse = <RequestPayload, ResponsePayload = void>(
   channel: Channel,
   requestEvent: string,
   responseEvent: string,
-  payload: any,
+  payload: RequestPayload,
   timeout = 5000
 ): Promise<ResponsePayload> => {
   let timeoutId: NodeJS.Timeout;

@@ -23,11 +23,10 @@ import {
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
 } from '@storybook/core-events';
-import { addons, useStorybookApi } from '@storybook/manager-api';
+import { addons, experimental_requestResponse, useStorybookApi } from '@storybook/manager-api';
 
 import { useDebounce } from '../../hooks/useDebounce';
 import type { NewStoryPayload, SearchResult } from './FileSearchList';
-import type { Channel } from '@storybook/channels';
 import { extractSeededRequiredArgs, trySelectNewStory } from './FileSearchModal.utils';
 import { FileSearchModal } from './FileSearchModal';
 
@@ -35,6 +34,14 @@ interface CreateNewStoryFileModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const stringifyArgs = (args: Record<string, any>) =>
+  stringify(args, {
+    allowDate: true,
+    allowFunction: true,
+    allowUndefined: true,
+    allowSymbol: true,
+  });
 
 export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFileModalProps) => {
   const [isLoading, setLoading] = useState(false);
@@ -125,82 +132,60 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
       componentExportName,
       componentFilePath,
       componentIsDefaultExport,
+      componentExportCount,
       selectedItemId,
     }: NewStoryPayload) => {
       try {
         const channel = addons.getChannel();
 
-        const createNewStoryResult = await oncePromise<
+        const createNewStoryResult = await experimental_requestResponse<
           CreateNewStoryRequestPayload,
           CreateNewStoryResponsePayload
-        >({
-          channel,
-          request: {
-            name: CREATE_NEW_STORYFILE_REQUEST,
-            payload: {
-              id: `${selectedItemId}`,
-              payload: {
-                componentExportName,
-                componentFilePath,
-                componentIsDefaultExport,
-              },
-            },
-          },
-          resolveEvent: CREATE_NEW_STORYFILE_RESPONSE,
+        >(channel, CREATE_NEW_STORYFILE_REQUEST, CREATE_NEW_STORYFILE_RESPONSE, {
+          componentExportName,
+          componentFilePath,
+          componentIsDefaultExport,
+          componentExportCount,
         });
 
-        if (createNewStoryResult.success) {
-          setError(null);
+        setError(null);
 
-          const storyId = createNewStoryResult.payload.storyId;
+        const storyId = createNewStoryResult.storyId;
 
-          await trySelectNewStory(api.selectStory, storyId);
+        await trySelectNewStory(api.selectStory, storyId);
 
-          const argTypesInfoResult = await oncePromise<
+        try {
+          const argTypesInfoResult = await experimental_requestResponse<
             ArgTypesRequestPayload,
             ArgTypesResponsePayload
-          >({
-            channel,
-            request: {
-              name: ARGTYPES_INFO_REQUEST,
-              payload: { id: storyId, payload: {} },
-            },
-            resolveEvent: ARGTYPES_INFO_RESPONSE,
+          >(channel, ARGTYPES_INFO_REQUEST, ARGTYPES_INFO_RESPONSE, {
+            storyId,
           });
 
-          if (argTypesInfoResult.success) {
-            const argTypes = argTypesInfoResult.payload.argTypes;
+          const argTypes = argTypesInfoResult.argTypes;
 
-            const requiredArgs = extractSeededRequiredArgs(argTypes);
+          const requiredArgs = extractSeededRequiredArgs(argTypes);
 
-            await oncePromise<SaveStoryRequestPayload, SaveStoryResponsePayload>({
-              channel,
-              request: {
-                name: SAVE_STORY_REQUEST,
-                payload: {
-                  id: storyId,
-                  payload: {
-                    args: stringify(requiredArgs),
-                    importPath: createNewStoryResult.payload.storyFilePath,
-                    csfId: storyId,
-                  },
-                },
-              },
-              resolveEvent: SAVE_STORY_RESPONSE,
-            });
-          }
+          await experimental_requestResponse<SaveStoryRequestPayload, SaveStoryResponsePayload>(
+            channel,
+            SAVE_STORY_REQUEST,
+            SAVE_STORY_RESPONSE,
+            {
+              args: stringifyArgs(requiredArgs),
+              importPath: createNewStoryResult.storyFilePath,
+              csfId: storyId,
+            }
+          );
+        } catch (e) {}
 
-          handleSuccessfullyCreatedStory(componentExportName);
-          handleFileSearch();
-        } else {
-          setError({ selectedItemId: selectedItemId, error: createNewStoryResult.error });
-        }
+        handleSuccessfullyCreatedStory(componentExportName);
+        handleFileSearch();
       } catch (e) {
-        handleErrorWhenCreatingStory();
+        setError({ selectedItemId: selectedItemId, error: e?.message });
       }
     },
     [
-      api.selectStory,
+      api?.selectStory,
       handleSuccessfullyCreatedStory,
       handleFileSearch,
       handleErrorWhenCreatingStory,
@@ -230,31 +215,3 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
     />
   );
 };
-
-interface OncePromiseOptions<Payload> {
-  channel: Channel;
-  request: {
-    name: string;
-    payload: Payload;
-  };
-  resolveEvent: string;
-}
-
-function oncePromise<Payload, Result>({
-  channel,
-  request,
-  resolveEvent,
-}: OncePromiseOptions<RequestData<Payload>>): Promise<ResponseData<Result>> {
-  return new Promise((resolve, reject) => {
-    channel.once(resolveEvent, (data: ResponseData<Result>) => {
-      resolve(data);
-    });
-
-    channel.emit(request.name, request.payload as Payload);
-
-    // If the channel supports error events, you can reject the promise on error
-    channel.once(resolveEvent, (error: any) => {
-      reject(error);
-    });
-  });
-}

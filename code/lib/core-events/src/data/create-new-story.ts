@@ -5,6 +5,8 @@ export interface CreateNewStoryRequestPayload {
   componentExportName: string;
   // is default export
   componentIsDefaultExport: boolean;
+  // The amount of exports in the file
+  componentExportCount: number;
 }
 
 export interface CreateNewStoryResponsePayload {
