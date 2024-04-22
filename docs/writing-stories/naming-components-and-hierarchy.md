@@ -127,11 +127,11 @@ Out of the box, Storybook sorts stories based on the order in which they are imp
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ Asides from the unique story identifier, you can also use the `title`, `name`, and import path to sort your stories using the `storySort` function.
+Asides from the unique story identifier, you can also use the `title`, `name`, and import path to sort your stories using the `storySort` function.
 
-</div>
+</Callout>
 
 The `storySort` can also accept a configuration object.
 
@@ -146,12 +146,12 @@ The `storySort` can also accept a configuration object.
 
 <!-- prettier-ignore-end -->
 
-| Field            |  Type   |                       Description                        | Required |      Default Value      |          Example          |
-| ---------------- | :-----: | :------------------------------------------------------: | :------: | :---------------------: | :-----------------------: |
-| **method**       | String  | Tells Storybook in which order the stories are displayed |    No    | Storybook configuration |     `'alphabetical'`      |
-| **order**        |  Array  |    The stories to be shown, ordered by supplied name     |    No    |    Empty Array `[]`     | `['Intro', 'Components']` |
-| **includeNames** | Boolean |          Include story name in sort calculation          |    No    |         `false`         |          `true`           |
-| **locales**      | String  |           The locale required to be displayed            |    No    |      System locale      |          `en-US`          |
+| Field            | Type    | Description                                              | Required | Default Value           | Example                   |
+| ---------------- | ------- | -------------------------------------------------------- | -------- | ----------------------- | ------------------------- |
+| **method**       | String  | Tells Storybook in which order the stories are displayed | No       | Storybook configuration | `'alphabetical'`          |
+| **order**        | Array   | The stories to be shown, ordered by supplied name        | No       | Empty Array `[]`        | `['Intro', 'Components']` |
+| **includeNames** | Boolean | Include story name in sort calculation                   | No       | `false`                 | `true`                    |
+| **locales**      | String  | The locale required to be displayed                      | No       | System locale           | `en-US`                   |
 
 To sort your stories alphabetically, set `method` to `'alphabetical'` and optionally set the `locales` string. To sort your stories using a custom list, use the `order` array; stories that don't match an item in the `order` list will appear after the items in the list.
 

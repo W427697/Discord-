@@ -1,5 +1,3 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
-
 import { join } from 'path';
 import fs, { move } from 'fs-extra';
 import * as ts from 'typescript';
@@ -76,7 +74,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   }
 
   if (!watch) {
-    console.log('done');
+    if (process.env.CI !== 'true') {
+      console.log('done');
+    }
   }
 };
 

@@ -1,8 +1,8 @@
-# `@storybook/addon-themes
+# @storybook/addon-themes
 
 Storybook Addon Themes can be used which between multiple themes for components inside the preview in [Storybook](https://storybook.js.org).
 
-![React Storybook Screenshot](https://user-images.githubusercontent.com/42671/98158421-dada2300-1ea8-11eb-8619-af1e7018e1ec.png)
+![React Storybook Screenshot](https://user-images.githubusercontent.com/18172605/274302488-77a39112-cdbe-4d16-9966-0d8e9e7e3399.gif)
 
 ## Usage
 
@@ -12,7 +12,7 @@ Requires Storybook 7.0 or later. If you need to add it to your Storybook, you ca
 npm i -D @storybook/addon-themes
 ```
 
-Then, add following content to [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
+Then, add following content to [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project):
 
 ```js
 export default {
@@ -27,6 +27,7 @@ For tool-specific setup, check out the recipes below
 - [`@emotion/styled`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/emotion.md)
 - [`@mui/material`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/material-ui.md)
 - [`bootstrap`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/bootstrap.md)
+- [`postcss`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/postcss.md)
 - [`styled-components`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/styled-components.md)
 - [`tailwind`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/tailwind.md)
 - [`vuetify@3.x`](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#writing-a-custom-decorator)

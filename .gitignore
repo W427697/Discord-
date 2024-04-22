@@ -21,6 +21,7 @@ test-results
 !/**/.yarn/plugins
 !/**/.yarn/sdks
 !/**/.yarn/versions
+!/**/.yarn/patches
 /**/.pnp.*
 !/node_modules
 
@@ -51,3 +52,4 @@ code/playwright/.cache/
 code/bench-results/
 
 /packs
+code/.nx/cache

@@ -9,8 +9,8 @@ import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
 import { stringifyProcessEnvs } from '@storybook/core-common';
+import { globalsModuleInfoMap } from '@storybook/manager/globals-module-info';
 import { getTemplatePath, renderHTML } from './utils/template';
-import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
@@ -20,10 +20,11 @@ import type {
   ManagerBuilder,
   StarterFunction,
 } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
+import { buildFrameworkGlobalsFromOptions } from './utils/framework';
 
 let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
@@ -40,12 +41,10 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     ? [...addonsEntryPoints, customManagerEntryPoint]
     : addonsEntryPoints;
 
-  const realEntryPoints = await wrapManagerEntries(entryPoints);
-
   return {
-    entryPoints: realEntryPoints,
+    entryPoints: await wrapManagerEntries(entryPoints, options.cacheKey),
     outdir: join(options.outputDir || './', 'sb-addons'),
-    format: 'esm',
+    format: 'iife',
     write: false,
     ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
@@ -89,7 +88,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
         util: require.resolve('util/util.js'),
         assert: require.resolve('browser-assert'),
       }),
-      globalExternals(definitions),
+      globalExternals(globalsModuleInfoMap),
       pnpPlugin(),
     ],
 
@@ -140,6 +139,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
 
   yield;
@@ -164,6 +164,9 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
+  // Build additional global values
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
+
   yield;
 
   const html = await renderHTML(
@@ -177,7 +180,9 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     refs,
     logLevel,
     docsOptions,
-    options
+    tagsOptions,
+    options,
+    globals
   );
 
   yield;
@@ -224,6 +229,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     title,
     logLevel,
     docsOptions,
+    tagsOptions,
   } = await getData(options);
   yield;
 
@@ -251,6 +257,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   });
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
+  // Build additional global values
+  const globals: Record<string, any> = await buildFrameworkGlobalsFromOptions(options);
+
   yield;
 
   const html = await renderHTML(
@@ -264,7 +273,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     refs,
     logLevel,
     docsOptions,
-    options
+    tagsOptions,
+    options,
+    globals
   );
 
   await Promise.all([
@@ -296,7 +307,6 @@ export const start: ManagerBuilder['start'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -308,7 +318,6 @@ export const build: ManagerBuilder['build'] = async (options) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 

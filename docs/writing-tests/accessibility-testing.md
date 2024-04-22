@@ -65,11 +65,10 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'react/component-story-with-accessibility.js.mdx',
     'react/component-story-with-accessibility.ts.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
-    'vue/component-story-with-accessibility.2.js.mdx',
-    'vue/component-story-with-accessibility.2.ts.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
     'vue/component-story-with-accessibility.3.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
+    'svelte/component-story-with-accessibility.ts.mdx',
     'web-components/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.ts.mdx',
   ]}
@@ -89,7 +88,7 @@ Out of the box, Storybook's accessibility addon includes a set of accessibility 
 
 #### Global a11y configuration
 
-If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [storybook/preview.js](../configure/overview.md#configure-story-rendering):
+If you need to dismiss an accessibility rule or modify its settings across all stories, you can add the following to your [`storybook/preview.js|ts`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -134,6 +133,7 @@ Customize the a11y ruleset at the story level by updating your story to include 
     'vue/storybook-addon-a11y-story-config.js.mdx',
     'vue/storybook-addon-a11y-story-config.ts.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
+    'svelte/storybook-addon-a11y-story-config.ts.mdx',
     'web-components/storybook-addon-a11y-story-config.js.mdx',
     'web-components/storybook-addon-a11y-story-config.ts.mdx',
   ]}
@@ -157,6 +157,7 @@ Disable accessibility testing for stories or components by adding the following 
    'vue/storybook-addon-a11y-disable.js.mdx',
    'vue/storybook-addon-a11y-disable.ts.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
+   'svelte/storybook-addon-a11y-disable.ts.mdx',
    'web-components/storybook-addon-a11y-disable.js.mdx',
    'web-components/storybook-addon-a11y-disable.ts.mdx',
   ]}
@@ -170,7 +171,7 @@ Disable accessibility testing for stories or components by adding the following 
 
 The most accurate way to check accessibility is manually on real devices. However, you can use automated tools to catch common accessibility issues. For example, [Axe](https://www.deque.com/axe/), on average, catches upwards to [57% of WCAG issues](https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/) automatically.
 
-These tools work by auditing the rendered DOM against heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. You can then integrate these tools into your test automation pipeline using the Storybook [test runner](./test-runner.md#test-hook-api-experimental) and [axe-playwright](https://github.com/abhinaba-ghosh/axe-playwright).
+These tools work by auditing the rendered DOM against heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. You can then integrate these tools into your test automation pipeline using the Storybook [test runner](./test-runner.md#test-hook-api) and [axe-playwright](https://github.com/abhinaba-ghosh/axe-playwright).
 
 ### Setup
 
@@ -190,7 +191,7 @@ Run the following command to install the required dependencies.
 
 <!-- prettier-ignore-end -->
 
-Add a new [configuration file](./test-runner.md#test-hook-api-experimental) inside your Storybook directory with the following inside:
+Add a new [configuration file](./test-runner.md#test-hook-api) inside your Storybook directory with the following inside:
 
 <!-- prettier-ignore-start -->
 
@@ -203,11 +204,11 @@ Add a new [configuration file](./test-runner.md#test-hook-api-experimental) insi
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 `preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
+`preVisit` and `postVisit` are convenient hooks that allow you to extend the test runner's default configuration. Read more about them [here](./test-runner.md#test-hook-api).
 
-</div>
+</Callout>
 
 When you execute the test runner (for example, with `yarn test-storybook`), it will run the accessibility audit and any [interaction tests](./interaction-testing.md) you might have configured for each component story.
 
@@ -251,7 +252,7 @@ Additionally, if you have already [disabled accessibility](#how-to-disable-a11y-
 
 Browser-based accessibility tests, like those found in Storybook, evaluate the rendered DOM because that gives you the highest accuracy. Auditing code that hasn't been compiled yet is one step removed from the real thing, so you won't catch everything the user might experience.
 
-#### Learn about other UI tests
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

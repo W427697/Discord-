@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-standalone-expect, no-await-in-loop */
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { toId } from '@storybook/csf';
@@ -33,12 +32,15 @@ export class SbPage {
     const storyLinkId = `${titleId}--${storyId}`;
     const viewMode = name === 'docs' ? 'docs' : 'story';
     await this.page.goto(`${baseURL}/?path=/${viewMode}/${storyLinkId}`);
+
+    await this.page.waitForURL((url) => url.search.includes(`path=/${viewMode}/${storyLinkId}`));
+    await this.previewRoot();
   }
 
   /**
    * Visit a story by selecting it from the sidebar.
    */
-  async navigateToStory(title: string, name: string) {
+  async navigateToStory(title: string, name: string, viewMode?: 'docs' | 'story') {
     await this.openComponent(title);
 
     const titleId = toId(title);
@@ -48,25 +50,47 @@ export class SbPage {
     const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
     await storyLink.click({ force: true });
 
-    // assert url changes
-    const viewMode = name === 'docs' ? 'docs' : 'story';
-
     await this.page.waitForURL((url) =>
-      url.search.includes(`path=/${viewMode}/${titleId}--${storyId}`)
+      url.search.includes(
+        `path=/${viewMode ?? name === 'docs' ? 'docs' : 'story'}/${titleId}--${storyId}`
+      )
     );
 
     const selected = await storyLink.getAttribute('data-selected');
     await expect(selected).toBe('true');
+
+    await this.previewRoot();
+  }
+
+  async navigateToUnattachedDocs(title: string, name = 'docs') {
+    await this.openComponent(title);
+
+    const titleId = toId(title);
+    const storyId = toId(name);
+    const storyLinkId = `#${titleId}-${storyId}--docs`;
+    await this.page.waitForSelector(storyLinkId);
+    const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
+    await storyLink.click({ force: true });
+
+    await this.page.waitForURL((url) =>
+      url.search.includes(`path=/docs/${titleId}-${storyId}--docs`)
+    );
+
+    const selected = await storyLink.getAttribute('data-selected');
+    await expect(selected).toBe('true');
+
+    await this.previewRoot();
   }
 
   async waitUntilLoaded() {
-    // make sure we start every test with clean state – to avoid possible flakyness
+    // make sure we start every test with clean state – to avoid possible flakiness
     await this.page.context().addInitScript(() => {
       const storeState = {
         layout: {
           showToolbar: true,
-          showNav: true,
-          showPanel: true,
+          navSize: 300,
+          bottomPanelHeight: 300,
+          rightPanelWidth: 300,
         },
       };
       window.sessionStorage.setItem('@storybook/manager/store', JSON.stringify(storeState));

@@ -26,6 +26,8 @@ interface EslintPluginRunOptions {
 export const eslintPlugin: Fix<EslintPluginRunOptions> = {
   id: 'eslintPlugin',
 
+  versionRange: ['<8', '>=7'],
+
   async check({ packageManager }) {
     const { hasEslint, isStorybookPluginInstalled } = await extractEslintInfo(packageManager);
 
@@ -33,15 +35,15 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       return null;
     }
 
-    let eslintFile;
-    let unsupportedExtension;
+    let eslintFile: string | null = null;
+    let unsupportedExtension: string | undefined;
     try {
       eslintFile = findEslintFile();
     } catch (err) {
-      unsupportedExtension = err.message;
+      unsupportedExtension = String(err);
     }
 
-    if (!eslintFile && !unsupportedExtension) {
+    if (!eslintFile || !unsupportedExtension) {
       logger.warn('Unable to find .eslintrc config file, skipping');
       return null;
     }

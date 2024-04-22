@@ -1,29 +1,18 @@
 import * as path from 'path';
-import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
 import type { Options } from '@storybook/types';
 import { listStories } from './list-stories';
 
+// It ensures that vite converts cjs deps into esm without vite having to find them during startup and then having to log a message about them and restart
+// TODO: Many of the deps might be prebundled now though, so probably worth trying to remove and see what happens
 const INCLUDE_CANDIDATES = [
   '@base2/pretty-print-object',
   '@emotion/core',
   '@emotion/is-prop-valid',
   '@emotion/styled',
-  '@mdx-js/react',
-  '@storybook/addon-docs > acorn-jsx',
-  '@storybook/addon-docs',
-  '@storybook/addon-essentials/docs/mdx-react-shim',
-  '@storybook/channels',
-  '@storybook/client-api',
-  '@storybook/client-logger',
-  '@storybook/core/client',
-  '@storybook/global',
-  '@storybook/preview-api',
-  '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',
   '@storybook/svelte',
-  '@storybook/types',
   '@storybook/vue3',
   'acorn-jsx',
   'acorn-walk',
@@ -40,7 +29,6 @@ const INCLUDE_CANDIDATES = [
   'fast-deep-equal',
   'html-tags',
   'isobject',
-  'jest-mock',
   'loader-utils',
   'lodash/camelCase.js',
   'lodash/camelCase',
@@ -80,7 +68,6 @@ const INCLUDE_CANDIDATES = [
   'lodash/uniq',
   'lodash/upperFirst.js',
   'lodash/upperFirst',
-  'markdown-to-jsx',
   'memoizerific',
   'overlayscrollbars',
   'polished',
@@ -127,7 +114,10 @@ const asyncFilter = async (arr: string[], predicate: (val: string) => Promise<bo
   Promise.all(arr.map(predicate)).then((results) => arr.filter((_v, index) => results[index]));
 
 export async function getOptimizeDeps(config: ViteInlineConfig, options: Options) {
+  const extraOptimizeDeps = await options.presets.apply('optimizeViteDeps', []);
+
   const { root = process.cwd() } = config;
+  const { normalizePath, resolveConfig } = await import('vite');
   const absoluteStories = await listStories(options);
   const stories = absoluteStories.map((storyPath) => normalizePath(path.relative(root, storyPath)));
   // TODO: check if resolveConfig takes a lot of time, possible optimizations here
@@ -136,7 +126,10 @@ export async function getOptimizeDeps(config: ViteInlineConfig, options: Options
   // This function converts ids which might include ` > ` to a real path, if it exists on disk.
   // See https://github.com/vitejs/vite/blob/67d164392e8e9081dc3f0338c4b4b8eea6c5f7da/packages/vite/src/node/optimizer/index.ts#L182-L199
   const resolve = resolvedConfig.createResolver({ asSrc: false });
-  const include = await asyncFilter(INCLUDE_CANDIDATES, async (id) => Boolean(await resolve(id)));
+  const include = await asyncFilter(
+    Array.from(new Set([...INCLUDE_CANDIDATES, ...extraOptimizeDeps])),
+    async (id) => Boolean(await resolve(id))
+  );
 
   const optimizeDeps: UserConfig['optimizeDeps'] = {
     ...config.optimizeDeps,

@@ -6,11 +6,11 @@ Storybook is widely used by component libraries and design systems. Design syste
 
 For example, if you use a design system package, its stories can appear alongside your own. That makes it convenient to cross reference usage documentation without leaving Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 Composition via a package requires a secure integration between the service where you publish Storybook and Storybook’s own APIs. We recommend [publishing Storybook to Chromatic](./publish-storybook.md#publish-storybook-with-chromatic) for full support of these features.
 
-</div>
+</Callout>
 
 ## For consumers
 
@@ -20,7 +20,7 @@ Composition happens automatically if the package [supports](#for-authors) it. Wh
 
 ### Set up
 
-If you want to configure how the composed Storybook behaves, you can disable the `ref` element in your [`.storybook/main.js`](../configure/overview.md#configure-story-rendering)
+If you want to configure how the composed Storybook behaves, you can disable the `ref` element in your [`.storybook/main.js`](../configure/index.md#configure-story-rendering)
 
 <!-- prettier-ignore-start -->
 

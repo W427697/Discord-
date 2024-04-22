@@ -37,7 +37,10 @@ export const sandbox: Task = {
       await remove(details.sandboxDir);
     }
 
-    const { create, install, addStories, extendMain, init } = await import('./sandbox-parts');
+    const { create, install, addStories, extendMain, init, addExtraDependencies } =
+      // @ts-expect-error esbuild for some reason exports a default object
+      // eslint-disable-next-line import/extensions
+      (await import('./sandbox-parts.ts')).default;
 
     let startTime = now();
     await create(details, options);
@@ -71,6 +74,13 @@ export const sandbox: Task = {
     if (!options.skipTemplateStories) {
       await addStories(details, options);
     }
+
+    await addExtraDependencies({
+      cwd: details.sandboxDir,
+      debug: options.debug,
+      dryRun: options.dryRun,
+      extraDeps: details.template.modifications?.extraDependencies,
+    });
 
     await extendMain(details, options);
 

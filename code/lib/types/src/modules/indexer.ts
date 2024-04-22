@@ -66,22 +66,8 @@ export type Indexer = BaseIndexer & {
    * @param options {@link IndexerOptions} for indexing the file.
    * @returns A promise that resolves to an array of {@link IndexInput} objects.
    */
-  index: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
-  /**
-   * @soonDeprecated Use {@link index} instead
-   */
-  indexer?: never;
+  createIndex: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
 };
-
-export type DeprecatedIndexer = BaseIndexer & {
-  indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
-  index?: never;
-};
-
-/**
- * @soonDeprecated Use {@link Indexer} instead
- */
-export type StoryIndexer = Indexer | DeprecatedIndexer;
 
 export interface BaseIndexEntry {
   id: StoryId;
@@ -121,6 +107,8 @@ export type BaseIndexInput = {
   metaId?: MetaId;
   /** Tags for filtering entries in Storybook and its tools. */
   tags?: Tag[];
+  /** Tags from the meta for filtering entries in Storybook and its tools. */
+  metaTags?: Tag[];
   /**
    * The id of the entry, auto-generated from {@link title}/{@link metaId} and {@link exportName} if unspecified.
    * If specified, the story in the CSF file _must_ have a matching id set at `parameters.__id`, to be correctly matched.

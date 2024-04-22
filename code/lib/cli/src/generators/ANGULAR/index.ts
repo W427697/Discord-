@@ -1,11 +1,11 @@
 import { join } from 'path';
-import semver from 'semver';
+import { commandLog } from '@storybook/core-common';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 import { AngularJSON, compoDocPreviewPrefix, promptForCompoDocs } from './helpers';
 import { getCliDir } from '../../dirs';
-import { paddedLog, copyTemplate } from '../../helpers';
+import { copyTemplate } from '../../helpers';
 
 const generator: Generator<{ projectName: string }> = async (
   packageManager,
@@ -13,10 +13,6 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersion = await packageManager.getPackageVersion('@angular/core');
-  const isWebpack5 = angularVersion && semver.gte(angularVersion, '12.0.0');
-  const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-
   const angularJSON = new AngularJSON();
 
   if (
@@ -35,7 +31,7 @@ const generator: Generator<{ projectName: string }> = async (
   }
 
   const angularProjectName = await angularJSON.getProjectName();
-  paddedLog(`Adding Storybook support to your "${angularProjectName}" project`);
+  commandLog(`Adding Storybook support to your "${angularProjectName}" project`);
 
   const angularProject = angularJSON.getProjectSettingsByName(angularProjectName);
 
@@ -47,7 +43,7 @@ const generator: Generator<{ projectName: string }> = async (
 
   const { root, projectType } = angularProject;
   const { projects } = angularJSON;
-  const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
+  const useCompodoc = commandOptions?.yes ? true : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';
 
   angularJSON.addStorybookEntries({
@@ -62,7 +58,8 @@ const generator: Generator<{ projectName: string }> = async (
     packageManager,
     npmOptions,
     {
-      ...updatedOptions,
+      ...options,
+      builder: CoreBuilder.Webpack5,
       ...(useCompodoc && {
         frameworkPreviewParts: {
           prefix: compoDocPreviewPrefix,
@@ -75,6 +72,7 @@ const generator: Generator<{ projectName: string }> = async (
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,
+      webpackCompiler: () => undefined,
     },
     'angular'
   );

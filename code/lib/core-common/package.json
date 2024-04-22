@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.5.0-alpha.1",
+  "version": "8.1.0-alpha.7",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -40,20 +40,21 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/core-events": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
-    "@types/find-cache-dir": "^3.2.1",
-    "@types/node": "^16.0.0",
-    "@types/node-fetch": "^2.6.4",
-    "@types/pretty-hrtime": "^1.0.0",
+    "@yarnpkg/fslib": "2.10.3",
+    "@yarnpkg/libzip": "2.3.0",
     "chalk": "^4.1.0",
-    "esbuild": "^0.18.0",
-    "esbuild-register": "^3.4.0",
+    "cross-spawn": "^7.0.3",
+    "esbuild": "^0.18.0 || ^0.19.0 || ^0.20.0",
+    "esbuild-register": "^3.5.0",
+    "execa": "^5.0.0",
     "file-system-cache": "2.3.0",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
@@ -64,22 +65,44 @@
     "node-fetch": "^2.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
+    "prettier-fallback": "npm:prettier@^3",
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
-    "ts-dedent": "^2.0.0"
+    "semver": "^7.3.7",
+    "tempy": "^1.0.1",
+    "tiny-invariant": "^1.3.1",
+    "ts-dedent": "^2.0.0",
+    "util": "^0.12.4"
   },
   "devDependencies": {
+    "@types/find-cache-dir": "^3.2.1",
+    "@types/fs-extra": "^11.0.1",
     "@types/mock-fs": "^4.13.1",
+    "@types/node": "^18.0.0",
+    "@types/node-fetch": "^2.6.4",
     "@types/picomatch": "^2.3.0",
+    "@types/prettier-v2": "npm:@types/prettier@^2",
+    "@types/pretty-hrtime": "^1.0.0",
     "mock-fs": "^5.2.0",
+    "prettier-v2": "npm:prettier@^2",
+    "prettier-v3": "npm:prettier@^3",
     "slash": "^5.0.0",
     "type-fest": "~2.19",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "prettier": "^2 || ^3"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-sb-packages-versions.js",
     "entries": [
       "./src/index.ts"
     ],

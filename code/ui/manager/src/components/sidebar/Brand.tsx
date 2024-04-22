@@ -11,10 +11,9 @@ export const StorybookLogoStyled = styled(StorybookLogo)(({ theme }) => ({
 }));
 
 export const Img = styled.img({
-  width: 'auto',
-  height: 'auto',
   display: 'block',
-  maxWidth: '100%',
+  maxWidth: '150px',
+  maxHeight: '100px',
 });
 
 export const LogoLink = styled.a(({ theme }) => ({
@@ -40,7 +39,7 @@ export const Brand = withTheme(({ theme }) => {
   // When image is explicitly set to null, enable custom HTML support
   if (image === null) {
     if (title === null) return null;
-    // eslint-disable-next-line react/no-danger
+
     if (!url) return <div dangerouslySetInnerHTML={{ __html: title }} />;
     return <LogoLink href={url} target={targetValue} dangerouslySetInnerHTML={{ __html: title }} />;
   }

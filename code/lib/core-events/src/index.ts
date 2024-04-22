@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum events {
+  CHANNEL_WS_DISCONNECT = 'channelWSDisconnect',
   CHANNEL_CREATED = 'channelCreated',
   // There was an error executing the config, likely an bug in the user's preview.js
   CONFIG_ERROR = 'configError',
@@ -38,6 +39,8 @@ enum events {
   STORY_RENDER_PHASE_CHANGED = 'storyRenderPhaseChanged',
   // Emitted when the play function throws
   PLAY_FUNCTION_THREW_EXCEPTION = 'playFunctionThrewException',
+  // Emitted when there were unhandled errors while playing the story
+  UNHANDLED_ERRORS_WHILE_PLAYING = 'unhandledErrorsWhilePlaying',
   // Tell the story store to update (a subset of) a stories arg values
   UPDATE_STORY_ARGS = 'updateStoryArgs',
   // The values of a stories args just changed
@@ -70,6 +73,10 @@ enum events {
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
+  FILE_COMPONENT_SEARCH = 'fileComponentSearch',
+  FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
+  CREATE_NEW_STORYFILE = 'createNewStoryfile',
+  CREATE_NEW_STORYFILE_RESULT = 'createNewStoryfileResult',
 }
 
 // Enables: `import Events from ...`
@@ -78,16 +85,22 @@ export default events;
 // Enables: `import * as Events from ...` or `import { CHANNEL_CREATED } as Events from ...`
 // This is the preferred method
 export const {
+  CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
+  CREATE_NEW_STORYFILE,
+  CREATE_NEW_STORYFILE_RESULT,
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
+  FILE_COMPONENT_SEARCH,
+  FILE_COMPONENT_SEARCH_RESULT,
   FORCE_RE_RENDER,
   FORCE_REMOUNT,
   GLOBALS_UPDATED,
   NAVIGATE_URL,
   PLAY_FUNCTION_THREW_EXCEPTION,
+  UNHANDLED_ERRORS_WHILE_PLAYING,
   PRELOAD_ENTRIES,
   PREVIEW_BUILDER_PROGRESS,
   PREVIEW_KEYDOWN,
@@ -123,10 +136,6 @@ export const {
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
   TELEMETRY_ERROR,
 } = events;
-
-// Used to break out of the current render without showing a redbox
-// eslint-disable-next-line local-rules/no-uncategorized-errors
-export const IGNORED_EXCEPTION = new Error('ignoredException');
 
 export interface WhatsNewCache {
   lastDismissedPost?: string;

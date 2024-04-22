@@ -81,6 +81,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     colorSecondary,
     appBg,
     appContentBg,
+    appPreviewBg,
     appBorderColor,
     appBorderRadius,
     fontBase,
@@ -88,6 +89,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     textColor,
     textInverseColor,
     barTextColor,
+    barHoverColor,
     barSelectedColor,
     barBg,
     buttonBg,
@@ -115,6 +117,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
       app: appBg,
       bar: barBg,
       content: appContentBg,
+      preview: appPreviewBg,
       gridCellSize: gridCellSize || background.gridCellSize,
       hoverable: background.hoverable,
       positive: background.positive,
@@ -157,6 +160,7 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
 
     // Toolbar default/active colors
     barTextColor,
+    barHoverColor: barHoverColor || colorSecondary,
     barSelectedColor: barSelectedColor || colorSecondary,
     barBg,
 

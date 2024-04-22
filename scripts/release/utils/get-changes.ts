@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import chalk from 'chalk';
 import semver from 'semver';
 import type { PullRequestInfo } from './get-github-info';
@@ -53,7 +52,7 @@ export const getFromCommit = async (from?: string | undefined, verbose?: boolean
       console.log(`🔍 No 'from' specified, found latest tag: ${chalk.blue(latest)}`);
     }
   }
-  const commit = await getCommitAt(actualFrom, verbose);
+  const commit = await getCommitAt(actualFrom!, verbose);
   if (verbose) {
     console.log(`🔍 Found 'from' commit: ${chalk.blue(commit)}`);
   }
@@ -206,11 +205,11 @@ export const getChangelogText = ({
       return entry.labels?.some((label) => Object.keys(RELEASED_LABELS).includes(label));
     })
     .map((entry) => {
-      const { title, links } = entry;
-      const { pull, commit, user } = links;
+      const { title, user, links } = entry;
+      const { pull, commit } = links;
       return pull
-        ? `- ${title} - ${pull}, thanks ${user}!`
-        : `- ⚠️ _Direct commit_ ${title} - ${commit} by ${user}`;
+        ? `- ${title} - ${pull}, thanks @${user}!`
+        : `- ⚠️ _Direct commit_ ${title} - ${commit} by @${user}`;
     })
     .sort();
   const text = [heading, '', ...formattedEntries].join('\n');

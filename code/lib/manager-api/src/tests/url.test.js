@@ -1,42 +1,46 @@
-import qs from 'qs';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
 
 import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
-jest.mock('@storybook/client-logger');
-jest.useFakeTimers();
+vi.mock('@storybook/client-logger');
+vi.useFakeTimers();
 
 describe('initial state', () => {
   const viewMode = 'story';
 
   describe('config query parameters', () => {
     it('handles full parameter', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ full: '1' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ full: '1' }).toString() };
 
       const {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ isFullscreen: true });
+      expect(layout).toMatchObject({
+        bottomPanelHeight: 0,
+        navSize: 0,
+        rightPanelWidth: 0,
+      });
     });
 
     it('handles nav parameter', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ nav: '0' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ nav: '0' }).toString() };
 
       const {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ showNav: false });
+      expect(layout).toMatchObject({ navSize: 0 });
     });
 
     it('handles shortcuts parameter', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ shortcuts: '0' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ shortcuts: '0' }).toString() };
 
       const {
         state: { ui },
@@ -46,36 +50,39 @@ describe('initial state', () => {
     });
 
     it('handles panel parameter, bottom', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ panel: 'bottom' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ panel: 'bottom' }).toString() };
 
       const {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ panelPosition: 'bottom' });
+      expect(layout).toMatchObject({ panelPosition: 'bottom' });
     });
 
     it('handles panel parameter, right', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ panel: 'right' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ panel: 'right' }).toString() };
 
       const {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ panelPosition: 'right' });
+      expect(layout).toMatchObject({ panelPosition: 'right' });
     });
 
     it('handles panel parameter, 0', () => {
-      const navigate = jest.fn();
-      const location = { search: qs.stringify({ panel: '0' }) };
+      const navigate = vi.fn();
+      const location = { search: new URLSearchParams({ panel: '0' }).toString() };
 
       const {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ showPanel: false });
+      expect(layout).toMatchObject({
+        bottomPanelHeight: 0,
+        rightPanelWidth: 0,
+      });
     });
   });
 });
@@ -92,12 +99,12 @@ describe('queryParams', () => {
     const channel = new EventEmitter();
     const { api } = initURL({
       state: { location: { search: '' } },
-      navigate: jest.fn(),
+      navigate: vi.fn(),
       store,
       provider: { channel },
     });
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     channel.on(UPDATE_QUERY_PARAMS, listener);
 
@@ -126,7 +133,7 @@ describe('initModule', () => {
   });
 
   const fullAPI = {
-    showReleaseNotesOnLaunch: jest.fn(),
+    showReleaseNotesOnLaunch: vi.fn(),
   };
 
   beforeEach(() => {
@@ -137,7 +144,7 @@ describe('initModule', () => {
   it('updates args param on SET_CURRENT_STORY', async () => {
     store.setState(storyState('test--story'));
 
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     initURL({
       store,
@@ -149,7 +156,6 @@ describe('initModule', () => {
           type: 'story',
           args: { a: 1, b: 2 },
           initialArgs: { a: 1, b: 1 },
-          isLeaf: true,
         }),
       }),
     });
@@ -164,7 +170,7 @@ describe('initModule', () => {
   it('updates globals param on GLOBALS_UPDATED', async () => {
     store.setState(storyState('test--story'));
 
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     initURL({ store, provider: { channel }, state: { location: {} }, navigate, fullAPI });
 
@@ -178,7 +184,7 @@ describe('initModule', () => {
 
   it('adds url params alphabetically', async () => {
     store.setState({ ...storyState('test--story'), customQueryParams: { full: 1 } });
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     const { api } = initURL({
       store,
@@ -186,7 +192,7 @@ describe('initModule', () => {
       state: { location: {} },
       navigate,
       fullAPI: Object.assign(fullAPI, {
-        getCurrentStoryData: () => ({ type: 'story', args: { a: 1 }, isLeaf: true }),
+        getCurrentStoryData: () => ({ type: 'story', args: { a: 1 } }),
       }),
     });
 

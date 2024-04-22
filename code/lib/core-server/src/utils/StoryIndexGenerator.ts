@@ -1,7 +1,6 @@
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import glob from 'globby';
 import slash from 'slash';
 import invariant from 'tiny-invariant';
 
@@ -11,17 +10,13 @@ import type {
   DocsIndexEntry,
   ComponentTitle,
   NormalizedStoriesSpecifier,
-  StoryIndexer,
   DocsOptions,
   Path,
   Tag,
   StoryIndex,
-  V3CompatIndexEntry,
-  StoryId,
   StoryName,
   Indexer,
-  IndexerOptions,
-  DeprecatedIndexer,
+  StorybookConfigRaw,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -53,11 +48,9 @@ type SpecifierStoriesCache = Record<Path, CacheEntry>;
 export type StoryIndexGeneratorOptions = {
   workingDir: Path;
   configDir: Path;
-  storiesV2Compatibility: boolean;
-  storyStoreV7: boolean;
-  storyIndexers: StoryIndexer[];
   indexers: Indexer[];
   docs: DocsOptions;
+  build?: StorybookConfigRaw['build'];
 };
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -119,12 +112,6 @@ export class StoryIndexGenerator {
     public readonly options: StoryIndexGeneratorOptions
   ) {
     this.specifierToCache = new Map();
-    if (options.storyIndexers.length > 1) {
-      // TODO: write migration notes before enabling this warning
-      // deprecate(
-      //   "'storyIndexers' is deprecated, please use 'indexers' instead. See migration notes at XXX"
-      // );
-    }
   }
 
   async initialize() {
@@ -136,7 +123,11 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
+
+        // Dynamically import globby because it is a pure ESM module
+        const { globby } = await import('globby');
+
+        const files = await globby(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
@@ -291,22 +282,11 @@ export class StoryIndexGenerator {
       return title;
     };
 
-    const indexer = (this.options.indexers as StoryIndexer[])
-      .concat(this.options.storyIndexers)
-      .find((ind) => ind.test.exec(absolutePath));
+    const indexer = this.options.indexers.find((ind) => ind.test.exec(absolutePath));
 
     invariant(indexer, `No matching indexer found for ${absolutePath}`);
 
-    if (indexer.indexer) {
-      return this.extractStoriesFromDeprecatedIndexer({
-        indexer: indexer.indexer,
-        indexerOptions: { makeTitle: defaultMakeTitle },
-        absolutePath,
-        importPath,
-      });
-    }
-
-    const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
+    const indexInputs = await indexer.createIndex(absolutePath, { makeTitle: defaultMakeTitle });
 
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {
@@ -337,11 +317,11 @@ export class StoryIndexGenerator {
     const createDocEntry =
       autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
 
-    if (createDocEntry) {
+    if (createDocEntry && this.options.build?.test?.disableAutoDocs !== true) {
       const name = this.options.docs.defaultName ?? 'Docs';
       const { metaId } = indexInputs[0];
       const { title } = entries[0];
-      const tags = indexInputs[0].tags || [];
+      const metaTags = indexInputs[0].metaTags || [];
       const id = toId(metaId ?? title, name);
       entries.unshift({
         id,
@@ -349,7 +329,7 @@ export class StoryIndexGenerator {
         name,
         importPath,
         type: 'docs',
-        tags: [...tags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        tags: [...metaTags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
         storiesImports: [],
       });
     }
@@ -365,77 +345,9 @@ export class StoryIndexGenerator {
     };
   }
 
-  async extractStoriesFromDeprecatedIndexer({
-    indexer,
-    indexerOptions,
-    absolutePath,
-    importPath,
-  }: {
-    indexer: DeprecatedIndexer['indexer'];
-    indexerOptions: IndexerOptions;
-    absolutePath: Path;
-    importPath: Path;
-  }) {
-    const csf = await indexer(absolutePath, indexerOptions);
-
-    const entries = [];
-
-    const componentTags = csf.meta.tags || [];
-    csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
-      if (!parameters?.docsOnly) {
-        const tags = (csf.meta.tags ?? []).concat(storyTags ?? [], 'story');
-        invariant(csf.meta.title);
-        entries.push({
-          id,
-          title: csf.meta.title,
-          name,
-          importPath,
-          tags,
-          type: 'story',
-          // We need to keep track of the csf meta id so we know the component id when referencing docs below in `extractDocs`
-          metaId: csf.meta.id,
-        });
-      }
-    });
-
-    if (csf.stories.length) {
-      const { autodocs } = this.options.docs;
-      const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
-      const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
-      // We need a docs entry attached to the CSF file if either:
-      //  a) it is a stories.mdx transpiled to CSF, OR
-      //  b) we have docs page enabled for this file
-      if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
-        const name = this.options.docs.defaultName ?? 'Docs';
-        invariant(csf.meta.title, 'expected a title property in csf.meta');
-        const id = toId(csf.meta.id || csf.meta.title, name);
-        entries.unshift({
-          id,
-          title: csf.meta.title,
-          name,
-          importPath,
-          type: 'docs',
-          tags: [
-            ...componentTags,
-            'docs',
-            ...(autodocsOptedIn && !componentAutodocs ? [AUTODOCS_TAG] : []),
-          ],
-          storiesImports: [],
-        });
-      }
-    }
-
-    return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
-  }
-
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      invariant(
-        this.options.storyStoreV7,
-        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
-      );
-
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
@@ -523,6 +435,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
+        // FIXME: update this to use the index entry's metaTags once we update this to run on `IndexInputs`
         tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
@@ -596,7 +509,7 @@ export class StoryIndexGenerator {
       // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.
     } else {
       // If both entries are templates (e.g. you have two CSF files with the same title), then
-      //   we need to merge the entries. We'll use the the first one's name and importPath,
+      //   we need to merge the entries. We'll use the first one's name and importPath,
       //   but ensure we include both as storiesImports so they are both loaded before rendering
       //   the story (for the <Stories> block & friends)
       return {
@@ -615,18 +528,17 @@ export class StoryIndexGenerator {
   async sortStories(entries: StoryIndex['entries']) {
     const sortableStories = Object.values(entries);
 
-    // Skip sorting if we're in v6 mode because we don't have
-    // all the info we need here
-    if (this.options.storyStoreV7) {
-      const storySortParameter = await this.getStorySortParameter();
-      const fileNameOrder = this.storyFileNames();
-      sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
-    }
+    const storySortParameter = await this.getStorySortParameter();
+    const fileNameOrder = this.storyFileNames();
+    sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
-    return sortableStories.reduce((acc, item) => {
-      acc[item.id] = item;
-      return acc;
-    }, {} as StoryIndex['entries']);
+    return sortableStories.reduce(
+      (acc, item) => {
+        acc[item.id] = item;
+        return acc;
+      },
+      {} as StoryIndex['entries']
+    );
   }
 
   async getIndex() {
@@ -661,35 +573,9 @@ export class StoryIndexGenerator {
 
       const sorted = await this.sortStories(indexEntries);
 
-      let compat = sorted;
-      if (this.options.storiesV2Compatibility) {
-        const titleToStoryCount = Object.values(sorted).reduce((acc, story) => {
-          acc[story.title] = (acc[story.title] || 0) + 1;
-          return acc;
-        }, {} as Record<ComponentTitle, number>);
-
-        // @ts-expect-error (Converted from ts-ignore)
-        compat = Object.entries(sorted).reduce((acc, entry) => {
-          const [id, story] = entry;
-          if (story.type === 'docs') return acc;
-
-          acc[id] = {
-            ...story,
-            kind: story.title,
-            story: story.name,
-            parameters: {
-              __id: story.id,
-              docsOnly: titleToStoryCount[story.title] === 1 && story.name === 'Page',
-              fileName: story.importPath,
-            },
-          };
-          return acc;
-        }, {} as Record<StoryId, V3CompatIndexEntry>);
-      }
-
       this.lastIndex = {
         v: 4,
-        entries: compat,
+        entries: sorted,
       };
 
       return this.lastIndex;
@@ -720,7 +606,7 @@ export class StoryIndexGenerator {
         dependents.forEach((dep) => {
           if (otherCache[dep]) {
             invalidated.add(dep);
-            // eslint-disable-next-line no-param-reassign
+
             otherCache[dep] = false;
           }
         });

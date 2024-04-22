@@ -1,21 +1,23 @@
-/* eslint-disable no-param-reassign */
 import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
 import path, { join } from 'path';
-import { satisfies } from 'semver';
+import { coerce, satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
+import invariant from 'tiny-invariant';
 import { getCliDir, getRendererDir } from './dirs';
-import type {
-  JsPackageManager,
-  PackageJson,
-  PackageJsonWithDepsAndDevDeps,
-} from './js-package-manager';
-import type { SupportedFrameworks, SupportedRenderers } from './project_types';
+import {
+  type JsPackageManager,
+  type PackageJson,
+  type PackageJsonWithDepsAndDevDeps,
+  frameworkToRenderer as CoreFrameworkToRenderer,
+} from '@storybook/core-common';
+import type { SupportedFrameworks, SupportedRenderers } from '@storybook/types';
+import { CoreBuilder } from './project_types';
 import { SupportedLanguage } from './project_types';
-import storybookMonorepoPackages from './versions';
+import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 
 const logger = console;
 
@@ -45,68 +47,6 @@ export const writeFileAsJson = (jsonPath: string, content: unknown) => {
   fs.writeFileSync(filePath, `${JSON.stringify(content, null, 2)}\n`);
   return true;
 };
-
-export const commandLog = (message: string) => {
-  process.stdout.write(chalk.cyan(' • ') + message);
-
-  // Need `void` to be able to use this function in a then of a Promise<void>
-  return (errorMessage?: string | void, errorInfo?: string) => {
-    if (errorMessage) {
-      process.stdout.write(`. ${chalk.red('✖')}\n`);
-      logger.error(`\n     ${chalk.red(errorMessage)}`);
-
-      if (!errorInfo) {
-        return;
-      }
-
-      const newErrorInfo = errorInfo
-        .split('\n')
-        .map((line) => `     ${chalk.dim(line)}`)
-        .join('\n');
-      logger.error(`${newErrorInfo}\n`);
-      return;
-    }
-
-    process.stdout.write(`. ${chalk.green('✓')}\n`);
-  };
-};
-
-export function paddedLog(message: string) {
-  const newMessage = message
-    .split('\n')
-    .map((line) => `    ${line}`)
-    .join('\n');
-
-  logger.log(newMessage);
-}
-
-export function getChars(char: string, amount: number) {
-  let line = '';
-  for (let lc = 0; lc < amount; lc += 1) {
-    line += char;
-  }
-
-  return line;
-}
-
-export function codeLog(codeLines: string[], leftPadAmount?: number) {
-  let maxLength = 0;
-  const newLines = codeLines.map((line) => {
-    maxLength = line.length > maxLength ? line.length : maxLength;
-    return line;
-  });
-
-  const finalResult = newLines
-    .map((line) => {
-      const rightPadAmount = maxLength - line.length;
-      let newLine = line + getChars(' ', rightPadAmount);
-      newLine = getChars(' ', leftPadAmount || 2) + chalk.inverse(` ${newLine} `);
-      return newLine;
-    })
-    .join('\n');
-
-  logger.log(finalResult);
-}
 
 /**
  * Detect if any babel dependencies need to be added to the project
@@ -163,8 +103,14 @@ export function addToDevDependenciesIfNotPresent(
   name: string,
   packageVersion: string
 ) {
-  if (!packageJson.dependencies[name] && !packageJson.devDependencies[name]) {
-    packageJson.devDependencies[name] = packageVersion;
+  if (!packageJson.dependencies?.[name] && !packageJson.devDependencies?.[name]) {
+    if (packageJson.devDependencies) {
+      packageJson.devDependencies[name] = packageVersion;
+    } else {
+      packageJson.devDependencies = {
+        [name]: packageVersion,
+      };
+    }
   }
 }
 
@@ -186,22 +132,31 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
-const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, SupportedRenderers> = {
-  angular: 'angular',
-  ember: 'ember',
-  html: 'html',
-  nextjs: 'react',
-  preact: 'preact',
-  qwik: 'qwik',
-  react: 'react',
-  'react-native': 'react',
-  server: 'react',
-  solid: 'solid',
-  svelte: 'svelte',
-  sveltekit: 'svelte',
-  vue: 'vue',
-  vue3: 'vue',
-  'web-components': 'web-components',
+/**
+ * @deprecated Please use `frameworkToRenderer` from `@storybook/core-common` instead
+ */
+export const frameworkToRenderer = CoreFrameworkToRenderer;
+
+export const frameworkToDefaultBuilder: Record<SupportedFrameworks, CoreBuilder> = {
+  angular: CoreBuilder.Webpack5,
+  ember: CoreBuilder.Webpack5,
+  'html-vite': CoreBuilder.Vite,
+  'html-webpack5': CoreBuilder.Webpack5,
+  nextjs: CoreBuilder.Webpack5,
+  'preact-vite': CoreBuilder.Vite,
+  'preact-webpack5': CoreBuilder.Webpack5,
+  qwik: CoreBuilder.Vite,
+  'react-vite': CoreBuilder.Vite,
+  'react-webpack5': CoreBuilder.Webpack5,
+  'server-webpack5': CoreBuilder.Webpack5,
+  solid: CoreBuilder.Vite,
+  'svelte-vite': CoreBuilder.Vite,
+  'svelte-webpack5': CoreBuilder.Webpack5,
+  sveltekit: CoreBuilder.Vite,
+  'vue3-vite': CoreBuilder.Vite,
+  'vue3-webpack5': CoreBuilder.Webpack5,
+  'web-components-vite': CoreBuilder.Vite,
+  'web-components-webpack5': CoreBuilder.Webpack5,
 };
 
 export async function copyTemplateFiles({
@@ -286,12 +241,14 @@ export async function adjustTemplate(templatePath: string, templateData: Record<
 // Given a package.json, finds any official storybook package within it
 // and if it exists, returns the version of that package from the specified package.json
 export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
-  const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
-  const storybookPackage = Object.keys(allDeps).find(
-    (name: keyof typeof storybookMonorepoPackages) => {
-      return storybookMonorepoPackages[name];
-    }
-  );
+  const allDeps = {
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+    ...packageJson.optionalDependencies,
+  };
+  const storybookPackage = Object.keys(allDeps).find((name: string) => {
+    return storybookMonorepoPackages[name as keyof typeof storybookMonorepoPackages];
+  });
 
   if (!storybookPackage) {
     throw new Error(`Couldn't find any official storybook packages in package.json`);
@@ -302,4 +259,16 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 
 export async function isNxProject() {
   return findUp.sync('nx.json');
+}
+
+export function coerceSemver(version: string) {
+  const coercedSemver = coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
+}
+
+export async function hasStorybookDependencies(packageManager: JsPackageManager) {
+  const currentPackageDeps = await packageManager.getAllDependencies();
+
+  return Object.keys(currentPackageDeps).some((dep) => dep.includes('storybook'));
 }

@@ -4,9 +4,10 @@ import program from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
+import invariant from 'tiny-invariant';
+import { esMain } from '../utils/esmain';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
-import invariant from 'tiny-invariant';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 
@@ -80,11 +81,12 @@ export const run = async (_: unknown) => {
   }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('no-patch-prs', patchPRs.length === 0);
     setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse(process.argv);
   run(options).catch((err) => {
     console.error(err);

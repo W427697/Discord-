@@ -1,5 +1,5 @@
 import { useStorybookApi, useStorybookState, types } from '@storybook/manager-api';
-import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
+import { IconButton, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -7,12 +7,23 @@ import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 
 import type { Addon_PageType } from '@storybook/types';
-import { AboutPage } from './about_page';
+import { CloseIcon } from '@storybook/icons';
+import { AboutPage } from './AboutPage';
+import { ShortcutsPage } from './ShortcutsPage';
 import { WhatsNewPage } from './whats_new_page';
-import { ShortcutsPage } from './shortcuts_page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
+
+const Header = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: 40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: theme.barBg,
+  paddingRight: 8,
+}));
 
 const TabBarButton = React.memo(function TabBarButton({
   changeTab,
@@ -45,19 +56,9 @@ const TabBarButton = React.memo(function TabBarButton({
   );
 });
 
-const Content = styled(ScrollArea)(
-  {
-    position: 'absolute',
-    top: 40,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'auto',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-  })
-);
+const Content = styled(ScrollArea)(({ theme }) => ({
+  background: theme.background.content,
+}));
 
 const Pages: FC<{
   onClose: () => void;
@@ -79,7 +80,7 @@ const Pages: FC<{
 
   return (
     <Fragment>
-      <FlexBar border>
+      <Header className="sb-bar">
         <TabBar role="tablist">
           <TabBarButton id="about" title="About" changeTab={changeTab} />
           {enableWhatsNew && (
@@ -94,9 +95,9 @@ const Pages: FC<{
           }}
           title="Close settings page"
         >
-          <Icons icon="close" />
+          <CloseIcon />
         </IconButton>
-      </FlexBar>
+      </Header>
       <Content vertical horizontal={false}>
         <Route path="about">
           <AboutPage key="about" />

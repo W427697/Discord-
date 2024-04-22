@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
-import { waitFor } from '@storybook/testing-library';
 
 import Accessibility from '../../assets/accessibility.svg';
+import AvifImage from '../../assets/avif-test-image.avif';
 
 export default {
   component: Image,
@@ -13,6 +13,13 @@ export default {
 };
 
 export const Default = {};
+
+export const Avif = {
+  args: {
+    src: AvifImage,
+    alt: 'Avif Test Image',
+  },
+};
 
 export const BlurredPlaceholder = {
   args: {
@@ -61,10 +68,6 @@ export const Lazy = {
     width: 50,
     height: 50,
   },
-  parameters: {
-    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
-    chromatic: { disableSnapshot: true },
-  },
   decorators: [
     (Story) => (
       <>
@@ -78,12 +81,23 @@ export const Lazy = {
 export const Eager = {
   ...Lazy,
   parameters: {
-    // ignoring in Chromatic to avoid inconsistent snapshots since the image is sometimes not loaded in time
-    chromatic: { disableSnapshot: true },
     nextjs: {
       image: {
         loading: 'eager',
       },
     },
+  },
+};
+
+export const WithRef = {
+  render() {
+    const [ref, setRef] = useState(null);
+
+    return (
+      <div>
+        <Image src={Accessibility} alt="Accessibility" ref={setRef} />
+        <p>Alt attribute of image: {ref?.alt}</p>
+      </div>
+    );
   },
 };

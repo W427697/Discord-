@@ -2,39 +2,11 @@
 title: 'Unit tests'
 ---
 
-Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests in the same way and reuse that across tools.
+Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests similarly and reuse that across tools.
 
-Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules cross-compatible with the whole JavaScript ecosystem.
+Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules that are cross-compatible with the whole JavaScript ecosystem.
 
 Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/), to save time and maintenance work.
-
-<IfRenderer renderer='vue'>
-
-## Set up the testing addon
-
-Storybook's [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3/) addon is a powerful tool that simplifies the testing process by allowing you to reuse your stories inside alongside their associated mocks, dependencies, and context, saving time and ensuring consistency and accuracy in the testing process.
-
-Run the following command to install the addon.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'vue/storybook-testing-library-install.yarn.js.mdx',
-    'vue/storybook-testing-library-install.npm.js.mdx',
-    'vue/storybook-testing-library-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<div class="aside">
-
-ℹ️ If you're using Storybook 7 or higher, the `@storybook/testing-vue3` addon is the only one we support. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
-
-</div>
-
-</IfRenderer>
 
 ## Write a test with Testing Library
 
@@ -53,11 +25,11 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
+You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
 
-</div>
+</Callout>
 
 Once the test runs, it loads the story and renders it. [Testing Library](https://testing-library.com/) then emulates the user's behavior and checks if the component state has been updated.
 
@@ -94,7 +66,7 @@ Update your test script to include the configuration file:
 
 <IfRenderer renderer='vue'>
 
-Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/), or your test script if you're using [Jest](https://jestjs.io/):
+Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/) or your test script if you're using [Jest](https://jestjs.io/):
 
 <!-- prettier-ignore-start -->
 
@@ -134,7 +106,7 @@ By default, the `setProjectAnnotations` function injects into your existing test
 
 ## Run tests on a single story
 
-You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
+You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/index.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -172,19 +144,11 @@ If you intend to test multiple stories in a single test, use the `composeStories
 
 Storybook provides community-led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However, these addons still lack support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
 
-### The args are not being passed to the test
-
 <IfRenderer renderer='react'>
 
+### The args are not being passed to the test
+
 The components returned by `composeStories` or `composeStory` not only can be rendered as React components but also come with the combined properties from the story, meta, and global configuration. This means that if you want to access args or parameters, for instance, you can do so:
-
-</IfRenderer>
-
-<IfRenderer renderer='vue'>
-
-When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
-
-</IfRenderer>
 
 <!-- prettier-ignore-start -->
 
@@ -192,6 +156,23 @@ When using the `composeStories` or `composeStory` functions, the components bein
   paths={[
     'react/reuse-args-test.js.mdx',
     'react/reuse-args-test.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+### The args are not being passed to the test
+
+When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
     'vue/reuse-args-test.3.js.mdx',
     'vue/reuse-args-test.3.ts.mdx',
   ]}
@@ -199,7 +180,9 @@ When using the `composeStories` or `composeStory` functions, the components bein
 
 <!-- prettier-ignore-end -->
 
-#### Learn about other UI tests
+</IfRenderer>
+
+**Learn about other UI tests**
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

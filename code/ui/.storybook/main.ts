@@ -1,5 +1,5 @@
 import path from 'path';
-import pluginTurbosnap from 'vite-plugin-turbosnap';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
 
@@ -8,6 +8,7 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 const allStories = [
   {
     directory: '../manager/src',
+    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
     titlePrefix: '@manager',
   },
   {
@@ -51,15 +52,17 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
-    {
-      name: '@chromaui/addon-visual-tests',
-      options: {
-        projectId: 'Project:635781f3500dd2c49e189caf',
-        projectToken: '80b312430ec4',
-        buildScriptName: 'storybook:ui:build',
-      },
-    },
+    '@storybook/addon-a11y',
+    '@chromatic-com/storybook',
   ],
+  build: {
+    test: {
+      // we have stories for the blocks here, we can't exclude them
+      disableBlocks: false,
+      // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
+      disableDocgen: false,
+    },
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {},
@@ -76,11 +79,6 @@ const config: StorybookConfig = {
             : {}),
         },
       },
-      plugins: [
-        configType === 'PRODUCTION'
-          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
-          : [],
-      ],
       optimizeDeps: { force: true },
       build: {
         // disable sourcemaps in CI to not run out of memory

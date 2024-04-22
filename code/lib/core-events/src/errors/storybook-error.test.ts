@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { StorybookError } from './storybook-error';
 
 describe('StorybookError', () => {
@@ -13,7 +14,7 @@ describe('StorybookError', () => {
 
   it('should generate the correct error name', () => {
     const error = new TestError();
-    expect(error.name).toBe('SB_TEST_CATEGORY_0123');
+    expect(error.name).toBe('SB_TEST_CATEGORY_0123 (TestError)');
   });
 
   it('should generate the correct message without documentation link', () => {

@@ -18,6 +18,7 @@ import {
 import prettyTime from 'pretty-hrtime';
 
 export * from './types';
+export * from './preview/virtual-module-mapping';
 
 export const printDuration = (startTime: [number, number]) =>
   prettyTime(process.hrtime(startTime))
@@ -60,7 +61,6 @@ export const executor = {
 export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
-  const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
   const frameworkOptions = await presets.apply<any>('frameworkOptions');
 
   return presets.apply(
@@ -68,7 +68,6 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
     {},
     {
       ...options,
-      babelOptions,
       typescriptOptions,
       frameworkOptions,
     }
@@ -201,7 +200,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const { warnings, errors } = getWebpackStats({ config, stats });
 
   if (warnings.length > 0) {
-    warnings?.forEach((e) => logger.error(e.message));
+    warnings?.forEach((e) => logger.warn(e.message));
   }
 
   if (errors.length > 0) {
@@ -270,10 +269,11 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
       const { warnings, errors } = getWebpackStats({ config, stats });
 
       if (warnings.length > 0) {
-        warnings?.forEach((e) => logger.error(e.message));
+        warnings?.forEach((e) => logger.warn(e.message));
       }
 
       if (errors.length > 0) {
+        errors.forEach((e) => logger.error(e.message));
         compiler.close(() => fail(new WebpackCompilationError({ errors })));
         return;
       }
@@ -312,7 +312,6 @@ export const start = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 
@@ -324,7 +323,6 @@ export const build = async (options: BuilderStartOptions) => {
   let result;
 
   do {
-    // eslint-disable-next-line no-await-in-loop
     result = await asyncIterator.next();
   } while (!result.done);
 

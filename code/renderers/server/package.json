@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "7.5.0-alpha.1",
+  "version": "8.1.0-alpha.7",
   "description": "Storybook Server renderer",
   "keywords": [
     "storybook"
@@ -26,16 +26,8 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs"
-    },
-    "./preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -50,12 +42,11 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.4",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
@@ -66,10 +57,10 @@
     "yaml": "^2.3.1"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -77,8 +68,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts",
-      "./src/preset.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts"
     ],
     "platform": "browser"
   },

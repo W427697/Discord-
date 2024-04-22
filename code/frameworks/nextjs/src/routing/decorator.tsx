@@ -1,19 +1,9 @@
 import * as React from 'react';
-// this will be aliased by webpack at runtime (this is just for typing)
-import type { action as originalAction } from '@storybook/addon-actions';
 import type { Addon_StoryContext } from '@storybook/types';
-import AppRouterProvider from './app-router-provider';
-
-import PageRouterProvider from './page-router-provider';
+import { action } from '@storybook/addon-actions';
+import { AppRouterProvider } from './app-router-provider';
+import { PageRouterProvider } from './page-router-provider';
 import type { RouteParams, NextAppDirectory } from './types';
-
-let action: typeof originalAction;
-
-try {
-  action = require('@storybook/addon-actions').action;
-} catch {
-  action = () => () => {};
-}
 
 const defaultRouterParams: RouteParams = {
   pathname: '/',
@@ -28,6 +18,9 @@ export const RouterDecorator = (
     (parameters.nextjs?.appDirectory as NextAppDirectory | undefined) ?? false;
 
   if (nextAppDirectory) {
+    if (!AppRouterProvider) {
+      return null;
+    }
     return (
       <AppRouterProvider
         action={action}

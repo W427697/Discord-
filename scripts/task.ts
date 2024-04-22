@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -35,7 +36,6 @@ import {
 } from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
-import invariant from 'tiny-invariant';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
@@ -470,12 +470,7 @@ async function run() {
       } catch (err) {
         invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        // If it is the last task, we don't need to log the full trace
-        if (task === finalTask) {
-          logger.error(err.message);
-        } else {
-          logger.error(err);
-        }
+        logger.error(JSON.stringify(err, null, 2));
 
         if (process.env.CI) {
           logger.error(
@@ -501,7 +496,7 @@ async function run() {
           controller.abort();
         });
 
-        return 1;
+        throw err;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
 
