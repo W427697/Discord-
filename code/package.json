@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "8.0.8",
+  "version": "8.0.9",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -261,7 +261,6 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
-  "deferredNextVersion": "8.0.9",
   "pr-log": {
     "skipLabels": [
       "cleanup"
