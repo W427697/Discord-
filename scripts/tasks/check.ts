@@ -7,8 +7,8 @@ const amountOfVCPUs = 8;
 
 const parallel = `--parallel=${process.env.CI ? amountOfVCPUs - 1 : maxConcurrentTasks}`;
 
-const linkCommand = `nx run-many --target="check" --all --parallel=${parallel} --exclude=@storybook/vue,@storybook/svelte,@storybook/vue3,@storybook/angular`;
-const nolinkCommand = `nx run-many --target="check" --all --parallel=${parallel}`;
+const linkCommand = `nx run-many --target="check" --all ${parallel} --exclude=@storybook/vue,@storybook/svelte,@storybook/vue3,@storybook/angular`;
+const nolinkCommand = `nx run-many --target="check" --all ${parallel}`;
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',
