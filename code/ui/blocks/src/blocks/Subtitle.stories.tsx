@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { Subtitle } from './Subtitle';
 import * as DefaultButtonStories from '../examples/Button.stories';
-import * as ButtonStoriesWithMetaSubtitleInBoth from '../examples/ButtonWithMetaSubtitleInBoth.stories';
-import * as ButtonStoriesWithMetaSubtitleInComponentSubtitle from '../examples/ButtonWithMetaSubtitleInComponentSubtitle.stories';
-import * as ButtonStoriesWithMetaSubtitleInDocsSubtitle from '../examples/ButtonWithMetaSubtitleInDocsSubtitle.stories';
+import * as ButtonStoriesWithMetaSubtitleAsBoth from '../examples/ButtonWithMetaSubtitleAsBoth.stories';
+import * as ButtonStoriesWithMetaSubtitleAsComponentSubtitle from '../examples/ButtonWithMetaSubtitleAsComponentSubtitle.stories';
+import * as ButtonStoriesWithMetaSubtitleAsDocsSubtitle from '../examples/ButtonWithMetaSubtitleAsDocsSubtitle.stories';
 
 const meta: Meta<typeof Subtitle> = {
   component: Subtitle,
@@ -23,56 +23,56 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const OfCSFFileInBoth: Story = {
+export const OfCSFFileAsBoth: Story = {
   args: {
-    of: ButtonStoriesWithMetaSubtitleInBoth,
+    of: ButtonStoriesWithMetaSubtitleAsBoth,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInBoth.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsBoth.stories'],
   },
 };
-export const OfCSFFileInComponentSubtitle: Story = {
-  name: 'Of CSF File In parameters.componentSubtitle',
+export const OfCSFFileAsComponentSubtitle: Story = {
+  name: 'Of CSF File As parameters.componentSubtitle',
   args: {
-    of: ButtonStoriesWithMetaSubtitleInComponentSubtitle,
+    of: ButtonStoriesWithMetaSubtitleAsComponentSubtitle,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInComponentSubtitle.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsComponentSubtitle.stories'],
   },
 };
-export const OfCSFFileInDocsSubtitle: Story = {
-  name: 'Of CSF File In parameters.docs.subtitle',
+export const OfCSFFileAsDocsSubtitle: Story = {
+  name: 'Of CSF File As parameters.docs.subtitle',
   args: {
-    of: ButtonStoriesWithMetaSubtitleInDocsSubtitle,
+    of: ButtonStoriesWithMetaSubtitleAsDocsSubtitle,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInDocsSubtitle.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsDocsSubtitle.stories'],
   },
 };
-export const OfMetaInBoth: Story = {
+export const OfMetaAsBoth: Story = {
   args: {
-    of: ButtonStoriesWithMetaSubtitleInBoth.default,
+    of: ButtonStoriesWithMetaSubtitleAsBoth.default,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInBoth.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsBoth.stories'],
   },
 };
-export const OfMetaInComponentSubtitle: Story = {
-  name: 'Of Meta In parameters.componentSubtitle',
+export const OfMetaAsComponentSubtitle: Story = {
+  name: 'Of Meta As parameters.componentSubtitle',
   args: {
-    of: ButtonStoriesWithMetaSubtitleInComponentSubtitle.default,
+    of: ButtonStoriesWithMetaSubtitleAsComponentSubtitle.default,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInComponentSubtitle.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsComponentSubtitle.stories'],
   },
 };
-export const OfMetaInDocsSubtitle: Story = {
-  name: 'Of Meta In parameters.docs.subtitle',
+export const OfMetaAsDocsSubtitle: Story = {
+  name: 'Of Meta As parameters.docs.subtitle',
   args: {
-    of: ButtonStoriesWithMetaSubtitleInDocsSubtitle.default,
+    of: ButtonStoriesWithMetaSubtitleAsDocsSubtitle.default,
   },
   parameters: {
-    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleInDocsSubtitle.stories'],
+    relativeCsfPaths: ['../examples/ButtonWithMetaSubtitleAsDocsSubtitle.stories'],
   },
 };
 export const DefaultAttached: Story = {
@@ -100,5 +100,5 @@ export const OfStringMetaAttached: Story = {
 };
 export const Children: Story = {
   parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
-  render: () => <Subtitle>This subtitle is set inside the Subtitle element.</Subtitle>,
+  render: () => <Subtitle>This subtitle is a string passed as a children</Subtitle>,
 };
