@@ -14,6 +14,56 @@ body:
       description: A clear and concise description of what the bug is
     validations:
       required: true
+  - type: input
+    id: url
+    attributes:
+      label: Reproduction link
+      description: >-
+        Please provide a link to your reproduction. Accepted hosts are GitHub, CodeSandbox, and StackBlitz. Note, if the URL is invalid (eg.: 404, or a private repository), we may close the issue.
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Which area(s) are affected? (Select all that apply)
+      multiple: true
+      options:
+        - 'Not sure'
+        - 'addon: a11y'
+        - 'addon: actions'
+        - 'addon: analytics'
+        - 'addon: backgrounds'
+        - 'addon: centered'
+        - 'addon: comments'
+        - 'addon: contexts'
+        - 'addon: controls'
+        - 'addon: cssresources'
+        - 'addon: design-assets'
+        - 'addon: docs'
+        - 'addon: essentials'
+        - 'addon: events'
+        - 'addon: graphql'
+        - 'addon: highlight'
+        - 'addon: info'
+        - 'addon: interactions'
+        - 'addon: jest'
+        - 'addon: knobs'
+        - 'addon: links'
+        - 'addon: measure'
+        - 'addon: notes'
+        - 'addon: onboarding'
+        - 'addon: options'
+        - 'addon: outline'
+        - 'addon: queryparams'
+        - 'addon: storyshots'
+        - 'addon: storysource'
+        - 'addon: styling'
+        - 'addon: themes'
+        - 'addon: toolbars'
+        - 'addon: viewport'
+        - 'addon: visual test'
+    validations:
+      required: true
   - type: textarea
     id: reproduce
     attributes:

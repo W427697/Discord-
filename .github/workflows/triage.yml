@@ -1,0 +1,34 @@
+name: Triage issues
+
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    name: Nissuer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: balazsorban44/nissuer@1.10.0
+        with:
+          label-area-prefix: ""
+          label-area-match: "name"
+          label-area-section: 'Which area\(s\) are affected\? \(Select all that apply\)(.*)### To Reproduce'
+          label-comments: |
+            {
+              "good first issue": ".github/comments/good-first-issue.md",
+              "resolved": ".github/comments/resolved.md"
+            }
+          reproduction-comment: ".github/comments/invalid-link.md"
+          reproduction-hosts: "github.com,codesandbox.io,stackblitz.com"
+          reproduction-link-section: "### Reproduction link(.*)### Which area"
+          reproduction-invalid-label: "invalid link"
+          reproduction-issue-labels: "bug,"
