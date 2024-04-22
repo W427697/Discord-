@@ -1,8 +1,7 @@
 import type { ComponentTitle } from '@storybook/types';
 import type { FunctionComponent, ReactNode } from 'react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Title as PureTitle } from '../components';
-import { DocsContext } from './DocsContext';
 import type { Of } from './useOf';
 import { useOf } from './useOf';
 
@@ -23,28 +22,7 @@ const STORY_KIND_PATH_SEPARATOR = /\s*\/\s*/;
 
 export const extractTitle = (title: ComponentTitle) => {
   const groups = title.trim().split(STORY_KIND_PATH_SEPARATOR);
-  return (groups && groups[groups.length - 1]) || title;
-};
-
-const getTitleFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): string | null => {
-  switch (resolvedOf.type) {
-    case 'meta': {
-      return resolvedOf.preparedMeta.title || null;
-    }
-    case 'story':
-    case 'component': {
-      throw new Error(
-        `Unsupported module type. Title's \`of\` prop only supports \`meta\`, got: ${
-          (resolvedOf as any).type
-        }`
-      );
-    }
-    default: {
-      throw new Error(
-        `Unrecognized module type resolved from 'useOf', got: ${(resolvedOf as any).type}`
-      );
-    }
-  }
+  return groups?.[groups?.length - 1] || title;
 };
 
 export const Title: FunctionComponent<TitleProps> = (props) => {
@@ -54,21 +32,17 @@ export const Title: FunctionComponent<TitleProps> = (props) => {
     throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
   }
 
-  const context = useContext(DocsContext);
-
-  let content;
-  if (of) {
-    const resolvedOf = useOf(of || 'meta');
-    content = getTitleFromResolvedOf(resolvedOf);
+  let preparedMeta;
+  try {
+    preparedMeta = useOf(of || 'meta', ['meta']).preparedMeta;
+  } catch (error) {
+    if (children && !error.message.includes('did you forget to use <Meta of={} />?')) {
+      // ignore error about unattached CSF since we can still render children
+      throw error;
+    }
   }
 
-  if (!content) {
-    content = children;
-  }
-
-  if (!content) {
-    content = extractTitle(context.storyById().title);
-  }
+  const content = children || extractTitle(preparedMeta.title);
 
   return content ? <PureTitle className="sbdocs-title sb-unstyled">{content}</PureTitle> : null;
 };

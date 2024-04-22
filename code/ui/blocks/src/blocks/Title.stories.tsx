@@ -20,16 +20,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const OfCSFFileInComponentTitle: Story = {
-  name: 'Of CSF File with title',
+export const OfCSFFile: Story = {
   args: {
     of: DefaultButtonStories,
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
 
-export const OfMetaInComponentTitle: Story = {
-  name: 'Of meta with title',
+export const OfMeta: Story = {
   args: {
     of: DefaultButtonStories,
   },
@@ -46,8 +44,9 @@ export const OfStringMetaAttached: Story = {
 
 export const Children: Story = {
   args: {
-    children: 'Custom title',
+    children: 'Title as children',
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
 };
 
 export const DefaultAttached: Story = {
