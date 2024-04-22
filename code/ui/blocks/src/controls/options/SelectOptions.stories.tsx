@@ -19,7 +19,7 @@ const argTypeMultiSelect = {
       options: arrayOptions,
     },
   },
-};
+} as const;
 
 const meta = {
   title: 'Controls/Options/Select',
