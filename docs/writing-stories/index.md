@@ -4,7 +4,8 @@ title: 'How to write stories'
 
 <YouTubeCallout id="P0WHt_L0-2g" title="How to write Storybook stories | Component Story Format" />
 
-A story captures the rendered state of a UI component. It’s a function that returns a component’s state given a set of arguments.
+A story captures the rendered state of a UI component. It's an object with annotations that describe the component's behavior and appearance given a set
+of arguments.
 
 Storybook uses the generic term arguments (args for short) when talking about React’s `props`, Vue’s `props`, Angular’s `@Input`, and other similar concepts.
 
@@ -169,7 +170,7 @@ Your story will now be shown in the sidebar with the given text.
 
 ## How to write stories
 
-A story is a function that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
+A story is an object that describes how to render a component. You can have multiple stories per component, and the simplest way to create stories is to render a component with different arguments multiple times.
 
 <!-- prettier-ignore-start -->
 
@@ -356,7 +357,7 @@ Decorators [can be more complex](./decorators.md#context-for-mocking) and are of
 
 ## Stories for two or more components
 
-When building design systems or component libraries, you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
+Sometimes you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
 
 <!-- prettier-ignore-start -->
 
@@ -404,7 +405,7 @@ In such cases, it makes sense to render a different function for each story:
 
 <!-- prettier-ignore-end -->
 
-You can also reuse stories from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to keep the identical story definitions updated in multiple places.
+You can also reuse _story data_ from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to update it in multiple places.
 
 <!-- prettier-ignore-start -->
 
