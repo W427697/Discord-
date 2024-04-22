@@ -73,6 +73,10 @@ enum events {
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
+  FILE_COMPONENT_SEARCH = 'fileComponentSearch',
+  FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
+  CREATE_NEW_STORYFILE = 'createNewStoryfile',
+  CREATE_NEW_STORYFILE_RESULT = 'createNewStoryfileResult',
 }
 
 // Enables: `import Events from ...`
@@ -84,9 +88,13 @@ export const {
   CHANNEL_WS_DISCONNECT,
   CHANNEL_CREATED,
   CONFIG_ERROR,
+  CREATE_NEW_STORYFILE,
+  CREATE_NEW_STORYFILE_RESULT,
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
+  FILE_COMPONENT_SEARCH,
+  FILE_COMPONENT_SEARCH_RESULT,
   FORCE_RE_RENDER,
   FORCE_REMOUNT,
   GLOBALS_UPDATED,
