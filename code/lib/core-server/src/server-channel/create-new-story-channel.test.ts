@@ -81,7 +81,7 @@ describe('createNewStoryChannel', () => {
         id: 'components-page--default',
         payload: {
           storyId: 'components-page--default',
-          storyFilePath: './src/components/Page.stories.jsx',
+          storyFilePath: path.join('src', 'components', 'Page.stories.jsx'),
           exportedStoryName: 'Default',
         },
         success: true,
@@ -116,6 +116,7 @@ describe('createNewStoryChannel', () => {
           componentFilePath: 'src/components/Page.jsx',
           componentExportName: 'Page',
           componentIsDefaultExport: true,
+          componentExportCount: 1,
         },
       } satisfies RequestData<CreateNewStoryRequestPayload>);
 

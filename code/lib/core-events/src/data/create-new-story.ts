@@ -10,7 +10,10 @@ export interface CreateNewStoryRequestPayload {
 }
 
 export interface CreateNewStoryResponsePayload {
+  // The story id
   storyId: string;
+  // The story file path relative to the cwd
   storyFilePath: string;
+  // The name of the story export in the file
   exportedStoryName: string;
 }

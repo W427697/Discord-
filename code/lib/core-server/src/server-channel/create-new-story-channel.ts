@@ -15,7 +15,6 @@ import { existsSync } from 'node:fs';
 import { getNewStoryFile } from '../utils/get-new-story-file';
 import { getStoryId } from '../utils/get-story-id';
 import path from 'node:path';
-import { getProjectRoot } from '@storybook/core-common';
 
 export function initCreateNewStoryChannel(channel: Channel, options: Options) {
   /**
@@ -30,10 +29,10 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
           options
         );
 
-        const relativeStoryFilePath = path.relative(getProjectRoot(), storyFilePath);
+        const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
 
         if (existsSync(storyFilePath)) {
-          throw new Error(`Story file already exists at .${path.sep}${relativeStoryFilePath}`);
+          throw new Error(`Story file already exists at ${relativeStoryFilePath}`);
         }
 
         await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
@@ -45,7 +44,7 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
           id: data.id,
           payload: {
             storyId,
-            storyFilePath: `./${relativeStoryFilePath}`,
+            storyFilePath: path.relative(process.cwd(), storyFilePath),
             exportedStoryName,
           },
           error: null,
