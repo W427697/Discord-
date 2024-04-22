@@ -21,10 +21,9 @@ const isReactSyntheticEvent = (e: unknown): e is SyntheticEvent =>
       findProto(e, (proto) => /^Synthetic(?:Base)?Event$/.test(proto.constructor.name)) &&
       typeof (e as SyntheticEvent).persist === 'function'
   );
-const serializeArg = <T>(a: T) => {
+const serializeArg = <T extends object>(a: T) => {
   if (isReactSyntheticEvent(a)) {
     const e: SyntheticEvent = Object.create(
-      // @ts-expect-error (Converted from ts-ignore)
       a.constructor.prototype,
       Object.getOwnPropertyDescriptors(a)
     );
@@ -71,7 +70,6 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
       if (storyRenderer) {
         const deprecated = !window?.FEATURES?.disallowImplicitActionsInRenderV8;
         const error = new ImplicitActionsDuringRendering({
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           phase: storyRenderer.phase!,
           name,
           deprecated,
@@ -85,7 +83,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     }
 
     const channel = addons.getChannel();
-    // this makes sure that in js enviroments like react native you can still get an id
+    // this makes sure that in js environments like react native you can still get an id
     const id = generateId();
     const minDepth = 5; // anything less is really just storybook internals
     const serializedArgs = args.map(serializeArg);
@@ -104,6 +102,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     channel.emit(EVENT_ID, actionDisplayToEmit);
   };
   handler.isAction = true;
+  handler.implicit = options.implicit;
 
   return handler;
 }

@@ -18,7 +18,7 @@ program
     '-R, --release-type <major|minor|patch|prerelease>',
     'Which release type to use to bump the version'
   )
-  .option('-P, --pre-id <id>', 'Which prerelease identifer to change to, eg. "alpha", "beta", "rc"')
+  .option('-P, --pre-id <id>', 'Which prerelease identifier to change to, eg. "alpha", "beta", "rc"')
   .option(
     '-E, --exact <version>',
     'Use exact version instead of calculating from current version, eg. "7.2.0-canary.123". Can not be combined with --release-type or --pre-id'
@@ -125,7 +125,7 @@ const bumpCodeVersion = async (nextVersion: string) => {
 const bumpVersionSources = async (currentVersion: string, nextVersion: string) => {
   const filesToUpdate = [
     path.join(CODE_DIR_PATH, 'lib', 'manager-api', 'src', 'version.ts'),
-    path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts'),
+    path.join(CODE_DIR_PATH, 'lib', 'core-common', 'src', 'versions.ts'),
   ];
   console.log(`🤜 Bumping versions in...:\n  ${chalk.cyan(filesToUpdate.join('\n  '))}`);
 

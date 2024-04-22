@@ -1,5 +1,5 @@
 import path from 'path';
-import pluginTurbosnap from 'vite-plugin-turbosnap';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
 
@@ -52,11 +52,15 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
-    '@chromaui/addon-visual-tests',
+    '@storybook/addon-a11y',
+    '@chromatic-com/storybook',
   ],
   build: {
     test: {
+      // we have stories for the blocks here, we can't exclude them
       disableBlocks: false,
+      // some stories in blocks (ArgTypes, Controls) depends on argTypes inference
+      disableDocgen: false,
     },
   },
   framework: {
@@ -75,11 +79,6 @@ const config: StorybookConfig = {
             : {}),
         },
       },
-      plugins: [
-        configType === 'PRODUCTION'
-          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
-          : [],
-      ],
       optimizeDeps: { force: true },
       build: {
         // disable sourcemaps in CI to not run out of memory

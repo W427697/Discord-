@@ -1,8 +1,8 @@
-/* eslint-disable no-case-declarations */
+import { UnknownArgTypesError } from '@storybook/core-events/preview-errors';
 import type { SBType } from '@storybook/types';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
-const isLiteral = (type: FlowType) => type.name === 'literal';
+const isLiteral = (type: FlowType): type is FlowLiteralType => type.name === 'literal';
 const toEnumOption = (element: FlowLiteralType) => element.value.replace(/['|"]/g, '');
 
 const convertSig = (type: FlowSigType) => {
@@ -19,7 +19,7 @@ const convertSig = (type: FlowSigType) => {
         value: values,
       };
     default:
-      throw new Error(`Unknown: ${type}`);
+      throw new UnknownArgTypesError({ type: type, language: 'Flow' });
   }
 };
 
@@ -42,13 +42,13 @@ export const convert = (type: FlowType): SBType | void => {
     case 'signature':
       return { ...base, ...convertSig(type) };
     case 'union':
-      if (type.elements.every(isLiteral)) {
-        return { ...base, name: 'enum', value: type.elements.map(toEnumOption) };
+      if (type.elements?.every(isLiteral)) {
+        return { ...base, name: 'enum', value: type.elements?.map(toEnumOption) };
       }
-      return { ...base, name, value: type.elements.map(convert) };
+      return { ...base, name, value: type.elements?.map(convert) };
 
     case 'intersection':
-      return { ...base, name, value: type.elements.map(convert) };
+      return { ...base, name, value: type.elements?.map(convert) };
     default:
       return { ...base, name: 'other', value: name };
   }

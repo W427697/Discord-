@@ -18,7 +18,7 @@ import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons
 import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
-// eslint-disable-next-line import/no-cycle
+
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
@@ -317,7 +317,7 @@ const Node = React.memo<NodeProps>(function Node({
           if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
-          if (item.isComponent) {
+          if (item.type === 'component') {
             api.emit(PRELOAD_ENTRIES, {
               ids: [item.children[0]],
               options: { target: refId },
@@ -481,55 +481,73 @@ export const Tree = React.memo<{
 
   const groupStatus = useMemo(() => getGroupStatus(collapsedData, status), [collapsedData, status]);
 
-  return (
-    <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
-      <IconSymbols />
-      {collapsedItems.map((itemId) => {
-        const item = collapsedData[itemId];
-        const id = createId(itemId, refId);
+  const treeItems = useMemo(() => {
+    return collapsedItems.map((itemId) => {
+      const item = collapsedData[itemId];
+      const id = createId(itemId, refId);
 
-        if (item.type === 'root') {
-          const descendants = expandableDescendants[item.id];
-          const isFullyExpanded = descendants.every((d: string) => expanded[d]);
-          return (
-            // @ts-expect-error (TODO)
-            <Root
-              key={id}
-              item={item}
-              refId={refId}
-              isOrphan={false}
-              isDisplayed
-              isSelected={selectedStoryId === itemId}
-              isExpanded={!!expanded[itemId]}
-              setExpanded={setExpanded}
-              isFullyExpanded={isFullyExpanded}
-              expandableDescendants={descendants}
-              onSelectStoryId={onSelectStoryId}
-            />
-          );
-        }
-
-        const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
-        const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][1] : null;
-
+      if (item.type === 'root') {
+        const descendants = expandableDescendants[item.id];
+        const isFullyExpanded = descendants.every((d: string) => expanded[d]);
         return (
-          <Node
-            api={api}
+          // @ts-expect-error (TODO)
+          <Root
             key={id}
             item={item}
-            status={status?.[itemId]}
             refId={refId}
-            color={color}
-            docsMode={docsMode}
-            isOrphan={orphanIds.some((oid) => itemId === oid || itemId.startsWith(`${oid}-`))}
-            isDisplayed={isDisplayed}
+            isOrphan={false}
+            isDisplayed
             isSelected={selectedStoryId === itemId}
             isExpanded={!!expanded[itemId]}
             setExpanded={setExpanded}
+            isFullyExpanded={isFullyExpanded}
+            expandableDescendants={descendants}
             onSelectStoryId={onSelectStoryId}
           />
         );
-      })}
+      }
+
+      const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
+      const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][1] : null;
+
+      return (
+        <Node
+          api={api}
+          key={id}
+          item={item}
+          status={status?.[itemId]}
+          refId={refId}
+          color={color}
+          docsMode={docsMode}
+          isOrphan={orphanIds.some((oid) => itemId === oid || itemId.startsWith(`${oid}-`))}
+          isDisplayed={isDisplayed}
+          isSelected={selectedStoryId === itemId}
+          isExpanded={!!expanded[itemId]}
+          setExpanded={setExpanded}
+          onSelectStoryId={onSelectStoryId}
+        />
+      );
+    });
+  }, [
+    ancestry,
+    api,
+    collapsedData,
+    collapsedItems,
+    docsMode,
+    expandableDescendants,
+    expanded,
+    groupStatus,
+    onSelectStoryId,
+    orphanIds,
+    refId,
+    selectedStoryId,
+    setExpanded,
+    status,
+  ]);
+  return (
+    <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
+      <IconSymbols />
+      {treeItems}
     </Container>
   );
 });

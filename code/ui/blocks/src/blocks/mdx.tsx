@@ -1,6 +1,7 @@
 import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
+import type { SupportedLanguage } from '@storybook/components';
 import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
@@ -48,7 +49,7 @@ export const CodeOrSourceMdx: FC<PropsWithChildren<CodeOrSourceMdxProps>> = ({
   const language = className && className.split('-');
   return (
     <Source
-      language={(language && language[1]) || 'plaintext'}
+      language={((language && language[1]) as SupportedLanguage) || 'text'}
       format={false}
       code={children as string}
       {...rest}
@@ -95,45 +96,43 @@ export const AnchorMdx: FC<PropsWithChildren<AnchorMdxProps>> = (props) => {
   const { href, target, children, ...rest } = props;
   const context = useContext(DocsContext);
 
-  if (href) {
-    // Enable scrolling for in-page anchors.
-    if (href.startsWith('#')) {
-      return <AnchorInPage hash={href}>{children}</AnchorInPage>;
-    }
-
-    // Links to other pages of SB should use the base URL of the top level iframe instead of the base URL of the preview iframe.
-    if (target !== '_blank' && !href.startsWith('https://')) {
-      return (
-        <A
-          href={href}
-          onClick={(event: MouseEvent<HTMLAnchorElement>) => {
-            // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behaviour. Same applies to non-left clicks
-            const LEFT_BUTTON = 0;
-            const isLeftClick =
-              event.button === LEFT_BUTTON &&
-              !event.altKey &&
-              !event.ctrlKey &&
-              !event.metaKey &&
-              !event.shiftKey;
-
-            if (isLeftClick) {
-              event.preventDefault();
-              // use the A element's href, which has been modified for
-              // local paths without a `?path=` query param prefix
-              navigate(context, event.currentTarget.getAttribute('href'));
-            }
-          }}
-          target={target}
-          {...rest}
-        >
-          {children}
-        </A>
-      );
-    }
+  // links to external locations don't need any modifications.
+  if (!href || target === '_blank' || /^https?:\/\//.test(href)) {
+    return <A {...props} />;
   }
 
-  // External URL dont need any modification.
-  return <A {...props} />;
+  // Enable scrolling for in-page anchors.
+  if (href.startsWith('#')) {
+    return <AnchorInPage hash={href}>{children}</AnchorInPage>;
+  }
+
+  // Links to other pages of SB should use the base URL of the top level iframe instead of the base URL of the preview iframe.
+  return (
+    <A
+      href={href}
+      onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+        // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behaviour. Same applies to non-left clicks
+        const LEFT_BUTTON = 0;
+        const isLeftClick =
+          event.button === LEFT_BUTTON &&
+          !event.altKey &&
+          !event.ctrlKey &&
+          !event.metaKey &&
+          !event.shiftKey;
+
+        if (isLeftClick) {
+          event.preventDefault();
+          // use the A element's href, which has been modified for
+          // local paths without a `?path=` query param prefix
+          navigate(context, event.currentTarget.getAttribute('href'));
+        }
+      }}
+      target={target}
+      {...rest}
+    >
+      {children}
+    </A>
+  );
 };
 
 const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;

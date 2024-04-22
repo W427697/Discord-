@@ -7,7 +7,7 @@ import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
 import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
+import type { Addon_RenderOptions } from './addons';
 import type { StoryIndex } from './indexer';
 
 type OrString<T extends string> = T | (string & {});
@@ -28,21 +28,6 @@ export interface API_MatchOptions {
   location: RenderData['location'];
   path: string;
 }
-
-/**
- * @deprecated this is synonymous with `Addon_Type`. This interface will be removed in 8.0
- */
-export type API_Addon = Addon_Type;
-
-/**
- * @deprecated this is synonymous with `Addon_Collection`. This interface will be removed in 8.0
- */
-export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
-
-/**
- * @deprecated This interface will be removed in 8.0
- */
-export type API_Panels = Addon_Collection<Addon_BaseType>;
 
 export type API_StateMerger<S> = (input: S) => S;
 
@@ -130,23 +115,42 @@ export interface API_SidebarOptions {
 
 interface OnClearOptions {
   /**
-   *  True when the user dismissed the notification.
+   *  True when the user manually dismissed the notification.
    */
   dismissed: boolean;
+  /**
+   *  True when the notification timed out after the set duration.
+   */
+  timeout: boolean;
 }
 
+interface OnClickOptions {
+  /**
+   *  Function to dismiss the notification.
+   */
+  onDismiss: () => void;
+}
+
+/**
+ * @deprecated Use ReactNode for the icon instead.
+ * @see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated
+ */
+interface DeprecatedIconType {
+  name: string;
+  color?: string;
+}
 export interface API_Notification {
   id: string;
-  link: string;
   content: {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?: {
-    name: string;
-    color?: string;
-  };
+  duration?: number;
+  link?: string;
+  // TODO: Remove DeprecatedIconType in 9.0
+  icon?: React.ReactNode | DeprecatedIconType;
   onClear?: (options: OnClearOptions) => void;
+  onClick?: (options: OnClickOptions) => void;
 }
 
 type API_Versions = Record<string, string>;

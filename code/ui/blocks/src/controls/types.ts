@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
 import type { ArgType } from '../components/ArgsTable';
 
 export interface ControlProps<T> {
@@ -56,7 +54,7 @@ export type OptionsControlType =
   | 'multi-select';
 
 export interface OptionsConfig {
-  labels: Record<any, string>;
+  labels?: Record<any, string>;
   type: OptionsControlType;
 }
 
