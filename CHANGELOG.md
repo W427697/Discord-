@@ -1,3 +1,7 @@
+## 7.6.18
+
+- Core: Fix addon bundling script [#26145](https://github.com/storybookjs/storybook/pull/26145), thanks @ndelangen!
+
 ## 7.6.17
 
 - Addon-docs: Fix Table of Contents heading leak - [#23677](https://github.com/storybookjs/storybook/pull/23677), thanks [@vmizg](https://github.com/vmizg)!
