@@ -1,4 +1,3 @@
-import { Modal } from '@storybook/components';
 import type { FC } from 'react';
 import React from 'react';
 
@@ -15,17 +14,19 @@ import {
   Circle2,
   Circle3,
   TopContent,
+  ModalWrapper,
 } from './WelcomeModal.styled';
 
 interface WelcomeModalProps {
   onProceed: () => void;
   skipOnboarding: () => void;
+  container?: HTMLElement;
 }
 
-export const WelcomeModal: FC<WelcomeModalProps> = ({ onProceed, skipOnboarding }) => {
+export const WelcomeModal: FC<WelcomeModalProps> = ({ onProceed, skipOnboarding, container }) => {
   return (
     <div style={{ zIndex: 10 }}>
-      <Modal width={540} height={430} defaultOpen>
+      <ModalWrapper width={540} height={430} defaultOpen container={container}>
         <ModalContentWrapper data-chromatic="ignore">
           <TopContent>
             <StorybookLogo />
@@ -48,7 +49,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ onProceed, skipOnboarding 
             <Circle3 />
           </Background>
         </ModalContentWrapper>
-      </Modal>
+      </ModalWrapper>
     </div>
   );
 };

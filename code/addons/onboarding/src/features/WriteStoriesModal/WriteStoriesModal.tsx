@@ -12,6 +12,7 @@ import {
   Main,
   ModalContent,
   ModalTitle,
+  ModalWrapper,
   SpanHighlight,
   Step2Text,
 } from './WriteStoriesModal.styled';
@@ -41,6 +42,7 @@ interface WriteStoriesModalProps {
   addonsStore: AddonStore;
   codeSnippets: CodeSnippets;
   skipOnboarding: () => void;
+  container?: HTMLElement;
 }
 
 export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
@@ -49,6 +51,7 @@ export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
   addonsStore,
   skipOnboarding,
   codeSnippets,
+  container,
 }) => {
   const [step, setStep] = useState<'imports' | 'meta' | 'story' | 'args' | 'customStory'>(
     'imports'
@@ -91,7 +94,7 @@ export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
   }, [api, step]);
 
   return (
-    <Modal width={740} height={430} defaultOpen>
+    <ModalWrapper width={740} height={430} container={container} defaultOpen>
       <ModalContent>
         {codeSnippets ? (
           <SyntaxHighlighter
@@ -284,6 +287,6 @@ export const WriteStoriesModal: FC<WriteStoriesModalProps> = ({
           </Background>
         </Main>
       </ModalContent>
-    </Modal>
+    </ModalWrapper>
   );
 };
