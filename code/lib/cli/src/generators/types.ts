@@ -53,5 +53,5 @@ export type CommandOptions = {
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   debug?: boolean;
-  dev: boolean;
+  dev?: boolean;
 };

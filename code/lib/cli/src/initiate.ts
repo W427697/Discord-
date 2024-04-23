@@ -405,7 +405,8 @@ export async function doInitiate(options: CommandOptions): Promise<
   );
 
   return {
-    shouldRunDev: options.dev,
+    shouldRunDev:
+      options.dev ?? (process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANBOX !== 'true'),
     projectType,
     packageManager,
     storybookCommand,
