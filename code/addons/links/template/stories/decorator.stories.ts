@@ -10,7 +10,16 @@ export default {
 };
 
 export const Target = {
-  render: () => 'This is just a story to target with the links',
+  args: {
+    content: `
+      <div>
+      This is just a story to target with the links
+      </div>
+    `,
+  },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };
 
 export const KindAndStory = {

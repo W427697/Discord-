@@ -13,7 +13,12 @@ export default {
 };
 
 export const Target = {
-  render: () => 'This is just a story to target with the links',
+  args: {
+    label: 'This is just a story to target with the links',
+  },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };
 
 export const Id = {
