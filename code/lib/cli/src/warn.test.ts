@@ -1,13 +1,25 @@
-import globby from 'globby';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/node-logger';
 import { warn } from './warn';
 
-jest.mock('@storybook/node-logger');
-jest.mock('globby');
+vi.mock('@storybook/node-logger');
+
+const mocks = vi.hoisted(() => {
+  return {
+    globby: vi.fn(),
+  };
+});
+
+vi.mock('globby', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('globby')>()),
+    globby: mocks.globby,
+  };
+});
 
 describe('warn', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('when TypeScript is installed as a dependency', () => {
@@ -20,17 +32,17 @@ describe('warn', () => {
   });
 
   describe('when TypeScript is not installed as a dependency', () => {
-    it('should not warn if `.tsx?` files are not found', () => {
-      (globby.sync as jest.Mock).mockReturnValueOnce([]);
-      warn({
+    it('should not warn if `.tsx?` files are not found', async () => {
+      mocks.globby.mockResolvedValue([]);
+      await warn({
         hasTSDependency: false,
       });
       expect(logger.warn).toHaveBeenCalledTimes(0);
     });
 
-    it('should warn if `.tsx?` files are found', () => {
-      (globby.sync as jest.Mock).mockReturnValueOnce(['a.ts']);
-      warn({
+    it('should warn if `.tsx?` files are found', async () => {
+      mocks.globby.mockResolvedValue(['a.ts']);
+      await warn({
         hasTSDependency: false,
       });
       expect(logger.warn).toHaveBeenCalledTimes(2);

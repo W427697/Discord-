@@ -7,11 +7,11 @@ import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, ResetWrapper, Link } from '@storybook/components';
 
-import { UndoIcon } from '@storybook/icons';
+import { DocumentIcon, UndoIcon } from '@storybook/icons';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import type { ArgType, ArgTypes, Args, Globals } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { EmptyBlock } from '..';
 import { Skeleton } from './Skeleton';
 import { Empty } from './Empty';
@@ -166,7 +166,6 @@ export const TableWrapper = styled.table<{
 }));
 
 const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
-  color: theme.barTextColor,
   margin: '-4px -12px -4px 0',
 }));
 
@@ -323,7 +322,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
       <EmptyBlock>
         {error}&nbsp;
         <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
-          Read the docs
+          <DocumentIcon /> Read the docs
         </Link>
       </EmptyBlock>
     );

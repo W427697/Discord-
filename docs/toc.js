@@ -2,7 +2,6 @@ module.exports = {
   toc: [
     {
       pathSegment: 'get-started',
-      redirectPath: 'get-started/install',
       title: 'Get started',
       type: 'heading',
       children: [
@@ -17,6 +16,68 @@ module.exports = {
           title: 'Install',
           type: 'link',
           description: 'Install the Storybook package in your project',
+        },
+        {
+          pathSegment: '',
+          title: 'Frameworks',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
+              pathSegment: 'nextjs',
+              title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-vite',
+              title: 'React & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'sveltekit',
+              title: 'SvelteKit',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-webpack5',
+              title: 'Svelte & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-webpack5',
+              title: 'Vue & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-vite',
+              title: 'Web components & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-webpack5',
+              title: 'Web components & Webpack',
+              type: 'link',
+            },
+          ],
         },
         {
           pathSegment: 'whats-a-story',
@@ -153,6 +214,23 @@ module.exports = {
           pathSegment: 'test-coverage',
           title: 'Test coverage',
           type: 'link',
+        },
+        {
+          pathSegment: '',
+          title: 'Snapshot testing',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'snapshot-testing',
+              title: 'Write',
+              type: 'link',
+            },
+            {
+              pathSegment: 'storyshots-migration-guide',
+              title: 'Storyshots migration guide',
+              type: 'link',
+            },
+          ],
         },
         {
           pathSegment: '',
@@ -305,7 +383,7 @@ module.exports = {
         },
         {
           pathSegment: 'addon-migration-guide',
-          title: 'Migrate addons to 7.0',
+          title: 'Migrate addons to 8.0',
           type: 'link',
         },
       ],
@@ -553,12 +631,12 @@ module.exports = {
               pathSegment: 'main-config-webpack-final',
               type: 'link',
             },
-            {
-              title: 'config',
-              pathSegment: 'main-config-config',
-              type: 'link',
-            },
           ],
+        },
+        {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
         },
         {
           pathSegment: 'arg-types',
@@ -566,8 +644,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'csf',
-          title: 'Component Story Format (CSF)',
+          pathSegment: 'parameters',
+          title: 'Parameters',
           type: 'link',
         },
         {
@@ -663,6 +741,29 @@ module.exports = {
           ],
         },
         {
+          title: 'Portable stories',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'portable-stories-jest',
+              title: 'Jest',
+              type: 'link',
+            },
+            {
+              pathSegment: 'portable-stories-playwright',
+              title: 'Playwright',
+              type: 'link',
+            },
+            {
+              pathSegment: 'portable-stories-vitest',
+              title: 'Vitest',
+              type: 'link',
+            },
+          ],
+        },
+        
+        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
@@ -724,9 +825,16 @@ module.exports = {
       type: 'link',
     },
     {
-      title: 'Migrate to 7.0',
       pathSegment: 'migration-guide',
-      type: 'link',
+      title: 'Migrate to 8.0',
+      type: 'heading',
+      children: [
+        {
+          title: 'Migrate from 6.x to 8.0',
+          pathSegment: 'from-older-version',
+          type: 'link',
+        },
+      ],
     },
   ],
 };

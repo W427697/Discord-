@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-restricted-syntax */
-
 /**
  * Source: https://github.com/vercel/next.js/blob/canary/packages/next/src/build/babel/plugins/jsx-pragma.ts
  */
@@ -78,9 +75,9 @@ export default function jsxPragma({ types: t }: { types: typeof BabelTypes }): P
                     ? // import { $import as _pragma } from '$module'
                       t.importSpecifier(importAs, t.identifier(state.opts.import))
                     : state.opts.importNamespace
-                    ? t.importNamespaceSpecifier(importAs)
-                    : // import _pragma from '$module'
-                      t.importDefaultSpecifier(importAs),
+                      ? t.importNamespaceSpecifier(importAs)
+                      : // import _pragma from '$module'
+                        t.importDefaultSpecifier(importAs),
                 ],
                 t.stringLiteral(state.opts.module || 'react')
               );

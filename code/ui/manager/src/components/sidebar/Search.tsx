@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -6,7 +5,7 @@ import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { CloseIcon, SearchIcon } from '@storybook/icons';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
@@ -21,6 +20,7 @@ import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
 const { document } = global;
 
@@ -123,7 +123,14 @@ const FocusKey = styled.code(({ theme }) => ({
   color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   userSelect: 'none',
   pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
 }));
+
+const FocusKeyCmd = styled.span({
+  fontSize: '14px',
+});
 
 const ClearIcon = styled.div(({ theme }) => ({
   position: 'absolute',
@@ -158,19 +165,8 @@ export const Search = React.memo<{
   const [allComponents, showAllComponents] = useState(false);
   const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
 
-  const selectStory = useCallback(
-    (id: string, refId: string) => {
-      if (api) {
-        api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
-      }
-      inputRef.current.blur();
-      showAllComponents(false);
-    },
-    [api, inputRef, showAllComponents, DEFAULT_REF_ID]
-  );
-
-  const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
+  const makeFuse = useCallback(() => {
+    const list = dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index || {}, status);
 
       if (index) {
@@ -189,12 +185,12 @@ export const Search = React.memo<{
       }
       return acc;
     }, []);
+    return new Fuse(list, options);
   }, [dataset]);
-
-  const fuse = useMemo(() => new Fuse(list, options), [list]);
 
   const getResults = useCallback(
     (input: string) => {
+      const fuse = makeFuse();
       if (!input) return [];
 
       let results: DownshiftItem[] = [];
@@ -222,8 +218,28 @@ export const Search = React.memo<{
 
       return results;
     },
-    [allComponents, fuse]
+    [allComponents, makeFuse]
   );
+
+  const onSelect = useCallback(
+    (selectedItem: DownshiftItem) => {
+      if (isSearchResult(selectedItem)) {
+        const { id, refId } = selectedItem.item;
+        api?.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
+        inputRef.current.blur();
+        showAllComponents(false);
+        return;
+      }
+      if (isExpandType(selectedItem)) {
+        selectedItem.showAll();
+      }
+    },
+    [api]
+  );
+
+  const onInputValueChange = useCallback((inputValue: string, stateAndHelpers: any) => {
+    showAllComponents(false);
+  }, []);
 
   const stateReducer = useCallback(
     (state: DownshiftState<DownshiftItem>, changes: StateChangeOptions<DownshiftItem>) => {
@@ -235,13 +251,12 @@ export const Search = React.memo<{
             inputValue: state.inputValue,
             // Return to the tree view after selecting an item
             isOpen: state.inputValue && !state.selectedItem,
-            selectedItem: null,
           };
         }
 
         case Downshift.stateChangeTypes.mouseUp: {
           // Prevent clearing the input on refocus
-          return {};
+          return state;
         }
 
         case Downshift.stateChangeTypes.keyDownEscape: {
@@ -249,30 +264,21 @@ export const Search = React.memo<{
             // Clear the inputValue, but don't return to the tree view
             return { ...changes, inputValue: '', isOpen: true, selectedItem: null };
           }
-          // When pressing escape a second time, blur the input and return to the tree view
-          inputRef.current.blur();
+          // When pressing escape a second time return to the tree view
+          // The onKeyDown handler will also blur the input in this case
           return { ...changes, isOpen: false, selectedItem: null };
         }
 
         case Downshift.stateChangeTypes.clickItem:
         case Downshift.stateChangeTypes.keyDownEnter: {
           if (isSearchResult(changes.selectedItem)) {
-            const { id, refId } = changes.selectedItem.item;
-            selectStory(id, refId);
             // Return to the tree view, but keep the input value
-            return { ...changes, inputValue: state.inputValue, isOpen: false };
+            return { ...changes, inputValue: state.inputValue };
           }
           if (isExpandType(changes.selectedItem)) {
-            changes.selectedItem.showAll();
             // Downshift should completely ignore this
-            return {};
+            return state;
           }
-          return changes;
-        }
-
-        case Downshift.stateChangeTypes.changeInput: {
-          // Reset the "show more" state whenever the input changes
-          showAllComponents(false);
           return changes;
         }
 
@@ -280,8 +286,9 @@ export const Search = React.memo<{
           return changes;
       }
     },
-    [inputRef, selectStory, showAllComponents]
+    []
   );
+  const { isMobile } = useLayout();
 
   return (
     <Downshift<DownshiftItem>
@@ -290,6 +297,8 @@ export const Search = React.memo<{
       // @ts-expect-error (Converted from ts-ignore)
       itemToString={(result) => result?.item?.name || ''}
       scrollIntoView={(e) => scrollIntoView(e)}
+      onSelect={onSelect}
+      onInputValueChange={onInputValueChange}
     >
       {({
         isOpen,
@@ -335,6 +344,13 @@ export const Search = React.memo<{
             setPlaceholder('Type to find...');
           },
           onBlur: () => setPlaceholder('Find components'),
+          onKeyDown: (e) => {
+            if (e.key === 'Escape' && inputValue.length === 0) {
+              // When pressing escape while the input is empty, blur the input
+              // The stateReducer will handle returning to the tree view
+              inputRef.current.blur();
+            }
+          },
         });
 
         const labelProps = getLabelProps({
@@ -351,9 +367,18 @@ export const Search = React.memo<{
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && !isOpen && <FocusKey>{searchShortcut}</FocusKey>}
+              {!isMobile && enableShortcuts && !isOpen && (
+                <FocusKey>
+                  {searchShortcut === '⌘ K' ? (
+                    <>
+                      <FocusKeyCmd>⌘</FocusKeyCmd>K
+                    </>
+                  ) : (
+                    searchShortcut
+                  )}
+                </FocusKey>
+              )}
               {isOpen && (
                 <ClearIcon onClick={() => clearSelection()}>
                   <CloseIcon />

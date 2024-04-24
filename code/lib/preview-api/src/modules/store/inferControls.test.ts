@@ -1,4 +1,5 @@
-import { expect } from '@jest/globals';
+import type { MockInstance } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/client-logger';
 import type { StoryContextForEnhancers } from '@storybook/types';
 
@@ -26,9 +27,9 @@ const getStoryContext = (overrides: any = {}): StoryContextForEnhancers => ({
 const [inferControls] = argTypesEnhancers;
 describe('inferControls', () => {
   describe('with custom matchers', () => {
-    let warnSpy: jest.SpyInstance;
+    let warnSpy: MockInstance;
     beforeEach(() => {
-      warnSpy = jest.spyOn(logger, 'warn');
+      warnSpy = vi.spyOn(logger, 'warn');
       warnSpy.mockImplementation(() => {});
     });
     afterEach(() => {
@@ -57,7 +58,8 @@ describe('inferControls', () => {
         })
       );
 
-      expect(inferredControls.background.control.type).toEqual('color');
+      const control = inferredControls.background.control;
+      expect(typeof control === 'object' && control.type).toEqual('color');
     });
 
     it('should return inferred type when using color matcher but arg passed is not a string', () => {
@@ -96,7 +98,8 @@ describe('inferControls', () => {
         );
 
         expect(warnSpy).toHaveBeenCalled();
-        expect(inferredControls.background.control.type).toEqual(type.name);
+        const control = inferredControls.background.control;
+        expect(typeof control === 'object' && control.type).toEqual(type.name);
       });
     });
   });

@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import { describe, it, expect } from 'vitest';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -39,7 +40,6 @@ function createDocgenProp({
   };
 }
 
-// eslint-disable-next-line react/forbid-foreign-prop-types
 function createComponent({ propTypes = {}, defaultProps = {}, docgenInfo = {} }): Component {
   const component = () => {
     return <div>Hey!</div>;

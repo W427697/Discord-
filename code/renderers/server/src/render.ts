@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
@@ -23,7 +22,8 @@ const buildStoryArgs = (args: Args, argTypes: ArgTypes) => {
   Object.keys(argTypes).forEach((key: string) => {
     const argType = argTypes[key];
     const { control } = argType;
-    const controlType = control && control.type.toLowerCase();
+    const controlType =
+      control && typeof control === 'object' && 'type' in control && control.type?.toLowerCase();
     const argValue = storyArgs[key];
     switch (controlType) {
       case 'date':

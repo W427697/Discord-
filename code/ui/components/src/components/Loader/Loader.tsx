@@ -1,9 +1,8 @@
 import { transparentize } from 'polished';
-import type { ComponentProps, FC } from 'react';
 import React from 'react';
 import { styled, keyframes } from '@storybook/theming';
-import { Icons } from '../icon/icon';
 import { rotate360 } from '../shared/animation';
+import { LightningOffIcon } from '@storybook/icons';
 
 const LoaderWrapper = styled.div<{ size?: number }>(({ size = 32 }) => ({
   borderRadius: '50%',
@@ -64,7 +63,7 @@ const ProgressMessage = styled.div(({ theme }) => ({
   color: theme.barTextColor,
 }));
 
-const ErrorIcon = styled(Icons)(({ theme }) => ({
+const ErrorIcon = styled(LightningOffIcon)(({ theme }) => ({
   width: 20,
   height: 20,
   marginBottom: '0.5rem',
@@ -98,22 +97,17 @@ interface Progress {
   };
 }
 
-interface LoaderProps {
+interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   progress?: Progress;
   error?: Error;
   size?: number;
 }
 
-export const Loader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
-  progress,
-  error,
-  size,
-  ...props
-}) => {
+export const Loader = ({ progress, error, size, ...props }: LoaderProps) => {
   if (error) {
     return (
       <ProgressWrapper aria-label={error.toString()} aria-live="polite" role="status" {...props}>
-        <ErrorIcon icon="lightningoff" />
+        <ErrorIcon />
         <ProgressMessage>{error.message}</ProgressMessage>
       </ProgressWrapper>
     );

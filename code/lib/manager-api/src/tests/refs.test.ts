@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 import type { StoryIndex } from 'lib/types/src';
 import type { State } from '..';
@@ -7,11 +8,11 @@ import type Store from '../store';
 
 const { fetch } = global;
 
-const fetchMock = jest.mocked(fetch);
+const fetchMock = vi.mocked(fetch);
 
-jest.mock('@storybook/global', () => {
+vi.mock('@storybook/global', () => {
   const globalMock = {
-    fetch: jest.fn(() => Promise.resolve({})),
+    fetch: vi.fn(() => Promise.resolve({})),
     REFS: {
       fake: {
         id: 'fake',
@@ -24,14 +25,14 @@ jest.mock('@storybook/global', () => {
   // Add additional variations of global.location mock return values in this array.
   // NOTE: The order must match the order that global.location is called in the unit tests.
   const edgecaseLocations = [
-    { origin: 'https://storybook.js.org', pathname: '/storybook/index.html' },
+    { origin: 'https://storybook.js.org', pathname: '/storybook/iframe.html' },
   ];
   // global.location value after all edgecaseLocations are returned
   const lastLocation = { origin: 'https://storybook.js.org', pathname: '/storybook/' };
   Object.defineProperties(globalMock, {
     location: {
       get: edgecaseLocations
-        .reduce((mockFn, location) => mockFn.mockReturnValueOnce(location), jest.fn())
+        .reduce((mockFn, location) => mockFn.mockReturnValueOnce(location), vi.fn())
         .mockReturnValue(lastLocation),
     },
   });
@@ -39,11 +40,11 @@ jest.mock('@storybook/global', () => {
 });
 
 const provider = {
-  getConfig: jest.fn().mockReturnValue({}),
+  getConfig: vi.fn().mockReturnValue({}),
 };
 
 const store = {
-  getState: jest.fn().mockReturnValue({
+  getState: vi.fn().mockReturnValue({
     filters: {},
     refs: {
       fake: {
@@ -53,14 +54,14 @@ const store = {
       },
     },
   }),
-  setState: jest.fn((a: any) => {}),
+  setState: vi.fn((a: any) => {}),
 };
 
 function createMockStore(initialState: Partial<State> = {}) {
   let state = initialState;
   return {
-    getState: jest.fn(() => state),
-    setState: jest.fn((s: typeof state) => {
+    getState: vi.fn(() => state),
+    setState: vi.fn((s: typeof state) => {
       state = { ...state, ...s };
       return Promise.resolve(state);
     }),
@@ -170,22 +171,25 @@ describe('Refs API', () => {
       // given
       initRefs({ provider, store } as any);
 
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
+
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -206,22 +210,25 @@ describe('Refs API', () => {
       };
       initRefs({ provider, store } as any);
 
+      // the `runCheck` is async, so we need to wait for it to finish
+      await vi.waitFor(() => fetchMock.mock.calls.length > 0);
+
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json?version=2.1.3-rc.2",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json?version=2.1.3-rc.2",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -256,21 +263,21 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -279,12 +286,12 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
               "index": undefined,
-              "indexError": Object {
+              "indexError": {
                 "message": "Error: Loading of ref failed
           at fetch (lib/api/src/modules/refs.ts)
 
@@ -325,21 +332,21 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -348,12 +355,12 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
               "index": undefined,
-              "indexError": Object {
+              "indexError": {
                 "message": "Error: Loading of ref failed
           at fetch (lib/api/src/modules/refs.ts)
 
@@ -401,31 +408,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -459,31 +466,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -492,13 +499,13 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
@@ -510,13 +517,13 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
@@ -556,31 +563,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -589,19 +596,19 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
-              "versions": Object {},
+              "versions": {},
             },
           },
         }
@@ -637,31 +644,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -670,19 +677,19 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
-              "versions": Object {
+              "versions": {
                 "a": "http://example.com/a",
                 "b": "http://example.com/b",
               },
@@ -718,31 +725,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -751,9 +758,9 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
               "index": undefined,
               "internal_index": undefined,
@@ -793,33 +800,33 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
                 "Authorization": "Basic dXNlcjpwYXNz",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
                 "Authorization": "Basic dXNlcjpwYXNz",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
                 "Authorization": "Basic dXNlcjpwYXNz",
               },
@@ -860,31 +867,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -893,9 +900,9 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
               "index": undefined,
               "internal_index": undefined,
@@ -903,7 +910,7 @@ describe('Refs API', () => {
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
-              "versions": Object {
+              "versions": {
                 "1.0.0": "https://example.com/v1",
                 "2.0.0": "https://example.com",
               },
@@ -942,31 +949,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "omit",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "omit",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "omit",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -975,19 +982,19 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
-              "versions": Object {},
+              "versions": {},
             },
           },
         }
@@ -1023,31 +1030,31 @@ describe('Refs API', () => {
       });
 
       expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
-        Array [
-          Array [
+        [
+          [
             "https://example.com/index.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/stories.json",
-            Object {
+            {
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
           ],
-          Array [
+          [
             "https://example.com/metadata.json",
-            Object {
+            {
               "cache": "no-cache",
               "credentials": "include",
-              "headers": Object {
+              "headers": {
                 "Accept": "application/json",
               },
             },
@@ -1056,19 +1063,19 @@ describe('Refs API', () => {
       `);
 
       expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
-        Object {
-          "refs": Object {
-            "fake": Object {
+        {
+          "refs": {
+            "fake": {
               "id": "fake",
-              "index": Object {},
-              "internal_index": Object {
-                "entries": Object {},
+              "index": {},
+              "internal_index": {
+                "entries": {},
                 "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
-              "versions": Object {},
+              "versions": {},
             },
           },
         }
