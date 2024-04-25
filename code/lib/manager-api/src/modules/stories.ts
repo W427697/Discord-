@@ -522,10 +522,13 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     fetchIndex: async () => {
       try {
+        const now = Date.now();
+        console.log('LOG: fetchIndex before fetch');
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
         const storyIndex = (await result.json()) as StoryIndex;
+        console.log('LOG: fetchIndex after fetch', { storyIndex, bench: Date.now() - now });
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {
@@ -543,9 +546,26 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     // The story index we receive on fetchStoryIndex is not, but all the prepared fields are optional
     // so we can cast one to the other easily enough
     setIndex: async (input) => {
-      const { index: oldHash, status, filters } = store.getState();
+      const state = store.getState();
+
+      /**
+       * The initial setIndex (as called by fetchIndex) is in a race with this.setSate in the ManagerProvider
+       * Especially in Webkit, fetchIndex is done long before filters have been set in the state
+       * But we always expect the internal 'static-filter' to be set
+       */
+      // for (let i = 0; i < 10; i++) {
+      //   if (state.filters['static-filter']) {
+      //     break;
+      //   }
+      //   state = await new Promise((resolve) => {
+      //     setTimeout(() => resolve(store.getState()), 0);
+      //   });
+      // }
+
+      const { index: oldHash, status, filters } = state;
+
       console.log(
-        `api.setIndex calling transformStoryIndexToStoriesHash with ${
+        `!!!!!!! api.setIndex calling transformStoryIndexToStoriesHash with ${
           Object.keys(filters).length
         } filters`
       );
@@ -656,23 +676,20 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       }
     },
     experimental_setFilter: async (id, filterFunction) => {
-      const { internal_index: index } = store.getState();
-      console.log('experimental_setFilter inner function', {
-        index,
-        filters: store.getState().filters,
-        filterFunction,
-      });
       await store.setState({ filters: { ...store.getState().filters, [id]: filterFunction } });
 
-      if (index) {
-        console.log('calling api.setIndex from experimental_setFilter');
-        await api.setIndex(index);
+      const { internal_index: index } = store.getState();
 
-        const refs = await fullAPI.getRefs();
-        Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
-          fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
-        });
+      if (!index) {
+        return;
       }
+      // apply new filters by setting the index again
+      await api.setIndex(index);
+
+      const refs = await fullAPI.getRefs();
+      Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
+        fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
+      });
     },
   };
 
