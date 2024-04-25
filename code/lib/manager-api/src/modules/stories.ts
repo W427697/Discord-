@@ -522,13 +522,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     fetchIndex: async () => {
       try {
-        const now = Date.now();
-        console.log('LOG: fetchIndex before fetch');
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
         const storyIndex = (await result.json()) as StoryIndex;
-        console.log('LOG: fetchIndex after fetch', { storyIndex, bench: Date.now() - now });
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {
@@ -536,7 +533,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           return;
         }
 
-        console.log('calling api.setIndex from api.fetchIndex');
         await api.setIndex(storyIndex);
       } catch (err: any) {
         await store.setState({ indexError: err });
@@ -546,29 +542,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     // The story index we receive on fetchStoryIndex is not, but all the prepared fields are optional
     // so we can cast one to the other easily enough
     setIndex: async (input) => {
-      const state = store.getState();
-
-      /**
-       * The initial setIndex (as called by fetchIndex) is in a race with this.setSate in the ManagerProvider
-       * Especially in Webkit, fetchIndex is done long before filters have been set in the state
-       * But we always expect the internal 'static-filter' to be set
-       */
-      // for (let i = 0; i < 10; i++) {
-      //   if (state.filters['static-filter']) {
-      //     break;
-      //   }
-      //   state = await new Promise((resolve) => {
-      //     setTimeout(() => resolve(store.getState()), 0);
-      //   });
-      // }
-
-      const { index: oldHash, status, filters } = state;
-
-      console.log(
-        `!!!!!!! api.setIndex calling transformStoryIndexToStoriesHash with ${
-          Object.keys(filters).length
-        } filters`
-      );
+      const { index: oldHash, status, filters } = store.getState();
 
       const newHash = transformStoryIndexToStoriesHash(input, {
         provider,
@@ -666,7 +640,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       if (index) {
         // We need to re-prepare the index
-        console.log('calling api.setIndex from experimental_updateStatus');
         await api.setIndex(index);
 
         const refs = await fullAPI.getRefs();
@@ -812,7 +785,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     const { ref } = getEventMetadata(this, fullAPI)!;
 
     if (!ref) {
-      console.log('calling api.setIndex from SET_INDEX listener when there is no ref');
       api.setIndex(index);
       const options = api.getCurrentParameter('options');
       fullAPI.setOptions(removeRemovedOptions(options!));
@@ -887,9 +859,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   provider.channel?.on(SET_CONFIG, () => {
     const config = provider.getConfig();
-    console.log('getting config');
     if (config?.sidebar?.filters) {
-      console.log("there are filters, let's set them");
       store.setState({
         filters: {
           ...store.getState().filters,
@@ -901,7 +871,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   const config = provider.getConfig();
 
-  console.log('setting initial state');
   return {
     api,
     state: {
@@ -914,13 +883,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     init: async () => {
       provider.channel?.on(STORY_INDEX_INVALIDATED, () => {
-        console.log('calling api.fetchIndex from STORY_INDEX_INVALIDATED event');
         api.fetchIndex();
       });
 
-      console.log('calling api.fetchIndex from stories module init - started');
       await api.fetchIndex();
-      console.log('calling api.fetchIndex from stories module init - completed');
     },
   };
 };

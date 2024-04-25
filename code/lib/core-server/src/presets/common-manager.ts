@@ -17,7 +17,6 @@ addons.register(STATIC_FILTER, (api) => {
     {} as Record<string, boolean>
   );
 
-  console.log('Registering STATIC_FILTER');
   api.experimental_setFilter(STATIC_FILTER, (item) => {
     const tags = item.tags || [];
     return tags.filter((tag) => excludeTags[tag]).length === 0;

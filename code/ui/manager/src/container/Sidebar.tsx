@@ -49,7 +49,6 @@ const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const top = useMemo(() => Object.values(topItems), [Object.keys(topItems).join('')]);
 
-    console.log('Sidebar context mapper - ', { indexCount: index ? Object.keys(index).length : 0 });
     return {
       title: name,
       url,
