@@ -543,7 +543,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     // so we can cast one to the other easily enough
     setIndex: async (input) => {
       const { index: oldHash, status, filters } = store.getState();
-
       const newHash = transformStoryIndexToStoriesHash(input, {
         provider,
         docsOptions,
@@ -882,9 +881,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       filters: config?.sidebar?.filters || {},
     },
     init: async () => {
-      provider.channel?.on(STORY_INDEX_INVALIDATED, () => {
-        api.fetchIndex();
-      });
+      provider.channel?.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
 
       await api.fetchIndex();
     },
