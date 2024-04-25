@@ -4,5 +4,5 @@ export type RequestData<Payload = void> = {
 };
 
 export type ResponseData<Payload = void> =
-  | { id: string; success: true; payload: Payload }
-  | { id: string; success: false; error?: string; payload?: Payload };
+  | { id: string; success: true; error: null; payload: Payload }
+  | { id: string; success: false; error: string; payload: null };

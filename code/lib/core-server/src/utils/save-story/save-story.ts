@@ -112,6 +112,7 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
           sourceFileName,
           sourceStoryName,
         },
+        error: null,
       } satisfies ResponseData<SaveStoryResponsePayload>);
 
       if (!coreConfig.disableTelemetry) {
@@ -124,14 +125,8 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
       channel.emit(SAVE_STORY_RESPONSE, {
         id,
         success: false,
-        error: error instanceof SaveStoryError ? error.message : undefined,
-        payload: {
-          csfId,
-          newStoryId,
-          newStoryName,
-          sourceFileName,
-          sourceStoryName,
-        },
+        error: error instanceof SaveStoryError ? error.message : 'Unknown error',
+        payload: null,
       } satisfies ResponseData<SaveStoryResponsePayload>);
 
       logger.error(

@@ -3,6 +3,7 @@ import { initCreateNewStoryChannel } from './create-new-story-channel';
 import path from 'path';
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
+import type { CreateNewStoryRequestPayload, RequestData } from '@storybook/core-events';
 import {
   CREATE_NEW_STORYFILE_REQUEST,
   CREATE_NEW_STORYFILE_RESPONSE,
@@ -63,9 +64,12 @@ describe('createNewStoryChannel', () => {
       } as any);
 
       mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
-        componentFilePath: 'src/components/Page.jsx',
-        componentExportName: 'Page',
-        componentIsDefaultExport: true,
+        id: 'components-page--default',
+        payload: {
+          componentFilePath: 'src/components/Page.jsx',
+          componentExportName: 'Page',
+          componentIsDefaultExport: true,
+        },
       });
 
       await vi.waitFor(() => {
@@ -74,8 +78,11 @@ describe('createNewStoryChannel', () => {
 
       expect(createNewStoryFileEventListener).toHaveBeenCalledWith({
         error: null,
-        result: {
+        id: 'components-page--default',
+        payload: {
           storyId: 'components-page--default',
+          storyFilePath: path.join('src', 'components', 'Page.stories.jsx'),
+          exportedStoryName: 'Default',
         },
         success: true,
       });
@@ -104,18 +111,23 @@ describe('createNewStoryChannel', () => {
       } as any);
 
       mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
-        componentFilePath: 'src/components/Page.jsx',
-        componentExportName: 'Page',
-        componentIsDefaultExport: true,
-      });
+        id: 'components-page--default',
+        payload: {
+          componentFilePath: 'src/components/Page.jsx',
+          componentExportName: 'Page',
+          componentIsDefaultExport: true,
+          componentExportCount: 1,
+        },
+      } satisfies RequestData<CreateNewStoryRequestPayload>);
 
       await vi.waitFor(() => {
         expect(createNewStoryFileEventListener).toHaveBeenCalled();
       });
 
       expect(createNewStoryFileEventListener).toHaveBeenCalledWith({
-        error: 'An error occurred while creating a new story:\nFailed to write file',
-        result: null,
+        error: 'Failed to write file',
+        payload: null,
+        id: 'components-page--default',
         success: false,
       });
     });

@@ -7,100 +7,94 @@ import {
 } from '@storybook/core-common';
 import path from 'path';
 import fs from 'fs/promises';
+import { existsSync } from 'fs';
 
 import { getParser } from '../utils/parser';
 import { searchFiles } from '../utils/search-files';
-import { FILE_COMPONENT_SEARCH, FILE_COMPONENT_SEARCH_RESULT } from '@storybook/core-events';
-
-interface Data {
-  // A regular string or a glob pattern
-  searchQuery?: string;
-}
-
-interface SearchResult {
-  success: true | false;
-  result: null | {
-    searchQuery: string;
-    files: Array<{
-      // The filepath relative to the project root
-      filepath: string;
-      // The search query - Helps to identify the event on the frontend
-      searchQuery: string;
-      // A list of exported components
-      exportedComponents: Array<{
-        // the name of the exported component
-        name: string;
-        // True, if the exported component is a default export
-        default: boolean;
-      }>;
-    }> | null;
-  };
-  error: null | string;
-}
+import type {
+  FileComponentSearchRequestPayload,
+  FileComponentSearchResponsePayload,
+  RequestData,
+  ResponseData,
+} from '@storybook/core-events';
+import {
+  FILE_COMPONENT_SEARCH_REQUEST,
+  FILE_COMPONENT_SEARCH_RESPONSE,
+} from '@storybook/core-events';
+import { getStoryMetadata } from '../utils/get-new-story-file';
 
 export function initFileSearchChannel(channel: Channel, options: Options) {
   /**
    * Listens for a search query event and searches for files in the project
    */
-  channel.on(FILE_COMPONENT_SEARCH, async (data: Data) => {
-    try {
-      const searchQuery = data?.searchQuery;
-
-      if (!searchQuery) {
-        return;
-      }
-
-      const frameworkName = await getFrameworkName(options);
-
-      const rendererName = (await extractProperRendererNameFromFramework(
-        frameworkName
-      )) as SupportedRenderers;
-
-      const projectRoot = getProjectRoot();
-
-      const files = await searchFiles({
-        searchQuery,
-        cwd: projectRoot,
-      });
-
-      const entries = files.map(async (file) => {
-        const parser = getParser(rendererName);
-
-        try {
-          const content = await fs.readFile(path.join(projectRoot, file), 'utf-8');
-          const info = await parser.parse(content);
-
-          return {
-            filepath: file,
-            exportedComponents: info.exports,
-          };
-        } catch (e) {
-          return {
-            filepath: file,
-            exportedComponents: null,
-          };
+  channel.on(
+    FILE_COMPONENT_SEARCH_REQUEST,
+    async (data: RequestData<FileComponentSearchRequestPayload>) => {
+      const searchQuery = data.id;
+      try {
+        if (!searchQuery) {
+          return;
         }
-      });
 
-      channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
-        success: true,
-        result: {
+        const frameworkName = await getFrameworkName(options);
+
+        const rendererName = (await extractProperRendererNameFromFramework(
+          frameworkName
+        )) as SupportedRenderers;
+
+        const projectRoot = getProjectRoot();
+
+        const files = await searchFiles({
           searchQuery,
-          files: await Promise.all(entries),
-        },
-        error: null,
-      } as SearchResult);
-    } catch (e: any) {
-      /**
-       * Emits the search result event with an error message
-       */
-      channel.emit(FILE_COMPONENT_SEARCH_RESULT, {
-        success: false,
-        result: null,
-        error: `An error occurred while searching for components in the project.\n${e?.message}`,
-      } as SearchResult);
+          cwd: projectRoot,
+        });
+
+        const entries = files.map(async (file) => {
+          const parser = getParser(rendererName);
+
+          try {
+            const content = await fs.readFile(path.join(projectRoot, file), 'utf-8');
+            const { storyFileName } = getStoryMetadata(path.join(projectRoot, file));
+            const dirname = path.dirname(file);
+
+            const storyFileExists = existsSync(path.join(projectRoot, dirname, storyFileName));
+            const info = await parser.parse(content);
+
+            return {
+              filepath: file,
+              exportedComponents: info.exports,
+              storyFileExists,
+            };
+          } catch (e) {
+            return {
+              filepath: file,
+              storyFileExists: false,
+              exportedComponents: null,
+            };
+          }
+        });
+
+        channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
+          success: true,
+          id: searchQuery,
+          payload: {
+            files: await Promise.all(entries),
+          },
+          error: null,
+        } satisfies ResponseData<FileComponentSearchResponsePayload>);
+      } catch (e: any) {
+        /**
+         * Emits the search result event with an error message
+         */
+        channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
+          success: false,
+          id: searchQuery ?? '',
+          payload: null,
+          error: `An error occurred while searching for components in the project.\n${e?.message}`,
+        } satisfies ResponseData<FileComponentSearchResponsePayload>);
+      }
     }
-  });
+  );
 
   return channel;
 }

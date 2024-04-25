@@ -74,8 +74,8 @@ enum events {
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
   TELEMETRY_ERROR = 'telemetryError',
 
-  FILE_COMPONENT_SEARCH = 'fileComponentSearch',
-  FILE_COMPONENT_SEARCH_RESULT = 'fileComponentSearchResult',
+  FILE_COMPONENT_SEARCH_REQUEST = 'fileComponentSearchRequest',
+  FILE_COMPONENT_SEARCH_RESPONSE = 'fileComponentSearchResponse',
   SAVE_STORY_REQUEST = 'saveStoryRequest',
   SAVE_STORY_RESPONSE = 'saveStoryResponse',
   ARGTYPES_INFO_REQUEST = 'argtypesInfoRequest',
@@ -98,8 +98,8 @@ export const {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   DOCS_RENDERED,
-  FILE_COMPONENT_SEARCH,
-  FILE_COMPONENT_SEARCH_RESULT,
+  FILE_COMPONENT_SEARCH_REQUEST,
+  FILE_COMPONENT_SEARCH_RESPONSE,
   FORCE_RE_RENDER,
   FORCE_REMOUNT,
   GLOBALS_UPDATED,
@@ -146,6 +146,8 @@ export const {
   ARGTYPES_INFO_RESPONSE,
 } = events;
 
+export * from './data/create-new-story';
+export * from './data/file-component-search';
 export * from './data/argtypes-info';
 export * from './data/request-response';
 export * from './data/save-story';
