@@ -204,13 +204,13 @@ const baseTemplates = {
   'react-vite/prerelease-ts': {
     name: 'React Prerelease (Vite | TypeScript)',
     script:
-      'npm create vite --yes {{beforeDir}} -- --template react-ts && cd {{beforeDir}} && yarn add react@next react-dom@next',
+      'npm create vite --yes {{beforeDir}} -- --template react-ts && cd {{beforeDir}} && yarn add react@beta react-dom@beta',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     },
-    skipTasks: ['bench'],
+    skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-webpack/18-ts': {
     name: 'React Latest (Webpack | TypeScript)',
@@ -236,7 +236,7 @@ const baseTemplates = {
   'react-webpack/prerelease-ts': {
     name: 'React Prerelease (Webpack | TypeScript)',
     script:
-      'yarn create webpack5-react {{beforeDir}} --version-react="next" --version-react-dom="next"',
+      'yarn create webpack5-react {{beforeDir}} --version-react="beta" --version-react-dom="beta"',
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
@@ -650,6 +650,8 @@ export const daily: TemplateKey[] = [
   'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
+  'react-vite/prerelease-ts',
+  'react-webpack/prerelease-ts',
   'vue3-vite/default-js',
   'vue-cli/default-js',
   'lit-vite/default-js',
