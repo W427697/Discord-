@@ -201,6 +201,17 @@ const baseTemplates = {
     },
     skipTasks: ['bench'],
   },
+  'react-vite/prerelease-ts': {
+    name: 'React Prerelease (Vite | TypeScript)',
+    script:
+      'npm create vite --yes {{beforeDir}} -- --template react-ts && cd {{beforeDir}} && yarn add react@next react-dom@next',
+    expected: {
+      framework: '@storybook/react-vite',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['bench'],
+  },
   'react-webpack/18-ts': {
     name: 'React Latest (Webpack | TypeScript)',
     script: 'yarn create webpack5-react {{beforeDir}}',
@@ -215,6 +226,17 @@ const baseTemplates = {
     name: 'React v17 (Webpack | TypeScript)',
     script:
       'yarn create webpack5-react {{beforeDir}} --version-react="17" --version-react-dom="17"',
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'react-webpack/prerelease-ts': {
+    name: 'React Prerelease (Webpack | TypeScript)',
+    script:
+      'yarn create webpack5-react {{beforeDir}} --version-react="next" --version-react-dom="next"',
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
