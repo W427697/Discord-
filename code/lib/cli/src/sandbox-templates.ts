@@ -210,7 +210,7 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     },
-    skipTasks: ['bench'],
+    skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-webpack/18-ts': {
     name: 'React Latest (Webpack | TypeScript)',
@@ -650,6 +650,8 @@ export const daily: TemplateKey[] = [
   'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
+  'react-vite/prerelease-ts',
+  'react-webpack/prerelease-ts',
   'vue3-vite/default-js',
   'vue-cli/default-js',
   'lit-vite/default-js',
