@@ -204,7 +204,7 @@ const baseTemplates = {
   'react-vite/prerelease-ts': {
     name: 'React Prerelease (Vite | TypeScript)',
     script:
-      'npm create vite --yes {{beforeDir}} -- --template react-ts && cd {{beforeDir}} && yarn add react@next react-dom@next',
+      'npm create vite --yes {{beforeDir}} -- --template react-ts && cd {{beforeDir}} && yarn add react@beta react-dom@beta',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -236,7 +236,7 @@ const baseTemplates = {
   'react-webpack/prerelease-ts': {
     name: 'React Prerelease (Webpack | TypeScript)',
     script:
-      'yarn create webpack5-react {{beforeDir}} --version-react="next" --version-react-dom="next"',
+      'yarn create webpack5-react {{beforeDir}} --version-react="beta" --version-react-dom="beta"',
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
