@@ -95,7 +95,8 @@ const useLayoutSyncingState = ({
       ...nextState,
     };
     setManagerLayoutState(nextState);
-  }, [internalDraggingSizeState, managerLayoutState, setManagerLayoutState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [internalDraggingSizeState, setManagerLayoutState]);
 
   const isPagesShown =
     managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
