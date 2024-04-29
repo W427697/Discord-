@@ -7,7 +7,7 @@ import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
-  removeAddon,
+  removeAddon as removeAddonBase,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -34,6 +34,8 @@ import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
+import { initFileSearchChannel } from '../server-channel/file-search-channel';
+import { initCreateNewStoryChannel } from '../server-channel/create-new-story-channel';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -162,10 +164,16 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_serverAPI = (extension: Record<string, Function>) => ({
-  ...extension,
-  removeAddon,
-});
+export const experimental_serverAPI = (extension: Record<string, Function>, options: Options) => {
+  let removeAddon = removeAddonBase;
+  if (!options.disableTelemetry) {
+    removeAddon = async (id: string, opts: any) => {
+      await telemetry('remove', { addon: id, source: 'api' });
+      return removeAddonBase(id, opts);
+    };
+  }
+  return { ...extension, removeAddon };
+};
 
 /**
  * If for some reason this config is not applied, the reason is that
@@ -333,6 +341,9 @@ export const experimental_serverChannel = async (
       });
     }
   });
+
+  initFileSearchChannel(channel, options);
+  initCreateNewStoryChannel(channel, options);
 
   return channel;
 };

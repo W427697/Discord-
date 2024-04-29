@@ -6,13 +6,19 @@ import { sync as readUpSync } from 'read-pkg-up';
 import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
-import { parseList, getEnvConfig, JsPackageManagerFactory, versions } from '@storybook/core-common';
+import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import {
+  parseList,
+  getEnvConfig,
+  JsPackageManagerFactory,
+  versions,
+  removeAddon as remove,
+} from '@storybook/core-common';
+import { withTelemetry } from '@storybook/core-server';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
-import { removeAddon as remove } from '@storybook/core-common';
 import { migrate } from './migrate';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
@@ -53,7 +59,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch(() => process.exit(1));
+    initiate(options).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -62,6 +68,7 @@ command('add <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
@@ -71,7 +78,14 @@ command('remove <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .action((addonName: string, options: any) => remove(addonName, options));
+  .action((addonName: string, options: any) =>
+    withTelemetry('remove', { cliOptions: options }, async () => {
+      await remove(addonName, options);
+      if (!options.disableTelemetry) {
+        await telemetry('remove', { addon: addonName, source: 'cli' });
+      }
+    })
+  );
 
 command('upgrade')
   .description(`Upgrade your Storybook packages to v${versions.storybook}`)
@@ -113,6 +127,7 @@ command('migrate [migration]')
   .option('-l --list', 'List available migrations')
   .option('-g --glob <glob>', 'Glob for files upon which to apply the migration', '**/*.js')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '-n --dry-run',
     'Dry run: verify the migration exists and show the files to which it will be applied'
@@ -129,7 +144,6 @@ command('migrate [migration]')
       list,
       rename,
       parser,
-      logger: consoleLogger,
     }).catch((err) => {
       logger.error(err);
       process.exit(1);
@@ -142,7 +156,7 @@ command('sandbox [filterValue]')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }, pkg).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
@@ -211,7 +225,11 @@ command('dev')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'
@@ -250,7 +268,11 @@ command('build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'

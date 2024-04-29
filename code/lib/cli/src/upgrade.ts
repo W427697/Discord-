@@ -4,8 +4,10 @@ import semver, { eq, lt, prerelease } from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 import {
+  UpgradeStorybookInWrongWorkingDirectory,
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
+  UpgradeStorybookUnknownCurrentVersionError,
 } from '@storybook/core-events/server-errors';
 
 import chalk from 'chalk';
@@ -16,13 +18,12 @@ import {
   isCorePackage,
   versions,
   getStorybookInfo,
-  getCoercedStorybookVersion,
   loadMainConfig,
   JsPackageManagerFactory,
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
-import { PreCheckFailure } from './automigrate/types';
+import { hasStorybookDependencies } from './helpers';
 
 type Package = {
   package: string;
@@ -41,15 +42,12 @@ export const getStorybookVersion = (line: string) => {
 };
 
 const getInstalledStorybookVersion = async (packageManager: JsPackageManager) => {
-  const installations = await packageManager.findInstallations(['storybook', '@storybook/cli']);
+  const installations = await packageManager.findInstallations(Object.keys(versions));
   if (!installations) {
     return;
   }
-  const cliVersion = installations.dependencies['@storybook/cli']?.[0].version;
-  if (cliVersion) {
-    return cliVersion;
-  }
-  return installations.dependencies['storybook']?.[0].version;
+
+  return Object.entries(installations.dependencies)[0]?.[1]?.[0].version;
 };
 
 const deprecatedPackages = [
@@ -138,6 +136,9 @@ export const doUpgrade = async ({
     beforeVersion.startsWith('portal:') ||
     beforeVersion.startsWith('workspace:');
 
+  if (!(await hasStorybookDependencies(packageManager))) {
+    throw new UpgradeStorybookInWrongWorkingDirectory();
+  }
   if (!isCanary && lt(currentVersion, beforeVersion)) {
     throw new UpgradeStorybookToLowerVersionError({ beforeVersion, currentVersion });
   }
@@ -145,14 +146,14 @@ export const doUpgrade = async ({
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
+  const [latestVersion, packageJson] = await Promise.all([
     //
     packageManager.latestVersion('@storybook/cli'),
     packageManager.retrievePackageJson(),
-    getCoercedStorybookVersion(packageManager),
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
+  const isExactLatest = currentVersion === latestVersion;
   const isPrerelease = prerelease(currentVersion) !== null;
 
   const borderColor = isOutdated ? '#FC521F' : '#F1618C';
@@ -189,26 +190,11 @@ export const doUpgrade = async ({
   );
   const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
 
-  let mainConfigLoadingError = '';
-
-  const mainConfig = await loadMainConfig({ configDir }).catch((err) => {
-    mainConfigLoadingError = String(err);
-    return false;
-  });
+  const mainConfig = await loadMainConfig({ configDir });
 
   // GUARDS
-  if (!storybookVersion) {
-    logger.info(missingStorybookVersionMessage());
-    results = { preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION };
-  } else if (
-    typeof mainConfigPath === 'undefined' ||
-    mainConfigLoadingError.includes('No configuration files have been found')
-  ) {
-    logger.info(mainjsNotFoundMessage(configDir));
-    results = { preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND };
-  } else if (typeof mainConfig === 'boolean') {
-    logger.info(mainjsExecutionFailureMessage(mainConfigPath, mainConfigLoadingError));
-    results = { preCheckFailure: PreCheckFailure.MAINJS_EVALUATION };
+  if (!beforeVersion) {
+    throw new UpgradeStorybookUnknownCurrentVersionError();
   }
 
   // BLOCKERS
@@ -238,10 +224,16 @@ export const doUpgrade = async ({
         return dependency in versions;
       }) as Array<keyof typeof versions>;
       return monorepoDependencies.map((dependency) => {
+        let char = '^';
+        if (isOutdated) {
+          char = '';
+        }
+        if (isCanary) {
+          char = '';
+        }
         /* add ^ modifier to the version if this is the latest stable or prerelease version
            example outputs: @storybook/react@^8.0.0 */
-        const maybeCaret = (!isOutdated || isPrerelease) && !isCanary ? '^' : '';
-        return `${dependency}@${maybeCaret}${versions[dependency]}`;
+        return `${dependency}@${char}${versions[dependency]}`;
       });
     };
 
@@ -265,7 +257,7 @@ export const doUpgrade = async ({
   }
 
   // AUTOMIGRATIONS
-  if (!skipCheck && !results && mainConfigPath && storybookVersion) {
+  if (!skipCheck && !results && mainConfigPath) {
     checkVersionConsistency();
     results = await automigrate({
       dryRun,
@@ -273,7 +265,10 @@ export const doUpgrade = async ({
       packageManager,
       configDir,
       mainConfigPath,
-      storybookVersion,
+      beforeVersion,
+      storybookVersion: currentVersion,
+      isUpgrade: isOutdated,
+      isLatest: isExactLatest,
     });
   }
 
@@ -292,32 +287,6 @@ export const doUpgrade = async ({
     });
   }
 };
-
-function missingStorybookVersionMessage(): string {
-  return dedent`
-      [Storybook automigrate] ❌ Unable to determine Storybook version so that the automigrations will be skipped.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `;
-}
-
-function mainjsExecutionFailureMessage(
-  mainConfigPath: string,
-  mainConfigLoadingError: string
-): string {
-  return dedent`
-    [Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
-      mainConfigPath
-    )} with the following error: ${mainConfigLoadingError}
-    
-    Please fix the error and try again.
-  `;
-}
-
-function mainjsNotFoundMessage(configDir: string): string {
-  return dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
-    configDir
-  )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`;
-}
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));

@@ -2,8 +2,8 @@ import { expect, test, vi } from 'vitest';
 import { autoblock } from './index';
 import { JsPackageManagerFactory } from '@storybook/core-common';
 import { createBlocker } from './types';
-import { writeFile as writeFileRaw } from 'node:fs/promises';
-import { logger } from '@storybook/node-logger';
+import { logger as loggerRaw } from '@storybook/node-logger';
+import stripAnsi from 'strip-ansi';
 
 vi.mock('node:fs/promises', () => ({
   writeFile: vi.fn(),
@@ -19,26 +19,23 @@ vi.mock('@storybook/node-logger', () => ({
   },
 }));
 
-const writeFile = vi.mocked(writeFileRaw);
+const logger = vi.mocked(loggerRaw);
 
 const blockers = {
   alwaysPass: createBlocker({
     id: 'alwaysPass',
     check: async () => false,
-    message: () => 'Always pass',
     log: () => 'Always pass',
   }),
   alwaysFail: createBlocker({
     id: 'alwaysFail',
     check: async () => ({ bad: true }),
-    message: () => 'Always fail',
-    log: () => '...',
+    log: () => 'Always fail',
   }),
   alwaysFail2: createBlocker({
     id: 'alwaysFail2',
     check: async () => ({ disaster: true }),
-    message: () => 'Always fail 2',
-    log: () => '...',
+    log: () => 'Always fail 2',
   }),
 } as const;
 
@@ -75,17 +72,16 @@ test('1 fail', async () => {
     Promise.resolve({ blocker: blockers.alwaysPass }),
     Promise.resolve({ blocker: blockers.alwaysFail }),
   ]);
-  expect(writeFile).toHaveBeenCalledWith(
-    expect.any(String),
-    expect.stringContaining('alwaysFail'),
-    expect.any(Object)
-  );
-  expect(result).toBe('alwaysFail');
-  expect(logger.plain).toHaveBeenCalledWith(expect.stringContaining('Oh no..'));
 
-  expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
-    "(alwaysFail):
-    ..."
+  expect(result).toBe('alwaysFail');
+  expect(stripAnsi(logger.plain.mock.calls[0][0])).toMatchInlineSnapshot(`
+    "Storybook has found potential blockers in your project that need to be resolved before upgrading:
+
+    Always fail
+
+    ─────────────────────────────────────────────────
+
+    Fix the above issues and try running the upgrade command again."
   `);
 });
 
@@ -95,14 +91,18 @@ test('multiple fails', async () => {
     Promise.resolve({ blocker: blockers.alwaysFail }),
     Promise.resolve({ blocker: blockers.alwaysFail2 }),
   ]);
-  expect(writeFile.mock.calls[0][1]).toMatchInlineSnapshot(`
-    "(alwaysFail):
-    ...
+  expect(stripAnsi(logger.plain.mock.calls[0][0])).toMatchInlineSnapshot(`
+    "Storybook has found potential blockers in your project that need to be resolved before upgrading:
 
-    ----
+    Always fail
 
-    (alwaysFail2):
-    ..."
+    ─────────────────────────────────────────────────
+
+    Always fail 2
+
+    ─────────────────────────────────────────────────
+
+    Fix the above issues and try running the upgrade command again."
   `);
 
   expect(result).toBe('alwaysFail');

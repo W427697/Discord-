@@ -2,7 +2,6 @@
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
-import globby from 'globby';
 import { sync as spawnSync } from 'cross-spawn';
 import { jscodeshiftToPrettierParser } from './lib/utils';
 
@@ -30,7 +29,16 @@ async function renameFile(file: any, from: any, to: any, { logger }: any) {
   return renameAsync(file, newFile);
 }
 
-export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, parser }: any) {
+export async function runCodemod(
+  codemod: any,
+  {
+    glob,
+    logger,
+    dryRun,
+    rename,
+    parser,
+  }: { glob: any; logger: any; dryRun?: any; rename?: any; parser?: any }
+) {
   const codemods = listCodemods();
   if (!codemods.includes(codemod)) {
     throw new Error(`Unknown codemod ${codemod}. Run --list for options.`);
@@ -53,6 +61,9 @@ export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, p
     const knownParser = jscodeshiftToPrettierParser(extension);
     if (knownParser !== 'babel') inferredParser = extension;
   }
+
+  // Dynamically import globby because it is a pure ESM module
+  const { globby } = await import('globby');
 
   const files = await globby([glob, '!**/node_modules', '!**/dist']);
   const extensions = new Set(files.map((file) => path.extname(file).slice(1)));
@@ -80,22 +91,22 @@ export async function runCodemod(codemod: any, { glob, logger, dryRun, rename, p
         '-t',
         `${TRANSFORM_DIR}/${codemod}.js`,
         ...parserArgs,
-        ...files,
+        ...files.map((file) => `"${file}"`),
       ],
       {
         stdio: 'inherit',
         shell: true,
       }
     );
-    if (result.status === 1) {
+
+    if (codemod === 'mdx-to-csf' && result.status === 1) {
+      logger.log(
+        'The codemod was not able to transform the files mentioned above. We have renamed the files to .mdx.broken. Please check the files and rename them back to .mdx after you have either manually transformed them to mdx + csf or fixed the issues so that the codemod can transform them.'
+      );
+    } else if (result.status === 1) {
       logger.log('Skipped renaming because of errors.');
       return;
     }
-  }
-
-  if (!renameParts && codemod === 'mdx-to-csf') {
-    renameParts = ['.stories.mdx', '.mdx'];
-    rename = '.stories.mdx:.mdx;';
   }
 
   if (renameParts) {

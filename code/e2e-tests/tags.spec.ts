@@ -3,14 +3,15 @@ import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 
-// FIXME - get rid of the flake
-test.describe.skip('tags', () => {
+test.describe('tags', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
 
-  test('should correctly filter dev-only, docs-only, test-only stories', async ({ page }) => {
+  test('@flaky: should correctly filter dev-only, docs-only, test-only stories', async ({
+    page,
+  }) => {
     const sbPage = new SbPage(page);
 
     await sbPage.navigateToStory('lib/preview-api/tags', 'docs');

@@ -118,7 +118,7 @@ If you're working with a custom environment set up or need set up Storybook manu
 | Solid          | `solid`          |
 | Svelte         | `svelte`         |
 | Vue 3          | `vue3`           |
-| Web Components | `web-components` |
+| Web Components | `web_components` |
 
 <!-- prettier-ignore-start -->
 
@@ -131,6 +131,10 @@ If you're working with a custom environment set up or need set up Storybook manu
 />
 
 <!-- prettier-ignore-end -->
+
+#### Yarn Plug'n'Play (PnP) support with Storybook
+
+If you've enabled Storybook in a project running on a new version of Yarn with [Plug'n'Play](https://yarnpkg.com/features/pnp) (PnP) enabled, you may notice that it will generate `node_modules` with some additional files and folders. This is a known constraint as Storybook relies on some directories (e.g., `.cache`) to store cache files and other data to improve performance and faster builds. You can safely ignore these files and folders, adjusting your `.gitignore` file to exclude them from the version control you're using.
 
 #### Run Storybook with Webpack 4
 
@@ -199,9 +203,9 @@ Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2
 
 <CodeSnippets
   paths={[
-    'common/init-command-specific-version.npx.js.mdx',
-    'common/init-command-specific-version.yarn.js.mdx',
-    'common/init-command-specific-version.pnpm.js.mdx',
+    'common/storybook-init-v7.npx.js.mdx',
+    'common/storybook-init-v7.yarn.js.mdx',
+    'common/storybook-init-v7.pnpm.js.mdx',
   ]}
 />
 

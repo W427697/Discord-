@@ -2,6 +2,8 @@
 title: Storybook for Next.js
 ---
 
+export const SUPPORTED_RENDERER = 'react';
+
 Storybook for Next.js is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Next.js](https://nextjs.org/) applications. It includes:
 
 - 🔀 Routing
@@ -11,10 +13,24 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
 - 🎛 Webpack & Babel config
 - 💫 and more!
 
+<If notRenderer={SUPPORTED_RENDERER}>
+
+<Callout variant="info">
+
+Storybook for Next.js is only supported in [React](?renderer=react) projects.
+
+</Callout>
+
+<!-- End non-supported renderers -->
+
+</If>
+
+<If renderer={SUPPORTED_RENDERER}>
+
 ## Requirements
 
-- Next.js >= 13.5
-- Storybook >= 7.x
+- Next.js ≥ 13.5
+- Storybook ≥ 7.0
 
 ## Getting started
 
@@ -38,7 +54,7 @@ Follow the prompts after running this command in your Next.js project's root dir
 
 ### In a project with Storybook
 
-This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+This framework is designed to work with Storybook 7+. If you’re not already using v7, upgrade with this command:
 
 <!-- prettier-ignore-start -->
 
@@ -97,6 +113,14 @@ Finally, if you were using Storybook plugins to integrate with Next.js, those ar
 />
 
 <!-- prettier-ignore-end -->
+
+## Run the Setup Wizard
+
+If all goes well, you should see a setup wizard that will help you get started with Storybook introducing you to the main concepts and features, including how the UI is organized, how to write your first story, and how to test your components' response to various inputs utilizing [controls](../essentials/controls).
+
+![Storybook onboarding](./example-onboarding-wizard.png)
+
+If you skipped the wizard, you can always run it again by adding the `?path=/onboarding` query parameter to the URL of your Storybook instance, provided that the example stories are still available.
 
 ## Next.js's Image component
 
@@ -841,6 +865,24 @@ You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 
 
 The `@storybook/nextjs` package abstracts the Webpack 5 builder and provides all the necessary Webpack configuration needed (and used internally) by Next.js. Webpack is currently the official builder in Next.js, and Next.js does not support Vite, therefore it is not possible to use Vite with `@storybook/nextjs`. You can use `@storybook/react-vite` framework instead, but at the cost of having a degraded experience, and we won't be able to provide you official support.
 
+### Error: You are importing avif images, but you don't have sharp installed. You have to install sharp in order to use image optimization features in Next.js.
+
+`sharp` is a dependency of Next.js's image optimization feature. If you see this error, you need to install `sharp` in your project.
+
+```bash
+npm install sharp
+```
+
+```bash
+yarn add sharp
+```
+
+```bash
+pnpm add sharp
+```
+
+You can refer to the [Install `sharp` to Use Built-In Image Optimization](https://nextjs.org/docs/messages/install-sharp) in the Next.js documentation for more information.
+
 ## API
 
 ### Parameters
@@ -920,7 +962,7 @@ The available options are:
 
 Type: `Record<string, any>`
 
-Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, that builder is Webpack 5.
+Configure options for the [framework's builder](../api/main-config-framework.md#optionsbuilder). For Next.js, available options can be found in the [Webpack builder docs](../builders/webpack.md).
 
 #### `image`
 
@@ -933,3 +975,7 @@ Props to pass to every instance of `next/image`. See [next/image docs](https://n
 Type: `string`
 
 The absolute path to the `next.config.js` file. This is necessary if you have a custom `next.config.js` file that is not in the root directory of your project.
+
+<!-- End supported renderers -->
+
+</If>

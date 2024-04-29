@@ -5,13 +5,14 @@ import {
 } from '@storybook/preview-api';
 import type {
   Args,
-  ProjectAnnotations,
+  NamedOrDefaultProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
+  ProjectAnnotations,
 } from '@storybook/types';
 
-import { render } from './render';
+import * as reactProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { ReactRenderer } from './types';
 
@@ -28,22 +29,23 @@ import type { ReactRenderer } from './types';
  * setProjectAnnotations(projectAnnotations);
  *```
  *
- * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
+ * @param projectAnnotations - e.g. (import * as projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<ReactRenderer>
+    | NamedOrDefaultProjectAnnotations<ReactRenderer>[]
 ) {
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
-  render,
-};
+export const INTERNAL_DEFAULT_PROJECT_ANNOTATIONS: ProjectAnnotations<ReactRenderer> =
+  reactProjectAnnotations;
 
 /**
  * Function that will receive a story along with meta (e.g. a default export from a .stories file)
- * and optionally projectAnnotations e.g. (import * from '../.storybook/preview)
+ * and optionally projectAnnotations e.g. (import * as projectAnnotations from '../.storybook/preview)
  * and will return a composed component that has all args/parameters/decorators/etc combined and applied to it.
  *
  *
@@ -78,14 +80,14 @@ export function composeStory<TArgs extends Args = Args>(
     story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
-    defaultProjectAnnotations,
+    INTERNAL_DEFAULT_PROJECT_ANNOTATIONS,
     exportsName
   );
 }
 
 /**
  * Function that will receive a stories import (e.g. `import * as stories from './Button.stories'`)
- * and optionally projectAnnotations (e.g. `import * from '../.storybook/preview`)
+ * and optionally projectAnnotations (e.g. `import * as projectAnnotations from '../.storybook/preview`)
  * and will return an object containing all the stories passed, but now as a composed component that has all args/parameters/decorators/etc combined and applied to it.
  *
  *
