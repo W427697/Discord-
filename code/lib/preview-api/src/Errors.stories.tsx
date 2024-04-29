@@ -19,7 +19,12 @@ const Component = ({ id, header, detail }: any) => {
     document.getElementById('error-stack')!.innerHTML = ansiConverter.toHtml(detail);
   }
 
-  const content = element.outerHTML;
+  // remove the ids, otherwise chromatic will assume the story failed to render
+  const content = element.outerHTML.replace('error-message', '').replace('error-stack', '');
+
+  // remove the content, otherwise chromatic will assume the story failed to render
+  document.getElementById('error-message')!.innerHTML = '';
+  document.getElementById('error-stack')!.innerHTML = '';
 
   return (
     <div
