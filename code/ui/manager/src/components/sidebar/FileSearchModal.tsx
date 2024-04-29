@@ -139,6 +139,9 @@ export const FileSearchModal = ({
   const [modalContentRef, modalContentDimensions] = useMeasure<HTMLDivElement>();
   const [modalMaxHeight, setModalMaxHeight] = useState<number>(modalContentDimensions.height);
   const [, startTransition] = useTransition();
+  // This internal state is used to maintain cursor position when the user types in the search input
+  // See: https://github.com/facebook/react/issues/5386#issuecomment-334001976
+  const [searchInputValue, setSearchInputValue] = useState<string>(fileSearchQuery);
 
   useEffect(() => {
     if (modalMaxHeight < modalContentDimensions.height) {
@@ -175,10 +178,12 @@ export const FileSearchModal = ({
               type="search"
               required
               autoFocus
-              value={fileSearchQuery}
+              value={searchInputValue}
               onChange={(e) => {
+                const newValue = (e.target as HTMLInputElement).value;
+                setSearchInputValue(newValue);
                 startTransition(() => {
-                  setFileSearchQuery((e.target as HTMLInputElement).value);
+                  setFileSearchQuery(newValue);
                 });
               }}
             />
