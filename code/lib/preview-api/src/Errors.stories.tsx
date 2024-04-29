@@ -8,7 +8,7 @@ const ansiConverter = new AnsiToHtml({
 const Component = ({ id, header, detail }: any) => {
   const element = document.querySelector('.' + id);
   if (!element) {
-    return <div>Element not found</div>;
+    throw new Error('Element not found');
   }
 
   if (header) {
@@ -33,6 +33,7 @@ export default {
   component: Component,
   parameters: {
     layout: 'fullscreen',
+    theme: 'light',
   },
   title: 'Errors',
   args: {
