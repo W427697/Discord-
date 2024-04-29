@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
 import { styled } from '@storybook/theming';
 import { FileSearchListLoadingSkeleton } from './FileSearchListSkeleton';
@@ -29,6 +29,7 @@ import type {
   ResponseData,
 } from '@storybook/core-events';
 import { WithTooltip, TooltipNote } from '@storybook/components';
+import { useArrowKeyNavigation } from './FIleSearchList.utils';
 
 export type SearchResult = ResponseData<FileComponentSearchResponsePayload>['payload']['files'][0];
 
@@ -80,7 +81,7 @@ export const FileSearchList = memo(function FileSearchList({
   errorItemId,
 }: FileSearchListProps) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
-  const parentRef = React.useRef();
+  const parentRef = React.useRef<HTMLDivElement>();
 
   const sortedSearchResults = useMemo(() => {
     // search results with no exports should be at the end of the list
@@ -107,8 +108,10 @@ export const FileSearchList = memo(function FileSearchList({
     });
   }, [searchResults]);
 
+  const count = searchResults?.length || 0;
+
   const rowVirtualizer = useVirtualizer({
-    count: searchResults?.length || 0,
+    count,
     getScrollElement: () => parentRef.current,
     paddingStart: 16,
     paddingEnd: 40,
@@ -116,13 +119,7 @@ export const FileSearchList = memo(function FileSearchList({
     overscan: 2,
   });
 
-  useLayoutEffect(() => {
-    if (selectedItem !== null) {
-      rowVirtualizer.scrollToIndex(selectedItem, {
-        align: 'start',
-      });
-    }
-  }, [rowVirtualizer, selectedItem]);
+  useArrowKeyNavigation({ rowVirtualizer, parentRef, selectedItem });
 
   const handleFileItemSelection = useCallback(
     ({ virtualItem, searchResult, itemId }: FileItemSelectionPayload) => {
@@ -172,6 +169,7 @@ export const FileSearchList = memo(function FileSearchList({
           id={`file-list-item-wrapper-${virtualItem.index}`}
         >
           <FileListItemContentWrapper
+            className="file-list-item"
             selected={itemSelected}
             error={itemError}
             disabled={
@@ -207,9 +205,17 @@ export const FileSearchList = memo(function FileSearchList({
             >
               {searchResult.exportedComponents?.map((component, itemExportId) => {
                 const itemExportError = errorItemId === `${searchResult.filepath}_${itemExportId}`;
+                const position =
+                  itemExportId === 0
+                    ? 'first'
+                    : itemExportId === searchResult.exportedComponents.length - 1
+                      ? 'last'
+                      : 'middle';
+
                 return (
                   <FileListItemExport
                     tabIndex={0}
+                    data-index-position={`${virtualItem.index}_${position}`}
                     key={component.name}
                     error={itemExportError}
                     onClick={() => {
@@ -263,8 +269,7 @@ export const FileSearchList = memo(function FileSearchList({
       <NoResults>
         <p>We could not find any file with that name</p>
         <NoResultsDescription>
-          You may want to try using different keywords, checking for typos or adjusting your
-          filters.
+          You may want to try using different keywords, check for typos, and adjust your filters
         </NoResultsDescription>
       </NoResults>
     );

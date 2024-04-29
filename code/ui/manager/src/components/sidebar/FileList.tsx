@@ -31,7 +31,7 @@ export const FileListLi = styled('li')(({ theme }) => ({
   ':focus-visible': {
     outline: 'none',
 
-    '> div': {
+    '.file-list-item': {
       borderRadius: '4px',
       background: theme.base === 'dark' ? 'rgba(255,255,255,.1)' : theme.color.mediumlight,
 
