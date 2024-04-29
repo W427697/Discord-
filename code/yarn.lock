@@ -5175,7 +5175,6 @@ __metadata:
     lodash: "npm:^4.17.21"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    telejson: "npm:^7.2.0"
     ts-dedent: "npm:^2.0.0"
   languageName: unknown
   linkType: soft

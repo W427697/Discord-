@@ -1,4 +1,3 @@
-import { stringify } from 'telejson';
 import React from 'react';
 import { dequal as deepEqual } from 'dequal';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
@@ -32,11 +31,9 @@ function Title() {
 }
 
 const stringifyArgs = (args: Record<string, any>) =>
-  stringify(args, {
-    allowDate: true,
-    allowFunction: true,
-    allowUndefined: true,
-    allowSymbol: true,
+  JSON.stringify(args, (_, value) => {
+    if (typeof value === 'function') return '__sb_empty_function_arg__';
+    return value;
   });
 
 addons.register(ADDON_ID, (api) => {

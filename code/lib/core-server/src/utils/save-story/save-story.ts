@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'node:fs/promises';
-import { parse } from 'telejson';
 import type { Channel } from '@storybook/channels';
 import type {
   RequestData,
@@ -21,11 +20,11 @@ import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
 import { formatFileContent } from '@storybook/core-common';
 
 const parseArgs = (args: string): Record<string, any> =>
-  parse(args, {
-    allowDate: true,
-    allowFunction: true,
-    allowUndefined: true,
-    allowSymbol: true,
+  JSON.parse(args, (_, value) => {
+    if (value === '__sb_empty_function_arg__') {
+      return () => {};
+    }
+    return value;
   });
 
 // Removes extra newlines between story properties. See https://github.com/benjamn/recast/issues/242
