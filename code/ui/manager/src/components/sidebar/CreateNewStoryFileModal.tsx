@@ -1,6 +1,5 @@
 import React, { useCallback, useDeferredValue, useEffect, useRef, useState } from 'react';
 import { AlertIcon, CheckIcon } from '@storybook/icons';
-import { stringify } from 'telejson';
 import type {
   ArgTypesRequestPayload,
   ArgTypesResponsePayload,
@@ -36,11 +35,9 @@ interface CreateNewStoryFileModalProps {
 }
 
 const stringifyArgs = (args: Record<string, any>) =>
-  stringify(args, {
-    allowDate: true,
-    allowFunction: true,
-    allowUndefined: true,
-    allowSymbol: true,
+  JSON.stringify(args, (_, value) => {
+    if (typeof value === 'function') return '__sb_empty_function_arg__';
+    return value;
   });
 
 export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFileModalProps) => {
@@ -184,12 +181,7 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
         setError({ selectedItemId: selectedItemId, error: e?.message });
       }
     },
-    [
-      api?.selectStory,
-      handleSuccessfullyCreatedStory,
-      handleFileSearch,
-      handleErrorWhenCreatingStory,
-    ]
+    [api?.selectStory, handleSuccessfullyCreatedStory, handleFileSearch]
   );
 
   useEffect(() => {
