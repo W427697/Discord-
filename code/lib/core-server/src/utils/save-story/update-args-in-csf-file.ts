@@ -10,6 +10,11 @@ export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, an
     })
   );
 
+  // detect CSF2 and throw
+  if (t.isArrowFunctionExpression(node) || t.isCallExpression(node)) {
+    throw new Error(`CSF2 is not supported`);
+  }
+
   if (t.isObjectExpression(node)) {
     const properties = node.properties;
     const argsProperty = properties.find((property) => {

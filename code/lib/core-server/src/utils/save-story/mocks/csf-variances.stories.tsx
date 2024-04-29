@@ -71,6 +71,3 @@ export const HasPlayFunction = {
     canvasElement.style.backgroundColor = 'red';
   },
 } satisfies Story;
-
-// editing this should fail
-export const CSF2 = () => <MyComponent absolute bordered initial="test2" />;

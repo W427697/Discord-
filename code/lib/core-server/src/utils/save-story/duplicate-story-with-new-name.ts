@@ -35,6 +35,11 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
     noScope: true,
   });
 
+  // detect CSF2 and throw
+  if (t.isArrowFunctionExpression(cloned.init) || t.isCallExpression(cloned.init)) {
+    throw new Error(`CSF2 is not supported`);
+  }
+
   traverse.default(csfFile._ast, {
     Program(path) {
       path.pushContainer(

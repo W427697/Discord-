@@ -12,6 +12,7 @@ const makeTitle = (userTitle: string) => userTitle;
 
 const FILES = {
   csfVariances: join(__dirname, 'mocks/csf-variances.stories.tsx'),
+  unsupportedCsfVariances: join(__dirname, 'mocks/unsupported-csf-variances.stories.tsx'),
   typescriptConstructs: join(__dirname, 'mocks/typescript-constructs.stories.tsx'),
 };
 
@@ -39,9 +40,9 @@ describe('success', () => {
     // check if the code was updated correctly
     expect(getDiff(before, after)).toMatchInlineSnapshot(`
       "  ...
-        
-        // editing this should fail
-        export const CSF2 = () => <MyComponent absolute bordered initial="test2" />;
+            canvasElement.style.backgroundColor = "red";
+          },
+        } satisfies Story;
         
       + export const EmptyDuplicated = {} satisfies Story;
       + export const EmptyWithCommentDuplicated = {} satisfies Story;
@@ -70,12 +71,18 @@ describe('success', () => {
       +     canvasElement.style.backgroundColor = "red";
       +   },
       + } satisfies Story;
-      + 
-      + export const CSF2Duplicated = () => (
-      +   <MyComponent absolute bordered initial="test2" />
-      + );
       + "
     `);
+  });
+  test('Unsupported CSF Variances', async () => {
+    const CSF = await readCsf(FILES.unsupportedCsfVariances, { makeTitle });
+
+    const parsed = CSF.parse();
+    const names = Object.keys(parsed._stories);
+
+    names.forEach((name) => {
+      expect(() => duplicateStoryWithNewName(parsed, name, name + 'Duplicated')).toThrow();
+    });
   });
   test('Typescript Constructs', async () => {
     const before = await format(await readFile(FILES.typescriptConstructs, 'utf-8'), {

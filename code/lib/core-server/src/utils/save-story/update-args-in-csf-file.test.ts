@@ -13,6 +13,7 @@ const makeTitle = (userTitle: string) => userTitle;
 const FILES = {
   typescriptConstructs: join(__dirname, 'mocks/typescript-constructs.stories.tsx'),
   csfVariances: join(__dirname, 'mocks/csf-variances.stories.tsx'),
+  unsupportedCsfVariances: join(__dirname, 'mocks/unsupported-csf-variances.stories.tsx'),
   exportVariances: join(__dirname, 'mocks/export-variances.stories.tsx'),
   dataVariances: join(__dirname, 'mocks/data-variances.stories.tsx'),
 };
@@ -90,6 +91,18 @@ describe('success', () => {
         };
         "
     `);
+  });
+  test('Unsupported CSF Variances', async () => {
+    const newArgs = { bordered: true, initial: 'test1' };
+
+    const CSF = await readCsf(FILES.unsupportedCsfVariances, { makeTitle });
+    const parsed = CSF.parse();
+    const names = Object.keys(parsed._stories);
+    const nodes = names.map((name) => CSF.getStoryExport(name));
+
+    nodes.forEach((node) => {
+      expect(() => updateArgsInCsfFile(node, newArgs)).rejects.toThrowError();
+    });
   });
   test('CSF Variances', async () => {
     const newArgs = { bordered: true, initial: 'test1' };
