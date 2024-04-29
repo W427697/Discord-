@@ -6,51 +6,45 @@ describe('FileSearchModal.utils', () => {
   describe('extractSeededRequiredArgs', () => {
     it('should extract seeded required args', () => {
       const argTypes = {
-        stringRequired: {
+        string: {
           type: { name: 'string', required: true },
         },
-        string: {
+        stringOptional: {
           type: { name: 'string', required: false },
         },
-        numberRequired: {
+        number: {
           type: { name: 'number', required: true },
         },
-        number: {
-          type: { name: 'number', required: false },
-        },
-        booleanRequired: {
+        boolean: {
           type: { name: 'boolean', required: true },
         },
-        boolean: {
-          type: { name: 'boolean', required: false },
-        },
-        functionRequired: {
+        function: {
           type: { name: 'function', required: true },
         },
-        function: {
-          type: { name: 'function', required: false },
+        object: {
+          type: {
+            name: 'object',
+            required: true,
+            value: {
+              a: { name: 'string', required: true },
+              b: { name: 'number' },
+            },
+          },
         },
-        unionRequired: {
+        union: {
           type: {
             name: 'union',
             required: true,
-            value: [],
+            value: [{ name: 'string', required: true }, { name: 'number' }],
           },
-          options: ['a', 'b', 'c'],
         },
-        union: {
-          type: { name: 'union', required: false, value: [] },
-        },
-        enumRequired: {
+        enum: {
           type: {
             name: 'enum',
             required: true,
             value: [],
           },
           options: ['a', 'b', 'c'],
-        },
-        enum: {
-          type: { name: 'union', required: false, value: [] },
         },
         otherObject: {
           type: { name: 'other', required: true, value: '' },
@@ -84,13 +78,34 @@ describe('FileSearchModal.utils', () => {
           type: { name: 'other', required: true, value: '' },
           control: { type: 'color' },
         },
+        intersection: {
+          type: {
+            name: 'intersection',
+            required: true,
+            value: [
+              {
+                name: 'object',
+                value: {
+                  a: { name: 'string', required: true },
+                  b: { name: 'number' },
+                },
+              },
+            ],
+          },
+        },
+        tuple: {
+          type: {
+            name: 'other',
+            required: true,
+            value: 'tuple',
+          },
+        },
       } as ArgTypes;
 
       expect(extractSeededRequiredArgs(argTypes)).toEqual({
-        booleanRequired: true,
-        enumRequired: 'a',
-        functionRequired: expect.any(Function),
-        numberRequired: 0,
+        boolean: true,
+        function: expect.any(Function),
+        number: 0,
         otherCheck: 'j',
         otherColor: '#000000',
         otherInlineCheck: 'g',
@@ -99,8 +114,11 @@ describe('FileSearchModal.utils', () => {
         otherObject: {},
         otherRadio: 'd',
         otherSelect: 'm',
-        stringRequired: 'stringRequired',
-        unionRequired: 'a',
+        string: 'string',
+        object: { a: 'a' },
+        union: 'union',
+        intersection: { a: 'a' },
+        tuple: [],
       });
     });
   });
