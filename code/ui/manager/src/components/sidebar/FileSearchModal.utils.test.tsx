@@ -52,15 +52,55 @@ describe('FileSearchModal.utils', () => {
         enum: {
           type: { name: 'union', required: false, value: [] },
         },
+        otherObject: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'object' },
+        },
+        otherInlineRadio: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'inline-radio', options: ['a', 'b', 'c'] },
+        },
+        otherRadio: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'radio', options: ['d', 'e', 'f'] },
+        },
+        otherInlineCheck: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'inline-check', options: ['g', 'h', 'i'] },
+        },
+        otherCheck: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'check', options: ['j', 'k', 'l'] },
+        },
+        otherSelect: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'select', options: ['m', 'n', 'o'] },
+        },
+        otherMultiSelect: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'multi-select', options: ['p', 'q', 'r'] },
+        },
+        otherColor: {
+          type: { name: 'other', required: true, value: '' },
+          control: { type: 'color' },
+        },
       } as ArgTypes;
 
       expect(extractSeededRequiredArgs(argTypes)).toEqual({
-        stringRequired: 'stringRequired',
-        numberRequired: 0,
         booleanRequired: true,
-        functionRequired: expect.any(Function),
-        unionRequired: 'a',
         enumRequired: 'a',
+        functionRequired: expect.any(Function),
+        numberRequired: 0,
+        otherCheck: 'j',
+        otherColor: '#000000',
+        otherInlineCheck: 'g',
+        otherInlineRadio: 'a',
+        otherMultiSelect: 'p',
+        otherObject: {},
+        otherRadio: 'd',
+        otherSelect: 'm',
+        stringRequired: 'stringRequired',
+        unionRequired: 'a',
       });
     });
   });

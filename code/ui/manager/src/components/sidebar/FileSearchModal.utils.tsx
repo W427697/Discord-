@@ -29,6 +29,26 @@ export function extractSeededRequiredArgs(argTypes: ArgTypes) {
             acc[key] = () => {};
             break;
           default:
+            if (typeof argType.control === 'object' && 'type' in argType.control) {
+              switch (argType.control.type) {
+                case 'object':
+                  acc[key] = {};
+                  break;
+                case 'inline-radio':
+                case 'radio':
+                case 'inline-check':
+                case 'check':
+                case 'select':
+                case 'multi-select':
+                  acc[key] = argType.control.options?.[0];
+                  break;
+                case 'color':
+                  acc[key] = '#000000';
+                  break;
+                default:
+                  break;
+              }
+            }
             break;
         }
       }
