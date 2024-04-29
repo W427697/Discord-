@@ -53,6 +53,7 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
 
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
 
+  // @ts-expect-error (not used yet)
   const handleErrorWhenCreatingStory = useCallback(() => {
     api.addNotification({
       id: 'create-new-story-file-error',
