@@ -18,6 +18,7 @@ import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
 import { formatFileContent } from '@storybook/core-common';
+import { SaveStoryError } from './utils';
 
 const parseArgs = (args: string): Record<string, any> =>
   JSON.parse(args, (_, value) => {
@@ -43,8 +44,6 @@ const removeExtraNewlines = (code: string, name: string) => {
     ? before + story.replaceAll(/(\r\n|\r|\n)(\r\n|\r|\n)([ \t]*[a-z0-9_]+): /gi, '$2$3:') + after
     : code;
 };
-
-class SaveStoryError extends Error {}
 
 export function initializeSaveStory(channel: Channel, options: Options, coreConfig: CoreConfig) {
   channel.on(SAVE_STORY_REQUEST, async ({ id, payload }: RequestData<SaveStoryRequestPayload>) => {

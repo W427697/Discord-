@@ -2,6 +2,7 @@
 import type { CsfFile } from '@storybook/csf-tools';
 import * as traverse from '@babel/traverse';
 import * as t from '@babel/types';
+import { SaveStoryError } from './utils';
 
 type In = ReturnType<CsfFile['parse']>;
 
@@ -10,7 +11,7 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
   const cloned = t.cloneNode(node) as t.VariableDeclarator;
 
   if (!cloned) {
-    throw new Error(`cannot clone Node`);
+    throw new SaveStoryError(`cannot clone Node`);
   }
 
   let found = false;
@@ -37,7 +38,7 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
 
   // detect CSF2 and throw
   if (t.isArrowFunctionExpression(cloned.init) || t.isCallExpression(cloned.init)) {
-    throw new Error(`CSF2 is not supported`);
+    throw new SaveStoryError(`Creating a new story based on a CSF2 story is not supported`);
   }
 
   traverse.default(csfFile._ast, {

@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import * as traverse from '@babel/traverse';
 import { valueToAST } from './valueToAST';
+import { SaveStoryError } from './utils';
 
 export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, any>) => {
   let found = false;
@@ -12,7 +13,7 @@ export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, an
 
   // detect CSF2 and throw
   if (t.isArrowFunctionExpression(node) || t.isCallExpression(node)) {
-    throw new Error(`CSF2 is not supported`);
+    throw new SaveStoryError(`Updating a CSF2 story is not supported`);
   }
 
   if (t.isObjectExpression(node)) {
