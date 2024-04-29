@@ -1,4 +1,4 @@
-import { InlineConfig as ViteInlineConfig } from 'vite';
+import type { InlineConfig as ViteInlineConfig } from 'vite';
 
 export function getAssetsInclude(config: ViteInlineConfig, newPath: string[]): (string | RegExp)[] {
   const { assetsInclude } = config;
