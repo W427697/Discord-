@@ -43,6 +43,11 @@ const Bar = styled(BaseBar)(({ theme }) => ({
   background: theme.background.bar,
   borderTop: `1px solid ${theme.appBorderColor}`,
   fontSize: theme.typography.size.s2,
+
+  '@container (max-width: 799px)': {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 }));
 
 const Info = styled.div({
