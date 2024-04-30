@@ -85,15 +85,19 @@ export const FileSearchList = memo(function FileSearchList({
   const sortedSearchResults = useMemo(() => {
     // search results with no exports should be at the end of the list
     return [...(searchResults ?? [])]?.sort((a, b) => {
-      const isALowPriority =
-        a.exportedComponents === null ||
-        a.exportedComponents?.length === 0 ||
-        (a.storyFileExists && a.exportedComponents?.length < 2);
+      const isALowPriority = a.exportedComponents === null || a.exportedComponents?.length === 0;
+      const hasAStory = a.storyFileExists;
 
-      const isBLowPriority =
-        b.exportedComponents === null ||
-        b.exportedComponents?.length === 0 ||
-        (b.storyFileExists && b.exportedComponents?.length < 2);
+      const isBLowPriority = b.exportedComponents === null || b.exportedComponents?.length === 0;
+      const hasBStory = b.storyFileExists;
+
+      if (hasAStory && !hasBStory) {
+        return -1;
+      }
+
+      if (hasBStory && !hasAStory) {
+        return 1;
+      }
 
       if (isALowPriority && !isBLowPriority) {
         return 1;
