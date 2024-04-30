@@ -37,7 +37,7 @@ export function initCreateNewStoryChannel(
 
         const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
 
-        const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
+        const { storyId, kind } = await getStoryId({ storyFilePath, exportedStoryName }, options);
 
         if (existsSync(storyFilePath)) {
           channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
@@ -45,7 +45,7 @@ export function initCreateNewStoryChannel(
             id: data.id,
             payload: {
               type: 'STORY_FILE_EXISTS',
-              storyId: storyId,
+              kind,
             },
             error: `A story file already exists at ${relativeStoryFilePath}`,
           } satisfies ResponseData<CreateNewStoryResponsePayload, CreateNewStoryErrorPayload>);

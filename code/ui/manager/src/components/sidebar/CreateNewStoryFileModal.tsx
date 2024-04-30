@@ -23,12 +23,8 @@ import {
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
 } from '@storybook/core-events';
-import {
-  RequestResponseError,
-  addons,
-  experimental_requestResponse,
-  useStorybookApi,
-} from '@storybook/manager-api';
+import type { RequestResponseError } from '@storybook/manager-api';
+import { addons, experimental_requestResponse, useStorybookApi } from '@storybook/manager-api';
 
 import { useDebounce } from '../../hooks/useDebounce';
 import type { NewStoryPayload, SearchResult } from './FileSearchList';
@@ -76,22 +72,19 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
     [api, onOpenChange]
   );
 
-  const handleStoryAlreadyExists = useCallback(
-    (storyId: string) => {
-      api.addNotification({
-        id: 'create-new-story-file-error',
-        content: {
-          headline: 'Story already exists',
-          subHeadline: `Successfully navigated to existing story`,
-        },
-        duration: 8_000,
-        icon: <CheckIcon />,
-      });
+  const handleStoryAlreadyExists = useCallback(() => {
+    api.addNotification({
+      id: 'create-new-story-file-error',
+      content: {
+        headline: 'Story already exists',
+        subHeadline: `Successfully navigated to existing story`,
+      },
+      duration: 8_000,
+      icon: <CheckIcon />,
+    });
 
-      onOpenChange(false);
-    },
-    [api, onOpenChange]
-  );
+    onOpenChange(false);
+  }, [api, onOpenChange]);
 
   const handleFileSearch = useCallback(() => {
     setLoading(true);
@@ -185,17 +178,17 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
 
         handleSuccessfullyCreatedStory(componentExportName);
         handleFileSearch();
-      } catch (e: unknown) {
-        if (e instanceof RequestResponseError) {
-          const err = e as RequestResponseError<CreateNewStoryErrorPayload>;
-          if (err.payload.type === 'STORY_FILE_EXISTS') {
-            await trySelectNewStory(api.selectStory, err.payload.storyId);
-            handleStoryAlreadyExists(err.payload.storyId);
-            return;
-          }
+      } catch (e: any) {
+        switch (e?.payload?.type as CreateNewStoryErrorPayload['type']) {
+          case 'STORY_FILE_EXISTS':
+            const err = e as RequestResponseError<CreateNewStoryErrorPayload>;
+            await trySelectNewStory(api.selectStory, err.payload.kind);
+            handleStoryAlreadyExists();
+            break;
+          default:
+            setError({ selectedItemId: selectedItemId, error: (e as any)?.message });
+            break;
         }
-
-        setError({ selectedItemId: selectedItemId, error: (e as any)?.message });
       }
     },
     [api?.selectStory, handleSuccessfullyCreatedStory, handleFileSearch, handleStoryAlreadyExists]

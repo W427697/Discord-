@@ -20,5 +20,5 @@ export interface CreateNewStoryResponsePayload {
 
 export type CreateNewStoryErrorPayload = {
   type: 'STORY_FILE_EXISTS';
-  storyId: string;
+  kind: string;
 };

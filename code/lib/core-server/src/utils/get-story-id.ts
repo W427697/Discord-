@@ -2,7 +2,7 @@ import type { Options } from '@storybook/types';
 import dedent from 'ts-dedent';
 import { normalizeStories, normalizeStoryPath } from '@storybook/core-common';
 import path from 'path';
-import { storyNameFromExport, toId } from '@storybook/csf';
+import { sanitize, storyNameFromExport, toId } from '@storybook/csf';
 import { userOrAutoTitleFromSpecifier } from '@storybook/preview-api';
 import { posix } from './posix';
 
@@ -36,7 +36,9 @@ export async function getStoryId(data: StoryIdData, options: Options) {
   }
 
   const storyName = storyNameFromExport(data.exportedStoryName);
-  const storyId = toId(autoTitle as string, storyName);
 
-  return storyId;
+  const storyId = toId(autoTitle as string, storyName);
+  const kind = sanitize(autoTitle);
+
+  return { storyId, kind };
 }
