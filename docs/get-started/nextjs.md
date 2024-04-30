@@ -688,7 +688,7 @@ To configure subpath imports, you define the `imports` property in your project'
 
 <Callout variant="info">
 
-Because subpath imports take the place of module aliases, you can remove the path aliases from your TypeScript configuration.
+Because subpath imports replace module aliases, you can remove the path aliases from your TypeScript configuration.
 
 </Callout>
 
@@ -726,7 +726,7 @@ This framework provides mocks for many of Next.js' internal modules:
 
 How you mock other modules in Storybook depends on how you import the module into your component.
 
-The first step, with either approach, is to [create a mock file](../writing-stories/mocking-modules.md#mock-files). Here's an example of a mock file for a module named `session`:
+With either approach, the first step is to [create a mock file](../writing-stories/mocking-modules.md#mock-files). Here's an example of a mock file for a module named `session`:
 
 <!-- TODO: Snippetize -->
 
@@ -1024,13 +1024,13 @@ You can refer to the [Install `sharp` to Use Built-In Image Optimization](https:
 
 ### Modules
 
-The `@storybook/nextjs` package exports a number of modules that enables you to [mock](#mocking-modules) Next.js's internal behavior.
+The `@storybook/nextjs` package exports several modules that enable you to [mock](#mocking-modules) Next.js's internal behavior.
 
 #### `@storybook/nextjs/export-mocks`
 
 Type: `{ getPackageAliases: ({ useESM?: boolean }) => void }`
 
-`getPackageAliases` is a helper to generate the aliases needed to set up [portable stories](#portable-stories).
+`getPackageAliases` is a helper for generating the aliases needed to set up [portable stories](#portable-stories).
 
 ```ts
 // jest.config.ts

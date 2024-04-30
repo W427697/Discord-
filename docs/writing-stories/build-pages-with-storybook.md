@@ -81,7 +81,7 @@ Components can receive data or configuration from context providers. For example
 
 ### [Mocking API Services](./mocking-network-requests.md)
 
-For components that make network requests (e.g. fetching data from a REST or GraphQL API), you can mock those requests in your stories.
+For components that make network requests (e.g., fetching data from a REST or GraphQL API), you can mock those requests in your stories.
 
 ### [Mocking imports](./mocking-modules.md)
 

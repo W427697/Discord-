@@ -33,7 +33,7 @@ export const getUserFromSession = fn(actual.getUserFromSession);
 
 ### Mock files for external modules
 
-You can't directly mock an external module like `uuid` or `node:fs`. Instead, you must wrap the module in you own module, which you can then mock like any other internal module. In this example, we wrap `uuid`:
+You can't directly mock an external module like [`uuid`](https://github.com/uuidjs/uuid) or `node:fs`. Instead, you must wrap it in your own module, which you can mock like any other internal one. For example, with `uuid`, you could do the following:
 
 ```ts
 // lib/uuid.ts
@@ -190,7 +190,7 @@ export const Default: Story = {
 
 <Callout variant="info">
 
-If you are [writing your stories in TypeScript](./typescript.md), you will need to import your mock modules using the full mocked file name to have the mocked function correctly typed in your stories. You do **not** need do this in your component files, that's what the [subpath import](#subpath-imports) or [builder alias](#builder-aliases) is for.
+If you are [writing your stories in TypeScript](./typescript.md), you must import your mock modules using the full mocked file name to have the functions correctly typed in your stories. You do **not** need to do this in your component files. That's what the [subpath import](#subpath-imports) or [builder alias](#builder-aliases) is for.
 
 </Callout>
 
