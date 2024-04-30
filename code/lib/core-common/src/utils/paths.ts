@@ -32,16 +32,18 @@ export const getProjectRoot = () => {
   } catch (e) {
     //
   }
+
+  try {
+    result = result || __dirname.split('node_modules')[0];
+  } catch (e) {
+    //
+  }
+
   try {
     const found = findUp.sync('.yarn', { type: 'directory' });
     if (found) {
       result = result || path.join(found, '..');
     }
-  } catch (e) {
-    //
-  }
-  try {
-    result = result || __dirname.split('node_modules')[0];
   } catch (e) {
     //
   }
