@@ -25,29 +25,8 @@ export function removecomments(directoryPath: string) {
                 return;
               }
 
-              const newData = data
-                .replace(/\n<!-- prettier-ignore-start -->\n/g, '')
-                .replace(/\n<!-- prettier-ignore-end -->\n/g, '')
-                .replace(/\n<!-- Re-read this for accuracy -->\n/g, '')
-                .replace(/\n<!-- TODO: Is this used\? Should it be documented\? -->\n/g, '')
-                .replace(/<!--\n  We intentionally do not use markdown tables here[\s\S]*?-->/g, '')
-                .replace(/\n<!-- Not Angular -->\n/g, '')
-                .replace(/\n<!-- Angular only -->\n/g, '')
-                .replace(
-                  /\n<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->\n/g,
-                  ''
-                )
-                .replace(/\n<!-- TODO: Update this notice -->\n/g, '')
-                .replace(/\n<!--This redirects to the \*\*Canvas\*\* tab of the story: -->\n/g, '')
-                .replace(/\n<!-- TODO: Update this notice -->\n/g, '')
-                .replace(
-                  /\n<!--You can also use anchors to target a specific section of a page: -->\n/g,
-                  ''
-                )
-                .replace(/\n<!-- End non-supported renderers -->\n/g, '')
-                .replace(/\n<!-- End supported renderers -->\n/g, '')
-                .replace(/\n<!-- End if react -->\n/g, '')
-                .replace(/\n<!-- Needs better heading -->\n/g, '');
+              // This will convert all comments to MDX comments
+              const newData = data.replace(/<!--(.*?)-->/gs, '{/*$1*/}');
 
               fs.writeFile(filePath, newData, 'utf8', (err3) => {
                 if (err3) throw err3;
