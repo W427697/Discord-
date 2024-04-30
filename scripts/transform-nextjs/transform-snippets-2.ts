@@ -47,10 +47,7 @@ export const transformPaths = async (docsDir) => {
       .use(remarkMdx)
       .use(function () {
         return function (tree) {
-          console.dir(tree, { depth: null });
-
           visit(tree, 'mdxJsxFlowElement', (node) => {
-            console.log(node.type, node.name);
             if (node.name === 'CodeSnippets') {
               const oldPaths = node.attributes.find((attr) => attr.name === 'paths');
               if (oldPaths && oldPaths.value && typeof oldPaths.value === 'object') {
