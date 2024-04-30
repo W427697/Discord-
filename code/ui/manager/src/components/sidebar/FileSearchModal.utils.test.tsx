@@ -42,7 +42,7 @@ describe('FileSearchModal.utils', () => {
           type: {
             name: 'enum',
             required: true,
-            value: [],
+            value: ['a', 'b', 'c'],
           },
           options: ['a', 'b', 'c'],
         },
@@ -106,6 +106,7 @@ describe('FileSearchModal.utils', () => {
         boolean: true,
         function: expect.any(Function),
         number: 0,
+        enum: 'a',
         otherCheck: 'j',
         otherColor: '#000000',
         otherInlineCheck: 'g',

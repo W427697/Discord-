@@ -1,5 +1,39 @@
 import type { ArgTypes, SBType } from '@storybook/csf';
 
+export function extractSeededRequiredArgs(argTypes: ArgTypes) {
+  const extractedArgTypes = Object.keys(argTypes).reduce(
+    (acc, key: keyof typeof argTypes) => {
+      const argType = argTypes[key];
+
+      if (typeof argType.control === 'object' && 'type' in argType.control) {
+        switch (argType.control.type) {
+          case 'object':
+            acc[key] = {};
+            break;
+          case 'inline-radio':
+          case 'radio':
+          case 'inline-check':
+          case 'check':
+          case 'select':
+          case 'multi-select':
+            acc[key] = argType.control.options?.[0];
+            break;
+          case 'color':
+            acc[key] = '#000000';
+            break;
+          default:
+            break;
+        }
+      }
+
+      setArgType(argType.type, acc, key);
+      return acc;
+    },
+    {} as Record<string, any>
+  );
+  return extractedArgTypes;
+}
+
 function setArgType(
   type: 'string' | 'number' | 'boolean' | 'symbol' | 'function' | SBType,
   obj: Record<string, any>,
@@ -44,9 +78,16 @@ function setArgType(
       }
       break;
     case 'union':
-      if (type.value[0]) {
+      if (type.value?.[0] !== undefined) {
         setArgType(type.value[0], obj, objKey);
       }
+      break;
+
+    case 'enum':
+      if (type.value?.[0] !== undefined) {
+        obj[objKey] = type.value?.[0];
+      }
+      break;
 
     case 'other':
       if (typeof type.value === 'string' && type.value === 'tuple') {
@@ -56,40 +97,6 @@ function setArgType(
     default:
       break;
   }
-}
-
-export function extractSeededRequiredArgs(argTypes: ArgTypes) {
-  const extractedArgTypes = Object.keys(argTypes).reduce(
-    (acc, key: keyof typeof argTypes) => {
-      const argType = argTypes[key];
-
-      if (typeof argType.control === 'object' && 'type' in argType.control) {
-        switch (argType.control.type) {
-          case 'object':
-            acc[key] = {};
-            break;
-          case 'inline-radio':
-          case 'radio':
-          case 'inline-check':
-          case 'check':
-          case 'select':
-          case 'multi-select':
-            acc[key] = argType.control.options?.[0];
-            break;
-          case 'color':
-            acc[key] = '#000000';
-            break;
-          default:
-            break;
-        }
-      }
-
-      setArgType(argType.type, acc, key);
-      return acc;
-    },
-    {} as Record<string, any>
-  );
-  return extractedArgTypes;
 }
 
 export async function trySelectNewStory(
