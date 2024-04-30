@@ -103,7 +103,6 @@ export const Title = styled(Dialog.Title)(({ theme }) => ({
 export const Description = styled(Dialog.Description)(({ theme }) => ({
   margin: 0,
   fontSize: theme.typography.size.s2,
-  color: theme.color.mediumdark,
 }));
 
 export const Actions = styled.div({

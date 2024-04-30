@@ -8,6 +8,9 @@ const meta = {
   args: {
     onNewStory: fn(),
   },
+  parameters: {
+    layout: 'fullscreen',
+  },
 } satisfies Meta<typeof FileSearchList>;
 
 export default meta;

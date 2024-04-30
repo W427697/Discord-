@@ -79,12 +79,12 @@ export const FileListItemContentWrapper = styled.div<{
   }),
 
   ...(error && {
-    background: '#F9ECEC',
+    background: theme.base === 'light' ? '#00000011' : '#00000033',
   }),
 
   '&:hover': {
     background: error
-      ? '#F9ECEC'
+      ? '#00000022'
       : theme.base === 'dark'
         ? 'rgba(255,255,255,.1)'
         : theme.color.mediumlight,

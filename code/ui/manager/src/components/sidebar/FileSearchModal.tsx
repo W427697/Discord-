@@ -24,9 +24,10 @@ const ModalChild = styled.div<{ height?: number }>(({ theme, height }) => ({
   overflow: 'hidden',
 }));
 
-const ModalContent = styled(Modal.Content)({
+const ModalContent = styled(Modal.Content)(({ theme }) => ({
   margin: 0,
-});
+  color: theme.base === 'dark' ? theme.color.lighter : theme.color.mediumdark,
+}));
 
 const ModalInput = styled(Form.Input)(({ theme }) => ({
   paddingLeft: 40,
