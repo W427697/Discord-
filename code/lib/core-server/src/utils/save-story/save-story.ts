@@ -124,7 +124,6 @@ export function initializeSaveStory(channel: Channel, options: Options, coreConf
         id,
         success: false,
         error: error instanceof SaveStoryError ? error.message : 'Unknown error',
-        payload: null,
       } satisfies ResponseData<SaveStoryResponsePayload>);
 
       logger.error(

@@ -1,10 +1,21 @@
 import type { Channel } from '@storybook/channels';
 import type { RequestData, ResponseData } from '@storybook/core-events';
 
-class RequestResponseError extends Error {}
+export class RequestResponseError<Payload extends Record<string, any> | void> extends Error {
+  payload: Payload | undefined = undefined;
+
+  constructor(message: string, payload?: Payload) {
+    super(message);
+    this.payload = payload;
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_requestResponse = <RequestPayload, ResponsePayload = void>(
+export const experimental_requestResponse = <
+  RequestPayload,
+  ResponsePayload = void,
+  CreateNewStoryErrorPayload extends Record<string, any> | void = void,
+>(
   channel: Channel,
   requestEvent: string,
   responseEvent: string,
@@ -19,12 +30,14 @@ export const experimental_requestResponse = <RequestPayload, ResponsePayload = v
       payload,
     };
 
-    const responseHandler = (response: ResponseData<ResponsePayload>) => {
+    const responseHandler = (
+      response: ResponseData<ResponsePayload, CreateNewStoryErrorPayload>
+    ) => {
       if (response.id !== request.id) return;
       clearTimeout(timeoutId);
       channel.off(responseEvent, responseHandler);
       if (response.success) resolve(response.payload);
-      else reject(new RequestResponseError(response.error));
+      else reject(new RequestResponseError(response.error, response.payload));
     };
 
     channel.emit(requestEvent, request);

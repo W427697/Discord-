@@ -469,6 +469,7 @@ export default {
     'Consumer',
     'ManagerContext',
     'Provider',
+    'RequestResponseError',
     'addons',
     'combineParameters',
     'controlOrMetaKey',

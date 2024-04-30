@@ -1,6 +1,7 @@
 import type { Options } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import type {
+  CreateNewStoryErrorPayload,
   CreateNewStoryRequestPayload,
   CreateNewStoryResponsePayload,
   RequestData,
@@ -31,13 +32,21 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
 
         const relativeStoryFilePath = path.relative(process.cwd(), storyFilePath);
 
+        const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
+
         if (existsSync(storyFilePath)) {
-          throw new Error(`Story file already exists at ${relativeStoryFilePath}`);
+          channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
+            success: false,
+            id: data.id,
+            payload: {
+              type: 'STORY_FILE_EXISTS',
+              storyId: storyId,
+            },
+            error: `A story file already exists at ${relativeStoryFilePath}`,
+          } satisfies ResponseData<CreateNewStoryResponsePayload, CreateNewStoryErrorPayload>);
         }
 
         await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
-
-        const storyId = await getStoryId({ storyFilePath, exportedStoryName }, options);
 
         channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
           success: true,
@@ -53,7 +62,6 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
         channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
           success: false,
           id: data.id,
-          payload: null,
           error: e?.message,
         } satisfies ResponseData<CreateNewStoryResponsePayload>);
       }

@@ -3,6 +3,6 @@ export type RequestData<Payload = void> = {
   payload: Payload;
 };
 
-export type ResponseData<Payload = void> =
+export type ResponseData<Payload = void, ErrorPayload extends Record<string, any> | void = void> =
   | { id: string; success: true; error: null; payload: Payload }
-  | { id: string; success: false; error: string; payload: null };
+  | { id: string; success: false; error: string; payload?: ErrorPayload };

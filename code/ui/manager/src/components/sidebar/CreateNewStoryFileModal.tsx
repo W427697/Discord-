@@ -3,6 +3,7 @@ import { CheckIcon } from '@storybook/icons';
 import type {
   ArgTypesRequestPayload,
   ArgTypesResponsePayload,
+  CreateNewStoryErrorPayload,
   CreateNewStoryRequestPayload,
   CreateNewStoryResponsePayload,
   FileComponentSearchRequestPayload,
@@ -22,7 +23,12 @@ import {
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
 } from '@storybook/core-events';
-import { addons, experimental_requestResponse, useStorybookApi } from '@storybook/manager-api';
+import {
+  RequestResponseError,
+  addons,
+  experimental_requestResponse,
+  useStorybookApi,
+} from '@storybook/manager-api';
 
 import { useDebounce } from '../../hooks/useDebounce';
 import type { NewStoryPayload, SearchResult } from './FileSearchList';
@@ -60,6 +66,23 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
         content: {
           headline: 'Story file created',
           subHeadline: `${componentExportName} was created`,
+        },
+        duration: 8_000,
+        icon: <CheckIcon />,
+      });
+
+      onOpenChange(false);
+    },
+    [api, onOpenChange]
+  );
+
+  const handleStoryAlreadyExists = useCallback(
+    (storyId: string) => {
+      api.addNotification({
+        id: 'create-new-story-file-error',
+        content: {
+          headline: 'Story already exists',
+          subHeadline: `Successfully navigated to existing story`,
         },
         duration: 8_000,
         icon: <CheckIcon />,
@@ -121,7 +144,8 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
 
         const createNewStoryResult = await experimental_requestResponse<
           CreateNewStoryRequestPayload,
-          CreateNewStoryResponsePayload
+          CreateNewStoryResponsePayload,
+          CreateNewStoryErrorPayload
         >(channel, CREATE_NEW_STORYFILE_REQUEST, CREATE_NEW_STORYFILE_RESPONSE, {
           componentExportName,
           componentFilePath,
@@ -161,11 +185,20 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
 
         handleSuccessfullyCreatedStory(componentExportName);
         handleFileSearch();
-      } catch (e) {
-        setError({ selectedItemId: selectedItemId, error: e?.message });
+      } catch (e: unknown) {
+        if (e instanceof RequestResponseError) {
+          const err = e as RequestResponseError<CreateNewStoryErrorPayload>;
+          if (err.payload.type === 'STORY_FILE_EXISTS') {
+            await trySelectNewStory(api.selectStory, err.payload.storyId);
+            handleStoryAlreadyExists(err.payload.storyId);
+            return;
+          }
+        }
+
+        setError({ selectedItemId: selectedItemId, error: (e as any)?.message });
       }
     },
-    [api?.selectStory, handleSuccessfullyCreatedStory, handleFileSearch]
+    [api?.selectStory, handleSuccessfullyCreatedStory, handleFileSearch, handleStoryAlreadyExists]
   );
 
   useEffect(() => {

@@ -92,7 +92,6 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
         channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
           success: false,
           id: searchQuery ?? '',
-          payload: null,
           error: `An error occurred while searching for components in the project.\n${e?.message}`,
         } satisfies ResponseData<FileComponentSearchResponsePayload>);
       }

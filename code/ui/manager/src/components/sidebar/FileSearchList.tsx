@@ -26,12 +26,11 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type {
   CreateNewStoryRequestPayload,
   FileComponentSearchResponsePayload,
-  ResponseData,
 } from '@storybook/core-events';
 import { WithTooltip, TooltipNote } from '@storybook/components';
 import { useArrowKeyNavigation } from './FIleSearchList.utils';
 
-export type SearchResult = ResponseData<FileComponentSearchResponsePayload>['payload']['files'][0];
+export type SearchResult = FileComponentSearchResponsePayload['files'][0];
 
 export interface NewStoryPayload extends CreateNewStoryRequestPayload {
   selectedItemId: string | number;
@@ -86,21 +85,21 @@ export const FileSearchList = memo(function FileSearchList({
   const sortedSearchResults = useMemo(() => {
     // search results with no exports should be at the end of the list
     return [...(searchResults ?? [])]?.sort((a, b) => {
-      const isADisabled =
+      const isALowPriority =
         a.exportedComponents === null ||
         a.exportedComponents?.length === 0 ||
         (a.storyFileExists && a.exportedComponents?.length < 2);
 
-      const isBDisabled =
+      const isBLowPriority =
         b.exportedComponents === null ||
         b.exportedComponents?.length === 0 ||
         (b.storyFileExists && b.exportedComponents?.length < 2);
 
-      if (isADisabled && !isBDisabled) {
+      if (isALowPriority && !isBLowPriority) {
         return 1;
       }
 
-      if (!isADisabled && isBDisabled) {
+      if (!isALowPriority && isBLowPriority) {
         return -1;
       }
 
@@ -131,7 +130,7 @@ export const FileSearchList = memo(function FileSearchList({
 
           return virtualItem.index;
         });
-      } else if (searchResult?.exportedComponents?.length === 1 && !searchResult?.storyFileExists) {
+      } else if (searchResult?.exportedComponents?.length === 1) {
         onNewStory({
           componentExportName: searchResult.exportedComponents[0].name,
           componentFilePath: searchResult.filepath,
@@ -174,8 +173,7 @@ export const FileSearchList = memo(function FileSearchList({
             error={itemError}
             disabled={
               searchResult.exportedComponents === null ||
-              searchResult.exportedComponents?.length === 0 ||
-              (searchResult.storyFileExists && searchResult.exportedComponents?.length < 2)
+              searchResult.exportedComponents?.length === 0
             }
           >
             <FileListIconWrapper error={itemError}>
@@ -289,8 +287,6 @@ export const FileSearchList = memo(function FileSearchList({
               const noExports =
                 searchResult.exportedComponents === null ||
                 searchResult.exportedComponents?.length === 0;
-              const hasStoryFile =
-                searchResult.exportedComponents?.length === 1 && searchResult.storyFileExists;
 
               const itemProps = {};
 
@@ -324,7 +320,7 @@ export const FileSearchList = memo(function FileSearchList({
                   }}
                   tabIndex={0}
                 >
-                  {noExports || hasStoryFile ? (
+                  {noExports ? (
                     <WithTooltip
                       {...itemProps}
                       style={{ width: '100%' }}
@@ -335,9 +331,7 @@ export const FileSearchList = memo(function FileSearchList({
                           note={
                             noExports
                               ? "We can't evaluate exports for this file. You can't create a story for it automatically"
-                              : hasStoryFile
-                                ? 'A story already exists for this file'
-                                : null
+                              : null
                           }
                         />
                       }

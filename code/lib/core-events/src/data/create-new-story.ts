@@ -17,3 +17,8 @@ export interface CreateNewStoryResponsePayload {
   // The name of the story export in the file
   exportedStoryName: string;
 }
+
+export type CreateNewStoryErrorPayload = {
+  type: 'STORY_FILE_EXISTS';
+  storyId: string;
+};
