@@ -4,6 +4,7 @@ import { visit } from 'unist-util-visit';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkParse from 'remark-parse';
 import remarkStringify from 'remark-stringify';
+import remarkMdx from 'remark-mdx';
 import { unified } from 'unified';
 import { read } from 'to-vfile';
 
@@ -43,6 +44,7 @@ export const transformPaths = async (docsDir) => {
       .use(remarkParse)
       .use(remarkStringify)
       .use(remarkFrontmatter, ['yaml', 'toml'])
+      .use(remarkMdx)
       .use(function () {
         return function (tree) {
           console.dir(tree, { depth: null });

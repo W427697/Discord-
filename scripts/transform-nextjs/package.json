@@ -10,6 +10,7 @@
     "path": "^0.12.7",
     "prompts": "^2.4.2",
     "remark-frontmatter": "^5.0.0",
+    "remark-mdx": "^3.0.1",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "to-vfile": "^8.0.0",
