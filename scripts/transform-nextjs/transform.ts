@@ -31,7 +31,9 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step1.value === true) {
     moveMediaFiles(docsDir, assetsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All ${AssetsNumber} md files have been converted to mdx files`));
+    console.log(
+      chalk.cyan(`  ✨ All ${AssetsNumber} assets have been moved to the right location.`)
+    );
     console.log(' ');
   }
 
@@ -45,7 +47,7 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step2.value === true) {
     convertMdToMdx(docsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All ${MdNumber} md files have been converted to mdx files`));
+    console.log(chalk.cyan(`  ✨ All ${MdNumber} md files have been converted to mdx files.`));
     console.log(' ');
   }
 
@@ -59,7 +61,7 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step3.value === true) {
     removecomments(docsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All comments have been removed from mdx files`));
+    console.log(chalk.cyan(`  ✨ All comments have been removed from mdx files.`));
     console.log(' ');
   }
 
@@ -73,7 +75,7 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step4.value === true) {
     transformSnippets(oldSnippetsDir, newSnippetsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All snippets have been transformed to the new format`));
+    console.log(chalk.cyan(`  ✨ All snippets have been transformed to the new format.`));
     console.log(' ');
   }
 
@@ -87,7 +89,7 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step5.value === true) {
     transformPaths(docsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All snippets paths have been transformed to the new format`));
+    console.log(chalk.cyan(`  ✨ All snippets paths have been transformed to the new format.`));
     console.log(' ');
   }
 
@@ -101,7 +103,7 @@ const AssetsNumber = countAssetsFiles(docsDir);
   if (step6.value === true) {
     removeFiles(docsDir);
     console.log(' ');
-    console.log(chalk.cyan(`  ✨ All unnecessary files have been removed from the docs folder`));
+    console.log(chalk.cyan(`  ✨ All unnecessary files have been removed from the docs folder.`));
   }
 
   console.log(' ');
