@@ -174,7 +174,7 @@ export const FileSearchModal = ({
               <SearchIcon />
             </SearchIconWrapper>
             <ModalInput
-              placeholder="Search for a component file"
+              placeholder="./components/**/*.tsx"
               type="search"
               required
               autoFocus
