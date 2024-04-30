@@ -102,7 +102,7 @@ describe('file-search-channel', () => {
                 },
               ],
               filepath: 'src/es-module.js',
-              storyFileExists: false,
+              storyFileExists: true,
             },
           ],
         },
