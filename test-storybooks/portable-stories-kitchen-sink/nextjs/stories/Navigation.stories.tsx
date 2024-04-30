@@ -1,5 +1,11 @@
-// usePathname and useSearchParams are only usable if experimental: {appDir: true} is set in next.config.js
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import {
+  useRouter,
+  usePathname,
+  useSearchParams,
+  useParams,
+  useSelectedLayoutSegment,
+  useSelectedLayoutSegments,
+} from 'next/navigation';
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
@@ -9,6 +15,9 @@ function Component() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const params = useParams();
+  const segment = useSelectedLayoutSegment();
+  const segments = useSelectedLayoutSegments();
 
   const searchParamsList = searchParams ? Array.from(searchParams.entries()) : [];
 
@@ -44,10 +53,22 @@ function Component() {
   return (
     <div>
       <div>pathname: {pathname}</div>
+      <div>segment: {segment}</div>
+      <div>segments: {segments.join(',')}</div>
       <div>
         searchparams:{' '}
         <ul>
           {searchParamsList.map(([key, value]) => (
+            <li key={key}>
+              {key}: {value}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        params:{' '}
+        <ul>
+          {Object.entries(params).map(([key, value]) => (
             <li key={key}>
               {key}: {value}
             </li>
@@ -64,6 +85,8 @@ function Component() {
     </div>
   );
 }
+
+type Story = StoryObj<typeof Component>;
 
 export default {
   component: Component,
@@ -99,5 +122,30 @@ export const Default: StoryObj<typeof Component> = {
       await userEvent.click(prefetchBtn);
       await expect(routerMock.prefetch).toHaveBeenCalledWith('/prefetched-html');
     });
+  },
+};
+
+export const WithSegmentDefined: Story = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: ['dashboard', 'settings'],
+      },
+    },
+  },
+};
+
+export const WithSegmentDefinedForParams: Story = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ],
+      },
+    },
   },
 };

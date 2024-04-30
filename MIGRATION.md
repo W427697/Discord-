@@ -1,6 +1,8 @@
 <h1>Migration</h1>
 
 - [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
+  - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
+      - [Title block](#title-block)
   - [Portable stories](#portable-stories)
     - [@storybook/nextjs requires specific path aliases to be setup](#storybooknextjs-requires-specific-path-aliases-to-be-setup)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
@@ -427,6 +429,18 @@ module.exports = createJestConfig(customJestConfig);
 ```
 
 This will make sure you end using the correct implementation of the packages and avoid having issues in your tests.
+
+### Subtitle block and `parameters.componentSubtitle`
+
+The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+`parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
+
+##### Title block
+
+The `Title` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+It still accepts being passed `children`.
 
 ## From version 7.x to 8.0.0
 
