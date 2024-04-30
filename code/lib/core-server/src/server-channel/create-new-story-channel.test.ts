@@ -49,19 +49,23 @@ describe('createNewStoryChannel', () => {
       mockChannel.addListener(CREATE_NEW_STORYFILE_RESPONSE, createNewStoryFileEventListener);
       const cwd = process.cwd();
 
-      initCreateNewStoryChannel(mockChannel, {
-        configDir: path.join(cwd, '.storybook'),
-        presets: {
-          apply: (val: string) => {
-            if (val === 'framework') {
-              return Promise.resolve('@storybook/nextjs');
-            }
-            if (val === 'stories') {
-              return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
-            }
+      initCreateNewStoryChannel(
+        mockChannel,
+        {
+          configDir: path.join(cwd, '.storybook'),
+          presets: {
+            apply: (val: string) => {
+              if (val === 'framework') {
+                return Promise.resolve('@storybook/nextjs');
+              }
+              if (val === 'stories') {
+                return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
+              }
+            },
           },
-        },
-      } as any);
+        } as any,
+        { disableTelemetry: true }
+      );
 
       mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
         id: 'components-page--default',
@@ -96,19 +100,23 @@ describe('createNewStoryChannel', () => {
         throw new Error('Failed to write file');
       });
 
-      initCreateNewStoryChannel(mockChannel, {
-        configDir: path.join(cwd, '.storybook'),
-        presets: {
-          apply: (val: string) => {
-            if (val === 'framework') {
-              return Promise.resolve('@storybook/nextjs');
-            }
-            if (val === 'stories') {
-              return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
-            }
+      initCreateNewStoryChannel(
+        mockChannel,
+        {
+          configDir: path.join(cwd, '.storybook'),
+          presets: {
+            apply: (val: string) => {
+              if (val === 'framework') {
+                return Promise.resolve('@storybook/nextjs');
+              }
+              if (val === 'stories') {
+                return Promise.resolve(['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)']);
+              }
+            },
           },
-        },
-      } as any);
+        } as any,
+        { disableTelemetry: true }
+      );
 
       mockChannel.emit(CREATE_NEW_STORYFILE_REQUEST, {
         id: 'components-page--default',

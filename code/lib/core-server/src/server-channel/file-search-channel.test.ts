@@ -49,7 +49,7 @@ describe('file-search-channel', () => {
       const mockOptions = {};
       const data = { searchQuery: 'es-module' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
       mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
@@ -114,7 +114,7 @@ describe('file-search-channel', () => {
       const mockOptions = {};
       const data = { searchQuery: 'no-file-for-search-query' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
       mockChannel.emit(FILE_COMPONENT_SEARCH_REQUEST, {
@@ -148,7 +148,7 @@ describe('file-search-channel', () => {
       const mockOptions = {};
       const data = { searchQuery: 'commonjs' };
 
-      initFileSearchChannel(mockChannel, mockOptions as any);
+      initFileSearchChannel(mockChannel, mockOptions as any, { disableTelemetry: true });
 
       mockChannel.addListener(FILE_COMPONENT_SEARCH_RESPONSE, searchResultChannelListener);
 

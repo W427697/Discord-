@@ -241,8 +241,8 @@ export const experimental_serverChannel = async (
   initializeWhatsNew(channel, options, coreOptions);
   initializeSaveStory(channel, options, coreOptions);
 
-  initFileSearchChannel(channel, options);
-  initCreateNewStoryChannel(channel, options);
+  initFileSearchChannel(channel, options, coreOptions);
+  initCreateNewStoryChannel(channel, options, coreOptions);
 
   return channel;
 };

@@ -1,4 +1,4 @@
-import type { Options, SupportedRenderers } from '@storybook/types';
+import type { CoreConfig, Options, SupportedRenderers } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import {
   extractProperRendererNameFromFramework,
@@ -21,8 +21,13 @@ import {
   FILE_COMPONENT_SEARCH_RESPONSE,
 } from '@storybook/core-events';
 import { doesStoryFileExist, getStoryMetadata } from '../utils/get-new-story-file';
+import { telemetry } from '@storybook/telemetry';
 
-export function initFileSearchChannel(channel: Channel, options: Options) {
+export async function initFileSearchChannel(
+  channel: Channel,
+  options: Options,
+  coreOptions: CoreConfig
+) {
   /**
    * Listens for a search query event and searches for files in the project
    */
@@ -69,6 +74,13 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
               storyFileExists,
             };
           } catch (e) {
+            if (!coreOptions.disableTelemetry) {
+              telemetry('create-new-story-file-search', {
+                success: false,
+                error: `Could not parse file: ${e}`,
+              });
+            }
+
             return {
               filepath: file,
               storyFileExists: false,
@@ -76,6 +88,15 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
             };
           }
         });
+
+        if (!coreOptions.disableTelemetry) {
+          telemetry('create-new-story-file-search', {
+            success: true,
+            payload: {
+              fileCount: entries.length,
+            },
+          });
+        }
 
         channel.emit(FILE_COMPONENT_SEARCH_RESPONSE, {
           success: true,
@@ -94,6 +115,13 @@ export function initFileSearchChannel(channel: Channel, options: Options) {
           id: searchQuery ?? '',
           error: `An error occurred while searching for components in the project.\n${e?.message}`,
         } satisfies ResponseData<FileComponentSearchResponsePayload>);
+
+        if (!coreOptions.disableTelemetry) {
+          telemetry('create-new-story-file-search', {
+            success: false,
+            error: `An error occured while searching for components: ${e}`,
+          });
+        }
       }
     }
   );

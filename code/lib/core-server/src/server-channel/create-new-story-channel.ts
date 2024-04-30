@@ -1,5 +1,6 @@
-import type { Options } from '@storybook/types';
+import type { CoreConfig, Options } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
+import { telemetry } from '@storybook/telemetry';
 import type {
   CreateNewStoryErrorPayload,
   CreateNewStoryRequestPayload,
@@ -17,7 +18,11 @@ import { getNewStoryFile } from '../utils/get-new-story-file';
 import { getStoryId } from '../utils/get-story-id';
 import path from 'node:path';
 
-export function initCreateNewStoryChannel(channel: Channel, options: Options) {
+export function initCreateNewStoryChannel(
+  channel: Channel,
+  options: Options,
+  coreOptions: CoreConfig
+) {
   /**
    * Listens for events to create a new storyfile
    */
@@ -44,6 +49,15 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
             },
             error: `A story file already exists at ${relativeStoryFilePath}`,
           } satisfies ResponseData<CreateNewStoryResponsePayload, CreateNewStoryErrorPayload>);
+
+          if (!coreOptions.disableTelemetry) {
+            telemetry('create-new-story-file', {
+              success: false,
+              error: 'STORY_FILE_EXISTS',
+            });
+          }
+
+          return;
         }
 
         await fs.writeFile(storyFilePath, storyFileContent, 'utf-8');
@@ -58,12 +72,25 @@ export function initCreateNewStoryChannel(channel: Channel, options: Options) {
           },
           error: null,
         } satisfies ResponseData<CreateNewStoryResponsePayload>);
+
+        if (!coreOptions.disableTelemetry) {
+          telemetry('create-new-story-file', {
+            success: true,
+          });
+        }
       } catch (e: any) {
         channel.emit(CREATE_NEW_STORYFILE_RESPONSE, {
           success: false,
           id: data.id,
           error: e?.message,
         } satisfies ResponseData<CreateNewStoryResponsePayload>);
+
+        if (!coreOptions.disableTelemetry) {
+          await telemetry('create-new-story-file', {
+            success: false,
+            error: e,
+          });
+        }
       }
     }
   );
