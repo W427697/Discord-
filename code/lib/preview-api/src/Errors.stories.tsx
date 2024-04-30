@@ -1,5 +1,6 @@
 import React from 'react';
 import AnsiToHtml from 'ansi-to-html';
+import dedent from 'ts-dedent';
 
 const ansiConverter = new AnsiToHtml({
   escapeXML: true,
@@ -48,8 +49,19 @@ export default {
 
 export const MyError = {
   args: {
-    header: new Error('ow no, something went wrong').message,
-    detail: new Error('ow no, something went wrong').stack,
+    header: `FAIL is not defined`,
+    detail: dedent`
+      ReferenceError: FAIL is not defined
+        at Constraint.execute (the-best-file.js:525:2)
+        at Constraint.recalculate (the-best-file.js:424:21)
+        at Planner.addPropagate (the-best-file.js:701:6)
+        at Constraint.satisfy (the-best-file.js:184:15)
+        at Planner.incrementalAdd (the-best-file.js:591:21)
+        at Constraint.addConstraint (the-best-file.js:162:10)
+        at Constraint.BinaryConstraint (the-best-file.js:346:7)
+        at Constraint.EqualityConstraint (the-best-file.js:515:38)
+        at chainTest (the-best-file.js:807:6)
+        at deltaBlue (the-best-file.js:879:2)`,
   },
 };
 
