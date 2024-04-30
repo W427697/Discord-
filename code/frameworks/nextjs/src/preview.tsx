@@ -78,4 +78,12 @@ export const parameters = {
       excludeDecorators: true,
     },
   },
+  react: {
+    rootOptions: {
+      onCaughtError(error: unknown) {
+        if (isNextRouterError(error)) return;
+        console.error(error);
+      },
+    },
+  },
 };
