@@ -80,7 +80,11 @@ const preview: Preview = {
 export default preview;
 ```
 
+<Callout variant="info" icon="💡">
+
 For another example, see the section on [configuring the mock provider](./mocking-providers.md#configuring-the-mock-provider), which demonstrates how to use the same technique to change which theme is provided to the component.
+
+</Callout>
 
 ### Using decorators to provide data
 

@@ -73,19 +73,19 @@ This approach is beneficial when the various subcomponents export a complex list
 
 ## Mocking connected components
 
-If you need to render a connected component in Storybook, you can mock the data or modules that component depends on. There are various layers in which you can do that.
+Connected components are components that depend on external data or services. For example, a full page component is often a connected component. When you render a connected component in Storybook, you need to mock the data or modules that the component depends on. There are various layers in which you can do that.
 
-### [Mocking providers](./mocking-providers.md)
+### [Mocking imports](./mocking-modules.md)
 
-Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider or Redux uses React context to provide components access to app data. You can mock a provider and the value it's providing and wrap your component with it in your stories.
+Components can depend on modules that are imported into the component file. These can be from external packages or internal to your project. When rendering those components in Storybook or testing them, you may want to mock those modules to control their behavior.
 
 ### [Mocking API Services](./mocking-network-requests.md)
 
 For components that make network requests (e.g., fetching data from a REST or GraphQL API), you can mock those requests in your stories.
 
-### [Mocking imports](./mocking-modules.md)
+### [Mocking providers](./mocking-providers.md)
 
-Components can also depend on modules that are imported into the component file. These can be from external packages or internal to your project. When rendering those components in Storybook or testing them, you may want to mock those modules to control their behavior.
+Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider or Redux uses React context to provide components access to app data. You can mock a provider and the value it's providing and wrap your component with it in your stories.
 
 <IfRenderer renderer={['react', 'solid']}>
 

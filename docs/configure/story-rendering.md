@@ -8,6 +8,30 @@ In Storybook, your stories render in a particular “preview” iframe (also cal
 
 Code executed in the preview file (`.storybook/preview.js|ts`) runs for every story in your Storybook. This is useful for setting up global styles, initializing libraries, or anything else required to render your components.
 
+<If notRenderer={['angular', 'vue']}>
+
+Here's an example of how you might use the preview file to initialize a library that must run before your components render:
+
+```ts
+// .storybook/preview.ts
+// Replace your-renderer with the renderer you are using (e.g., react, vue3)
+import { Preview } from '@storybook/your-renderer';
+
+import { initialize } from '../lib/your-library';
+
+initialize();
+
+const preview: Preview = {
+  // ...
+};
+
+export default preview;
+```
+
+</If>
+
+<If renderer={['angular', 'vue']}>
+
 For example, with Vue, you can extend Storybook's application and register your library (e.g., [Fontawesome](https://github.com/FortAwesome/vue-fontawesome)). Or with Angular, add the package ([localize](https://angular.io/api/localize)) into your `polyfills.ts` and import it:
 
 <!-- prettier-ignore-start -->
@@ -24,6 +48,8 @@ For example, with Vue, you can extend Storybook's application and register your 
 />
 
 <!-- prettier-ignore-end -->
+
+</If>
 
 ## Adding to &#60;head&#62;
 

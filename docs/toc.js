@@ -147,8 +147,8 @@ module.exports = {
           type: 'menu',
           children: [
             {
-              pathSegment: 'mocking-providers',
-              title: 'Providers',
+              pathSegment: 'mocking-modules',
+              title: 'Modules',
               type: 'link',
             },
             {
@@ -157,8 +157,8 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'mocking-modules',
-              title: 'Modules',
+              pathSegment: 'mocking-providers',
+              title: 'Providers',
               type: 'link',
             },
           ],

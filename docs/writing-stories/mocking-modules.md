@@ -86,30 +86,23 @@ To configure subpath imports, you define the `imports` property in your project'
 }
 ```
 
-<Callout variant="info">
+There are two aspects to this configuration worth noting:
 
-Each subpath must begin with `#`, to differentiate it from a regular module path. The `#*` entry is a catch-all that maps all subpaths to the root directory.
+First, **each subpath must begin with `#`**, to differentiate it from a regular module path. The `#*` entry is a catch-all that maps all subpaths to the root directory.
 
-</Callout>
+Second, note the **`storybook` and `default` keys** in each module's entry. The `storybook` value is used to import the mock file when loaded in Storybook, while the `default` value is used to import the original module in your project. The Storybook environment will match the conditions `storybook` and `test`, so you can apply the same module mapping for both Storybook and your tests.
 
-You can then update your component file to use the subpath import:
+With the package configuration in place, you can then update your component file to use the subpath import:
 
 ```ts
 // AuthButton.ts
+// ➖ Remove this line
+// import { getUserFromSession } from '../../lib/session';
+// ➕ Add this line
 import { getUserFromSession } from '#lib/session';
 
-export const AuthButton = (props) => {
-  const user = getUserFromSession();
-
-  // ...
-};
+// ... rest of the file
 ```
-
-### Conditional imports
-
-Note the `storybook` and `default` keys in each module's entry. The `storybook` key is used to import the mock file in Storybook, while the `default` key is used to import the original module in your project.
-
-The Storybook environment will match the conditions `storybook` and `test`, so you can apply the same module mapping for both Storybook and your tests.
 
 ## Builder aliases
 
@@ -240,7 +233,7 @@ export const SaveFlow: Story = {
 
 ### Setting up and cleaning up
 
-You can use the asynchronous `beforeEach` function to perform any setup that you need before the story is rendered, eg. setting up mock behavior. It can be defined at the story, component (which will run for all stories in the file), or project (defined in `.storybook/preview.js|ts`, which will run for all stories in the project) level.
+Before the story renders, you can use the asynchronous `beforeEach` function to perform any setup you need (e.g., configure the mock behavior). This function can be defined at the story, component (which will run for all stories in the file), or project (defined in `.storybook/preview.js|ts`, which will run for all stories in the project).
 
 You can also return a cleanup function from `beforeEach` which will be called after your story unmounts. This is useful for tasks like unsubscribing observers, etc.
 
@@ -250,7 +243,7 @@ It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Stor
 
 </Callout>
 
-Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and reset it when the story unmounts.
+Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
 <!-- TODO: Snippetize -->
 

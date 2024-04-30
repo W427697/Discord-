@@ -63,8 +63,8 @@ export const MockedSuccess = {
         graphql.query('AllInfoQuery', () => {
           return new HttpResponse.json({
             data: {
-              allFilms: {
-                films,
+              AllInfo: {
+                ...TestData,
               },
             },
           });

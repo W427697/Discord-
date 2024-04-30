@@ -2,7 +2,21 @@
 title: Mocking providers
 ---
 
-<!-- TODO: React & Solid only? -->
+export const SUPPORTED_RENDERERS = ['react', 'solid'];
+
+<If notRenderer={SUPPORTED_RENDERERS}>
+
+<Callout variant="info">
+
+The [context provider pattern](https://react.dev/learn/passing-data-deeply-with-context) and how to mock it only applies to renderers that use JSX, like [React](?renderer=react) or [Solid](?renderer=solid).
+
+</Callout>
+
+<!-- End non-supported renderers -->
+
+</If>
+
+<If renderer={SUPPORTED_RENDERERS}>
 
 Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider or Redux uses React context to provide components access to app data. To mock a provider, you can wrap your component in a [decorator](./decorators.md) that includes the necessary context.
 
@@ -90,3 +104,5 @@ export const Dark: Story = {
 ```
 
 This powerful approach allows you to provide any value (theme, user role, mock data, etc.) to your components in a way that is both flexible and maintainable.
+
+</If>
