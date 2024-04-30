@@ -43,7 +43,11 @@ export function removecomments(directoryPath: string) {
                 .replace(
                   /\n<!--You can also use anchors to target a specific section of a page: -->\n/g,
                   ''
-                );
+                )
+                .replace(/\n<!-- End non-supported renderers -->\n/g, '')
+                .replace(/\n<!-- End supported renderers -->\n/g, '')
+                .replace(/\n<!-- End if react -->\n/g, '')
+                .replace(/\n<!-- Needs better heading -->\n/g, '');
 
               fs.writeFile(filePath, newData, 'utf8', (err3) => {
                 if (err3) throw err3;
