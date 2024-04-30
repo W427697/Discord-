@@ -1010,7 +1010,7 @@ exports[`renders nextHeaderStories stories renders Default 1`] = `
         </strong>
          
         <span>
-          firstName=Jane; ; lastName=Doe; 
+          firstName=Jane; lastName=Doe
         </span>
       </p>
       <p
