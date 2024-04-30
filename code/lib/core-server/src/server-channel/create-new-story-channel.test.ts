@@ -126,7 +126,6 @@ describe('createNewStoryChannel', () => {
 
       expect(createNewStoryFileEventListener).toHaveBeenCalledWith({
         error: 'Failed to write file',
-        payload: null,
         id: 'components-page--default',
         success: false,
       });

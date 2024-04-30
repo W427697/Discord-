@@ -165,7 +165,6 @@ describe('file-search-channel', () => {
 
       expect(searchResultChannelListener).toHaveBeenCalledWith({
         id: data.searchQuery,
-        payload: null,
         error:
           'An error occurred while searching for components in the project.\nENOENT: no such file or directory',
         success: false,
