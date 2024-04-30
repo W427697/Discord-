@@ -1,5 +1,5 @@
 import React, { useCallback, useDeferredValue, useEffect, useRef, useState } from 'react';
-import { AlertIcon, CheckIcon } from '@storybook/icons';
+import { CheckIcon } from '@storybook/icons';
 import type {
   ArgTypesRequestPayload,
   ArgTypesResponsePayload,
@@ -53,21 +53,6 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
 
   const [searchResults, setSearchResults] = useState<SearchResult[] | null>(null);
 
-  // @ts-expect-error (not used yet)
-  const handleErrorWhenCreatingStory = useCallback(() => {
-    api.addNotification({
-      id: 'create-new-story-file-error',
-      content: {
-        headline: 'Error while creating story file',
-        subHeadline: `Take a look at your developer console for more information`,
-      },
-      duration: 8_000,
-      icon: <AlertIcon />,
-    });
-
-    onOpenChange(false);
-  }, [api, onOpenChange]);
-
   const handleSuccessfullyCreatedStory = useCallback(
     (componentExportName: string) => {
       api.addNotification({
@@ -90,17 +75,15 @@ export const CreateNewStoryFileModal = ({ open, onOpenChange }: CreateNewStoryFi
     const channel = addons.getChannel();
 
     const set = (data: ResponseData<FileComponentSearchResponsePayload>) => {
-      const isLatestRequest = data.id === fileSearchQueryDeferred && data.payload.files;
-
-      if (data.success) {
-        if (isLatestRequest) {
-          setSearchResults(data.payload.files);
-        }
-      } else {
-        setError({ error: data.error });
-      }
+      const isLatestRequest = data.id === fileSearchQueryDeferred;
 
       if (isLatestRequest) {
+        if (data.success) {
+          setSearchResults(data.payload.files);
+        } else {
+          setError({ error: data.error });
+        }
+
         channel.off(FILE_COMPONENT_SEARCH_RESPONSE, set);
         setLoading(false);
         emittedValue.current = null;

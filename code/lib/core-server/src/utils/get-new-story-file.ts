@@ -33,9 +33,9 @@ export async function getNewStoryFile(
   const basenameWithoutExtension = basename.replace(extension, '');
   const dirname = path.dirname(componentFilePath);
 
-  const { storyFileName, isTypescript } = getStoryMetadata(componentFilePath);
-  const storyFileExtension = isTypescript ? 'tsx' : 'jsx';
-  const alternativeStoryFileName = `${basenameWithoutExtension}.${componentExportName}.stories.${storyFileExtension}`;
+  const { storyFileName, isTypescript, storyFileExtension } = getStoryMetadata(componentFilePath);
+  const storyFileNameWithExtension = `${storyFileName}.${storyFileExtension}`;
+  const alternativeStoryFileNameWithExtension = `${basenameWithoutExtension}.${componentExportName}.stories.${storyFileExtension}`;
 
   const exportedStoryName = 'Default';
 
@@ -55,12 +55,10 @@ export async function getNewStoryFile(
           exportedStoryName,
         });
 
-  const doesStoryFileExist = fs.existsSync(path.join(cwd, dirname, storyFileName));
-
   const storyFilePath =
-    doesStoryFileExist && componentExportCount > 1
-      ? path.join(cwd, dirname, alternativeStoryFileName)
-      : path.join(cwd, dirname, storyFileName);
+    doesStoryFileExist(path.join(cwd, dirname), storyFileName) && componentExportCount > 1
+      ? path.join(cwd, dirname, alternativeStoryFileNameWithExtension)
+      : path.join(cwd, dirname, storyFileNameWithExtension);
 
   return { storyFilePath, exportedStoryName, storyFileContent, dirname };
 }
@@ -72,7 +70,17 @@ export const getStoryMetadata = (componentFilePath: string) => {
   const basenameWithoutExtension = basename.replace(extension, '');
   const storyFileExtension = isTypescript ? 'tsx' : 'jsx';
   return {
-    storyFileName: `${basenameWithoutExtension}.stories.${storyFileExtension}`,
+    storyFileName: `${basenameWithoutExtension}.stories`,
+    storyFileExtension,
     isTypescript,
   };
+};
+
+export const doesStoryFileExist = (parentFolder: string, storyFileName: string) => {
+  return (
+    fs.existsSync(path.join(parentFolder, `${storyFileName}.ts`)) ||
+    fs.existsSync(path.join(parentFolder, `${storyFileName}.tsx`)) ||
+    fs.existsSync(path.join(parentFolder, `${storyFileName}.js`)) ||
+    fs.existsSync(path.join(parentFolder, `${storyFileName}.jsx`))
+  );
 };
