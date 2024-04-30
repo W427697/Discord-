@@ -34,7 +34,8 @@ export const getProjectRoot = () => {
   }
 
   try {
-    result = result || __dirname.split('node_modules')[0];
+    const splitDirname = __dirname.split('node_modules');
+    result = result || (splitDirname.length >= 2 ? splitDirname[0] : undefined);
   } catch (e) {
     //
   }
