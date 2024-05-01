@@ -1021,6 +1021,32 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('supports quoted properties in exported maps', () => {
+      expect(
+        parse(
+          dedent`
+          export default { 'title': 'foo/bar', 'tags': ['X'] };
+          export const A = {
+            'render': () => {},
+            'play': () => {},
+            'tags': ['Y'],
+          };
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - X
+        stories:
+          - id: foo-bar--a
+            name: A
+            tags:
+              - 'Y'
+              - play-fn
+      `);
+    });
+
     it('meta csf2', () => {
       expect(
         parse(

@@ -194,23 +194,24 @@ export class CsfFile {
   _parseMeta(declaration: t.ObjectExpression, program: t.Program) {
     const meta: StaticMeta = {};
     (declaration.properties as t.ObjectProperty[]).forEach((p) => {
-      if (t.isIdentifier(p.key)) {
-        this._metaAnnotations[p.key.name] = p.value;
+      if (t.isIdentifier(p.key) || t.isStringLiteral(p.key)) {
+        const propName = p.key.name || p.key.value;
+        this._metaAnnotations[propName] = p.value;
 
-        if (p.key.name === 'title') {
+        if (propName === 'title') {
           meta.title = this._parseTitle(p.value);
-        } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
-          (meta as any)[p.key.name] = parseIncludeExclude(p.value);
-        } else if (p.key.name === 'component') {
+        } else if (['includeStories', 'excludeStories'].includes(propName)) {
+          (meta as any)[propName] = parseIncludeExclude(p.value);
+        } else if (propName === 'component') {
           const { code } = recast.print(p.value, {});
           meta.component = code;
-        } else if (p.key.name === 'tags') {
+        } else if (propName === 'tags') {
           let node = p.value;
           if (t.isIdentifier(node)) {
             node = findVarInitialization(node.name, this._ast.program);
           }
           meta.tags = parseTags(node);
-        } else if (p.key.name === 'id') {
+        } else if (propName === 'id') {
           if (t.isStringLiteral(p.value)) {
             meta.id = p.value.value;
           } else {
@@ -339,20 +340,21 @@ export class CsfFile {
                   parameters.__isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
                   (storyNode.properties as t.ObjectProperty[]).forEach((p) => {
-                    if (t.isIdentifier(p.key)) {
-                      if (p.key.name === 'render') {
+                    if (t.isIdentifier(p.key) || t.isStringLiteral(p.key)) {
+                      const propName = p.key.name || p.key.value;
+                      if (propName === 'render') {
                         parameters.__isArgsStory = isArgsStory(
                           p.value as t.Expression,
                           parent,
                           self
                         );
-                      } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
+                      } else if (propName === 'name' && t.isStringLiteral(p.value)) {
                         name = p.value.value;
-                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
+                      } else if (propName === 'storyName' && t.isStringLiteral(p.value)) {
                         logger.warn(
                           `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
                         );
-                      } else if (p.key.name === 'parameters' && t.isObjectExpression(p.value)) {
+                      } else if (propName === 'parameters' && t.isObjectExpression(p.value)) {
                         const idProperty = p.value.properties.find(
                           (property) =>
                             t.isObjectProperty(property) &&
@@ -364,7 +366,7 @@ export class CsfFile {
                         }
                       }
 
-                      self._storyAnnotations[exportName][p.key.name] = p.value;
+                      self._storyAnnotations[exportName][propName] = p.value;
                     }
                   });
                 } else {
