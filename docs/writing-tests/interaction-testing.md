@@ -104,38 +104,19 @@ It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Stor
 
 Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and reset it when the story unmounts.
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// Page.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
-import MockDate from 'mockdate';
+<CodeSnippets
+  paths={[
+    'angular/before-each-in-meta-mock-date.ts.mdx',
+    'web-components/before-each-in-meta-mock-date.js.mdx',
+    'web-components/before-each-in-meta-mock-date.ts.mdx',
+    'common/before-each-in-meta-mock-date.js.mdx',
+    'common/before-each-in-meta-mock-date.ts.mdx',
+  ]}
+/>
 
-import { getUserFromSession } from '#api/session.mock';
-import { Page } from './Page';
-
-const meta: Meta<typeof Page> = {
-  component: Page,
-  // 👇 Set the current date for every story in the file
-  async beforeEach() {
-    MockDate.set('2024-02-14');
-
-    // 👇 Reset the date after each test
-    return () => {
-      MockDate.reset();
-    };
-  },
-};
-export default meta;
-
-type Story = StoryObj<typeof Page>;
-
-export const Default: Story = {
-  async play({ canvasElement }) {
-    // ... This will run with the mocked date
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 ### API for user-events
 
@@ -205,43 +186,19 @@ If your component depends on modules that are imported into the component file, 
 
 You can then import the mocked module (which has all of the helpful methods of a [Vitest mocked function](https://vitest.dev/api/mock.html)) into your story and use it to assert on the behavior of your component:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// NoteUI.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+<CodeSnippets
+  paths={[
+    'angular/storybook-test-fn-mock-spy.ts.mdx',
+    'web-components/storybook-test-fn-mock-spy.js.mdx',
+    'web-components/storybook-test-fn-mock-spy.ts.mdx',
+    'common/storybook-test-fn-mock-spy.js.mdx',
+    'common/storybook-test-fn-mock-spy.ts.mdx',
+  ]}
+/>
 
-import { saveNote } from '#app/actions.mock';
-import { createNotes } from '#mocks/notes';
-import NoteUI from './note-ui';
-
-const meta = {
-  title: 'Mocked/NoteUI',
-  component: NoteUI,
-} satisfies Meta<typeof NoteUI>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const notes = createNotes();
-
-export const SaveFlow: Story = {
-  name: 'Save Flow ▶',
-  args: {
-    isEditing: true,
-    note: notes[0],
-  },
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    const saveButton = canvas.getByRole('menuitem', { name: /done/i });
-    await userEvent.click(saveButton);
-    // 👇 This is the mock function, so you can assert its behavior
-    await expect(saveNote).toHaveBeenCalled();
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 ### Interactive debugger
 

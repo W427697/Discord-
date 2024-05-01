@@ -8,21 +8,21 @@ The [MSW addon](https://storybook.js.org/addons/msw-storybook-addon/) brings thi
 
 ## Set up the MSW addon
 
-First, if necessary, run this command to install MSW:
+First, if necessary, run this command to install MSW and the MSW addon:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-   'common/msw-install.npm.js.mdx',
-   'common/msw-install.yarn.js.mdx',
-   'common/msw-install.pnpm.js.mdx',
+   'common/msw-addon-install.npm.js.mdx',
+   'common/msw-addon-install.yarn.js.mdx',
+   'common/msw-addon-install.pnpm.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-Then generate the service worker file necessary for MSW to work:
+If you're not already using MSW, generate the service worker file necessary for MSW to work:
 
 <!-- prettier-ignore-start -->
 
@@ -44,14 +44,6 @@ Angular projects will likely need to adjust the command to save the mock service
 </Callout>
 
 </If>
-
-Next, install and register the MSW addon:
-
-<!-- TODO: Snippetize -->
-
-```sh
-npx storybook@latest add msw-storybook-addon
-```
 
 Then ensure the [`staticDirs`](../api/main-config-static-dirs.md) property in your Storybook configuration will include the generated service worker file (in `/public`, by default):
 

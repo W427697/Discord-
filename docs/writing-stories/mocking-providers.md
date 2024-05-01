@@ -33,9 +33,19 @@ Components can receive data or configuration from context providers. For example
 
 <!-- prettier-ignore-end -->
 
+<Callout variant="warning">
+
+Note the file extension above (`.tsx` or `.jsx`). You may need to adjust your preview file's extension to allow use of JSX, depending on your project's settings.
+
+</Callout>
+
 <If renderer="react">
 
+<Callout variant="info" icon="💡">
+
 For another example, reference the [Screens](https://storybook.js.org/tutorials/intro-to-storybook/react/en/screen/) chapter of the Intro to Storybook tutorial, where we mock a Redux provider with mock data.
+
+</Callout>
 
 </If>
 
@@ -49,59 +59,29 @@ For a better way, with much less repetition, you can use the [decorator function
 
 For example, we can adjust the decorator from above to read from `parameters.theme` to determine which theme to provide:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// .storybook/preview.ts
-import React from 'react';
-import { Preview } from '@storybook/react';
-import { ThemeProvider } from 'styled-components';
+<CodeSnippets
+  paths={[
+    'react/mock-provider-in-preview.js.mdx',
+    'react/mock-provider-in-preview.ts.mdx',
+  ]}
+/>
 
-const preview: Preview = {
-  decorators: [
-    // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, { parameters }) => {
-      // 👇 Make it configurable by reading the theme value from parameters
-      const theme = parameters.theme || 'default';
-      return (
-        <ThemeProvider theme={theme}>
-          <Story />
-        </ThemeProvider>
-      );
-    },
-  ],
-};
-
-export default preview;
-```
+<!-- prettier-ignore-end -->
 
 Now, you can define a `theme` parameter in your stories to adjust the theme provided by the decorator:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// Button.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
+<CodeSnippets
+  paths={[
+    'react/configure-mock-provider-with-story-parameter.js.mdx',
+    'react/configure-mock-provider-with-story-parameter.ts.mdx',
+  ]}
+/>
 
-import { Button } from './Button';
-
-const meta: Meta<typeof Button> = {
-  component: Button,
-};
-export default meta;
-
-type Story = StoryObj<typeof Button>;
-
-// Wrapped in default theme
-export const Default: Story = {};
-
-// Wrapped in dark theme
-export const Dark: Story = {
-  parameters: {
-    theme: 'dark',
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 This powerful approach allows you to provide any value (theme, user role, mock data, etc.) to your components in a way that is both flexible and maintainable.
 

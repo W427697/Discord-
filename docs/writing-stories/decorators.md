@@ -49,36 +49,19 @@ The second argument to a decorator function is the **story context** which conta
 - `parameters`- the story's static metadata, most commonly used to control Storybook's behavior of features and addons.
 - `viewMode`- Storybook's current active window (e.g., canvas, docs).
 
-This context can be used to adjust the behavior of your decorator based on the story's arguments or other metadata. For example, you could create a decorator that wraps the story in a layout, unless the `noLayout` parameter is set to `true`:
+This context can be used to adjust the behavior of your decorator based on the story's arguments or other metadata. For example, you could create a decorator that allows you to optionally apply a layout to the story, by defining `parameters.pageLayout = 'page'` (or `'page-mobile'`):
+:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// .storybook/preview.js
-import React from 'react';
-import { Preview } from '@storybook/react';
+<CodeSnippets
+  paths={[
+    'react/decorator-parameterized-in-preview.js.mdx',
+    'react/decorator-parameterized-in-preview.ts.mdx',
+  ]}
+/>
 
-import { Layout } from '../components/Layout';
-
-const preview: Preview = {
-  decorators: [
-    // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, { parameters }) => {
-      // 👇 Make it configurable by reading from parameters
-      const { noLayout } = parameters;
-      return noLayout ? (
-        <Story />
-      ) : (
-        <Layout>
-          <Story />
-        </Layout>
-      );
-    },
-  ],
-};
-
-export default preview;
-```
+<!-- prettier-ignore-end -->
 
 <Callout variant="info" icon="💡">
 

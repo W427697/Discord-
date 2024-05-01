@@ -1,0 +1,24 @@
+```jsonc
+// package.json
+{
+  "imports": {
+    "#api": {
+      "storybook": "./api.mock.ts",
+      "default": "./api.ts"
+    },
+    "#app/actions": {
+      "storybook": "./app/actions.mock.ts",
+      "default": "./app/actions.ts"
+    },
+    "#lib/session": {
+      "storybook": "./lib/session.mock.ts",
+      "default": "./lib/session.ts"
+    },
+    "#lib/db": {
+      "storybook": "./lib/db.mock.ts",
+      "default": "./lib/db.ts"
+    },
+    "#*": ["./*", "./*.ts", "./*.tsx"]
+  }
+}
+```

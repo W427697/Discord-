@@ -20,16 +20,15 @@ To mock a module, create a file with the same name and in the same directory as 
 
 Here's an example of a mock file for a module named `session`:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// lib/session.mock.ts
-import { fn } from '@storybook/test';
-import * as actual from './session';
+<CodeSnippets
+  paths={[
+    'common/storybook-test-mock-file-example.ts.mdx',
+  ]}
+/>
 
-export * from './session';
-export const getUserFromSession = fn(actual.getUserFromSession);
-```
+<!-- prettier-ignore-end -->
 
 ### Mock files for external modules
 
@@ -59,32 +58,15 @@ The recommended method for mocking modules is to use [subpath imports](https://n
 
 To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```json
-// package.json
-{
-  "imports": {
-    "#api": {
-      "storybook": "./api.mock.ts",
-      "default": "./api.ts"
-    },
-    "#app/actions": {
-      "storybook": "./app/actions.mock.ts",
-      "default": "./app/actions.ts"
-    },
-    "#lib/session": {
-      "storybook": "./lib/session.mock.ts",
-      "default": "./lib/session.ts"
-    },
-    "#lib/db": {
-      "storybook": "./lib/db.mock.ts",
-      "default": "./lib/db.ts"
-    },
-    "#*": ["./*", "./*.ts", "./*.tsx"]
-  }
-}
-```
+<CodeSnippets
+  paths={[
+    'common/subpath-imports-config.json.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 There are two aspects to this configuration worth noting:
 
@@ -108,47 +90,18 @@ import { getUserFromSession } from '#lib/session';
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// .storybook/main.ts
-viteFinal: async (config) => {
-  if (config.resolve) {
-    config.resolve.alias = {
-      ...config.resolve?.alias,
-      // 👇 External module
-      'lodash': require.resolve('./lodash.mock'),
-      // 👇 Internal modules
-      '@/api': path.resolve(__dirname, "./api.mock.ts"),
-      '@/app/actions': path.resolve(__dirname, "./app/actions.mock.ts"),
-      '@/lib/session': path.resolve(__dirname, "./lib/session.mock.ts"),
-      '@/lib/db': path.resolve(__dirname, "./lib/db.mock.ts"),
-    }
-  }
+<CodeSnippets
+  paths={[
+    'common/module-aliases-config.vite.ts.mdx',
+    'common/module-aliases-config.vite.js.mdx',
+    'common/module-aliases-config.webpack.ts.mdx',
+    'common/module-aliases-config.webpack.js.mdx',
+  ]}
+/>
 
-  return config;
-},
-```
-
-```ts
-// .storybook/main.ts
-webpackFinal: async (config) => {
-  if (config.resolve) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      // 👇 External module
-      'lodash': require.resolve('./lodash.mock'),
-      // 👇 Internal modules
-      '@/api$': path.resolve(__dirname, "./api.mock.ts"),
-      '@/app/actions$': path.resolve(__dirname, "./app/actions.mock.ts"),
-      '@/lib/session$': path.resolve(__dirname, "./lib/session.mock.ts"),
-      '@/lib/db$': path.resolve(__dirname, "./lib/db.mock.ts"),
-    }
-  }
-
-  return config;
-},
-```
+<!-- prettier-ignore-end -->
 
 ## Using mocked modules in stories
 
@@ -156,30 +109,19 @@ When you use the `fn` utility to mock a module, you create full [Vitest mock fun
 
 Here, we define `beforeEach` on a story (which will run before the story is rendered) to set a mocked return value for the `getUserFromSession` function used by the Page component:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// Page.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+<CodeSnippets
+  paths={[
+    'angular/storybook-test-mock-return-value.ts.mdx',
+    'web-components/storybook-test-mock-return-value.js.mdx',
+    'web-components/storybook-test-mock-return-value.ts.mdx',
+    'common/storybook-test-mock-return-value.js.mdx',
+    'common/storybook-test-mock-return-value.ts.mdx',
+  ]}
+/>
 
-import { getUserFromSession } from '#api/session.mock';
-import { Page } from './Page';
-
-const meta: Meta<typeof Page> = {
-  component: Page,
-};
-export default meta;
-
-type Story = StoryObj<typeof Page>;
-
-export const Default: Story = {
-  async beforeEach() {
-    // 👇 Set the return value for the getUserFromSession function
-    getUserFromSession.mockReturnValue({ id: '1', name: 'Alice' });
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -193,43 +135,19 @@ The `fn` utility also spies on the original module's functions, which you can us
 
 For example, this story checks that the `saveNote` function was called when the user clicks the save button:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// NoteUI.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within } from '@storybook/test';
+<CodeSnippets
+  paths={[
+    'angular/storybook-test-fn-mock-spy.ts.mdx',
+    'web-components/storybook-test-fn-mock-spy.js.mdx',
+    'web-components/storybook-test-fn-mock-spy.ts.mdx',
+    'common/storybook-test-fn-mock-spy.js.mdx',
+    'common/storybook-test-fn-mock-spy.ts.mdx',
+  ]}
+/>
 
-import { saveNote } from '#app/actions.mock';
-import { createNotes } from '#mocks/notes';
-import NoteUI from './note-ui';
-
-const meta = {
-  title: 'Mocked/NoteUI',
-  component: NoteUI,
-} satisfies Meta<typeof NoteUI>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const notes = createNotes();
-
-export const SaveFlow: Story = {
-  name: 'Save Flow ▶',
-  args: {
-    isEditing: true,
-    note: notes[0],
-  },
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    const saveButton = canvas.getByRole('menuitem', { name: /done/i });
-    await userEvent.click(saveButton);
-    // 👇 This is the mock function, so you can assert its behavior
-    await expect(saveNote).toHaveBeenCalled();
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 ### Setting up and cleaning up
 
@@ -245,31 +163,16 @@ It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Stor
 
 Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// Page.stories.ts|tsx
-import { Meta, StoryObj } from '@storybook/react';
-import MockDate from 'mockdate';
+<CodeSnippets
+  paths={[
+    'angular/before-each-in-meta-mock-date.ts.mdx',
+    'web-components/before-each-in-meta-mock-date.js.mdx',
+    'web-components/before-each-in-meta-mock-date.ts.mdx',
+    'common/before-each-in-meta-mock-date.js.mdx',
+    'common/before-each-in-meta-mock-date.ts.mdx',
+  ]}
+/>
 
-import { getUserFromSession } from '#api/session.mock';
-import { Page } from './Page';
-
-const meta: Meta<typeof Page> = {
-  component: Page,
-  // 👇 Set the current date for every story in the file
-  async beforeEach() {
-    MockDate.set('2024-02-14');
-
-    // 👇 Reset the date after each test
-    return () => {
-      MockDate.reset();
-    };
-  },
-};
-export default meta;
-
-type Story = StoryObj<typeof Page>;
-
-export const Default: Story = {};
-```
+<!-- prettier-ignore-end -->

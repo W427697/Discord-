@@ -728,47 +728,29 @@ How you mock other modules in Storybook depends on how you import the module int
 
 With either approach, the first step is to [create a mock file](../writing-stories/mocking-modules.md#mock-files). Here's an example of a mock file for a module named `session`:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// lib/session.mock.ts
-import { fn } from '@storybook/test';
-import * as actual from './session';
+<CodeSnippets
+  paths={[
+    'common/storybook-test-mock-file-example.ts.mdx',
+  ]}
+/>
 
-export * from './session';
-export const getUserFromSession = fn(actual.getUserFromSession);
-```
+<!-- prettier-ignore-end -->
 
 #### With subpath imports
 
 If you're using [subpath imports](#subpath-imports), you can adjust your configuration to apply [conditions](../writing-stories/mocking-modules.md#subpath-imports) so that the mocked module is used inside Storybook. The example below configures subpath imports for four internal modules, which are then mocked in Storybook:
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```jsonc
-// package.json
-{
-  "imports": {
-    "#api": {
-      "storybook": "./api.mock.ts",
-      "default": "./api.ts"
-    },
-    "#app/actions": {
-      "storybook": "./app/actions.mock.ts",
-      "default": "./app/actions.ts"
-    },
-    "#lib/session": {
-      "storybook": "./lib/session.mock.ts",
-      "default": "./lib/session.ts"
-    },
-    "#lib/db": {
-      "storybook": "./lib/db.mock.ts",
-      "default": "./lib/db.ts"
-    },
-    "#*": ["./*", "./*.ts", "./*.tsx"]
-  }
-}
-```
+<CodeSnippets
+  paths={[
+    'common/subpath-imports-config.json.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -780,27 +762,16 @@ Each subpath must begin with `#`, to differentiate it from a regular module path
 
 If you're using [module aliases](#module-aliases), you can add a Webpack alias to your Storybook configuration to point to the mock file.
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// .storybook/main.ts
-webpackFinal: async (config) => {
-  if (config.resolve) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      // 👇 External module
-      'lodash': require.resolve('./lodash.mock'),
-      // 👇 Internal modules
-      '@/api$': path.resolve(__dirname, "./api.mock.ts"),
-      '@/app/actions$': path.resolve(__dirname, "./app/actions.mock.ts"),
-      '@/lib/session$': path.resolve(__dirname, "./lib/session.mock.ts"),
-      '@/lib/db$': path.resolve(__dirname, "./lib/db.mock.ts"),
-    }
-  }
+<CodeSnippets
+  paths={[
+    'common/module-aliases-config.webpack.ts.mdx',
+    'common/module-aliases-config.webpack.js.mdx',
+  ]}
+/>
 
-  return config;
-},
-```
+<!-- prettier-ignore-end -->
 
 ## Runtime config
 
@@ -1061,35 +1032,16 @@ Type: `typeof import('next/cache')`
 
 This module exports mocked implementations of the `next/cache` module's exports. You can use it to create your own mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// MyForm.stories.ts
-import { expect, userEvent, within } from '@storybook/test';
-import { Meta, StoryObj } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
-import { revalidatePath } from '@storybook/nextjs/cache.mock';
-import MyForm from './my-form';
+<CodeSnippets
+  paths={[
+    'react/nextjs-cache-mock.js.mdx',
+    'react/nextjs-cache-mock.ts.mdx'
+  ]}
+/>
 
-const meta = {
-  component: MyForm,
-} satisfies Meta<typeof MyForm>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Submitted: Story = {
-  async play({ canvasElement }) {
-    const canvas = within(canvasElement);
-
-    const submitButton = canvas.getByRole('button', { name: /submit/i });
-    await userEvent.click(saveButton);
-    // 👇 Use any mock assertions on the function
-    await expect(revalidatePath).toHaveBeenCalledWith('/');
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 #### `@storybook/nextjs/headers.mock`
 
@@ -1107,39 +1059,16 @@ For cookies, you can use the existing API to write them. E.g., `cookies().set('f
 
 Because `headers()`, `cookies()` and their sub-functions are all mocks you can use any [mock utilities](https://vitest.dev/api/mock.html) in your stories, like `headers().getAll.mock.calls`.
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// MyForm.stories.ts
-import { expect, fireEvent, userEvent, within } from '@storybook/test';
-import { Meta, StoryObj } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
-import { cookies, headers } from '@storybook/nextjs/headers.mock';
-import MyForm from './my-form';
+<CodeSnippets
+  paths={[
+    'react/nextjs-headers-mock.js.mdx',
+    'react/nextjs-headers-mock.ts.mdx'
+  ]}
+/>
 
-const meta = {
-  component: MyForm,
-} satisfies Meta<typeof MyForm>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const LoggedInEurope: Story = {
-  async beforeEach() {
-    // 👇 Set mock cookies and headers ahead of rendering
-    cookies().set('username', 'Sol');
-    headers().set('timezone', 'Central European Summer Time');
-  },
-  async play() {
-    // 👇 Assert that your component called the mocks
-    await expect(cookies().get).toHaveBeenCalledOnce();
-    await expect(cookies().get).toHaveBeenCalledWith('username');
-    await expect(headers().get).toHaveBeenCalledOnce();
-    await expect(cookies().get).toHaveBeenCalledWith('timezone');
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 #### `@storybook/nextjs/navigation.mock`
 
@@ -1147,48 +1076,16 @@ Type: `typeof import('next/navigation') & getRouter: () => ReturnType<typeof imp
 
 This module exports mocked implementations of the `next/navigation` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router#userouter), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// MyForm.stories.ts
-import { expect, fireEvent, userEvent, within } from '@storybook/test';
-import { Meta, StoryObj } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
-import { redirect, getRouter } from '@storybook/nextjs/navigation.mock';
-import MyForm from './my-form';
+<CodeSnippets
+  paths={[
+    'react/nextjs-navigation-mock.js.mdx',
+    'react/nextjs-navigation-mock.ts.mdx'
+  ]}
+/>
 
-const meta = {
-  component: MyForm,
-  parameters: {
-    nextjs: {
-      // 👇 As in the Next.js application, next/navigation only works using App Router
-      appDirectory: true,
-    },
-  },
-} satisfies Meta<typeof MyForm>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Unauthenticated: Story = {
-  async play() => {
-    // 👇 Assert that your component called redirect()
-    await expect(redirect).toHaveBeenCalledWith('/login', 'replace');
-  },
-};
-
-export const GoBack: Story = {
-  async play({ canvasElement }) {
-    const canvas = within(canvasElement);
-    const backBtn = await canvas.findByText('Go back');
-
-    await userEvent.click(backBtn);
-    // 👇 Assert that your component called back()
-    await expect(getRouter().back).toHaveBeenCalled();
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 #### `@storybook/nextjs/router.mock`
 
@@ -1196,41 +1093,16 @@ Type: `typeof import('next/router') & getRouter: () => ReturnType<typeof import(
 
 This module exports mocked implementations of the `next/router` module's exports. It also exports a `getRouter` function that returns a mocked version of [Next.js's `router` object from `useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router#router-object), allowing the properties to be manipulated and asserted on. You can use it mock implementations or assert on mock calls in a story's [play function](../writing-stories/play-function.md).
 
-<!-- TODO: Snippetize -->
+<!-- prettier-ignore-start -->
 
-```ts
-// MyForm.stories.ts
-import { expect, fireEvent, userEvent, within } from '@storybook/test';
-import { Meta, StoryObj } from '@storybook/react';
-// 👇 Must use this import path to have mocks typed correctly
-import { getRouter } from '@storybook/nextjs/router.mock';
-import MyForm from './my-form';
+<CodeSnippets
+  paths={[
+    'react/nextjs-router-mock.js.mdx',
+    'react/nextjs-router-mock.ts.mdx'
+  ]}
+/>
 
-const meta = {
-  component: MyForm,
-  parameters: {
-    nextjs: {
-      // 👇 As in the Next.js application, next/router only works using Pages Router
-      appDirectory: false,
-    },
-  },
-} satisfies Meta<typeof MyForm>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const GoBack: Story = {
-  async play({ canvasElement }) {
-    const canvas = within(canvasElement);
-    const backBtn = await canvas.findByText('Go back');
-
-    await userEvent.click(backBtn);
-    // 👇 Assert that your component called back()
-    await expect(getRouter().back).toHaveBeenCalled();
-  },
-};
-```
+<!-- prettier-ignore-end -->
 
 ### Options
 
