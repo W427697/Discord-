@@ -1,4 +1,3 @@
-import { global as globalThis } from '@storybook/global';
 import { expect, mocked, getByRole, spyOn, userEvent } from '@storybook/test';
 
 const meta = {
@@ -12,6 +11,9 @@ const meta = {
 export default meta;
 
 export const BeforeEachOrder = {
+  parameters: {
+    chromatic: { disable: true },
+  },
   beforeEach() {
     console.log('second');
   },

@@ -12,6 +12,9 @@ const meta = {
 export default meta;
 
 export const ShowSpyOnInActions = {
+  parameters: {
+    chromatic: { disable: true },
+  },
   beforeEach() {
     console.log('second');
   },
