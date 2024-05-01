@@ -16,7 +16,7 @@ export default {
       disable: true,
     },
   },
-  loaders: () => {
+  beforeEach: () => {
     mocked(foo).mockReturnValue('mocked');
   },
   async play() {
