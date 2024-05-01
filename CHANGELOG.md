@@ -1,5 +1,9 @@
 ## 7.6.18
 
+- Fix bad release in `7.6.18` thanks @jreinhold!
+
+## 7.6.18
+
 - Core: Fix addon bundling script [#26145](https://github.com/storybookjs/storybook/pull/26145), thanks @ndelangen!
 
 ## 7.6.17
