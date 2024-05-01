@@ -14,6 +14,8 @@ export type SupportedFrameworks =
   | 'svelte-vite'
   | 'svelte-webpack5'
   | 'sveltekit'
+  | 'vue-vite'
+  | 'vue-webpack5'
   | 'vue3-vite'
   | 'vue3-webpack5'
   | 'web-components-vite'

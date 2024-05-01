@@ -47,7 +47,7 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   globalProjectAnnotations = composeConfigs(annotations.map(extractAnnotation));
 }
 
-const cleanupCallbacks: CleanupCallback[] = [];
+const cleanups: { storyName: string; callback: CleanupCallback }[] = [];
 
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
@@ -115,6 +115,8 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         })
     : undefined;
 
+  let previousCleanupsDone = false;
+
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
     function storyFn(extraArgs?: Partial<TArgs>) {
       context.args = {
@@ -122,6 +124,24 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         ...extraArgs,
       };
 
+      if (cleanups.length > 0 && !previousCleanupsDone) {
+        let humanReadableIdentifier = storyName;
+        if (story.title !== 'ComposedStory') {
+          // prefix with title unless it's the generic ComposedStory title
+          humanReadableIdentifier = `${story.title} - ${humanReadableIdentifier}`;
+        }
+        if (storyName === 'Unnamed Story' && Object.keys(context.args).length > 0) {
+          // suffix with args if it's an unnamed story and there are args
+          humanReadableIdentifier = `${humanReadableIdentifier} (${Object.keys(context.args).join(
+            ', '
+          )})`;
+        }
+        console.warn(
+          dedent`Some stories were not cleaned up before rendering '${humanReadableIdentifier}'.
+          You should load the story with \`await Story.load()\` before rendering it.
+          See XYZ for more information.`
+        );
+      }
       return story.unboundStoryFn(prepareContext(context));
     },
     {
@@ -129,13 +149,19 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       storyName,
       load: async () => {
         // First run any registered cleanup function
-        for (const callback of [...cleanupCallbacks].reverse()) await callback();
-        cleanupCallbacks.length = 0;
+        for (const { callback } of [...cleanups].reverse()) await callback();
+        cleanups.length = 0;
+
+        previousCleanupsDone = true;
 
         const loadedContext = await story.applyLoaders(context);
         context.loaded = loadedContext.loaded;
 
-        cleanupCallbacks.push(...(await story.applyBeforeEach(context)));
+        cleanups.push(
+          ...(await story.applyBeforeEach(context))
+            .filter(Boolean)
+            .map((callback) => ({ storyName, callback }))
+        );
       },
       args: story.initialArgs as Partial<TArgs>,
       parameters: story.parameters as Parameters,
