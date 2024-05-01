@@ -1,8 +1,7 @@
 import type { FC, ReactElement } from 'react';
-import type { Root as ReactRoot, RootOptions } from 'react-dom/client';
 import React, { useLayoutEffect, useRef } from 'react';
+import type { Root as ReactRoot, RootOptions } from 'react-dom/client';
 import ReactDOM from 'react-dom/client';
-import { type StoryContext } from '@storybook/csf';
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();
@@ -22,9 +21,9 @@ const WithCallback: FC<{ callback: () => void; children: ReactElement }> = ({
   return children;
 };
 
-export const renderElement = async (node: ReactElement, el: Element, context: StoryContext) => {
+export const renderElement = async (node: ReactElement, el: Element, rootOptions?: RootOptions) => {
   // Create Root Element conditionally for new React 18 Root Api
-  const root = await getReactRoot(el, context.parameters.react.rootOptions);
+  const root = await getReactRoot(el, rootOptions);
 
   return new Promise((resolve) => {
     root.render(<WithCallback callback={() => resolve(null)}>{node}</WithCallback>);
@@ -40,7 +39,7 @@ export const unmountElement = (el: Element, shouldUseNewRootApi?: boolean) => {
   }
 };
 
-const getReactRoot = async (el: Element, rootOptions: RootOptions): Promise<ReactRoot> => {
+const getReactRoot = async (el: Element, rootOptions?: RootOptions): Promise<ReactRoot> => {
   let root = nodes.get(el);
 
   if (!root) {
