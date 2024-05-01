@@ -59,7 +59,7 @@ export const MockedSuccess: Story = {
         graphql.query('AllInfoQuery', () => {
           return new HttpResponse.json({
             data: {
-              AllInfo: {
+              allInfo: {
                 ...TestData,
               },
             },

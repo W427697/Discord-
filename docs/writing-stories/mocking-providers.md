@@ -2,7 +2,7 @@
 title: Mocking providers
 ---
 
-export const SUPPORTED_RENDERERS = ['react', 'solid'];
+export const SUPPORTED_RENDERERS = ['preact', 'react', 'solid'];
 
 <If notRenderer={SUPPORTED_RENDERERS}>
 
