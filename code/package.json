@@ -295,6 +295,7 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
+  "deferredNextVersion": "7.6.19",
   "pr-log": {
     "skipLabels": [
       "cleanup"
