@@ -9,7 +9,7 @@ export default {
   render() {
     return (
       <div>
-        <div>State is {state}</div>
+        <div>{state}</div>
         <form
           action={() => {
             state = 'State is invalidated successfully.';
