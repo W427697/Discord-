@@ -2,11 +2,10 @@
 title: 'Portable stories in Playwright'
 ---
 
-export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 (⚠️ **Experimental**)
 
-<If notRenderer={SUPPORTED_RENDERERS}>
+<If notRenderer={['react', 'vue']}>
   <Callout variant="info">
     Portable stories are currently only supported in [React](?renderer=react) and [Vue](?renderer=vue) projects.
   </Callout>
@@ -14,7 +13,7 @@ export const SUPPORTED_RENDERERS = ['react', 'vue'];
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERERS}>
+<If renderer={['react', 'vue']}>
   <Callout variant="info">
     The portable stories API for Playwright CT is experimental. Playwright CT itself is also experimental. Breaking changes might occur in either library in upcoming releases.
   </Callout>

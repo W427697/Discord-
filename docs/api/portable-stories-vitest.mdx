@@ -2,9 +2,8 @@
 title: 'Portable stories in Vitest'
 ---
 
-export const SUPPORTED_RENDERERS = ['react', 'vue', 'svelte'];
 
-<If notRenderer={SUPPORTED_RENDERERS}>
+<If notRenderer={['react', 'vue', 'svelte']}>
   <Callout variant="info">
     Portable stories in Vitest are currently only supported in [React](?renderer=react), [Vue](?renderer=vue) and [Svelte](?renderer=svelte) projects.
   </Callout>
@@ -12,7 +11,7 @@ export const SUPPORTED_RENDERERS = ['react', 'vue', 'svelte'];
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERERS}>
+<If renderer={['react', 'vue', 'svelte']}>
   Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Vitest](https://vitest.dev).
 
   Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Vitest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
