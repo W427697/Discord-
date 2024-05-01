@@ -76,6 +76,9 @@ let loadedLabel = 'Initial';
  * Similarly, changing args rapidly should only cause one rerender at a time, producing the same result.
  */
 export const SlowLoader = {
+  parameters: {
+    chromatic: { disable: true },
+  },
   loaders: [
     async () => {
       loadedLabel = 'Loading...';
