@@ -2,15 +2,13 @@
 title: Storybook for Angular
 ---
 
-export const SUPPORTED_RENDERER = 'angular';
-
 Storybook for Angular is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Angular](https://angular.io/) applications. It includes:
 
 * 🧱 Uses Angular builders
 * 🎛️ Compodoc integration
 * 💫 and more!
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='angular'>
   <Callout variant="info">
     Storybook for Angular is only supported in [Angular](?renderer=angular) projects.
   </Callout>
@@ -18,7 +16,7 @@ Storybook for Angular is a [framework](../contribute/framework.md) that makes it
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='angular'>
   ## Requirements
 
   * Angular ≥ 15.0 \< 18.0

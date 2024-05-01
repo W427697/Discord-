@@ -2,11 +2,9 @@
 title: Storybook for Svelte & Vite
 ---
 
-export const SUPPORTED_RENDERER = 'svelte';
-
 Storybook for Svelte & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for applications using [Svelte](https://svelte.dev/) built with [Vite](https://vitejs.dev/).
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='svelte'>
   <Callout variant="info">
     Storybook for Svelte & Vite is only supported in [Svelte](?renderer=svelte) projects.
   </Callout>
@@ -14,7 +12,7 @@ Storybook for Svelte & Vite is a [framework](../contribute/framework.md) that ma
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='svelte'>
   ## Requirements
 
   * Svelte ≥ 4.0

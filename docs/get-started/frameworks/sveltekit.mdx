@@ -2,8 +2,6 @@
 title: Storybook for SvelteKit
 ---
 
-export const SUPPORTED_RENDERER = 'svelte';
-
 Storybook for SvelteKit is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [SvelteKit](https://kit.svelte.dev/) applications. It includes:
 
 * 🪄 Zero config
@@ -11,7 +9,7 @@ Storybook for SvelteKit is a [framework](../contribute/framework.md) that makes 
 * 🔗 Automatic link handling
 * 💫 and more!
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='svelte'>
   <Callout variant="info">
     Storybook for SvelteKit is only supported in [Svelte](?renderer=svelte) projects.
   </Callout>
@@ -19,7 +17,7 @@ Storybook for SvelteKit is a [framework](../contribute/framework.md) that makes 
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='svelte'>
   ## Requirements
 
   * SvelteKit ≥ 1.0

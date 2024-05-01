@@ -2,15 +2,13 @@
 title: Storybook for React & Vite
 ---
 
-export const SUPPORTED_RENDERER = 'react';
-
 Storybook for React & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [React](https://react.dev/) applications built with [Vite](https://vitejs.dev/). It includes:
 
 * 🏎️ Pre-bundled for performance
 * 🪄 Zero config
 * 💫 and more!
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='react'>
   <Callout variant="info">
     Storybook for React & Vite is only supported in [React](?renderer=react) projects.
   </Callout>
@@ -18,7 +16,7 @@ Storybook for React & Vite is a [framework](../contribute/framework.md) that mak
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='react'>
   ## Requirements
 
   * React ≥ 16.8
