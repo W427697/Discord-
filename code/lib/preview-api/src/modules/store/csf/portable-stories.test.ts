@@ -291,6 +291,7 @@ describe('composeStory', () => {
     expect(consoleWarnSpy.mock.calls[0][0]).toMatchInlineSnapshot(
       `
       "Some stories were not cleaned up before rendering 'Unnamed Story (firstArg, secondArg)'.
+
       You should load the story with \`await Story.load()\` before rendering it.
       See https://storybook.js.org/docs/api/portable-stories-vitest#3-load for more information."
     `
