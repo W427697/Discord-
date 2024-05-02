@@ -260,7 +260,7 @@ describe('composeStory', () => {
     const cleanupSpy = vi.fn();
     const beforeEachSpy = vi.fn(() => {
       return () => {
-        cleanupSpy('cleanup from story');
+        cleanupSpy();
       };
     });
 
@@ -292,7 +292,7 @@ describe('composeStory', () => {
       `
       "Some stories were not cleaned up before rendering 'Unnamed Story (firstArg, secondArg)'.
       You should load the story with \`await Story.load()\` before rendering it.
-      See XYZ for more information."
+      See https://storybook.js.org/docs/api/portable-stories-vitest#3-load for more information."
     `
     );
   });
