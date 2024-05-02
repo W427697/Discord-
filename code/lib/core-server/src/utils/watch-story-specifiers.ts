@@ -44,7 +44,6 @@ export function watchStorySpecifiers(
 ) {
   // Watch all nested files and directories up front to avoid this issue:
   // https://github.com/webpack/watchpack/issues/222
-  const absDirs = specifiers.map((ns) => path.resolve(options.workingDir, ns.directory));
   const { files, directories } = getNestedFilesAndDirectories(
     specifiers.map((ns) => path.resolve(options.workingDir, ns.directory))
   );
