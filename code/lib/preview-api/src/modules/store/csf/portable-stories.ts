@@ -29,8 +29,8 @@ import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
-const DEFAULT_TITLE = 'ComposedStory';
-const DEFAULT_NAME = 'Unnamed Story';
+const DEFAULT_STORY_TITLE = 'ComposedStory';
+const DEFAULT_STORY_NAME = 'Unnamed Story';
 
 function extractAnnotation<TRenderer extends Renderer = Renderer>(
   annotation: NamedOrDefaultProjectAnnotations<TRenderer>
@@ -66,7 +66,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   // @TODO: Support auto title
 
-  componentAnnotations.title = componentAnnotations.title ?? DEFAULT_TITLE;
+  componentAnnotations.title = componentAnnotations.title ?? DEFAULT_STORY_TITLE;
   const normalizedComponentAnnotations =
     normalizeComponentAnnotations<TRenderer>(componentAnnotations);
 
@@ -75,7 +75,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     storyAnnotations.storyName ||
     storyAnnotations.story?.name ||
     storyAnnotations.name ||
-    DEFAULT_NAME;
+    DEFAULT_STORY_NAME;
 
   const normalizedStory = normalizeStory<TRenderer>(
     storyName,
@@ -129,11 +129,11 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
       if (cleanups.length > 0 && !previousCleanupsDone) {
         let humanReadableIdentifier = storyName;
-        if (story.title !== DEFAULT_TITLE) {
+        if (story.title !== DEFAULT_STORY_TITLE) {
           // prefix with title unless it's the generic ComposedStory title
           humanReadableIdentifier = `${story.title} - ${humanReadableIdentifier}`;
         }
-        if (storyName === DEFAULT_NAME && Object.keys(context.args).length > 0) {
+        if (storyName === DEFAULT_STORY_NAME && Object.keys(context.args).length > 0) {
           // suffix with args if it's an unnamed story and there are args
           humanReadableIdentifier = `${humanReadableIdentifier} (${Object.keys(context.args).join(
             ', '
@@ -141,6 +141,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         }
         console.warn(
           dedent`Some stories were not cleaned up before rendering '${humanReadableIdentifier}'.
+          
           You should load the story with \`await Story.load()\` before rendering it.
           See https://storybook.js.org/docs/api/portable-stories-${
             process.env.JEST_WORKER_ID !== undefined ? 'jest' : 'vitest'
