@@ -44,6 +44,7 @@ export function watchStorySpecifiers(
 ) {
   // Watch all nested files and directories up front to avoid this issue:
   // https://github.com/webpack/watchpack/issues/222
+  const absDirs = specifiers.map((ns) => path.resolve(options.workingDir, ns.directory));
   const { files, directories } = getNestedFilesAndDirectories(
     specifiers.map((ns) => path.resolve(options.workingDir, ns.directory))
   );
@@ -99,9 +100,9 @@ export function watchStorySpecifiers(
             const { globby } = await import('globby');
 
             // glob only supports forward slashes
-            const files = await globby(slash(dirGlob), commonGlobOptions(dirGlob));
+            const addedFiles = await globby(slash(dirGlob), commonGlobOptions(dirGlob));
 
-            files.forEach((filePath: Path) => {
+            addedFiles.forEach((filePath: Path) => {
               const fileImportPath = toImportPath(filePath);
 
               if (specifier.importPathMatcher.exec(fileImportPath)) {
