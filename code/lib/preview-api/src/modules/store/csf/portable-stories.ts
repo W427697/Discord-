@@ -139,7 +139,9 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         console.warn(
           dedent`Some stories were not cleaned up before rendering '${humanReadableIdentifier}'.
           You should load the story with \`await Story.load()\` before rendering it.
-          See XYZ for more information.`
+          See https://storybook.js.org/docs/api/portable-stories-${
+            process.env.JEST_WORKER_ID !== undefined ? 'jest' : 'vitest'
+          }#3-load for more information.`
         );
       }
       return story.unboundStoryFn(prepareContext(context));
