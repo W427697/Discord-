@@ -255,7 +255,7 @@ describe('composeStory', () => {
     expect(spyFn).toHaveBeenNthCalledWith(2, 'from beforeEach');
   });
 
-  it.only('should warn when previous cleanups are still around when rendering a story', async () => {
+  it('should warn when previous cleanups are still around when rendering a story', async () => {
     const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const cleanupSpy = vi.fn();
     const beforeEachSpy = vi.fn(() => {
