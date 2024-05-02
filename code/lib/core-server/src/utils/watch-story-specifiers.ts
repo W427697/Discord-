@@ -2,7 +2,6 @@ import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
 import path from 'path';
-import uniq from 'lodash/uniq.js';
 
 import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
 import { commonGlobOptions } from '@storybook/core-common';
@@ -25,17 +24,17 @@ function getNestedFilesAndDirectories(directories: Path[]) {
     if (traversedDirectories.has(directory)) {
       return;
     }
-    fs.readdirSync(directory, { withFileTypes: true}).forEach((ent: fs.Dirent) => {
-      if (ent.isDirectory) {
+    fs.readdirSync(directory, { withFileTypes: true }).forEach((ent: fs.Dirent) => {
+      if (ent.isDirectory()) {
         traverse(path.join(directory, ent.name));
-      } else if (ent.isFile) {
+      } else if (ent.isFile()) {
         files.add(path.join(directory, ent.name));
       }
     });
     traversedDirectories.add(directory);
-  }
+  };
   directories.filter(isDirectory).forEach(traverse);
-  return { files: Array.from(files), directories: Array.from(traversedDirectories) }
+  return { files: Array.from(files), directories: Array.from(traversedDirectories) };
 }
 
 export function watchStorySpecifiers(
@@ -45,7 +44,9 @@ export function watchStorySpecifiers(
 ) {
   // Watch all nested files and directories up front to avoid this issue:
   // https://github.com/webpack/watchpack/issues/222
-  const { files, directories } = getNestedFilesAndDirectories(specifiers.map((ns) => path.resolve(options.workingDir, ns.directory)))
+  const { files, directories } = getNestedFilesAndDirectories(
+    specifiers.map((ns) => path.resolve(options.workingDir, ns.directory))
+  );
 
   // See https://www.npmjs.com/package/watchpack for full options.
   // If you want less traffic, consider using aggregation with some interval
@@ -59,7 +60,7 @@ export function watchStorySpecifiers(
   const toImportPath = (absolutePath: Path) => {
     const relativePath = path.relative(options.workingDir, absolutePath);
     return slash(relativePath.startsWith('.') ? relativePath : `./${relativePath}`);
-  }
+  };
 
   async function onChangeOrRemove(absolutePath: Path, removed: boolean) {
     // Watchpack should return absolute paths, given we passed in absolute paths
