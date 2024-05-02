@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within, userEvent } from '@storybook/test';
+import { expect, within, userEvent, waitFor } from '@storybook/test';
 import { cookies } from '@storybook/nextjs/headers.mock';
 import { revalidatePath } from '@storybook/nextjs/cache.mock';
-import { redirect } from '@storybook/nextjs/navigation.mock';
+import { redirect, getRouter } from '@storybook/nextjs/navigation.mock';
 
 import { accessRoute, login, logout } from './server-actions';
 
@@ -63,6 +63,8 @@ export const ProtectedWhileLoggedOut: StoryObj<typeof Component> = {
 
     await expect(cookies().get).toHaveBeenCalledWith('user');
     await expect(redirect).toHaveBeenCalledWith('/');
+
+    await waitFor(() => expect(getRouter().push).toHaveBeenCalled());
   },
 };
 
@@ -77,6 +79,8 @@ export const ProtectedWhileLoggedIn: StoryObj<typeof Component> = {
     await expect(cookies().get).toHaveBeenLastCalledWith('user');
     await expect(revalidatePath).toHaveBeenLastCalledWith('/');
     await expect(redirect).toHaveBeenLastCalledWith('/protected');
+
+    await waitFor(() => expect(getRouter().push).toHaveBeenCalled());
   },
 };
 
@@ -91,6 +95,8 @@ export const Logout: StoryObj<typeof Component> = {
     await expect(cookies().delete).toHaveBeenCalled();
     await expect(revalidatePath).toHaveBeenCalledWith('/');
     await expect(redirect).toHaveBeenCalledWith('/');
+
+    await waitFor(() => expect(getRouter().push).toHaveBeenCalled());
   },
 };
 
@@ -102,5 +108,7 @@ export const Login: StoryObj<typeof Component> = {
     await expect(cookies().set).toHaveBeenCalledWith('user', 'storybookjs');
     await expect(revalidatePath).toHaveBeenCalledWith('/');
     await expect(redirect).toHaveBeenCalledWith('/');
+
+    await waitFor(() => expect(getRouter().push).toHaveBeenCalled());
   },
 };

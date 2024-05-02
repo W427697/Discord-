@@ -59,13 +59,13 @@ export * from 'next/dist/client/components/navigation';
 
 // mock utilities/overrides (as of Next v14.2.0)
 export const redirect = fn(
-  (url: string, type: actual.RedirectType = actual.RedirectType.replace): never => {
+  (url: string, type: actual.RedirectType = actual.RedirectType.push): never => {
     throw getRedirectError(url, type, RedirectStatusCode.SeeOther);
   }
 ).mockName('next/navigation::redirect');
 
 export const permanentRedirect = fn(
-  (url: string, type: actual.RedirectType = actual.RedirectType.replace): never => {
+  (url: string, type: actual.RedirectType = actual.RedirectType.push): never => {
     throw getRedirectError(url, type, RedirectStatusCode.SeeOther);
   }
 ).mockName('next/navigation::permanentRedirect');
