@@ -99,15 +99,15 @@ An object where the keys are the names of the stories and the values are the com
 
 Additionally, the composed story will have the following properties:
 
-| Property   | Type                                      | Description                                                                                 |
-| ---------- | ----------------------------------------- | ------------------------------------------------------------------------------------------- |
-| storyName  | `string`                                  | The story's name                                                                            |
-| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                                              |
-| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                                                      |
-| id         | `string`                                  | The story's id                                                                              |
-| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                                                   |
-| load       | `() => Promise<void>`                     | Executes all the [loaders](#2-load-optional) for a given story and cleanup previous stories |
-| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story                             |
+| Property   | Type                                      | Description                                                                        |
+| ---------- | ----------------------------------------- | ---------------------------------------------------------------------------------- |
+| storyName  | `string`                                  | The story's name                                                                   |
+| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                                     |
+| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                                             |
+| id         | `string`                                  | The story's id                                                                     |
+| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                                          |
+| load       | `() => Promise<void>`                     | [Prepares](#3-load) the story for rendering and and cleans up all previous stories |
+| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story                    |
 
 ## composeStory
 
@@ -240,11 +240,15 @@ The story is prepared by running [`composeStories`](#composestories) or [`compos
 
 ### 3. Load
 
-**(optional)**
-
-Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md). In portable stories, the loaders are not applied automatically—you have to apply them yourself.
+Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md) or [beforeEach](../writing-stories/mocking-modules.md#setting-up-and-cleaning-up). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed story will return a `load` method to be called **before** it is rendered.
+
+<Callout variant="info">
+
+While it's technically optional to run `load` before rendering, it is highly encouraged to always do this, even if the story doesn't have any loaders or beforeEach. If you later add any of these to the story, you don't need to remember to also call `load`. Cleaning up previous stories is also important, and calling `load` ensures that later modifying other stories doesn't affect the current story.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
