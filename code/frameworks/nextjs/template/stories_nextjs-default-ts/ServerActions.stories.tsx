@@ -31,6 +31,23 @@ function Component() {
 
 export default {
   component: Component,
+  parameters: {
+    test: {
+      // This is needed until Next will update to the React 19 beta: https://github.com/vercel/next.js/pull/65058
+      // In the React 19 beta ErrorBoundary errors (such as redirect) are only logged, and not thrown.
+      // We will also suspress console.error logs for re the console.error logs for redirect in the next framework.
+      // Using the onCaughtError react root option:
+      //   react: {
+      //     rootOptions: {
+      //       onCaughtError(error: unknown) {
+      //         if (isNextRouterError(error)) return;
+      //         console.error(error);
+      //       },
+      //     },
+      // See: code/frameworks/nextjs/src/preview.tsx
+      dangerouslyIgnoreUnhandledErrors: true,
+    },
+  },
 } as Meta<typeof Component>;
 
 export const Default: StoryObj<typeof Component> = {
