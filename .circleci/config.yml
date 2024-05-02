@@ -124,7 +124,7 @@ jobs:
             yarn docs:prettier:check
   build:
     executor:
-      class: large
+      class: xlarge
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -596,7 +596,7 @@ jobs:
           at: .
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --no-immutable
           working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
           name: Run Jest tests

@@ -467,6 +467,12 @@ export const addStories: Task['run'] = async (
       cwd,
       disableDocs,
     });
+
+    await linkPackageStories(await workspacePath('core package', '@storybook/test'), {
+      mainConfig,
+      cwd,
+      disableDocs,
+    });
   }
 
   const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
@@ -533,6 +539,32 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
 
+  const previewHeadCode = `
+    (head) => \`
+      \${head}
+      ${templateConfig.previewHead || ''}
+      <style>
+        /* explicitly set monospace font stack to workaround inconsistent fonts in Chromatic */
+        pre, code, kbd, samp {
+          font-family:
+            ui-monospace,
+            Menlo,
+            Monaco,
+            "Cascadia Mono",
+            "Segoe UI Mono",
+            "Roboto Mono",
+            "Oxygen Mono",
+            "Ubuntu Monospace",
+            "Source Code Pro",
+            "Fira Mono",
+            "Droid Sans Mono",
+            "Courier New",
+            monospace;
+        }
+      </style>
+    \``;
+  mainConfig.setFieldNode(['previewHead'], babelParse(previewHeadCode).program.body[0].expression);
+
   // Simulate Storybook Lite
   if (disableDocs) {
     const addons = mainConfig.getFieldValue(['addons']);
@@ -553,6 +585,19 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
+
+export async function setImportMap(cwd: string) {
+  const packageJson = await readJson(join(cwd, 'package.json'));
+
+  packageJson.imports = {
+    '#utils': {
+      storybook: './template-stories/lib/test/utils.mock.ts',
+      default: './template-stories/lib/test/utils.ts',
+    },
+  };
+
+  await writeJson(join(cwd, 'package.json'), packageJson, { spaces: 2 });
+}
 
 /**
  * Sets compodoc option in angular.json projects to false. We have to generate compodoc
