@@ -29,6 +29,9 @@ import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
+const DEFAULT_TITLE = 'ComposedStory';
+const DEFAULT_NAME = 'Unnamed Story';
+
 function extractAnnotation<TRenderer extends Renderer = Renderer>(
   annotation: NamedOrDefaultProjectAnnotations<TRenderer>
 ) {
@@ -63,7 +66,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   // @TODO: Support auto title
 
-  componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
+  componentAnnotations.title = componentAnnotations.title ?? DEFAULT_TITLE;
   const normalizedComponentAnnotations =
     normalizeComponentAnnotations<TRenderer>(componentAnnotations);
 
@@ -72,7 +75,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     storyAnnotations.storyName ||
     storyAnnotations.story?.name ||
     storyAnnotations.name ||
-    'Unnamed Story';
+    DEFAULT_NAME;
 
   const normalizedStory = normalizeStory<TRenderer>(
     storyName,
@@ -126,11 +129,11 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
       if (cleanups.length > 0 && !previousCleanupsDone) {
         let humanReadableIdentifier = storyName;
-        if (story.title !== 'ComposedStory') {
+        if (story.title !== DEFAULT_TITLE) {
           // prefix with title unless it's the generic ComposedStory title
           humanReadableIdentifier = `${story.title} - ${humanReadableIdentifier}`;
         }
-        if (storyName === 'Unnamed Story' && Object.keys(context.args).length > 0) {
+        if (storyName === DEFAULT_NAME && Object.keys(context.args).length > 0) {
           // suffix with args if it's an unnamed story and there are args
           humanReadableIdentifier = `${humanReadableIdentifier} (${Object.keys(context.args).join(
             ', '
