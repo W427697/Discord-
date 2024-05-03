@@ -99,15 +99,15 @@ An object where the keys are the names of the stories and the values are the com
 
 Additionally, the composed story will have the following properties:
 
-| Property   | Type                                      | Description                                                                        |
-| ---------- | ----------------------------------------- | ---------------------------------------------------------------------------------- |
-| storyName  | `string`                                  | The story's name                                                                   |
-| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                                     |
-| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                                             |
-| id         | `string`                                  | The story's id                                                                     |
-| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                                          |
-| load       | `() => Promise<void>`                     | [Prepares](#3-load) the story for rendering and and cleans up all previous stories |
-| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story                    |
+| Property   | Type                                      | Description                                                                           |
+| ---------- | ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| storyName  | `string`                                  | The story's name                                                                      |
+| args       | `Record<string, any>`                     | The story's [args](../writing-stories/args.md)                                        |
+| argTypes   | `ArgType`                                 | The story's [argTypes](./arg-types.md)                                                |
+| id         | `string`                                  | The story's id                                                                        |
+| parameters | `Record<string, any>`                     | The story's [parameters](./parameters.md)                                             |
+| load       | `() => Promise<void>`                     | [Prepares](#3-prepare) the story for rendering and and cleans up all previous stories |
+| play       | `(context) => Promise<void> \| undefined` | Executes the [play function](#5-play) of a given story                                |
 
 ## composeStory
 
@@ -234,19 +234,19 @@ When you want to reuse a story in a different environment, however, it's crucial
 
 👉 For this, you use the [`setProjectAnnotations`](#setprojectannotations) API.
 
-### 2. Prepare
+### 2. Compose
 
 The story is prepared by running [`composeStories`](#composestories) or [`composeStory`](#composestory). You do not need to do anything for this step.
 
-### 3. Load
+### 3. Prepare
 
-Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md) or [beforeEach](../writing-stories/mocking-modules.md#setting-up-and-cleaning-up). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
+Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md) or [beforeEach](../writing-tests/interaction-testing.md#run-code-before-each-test). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed story will return a `load` method to be called **before** it is rendered.
 
 <Callout variant="info">
 
-While it's technically optional to run `load` before rendering, it is highly encouraged to always do this, even if the story doesn't have any loaders or beforeEach. If you later add any of these to the story, you don't need to remember to also call `load`. Cleaning up previous stories is also important, and calling `load` ensures that later modifying other stories doesn't affect the current story.
+It is recommended to always run `load` before rendering, even if the story doesn't have any loaders or beforeEach applied. By doing so, you ensure that the tests are cleaned up properly to maintain isolation and you will not have to update your test if you later add them to your story.
 
 </Callout>
 
