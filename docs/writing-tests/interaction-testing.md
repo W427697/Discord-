@@ -102,7 +102,7 @@ It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Stor
 
 </Callout>
 
-Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the Date and reset it when the story unmounts.
+Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
 <!-- prettier-ignore-start -->
 

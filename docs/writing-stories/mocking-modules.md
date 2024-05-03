@@ -72,7 +72,7 @@ There are two aspects to this configuration worth noting:
 
 First, **each subpath must begin with `#`**, to differentiate it from a regular module path. The `#*` entry is a catch-all that maps all subpaths to the root directory.
 
-Second, note the **`storybook` and `default` keys** in each module's entry. The `storybook` value is used to import the mock file when loaded in Storybook, while the `default` value is used to import the original module when loaded in your project. The Storybook environment will match the conditions `storybook` and `test`, so you can apply the same module mapping for both Storybook and your tests.
+Second, note the **`storybook`, `test`, and `default` keys** in each module's entry. The `storybook` value is used to import the mock file when loaded in Storybook, while the `default` value is used to import the original module when loaded in your project. The `test` condition is also used within Storybook, which allows you to use the same configuration in Storybook and your other tests.
 
 With the package configuration in place, you can then update your component file to use the subpath import:
 
