@@ -58,6 +58,11 @@ This context can be used to adjust the behavior of your decorator based on the s
   paths={[
     'react/decorator-parameterized-in-preview.js.mdx',
     'react/decorator-parameterized-in-preview.ts.mdx',
+    'vue/decorator-parameterized-in-preview.js.mdx',
+    'vue/decorator-parameterized-in-preview.ts.mdx',
+    'angular/decorator-parameterized-in-preview.ts.mdx',
+    'solid/decorator-parameterized-in-preview.js.mdx',
+    'solid/decorator-parameterized-in-preview.ts.mdx',
   ]}
 />
 

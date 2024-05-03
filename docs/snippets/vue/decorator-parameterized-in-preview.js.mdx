@@ -1,26 +1,20 @@
 ```js
-// .storybook/preview.jsx
-import React from 'react';
-
+// .storybook/preview.js
 export default {
   decorators: [
     // 👇 Defining the decorator in the preview file applies it to all stories
-    (Story, { parameters }) => {
+    (_, { parameters }) => {
       // 👇 Make it configurable by reading from parameters
       const { pageLayout } = parameters;
       switch (pageLayout) {
         case 'page':
-          return (
-            // Your page layout is probably a little more complex than this ;)
-            <div className="page-layout"><Story /></div>
-          );
+          // Your page layout is probably a little more complex than this ;)
+          return { template: '<div class="page-layout"><story/></div>' };
         case 'page-mobile':
-          return (
-            <div className="page-mobile-layout"><Story /></div>
-          );
+          return { template: '<div class="page-mobile-layout"><story/></div>' };
         case default:
           // In the default case, don't apply a layout
-          return <Story />;
+          return { template: '<story/>' };
       }
     },
   ],
