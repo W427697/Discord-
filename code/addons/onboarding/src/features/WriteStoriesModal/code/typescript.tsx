@@ -24,7 +24,7 @@ const data: CodeSnippets = {
     ],
     [
       {
-        snippet: `type Story = StoryObj<Button>;
+        snippet: `type Story = StoryObj<typeof Button>;
         
       export const Primary: Story = {`,
       },
@@ -32,7 +32,7 @@ const data: CodeSnippets = {
         snippet: `args: {
           primary: true,
           label: 'Click',
-          background: 'red'
+          backgroundColor: 'red'
         }`,
         toggle: true,
       },
