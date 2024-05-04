@@ -141,12 +141,13 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const projectTags = projectAnnotations.tags ?? ['dev', 'docs', 'test'];
+  const defaultTags = ['dev', 'docs', 'test'];
   const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
 
   const tags = combineTags(
-    ...projectTags,
+    ...defaultTags,
     ...extraTags,
+    ...(projectAnnotations.tags ?? []),
     ...(componentAnnotations.tags ?? []),
     ...(storyAnnotations?.tags ?? []),
     'story'
