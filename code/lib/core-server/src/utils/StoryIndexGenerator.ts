@@ -602,6 +602,16 @@ export class StoryIndexGenerator {
     }
   }
 
+  invalidateAll() {
+    this.specifierToCache.forEach((cache) => {
+      Object.keys(cache).forEach((key) => {
+        cache[key] = false;
+      });
+    });
+    this.lastIndex = null;
+    this.lastError = null;
+  }
+
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
@@ -656,10 +666,9 @@ export class StoryIndexGenerator {
 
   getProjectTags(previewCode: string) {
     const projectAnnotations = loadConfig(previewCode).parse();
-    const defaultTags = ['dev', 'docs', 'test'];
     const extraTags = this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
-    const projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
-    return [...defaultTags, ...projectTags, ...extraTags];
+    const projectTags = projectAnnotations.getFieldValue(['tags']) ?? ['dev', 'docs', 'test'];
+    return [...projectTags, ...extraTags];
   }
 
   // Get the story file names in "imported order"
