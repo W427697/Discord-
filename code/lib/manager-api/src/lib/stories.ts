@@ -193,8 +193,18 @@ export const transformStoryIndexToStoriesHash = (
       const parent = idx > 0 && list[idx - 1];
       const id = sanitize(parent ? `${parent}-${name}` : name!);
 
-      if (parent === id) {
+      if (name.trim() === '') {
         throw new Error(dedent`Invalid title ${title} ending in slash.`);
+      }
+
+      if (parent === id) {
+        throw new Error(
+          dedent`
+          Invalid part '${name}', leading to id === parentId ('${id}'), inside title '${title}'
+          
+          Did you create a path that uses the separator char accidentally, such as 'Vue <docs/>' where '/' is a separator char? See https://github.com/storybookjs/storybook/issues/6128
+          `
+        );
       }
       list.push(id);
       return list;
