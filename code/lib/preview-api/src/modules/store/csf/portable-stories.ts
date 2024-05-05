@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { isExportStory } from '@storybook/csf';
+import { type CleanupCallback, isExportStory } from '@storybook/csf';
 import dedent from 'ts-dedent';
 import type {
   Renderer,
@@ -29,6 +29,9 @@ import { normalizeProjectAnnotations } from './normalizeProjectAnnotations';
 
 let globalProjectAnnotations: ProjectAnnotations<any> = {};
 
+const DEFAULT_STORY_TITLE = 'ComposedStory';
+const DEFAULT_STORY_NAME = 'Unnamed Story';
+
 function extractAnnotation<TRenderer extends Renderer = Renderer>(
   annotation: NamedOrDefaultProjectAnnotations<TRenderer>
 ) {
@@ -47,6 +50,8 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   globalProjectAnnotations = composeConfigs(annotations.map(extractAnnotation));
 }
 
+const cleanups: { storyName: string; callback: CleanupCallback }[] = [];
+
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
   componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
@@ -61,7 +66,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   // @TODO: Support auto title
 
-  componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
+  componentAnnotations.title = componentAnnotations.title ?? DEFAULT_STORY_TITLE;
   const normalizedComponentAnnotations =
     normalizeComponentAnnotations<TRenderer>(componentAnnotations);
 
@@ -70,7 +75,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     storyAnnotations.storyName ||
     storyAnnotations.story?.name ||
     storyAnnotations.name ||
-    'Unnamed Story';
+    DEFAULT_STORY_NAME;
 
   const normalizedStory = normalizeStory<TRenderer>(
     storyName,
@@ -113,6 +118,8 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         })
     : undefined;
 
+  let previousCleanupsDone = false;
+
   const composedStory: ComposedStoryFn<TRenderer, Partial<TArgs>> = Object.assign(
     function storyFn(extraArgs?: Partial<TArgs>) {
       context.args = {
@@ -120,14 +127,47 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
         ...extraArgs,
       };
 
+      if (cleanups.length > 0 && !previousCleanupsDone) {
+        let humanReadableIdentifier = storyName;
+        if (story.title !== DEFAULT_STORY_TITLE) {
+          // prefix with title unless it's the generic ComposedStory title
+          humanReadableIdentifier = `${story.title} - ${humanReadableIdentifier}`;
+        }
+        if (storyName === DEFAULT_STORY_NAME && Object.keys(context.args).length > 0) {
+          // suffix with args if it's an unnamed story and there are args
+          humanReadableIdentifier = `${humanReadableIdentifier} (${Object.keys(context.args).join(
+            ', '
+          )})`;
+        }
+        console.warn(
+          dedent`Some stories were not cleaned up before rendering '${humanReadableIdentifier}'.
+          
+          You should load the story with \`await Story.load()\` before rendering it.
+          See https://storybook.js.org/docs/api/portable-stories-${
+            process.env.JEST_WORKER_ID !== undefined ? 'jest' : 'vitest'
+          }#3-load for more information.`
+        );
+      }
       return story.unboundStoryFn(prepareContext(context));
     },
     {
       id: story.id,
       storyName,
       load: async () => {
+        // First run any registered cleanup function
+        for (const { callback } of [...cleanups].reverse()) await callback();
+        cleanups.length = 0;
+
+        previousCleanupsDone = true;
+
         const loadedContext = await story.applyLoaders(context);
         context.loaded = loadedContext.loaded;
+
+        cleanups.push(
+          ...(await story.applyBeforeEach(context))
+            .filter(Boolean)
+            .map((callback) => ({ storyName, callback }))
+        );
       },
       args: story.initialArgs as Partial<TArgs>,
       parameters: story.parameters as Parameters,
