@@ -1172,9 +1172,12 @@ describe('CsfFile', () => {
           tags:
             - component-tag
             - component-tag-dup
+            - component-tag-dup
             - inherit-tag-dup
             - story-tag
             - story-tag-dup
+            - story-tag-dup
+            - inherit-tag-dup
           __id: custom-foo-title--a
       `);
     });

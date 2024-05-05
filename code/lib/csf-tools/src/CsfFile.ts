@@ -8,7 +8,7 @@ import * as generate from '@babel/generator';
 import * as recast from 'recast';
 
 import * as traverse from '@babel/traverse';
-import { toId, isExportStory, storyNameFromExport, combineTags } from '@storybook/csf';
+import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
   Tag,
   StoryAnnotations,
@@ -557,9 +557,10 @@ export class CsfFile {
         Either add the fileName option when creating the CsfFile instance, or create the index inputs manually.`
       );
     }
+
     return Object.entries(this._stories).map(([exportName, story]) => {
-      // combine meta and story tags, removing any duplicates
-      const tags = combineTags(...(this._meta?.tags ?? []), ...(story.tags ?? []));
+      // don't remove any duplicates or negations -- tags will be combined in the index
+      const tags = [...(this._meta?.tags ?? []), ...(story.tags ?? [])];
       return {
         type: 'story',
         importPath: this._fileName,
