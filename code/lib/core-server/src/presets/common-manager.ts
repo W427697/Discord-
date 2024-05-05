@@ -18,7 +18,7 @@ addons.register(STATIC_FILTER, (api) => {
   );
 
   api.experimental_setFilter(STATIC_FILTER, (item) => {
-    const tags = item.tags || [];
-    return tags.filter((tag) => excludeTags[tag]).length === 0;
+    const tags = item.tags ?? [];
+    return tags.includes('dev') && tags.filter((tag) => excludeTags[tag]).length === 0;
   });
 });
