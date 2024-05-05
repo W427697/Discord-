@@ -1,5 +1,9 @@
-import { useMemo, useEffect } from '@storybook/preview-api';
-import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
+import { useMemo, useEffect } from '@storybook/core/dist/preview-api';
+import type {
+  Renderer,
+  PartialStoryFn as StoryFunction,
+  StoryContext,
+} from '@storybook/core/dist/types';
 
 import { clearStyles, addOutlineStyles } from './helpers';
 import { PARAM_KEY } from './constants';

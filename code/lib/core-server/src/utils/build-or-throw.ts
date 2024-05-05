@@ -1,4 +1,4 @@
-import { NoMatchingExportError } from '@storybook/core-events/server-errors';
+import { NoMatchingExportError } from '@storybook/core/dist/server-errors';
 
 export async function buildOrThrow<T>(callback: () => Promise<T>): Promise<T> {
   try {

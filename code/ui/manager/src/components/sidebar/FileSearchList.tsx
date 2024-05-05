@@ -26,7 +26,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type {
   CreateNewStoryRequestPayload,
   FileComponentSearchResponsePayload,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import { WithTooltip, TooltipNote } from '@storybook/components';
 import { useArrowKeyNavigation } from './FIleSearchList.utils';
 

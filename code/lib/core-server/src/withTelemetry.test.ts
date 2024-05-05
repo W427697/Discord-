@@ -1,13 +1,13 @@
 import prompts from 'prompts';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry, oneWayHash } from '@storybook/telemetry';
+import { loadAllPresets, cache } from '@storybook/core/dist/common';
+import { telemetry, oneWayHash } from '@storybook/core/dist/telemetry';
 
 import { getErrorLevel, sendTelemetryError, withTelemetry } from './withTelemetry';
 
 vi.mock('prompts');
-vi.mock('@storybook/core-common');
-vi.mock('@storybook/telemetry');
+vi.mock('@storybook/core/dist/common');
+vi.mock('@storybook/core/dist/telemetry');
 
 const cliOptions = {};
 

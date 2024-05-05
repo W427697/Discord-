@@ -1,6 +1,6 @@
 // This plugin is a direct port of https://github.com/IanVS/vite-plugin-turbosnap
 
-import type { BuilderStats } from '@storybook/types';
+import type { BuilderStats } from '@storybook/core/dist/types';
 import path from 'path';
 import type { Plugin } from 'vite';
 

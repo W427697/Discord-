@@ -1,4 +1,4 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 import type { Express } from 'express';
 import { readFile } from 'fs-extra';
 import http from 'http';

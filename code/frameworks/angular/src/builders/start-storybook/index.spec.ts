@@ -21,7 +21,7 @@ vi.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const mockRunScript = vi.fn();
 
-vi.mock('@storybook/core-common', () => ({
+vi.mock('@storybook/core/dist/common', () => ({
   getEnvConfig: (options: any) => options,
   versions: {
     storybook: 'x.x.x',

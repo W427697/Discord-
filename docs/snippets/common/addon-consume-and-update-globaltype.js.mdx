@@ -3,13 +3,13 @@
 
 import React, { useCallback } from 'react';
 
-import { FORCE_RE_RENDER } from '@storybook/core-events';
+import { FORCE_RE_RENDER } from '@storybook/core/dist/core-events';
 import { useGlobals } from '@storybook/manager-api';
 
 import { IconButton } from '@storybook/components';
 import { OutlineIcon } from '@storybook/icons';
 
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/preview-api';
 
 const ExampleToolbar = () => {
   const [globals, updateGlobals] = useGlobals();

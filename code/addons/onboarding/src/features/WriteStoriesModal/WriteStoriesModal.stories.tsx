@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { waitFor, within, expect, fn } from '@storybook/test';
-import { STORY_INDEX_INVALIDATED, STORY_RENDERED } from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED, STORY_RENDERED } from '@storybook/core/dist/core-events';
 import { WriteStoriesModal } from './WriteStoriesModal';
 import typescriptSnippet from './code/typescript';
 

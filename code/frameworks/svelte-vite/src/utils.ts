@@ -1,5 +1,5 @@
 import type { PluginOption } from 'vite';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/types';
 import dedent from 'ts-dedent';
 import { hasVitePlugins } from '@storybook/builder-vite';
 

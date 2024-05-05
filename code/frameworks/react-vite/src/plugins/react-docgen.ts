@@ -18,7 +18,7 @@ import {
   ReactDocgenResolveError,
   defaultLookupModule,
 } from './docgen-resolver';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 
 type DocObj = Documentation & { actualName: string };
 

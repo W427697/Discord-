@@ -3,7 +3,7 @@ import React from 'react';
 import memoize from 'memoizerific';
 import { Consumer } from '@storybook/manager-api';
 import type { API, Combo } from '@storybook/manager-api';
-import { Addon_TypesEnum } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/core/dist/types';
 
 import { AddonPanel } from '../components/panel/Panel';
 

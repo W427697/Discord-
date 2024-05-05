@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { once } from '@storybook/client-logger';
-import { instrument } from '@storybook/instrumenter';
+import { once } from '@storybook/core/dist/client-logger';
+import { instrument } from '@storybook/core/dist/instrumenter';
 import * as domTestingLibrary from '@testing-library/dom';
 import _userEvent from '@testing-library/user-event';
 import dedent from 'ts-dedent';

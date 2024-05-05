@@ -5,7 +5,7 @@ import {
   getIncompatiblePackagesSummary,
   checkPackageCompatibility,
 } from './getIncompatibleStorybookPackages';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { JsPackageManager } from '@storybook/core/dist/common';
 
 vi.mock('chalk', () => {
   return {
@@ -39,7 +39,7 @@ describe('checkPackageCompatibility', () => {
       name: packageName,
       version: '1.0.0',
       dependencies: {
-        '@storybook/core-common': '7.0.0',
+        '@storybook/core/dist/common': '7.0.0',
       },
     });
     const result = await checkPackageCompatibility(packageName, {
@@ -61,7 +61,7 @@ describe('checkPackageCompatibility', () => {
       name: packageName,
       version: '1.0.0',
       dependencies: {
-        '@storybook/core-common': '8.0.0',
+        '@storybook/core/dist/common': '8.0.0',
       },
     });
     const result = await checkPackageCompatibility(packageName, {
@@ -84,7 +84,7 @@ describe('checkPackageCompatibility', () => {
       name: packageName,
       version: '7.0.0',
       dependencies: {
-        '@storybook/core-common': '7.0.0',
+        '@storybook/core/dist/common': '7.0.0',
       },
     });
 
@@ -110,7 +110,7 @@ describe('getIncompatibleStorybookPackages', () => {
       name: '@storybook/addon-essentials',
       version: '7.0.0',
       dependencies: {
-        '@storybook/core-common': '7.0.0',
+        '@storybook/core/dist/common': '7.0.0',
       },
     });
 

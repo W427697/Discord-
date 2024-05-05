@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, createGlobal } from '@storybook/theming';
-import type { Addon_PageType } from '@storybook/types';
+import type { Addon_PageType } from '@storybook/core/dist/types';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
 import Panel from './container/Panel';

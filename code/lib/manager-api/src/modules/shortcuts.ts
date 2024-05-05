@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { global } from '@storybook/global';
-import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
+import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core/dist/core-events';
 
 import type { ModuleFn } from '../lib/types';
 

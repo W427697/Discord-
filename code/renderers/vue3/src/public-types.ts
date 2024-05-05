@@ -10,13 +10,13 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import type { Constructor, RemoveIndexSignature, SetOptional, Simplify } from 'type-fest';
 import type { FunctionalComponent, VNodeChild } from 'vue';
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers';
 import type { VueRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/core/dist/types';
 export type { VueRenderer };
 
 /**

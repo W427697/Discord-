@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, test, expect } from 'vitest';
-import { readCsf, printCsf } from '@storybook/csf-tools';
+import { readCsf, printCsf } from '@storybook/core/dist/csf-tools';
 
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { readFile } from 'fs/promises';

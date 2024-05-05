@@ -2,7 +2,7 @@
 import React from 'react';
 import { vi, it, expect, afterEach, describe } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/preview-api';
 
 import * as addonActionsPreview from '@storybook/addon-actions/preview';
 import type { Meta } from '@storybook/react';

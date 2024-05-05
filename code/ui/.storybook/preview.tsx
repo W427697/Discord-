@@ -10,10 +10,10 @@ import {
   styled,
   useTheme,
 } from '@storybook/theming';
-import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
-import type { PreviewWeb } from '@storybook/preview-api';
+import { useArgs, DocsContext as DocsContextProps } from '@storybook/core/dist/preview-api';
+import type { PreviewWeb } from '@storybook/core/dist/preview-api';
 import type { ReactRenderer } from '@storybook/react';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/channels';
 
 import { DocsContext } from '@storybook/blocks';
 

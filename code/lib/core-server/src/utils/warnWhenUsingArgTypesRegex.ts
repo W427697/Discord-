@@ -1,9 +1,9 @@
-import type { PackageJson, StorybookConfig } from '@storybook/types';
-import { getConfigInfo } from '@storybook/core-common';
+import type { PackageJson, StorybookConfig } from '@storybook/core/dist/types';
+import { getConfigInfo } from '@storybook/core/dist/common';
 import { readFile } from 'fs-extra';
 import * as babel from '@babel/core';
 import type { BabelFile } from '@babel/core';
-import { babelParse } from '@storybook/csf-tools';
+import { babelParse } from '@storybook/core/dist/csf-tools';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
 

@@ -1,4 +1,4 @@
-import type { Args, Renderer, ArgsEnhancer } from '@storybook/types';
+import type { Args, Renderer, ArgsEnhancer } from '@storybook/core/dist/types';
 import { action } from './runtime/action';
 
 // interface ActionsParameter {
@@ -51,13 +51,11 @@ export const addActionsFromArgTypes: ArgsEnhancer<Renderer> = (context) => {
     return {};
   }
 
-  const argTypesWithAction = Object.entries(argTypes).filter(
-    ([name, argType]) => !!argType['action']
-  );
+  const argTypesWithAction = Object.entries(argTypes).filter(([name, argType]) => !!argType.action);
 
   return argTypesWithAction.reduce((acc, [name, argType]) => {
     if (isInInitialArgs(name, initialArgs)) {
-      acc[name] = action(typeof argType['action'] === 'string' ? argType['action'] : name);
+      acc[name] = action(typeof argType.action === 'string' ? argType.action : name);
     }
     return acc;
   }, {} as Args);

@@ -2,7 +2,7 @@ import type { Fix } from '../types';
 import * as fs from 'node:fs/promises';
 import * as babel from '@babel/core';
 import type { BabelFile, NodePath } from '@babel/core';
-import { babelParse } from '@storybook/csf-tools';
+import { babelParse } from '@storybook/core/dist/csf-tools';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
 

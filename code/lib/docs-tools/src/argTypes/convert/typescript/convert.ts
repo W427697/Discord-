@@ -1,5 +1,5 @@
-import { UnknownArgTypesError } from '@storybook/core-events/preview-errors';
-import type { SBType } from '@storybook/types';
+import { UnknownArgTypesError } from '@storybook/core/dist/preview-errors';
+import type { SBType } from '@storybook/core/dist/types';
 import type { TSType, TSSigType } from './types';
 import { parseLiteral } from '../utils';
 

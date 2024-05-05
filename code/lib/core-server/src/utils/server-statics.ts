@@ -1,6 +1,6 @@
-import { logger } from '@storybook/node-logger';
-import type { Options } from '@storybook/types';
-import { getDirectoryFromWorkingDir } from '@storybook/core-common';
+import { logger } from '@storybook/core/dist/node-logger';
+import type { Options } from '@storybook/core/dist/types';
+import { getDirectoryFromWorkingDir } from '@storybook/core/dist/common';
 import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';

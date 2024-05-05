@@ -2,7 +2,7 @@ import type {
   DocsContextProps,
   ResolvedModuleExportType,
   ResolvedModuleExportFromType,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 

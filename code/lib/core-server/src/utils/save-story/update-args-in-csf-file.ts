@@ -1,7 +1,10 @@
 import * as t from '@babel/types';
-import * as traverse from '@babel/traverse';
+import bt from '@babel/traverse';
 import { valueToAST } from './valueToAST';
 import { SaveStoryError } from './utils';
+
+// @ts-expect-error (needed due to it's use of `exports.default`)
+const traverse = bt.default as typeof bt;
 
 export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, any>) => {
   let found = false;
@@ -61,7 +64,7 @@ export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, an
     return;
   }
 
-  traverse.default(node, {
+  traverse(node, {
     ObjectExpression(path) {
       if (found) {
         return;

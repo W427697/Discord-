@@ -15,7 +15,7 @@ import {
   types,
 } from '@storybook/manager-api';
 
-import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/types';
+import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/core/dist/types';
 import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 

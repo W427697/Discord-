@@ -2,7 +2,7 @@ import { global } from '@storybook/global';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useStorybookApi } from '@storybook/manager-api';
-import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { PRELOAD_ENTRIES } from '@storybook/core/dist/core-events';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 import type { CombinedDataset, Highlight, Selection } from './types';

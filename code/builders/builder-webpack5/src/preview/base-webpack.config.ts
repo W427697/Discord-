@@ -1,5 +1,5 @@
-import { logger } from '@storybook/node-logger';
-import type { Options } from '@storybook/types';
+import { logger } from '@storybook/core/dist/node-logger';
+import type { Options } from '@storybook/core/dist/types';
 import type { Configuration } from 'webpack';
 
 export async function createDefaultWebpackConfig(

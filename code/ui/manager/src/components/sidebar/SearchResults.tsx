@@ -6,7 +6,7 @@ import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
-import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { PRELOAD_ENTRIES } from '@storybook/core/dist/core-events';
 import { transparentize } from 'polished';
 import { TrashIcon } from '@storybook/icons';
 import { TypeIcon } from './TreeNode';

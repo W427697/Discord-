@@ -4,8 +4,8 @@ import type {
   Addon_Types,
   Addon_TypesMapping,
   API_StateMerger,
-} from '@storybook/types';
-import { Addon_TypesEnum } from '@storybook/types';
+} from '@storybook/core/dist/types';
+import { Addon_TypesEnum } from '@storybook/core/dist/types';
 import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 

@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { CallStates } from '@storybook/instrumenter';
+import { CallStates } from '@storybook/core/dist/instrumenter';
 import { Subnav } from './Subnav';
 
 export default {

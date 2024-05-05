@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 import type { PluginOptions } from '../types';
 
 const incompatiblePresets = ['@storybook/preset-scss', '@storybook/preset-typescript'];

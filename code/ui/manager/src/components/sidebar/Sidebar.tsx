@@ -8,7 +8,7 @@ import type {
   Addon_SidebarBottomType,
   Addon_SidebarTopType,
   API_LoadedRefData,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 

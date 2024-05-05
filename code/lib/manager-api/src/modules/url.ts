@@ -4,13 +4,13 @@ import {
   SET_CURRENT_STORY,
   GLOBALS_UPDATED,
   UPDATE_QUERY_PARAMS,
-} from '@storybook/core-events';
-import type { NavigateOptions } from '@storybook/router';
-import { queryFromLocation, buildArgsParam } from '@storybook/router';
+} from '@storybook/core/dist/core-events';
+import type { NavigateOptions } from '@storybook/core/dist/router';
+import { queryFromLocation, buildArgsParam } from '@storybook/core/dist/router';
 import { dequal as deepEqual } from 'dequal';
 import { global } from '@storybook/global';
 
-import type { API_Layout, API_UI, Args } from '@storybook/types';
+import type { API_Layout, API_UI, Args } from '@storybook/core/dist/types';
 import type { ModuleArgs, ModuleFn } from '../lib/types';
 import { defaultLayoutState } from './layout';
 

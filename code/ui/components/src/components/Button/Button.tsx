@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { isPropValid, styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@storybook/core/dist/client-logger';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;

@@ -4,7 +4,7 @@ import { getServerAddresses, getServerPort, getServerChannelUrl } from './server
 
 vi.mock('ip');
 vi.mock('detect-port');
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/node-logger');
 
 describe('getServerAddresses', () => {
   const port = 3000;

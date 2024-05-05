@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { global } from '@storybook/global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import type { Renderer } from '@storybook/types';
+import type { Renderer } from '@storybook/core/dist/types';
 import { DocsPageWrapper } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';

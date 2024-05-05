@@ -21,8 +21,8 @@ vi.mock('../utils/search-files', () => {
   };
 });
 
-vi.mock('@storybook/core-common', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@storybook/core-common')>();
+vi.mock('@storybook/core/dist/common', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@storybook/core/dist/common')>();
   return {
     ...actual,
     getFrameworkName: vi.fn().mockResolvedValue('@storybook/react'),

@@ -5,12 +5,12 @@ import { readdirSync, remove } from 'fs-extra';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 
-import { telemetry } from '@storybook/telemetry';
+import { telemetry } from '@storybook/core/dist/telemetry';
 
-import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
-import { logger } from '@storybook/node-logger';
+import { GenerateNewProjectOnInitError } from '@storybook/core/dist/server-errors';
+import { logger } from '@storybook/core/dist/node-logger';
 
-import type { PackageManagerName } from '@storybook/core-common';
+import type { PackageManagerName } from '@storybook/core/dist/common';
 import type { CommandOptions } from './generators/types';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';

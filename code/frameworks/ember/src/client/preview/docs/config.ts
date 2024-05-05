@@ -1,4 +1,4 @@
-import type { ArgTypesEnhancer } from '@storybook/types';
+import type { ArgTypesEnhancer } from '@storybook/core/dist/types';
 import { enhanceArgTypes } from '@storybook/docs-tools';
 
 import { extractArgTypes, extractComponentDescription } from './jsondoc';

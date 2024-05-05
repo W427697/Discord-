@@ -17,11 +17,11 @@ import type {
   StoryName,
   Indexer,
   StorybookConfigRaw,
-} from '@storybook/types';
-import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
-import { logger, once } from '@storybook/node-logger';
-import { getStorySortParameter } from '@storybook/csf-tools';
+} from '@storybook/core/dist/types';
+import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/core/dist/preview-api';
+import { commonGlobOptions, normalizeStoryPath } from '@storybook/core/dist/common';
+import { logger, once } from '@storybook/core/dist/node-logger';
+import { getStorySortParameter } from '@storybook/core/dist/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';

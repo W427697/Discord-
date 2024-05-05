@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { ArgsStoryFn } from '@storybook/types';
+import type { ArgsStoryFn } from '@storybook/core/dist/types';
 
 import type { ReactRenderer } from './types';
 

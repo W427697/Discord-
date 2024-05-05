@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import * as api from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/core/dist/types';
 import { PANEL_ID } from './constants';
 import './manager';
 

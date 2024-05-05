@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ReactElement } from 'react';
-import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
+import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/core/dist/types';
 
 import { styled } from '@storybook/theming';
 

@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
 import chalk from 'chalk';
-import { colors } from '@storybook/node-logger';
+import { colors } from '@storybook/core/dist/node-logger';
 import semver from 'semver';
 import { dedent } from 'ts-dedent';
-import { cache } from '@storybook/core-common';
-import type { VersionCheck } from '@storybook/types';
+import { cache } from '@storybook/core/dist/common';
+import type { VersionCheck } from '@storybook/core/dist/types';
 
 const { STORYBOOK_VERSION_BASE = 'https://storybook.js.org', CI } = process.env;
 

@@ -98,7 +98,7 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { bundledDependencies: false, devDependencies: true },
+          { bundledDependencies: false, devDependencies: true, peerDependencies: true },
         ],
       },
     },
@@ -107,7 +107,16 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { packageDir: [__dirname], devDependencies: true },
+          { packageDir: [__dirname], devDependencies: true, peerDependencies: true },
+        ],
+      },
+    },
+    {
+      files: ['**/core/**'],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          { packageDir: [__dirname], devDependencies: true, peerDependencies: true },
         ],
       },
     },
@@ -128,7 +137,11 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { packageDir: [__dirname, path.join(__dirname, 'ui', directory)], devDependencies: true },
+          {
+            packageDir: [__dirname, path.join(__dirname, 'ui', directory)],
+            devDependencies: true,
+            peerDependencies: true,
+          },
         ],
       },
     })),

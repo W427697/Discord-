@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
-import { Addon_TypesEnum } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/core/dist/types';
 
 import type { SidebarProps as SidebarComponentProps } from '../components/sidebar/Sidebar';
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';

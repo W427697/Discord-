@@ -1,4 +1,4 @@
-import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/core/dist/types';
 import {
   getProjectRoot,
   loadAllPresets,
@@ -7,17 +7,17 @@ import {
   resolvePathInStorybookCache,
   serverResolve,
   validateFrameworkName,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import prompts from 'prompts';
 import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
-import { oneWayHash, telemetry } from '@storybook/telemetry';
+import { oneWayHash, telemetry } from '@storybook/core/dist/telemetry';
 
 import { join, relative, resolve } from 'path';
-import { deprecate } from '@storybook/node-logger';
+import { deprecate } from '@storybook/core/dist/node-logger';
 import { dedent } from 'ts-dedent';
 import { readFile } from 'fs-extra';
-import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError, NoStatsForViteDevError } from '@storybook/core/dist/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';

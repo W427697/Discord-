@@ -9,8 +9,8 @@ import {
   CREATE_NEW_STORYFILE_RESPONSE,
 } from '@storybook/core-events';
 
-vi.mock('@storybook/core-common', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@storybook/core-common')>();
+vi.mock('@storybook/core/dist/common', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@storybook/core/dist/common')>();
   return {
     ...actual,
     getProjectRoot: vi.fn().mockReturnValue(process.cwd()),

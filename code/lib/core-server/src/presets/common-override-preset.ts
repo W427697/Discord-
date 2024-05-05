@@ -1,4 +1,4 @@
-import type { PresetProperty, TestBuildFlags } from '@storybook/types';
+import type { PresetProperty, TestBuildFlags } from '@storybook/core/dist/types';
 import { removeMDXEntries } from '../utils/remove-mdx-entries';
 
 export const framework: PresetProperty<'framework'> = async (config) => {

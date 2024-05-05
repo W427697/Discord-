@@ -2,8 +2,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { getNewStoryFile } from './get-new-story-file';
 import path from 'path';
 
-vi.mock('@storybook/core-common', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@storybook/core-common')>();
+vi.mock('@storybook/core/dist/common', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@storybook/core/dist/common')>();
   return {
     ...actual,
     getProjectRoot: vi.fn().mockReturnValue(require('path').join(__dirname)),

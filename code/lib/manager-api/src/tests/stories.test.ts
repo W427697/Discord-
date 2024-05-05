@@ -17,7 +17,7 @@ import {
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
 
-import type { API_StoryEntry } from '@storybook/types';
+import type { API_StoryEntry } from '@storybook/core/dist/types';
 import { getEventMetadata as getEventMetadataOriginal } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';

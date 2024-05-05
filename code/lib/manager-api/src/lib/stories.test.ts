@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { StoryIndexV2, StoryIndexV3 } from '@storybook/types';
+import type { StoryIndexV2, StoryIndexV3 } from '@storybook/core/dist/types';
 import { transformStoryIndexV2toV3, transformStoryIndexV3toV4 } from './stories';
 
 const baseV2: StoryIndexV2['stories'][0] = {

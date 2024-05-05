@@ -1,7 +1,7 @@
 import type { Globals } from '@storybook/csf';
-import type { DocsContextProps, PreparedStory } from '@storybook/types';
+import type { DocsContextProps, PreparedStory } from '@storybook/core/dist/types';
 import { useEffect, useState } from 'react';
-import { GLOBALS_UPDATED } from '@storybook/core-events';
+import { GLOBALS_UPDATED } from '@storybook/core/dist/core-events';
 
 export const useGlobals = (story: PreparedStory, context: DocsContextProps): [Globals] => {
   const storyContext = context.getStoryContext(story);

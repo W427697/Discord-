@@ -1,4 +1,4 @@
-import type { PresetProperty } from '@storybook/types';
+import type { PresetProperty } from '@storybook/core/dist/types';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 import { findDistFile } from '../util';
 

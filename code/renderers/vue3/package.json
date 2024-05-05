@@ -55,8 +55,6 @@
   "dependencies": {
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/types": "workspace:*",
     "@vue/compiler-core": "^3.0.0",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0",
@@ -73,6 +71,7 @@
     "vue-tsc": "latest"
   },
   "peerDependencies": {
+    "@storybook/core": "workspace:*",
     "vue": "^3.0.0"
   },
   "engines": {

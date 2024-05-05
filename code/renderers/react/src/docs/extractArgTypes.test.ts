@@ -5,8 +5,8 @@ import fs from 'fs';
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
-import { inferControls } from '@storybook/preview-api';
-import type { Renderer } from '@storybook/types';
+import { inferControls } from '@storybook/core/dist/preview-api';
+import type { Renderer } from '@storybook/core/dist/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
 import type { StoryContext } from '../types';

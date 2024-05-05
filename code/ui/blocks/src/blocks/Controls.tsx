@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import type { Renderer, Parameters, StrictArgTypes } from '@storybook/csf';
-import type { ModuleExports } from '@storybook/types';
+import type { ModuleExports } from '@storybook/core/dist/types';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import { filterArgTypes } from '@storybook/preview-api';
-import type { PropDescriptor } from '@storybook/preview-api';
+import { filterArgTypes } from '@storybook/core/dist/preview-api';
+import type { PropDescriptor } from '@storybook/core/dist/preview-api';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 
 import type { SortType } from '../components';

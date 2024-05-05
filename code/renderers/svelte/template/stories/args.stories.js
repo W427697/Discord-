@@ -1,6 +1,6 @@
 import { within, userEvent, waitFor, expect } from '@storybook/test';
 import { UPDATE_STORY_ARGS, RESET_STORY_ARGS, STORY_RENDERED } from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/preview-api';
 import ButtonView from './views/ButtonJavaScript.svelte';
 
 export default {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import * as sbcc from '@storybook/core-common';
+import * as sbcc from '@storybook/core/dist/common';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
@@ -8,8 +8,8 @@ import { doUpgrade, getStorybookVersion } from './upgrade';
 
 const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
 
-vi.mock('@storybook/telemetry');
-vi.mock('@storybook/core-common', async (importOriginal) => {
+vi.mock('@storybook/core/dist/telemetry');
+vi.mock('@storybook/core/dist/common', async (importOriginal) => {
   const originalModule = (await importOriginal()) as typeof sbcc;
   return {
     ...originalModule,
@@ -39,7 +39,10 @@ describe.each([
     '├─┬ @storybook/preset-create-react-app@3.1.2',
     { package: '@storybook/preset-create-react-app', version: '3.1.2' },
   ],
-  ['│ ├─┬ @storybook/node-logger@5.3.19', { package: '@storybook/node-logger', version: '5.3.19' }],
+  [
+    '│ ├─┬ @storybook/node-logger@5.3.19',
+    { package: '@storybook/core/dist/node-logger', version: '5.3.19' },
+  ],
   [
     'npm ERR! peer dep missing: @storybook/react@>=5.2, required by @storybook/preset-create-react-app@3.1.2',
     null,

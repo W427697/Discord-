@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button } from '@storybook/components';
 
-import type { Addon_SidebarTopType } from '@storybook/types';
+import type { Addon_SidebarTopType } from '@storybook/core/dist/types';
 import { Brand } from './Brand';
 import type { MenuList, SidebarMenuProps } from './Menu';
 import { SidebarMenu } from './Menu';

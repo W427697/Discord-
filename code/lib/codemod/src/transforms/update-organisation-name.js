@@ -1,6 +1,6 @@
 export const packageNames = {
   '@kadira/react-storybook-decorator-centered': '@storybook/addon-centered',
-  '@kadira/storybook-addons': '@storybook/preview-api',
+  '@kadira/storybook-addons': '@storybook/core/dist/preview-api',
   '@kadira/storybook-addon-actions': '@storybook/addon-actions',
   '@kadira/storybook-addon-comments': '@storybook/addon-comments',
   '@kadira/storybook-addon-graphql': '@storybook/addon-graphql',
@@ -9,7 +9,7 @@ export const packageNames = {
   '@kadira/storybook-addon-links': '@storybook/addon-links',
   '@kadira/storybook-addon-notes': '@storybook/addon-notes',
   '@kadira/storybook-addon-options': '@storybook/addon-options',
-  '@kadira/storybook-channels': '@storybook/channels',
+  '@kadira/storybook-channels': '@storybook/core/dist/channels',
   '@kadira/storybook-channel-postmsg': '@storybook/channel-postmessage',
   '@kadira/storybook-channel-websocket': '@storybook/channel-websocket',
   '@kadira/storybook-ui': '@storybook/manager',

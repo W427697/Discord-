@@ -1,10 +1,10 @@
 import { describe, beforeAll, beforeEach, it, expect, vi } from 'vitest';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/core/dist/preview-api';
 import { SELECT_STORY } from '@storybook/core-events';
 
 import { linkTo, hrefTo } from './utils';
 
-vi.mock('@storybook/preview-api');
+vi.mock('@storybook/core/dist/preview-api');
 vi.mock('@storybook/global', () => ({
   global: {
     document: global.document,

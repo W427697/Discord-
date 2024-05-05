@@ -1,9 +1,9 @@
 import { dedent } from 'ts-dedent';
 import { sync as readUpSync } from 'read-pkg-up';
-import { logger, instance as npmLog } from '@storybook/node-logger';
+import { logger, instance as npmLog } from '@storybook/core/dist/node-logger';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
-import { cache } from '@storybook/core-common';
-import type { CLIOptions } from '@storybook/types';
+import { cache } from '@storybook/core/dist/common';
+import type { CLIOptions } from '@storybook/core/dist/types';
 import invariant from 'tiny-invariant';
 
 function printError(error: any) {

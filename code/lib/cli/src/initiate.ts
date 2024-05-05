@@ -2,9 +2,9 @@ import { appendFile, readFile } from 'fs/promises';
 import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry } from '@storybook/core/dist/telemetry';
 import { withTelemetry } from '@storybook/core-server';
-import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
+import { NxProjectDetectedError } from '@storybook/core/dist/server-errors';
 import {
   versions,
   HandledError,
@@ -12,8 +12,8 @@ import {
   commandLog,
   paddedLog,
   getProjectRoot,
-} from '@storybook/core-common';
-import type { JsPackageManager } from '@storybook/core-common';
+} from '@storybook/core/dist/common';
+import type { JsPackageManager } from '@storybook/core/dist/common';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
@@ -284,7 +284,7 @@ export async function doInitiate(options: CommandOptions): Promise<
 
     if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
       packageManager.addPackageResolutions({
-        '@storybook/telemetry': versions['@storybook/telemetry'],
+        '@storybook/core/dist/telemetry': versions['@storybook/core/dist/telemetry'],
       });
     }
   }

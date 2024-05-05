@@ -4,13 +4,13 @@
 import { describe, it, expect, vi } from 'vitest';
 
 import path from 'path';
-import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier } from '@storybook/types';
+import { normalizeStoriesEntry } from '@storybook/core/dist/common';
+import type { NormalizedStoriesSpecifier } from '@storybook/core/dist/types';
 
 import type { StoryIndexGeneratorOptions } from '../StoryIndexGenerator';
 import { AUTODOCS_TAG, STORIES_MDX_TAG, StoryIndexGenerator } from '../StoryIndexGenerator';
 
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/node-logger');
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '..', '__mockdata__'),

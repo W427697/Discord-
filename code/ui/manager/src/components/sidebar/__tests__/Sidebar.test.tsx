@@ -6,7 +6,7 @@ import { ThemeProvider, ensure, themes } from '@storybook/theming';
 import type { HashEntry, Refs } from '@storybook/manager-api';
 import type { Theme } from '@storybook/theming';
 import type { RenderResult } from '@testing-library/react';
-import type { API_IndexHash } from '@storybook/types';
+import type { API_IndexHash } from '@storybook/core/dist/types';
 import { Sidebar } from '../Sidebar';
 import type { SidebarProps } from '../Sidebar';
 
