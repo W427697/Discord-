@@ -1,9 +1,12 @@
 <h1>Migration</h1>
 
-- [From version 8.0 to 8.1.0](#from-version-80-to-810)
+- [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
   - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
-- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+      - [Title block](#title-block)
   - [Portable stories](#portable-stories)
+    - [@storybook/nextjs requires specific path aliases to be setup](#storybooknextjs-requires-specific-path-aliases-to-be-setup)
+- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Portable stories](#portable-stories-1)
     - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
     - [Type change in `composeStories` API](#type-change-in-composestories-api)
     - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
@@ -405,13 +408,39 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
-## From version 8.0 to 8.1.0
+## From version 8.0.x to 8.1.x
+
+### Portable stories
+
+#### @storybook/nextjs requires specific path aliases to be setup
+
+In order to properly mock the `next/router`, `next/header`, `next/navigation` and `next/cache` APIs, the `@storybook/nextjs` framework includes internal Webpack aliases to those modules. If you use portable stories in your Jest tests, you should set the aliases in your Jest config files `moduleNameMapper` property using the `getPackageAliases` helper from `@storybook/nextjs/export-mocks`:
+
+```js
+const nextJest = require("next/jest.js");
+const { getPackageAliases } = require("@storybook/nextjs/export-mocks");
+const createJestConfig = nextJest();
+const customJestConfig = {
+  moduleNameMapper: {
+    ...getPackageAliases(), // Add aliases for @storybook/nextjs mocks
+  },
+};
+module.exports = createJestConfig(customJestConfig);
+```
+
+This will make sure you end using the correct implementation of the packages and avoid having issues in your tests.
 
 ### Subtitle block and `parameters.componentSubtitle`
 
 The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
 
 `parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
+
+##### Title block
+
+The `Title` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+It still accepts being passed `children`.
 
 ## From version 7.x to 8.0.0
 
@@ -5059,7 +5088,7 @@ SB 5.1.0 added [support for project root `babel.config.js` files](https://github
 
 ### React native server
 
-Storybook 5.1 contains a major overhaul of `@storybook/react-native` as compared to 4.1 (we didn't ship a version of RN in 5.0 due to timing constraints). Storybook for RN consists of an an UI for browsing stories on-device or in a simulator, and an optional webserver which can also be used to browse stories and web addons.
+Storybook 5.1 contains a major overhaul of `@storybook/react-native` as compared to 4.1 (we didn't ship a version of RN in 5.0 due to timing constraints). Storybook for RN consists of an UI for browsing stories on-device or in a simulator, and an optional webserver which can also be used to browse stories and web addons.
 
 5.1 refactors both pieces:
 
