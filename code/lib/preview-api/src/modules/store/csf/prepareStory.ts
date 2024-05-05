@@ -149,8 +149,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
     ...extraTags,
     ...(projectAnnotations.tags ?? []),
     ...(componentAnnotations.tags ?? []),
-    ...(storyAnnotations?.tags ?? []),
-    'story'
+    ...(storyAnnotations?.tags ?? [])
   );
 
   const parameters: Parameters = combineParameters(
