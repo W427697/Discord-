@@ -1,4 +1,4 @@
-import type { Router, Request, Response } from 'express';
+import type { Server } from 'connect';
 import { writeJSON } from 'fs-extra';
 
 import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
@@ -22,13 +22,13 @@ export async function extractStoriesJson(
 }
 
 export function useStoriesJson({
-  router,
+  app,
   initializedStoryIndexGenerator,
   workingDir = process.cwd(),
   serverChannel,
   normalizedStories,
 }: {
-  router: Router;
+  app: Server;
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
@@ -43,15 +43,17 @@ export function useStoriesJson({
     maybeInvalidate();
   });
 
-  router.use('/index.json', async (req: Request, res: Response) => {
+  app.use('/index.json', async (req, res) => {
     try {
       const generator = await initializedStoryIndexGenerator;
       const index = await generator.getIndex();
-      res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(index));
+      res.setHeader('Content-Type', 'application/json');
+      res.write(JSON.stringify(index));
+      res.end();
     } catch (err) {
-      res.status(500);
-      res.send(err instanceof Error ? err.toString() : String(err));
+      res.statusCode = 500;
+      res.write(err instanceof Error ? err.toString() : String(err));
+      res.end();
     }
   });
 }

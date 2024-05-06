@@ -1,6 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import type { Router, Request, Response } from 'express';
+import type { Server } from 'connect';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
@@ -55,7 +55,7 @@ const getInitializedStoryIndexGenerator = async (
 
 describe('useStoriesJson', () => {
   const use = vi.fn();
-  const router: Router = { use } as any;
+  const app: Server = { use } as any;
   const send = vi.fn();
   const write = vi.fn();
   const response: Response = {
@@ -86,7 +86,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       console.time('useStoriesJson');
       useStoriesJson({
-        router,
+        app,
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
@@ -255,7 +255,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
 
       useStoriesJson({
-        router,
+        app,
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
@@ -287,7 +287,7 @@ describe('useStoriesJson', () => {
     it('sends invalidate events', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
-        router,
+        app,
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
@@ -316,7 +316,7 @@ describe('useStoriesJson', () => {
     it('only sends one invalidation when multiple event listeners are listening', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
-        router,
+        app,
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
@@ -354,7 +354,7 @@ describe('useStoriesJson', () => {
 
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
-        router,
+        app,
         serverChannel: mockServerChannel,
         workingDir,
         normalizedStories,
