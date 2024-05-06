@@ -440,7 +440,6 @@ export class StoryIndexGenerator {
         ...(result.metaTags ?? []),
         csfEntry ? 'attached-mdx' : 'unattached-mdx'
       );
-      console.log({ projectTags, tags });
 
       const docsEntry: DocsCacheEntry = {
         id,
