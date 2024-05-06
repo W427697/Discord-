@@ -912,7 +912,7 @@
       "format": "esm"
     },
     "src/types/index.ts": {
-      "bytes": 463,
+      "bytes": 505,
       "imports": [
         {
           "path": "src/types/modules/csf.ts",
@@ -24618,7 +24618,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/docs-context/DocsContext.ts": {
-      "bytes": 8472,
+      "bytes": 8476,
       "imports": [
         {
           "path": "../node_modules/ts-dedent/esm/index.js",
@@ -25678,7 +25678,7 @@
       "format": "esm"
     },
     "src/instrumenter/instrumenter.ts": {
-      "bytes": 25127,
+      "bytes": 25169,
       "imports": [
         {
           "path": "@storybook/core/dist/preview-api",
@@ -32924,7 +32924,7 @@
           "bytesInOutput": 2073
         },
         "src/preview-api/modules/preview-web/docs-context/DocsContext.ts": {
-          "bytesInOutput": 5282
+          "bytesInOutput": 5281
         },
         "src/preview-api/modules/preview-web/render/MdxDocsRender.ts": {
           "bytesInOutput": 1926
@@ -32945,7 +32945,7 @@
           "bytesInOutput": 0
         }
       },
-      "bytes": 259007
+      "bytes": 259006
     },
     "dist/instrumenter/index.cjs": {
       "imports": [

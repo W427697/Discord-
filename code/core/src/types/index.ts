@@ -1,3 +1,5 @@
+/// <reference path="../typings.d.ts" />
+
 export * from './modules/csf';
 export * from './modules/addons';
 export * from './modules/story';

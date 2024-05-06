@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { readConfig, writeConfig } from '@storybook/core/dist/csf-tools';
 import type { PackageManagerName } from '../js-package-manager';
 import { JsPackageManagerFactory } from '../js-package-manager';

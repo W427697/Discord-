@@ -52,6 +52,7 @@ export {
   esbuild,
   dts,
   prettyTime,
+  dts2,
   chalk,
   dedent,
   limit,

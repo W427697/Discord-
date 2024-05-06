@@ -1,3 +1,5 @@
+/// <reference path="../typings.d.ts" />
+
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/core/dist/preview-api';
 import type { StoryId } from '@storybook/core/dist/types';

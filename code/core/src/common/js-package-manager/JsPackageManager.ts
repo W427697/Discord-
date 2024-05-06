@@ -5,7 +5,7 @@ import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'node:path';
 import fs from 'fs';
 
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { readFile, writeFile, readFileSync } from 'fs-extra';
 import invariant from 'tiny-invariant';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type CleanupCallback, isExportStory } from '@storybook/csf';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import type {
   Renderer,
   Args,

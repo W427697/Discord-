@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, memo } from 'react';
-import { color, styled, withTheme } from '@storybook/core/dist/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { sanitize } from '@storybook/csf';
 
 import type { Addon_RenderOptions } from '@storybook/core/dist/types';
@@ -17,15 +17,6 @@ export interface WrapperProps {
   bordered?: boolean;
   absolute?: boolean;
 }
-
-styled.div(
-  {
-    color: 'red',
-  },
-  ({ theme }) => ({
-    color: 'blue',
-  })
-);
 
 const Wrapper = styled.div<WrapperProps>(
   ({ theme, bordered }) =>

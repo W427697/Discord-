@@ -1,4 +1,4 @@
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'node:path';

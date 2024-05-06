@@ -2,6 +2,7 @@ import { join } from 'node:path';
 import { process, dts, nodeInternals } from '../../../scripts/prepare/tools';
 import { getEntries } from './entries';
 import pkg from '../package.json';
+import { flattenDependencies } from './helpers/dependencies';
 
 const cwd = process.cwd();
 
@@ -10,23 +11,36 @@ const flags = process.argv.slice(2);
 const selection = flags[0] || 'all';
 
 const entries = getEntries(cwd);
-const external = [...Object.keys((pkg as any).peerDependencies || {}), ...nodeInternals];
-const internal = [...Object.keys(pkg.devDependencies)];
+const external = [
+  ...Object.keys((pkg as any).peerDependencies || {}),
+  ...nodeInternals,
+  'typescript',
+  '@storybook/core',
+];
+const internal = [
+  ...new Set(await flattenDependencies([...Object.keys(pkg.devDependencies)], [], external)),
+];
 
 const all = entries.filter((e) => e.dts);
 const list = selection === 'all' ? all : [all[Number(selection)]];
 
 const dtsResults = dts.generateDtsBundle(
-  list.map(({ file, externals }) => ({
-    filePath: file,
-    noCheck: true,
-    libraries: {
-      importedLibraries: [...external, ...externals],
-      allowedTypesLibraries: [],
-      inlinedLibraries: internal.filter((i) => ![...external, ...externals].includes(i)),
-    },
-    output: { noBanner: true, exportReferencedTypes: false },
-  })),
+  list.map(({ file, externals }) => {
+    const inlined = internal.filter((i) => ![...external, ...externals].includes(i));
+    // .filter((i) => !i.startsWith('@types'));
+
+    console.log({ inlined });
+    return {
+      filePath: file,
+      noCheck: true,
+      libraries: {
+        importedLibraries: [...external, ...externals],
+        // allowedTypesLibraries: [...external, ...externals],
+        inlinedLibraries: inlined,
+      },
+      output: { noBanner: true, exportReferencedTypes: false },
+    };
+  }),
   { preferredConfigPath: join(cwd, 'tsconfig.build.json') }
 );
 await Promise.all(

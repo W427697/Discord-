@@ -1,5 +1,5 @@
 import semver from 'semver';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 
 // TODO: should remove this v2 business when we drop support for v2
 type Prettier = typeof import('prettier-v2') | typeof import('prettier-v3');

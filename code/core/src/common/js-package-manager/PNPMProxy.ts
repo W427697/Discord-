@@ -1,5 +1,5 @@
 import { pathExistsSync } from 'fs-extra';
-import dedent from 'ts-dedent';
+import { dedent } from 'ts-dedent';
 import { findUpSync } from 'find-up';
 import path from 'node:path';
 import fs from 'fs';

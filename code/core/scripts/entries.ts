@@ -24,10 +24,6 @@ export const getEntries = (cwd: string) => {
     define('src/preview-api/index.ts', ['browser', 'node'], true),
     define('src/instrumenter/index.ts', ['browser', 'node'], true),
     define('src/router/index.ts', ['browser'], true, ['react', 'react-is']),
-    define('src/theming/index.ts', ['browser'], true, [
-      'react',
-      'react-is',
-      '@emotion/use-insertion-effect-with-fallbacks',
-    ]),
+    define('src/theming/index.ts', ['browser'], true, ['react', 'react-is']),
   ];
 };
