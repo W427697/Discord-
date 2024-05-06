@@ -2,6 +2,8 @@
 title: 'Portable stories in Jest'
 ---
 
+<!-- This page is unpublished for now -->
+
 export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 <If notRenderer={SUPPORTED_RENDERERS}>
