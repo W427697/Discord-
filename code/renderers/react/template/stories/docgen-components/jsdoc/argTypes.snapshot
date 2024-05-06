@@ -100,7 +100,7 @@
     "description": "param with type",
     "name": "case13",
     "table": {
-      "defaultValue": null,
+      "defaultValue": undefined,
       "jsDocTags": undefined,
       "type": {
         "detail": undefined,
