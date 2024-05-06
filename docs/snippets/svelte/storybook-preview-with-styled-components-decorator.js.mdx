@@ -1,0 +1,14 @@
+```js
+// .storybook/preview.js
+
+import { setContext } from 'svelte';
+
+export default {
+  decorators: [
+    (Story) => {
+      setContext("theme", "default");
+      return Story();
+    },
+  ],
+};
+```

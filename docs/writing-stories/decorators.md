@@ -58,6 +58,8 @@ For example, if you're working with React's Styled Components and your component
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
     'solid/storybook-preview-with-styled-components-decorator.js.mdx',
     'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
+    'svelte/storybook-preview-with-styled-components-decorator.js.mdx',
+    'svelte/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
