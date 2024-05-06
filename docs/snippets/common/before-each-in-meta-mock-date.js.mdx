@@ -1,5 +1,5 @@
-```ts
-// Page.stories.ts
+```js
+// Page.stories.js
 import MockDate from 'mockdate';
 
 import { getUserFromSession } from '#api/session.mock';
@@ -18,7 +18,7 @@ export default {
   },
 };
 
-export const Default: Story = {
+export const Default = {
   async play({ canvasElement }) {
     // ... This will run with the mocked Date
   },
