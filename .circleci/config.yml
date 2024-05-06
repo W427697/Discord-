@@ -124,7 +124,7 @@ jobs:
             yarn docs:prettier:check
   build:
     executor:
-      class: large
+      class: xlarge
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -596,7 +596,7 @@ jobs:
           at: .
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --no-immutable
           working_directory: test-storybooks/portable-stories-kitchen-sink/<< parameters.directory >>
       - run:
           name: Run Jest tests
@@ -768,22 +768,22 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 35
+          parallelism: 37
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 35
+          parallelism: 37
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 32
+          parallelism: 34
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 30
+          parallelism: 32
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -791,7 +791,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 30
+          parallelism: 32
           requires:
             - build-sandboxes
       - test-portable-stories:
