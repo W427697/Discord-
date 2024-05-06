@@ -246,8 +246,17 @@ const baseTemplates = {
   },
   'react-webpack/prerelease-ts': {
     name: 'React Prerelease (Webpack | TypeScript)',
-    script:
-      'yarn create webpack5-react {{beforeDir}} --version-react="beta" --version-react-dom="beta"',
+    /**
+     * 1. Create a Webpack project with React beta versions
+     * 3. Add resolutions for @types/react and @types/react-dom, see https://react.dev/blog/2024/04/25/react-19-upgrade-guide#installing
+     * 4. Add @types/react and @types/react-dom pointing to the beta packages
+     */
+    script: `
+      yarn create webpack5-react {{beforeDir}} --version-react="beta" --version-react-dom="beta" && \
+      cd {{beforeDir}} && \
+      jq '.resolutions += {"@types/react": "npm:types-react@beta", "@types/react-dom": "npm:types-react-dom@beta"}' package.json > tmp.json && mv tmp.json package.json && \
+      yarn add --dev @types/react@npm:types-react@beta @types/react-dom@npm:types-react-dom@beta
+      `,
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
