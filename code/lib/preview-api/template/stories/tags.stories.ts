@@ -20,7 +20,7 @@ export const Inheritance = {
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
-      tags: ['story-one', 'story-two', 'story'],
+      tags: ['dev', 'test', 'component-one', 'component-two', 'story-one', 'story-two'],
     });
   },
   parameters: { chromatic: { disable: false } },
