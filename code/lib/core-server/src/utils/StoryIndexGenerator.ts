@@ -666,7 +666,7 @@ export class StoryIndexGenerator {
 
   getProjectTags(previewCode: string) {
     const projectAnnotations = loadConfig(previewCode).parse();
-    const defaultTags = ['dev', 'docs', 'test'];
+    const defaultTags = ['dev', 'test'];
     const extraTags = this.options.docs.autodocs === true ? [AUTODOCS_TAG] : [];
     const projectTags = projectAnnotations.getFieldValue(['tags']) ?? [];
     return [...defaultTags, ...projectTags, ...extraTags];

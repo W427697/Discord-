@@ -143,7 +143,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const defaultTags = ['dev', 'docs', 'test'];
+  const defaultTags = ['dev', 'test'];
   if (typeof globalThis.DOCS_OPTIONS?.autodocs !== 'undefined') {
     once.warn(dedent`
       The \`docs.autodocs\` setting in '.storybook/main.js' is deprecated. Use \`tags: ['autodocs']\` in \`.storybook/preview.js\` instead.

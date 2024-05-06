@@ -44,15 +44,7 @@ describe('prepareStory', () => {
         { render }
       );
 
-      expect(tags).toEqual([
-        'dev',
-        'docs',
-        'test',
-        'component-1',
-        'component-2',
-        'story-1',
-        'story-2',
-      ]);
+      expect(tags).toEqual(['dev', 'test', 'component-1', 'component-2', 'story-1', 'story-2']);
     });
 
     it('component tags work if story are unset', () => {
@@ -66,13 +58,13 @@ describe('prepareStory', () => {
         { render }
       );
 
-      expect(tags).toEqual(['dev', 'docs', 'test', 'component-1', 'component-2']);
+      expect(tags).toEqual(['dev', 'test', 'component-1', 'component-2']);
     });
 
     it('sets a value even if annotations do not have tags', () => {
       const { tags } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
 
-      expect(tags).toEqual(['dev', 'docs', 'test']);
+      expect(tags).toEqual(['dev', 'test']);
     });
   });
 
