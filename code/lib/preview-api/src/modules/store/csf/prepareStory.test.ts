@@ -150,7 +150,7 @@ describe('prepareStory', () => {
       });
     });
 
-    it('can be overriden by `undefined`', () => {
+    it('can be overridden by `undefined`', () => {
       const { initialArgs } = prepareStory(
         { id, name, args: { a: undefined }, moduleExport },
         { id, title, args: { a: 'component' } },
@@ -718,6 +718,7 @@ describe('prepareMeta', () => {
       name: storyName,
       story,
       applyLoaders,
+      applyBeforeEach,
       originalStoryFn,
       unboundStoryFn,
       undecoratedStoryFn,
