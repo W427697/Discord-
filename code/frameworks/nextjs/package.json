@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "8.1.0-alpha.7",
+  "version": "8.1.0-alpha.8",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -173,8 +173,8 @@
   },
   "peerDependencies": {
     "next": "^13.5.0 || ^14.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
