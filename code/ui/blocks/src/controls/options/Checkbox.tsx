@@ -1,6 +1,6 @@
 import type { FC, ChangeEvent } from 'react';
 import React, { useState, useEffect } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { logger } from '@storybook/core/dist/client-logger';
 
 import type { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../types';

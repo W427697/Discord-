@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useRef } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { MobileAbout } from '../about/MobileAbout';

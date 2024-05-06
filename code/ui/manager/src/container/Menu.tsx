@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Badge } from '@storybook/components';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-import { styled, useTheme } from '@storybook/theming';
+import { styled, useTheme } from '@storybook/core/dist/theming';
 import { CheckIcon, InfoIcon, ShareAltIcon, WandIcon } from '@storybook/icons';
 
 const focusableUIElements = {

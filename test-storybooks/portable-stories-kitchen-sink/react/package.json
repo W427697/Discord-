@@ -108,7 +108,6 @@
     "@storybook/svelte-webpack5": "portal:../../../code/frameworks/svelte-webpack5",
     "@storybook/sveltekit": "portal:../../../code/frameworks/sveltekit",
     "@storybook/test": "portal:../../../code/lib/test",
-    "@storybook/theming": "portal:../../../code/lib/theming",
     "@storybook/vue3": "portal:../../../code/renderers/vue3",
     "@storybook/vue3-vite": "portal:../../../code/frameworks/vue3-vite",
     "@storybook/vue3-webpack5": "portal:../../../code/frameworks/vue3-webpack5",

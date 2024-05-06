@@ -275,7 +275,7 @@ export default {
     'stringifyQuery',
     'useNavigate',
   ],
-  '@storybook/theming': [
+  '@storybook/core/dist/theming': [
     'CacheProvider',
     'ClassNames',
     'Global',

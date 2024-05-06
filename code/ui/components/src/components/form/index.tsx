@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Field } from './field/field';
 import { Input, Select, Textarea } from './input/input';
 import { Button } from '../Button/Button';

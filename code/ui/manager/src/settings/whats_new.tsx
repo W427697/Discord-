@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 import React, { Fragment, useEffect, useState } from 'react';
-import { styled, useTheme } from '@storybook/theming';
+import { styled, useTheme } from '@storybook/core/dist/theming';
 import { Button, Loader } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';

@@ -2,8 +2,8 @@
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
 import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { ThemeProvider, useTheme } from '@storybook/theming';
-import type { Theme } from '@storybook/theming';
+import { ThemeProvider, useTheme } from '@storybook/core/dist/theming';
+import type { Theme } from '@storybook/core/dist/theming';
 import { action } from '@storybook/addon-actions';
 import { screen } from '@testing-library/dom';
 

@@ -50,7 +50,6 @@
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "@types/lodash": "^4.14.167",
     "color-convert": "^2.0.1",
     "dequal": "^2.0.2",

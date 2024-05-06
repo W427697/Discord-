@@ -63,7 +63,7 @@ export default {
   '@storybook/react-dom-shim': '8.1.0-alpha.7',
   '@storybook/source-loader': '8.1.0-alpha.7',
   '@storybook/test': '8.1.0-alpha.7',
-  '@storybook/theming': '8.1.0-alpha.7',
+  '@storybook/core/dist/theming': '8.1.0-alpha.7',
   '@storybook/preset-create-react-app': '8.1.0-alpha.7',
   '@storybook/preset-html-webpack': '8.1.0-alpha.7',
   '@storybook/preset-preact-webpack': '8.1.0-alpha.7',

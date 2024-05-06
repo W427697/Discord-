@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, memo } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { sanitize } from '@storybook/csf';
 
 import type { Addon_RenderOptions } from '@storybook/core/dist/types';

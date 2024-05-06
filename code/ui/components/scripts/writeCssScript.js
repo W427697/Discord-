@@ -124,7 +124,7 @@ const stringifiedStylesWithReplacedKeyframes = Object.keys(__keyframes)
   });
 
 const result = `
-  import { Theme, CSSObject, keyframes } from '@storybook/theming';
+  import { Theme, CSSObject, keyframes } from '@storybook/core/dist/theming';
 
   ${stringifiedKeyFrames}
 

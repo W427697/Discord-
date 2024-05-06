@@ -1,6 +1,6 @@
 import type { FC, ComponentProps } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Button } from '@storybook/components';
 
 import type { Addon_SidebarTopType } from '@storybook/core/dist/types';

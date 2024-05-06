@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 const { document } = global;
 

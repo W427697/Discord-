@@ -1,4 +1,4 @@
-import { keyframes, styled } from '@storybook/theming';
+import { keyframes, styled } from '@storybook/core/dist/theming';
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ComponentProps } from 'react';
 import React from 'react';

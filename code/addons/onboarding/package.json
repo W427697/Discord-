@@ -55,7 +55,6 @@
     "@storybook/manager-api": "workspace:*",
     "@storybook/react": "workspace:*",
     "@storybook/test": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "framer-motion": "^11.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

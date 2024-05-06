@@ -1,7 +1,7 @@
 import type { ElementRef, ReactNode } from 'react';
 import React, { forwardRef, Fragment, useEffect, useRef } from 'react';
-import type { Theme } from '@storybook/theming';
-import { styled, withTheme } from '@storybook/theming';
+import type { Theme } from '@storybook/core/dist/theming';
+import { styled, withTheme } from '@storybook/core/dist/theming';
 
 import { Inspector } from 'react-inspector';
 import { ActionBar, ScrollArea } from '@storybook/components';

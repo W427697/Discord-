@@ -6,7 +6,7 @@ import {
   useParameter,
   addons,
 } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { PaintBrushIcon } from '@storybook/icons';

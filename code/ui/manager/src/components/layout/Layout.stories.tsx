@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import type { FC, PropsWithChildren } from 'react';
 import React, { useState } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { Layout } from './Layout';

@@ -1,7 +1,7 @@
 import type { MouseEvent } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { logger } from '@storybook/core/dist/client-logger';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { global } from '@storybook/global';
 import memoize from 'memoizerific';
 

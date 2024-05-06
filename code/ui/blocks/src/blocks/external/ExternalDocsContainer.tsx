@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ThemeProvider, themes, ensure } from '@storybook/theming';
+import { ThemeProvider, themes, ensure } from '@storybook/core/dist/theming';
 import type { Renderer } from '@storybook/core/dist/types';
 
 import { DocsContext } from '../DocsContext';

@@ -1,4 +1,4 @@
-import { ThemeProvider, ensure, themes } from '@storybook/theming';
+import { ThemeProvider, ensure, themes } from '@storybook/core/dist/theming';
 
 import type { ComponentProps } from 'react';
 import React from 'react';

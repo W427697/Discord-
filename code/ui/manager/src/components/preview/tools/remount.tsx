@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IconButton } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { FORCE_REMOUNT } from '@storybook/core/dist/core-events';
 import type { Addon_BaseType } from '@storybook/core/dist/types';
 import { SyncIcon } from '@storybook/icons';

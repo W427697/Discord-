@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/core/dist/types';
 import { useDragging } from './useDragging';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';

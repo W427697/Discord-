@@ -9,7 +9,7 @@ import {
   convert,
   styled,
   useTheme,
-} from '@storybook/theming';
+} from '@storybook/core/dist/theming';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/core/dist/preview-api';
 import type { PreviewWeb } from '@storybook/core/dist/preview-api';
 import type { ReactRenderer } from '@storybook/react';

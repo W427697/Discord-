@@ -64,7 +64,6 @@
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "@testing-library/react": "^14.0.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

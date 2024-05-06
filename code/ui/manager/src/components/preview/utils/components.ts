@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Link } from '@storybook/core/dist/router';
 
 export const PreviewContainer = styled.main({

@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { FileSearchListLoadingSkeleton } from './FileSearchListSkeleton';
 import {
   DefaultExport,

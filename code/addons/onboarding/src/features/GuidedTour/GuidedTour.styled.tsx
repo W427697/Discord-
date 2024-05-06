@@ -1,4 +1,4 @@
-import { type Theme } from '@storybook/theming';
+import { type Theme } from '@storybook/core/dist/theming';
 
 export const getStyles = (theme: Theme) => ({
   border: 0,

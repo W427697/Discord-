@@ -6,7 +6,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Location, LocationProvider, useNavigate } from '@storybook/core/dist/router';
 import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme } from '@storybook/core/dist/theming';
 import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core/dist/manager-errors';
 
 import { HelmetProvider } from 'react-helmet-async';

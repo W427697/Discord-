@@ -7,7 +7,7 @@ import type {
   State,
   API,
 } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Button, IconButton, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';

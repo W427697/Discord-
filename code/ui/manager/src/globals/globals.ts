@@ -7,7 +7,7 @@ export const globalsNameReferenceMap = {
   '@storybook/core-events': '__STORYBOOK_CORE_EVENTS__',
   '@storybook/core-events/manager-errors': '__STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__',
   '@storybook/core/dist/router': '__STORYBOOK_ROUTER__',
-  '@storybook/theming': '__STORYBOOK_THEMING__',
+  '@storybook/core/dist/theming': '__STORYBOOK_THEMING__',
   '@storybook/icons': '__STORYBOOK_ICONS__',
   '@storybook/manager-api': '__STORYBOOK_API__',
   '@storybook/client-logger': '__STORYBOOK_CLIENT_LOGGER__',

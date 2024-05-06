@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import { Button, Link, StorybookLogo } from '@storybook/components';
 import { DocumentIcon, GithubIcon } from '@storybook/icons';

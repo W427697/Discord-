@@ -4,7 +4,7 @@ import type { CallBackProps } from 'react-joyride';
 import Joyride, { STATUS } from 'react-joyride';
 import type { API } from '@storybook/manager-api';
 import { UPDATE_STORY_ARGS } from '@storybook/core/dist/core-events';
-import { useTheme } from '@storybook/theming';
+import { useTheme } from '@storybook/core/dist/theming';
 
 import { PulsatingEffect } from '../../components/PulsatingEffect/PulsatingEffect';
 import { Confetti } from '../../components/Confetti/Confetti';

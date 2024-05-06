@@ -1,7 +1,7 @@
 import type { HTMLProps, SelectHTMLAttributes } from 'react';
 import React, { forwardRef } from 'react';
-import type { CSSObject, FunctionInterpolation } from '@storybook/theming';
-import { styled } from '@storybook/theming';
+import type { CSSObject, FunctionInterpolation } from '@storybook/core/dist/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import TextareaAutoResize from 'react-textarea-autosize';
 

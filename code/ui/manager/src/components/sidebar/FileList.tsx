@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { rgba } from 'polished';
 
 export const FileListWrapper = styled('div')(({ theme }) => ({

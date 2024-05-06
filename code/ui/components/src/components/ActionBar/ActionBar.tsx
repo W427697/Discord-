@@ -1,7 +1,7 @@
 import type { MouseEvent, ReactElement } from 'react';
 import React from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 const Container = styled.div(({ theme }) => ({
   position: 'absolute',

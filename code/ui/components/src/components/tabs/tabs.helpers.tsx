@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import type { FC, PropsWithChildren, ReactChild, ReactElement, ReactNode } from 'react';
 import React, { Children } from 'react';
 import type { Addon_RenderOptions } from '@storybook/core/dist/types';

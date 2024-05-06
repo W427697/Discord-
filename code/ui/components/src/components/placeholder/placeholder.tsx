@@ -1,5 +1,5 @@
 import React, { Children } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 const Title = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,

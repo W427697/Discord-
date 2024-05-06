@@ -1,6 +1,6 @@
 import React from 'react';
 import { type Call, CallStates } from '@storybook/core/dist/instrumenter';
-import { styled, useTheme } from '@storybook/theming';
+import { styled, useTheme } from '@storybook/core/dist/theming';
 
 import { transparentize } from 'polished';
 import { CheckIcon, CircleIcon, PlayIcon, StopAltIcon } from '@storybook/icons';

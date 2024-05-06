@@ -54,7 +54,6 @@
   "devDependencies": {
     "@storybook/components": "workspace:*",
     "@storybook/manager-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "@types/react": "^18.0.37",
     "@types/react-syntax-highlighter": "11.0.5",
     "react": "^18.2.0",

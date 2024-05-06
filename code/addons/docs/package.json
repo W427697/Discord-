@@ -105,7 +105,6 @@
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/react-dom-shim": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "@types/react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "fs-extra": "^11.1.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

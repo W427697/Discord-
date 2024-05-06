@@ -47,7 +47,6 @@
     "@storybook/csf": "^0.1.6",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
-    "@storybook/theming": "workspace:*",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import type { NodeResult, Result } from 'axe-core';
 import { useResizeDetector } from 'react-resize-detector';
 import HighlightToggle from './Report/HighlightToggle';

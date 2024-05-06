@@ -22,7 +22,7 @@ export const allowList = [
   // see this file for more info: code/ui/manager/src/globals/types.ts
   '@storybook/components',
   '@storybook/core/dist/router',
-  '@storybook/theming',
+  '@storybook/core/dist/theming',
   '@storybook/api',
   '@storybook/manager-api',
 ];

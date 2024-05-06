@@ -7,7 +7,7 @@ import * as EVENTS from '@storybook/core/dist/core-events';
 import * as EVENTS_MANAGER_ERRORS from '@storybook/core/dist/manager-errors';
 import * as ROUTER from '@storybook/core/dist/router';
 import * as ICONS from '@storybook/icons';
-import * as THEMING from '@storybook/theming';
+import * as THEMING from '@storybook/core/dist/theming';
 import * as MANAGER_API from '@storybook/manager-api';
 import * as TYPES from '@storybook/core/dist/types';
 import * as CLIENT_LOGGER from '@storybook/core/dist/client-logger';
@@ -20,7 +20,7 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
   'react-dom': REACT_DOM,
   '@storybook/components': COMPONENTS,
   '@storybook/core/dist/router': ROUTER,
-  '@storybook/theming': THEMING,
+  '@storybook/core/dist/theming': THEMING,
   '@storybook/icons': ICONS,
   '@storybook/manager-api': MANAGER_API,
   '@storybook/client-logger': CLIENT_LOGGER,

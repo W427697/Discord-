@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { sanitize } from '@storybook/csf';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import useResizeObserver from 'use-resize-observer';
 import { TabButton } from '../bar/button';
 import { TooltipLinkList } from '../tooltip/TooltipLinkList';

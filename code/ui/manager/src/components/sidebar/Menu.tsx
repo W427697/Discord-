@@ -1,7 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useMemo, useState } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, IconButton } from '@storybook/components';

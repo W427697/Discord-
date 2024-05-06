@@ -60,7 +60,6 @@
     "@storybook/components": "workspace:*",
     "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { withReset, withMargin } from '../lib/common';
 
 export const Pre = styled.pre(withReset, withMargin, ({ theme }) => ({

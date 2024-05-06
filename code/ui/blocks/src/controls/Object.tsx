@@ -2,7 +2,7 @@ import { global } from '@storybook/global';
 import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
-import { styled, useTheme, type Theme } from '@storybook/theming';
+import { styled, useTheme, type Theme } from '@storybook/core/dist/theming';
 import { Form, IconButton, Button } from '@storybook/components';
 import { AddIcon, EyeCloseIcon, EyeIcon, SubtractIcon } from '@storybook/icons';
 import { JsonTree } from './react-editable-json-tree';

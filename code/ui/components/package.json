@@ -64,7 +64,6 @@
     "@storybook/csf": "^0.1.6",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
-    "@storybook/theming": "workspace:*",
     "memoizerific": "^1.11.3",
     "util-deprecate": "^1.0.2"
   },
