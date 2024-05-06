@@ -852,7 +852,7 @@
       "format": "esm"
     },
     "src/types/modules/addons.ts": {
-      "bytes": 16316,
+      "bytes": 16302,
       "imports": [],
       "format": "esm"
     },
@@ -872,7 +872,7 @@
       "format": "esm"
     },
     "src/types/modules/api.ts": {
-      "bytes": 5077,
+      "bytes": 5063,
       "imports": [],
       "format": "esm"
     },

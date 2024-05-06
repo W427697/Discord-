@@ -78,6 +78,8 @@ const [filesTime, packageJsonTime, distTime, typesTime] = await Promise.all([
   types,
 ]);
 
+await modifyThemeTypes();
+
 console.log('Files generated in', chalk.yellow(prettyTime(filesTime)));
 console.log('Package.json generated in', chalk.yellow(prettyTime(packageJsonTime)));
 console.log(isWatch ? 'Watcher started in' : 'Bundled in', chalk.yellow(prettyTime(distTime)));
@@ -269,4 +271,22 @@ async function generatePackageJsonFile() {
   }, {});
 
   await Bun.write(location, `${sortPackageJson(JSON.stringify(pkgJson, null, 2))}\n`, {});
+}
+async function modifyThemeTypes() {
+  const target = join(import.meta.dirname, '..', 'dist', 'theming', 'index.d.ts');
+  const contents = await Bun.file(target).text();
+
+  const footer = contents.includes('// auto generated file')
+    ? `export { StorybookTheme as Theme } from '../src/index';`
+    : dedent`
+        interface Theme extends StorybookTheme {}
+        export type { Theme };
+      `;
+
+  const newContents = dedent`
+    ${contents}
+    ${footer}
+  `;
+
+  await Bun.write(target, newContents);
 }

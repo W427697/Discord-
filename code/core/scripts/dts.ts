@@ -22,8 +22,8 @@ const dtsResults = dts.generateDtsBundle(
     noCheck: true,
     libraries: {
       importedLibraries: [...external, ...externals],
-      allowedTypesLibraries: [...externals],
-      inlinedLibraries: internal,
+      allowedTypesLibraries: [],
+      inlinedLibraries: internal.filter((i) => ![...external, ...externals].includes(i)),
     },
     output: { noBanner: true, exportReferencedTypes: false },
   })),

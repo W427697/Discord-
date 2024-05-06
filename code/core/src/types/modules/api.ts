@@ -3,7 +3,7 @@
 import type { ReactElement } from 'react';
 import type { RenderData } from '../../router/types';
 import type { Channel } from '@storybook/core/dist/channels';
-import type { ThemeVars } from '../../../../lib/theming/src/types';
+import type { ThemeVars } from '../../theming/types';
 import type { DocsOptions } from './core-common';
 import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';

@@ -90,8 +90,11 @@
     },
     "./dist/router": {
       "types": "./dist/router/index.d.ts",
-      "require": "./dist/router/index.cjs",
       "import": "./dist/router/index.js"
+    },
+    "./dist/theming": {
+      "types": "./dist/theming/index.d.ts",
+      "import": "./dist/theming/index.js"
     }
   },
   "main": "dist/index.cjs",
@@ -117,6 +120,11 @@
     "@babel/parser": "^7.24.4",
     "@babel/traverse": "^7.24.1",
     "@babel/types": "^7.24.0",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/is-prop-valid": "^1.2.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
     "@storybook/csf": "^0.1.6",
     "@storybook/global": "^5.0.0",
     "@types/express": "^4.7.0",
@@ -137,6 +145,7 @@
     "ansi-to-html": "^0.7.2",
     "chalk": "^5.3.0",
     "cross-spawn": "^7.0.3",
+    "deep-object-diff": "^1.1.0",
     "dequal": "^2.0.2",
     "detect-package-manager": "^3.0.2",
     "execa": "^5.0.0",
@@ -157,6 +166,7 @@
     "npmlog": "^7.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^8.0.0",
+    "polished": "^4.2.2",
     "prettier-fallback": "npm:prettier@^3",
     "prettier-v2": "npm:prettier@^2",
     "prettier-v3": "npm:prettier@^3",

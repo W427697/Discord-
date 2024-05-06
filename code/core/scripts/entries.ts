@@ -23,6 +23,11 @@ export const getEntries = (cwd: string) => {
     define('src/telemetry/index.ts', ['node'], true),
     define('src/preview-api/index.ts', ['browser', 'node'], true),
     define('src/instrumenter/index.ts', ['browser', 'node'], true),
-    define('src/router/index.ts', ['browser', 'node'], true, ['react']),
+    define('src/router/index.ts', ['browser'], true, ['react', 'react-is']),
+    define('src/theming/index.ts', ['browser'], true, [
+      'react',
+      'react-is',
+      '@emotion/use-insertion-effect-with-fallbacks',
+    ]),
   ];
 };

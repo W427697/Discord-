@@ -5903,6 +5903,11 @@ __metadata:
     "@babel/parser": "npm:^7.24.4"
     "@babel/traverse": "npm:^7.24.1"
     "@babel/types": "npm:^7.24.0"
+    "@emotion/cache": "npm:^11.11.0"
+    "@emotion/is-prop-valid": "npm:^1.2.2"
+    "@emotion/react": "npm:^11.11.4"
+    "@emotion/styled": "npm:^11.11.0"
+    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
     "@storybook/csf": "npm:^0.1.6"
     "@storybook/global": "npm:^5.0.0"
     "@types/express": "npm:^4.7.0"
@@ -5923,6 +5928,7 @@ __metadata:
     ansi-to-html: "npm:^0.7.2"
     chalk: "npm:^5.3.0"
     cross-spawn: "npm:^7.0.3"
+    deep-object-diff: "npm:^1.1.0"
     dequal: "npm:^2.0.2"
     detect-package-manager: "npm:^3.0.2"
     esbuild: "npm:^0.18.0 || ^0.19.0 || ^0.20.0"
@@ -5945,6 +5951,7 @@ __metadata:
     npmlog: "npm:^7.0.0"
     picomatch: "npm:^2.3.0"
     pkg-dir: "npm:^8.0.0"
+    polished: "npm:^4.2.2"
     prettier-fallback: "npm:prettier@^3"
     prettier-v2: "npm:prettier@^2"
     prettier-v3: "npm:prettier@^3"
@@ -6936,33 +6943,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@workspace:lib/theming":
+"@storybook/theming@workspace:deprecated/theming":
   version: 0.0.0-use.local
-  resolution: "@storybook/theming@workspace:lib/theming"
-  dependencies:
-    "@emotion/cache": "npm:^11.11.0"
-    "@emotion/is-prop-valid": "npm:^1.2.2"
-    "@emotion/react": "npm:^11.11.4"
-    "@emotion/styled": "npm:^11.11.0"
-    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
-    "@storybook/global": "npm:^5.0.0"
-    "@types/fs-extra": "npm:^11.0.1"
-    "@types/node": "npm:^18.0.0"
-    deep-object-diff: "npm:^1.1.0"
-    fs-extra: "npm:^11.1.0"
-    memoizerific: "npm:^1.11.3"
-    polished: "npm:^4.2.2"
-    ts-dedent: "npm:^2.0.0"
-    typescript: "npm:^5.3.2"
+  resolution: "@storybook/theming@workspace:deprecated/theming"
   peerDependencies:
-    "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
+    "@storybook/core": "*"
   languageName: unknown
   linkType: soft
 

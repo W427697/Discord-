@@ -27,6 +27,7 @@ declare module 'better-opn';
 declare module 'lazy-universal-dotenv';
 declare module 'open';
 declare module 'pnp-webpack-plugin';
+declare module 'react-inspector';
 // declare module 'detect-package-manager' {
 //   // copied from https://www.npmjs.com/package/detect-package-manager?activeTab=code
 //   // because

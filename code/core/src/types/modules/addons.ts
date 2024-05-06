@@ -2,7 +2,7 @@
 
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../router/types';
-import type { ThemeVars } from '../../../../lib/theming/src/types';
+import type { ThemeVars } from '../../theming/types';
 import type { API_SidebarOptions } from './api';
 import type {
   Args,

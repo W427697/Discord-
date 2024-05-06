@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./typings.d.ts" />
+/// <reference path="../typings.d.ts" />
 
 import type { FunctionInterpolation, Interpolation } from '@emotion/react';
 import type { StorybookTheme } from './types';
@@ -30,7 +29,7 @@ export type {
 
 export * from './base';
 export * from './types';
-export * from './emotionAugmentation.d';
+// export * from './emotionAugmentation.d.ts';
 
 export { default as createCache } from '@emotion/cache';
 export { default as isPropValid } from '@emotion/is-prop-valid';
