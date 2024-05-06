@@ -21,7 +21,7 @@ import type {
   StoryContextForLoaders,
   StrictArgTypes,
 } from '@storybook/types';
-import { includeConditionalArg, combineTags } from '@storybook/csf';
+import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
 import { once } from '@storybook/client-logger';
 
@@ -68,7 +68,21 @@ export function prepareStory<TRenderer extends Renderer>(
       const loaded: Record<string, any> = Object.assign({}, ...loadResults);
       updatedContext = { ...updatedContext, loaded: { ...updatedContext.loaded, ...loaded } };
     }
+
     return updatedContext;
+  };
+
+  const applyBeforeEach = async (context: StoryContext<TRenderer>): Promise<CleanupCallback[]> => {
+    const cleanupCallbacks = new Array<() => unknown>();
+    for (const beforeEach of [
+      ...normalizeArrays(projectAnnotations.beforeEach),
+      ...normalizeArrays(componentAnnotations.beforeEach),
+      ...normalizeArrays(storyAnnotations.beforeEach),
+    ]) {
+      const cleanup = await beforeEach(context);
+      if (cleanup) cleanupCallbacks.push(cleanup);
+    }
+    return cleanupCallbacks;
   };
 
   const undecoratedStoryFn = (context: StoryContext<TRenderer>) =>
@@ -120,6 +134,7 @@ export function prepareStory<TRenderer extends Renderer>(
     undecoratedStoryFn,
     unboundStoryFn,
     applyLoaders,
+    applyBeforeEach,
     playFunction,
   };
 }

@@ -410,7 +410,7 @@ describe('StoryStore', () => {
 
       const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
       hooks.clean = vi.fn();
-      store.cleanupStory(story);
+      await store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
     });
   });
@@ -625,6 +625,7 @@ describe('StoryStore', () => {
       expect(store.raw()).toMatchInlineSnapshot(`
         [
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
@@ -671,6 +672,7 @@ describe('StoryStore', () => {
             "undecoratedStoryFn": [Function],
           },
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
@@ -717,6 +719,7 @@ describe('StoryStore', () => {
             "undecoratedStoryFn": [Function],
           },
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
