@@ -75,6 +75,7 @@ describe('useStoriesJson', () => {
     send.mockClear();
     write.mockClear();
     vi.mocked(debounce).mockImplementation((cb) => cb as any);
+    Watchpack.mockClear();
   });
 
   const request: Request = {
