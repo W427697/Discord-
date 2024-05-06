@@ -98,7 +98,12 @@ export const configureYarn2ForVerdaccio = async ({
     `yarn config set enableImmutableInstalls false`,
   ];
 
-  if (key.includes('svelte-kit') || key.includes('prerelease')) {
+  if (
+    key.includes('svelte-kit') ||
+    // React prereleases will have INCOMPATIBLE_PEER_DEPENDENCY errors because of transitive dependencies not allowing v19 betas
+    key.includes('react-vite/prerelease') ||
+    key.includes('react-webpack/prerelease')
+  ) {
     // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit sandboxes, it is expected to happen with @sveltejs/vite-plugin-svelte
     command.push(
       `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`
