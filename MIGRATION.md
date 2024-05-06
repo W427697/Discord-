@@ -3859,7 +3859,7 @@ export default {
 We are replacing `@storybook/addon-knobs` with `@storybook/addon-controls`.
 
 - [Rationale & discussion](https://github.com/storybookjs/storybook/discussions/15060)
-- [Migration notes](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
+- [Migration notes](https://github.com/storybookjs/storybook/blob/next/code/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
 
 #### Deprecated scoped blocks imports
 
