@@ -114,7 +114,6 @@ describe('useStoriesJson', () => {
               ],
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "component-tag",
                 "story-tag",
@@ -132,7 +131,6 @@ describe('useStoriesJson', () => {
               ],
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "component-tag",
                 "story-tag",
@@ -147,7 +145,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "component-tag",
                 "story-tag",
@@ -161,7 +158,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "autodocs",
               ],
@@ -174,7 +170,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "autodocs",
               ],
@@ -188,7 +183,6 @@ describe('useStoriesJson', () => {
               "storiesImports": [],
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "unattached-mdx",
               ],
@@ -202,7 +196,6 @@ describe('useStoriesJson', () => {
               "storiesImports": [],
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "unattached-mdx",
               ],
@@ -216,7 +209,6 @@ describe('useStoriesJson', () => {
               "storiesImports": [],
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "unattached-mdx",
               ],
@@ -229,7 +221,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
               ],
               "title": "first-nested/deeply/F",
@@ -241,7 +232,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "autodocs",
               ],
@@ -254,7 +244,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
                 "component-tag",
               ],
@@ -267,7 +256,6 @@ describe('useStoriesJson', () => {
               "name": "Story One",
               "tags": [
                 "dev",
-                "docs",
                 "test",
               ],
               "title": "second-nested/G",

@@ -2,6 +2,7 @@
 
 - [From version 8.0 to 8.1.0](#from-version-80-to-810)
   - [main.js `docs.autodocs` is deprecated](#mainjs-docsautodocs-is-deprecated)
+  - [`docs` and `story` system tags removed](#docs-and-story-system-tags-removed)
   - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
   - [Title block `of` prop](#title-block-of-prop)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
@@ -443,6 +444,9 @@ If you had set `docs.autodocs = 'tag'`, the default setting, you can remove the 
 
 If you had set `docs.autodocs = false`, this still works in 8.x, but will go away in 9.0 as a breaking change. If you don't want autodocs at all, simply remove the `'autodocs'` tag throughout your Storybook and autodocs will not be created.
 
+### `docs` and `story` system tags removed
+
+Storybook automatically added the tag `'docs'` to any docs entry in the index and `'story'` to any story entry in the index. This behavior was undocumented, and in an effort to reduce the number of tags we've removed them in 8.1. If you depended on these tags, please file an issue on the [Storybook monorepo](https://github.com/storybookjs/storybook) and let us know!
 
 ### Subtitle block and `parameters.componentSubtitle`
 

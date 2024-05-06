@@ -3619,8 +3619,6 @@ describe('PreviewWeb', () => {
             "subcomponents": undefined,
             "tags": [
               "dev",
-              "docs",
-              "story",
               "test",
             ],
             "title": "Component One",
@@ -3669,8 +3667,6 @@ describe('PreviewWeb', () => {
             "subcomponents": undefined,
             "tags": [
               "dev",
-              "docs",
-              "story",
               "test",
             ],
             "title": "Component One",
@@ -3697,8 +3693,6 @@ describe('PreviewWeb', () => {
             "subcomponents": undefined,
             "tags": [
               "dev",
-              "docs",
-              "story",
               "test",
             ],
             "title": "Component One",
@@ -3735,8 +3729,6 @@ describe('PreviewWeb', () => {
             "subcomponents": undefined,
             "tags": [
               "dev",
-              "docs",
-              "story",
               "test",
             ],
             "title": "Component Two",

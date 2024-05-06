@@ -80,7 +80,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -113,7 +112,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -145,7 +143,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -177,7 +174,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                 ],
@@ -190,7 +186,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "second-nested/G",
@@ -221,7 +216,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -235,7 +229,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -248,7 +241,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -261,7 +253,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "first-nested/deeply/F",
@@ -273,7 +264,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -286,7 +276,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                 ],
@@ -299,7 +288,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "second-nested/G",
@@ -335,7 +323,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -350,7 +337,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -363,7 +349,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -377,7 +362,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -390,7 +374,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -403,7 +386,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "first-nested/deeply/F",
@@ -416,7 +398,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -429,7 +410,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -442,7 +422,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                 ],
@@ -455,7 +434,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "second-nested/G",
@@ -580,7 +558,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -596,7 +573,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                   "attached-mdx",
@@ -610,7 +586,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -646,7 +621,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -662,7 +636,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                   "attached-mdx",
@@ -676,7 +649,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -711,19 +683,18 @@ describe('StoryIndexGenerator', () => {
             "entries": {
               "a--docs": {
                 "id": "a--docs",
-                "importPath": "./src/A.stories.js",
+                "importPath": "./errors/A.mdx",
                 "name": "docs",
                 "storiesImports": [
-                  "./errors/A.mdx",
                   "./src/A.stories.js",
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                   "component-tag",
                   "story-tag",
+                  "attached-mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -734,7 +705,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                   "component-tag",
@@ -770,7 +740,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -783,7 +752,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -796,7 +764,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story Two",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -846,7 +813,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -859,7 +825,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -890,7 +855,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -908,7 +872,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -923,7 +886,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -938,7 +900,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -952,7 +913,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -966,7 +926,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -1029,7 +988,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -1047,7 +1005,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -1062,7 +1019,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -1077,7 +1033,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -1091,7 +1046,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -1105,7 +1059,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": [],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "unattached-mdx",
                 ],
@@ -1137,7 +1090,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "component-tag",
                   "story-tag",
@@ -1151,7 +1103,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                 ],
@@ -1168,7 +1119,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "autodocs",
                   "attached-mdx",
@@ -1208,7 +1158,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                   "attached-mdx",
                 ],
@@ -1221,7 +1170,6 @@ describe('StoryIndexGenerator', () => {
                 "name": "Story One",
                 "tags": [
                   "dev",
-                  "docs",
                   "test",
                 ],
                 "title": "B",
