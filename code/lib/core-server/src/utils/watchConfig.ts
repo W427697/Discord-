@@ -12,7 +12,6 @@ export function watchConfig(
     ignored: ['**/.git', '**/node_modules'],
   });
 
-  console.log('watching previewjs', configDir);
   wp.watch({
     directories: [configDir],
   });
