@@ -23,7 +23,11 @@ const dtsResults = dts.generateDtsBundle(
     libraries: {
       importedLibraries: [...external, ...externals],
       allowedTypesLibraries: [],
-      inlinedLibraries: internal.filter((i) => ![...external, ...externals].includes(i)),
+      inlinedLibraries: [
+        ...internal.filter((i) => ![...external, ...externals].includes(i)),
+        '@emotion/serialize',
+        '@emotion/utils',
+      ],
     },
     output: { noBanner: true, exportReferencedTypes: false },
   })),
