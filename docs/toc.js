@@ -622,11 +622,6 @@ module.exports = {
               type: 'link',
             },
             {
-              title: 'tags',
-              pathSegment: 'main-config-tags',
-              type: 'link',
-            },
-            {
               title: 'typescript',
               pathSegment: 'main-config-typescript',
               type: 'link',

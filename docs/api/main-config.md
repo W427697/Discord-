@@ -44,7 +44,6 @@ An object to configure Storybook containing the following properties:
 - [`refs`](./main-config-refs.md)
 - [`staticDirs`](./main-config-static-dirs.md)
 - [`swc`](./main-config-swc.md)
-- [`tags`](./main-config-tags.md)
 - [`typescript`](./main-config-typescript.md)
 - [`viteFinal`](./main-config-vite-final.md)
 - [`webpackFinal`](./main-config-webpack-final.md)

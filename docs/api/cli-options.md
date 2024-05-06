@@ -50,8 +50,6 @@ Options include:
 | `--stats-json`                  | Write stats JSON to disk<br/>`storybook dev ---stats-json /tmp/stats`<br/>NOTE: only works for webpack.                                                                   |
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`storybook dev --docs` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md)<br/>`storybook dev --disable-telemetry`                                             |
-| `--tags`                        | Select which [story tags](../writing-stories/tags.md) to include. Accepts a comma-seperated string.<br/>`storybook dev --tags "dev,test"`                                 |
-| `--exclude-tags`                | Select which [story tags](../writing-stories/tags.md) to exclude. Accepts a comma-seperated string.<br/>`storybook dev --tags "docs, test"`                               |
 
 <Callout variant="warning" id="static-dir-deprecation">
 
@@ -82,8 +80,6 @@ Options include:
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs`                           |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                                                      |
 | `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).<br/>`storybook build --test` |
-| `--tags`                        | Select which [story tags](../writing-stories/tags.md) to include. Accepts a comma-seperated string.<br/>`storybook dev --tags "dev,test"`                                                             |
-| `--exclude-tags`                | Select which [story tags](../writing-stories/tags.md) to exclude. Accepts a comma-seperated string.<br/>`storybook dev --tags "docs, test"`                                                           |
 
 <!-- Re-read this for accuracy -->
 
