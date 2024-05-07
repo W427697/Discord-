@@ -5305,7 +5305,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
   peerDependenciesMeta:
     react:
       optional: true
@@ -5561,8 +5561,8 @@ __metadata:
     util-deprecate: "npm:^1.0.2"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
   peerDependenciesMeta:
     react:
       optional: true
@@ -5803,8 +5803,8 @@ __metadata:
     util-deprecate: "npm:^1.0.2"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
   languageName: unknown
   linkType: soft
 
@@ -6288,8 +6288,8 @@ __metadata:
   peerDependencies:
     "@storybook/core": "workspace:*"
     next: ^13.5.0 || ^14.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
     webpack: ^5.0.0
   dependenciesMeta:
     sharp:
@@ -6421,8 +6421,8 @@ __metadata:
     webpack: "npm:5"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -6532,8 +6532,8 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
   languageName: unknown
   linkType: soft
 
@@ -6555,8 +6555,8 @@ __metadata:
     vite: "npm:^4.0.0"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
     vite: ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -6571,8 +6571,8 @@ __metadata:
     "@types/node": "npm:^18.0.0"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
     typescript: ">= 4.2.x"
   peerDependenciesMeta:
     typescript:
@@ -6611,8 +6611,8 @@ __metadata:
     util-deprecate: "npm:^1.0.2"
   peerDependencies:
     "@storybook/core": "workspace:*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
     typescript: ">= 4.2.x"
   peerDependenciesMeta:
     typescript:
@@ -8033,14 +8033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/normalize-package-data@npm:^2.4.0":
-  version: 2.4.2
-  resolution: "@types/normalize-package-data@npm:2.4.2"
-  checksum: 10c0/e38713ca1befc341701c078d592d1fddc1d13eec73b4d81fbab14638221733029f03cdf410b4486b23d48fd8d3809fa36611de98220e76f71517d42b582b3509
-  languageName: node
-  linkType: hard
-
-"@types/normalize-package-data@npm:^2.4.3":
+"@types/normalize-package-data@npm:^2.4.0, @types/normalize-package-data@npm:^2.4.3":
   version: 2.4.4
   resolution: "@types/normalize-package-data@npm:2.4.4"
   checksum: 10c0/aef7bb9b015883d6f4119c423dd28c4bdc17b0e8a0ccf112c78b4fe0e91fbc4af7c6204b04bba0e199a57d2f3fbbd5b4a14bf8739bf9d2a39b2a0aad545e0f86

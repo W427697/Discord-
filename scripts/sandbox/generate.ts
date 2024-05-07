@@ -11,13 +11,13 @@ import { esMain } from '../utils/esmain';
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
 import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
-import storybookVersions from '../../code/lib/core-common/src/versions';
-import { JsPackageManagerFactory } from '../../code/lib/core-common/src/js-package-manager/JsPackageManagerFactory';
+import storybookVersions from '../../code/core/src/common/versions';
+import { JsPackageManagerFactory } from '../../code/core/src/common/js-package-manager/JsPackageManagerFactory';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
-import type { JsPackageManager } from '../../code/lib/core-common/src/js-package-manager';
+import type { JsPackageManager } from '../../code/core/src/common/js-package-manager';
 import {
   BEFORE_DIR_NAME,
   AFTER_DIR_NAME,
@@ -163,7 +163,7 @@ const runGenerators = async (
           else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
           const time = process.hrtime();
-          console.log(`🧬 Generating ${name} (${{ dirName }})`);
+          console.log(`🧬 Generating ${name} (${dirName})`);
           await emptyDir(baseDir);
 
           // We do the creation inside a temp dir to avoid yarn container problems
