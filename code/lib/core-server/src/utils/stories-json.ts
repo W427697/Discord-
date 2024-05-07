@@ -61,12 +61,10 @@ export function useStoriesJson({
       const generator = await initializedStoryIndexGenerator;
       const index = await generator.getIndex();
       res.setHeader('Content-Type', 'application/json');
-      res.write(JSON.stringify(index));
-      res.end();
+      res.end(JSON.stringify(index));
     } catch (err) {
       res.statusCode = 500;
-      res.write(err instanceof Error ? err.toString() : String(err));
-      res.end();
+      res.end(err instanceof Error ? err.toString() : String(err));
     }
   });
 }

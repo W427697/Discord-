@@ -56,23 +56,23 @@ const getInitializedStoryIndexGenerator = async (
 describe('useStoriesJson', () => {
   const use = vi.fn();
   const app: Server = { use } as any;
-  const send = vi.fn();
+  const end = vi.fn();
   const write = vi.fn();
   const response: Response = {
     header: vi.fn(),
-    send,
+    send: vi.fn(),
     status: vi.fn(),
     setHeader: vi.fn(),
     flushHeaders: vi.fn(),
     write,
     flush: vi.fn(),
-    end: vi.fn(),
+    end,
     on: vi.fn(),
   } as any;
 
   beforeEach(async () => {
     use.mockClear();
-    send.mockClear();
+    end.mockClear();
     write.mockClear();
     vi.mocked(debounce).mockImplementation((cb) => cb as any);
     Watchpack.mockClear();
@@ -102,8 +102,8 @@ describe('useStoriesJson', () => {
       await route(request, response);
       console.timeEnd('route');
 
-      expect(send).toHaveBeenCalledTimes(1);
-      expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
+      expect(end).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(end.mock.calls[0][0])).toMatchInlineSnapshot(`
         {
           "entries": {
             "a--metaof": {
@@ -283,14 +283,14 @@ describe('useStoriesJson', () => {
       const route = use.mock.calls[0][1];
 
       const firstPromise = route(request, response);
-      const secondResponse = { ...response, send: vi.fn(), status: vi.fn() };
+      const secondResponse = { ...response, end: vi.fn(), status: vi.fn() };
       const secondPromise = route(request, secondResponse);
 
       await Promise.all([firstPromise, secondPromise]);
 
-      expect(send).toHaveBeenCalledTimes(1);
+      expect(end).toHaveBeenCalledTimes(1);
       expect(response.status).not.toEqual(500);
-      expect(secondResponse.send).toHaveBeenCalledTimes(1);
+      expect(secondResponse.end).toHaveBeenCalledTimes(1);
       expect(secondResponse.status).not.toEqual(500);
     });
   });
@@ -298,7 +298,7 @@ describe('useStoriesJson', () => {
   describe('SSE endpoint', () => {
     beforeEach(() => {
       use.mockClear();
-      send.mockClear();
+      end.mockClear();
     });
 
     it('sends invalidate events', async () => {
