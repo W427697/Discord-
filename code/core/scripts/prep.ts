@@ -192,14 +192,14 @@ async function generateDistFiles() {
         const out = await context.rebuild();
         await context.dispose();
 
-        if (out.metafile) {
-          await Bun.write('report/meta.json', JSON.stringify(out.metafile, null, 2));
-          await Bun.write(
-            'report/meta.txt',
-            await esbuild.analyzeMetafile(out.metafile, { color: false, verbose: false })
-          );
-          // console.log(await esbuild.analyzeMetafile(out.metafile, { color: true }));
-        }
+        // if (out.metafile) {
+        //   await Bun.write('report/meta.json', JSON.stringify(out.metafile, null, 2));
+        //   await Bun.write(
+        //     'report/meta.txt',
+        //     await esbuild.analyzeMetafile(out.metafile, { color: false, verbose: false })
+        //   );
+        //   console.log(await esbuild.analyzeMetafile(out.metafile, { color: true }));
+        // }
       })
     );
   }
