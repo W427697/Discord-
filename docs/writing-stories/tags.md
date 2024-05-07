@@ -22,85 +22,50 @@ A tag can be any string, either the [built-in tags](#built-in-tags) or custom ta
 
 For example, to apply the `autodocs` tag to all stories in your project, you can use `.storybook/preview.js|ts`:
 
-```ts
-// .storybook/preview.ts
-import type { Preview } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-const preview: Preview = {
-  // ...rest of preview
-  /**
-   * 👇 All stories in your project will have these tags applied:
-   *    - autodocs
-   *    - dev (implicit default)
-   *    - test (implicit default)
-   */
-  tags: ['autodocs'],
-};
+<CodeSnippets
+  paths={[
+    'common/tags-in-preview.js.mdx',
+    'common/tags-in-preview.ts.mdx',
+  ]}
+/>
 
-export default preview;
-```
+<!-- prettier-ignore-end -->
 
 Within a component stories file, you apply tags like so:
 
-```ts
-// Button.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'common/tags-in-meta-and-story.js.mdx',
+    'common/tags-in-meta-and-story.ts.mdx',
+    'angular/tags-in-meta-and-story.ts.mdx',
+    'web-components/tags-in-meta-and-story.ts.mdx',
+    'web-components/tags-in-meta-and-story.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-  /**
-   * 👇 All stories in this file will have these tags applied:
-   *    - autodocs
-   *    - dev (implicit default, inherited from preview)
-   *    - test (implicit default, inherited from preview)
-   */
-  tags: ['autodocs'],
-} satisfies Meta<typeof Button>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const ExperimentalFeatureStory: Story = {
-  /**
-   * 👇 This particular story will have these tags applied:
-   *    - experimental
-   *    - autodocs (inherited from meta)
-   *    - dev (inherited from meta)
-   *    - test (inherited from meta)
-   */
-  tags: ['experimental'],
-};
-```
+<!-- prettier-ignore-end -->
 
 ## Removing tags
 
 To remove a tag from a story, prefix it with `!`. For example, we can apply the `stable` tag to all stories in a file except one, which has the `experimental` tag:
 
-```ts
-// Button.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'common/tags-remove-in-story.js.mdx',
+    'common/tags-remove-in-story.ts.mdx',
+    'angular/tags-remove-in-story.ts.mdx',
+    'web-components/tags-remove-in-story.ts.mdx',
+    'web-components/tags-remove-in-story.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-  // 👇 Applies to all stories in this file
-  tags: ['stable'],
-} satisfies Meta<typeof Button>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const ExperimentalFeatureStory: Story = {
-  /**
-   * 👇 For this particular story, remove the inherited
-   *    `stable` tag and apply the `experimental` tag
-   */
-  tags: ['!stable', 'experimental'],
-};
-```
+<!-- prettier-ignore-end -->
 
 <Callout variant="info">
 
@@ -116,58 +81,38 @@ Tags can be removed for all stories in your project (in `.storybook/preview.js|t
 
 It can sometimes be helpful to provide example stories for documentation purposes, but you want to keep the sidebar navigation more focused on stories useful for development. By enabling the `autodocs` tag and removing the `dev` tag, a story becomes docs-only: appearing only in the [docs page](../writing-docs/autodocs.md) and not in Storybook's sidebar.
 
-```ts
-// Button.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'common/tags-docs-only-in-meta.js.mdx',
+    'common/tags-docs-only-in-meta.ts.mdx',
+    'angular/tags-docs-only-in-meta.ts.mdx',
+    'web-components/tags-docs-only-in-meta.ts.mdx',
+    'web-components/tags-docs-only-in-meta.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-  /**
-   * 👇 All stories in this file will:
-   *    - Be included in the docs page
-   *    - Not appear in Storybook's sidebar
-   */
-  tags: ['autodocs', '!dev'],
-} satisfies Meta<typeof Button>;
-export default meta;
-```
+<!-- prettier-ignore-end -->
 
 ### Combo stories, still tested individually
 
 For a component with many variants, like a Button, a grid of those variants all together can be a helpful way to visualize it. But you may wish to test the variants individually. You can accomplish this with tags like so:
 
-```ts
-// Button.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'react/tags-combo-example.js.mdx',
+    'react/tags-combo-example.ts.mdx',
+    'vue/tags-combo-example.js.mdx',
+    'vue/tags-combo-example.ts.mdx',
+    'angular/tags-combo-example.ts.mdx',
+    'web-components/tags-combo-example.js.mdx',
+    'web-components/tags-combo-example.ts.mdx',
+    'solid/tags-combo-example.js.mdx',
+    'solid/tags-combo-example.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-} satisfies Meta<typeof Button>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Variant1: Story = {
-  // 👇 This story will not appear in Storybook's sidebar or docs page
-  tags: ['!dev', '!docs'],
-};
-
-export const Variant2: Story = {
-  // 👇 This story will not appear in Storybook's sidebar or docs page
-  tags: ['!dev', '!docs'],
-};
-
-// ... etc.
-
-export const Combo: Story = {
-  // 👇 This story should not be tested
-  tags: ['!test'],
-  render: () => {
-    // Variant1, Variant2, etc.
-  },
-};
-```
+<!-- prettier-ignore-end -->

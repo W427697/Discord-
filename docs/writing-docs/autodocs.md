@@ -16,72 +16,64 @@ Autodocs is configured through [tags](../writing-stories/tags.md). If a [CSF](..
 
 To enable automatic documentation for all stories in a project, add it to `tags` in your `.storybook/preview.js|ts` file:
 
-```ts
-// .storybook/preview.ts
-import type { Preview } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-const preview: Preview = {
-  // ...rest of preview
-  //👇 Enables auto-generated documentation for all stories
-  tags: ['autodocs'],
-};
+<CodeSnippets
+  paths={[
+    'common/tags-autodocs-in-preview.js.mdx',
+    'common/tags-autodocs-in-preview.ts.mdx',
+  ]}
+/>
 
-export default preview;
-```
+<!-- prettier-ignore-end -->
 
 You can also enable it at the component (or story) level:
 
-```ts
-import type { Meta } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'common/tags-autodocs-in-meta.js.mdx',
+    'common/tags-autodocs-in-meta.ts.mdx',
+    'angular/tags-autodocs-in-meta.ts.mdx',
+    'web-components/tags-autodocs-in-meta.ts.mdx',
+    'web-components/tags-autodocs-in-meta.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-  //👇 Enables auto-generated documentation for this component and includes all stories in this file
-  tags: ['autodocs'],
-} satisfies Meta<typeof Button>;
-export default meta;
-```
+<!-- prettier-ignore-end -->
 
 You can disable auto docs for a particular component by [removing the tag](../writing-stories/tags.md#removing-tags):
 
-```ts
-// Page.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Page } from './Page';
+<CodeSnippets
+  paths={[
+    'common/tags-autodocs-remove-component.js.mdx',
+    'common/tags-autodocs-remove-component.ts.mdx',
+    'angular/tags-autodocs-remove-component.ts.mdx',
+    'web-components/tags-autodocs-remove-component.ts.mdx',
+    'web-components/tags-autodocs-remove-component.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Page,
-  // 👇 Disable auto-generated documentation for this component
-  tags: ['!autodocs'],
-} satisfies Meta<typeof Page>;
-export default meta;
-```
+<!-- prettier-ignore-end -->
 
 Similarly, you can exclude a particular story from the auto docs page, by removing the tag:
 
-```ts
-// Button.stories.ts
-import type { Meta, StoryObj } from '@storybook/your-framework';
+<!-- prettier-ignore-start -->
 
-import { Button } from './Button';
+<CodeSnippets
+  paths={[
+    'common/tags-autodocs-remove-story.js.mdx',
+    'common/tags-autodocs-remove-story.ts.mdx',
+    'angular/tags-autodocs-remove-story.ts.mdx',
+    'web-components/tags-autodocs-remove-story.ts.mdx',
+    'web-components/tags-autodocs-remove-story.ts.mdx',
+  ]}
+/>
 
-const meta = {
-  component: Button,
-  //👇 Enables auto-generated documentation for this component and includes all stories in this file
-  tags: ['autodocs'],
-} satisfies Meta<typeof Button>;
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const UndocumentedStory = {
-  // 👇 Removes this story from auto-generated documentation
-  tags: ['!autodocs'],
-};
-```
+<!-- prettier-ignore-end -->
 
 ### Configure
 
