@@ -122,11 +122,7 @@ export const executor = {
  *
  * I am sorry for making you read about generators today :')
  */
-const starter: StarterFunction = async function* starterGeneratorFn({
-  startTime,
-  options,
-  app,
-}) {
+const starter: StarterFunction = async function* starterGeneratorFn({ startTime, options, app }) {
   logger.info('=> Starting manager..');
 
   const {
@@ -163,12 +159,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const serveAddons = sirv(addonsDir, {
     maxAge: 300000,
     dev: true,
-    immutable: true
+    immutable: true,
   });
   const serveCore = sirv(coreDirOrigin, {
     maxAge: 300000,
     dev: true,
-    immutable: true
+    immutable: true,
   });
   // TODO (43081j): maybe abstract this into a reusable function
   app.use('/sb-addons', (req, res, next) => {
@@ -214,7 +210,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   yield;
 
   app.use('/', ({ url }, res, next) => {
-    if (isRootPath.test(url)) {
+    if (url && isRootPath.test(url)) {
       res.statusCode = 200;
       res.write(html);
       res.end();
