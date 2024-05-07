@@ -18,7 +18,7 @@ The `dev` and `test` tags are automatically, implicitly applied to every story i
 
 ## Applying tags
 
-A tag can be any string, either the [built-in tags](#built-in-tags) or custom tags of your own design. To apply tags to a story, assign an array of strings to the `tags` property. Tags may be applied at the project, component (meta), or story levels.
+A tag can be any static (i.e. not created dynamically) string, either the [built-in tags](#built-in-tags) or custom tags of your own design. To apply tags to a story, assign an array of strings to the `tags` property. Tags may be applied at the project, component (meta), or story levels.
 
 For example, to apply the `autodocs` tag to all stories in your project, you can use `.storybook/preview.js|ts`:
 
