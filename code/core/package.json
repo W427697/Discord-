@@ -90,11 +90,18 @@
     },
     "./dist/router": {
       "types": "./dist/router/index.d.ts",
+      "require": "./dist/router/index.cjs",
       "import": "./dist/router/index.js"
     },
     "./dist/theming": {
       "types": "./dist/theming/index.d.ts",
+      "require": "./dist/theming/index.cjs",
       "import": "./dist/theming/index.js"
+    },
+    "./dist/theming/create": {
+      "types": "./dist/theming/create.d.ts",
+      "require": "./dist/theming/create.cjs",
+      "import": "./dist/theming/create.js"
     }
   },
   "main": "dist/index.cjs",
