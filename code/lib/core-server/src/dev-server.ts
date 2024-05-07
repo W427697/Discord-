@@ -20,7 +20,7 @@ import { getStoryIndexGenerator } from './utils/getStoryIndexGenerator';
 import { doTelemetry } from './utils/doTelemetry';
 import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
 import { getCachingMiddleware } from './utils/get-caching-middleware';
-import connect, {type NextHandleFunction} from 'connect';
+import connect, { type NextHandleFunction } from 'connect';
 
 export async function storybookDevServer(options: Options) {
   const app = connect();

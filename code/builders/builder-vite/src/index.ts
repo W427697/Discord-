@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import * as fs from 'fs-extra';
-import type {NextHandleFunction} from 'connect';
+import type { NextHandleFunction } from 'connect';
 import type { ViteDevServer } from 'vite';
 import { dirname, join, parse } from 'path';
 import { NoStatsForViteDevError } from '@storybook/core-events/server-errors';
@@ -67,7 +67,7 @@ export const start: ViteBuilder['start'] = async ({
   const servePreview = sirv(previewDirOrigin, {
     maxAge: 300000,
     dev: true,
-    immutable: true
+    immutable: true,
   });
 
   app.use('/sb-preview', (req, res, next) => {

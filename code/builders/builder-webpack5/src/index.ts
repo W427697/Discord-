@@ -184,7 +184,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const servePreview = sirv(previewDirOrigin, {
     maxAge: 300000,
     dev: true,
-    immutable: true
+    immutable: true,
   });
 
   app.use('/sb-preview', (req, res, next) => {
