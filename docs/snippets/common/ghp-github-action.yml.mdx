@@ -27,10 +27,14 @@ jobs:
       # Set up Node
       - uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version: '20.x'
+
+      # If using Yarn Modern, you also need to add the following action to install your configured Yarn version:
+      # - name: Install Yarn
+      #   run: corepack enable && yarn install
 
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
-      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.1
+      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
           install_command: yarn install # default: npm ci
           build_command: yarn build-storybook # default: npm run build-storybook
