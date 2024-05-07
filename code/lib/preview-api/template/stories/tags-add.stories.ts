@@ -4,7 +4,7 @@ import { within, expect } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['component-one', 'component-two', 'autodocs'],
+  tags: ['!dev', '!autodocs', '!test'],
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       return storyFn({
@@ -16,24 +16,24 @@ export default {
 };
 
 export const Inheritance = {
-  tags: ['story-one', 'story-two'],
+  tags: ['story-one'],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
-      tags: ['story-one', 'story-two', 'story'],
+      tags: ['story-one'],
     });
   },
   parameters: { chromatic: { disable: false } },
 };
 
-export const DocsOnly = {
-  tags: ['docs-only'],
+export const Dev = {
+  tags: ['dev'],
 };
 
-export const TestOnly = {
-  tags: ['test-only'],
+export const Autodocs = {
+  tags: ['autodocs'],
 };
 
-export const DevOnly = {
-  tags: ['dev-only'],
+export const Test = {
+  tags: ['test'],
 };
