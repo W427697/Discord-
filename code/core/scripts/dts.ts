@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import { process, dts, nodeInternals } from '../../../scripts/prepare/tools';
+import { process, dts, nodeInternals, Bun } from '../../../scripts/prepare/tools';
 import { getEntries } from './entries';
 import pkg from '../package.json';
 import { flattenDependencies } from './helpers/dependencies';
@@ -40,7 +40,7 @@ const dtsResults = dts.generateDtsBundle(
       noCheck: true,
       libraries: {
         importedLibraries: [...external, ...externals],
-        // allowedTypesLibraries: [...external, ...externals],
+        allowedTypesLibraries: [...external, ...externals],
         inlinedLibraries: inlined,
       },
       output: { noBanner: true, exportReferencedTypes: false },

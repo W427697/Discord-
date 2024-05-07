@@ -1,5 +1,4 @@
 /* eslint-disable local-rules/no-uncategorized-errors */
-/// <reference types="@types/bun" />
 
 import { watch } from 'node:fs';
 import { rmdir } from 'node:fs/promises';
@@ -15,6 +14,7 @@ import {
   dedent,
   sortPackageJson,
   limit,
+  Bun,
 } from '../../../scripts/prepare/tools';
 import { getEntries } from './entries';
 

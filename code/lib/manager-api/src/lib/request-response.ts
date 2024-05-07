@@ -22,7 +22,7 @@ export const experimental_requestResponse = <
   payload: RequestPayload,
   timeout = 5000
 ): Promise<ResponsePayload> => {
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   return new Promise((resolve, reject) => {
     const request: RequestData<typeof payload> = {

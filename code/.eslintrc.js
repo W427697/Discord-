@@ -126,7 +126,11 @@ module.exports = {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [__dirname, path.join(__dirname, 'addons', directory)],
+            packageDir: [
+              __dirname,
+              path.join(__dirname, 'addons', directory),
+              path.join(__dirname, 'core'),
+            ],
             devDependencies: true,
           },
         ],
@@ -138,7 +142,11 @@ module.exports = {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [__dirname, path.join(__dirname, 'ui', directory)],
+            packageDir: [
+              __dirname,
+              path.join(__dirname, 'ui', directory),
+              path.join(__dirname, 'core'),
+            ],
             devDependencies: true,
             peerDependencies: true,
           },
@@ -151,7 +159,11 @@ module.exports = {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [__dirname, path.join(__dirname, 'lib', directory)],
+            packageDir: [
+              __dirname,
+              path.join(__dirname, 'lib', directory),
+              path.join(__dirname, 'core'),
+            ],
             devDependencies: true,
           },
         ],

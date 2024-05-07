@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'node:path';
 import { dedent } from 'ts-dedent';
-import { prettier } from '../../../../scripts/prepare/tools';
+import { prettier } from '../../../../scripts/prepare/tools-esm';
 import { globalsNameReferenceMap } from '../src/globals/globals';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');

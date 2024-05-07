@@ -2,6 +2,7 @@ import { join } from 'node:path';
 import * as process from 'node:process';
 import { readFile } from 'node:fs/promises';
 import { glob } from 'glob';
+import Bun from 'bun';
 
 import slash from 'slash';
 
@@ -52,12 +53,12 @@ export {
   esbuild,
   dts,
   prettyTime,
-  dts2,
   chalk,
   dedent,
   limit,
   sortPackageJson,
   prettier,
+  Bun,
 };
 
 export const nodeInternals = [
@@ -65,7 +66,7 @@ export const nodeInternals = [
 ];
 
 export const getWorkspace = async () => {
-  const codePackage = JSON.parse(await readFile(join(CODE_DIRECTORY, 'package.json'), 'utf-8'));
+  const codePackage = await Bun.file(join(CODE_DIRECTORY, 'package.json')).json();
   const {
     workspaces: { packages: patterns },
   } = codePackage;
@@ -78,7 +79,7 @@ export const getWorkspace = async () => {
     workspaces
       .flatMap((p) => p.map((i) => join(CODE_DIRECTORY, i)))
       .map(async (p) => {
-        const pkg = JSON.parse(await readFile(join(p, 'package.json'), 'utf-8'));
+        const pkg = await Bun.file(join(p, 'package.json')).json();
         return { ...pkg, path: p } as typefest.PackageJson &
           Required<Pick<typefest.PackageJson, 'name' | 'version'>> & { path: string };
       })
