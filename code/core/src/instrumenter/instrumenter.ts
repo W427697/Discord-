@@ -13,7 +13,7 @@ import { processError } from '@vitest/utils/error';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';
-import type { StoryId } from '../types/modules/csf';
+import type { StoryId } from '@storybook/core/dist/types';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',

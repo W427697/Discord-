@@ -1,7 +1,7 @@
 import slash from 'slash';
 import { dedent } from 'ts-dedent';
 import { once } from '@storybook/core/dist/client-logger';
-import type { NormalizedStoriesSpecifier } from '../../../types/modules/indexer';
+import type { NormalizedStoriesSpecifier } from '@storybook/core/dist/types';
 
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.

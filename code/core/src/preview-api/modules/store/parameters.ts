@@ -1,5 +1,5 @@
 // Utilities for handling parameters
-import type { Parameters } from '../../../types/modules/csf';
+import type { Parameters } from '@storybook/core/dist/types';
 import isPlainObject from 'lodash/isPlainObject.js';
 
 /**

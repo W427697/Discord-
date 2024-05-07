@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import fs from 'fs-extra';
+import { readFile, writeFile } from 'node:fs/promises';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
@@ -9,12 +9,12 @@ import bt from '@babel/traverse';
 import * as recast from 'recast';
 
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { ComponentAnnotations, StoryAnnotations, Tag } from '../types/modules/csf';
+import type { ComponentAnnotations, StoryAnnotations, Tag } from '@storybook/core/dist/types';
 import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 import type { PrintResultType } from './PrintResultType';
-import type { IndexInput, IndexedCSFFile } from '../types/modules/indexer';
+import type { IndexInput, IndexedCSFFile } from '@storybook/core/dist/types';
 
 // @ts-expect-error (needed due to it's use of `exports.default`)
 const traverse = bt.default as typeof bt;
@@ -603,12 +603,12 @@ export const printCsf = (csf: CsfFile, options: Options = {}): PrintResultType =
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const code = (await readFile(fileName, 'utf-8')).toString();
   return loadCsf(code, { ...options, fileName });
 };
 
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, printCsf(csf).code);
+  await writeFile(fileName as string, printCsf(csf).code);
 };

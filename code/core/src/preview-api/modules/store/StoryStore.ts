@@ -8,7 +8,7 @@ import type {
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StoryId,
-} from '../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 
@@ -38,13 +38,13 @@ import type {
   PreparedMeta,
   PreparedStory,
   ProjectAnnotations,
-} from '../../../types/modules/story';
+} from '@storybook/core/dist/types';
 import type {
   IndexEntry,
   StoryIndex,
   StoryIndexV3,
   V3CompatIndexEntry,
-} from '../../../types/modules/indexer';
+} from '@storybook/core/dist/types';
 
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;

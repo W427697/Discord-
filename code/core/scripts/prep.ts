@@ -228,15 +228,25 @@ async function generateTypesFiles() {
     // TODO: figure out if this is a bug in bun or in the script, or how to ensure the script actually fails in that case
     // TODO: figure out what the best number is, this is likely to be different on different machines (CI)
     const limited = limit(5);
+    let processes: ReturnType<(typeof Bun)['spawn']>[] = [];
     await Promise.all(
       all.map(async (fileName, index) => {
         return limited(async () => {
-          const dtsProcess = Bun.spawn(['bun', './scripts/dts.ts', index.toString()], {
+          const dtsProcess = Bun.spawn(['bun', './scripts/dts2.ts', index.toString()], {
             cwd,
           });
+          processes.push(dtsProcess);
+          await Promise.race([
+            dtsProcess.exited,
+            new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('timed out')), 60000);
+            }),
+          ]);
           await dtsProcess.exited;
           if (dtsProcess.exitCode !== 0) {
-            console.log(fileName);
+            processes.forEach((p) => p.kill());
+            processes = [];
+            console.log(index, fileName);
             process.exit(dtsProcess.exitCode || 1);
           } else {
             console.log('Generated types for', chalk.cyan(relative(cwd, all[index])));

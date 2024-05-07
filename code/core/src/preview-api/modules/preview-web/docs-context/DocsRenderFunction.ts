@@ -1,1 +1,1 @@
-export type { DocsRenderFunction } from '../../../../types/modules/docs';
+export type { DocsRenderFunction } from '@storybook/core/dist/types';

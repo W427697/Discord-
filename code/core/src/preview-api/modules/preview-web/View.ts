@@ -1,4 +1,4 @@
-import type { PreparedStory } from '../../../types/modules/story';
+import type { PreparedStory } from '@storybook/core/dist/types';
 
 export interface View<TStorybookRoot> {
   // Get ready to render a story, returning the element to render to

@@ -16,7 +16,7 @@ import type {
   Renderer,
   StoryContext,
   StoryId,
-} from '../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 
 interface Hook {
   name: string;

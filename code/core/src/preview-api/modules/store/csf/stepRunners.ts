@@ -1,4 +1,4 @@
-import type { Renderer, StepRunner } from '../../../../types/modules/csf';
+import type { Renderer, StepRunner } from '@storybook/core/dist/types';
 
 /**
  * Compose step runners to create a single step runner that applies each step runner in order.

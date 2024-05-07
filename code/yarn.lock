@@ -3742,6 +3742,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ndelangen/fs-extra-unified@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@ndelangen/fs-extra-unified@npm:1.0.3"
+  peerDependencies:
+    "@types/fs-extra": ^11.0.0
+    fs-extra: ^11.0.0
+  peerDependenciesMeta:
+    "@types/fs-extra":
+      optional: true
+  checksum: 10c0/397e94eb34a644e33bb7e0cf263da2758efb44924dd6b4bd90e82184868cf4dca5f116b628a9dd0837e3c5c9a36735069bec4312f5d6be2b9997cb0fd3712aaa
+  languageName: node
+  linkType: hard
+
 "@ndelangen/get-tarball@npm:^3.0.7":
   version: 3.0.9
   resolution: "@ndelangen/get-tarball@npm:3.0.9"
@@ -5908,6 +5921,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.1"
+    "@ndelangen/fs-extra-unified": "npm:^1.0.3"
     "@storybook/csf": "npm:^0.1.6"
     "@storybook/global": "npm:^5.0.0"
     "@types/express": "npm:^4.17.21"
@@ -5933,7 +5947,7 @@ __metadata:
     detect-package-manager: "npm:^3.0.2"
     esbuild: "npm:^0.18.0 || ^0.19.0 || ^0.20.0"
     esbuild-register: "npm:^3.5.0"
-    execa: "npm:^5.0.0"
+    execa: "npm:^8.0.1"
     express: "npm:^4.19.2"
     fetch-retry: "npm:^6.0.0"
     file-system-cache: "npm:^2.4.4"

@@ -2,7 +2,7 @@ import qs from 'qs';
 import { dedent } from 'ts-dedent';
 import { once } from '@storybook/core/dist/client-logger';
 import isPlainObject from 'lodash/isPlainObject.js';
-import type { Args } from '../../../types/modules/csf';
+import type { Args } from '@storybook/core/dist/types';
 
 // Keep this in sync with validateArgs in router/src/utils.ts
 const VALIDATION_REGEXP = /^[a-zA-Z0-9 _-]*$/;

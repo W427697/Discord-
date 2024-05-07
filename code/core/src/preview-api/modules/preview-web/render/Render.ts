@@ -1,5 +1,5 @@
-import type { Renderer, StoryId } from '../../../../types/modules/csf';
-import type { StoryRenderOptions } from '../../../../types/modules/docs';
+import type { Renderer, StoryId } from '@storybook/core/dist/types';
+import type { StoryRenderOptions } from '@storybook/core/dist/types';
 
 export type RenderType = 'story' | 'docs';
 

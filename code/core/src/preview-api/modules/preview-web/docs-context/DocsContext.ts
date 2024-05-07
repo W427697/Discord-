@@ -8,17 +8,17 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
-} from '../../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 import type {
   CSFFile,
   ModuleExport,
   ModuleExports,
   PreparedStory,
-} from '../../../../types/modules/story';
+} from '@storybook/core/dist/types';
 import type {
   ResolvedModuleExportFromType,
   ResolvedModuleExportType,
-} from '../../../../types/modules/docs';
+} from '@storybook/core/dist/types';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
   private componentStoriesValue: PreparedStory<TRenderer>[];

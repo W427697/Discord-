@@ -6,7 +6,7 @@ import slash from 'slash';
 import { InvalidStoriesEntryError } from '@storybook/core/dist/server-errors';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
-import type { NormalizedStoriesSpecifier, StoriesEntry } from '../../types/modules/indexer';
+import type { NormalizedStoriesSpecifier, StoriesEntry } from '@storybook/core/dist/types';
 
 const DEFAULT_TITLE_PREFIX = '';
 const DEFAULT_FILES_PATTERN = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';

@@ -3,7 +3,7 @@ import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,
   CoreCommon_OptionsEntry,
-} from '../../types/modules/core-common';
+} from '@storybook/core/dist/types';
 
 interface Options {
   before: CoreCommon_AddonInfo;

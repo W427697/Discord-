@@ -1,13 +1,10 @@
-import type { Renderer, ArgTypes } from '../../../../types/modules/csf';
+import type { Renderer, ArgTypes } from '@storybook/core/dist/types';
 
 import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';
 import { normalizeInputTypes } from './normalizeInputTypes';
 import { normalizeArrays } from './normalizeArrays';
-import type {
-  NormalizedProjectAnnotations,
-  ProjectAnnotations,
-} from '../../../../types/modules/story';
+import type { NormalizedProjectAnnotations, ProjectAnnotations } from '@storybook/core/dist/types';
 
 export function normalizeProjectAnnotations<TRenderer extends Renderer>({
   argTypes,

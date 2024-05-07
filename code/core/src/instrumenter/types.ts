@@ -1,4 +1,4 @@
-import type { StoryId } from '../types/modules/csf';
+import type { StoryId } from '@storybook/core/dist/types';
 
 export interface Call {
   id: string;

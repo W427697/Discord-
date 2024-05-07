@@ -16,7 +16,7 @@ import type {
   PresetConfig,
   Presets,
   StorybookConfigRaw,
-} from '../types/modules/core-common';
+} from '@storybook/core/dist/types';
 
 type InterPresetOptions = Omit<
   CLIOptions &

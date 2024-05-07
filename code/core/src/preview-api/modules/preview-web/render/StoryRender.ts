@@ -14,14 +14,14 @@ import type {
   StoryContextForLoaders,
   StoryId,
   ViewMode,
-} from '../../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 import type {
   PreparedStory,
   RenderContext,
   RenderToCanvas,
   TeardownRenderToCanvas,
-} from '../../../../types/modules/story';
-import type { RenderContextCallbacks, StoryRenderOptions } from '../../../../types/modules/docs';
+} from '@storybook/core/dist/types';
+import type { RenderContextCallbacks, StoryRenderOptions } from '@storybook/core/dist/types';
 
 const { AbortController } = globalThis;
 

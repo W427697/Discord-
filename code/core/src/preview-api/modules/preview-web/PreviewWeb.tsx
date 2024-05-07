@@ -5,8 +5,8 @@ import { PreviewWithSelection } from './PreviewWithSelection';
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
 import type { MaybePromise } from './Preview';
-import type { Renderer } from '../../../types/modules/csf';
-import type { ModuleImportFn, ProjectAnnotations } from '../../../types/modules/story';
+import type { Renderer } from '@storybook/core/dist/types';
+import type { ModuleImportFn, ProjectAnnotations } from '@storybook/core/dist/types';
 
 export class PreviewWeb<TRenderer extends Renderer> extends PreviewWithSelection<TRenderer> {
   constructor(

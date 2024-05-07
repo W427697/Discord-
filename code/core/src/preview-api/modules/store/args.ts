@@ -9,7 +9,7 @@ import type {
   Renderer,
   SBType,
   StoryContext,
-} from '../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 
 const INCOMPATIBLE = Symbol('incompatible');
 const map = (arg: unknown, argType: InputType): any => {

@@ -7,7 +7,7 @@ import type {
   Renderer,
   SBEnumType,
   StrictInputType,
-} from '../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 
 export type ControlsMatchers = {
   date: RegExp;

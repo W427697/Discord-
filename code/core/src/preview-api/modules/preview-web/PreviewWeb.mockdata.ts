@@ -12,8 +12,8 @@ import {
 } from '@storybook/core/dist/core-events';
 
 import type { RenderPhase } from './render/StoryRender';
-import type { ModuleImportFn, TeardownRenderToCanvas } from '../../../types/modules/story';
-import type { StoryIndex } from '../../../types/modules/indexer';
+import type { ModuleImportFn, TeardownRenderToCanvas } from '@storybook/core/dist/types';
+import type { StoryIndex } from '@storybook/core/dist/types';
 
 export const componentOneExports = {
   default: {

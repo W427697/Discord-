@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import { MissingStoryAfterHmrError } from '@storybook/core/dist/preview-errors';
-import type { ComponentTitle, Path, StoryId, StoryName } from 'core/src/types/modules/csf';
-import type { IndexEntry, StoryIndex } from '../../../types/modules/indexer';
+import type { ComponentTitle, Path, StoryId, StoryName } from '@storybook/core/dist/types';
+import type { IndexEntry, StoryIndex } from '@storybook/core/dist/types';
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 

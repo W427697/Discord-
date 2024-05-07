@@ -1,12 +1,13 @@
 import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
-import { command as execaCommand, sync as execaCommandSync } from 'execa';
+import { execaCommand, execaCommandSync } from 'execa';
 import path from 'node:path';
 import fs from 'fs';
 
 import { dedent } from 'ts-dedent';
-import { readFile, writeFile, readFileSync } from 'fs-extra';
+import { readFileSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import invariant from 'tiny-invariant';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -510,7 +511,7 @@ export abstract class JsPackageManager {
     ignoreError = false,
     env,
     ...execaOptions
-  }: CommonOptions<string> & {
+  }: CommonOptions<'utf8'> & {
     command: string;
     args: string[];
     cwd?: string;
@@ -555,7 +556,7 @@ export abstract class JsPackageManager {
     ignoreError = false,
     env,
     ...execaOptions
-  }: CommonOptions<string> & {
+  }: CommonOptions<'utf8'> & {
     command: string;
     args: string[];
     cwd?: string;
@@ -565,7 +566,7 @@ export abstract class JsPackageManager {
       const commandResult = await execaCommand([command, ...args].join(' '), {
         cwd: cwd ?? this.cwd,
         stdio: stdio ?? 'pipe',
-        encoding: 'utf-8',
+        encoding: 'utf8',
         shell: true,
         cleanup: true,
         env,

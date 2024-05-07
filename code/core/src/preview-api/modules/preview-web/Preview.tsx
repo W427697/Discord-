@@ -33,16 +33,16 @@ import { StoryStore } from '../../store';
 import { StoryRender } from './render/StoryRender';
 import type { CsfDocsRender } from './render/CsfDocsRender';
 import type { MdxDocsRender } from './render/MdxDocsRender';
-import type { Args, Globals, Renderer, StoryId } from '../../../types/modules/csf';
+import type { Args, Globals, Renderer, StoryId } from '@storybook/core/dist/types';
 import type {
   ModuleImportFn,
   PreparedStory,
   ProjectAnnotations,
   RenderToCanvas,
-} from '../../../types/modules/story';
-import type { RenderContextCallbacks, StoryRenderOptions } from '../../../types/modules/docs';
-import type { StoryIndex } from '../../../types/modules/indexer';
-import type { SetGlobalsPayload } from '../../../types/modules/channelApi';
+} from '@storybook/core/dist/types';
+import type { RenderContextCallbacks, StoryRenderOptions } from '@storybook/core/dist/types';
+import type { StoryIndex } from '@storybook/core/dist/types';
+import type { SetGlobalsPayload } from '@storybook/core/dist/types';
 
 const { fetch } = global;
 

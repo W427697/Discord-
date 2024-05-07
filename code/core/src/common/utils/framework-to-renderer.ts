@@ -1,5 +1,5 @@
-import type { SupportedFrameworks } from '../../types/modules/frameworks';
-import type { SupportedRenderers } from '../../types/modules/renderers';
+import type { SupportedFrameworks } from '@storybook/core/dist/types';
+import type { SupportedRenderers } from '@storybook/core/dist/types';
 
 export const frameworkToRenderer: Record<
   SupportedFrameworks | SupportedRenderers,

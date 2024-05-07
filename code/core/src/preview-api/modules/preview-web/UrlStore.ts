@@ -3,7 +3,7 @@ import qs from 'qs';
 
 import { parseArgsParam } from './parseArgsParam';
 import type { SelectionSpecifier, SelectionStore, Selection } from './SelectionStore';
-import type { ViewMode } from '../../../types/modules/csf';
+import type { ViewMode } from '@storybook/core/dist/types';
 
 const { history, document } = global;
 

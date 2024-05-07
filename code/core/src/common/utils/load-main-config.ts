@@ -6,7 +6,7 @@ import {
   MainFileESMOnlyImportError,
   MainFileEvaluationError,
 } from '@storybook/core/dist/server-errors';
-import type { StorybookConfig } from '../../types/modules/core-common';
+import type { StorybookConfig } from '@storybook/core/dist/types';
 
 export async function loadMainConfig({
   configDir = '.storybook',

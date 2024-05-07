@@ -3,8 +3,8 @@ import { global } from '@storybook/global';
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
 import { normalizeArrays } from './normalizeArrays';
-import type { ModuleExports, ProjectAnnotations } from '../../../../types/modules/story';
-import type { Renderer } from '../../../../types/modules/csf';
+import type { ModuleExports, ProjectAnnotations } from '@storybook/core/dist/types';
+import type { Renderer } from '@storybook/core/dist/types';
 
 export function getField<TFieldType = any>(
   moduleExportList: ModuleExports[],

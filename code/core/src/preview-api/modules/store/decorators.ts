@@ -5,7 +5,7 @@ import type {
   Renderer,
   StoryContext,
   StoryContextUpdate,
-} from '../../../types/modules/csf';
+} from '@storybook/core/dist/types';
 
 export function decorateStory<TRenderer extends Renderer>(
   storyFn: LegacyStoryFn<TRenderer>,

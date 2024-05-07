@@ -1,11 +1,8 @@
 import { sanitize } from '@storybook/csf';
 
 import { normalizeInputTypes } from './normalizeInputTypes';
-import type {
-  ModuleExports,
-  NormalizedComponentAnnotations,
-} from '../../../../types/modules/story';
-import type { Renderer } from '../../../../types/modules/csf';
+import type { ModuleExports, NormalizedComponentAnnotations } from '@storybook/core/dist/types';
+import type { Renderer } from '@storybook/core/dist/types';
 
 export function normalizeComponentAnnotations<TRenderer extends Renderer>(
   defaultExport: ModuleExports['default'],

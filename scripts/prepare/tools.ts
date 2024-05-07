@@ -1,10 +1,56 @@
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import * as process from 'node:process';
-import { readFile } from 'node:fs/promises';
 import { glob } from 'glob';
 import Bun from 'bun';
 
 import slash from 'slash';
+
+import * as rpd from 'rollup-plugin-dts';
+import * as rollup from 'rollup';
+
+export const genDtsBundle = async (entry: string, externals: string[], tsconfig: string) => {
+  console.log(entry);
+  const dir = dirname(entry).replace('src', 'dist');
+  const out = await rollup.rollup({
+    input: entry,
+    external: [...externals, 'ast-types'].map((dep) => new RegExp(`^${dep}($|\\/|\\\\)`)),
+    output: { file: entry.replace('src', 'dist').replace('.ts', '.d.ts'), format: 'es' },
+    plugins: [
+      rpd.dts({
+        respectExternal: true,
+        tsconfig,
+        compilerOptions: {
+          esModuleInterop: true,
+          baseUrl: '.',
+          declaration: true,
+          noEmit: false,
+          emitDeclarationOnly: true,
+          noEmitOnError: true,
+          checkJs: false,
+          declarationMap: false,
+          skipLibCheck: true,
+          preserveSymlinks: false,
+          target: ts.ScriptTarget.ESNext,
+        },
+      }),
+    ],
+  });
+  const { output } = await out.generate({
+    format: 'es',
+    // dir: dirname(entry).replace('src', 'dist'),
+    file: entry.replace('src', 'dist').replace('.ts', '.d.ts'),
+  });
+
+  await Promise.all(
+    output.map(async (o) => {
+      if (o.type === 'chunk') {
+        await Bun.write(join(dir, o.fileName), o.code);
+      } else {
+        throw new Error(`Unexpected output type: ${o.type} for ${entry} (${o.fileName})`);
+      }
+    })
+  );
+};
 
 import typescript from 'typescript';
 import sortPackageJson from 'sort-package-json';
@@ -19,6 +65,7 @@ import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import limit from 'p-limit';
 import { CODE_DIRECTORY } from '../utils/constants';
+import ts from 'typescript';
 
 export const defineEntry =
   (cwd: string) =>
