@@ -14,8 +14,9 @@ export async function getStoryIndexGenerator(
   serverChannel: ServerChannel
 ): Promise<StoryIndexGenerator | undefined> {
   const workingDir = process.cwd();
+  const configDir = options.configDir;
   const directories = {
-    configDir: options.configDir,
+    configDir,
     workingDir,
   };
   const stories = options.presets.apply('stories');
@@ -38,6 +39,7 @@ export async function getStoryIndexGenerator(
     normalizedStories,
     serverChannel,
     workingDir,
+    configDir,
   });
 
   return initializedStoryIndexGenerator;
