@@ -767,21 +767,23 @@ module.exports = {
           pathSegment: '',
           type: 'menu',
           children: [
-            {
-              pathSegment: 'portable-stories-jest',
-              title: 'Jest',
-              type: 'link',
-            },
+            // Unpublished for now
+            // {
+            //   pathSegment: 'portable-stories-jest',
+            //   title: 'Jest',
+            //   type: 'link',
+            // },
             {
               pathSegment: 'portable-stories-playwright',
               title: 'Playwright',
               type: 'link',
             },
-            {
-              pathSegment: 'portable-stories-vitest',
-              title: 'Vitest',
-              type: 'link',
-            },
+            // Unpublished for now
+            // {
+            //   pathSegment: 'portable-stories-vitest',
+            //   title: 'Vitest',
+            //   type: 'link',
+            // },
           ],
         },
         
