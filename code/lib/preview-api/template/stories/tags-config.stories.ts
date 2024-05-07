@@ -16,11 +16,11 @@ export default {
 };
 
 export const Inheritance = {
-  tags: ['story-one', 'story-two'],
+  tags: ['story-one'],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
-      tags: ['dev', 'test', 'component-one', 'component-two', 'story-one', 'story-two'],
+      tags: ['dev', 'test', 'component-one', 'component-two', 'autodocs', 'story-one'],
     });
   },
   parameters: { chromatic: { disable: false } },
