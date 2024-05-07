@@ -1,9 +1,10 @@
-import type { Renderer, ModuleExports, ProjectAnnotations } from '@storybook/core/dist/types';
 import { global } from '@storybook/global';
 
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
 import { normalizeArrays } from './normalizeArrays';
+import type { ModuleExports, ProjectAnnotations } from '../../../../types/modules/story';
+import type { Renderer } from '../../../../types/modules/csf';
 
 export function getField<TFieldType = any>(
   moduleExportList: ModuleExports[],

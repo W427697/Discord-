@@ -1,4 +1,4 @@
-import type { ArgTypes } from '@storybook/core/dist/types';
+import type { ArgTypes } from '../../../../types/modules/csf';
 
 export const getValuesFromArgTypes = (argTypes: ArgTypes = {}) =>
   Object.entries(argTypes).reduce((acc, [arg, { defaultValue }]) => {

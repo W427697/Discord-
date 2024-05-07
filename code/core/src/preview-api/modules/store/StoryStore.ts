@@ -1,26 +1,14 @@
 import memoize from 'memoizerific';
 import type {
-  IndexEntry,
   Renderer,
   ComponentTitle,
   Parameters,
   Path,
-  ProjectAnnotations,
-  BoundStory,
-  CSFFile,
-  ModuleExports,
-  ModuleImportFn,
-  NormalizedProjectAnnotations,
-  PreparedStory,
-  StoryIndex,
-  StoryIndexV3,
-  V3CompatIndexEntry,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StoryId,
-  PreparedMeta,
-} from '@storybook/core/dist/types';
+} from '../../../types/modules/csf';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 
@@ -41,6 +29,22 @@ import {
   prepareContext,
 } from './csf';
 import type { CleanupCallback } from '@storybook/csf';
+import type {
+  BoundStory,
+  CSFFile,
+  ModuleExports,
+  ModuleImportFn,
+  NormalizedProjectAnnotations,
+  PreparedMeta,
+  PreparedStory,
+  ProjectAnnotations,
+} from '../../../types/modules/story';
+import type {
+  IndexEntry,
+  StoryIndex,
+  StoryIndexV3,
+  V3CompatIndexEntry,
+} from '../../../types/modules/indexer';
 
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;

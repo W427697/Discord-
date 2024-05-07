@@ -1,11 +1,8 @@
 import path from 'node:path';
 import fse from 'fs-extra';
-import type {
-  CoreCommon_StorybookInfo,
-  PackageJson,
-  SupportedFrameworks,
-} from '@storybook/core/dist/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
+import type { SupportedFrameworks } from '../../types/modules/frameworks';
+import type { CoreCommon_StorybookInfo, PackageJson } from '../../types/modules/core-common';
 
 export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',

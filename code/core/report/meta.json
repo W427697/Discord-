@@ -846,142 +846,6 @@
       ],
       "format": "esm"
     },
-    "src/types/modules/csf.ts": {
-      "bytes": 1707,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/addons.ts": {
-      "bytes": 16302,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/story.ts": {
-      "bytes": 4158,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/core-common.ts": {
-      "bytes": 15296,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/builder.ts": {
-      "bytes": 395,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/api.ts": {
-      "bytes": 5063,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/docs.ts": {
-      "bytes": 4045,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/api-stories.ts": {
-      "bytes": 3257,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/indexer.ts": {
-      "bytes": 4587,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/composedStory.ts": {
-      "bytes": 2968,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/channelApi.ts": {
-      "bytes": 1328,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/frameworks.ts": {
-      "bytes": 417,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/modules/renderers.ts": {
-      "bytes": 234,
-      "imports": [],
-      "format": "esm"
-    },
-    "src/types/index.ts": {
-      "bytes": 505,
-      "imports": [
-        {
-          "path": "src/types/modules/csf.ts",
-          "kind": "import-statement",
-          "original": "./modules/csf"
-        },
-        {
-          "path": "src/types/modules/addons.ts",
-          "kind": "import-statement",
-          "original": "./modules/addons"
-        },
-        {
-          "path": "src/types/modules/story.ts",
-          "kind": "import-statement",
-          "original": "./modules/story"
-        },
-        {
-          "path": "src/types/modules/core-common.ts",
-          "kind": "import-statement",
-          "original": "./modules/core-common"
-        },
-        {
-          "path": "src/types/modules/builder.ts",
-          "kind": "import-statement",
-          "original": "./modules/builder"
-        },
-        {
-          "path": "src/types/modules/api.ts",
-          "kind": "import-statement",
-          "original": "./modules/api"
-        },
-        {
-          "path": "src/types/modules/docs.ts",
-          "kind": "import-statement",
-          "original": "./modules/docs"
-        },
-        {
-          "path": "src/types/modules/api-stories.ts",
-          "kind": "import-statement",
-          "original": "./modules/api-stories"
-        },
-        {
-          "path": "src/types/modules/indexer.ts",
-          "kind": "import-statement",
-          "original": "./modules/indexer"
-        },
-        {
-          "path": "src/types/modules/composedStory.ts",
-          "kind": "import-statement",
-          "original": "./modules/composedStory"
-        },
-        {
-          "path": "src/types/modules/channelApi.ts",
-          "kind": "import-statement",
-          "original": "./modules/channelApi"
-        },
-        {
-          "path": "src/types/modules/frameworks.ts",
-          "kind": "import-statement",
-          "original": "./modules/frameworks"
-        },
-        {
-          "path": "src/types/modules/renderers.ts",
-          "kind": "import-statement",
-          "original": "./modules/renderers"
-        }
-      ],
-      "format": "esm"
-    },
     "../node_modules/universalify/index.js": {
       "bytes": 712,
       "imports": [],
@@ -5811,7 +5675,7 @@
       "format": "esm"
     },
     "src/csf-tools/CsfFile.ts": {
-      "bytes": 21405,
+      "bytes": 21436,
       "imports": [
         {
           "path": "../node_modules/fs-extra/lib/index.js",
@@ -6366,7 +6230,7 @@
       "format": "esm"
     },
     "src/common/utils/load-custom-presets.ts": {
-      "bytes": 670,
+      "bytes": 675,
       "imports": [
         {
           "path": "node:path",
@@ -6435,7 +6299,7 @@
       "format": "esm"
     },
     "src/common/presets.ts": {
-      "bytes": 12407,
+      "bytes": 12409,
       "imports": [
         {
           "path": "../node_modules/ts-dedent/esm/index.js",
@@ -16165,7 +16029,7 @@
       "format": "esm"
     },
     "src/common/utils/get-storybook-info.ts": {
-      "bytes": 4224,
+      "bytes": 4276,
       "imports": [
         {
           "path": "node:path",
@@ -16222,7 +16086,7 @@
       "format": "esm"
     },
     "src/common/utils/check-addon-order.ts": {
-      "bytes": 1926,
+      "bytes": 1930,
       "imports": [
         {
           "path": "@storybook/core/dist/node-logger",
@@ -16415,12 +16279,12 @@
       "format": "esm"
     },
     "src/common/utils/framework-to-renderer.ts": {
-      "bytes": 921,
+      "bytes": 993,
       "imports": [],
       "format": "esm"
     },
     "src/common/utils/get-builder-options.ts": {
-      "bytes": 747,
+      "bytes": 752,
       "imports": [],
       "format": "esm"
     },
@@ -16436,7 +16300,7 @@
       "format": "esm"
     },
     "src/common/utils/get-framework-name.ts": {
-      "bytes": 1350,
+      "bytes": 1355,
       "imports": [
         {
           "path": "../node_modules/ts-dedent/esm/index.js",
@@ -16457,7 +16321,7 @@
       "format": "esm"
     },
     "src/common/utils/get-renderer-name.ts": {
-      "bytes": 1559,
+      "bytes": 1564,
       "imports": [
         {
           "path": "src/common/utils/get-framework-name.ts",
@@ -16883,7 +16747,7 @@
       "format": "esm"
     },
     "src/common/utils/get-storybook-refs.ts": {
-      "bytes": 3693,
+      "bytes": 3698,
       "imports": [
         {
           "path": "../node_modules/fs-extra/lib/index.js",
@@ -17438,7 +17302,7 @@
       "format": "esm"
     },
     "src/common/utils/load-main-config.ts": {
-      "bytes": 1695,
+      "bytes": 1700,
       "imports": [
         {
           "path": "node:path",
@@ -17538,7 +17402,7 @@
       "format": "esm"
     },
     "src/common/utils/normalize-stories.ts": {
-      "bytes": 3410,
+      "bytes": 3411,
       "imports": [
         {
           "path": "fs",
@@ -19909,7 +19773,7 @@
       "format": "esm"
     },
     "src/common/js-package-manager/PackageJson.ts": {
-      "bytes": 353,
+      "bytes": 363,
       "imports": [],
       "format": "esm"
     },
@@ -21458,7 +21322,7 @@
       "format": "esm"
     },
     "src/telemetry/get-monorepo-type.ts": {
-      "bytes": 1180,
+      "bytes": 1182,
       "imports": [
         {
           "path": "../node_modules/fs-extra/lib/index.js",
@@ -21490,7 +21354,7 @@
       "format": "esm"
     },
     "src/telemetry/get-framework-info.ts": {
-      "bytes": 2249,
+      "bytes": 2251,
       "imports": [
         {
           "path": "path",
@@ -21516,12 +21380,12 @@
       "format": "esm"
     },
     "src/telemetry/get-chromatic-version.ts": {
-      "bytes": 553,
+      "bytes": 555,
       "imports": [],
       "format": "esm"
     },
     "src/telemetry/storybook-metadata.ts": {
-      "bytes": 6727,
+      "bytes": 6729,
       "imports": [
         {
           "path": "node_modules/read-pkg-up/index.js",
@@ -21714,7 +21578,7 @@
       "format": "esm"
     },
     "src/telemetry/types.ts": {
-      "bytes": 1793,
+      "bytes": 1795,
       "imports": [],
       "format": "esm"
     },
@@ -21828,7 +21692,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/addons/make-decorator.ts": {
-      "bytes": 2740,
+      "bytes": 2743,
       "imports": [],
       "format": "esm"
     },
@@ -23761,7 +23625,7 @@
       "format": "cjs"
     },
     "src/preview-api/modules/store/StoryIndexStore.ts": {
-      "bytes": 1896,
+      "bytes": 1937,
       "imports": [
         {
           "path": "../node_modules/memoizerific/memoizerific.js",
@@ -23840,7 +23704,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/ArgsStore.ts": {
-      "bytes": 2743,
+      "bytes": 2794,
       "imports": [
         {
           "path": "src/preview-api/modules/store/args.ts",
@@ -23851,7 +23715,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/getValuesFromArgTypes.ts": {
-      "bytes": 319,
+      "bytes": 322,
       "imports": [],
       "format": "esm"
     },
@@ -23877,7 +23741,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/normalizeInputTypes.ts": {
-      "bytes": 1084,
+      "bytes": 1087,
       "imports": [
         {
           "path": "../node_modules/lodash/mapValues.js",
@@ -23898,7 +23762,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/normalizeStory.ts": {
-      "bytes": 2728,
+      "bytes": 2787,
       "imports": [
         {
           "path": "../node_modules/@storybook/csf/dist/index.mjs",
@@ -23934,7 +23798,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/normalizeComponentAnnotations.ts": {
-      "bytes": 724,
+      "bytes": 780,
       "imports": [
         {
           "path": "../node_modules/@storybook/csf/dist/index.mjs",
@@ -23950,7 +23814,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/processCSFFile.ts": {
-      "bytes": 1988,
+      "bytes": 2038,
       "imports": [
         {
           "path": "../node_modules/@storybook/csf/dist/index.mjs",
@@ -23992,7 +23856,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/prepareStory.ts": {
-      "bytes": 10608,
+      "bytes": 10667,
       "imports": [
         {
           "path": "../node_modules/@storybook/global/dist/index.js",
@@ -24216,7 +24080,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/normalizeProjectAnnotations.ts": {
-      "bytes": 1399,
+      "bytes": 1453,
       "imports": [
         {
           "path": "src/preview-api/modules/store/inferArgTypes.ts",
@@ -24242,12 +24106,12 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/stepRunners.ts": {
-      "bytes": 1429,
+      "bytes": 1432,
       "imports": [],
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/composeConfigs.ts": {
-      "bytes": 2741,
+      "bytes": 2799,
       "imports": [
         {
           "path": "../node_modules/@storybook/global/dist/index.js",
@@ -24273,7 +24137,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/csf/portable-stories.ts": {
-      "bytes": 9412,
+      "bytes": 9535,
       "imports": [
         {
           "path": "../node_modules/@storybook/csf/dist/index.mjs",
@@ -24380,7 +24244,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/StoryStore.ts": {
-      "bytes": 12521,
+      "bytes": 12629,
       "imports": [
         {
           "path": "../node_modules/memoizerific/memoizerific.js",
@@ -24447,7 +24311,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/autoTitle.ts": {
-      "bytes": 2872,
+      "bytes": 2876,
       "imports": [
         {
           "path": "../node_modules/slash/index.js",
@@ -24468,12 +24332,12 @@
       "format": "esm"
     },
     "src/preview-api/modules/store/storySort.ts": {
-      "bytes": 3163,
+      "bytes": 3218,
       "imports": [],
       "format": "esm"
     },
     "src/preview-api/modules/store/sortStories.ts": {
-      "bytes": 2231,
+      "bytes": 2378,
       "imports": [
         {
           "path": "../node_modules/ts-dedent/esm/index.js",
@@ -24556,12 +24420,12 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/render/Render.ts": {
-      "bytes": 999,
+      "bytes": 1056,
       "imports": [],
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/render/StoryRender.ts": {
-      "bytes": 11835,
+      "bytes": 11944,
       "imports": [
         {
           "path": "@storybook/core/dist/core-events",
@@ -24577,7 +24441,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/Preview.tsx": {
-      "bytes": 14569,
+      "bytes": 14767,
       "imports": [
         {
           "path": "../node_modules/@storybook/global/dist/index.js",
@@ -24618,7 +24482,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/docs-context/DocsContext.ts": {
-      "bytes": 8476,
+      "bytes": 8590,
       "imports": [
         {
           "path": "../node_modules/ts-dedent/esm/index.js",
@@ -24629,7 +24493,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/render/CsfDocsRender.ts": {
-      "bytes": 5315,
+      "bytes": 5471,
       "imports": [
         {
           "path": "@storybook/core/dist/core-events",
@@ -24650,7 +24514,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/render/MdxDocsRender.ts": {
-      "bytes": 4236,
+      "bytes": 4392,
       "imports": [
         {
           "path": "@storybook/core/dist/core-events",
@@ -24671,7 +24535,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/PreviewWithSelection.tsx": {
-      "bytes": 17039,
+      "bytes": 17126,
       "imports": [
         {
           "path": "../node_modules/tiny-invariant/dist/esm/tiny-invariant.js",
@@ -25234,7 +25098,7 @@
       "format": "cjs"
     },
     "src/preview-api/modules/preview-web/WebView.ts": {
-      "bytes": 5748,
+      "bytes": 5750,
       "imports": [
         {
           "path": "../node_modules/@storybook/global/dist/index.js",
@@ -25265,7 +25129,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/PreviewWeb.tsx": {
-      "bytes": 730,
+      "bytes": 782,
       "imports": [
         {
           "path": "../node_modules/@storybook/global/dist/index.js",
@@ -25302,7 +25166,7 @@
       "format": "esm"
     },
     "src/preview-api/modules/preview-web/index.ts": {
-      "bytes": 796,
+      "bytes": 798,
       "imports": [
         {
           "path": "src/preview-api/store.ts",
@@ -25673,12 +25537,12 @@
       "format": "esm"
     },
     "src/instrumenter/types.ts": {
-      "bytes": 2134,
+      "bytes": 2128,
       "imports": [],
       "format": "esm"
     },
     "src/instrumenter/instrumenter.ts": {
-      "bytes": 25169,
+      "bytes": 25163,
       "imports": [
         {
           "path": "@storybook/core/dist/preview-api",
@@ -26075,20 +25939,6 @@
         }
       },
       "bytes": 50216
-    },
-    "dist/types/index.cjs": {
-      "imports": [],
-      "exports": [],
-      "entryPoint": "src/types/index.ts",
-      "inputs": {
-        "src/types/index.ts": {
-          "bytesInOutput": 73
-        },
-        "src/types/modules/addons.ts": {
-          "bytesInOutput": 272
-        }
-      },
-      "bytes": 934
     },
     "dist/csf-tools/index.cjs": {
       "imports": [

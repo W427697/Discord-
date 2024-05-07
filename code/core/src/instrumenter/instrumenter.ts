@@ -2,7 +2,6 @@
 
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/core/dist/preview-api';
-import type { StoryId } from '@storybook/core/dist/types';
 import { once } from '@storybook/core/dist/client-logger';
 import {
   FORCE_REMOUNT,
@@ -14,6 +13,7 @@ import { processError } from '@vitest/utils/error';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';
+import type { StoryId } from '../types/modules/csf';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',

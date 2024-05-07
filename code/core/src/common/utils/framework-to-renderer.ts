@@ -1,4 +1,5 @@
-import type { SupportedFrameworks, SupportedRenderers } from '../../types';
+import type { SupportedFrameworks } from '../../types/modules/frameworks';
+import type { SupportedRenderers } from '../../types/modules/renderers';
 
 export const frameworkToRenderer: Record<
   SupportedFrameworks | SupportedRenderers,

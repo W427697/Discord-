@@ -1,7 +1,7 @@
 import path from 'node:path';
-import type { PresetConfig } from '@storybook/core/dist/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
+import type { PresetConfig } from '../../types/modules/core-common';
 
 export function loadCustomPresets({ configDir }: { configDir: string }): PresetConfig[] {
   validateConfigurationFiles(configDir);

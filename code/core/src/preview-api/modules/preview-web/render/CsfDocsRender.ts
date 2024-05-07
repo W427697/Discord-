@@ -1,11 +1,3 @@
-import type {
-  IndexEntry,
-  Renderer,
-  CSFFile,
-  PreparedStory,
-  StoryId,
-  RenderContextCallbacks,
-} from '@storybook/core/dist/types';
 import type { Channel } from '@storybook/core/dist/channels';
 import { DOCS_RENDERED } from '@storybook/core/dist/core-events';
 import type { StoryStore } from '../../../store';
@@ -15,6 +7,10 @@ import { PREPARE_ABORTED } from './Render';
 import type { DocsContextProps } from '../docs-context/DocsContextProps';
 import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
 import { DocsContext } from '../docs-context/DocsContext';
+import type { Renderer, StoryId } from '../../../../types/modules/csf';
+import type { CSFFile, PreparedStory } from '../../../../types/modules/story';
+import type { IndexEntry } from '../../../../types/modules/indexer';
+import type { RenderContextCallbacks } from '../../../../types/modules/docs';
 
 /**
  * A CsfDocsRender is a render of a docs entry that is rendered based on a CSF file.

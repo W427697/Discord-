@@ -4,22 +4,16 @@ import { global } from '@storybook/global';
 import type {
   Args,
   ArgsStoryFn,
-  ModuleExport,
-  NormalizedComponentAnnotations,
-  NormalizedProjectAnnotations,
-  NormalizedStoryAnnotations,
   Parameters,
   PlayFunction,
   PlayFunctionContext,
-  PreparedMeta,
-  PreparedStory,
   Renderer,
   StepLabel,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StrictArgTypes,
-} from '@storybook/core/dist/types';
+} from '../../../../types/modules/csf';
 import { type CleanupCallback, includeConditionalArg } from '@storybook/csf';
 
 import { applyHooks } from '../../addons';
@@ -27,6 +21,14 @@ import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, UNTARGETED } from '../args';
 import { normalizeArrays } from './normalizeArrays';
+import type {
+  ModuleExport,
+  NormalizedComponentAnnotations,
+  NormalizedProjectAnnotations,
+  NormalizedStoryAnnotations,
+  PreparedMeta,
+  PreparedStory,
+} from '../../../../types/modules/story';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc

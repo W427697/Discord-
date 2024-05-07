@@ -1,6 +1,6 @@
-import type { StoryId, Args, PreparedStory } from '@storybook/core/dist/types';
-
+import type { Args, StoryId } from '../../../types/modules/csf';
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';
+import type { PreparedStory } from '../../../types/modules/story';
 
 function deleteUndefined(obj: Record<string, any>) {
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);

@@ -1598,10 +1598,6 @@
    ├ src/client-logger/index.ts                                                              1.4kb   41.6%
    └ ../node_modules/@storybook/global/dist/index.js                                         831b    24.3%
 
-  dist/types/index.cjs                                                                       934b   100.0%
-   ├ src/types/modules/addons.ts                                                             272b    29.1%
-   └ src/types/index.ts                                                                       73b     7.8%
-
   dist/test.cjs                                                                              624b   100.0%
    └ src/test.ts                                                                              74b    11.9%
 

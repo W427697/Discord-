@@ -1,11 +1,11 @@
 import type {
-  Renderer,
   DecoratorFunction,
   LegacyStoryFn,
   PartialStoryFn,
-  StoryContextUpdate,
+  Renderer,
   StoryContext,
-} from '@storybook/core/dist/types';
+  StoryContextUpdate,
+} from '../../../types/modules/csf';
 
 export function decorateStory<TRenderer extends Renderer>(
   storyFn: LegacyStoryFn<TRenderer>,

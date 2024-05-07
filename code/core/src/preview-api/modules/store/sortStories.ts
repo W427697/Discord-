@@ -1,17 +1,14 @@
 import { dedent } from 'ts-dedent';
+import { storySort } from './storySort';
+import type { IndexEntry, StoryIndexEntry } from '../../../types/modules/indexer';
 import type {
   Addon_Comparator,
-  IndexEntry,
-  IndexEntryLegacy,
-  StoryIndexEntry,
   Addon_StorySortParameter,
   Addon_StorySortParameterV7,
-  Parameters,
-  Path,
-  PreparedStory,
-  Renderer,
-} from '@storybook/core/dist/types';
-import { storySort } from './storySort';
+  IndexEntryLegacy,
+} from '../../../types/modules/addons';
+import type { Path, Renderer, Parameters } from '../../../types/modules/csf';
+import type { PreparedStory } from '../../../types/modules/story';
 
 const sortStoriesCommon = (
   stories: IndexEntry[],

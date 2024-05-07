@@ -16,17 +16,6 @@ import {
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core/dist/core-events';
 import { logger } from '@storybook/core/dist/client-logger';
-import type {
-  Renderer,
-  Args,
-  Globals,
-  ModuleImportFn,
-  StoryIndex,
-  ProjectAnnotations,
-  StoryId,
-  ViewMode,
-  DocsIndexEntry,
-} from '@storybook/core/dist/types';
 
 import {
   CalledPreviewMethodBeforeInitializationError,
@@ -44,6 +33,9 @@ import { MdxDocsRender } from './render/MdxDocsRender';
 import type { Selection, SelectionStore } from './SelectionStore';
 import type { View } from './View';
 import type { StorySpecifier } from '../store/StoryIndexStore';
+import type { DocsIndexEntry, StoryIndex } from '../../../types/modules/indexer';
+import type { Args, Globals, Renderer, StoryId, ViewMode } from '../../../types/modules/csf';
+import type { ModuleImportFn, ProjectAnnotations } from '../../../types/modules/story';
 
 const globalWindow = globalThis;
 

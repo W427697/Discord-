@@ -16,6 +16,8 @@ const external = [
   ...nodeInternals,
   'typescript',
   '@storybook/core',
+  '@storybook/core/dist/channels',
+  '@storybook/core/dist/router',
 ];
 const internal = [
   ...new Set(await flattenDependencies([...Object.keys(pkg.devDependencies)], [], external)),
@@ -23,6 +25,8 @@ const internal = [
 
 const all = entries.filter((e) => e.dts);
 const list = selection === 'all' ? all : [all[Number(selection)]];
+
+console.log(list);
 
 const dtsResults = dts.generateDtsBundle(
   list.map(({ file, externals }) => {

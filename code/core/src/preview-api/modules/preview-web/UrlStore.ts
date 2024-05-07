@@ -1,9 +1,9 @@
 import { global } from '@storybook/global';
 import qs from 'qs';
-import type { ViewMode } from '@storybook/core/dist/types';
 
 import { parseArgsParam } from './parseArgsParam';
 import type { SelectionSpecifier, SelectionStore, Selection } from './SelectionStore';
+import type { ViewMode } from '../../../types/modules/csf';
 
 const { history, document } = global;
 

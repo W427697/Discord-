@@ -1,13 +1,13 @@
 import mapValues from 'lodash/mapValues.js';
 import { logger } from '@storybook/core/dist/client-logger';
-import type {
-  Renderer,
-  ArgTypesEnhancer,
-  SBEnumType,
-  StrictInputType,
-} from '@storybook/core/dist/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';
+import type {
+  ArgTypesEnhancer,
+  Renderer,
+  SBEnumType,
+  StrictInputType,
+} from '../../../types/modules/csf';
 
 export type ControlsMatchers = {
   date: RegExp;

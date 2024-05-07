@@ -1,11 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import { global } from '@storybook/global';
-import type { Renderer, ProjectAnnotations, ModuleImportFn } from '@storybook/core/dist/types';
 
 import { PreviewWithSelection } from './PreviewWithSelection';
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
 import type { MaybePromise } from './Preview';
+import type { Renderer } from '../../../types/modules/csf';
+import type { ModuleImportFn, ProjectAnnotations } from '../../../types/modules/story';
 
 export class PreviewWeb<TRenderer extends Renderer> extends PreviewWithSelection<TRenderer> {
   constructor(

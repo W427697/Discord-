@@ -1,4 +1,4 @@
-import type { ViewMode, Args, StoryId } from '@storybook/core/dist/types';
+import type { Args, StoryId, ViewMode } from '../../../types/modules/csf';
 import type { StorySpecifier } from '../store/StoryIndexStore';
 
 export interface SelectionSpecifier {

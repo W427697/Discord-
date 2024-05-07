@@ -1,7 +1,7 @@
 import { dedent } from 'ts-dedent';
-import type { Options } from '@storybook/core/dist/types';
 import { frameworkPackages } from './get-storybook-info';
 import { normalizePath } from './normalize-path';
+import type { Options } from '../../types/modules/core-common';
 
 /**
  * Framework can be a string or an object.  This utility always returns the string name.

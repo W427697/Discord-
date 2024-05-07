@@ -1,11 +1,3 @@
-import type {
-  IndexEntry,
-  Renderer,
-  CSFFile,
-  ModuleExports,
-  StoryId,
-  RenderContextCallbacks,
-} from '@storybook/core/dist/types';
 import type { Channel } from '@storybook/core/dist/channels';
 import { DOCS_RENDERED } from '@storybook/core/dist/core-events';
 import type { StoryStore } from '../../store';
@@ -15,6 +7,10 @@ import { PREPARE_ABORTED } from './Render';
 import type { DocsContextProps } from '../docs-context/DocsContextProps';
 import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
 import { DocsContext } from '../docs-context/DocsContext';
+import type { Renderer, StoryId } from '../../../../types/modules/csf';
+import type { CSFFile, ModuleExports } from '../../../../types/modules/story';
+import type { IndexEntry } from '../../../../types/modules/indexer';
+import type { RenderContextCallbacks } from '../../../../types/modules/docs';
 
 /**
  * A MdxDocsRender is a render of a docs entry that comes from a true MDX file,

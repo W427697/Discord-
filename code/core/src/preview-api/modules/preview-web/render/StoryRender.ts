@@ -1,16 +1,3 @@
-import type {
-  Renderer,
-  RenderContext,
-  RenderContextCallbacks,
-  RenderToCanvas,
-  PreparedStory,
-  TeardownRenderToCanvas,
-  StoryContext,
-  StoryContextForLoaders,
-  StoryId,
-  StoryRenderOptions,
-  ViewMode,
-} from '@storybook/core/dist/types';
 import type { Channel } from '@storybook/core/dist/channels';
 import {
   STORY_RENDER_PHASE_CHANGED,
@@ -21,6 +8,20 @@ import {
 import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';
+import type {
+  Renderer,
+  StoryContext,
+  StoryContextForLoaders,
+  StoryId,
+  ViewMode,
+} from '../../../../types/modules/csf';
+import type {
+  PreparedStory,
+  RenderContext,
+  RenderToCanvas,
+  TeardownRenderToCanvas,
+} from '../../../../types/modules/story';
+import type { RenderContextCallbacks, StoryRenderOptions } from '../../../../types/modules/docs';
 
 const { AbortController } = globalThis;
 

@@ -1,20 +1,24 @@
-import type {
-  Renderer,
-  CSFFile,
-  ModuleExport,
-  ModuleExports,
-  PreparedStory,
-  StoryContextForLoaders,
-  StoryId,
-  StoryName,
-  ResolvedModuleExportType,
-  ResolvedModuleExportFromType,
-} from '@storybook/core/dist/types';
 import type { Channel } from '@storybook/core/dist/channels';
 
 import { dedent } from 'ts-dedent';
 import type { StoryStore } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
+import type {
+  Renderer,
+  StoryContextForLoaders,
+  StoryId,
+  StoryName,
+} from '../../../../types/modules/csf';
+import type {
+  CSFFile,
+  ModuleExport,
+  ModuleExports,
+  PreparedStory,
+} from '../../../../types/modules/story';
+import type {
+  ResolvedModuleExportFromType,
+  ResolvedModuleExportType,
+} from '../../../../types/modules/docs';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
   private componentStoriesValue: PreparedStory<TRenderer>[];

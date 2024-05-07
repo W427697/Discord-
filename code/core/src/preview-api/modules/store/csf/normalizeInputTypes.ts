@@ -1,4 +1,3 @@
-import mapValues from 'lodash/mapValues.js';
 import type {
   ArgTypes,
   GlobalTypes,
@@ -6,7 +5,8 @@ import type {
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
-} from '@storybook/core/dist/types';
+} from '../../../../types/modules/csf';
+import mapValues from 'lodash/mapValues.js';
 
 const normalizeType = (type: InputType['type']): StrictInputType['type'] => {
   return typeof type === 'string' ? { name: type } : type;

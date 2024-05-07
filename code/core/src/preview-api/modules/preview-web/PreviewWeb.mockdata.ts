@@ -11,12 +11,9 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core/dist/core-events';
 
-import type {
-  ModuleImportFn,
-  StoryIndex,
-  TeardownRenderToCanvas,
-} from '@storybook/core/dist/types';
 import type { RenderPhase } from './render/StoryRender';
+import type { ModuleImportFn, TeardownRenderToCanvas } from '../../../types/modules/story';
+import type { StoryIndex } from '../../../types/modules/indexer';
 
 export const componentOneExports = {
   default: {

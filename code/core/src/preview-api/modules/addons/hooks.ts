@@ -1,14 +1,5 @@
 import { global } from '@storybook/global';
 import { logger } from '@storybook/core/dist/client-logger';
-import type {
-  Renderer,
-  Args,
-  DecoratorApplicator,
-  DecoratorFunction,
-  LegacyStoryFn,
-  StoryContext,
-  StoryId,
-} from '@storybook/core/dist/types';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
@@ -17,6 +8,15 @@ import {
   UPDATE_GLOBALS,
 } from '@storybook/core/dist/core-events';
 import { addons } from './main';
+import type {
+  Args,
+  DecoratorApplicator,
+  DecoratorFunction,
+  LegacyStoryFn,
+  Renderer,
+  StoryContext,
+  StoryId,
+} from '../../../types/modules/csf';
 
 interface Hook {
   name: string;

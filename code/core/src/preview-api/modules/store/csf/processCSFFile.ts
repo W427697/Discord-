@@ -1,17 +1,14 @@
-import type {
-  Renderer,
-  ComponentTitle,
-  Parameters,
-  Path,
-  CSFFile,
-  ModuleExports,
-  NormalizedComponentAnnotations,
-} from '@storybook/core/dist/types';
+import type { Renderer, ComponentTitle, Parameters, Path } from '../../../../types/modules/csf';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/core/dist/client-logger';
 
 import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
+import type {
+  CSFFile,
+  ModuleExports,
+  NormalizedComponentAnnotations,
+} from '../../../../types/modules/story';
 
 const checkGlobals = (parameters: Parameters) => {
   const { globals, globalTypes } = parameters;

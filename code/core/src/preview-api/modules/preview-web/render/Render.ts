@@ -1,4 +1,5 @@
-import type { StoryId, Renderer, StoryRenderOptions } from '@storybook/core/dist/types';
+import type { Renderer, StoryId } from '../../../../types/modules/csf';
+import type { StoryRenderOptions } from '../../../../types/modules/docs';
 
 export type RenderType = 'story' | 'docs';
 

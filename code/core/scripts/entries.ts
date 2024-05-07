@@ -17,7 +17,7 @@ export const getEntries = (cwd: string) => {
     define('src/server-errors.ts', ['node'], true),
 
     define('src/channels/index.ts', ['browser', 'node'], true),
-    define('src/types/index.ts', ['browser', 'node'], true),
+    define('src/types/index.ts', ['browser', 'node'], true, ['react']),
     define('src/csf-tools/index.ts', ['node'], true),
     define('src/common/index.ts', ['node'], true),
     define('src/telemetry/index.ts', ['node'], true),

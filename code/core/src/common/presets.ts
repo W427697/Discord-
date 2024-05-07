@@ -1,22 +1,22 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/core/dist/node-logger';
-import type {
-  BuilderOptions,
-  CLIOptions,
-  CoreCommon_ResolvedAddonPreset,
-  CoreCommon_ResolvedAddonVirtual,
-  LoadedPreset,
-  LoadOptions,
-  PresetConfig,
-  Presets,
-  StorybookConfigRaw,
-} from '@storybook/core/dist/types';
 import { join, parse } from 'node:path';
 import { CriticalPresetLoadError } from '@storybook/core/dist/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
 import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
+import type {
+  BuilderOptions,
+  CLIOptions,
+  CoreCommon_ResolvedAddonPreset,
+  CoreCommon_ResolvedAddonVirtual,
+  LoadOptions,
+  LoadedPreset,
+  PresetConfig,
+  Presets,
+  StorybookConfigRaw,
+} from '../types/modules/core-common';
 
 type InterPresetOptions = Omit<
   CLIOptions &

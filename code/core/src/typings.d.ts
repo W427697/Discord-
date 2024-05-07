@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
 
 declare var CONFIG_TYPE: 'DEVELOPMENT' | 'PRODUCTION';
-declare var FEATURES: import('./types/index.ts').StorybookConfigRaw['features'];
+declare var FEATURES: import('./types/modules/core-common').StorybookConfigRaw['features'];
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
 declare var REFS: any;
 declare var VERSIONCHECK: any;
@@ -50,7 +50,7 @@ declare var STORIES: any;
 
 declare var CHANNEL_OPTIONS: any;
 declare var DOCS_OPTIONS: any;
-declare var TAGS_OPTIONS: import('./types/index.ts').StorybookConfigRaw['tags'];
+declare var TAGS_OPTIONS: import('./types/modules/core-common').StorybookConfigRaw['tags'];
 
 // To enable user code to detect if it is running in Storybook
 declare var IS_STORYBOOK: boolean;

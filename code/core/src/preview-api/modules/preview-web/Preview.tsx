@@ -21,20 +21,6 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core/dist/core-events';
 import type { Channel } from '@storybook/core/dist/channels';
-import type {
-  Renderer,
-  Args,
-  Globals,
-  ModuleImportFn,
-  RenderContextCallbacks,
-  RenderToCanvas,
-  PreparedStory,
-  StoryIndex,
-  ProjectAnnotations,
-  StoryId,
-  StoryRenderOptions,
-  SetGlobalsPayload,
-} from '@storybook/core/dist/types';
 import {
   CalledPreviewMethodBeforeInitializationError,
   MissingRenderToCanvasError,
@@ -47,6 +33,16 @@ import { StoryStore } from '../../store';
 import { StoryRender } from './render/StoryRender';
 import type { CsfDocsRender } from './render/CsfDocsRender';
 import type { MdxDocsRender } from './render/MdxDocsRender';
+import type { Args, Globals, Renderer, StoryId } from '../../../types/modules/csf';
+import type {
+  ModuleImportFn,
+  PreparedStory,
+  ProjectAnnotations,
+  RenderToCanvas,
+} from '../../../types/modules/story';
+import type { RenderContextCallbacks, StoryRenderOptions } from '../../../types/modules/docs';
+import type { StoryIndex } from '../../../types/modules/indexer';
+import type { SetGlobalsPayload } from '../../../types/modules/channelApi';
 
 const { fetch } = global;
 
