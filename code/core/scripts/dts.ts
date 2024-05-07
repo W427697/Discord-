@@ -12,6 +12,7 @@ const selection = flags[0] || 'all';
 
 const entries = getEntries(cwd);
 const external = [
+  ...Object.keys((pkg as any).dependencies || {}),
   ...Object.keys((pkg as any).peerDependencies || {}),
   ...nodeInternals,
   'typescript',
@@ -33,7 +34,7 @@ const dtsResults = dts.generateDtsBundle(
     const inlined = internal.filter((i) => ![...external, ...externals].includes(i));
     // .filter((i) => !i.startsWith('@types'));
 
-    console.log({ inlined });
+    // console.log({ inlined });
     return {
       filePath: file,
       noCheck: true,

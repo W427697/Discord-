@@ -3,7 +3,7 @@
 
 import { watch } from 'node:fs';
 import { rmdir } from 'node:fs/promises';
-import { basename, join, relative, dirname } from 'node:path';
+import { join, relative, dirname } from 'node:path';
 import {
   esbuild,
   process,
@@ -30,7 +30,6 @@ const isReset = flags.includes('--reset');
 
 const external = [
   ...new Set([
-    //
     ...Object.keys(pkg.dependencies),
     ...Object.keys((pkg as any).peerDependencies || {}),
   ]),
@@ -98,14 +97,14 @@ async function generateTypesMapperContent(filePath: string) {
   `;
 }
 
-function noExternals(e: ReturnType<typeof getEntries>[0]): boolean {
-  return e.externals.length === 0;
+function noExternals(entry: ReturnType<typeof getEntries>[0]): boolean {
+  return entry.externals.length === 0;
 }
-function isNode(e: ReturnType<typeof getEntries>[0]): boolean {
-  return !!e.node;
+function isNode(entry: ReturnType<typeof getEntries>[0]): boolean {
+  return !!entry.node;
 }
-function isBrowser(e: ReturnType<typeof getEntries>[0]): boolean {
-  return !!e.browser;
+function isBrowser(entry: ReturnType<typeof getEntries>[0]): boolean {
+  return !!entry.browser;
 }
 
 async function generateDistFiles() {
@@ -131,42 +130,42 @@ async function generateDistFiles() {
         entryPoints: entries
           .filter(isBrowser)
           .filter(noExternals)
-          .map((e) => e.file),
+          .map((entry) => entry.file),
         conditions: ['browser', 'module', 'import', 'default'],
         outExtension: { '.js': '.js' },
       })
     ),
     ...entries
-      .filter((e) => e.externals.length > 0)
-      .flatMap((e) => {
+      .filter((entry) => entry.externals.length > 0)
+      .flatMap((entry) => {
         const results = [];
-        if (e.node) {
+        if (entry.node) {
           results.push(
             esbuild.context(
               merge<EsbuildContextOptions>(esbuildDefaultOptions, {
                 format: 'cjs',
-                outdir: dirname(e.file).replace('src', 'dist'),
+                outdir: dirname(entry.file).replace('src', 'dist'),
                 target: 'node18',
-                entryPoints: [e.file],
+                entryPoints: [entry.file],
                 outExtension: { '.js': '.cjs' },
                 conditions: ['node', 'module', 'import', 'require'],
-                external: [...nodeInternals, ...esbuildDefaultOptions.external, ...e.externals],
+                external: [...nodeInternals, ...esbuildDefaultOptions.external, ...entry.externals],
               })
             )
           );
         }
-        if (e.browser) {
+        if (entry.browser) {
           results.push(
             esbuild.context(
               merge<EsbuildContextOptions>(esbuildDefaultOptions, {
                 format: 'esm',
                 target: 'chrome100',
                 splitting: true,
-                outdir: dirname(e.file).replace('src', 'dist'),
-                entryPoints: [e.file],
+                outdir: dirname(entry.file).replace('src', 'dist'),
+                entryPoints: [entry.file],
                 conditions: ['browser', 'module', 'import', 'default'],
                 outExtension: { '.js': '.js' },
-                external: [...nodeInternals, ...esbuildDefaultOptions.external, ...e.externals],
+                external: [...nodeInternals, ...esbuildDefaultOptions.external, ...entry.externals],
               })
             )
           );
@@ -178,8 +177,8 @@ async function generateDistFiles() {
 
   if (isWatch) {
     await Promise.all(
-      compile.map(async (o) => {
-        await o.watch();
+      compile.map(async (context) => {
+        await context.watch();
       })
     );
 
@@ -189,9 +188,9 @@ async function generateDistFiles() {
     });
   } else {
     await Promise.all(
-      compile.map(async (o) => {
-        const out = await o.rebuild();
-        await o.dispose();
+      compile.map(async (context) => {
+        const out = await context.rebuild();
+        await context.dispose();
 
         if (out.metafile) {
           await Bun.write('report/meta.json', JSON.stringify(out.metafile, null, 2));
@@ -230,14 +229,14 @@ async function generateTypesFiles() {
     // TODO: figure out what the best number is, this is likely to be different on different machines (CI)
     const limited = limit(5);
     await Promise.all(
-      all.map(async (_, index) => {
+      all.map(async (fileName, index) => {
         return limited(async () => {
           const dtsProcess = Bun.spawn(['bun', './scripts/dts.ts', index.toString()], {
             cwd,
           });
           await dtsProcess.exited;
           if (dtsProcess.exitCode !== 0) {
-            console.log(_);
+            console.log(fileName);
             process.exit(dtsProcess.exitCode || 1);
           } else {
             console.log('Generated types for', chalk.cyan(relative(cwd, all[index])));

@@ -567,6 +567,6 @@ export default {
   ],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
   '@storybook/core/dist/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
-  '@storybook/types': ['Addon_TypesEnum'],
-  '@storybook/core/dist/types': ['Addon_TypesEnum'],
+  '@storybook/types': [],
+  '@storybook/core/dist/types': [],
 } as const;
