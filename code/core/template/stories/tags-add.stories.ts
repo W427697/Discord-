@@ -1,5 +1,5 @@
 import { global as globalThis } from '@storybook/global';
-import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/core/dist/types';
 import { within, expect } from '@storybook/test';
 
 export default {

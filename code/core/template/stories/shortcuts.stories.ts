@@ -1,6 +1,6 @@
 import { global as globalThis } from '@storybook/global';
 import { userEvent, within, expect, fn } from '@storybook/test';
-import { PREVIEW_KEYDOWN } from '@storybook/core-events';
+import { PREVIEW_KEYDOWN } from '@storybook/core/dist/core-events';
 import type { PlayFunctionContext } from '@storybook/csf';
 
 export default {
