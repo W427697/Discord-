@@ -232,8 +232,9 @@ async function generateTypesFiles() {
     await Promise.all(
       all.map(async (fileName, index) => {
         return limited(async () => {
-          const dtsProcess = Bun.spawn(['bun', './scripts/dts2.ts', index.toString()], {
+          const dtsProcess = Bun.spawn(['bun', './scripts/dts.ts', index.toString()], {
             cwd,
+            stdio: ['ignore', 'pipe', 'inherit'],
           });
           let timer: Timer | undefined;
           processes.push(dtsProcess);
