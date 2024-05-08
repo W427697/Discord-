@@ -235,14 +235,21 @@ async function generateTypesFiles() {
           const dtsProcess = Bun.spawn(['bun', './scripts/dts2.ts', index.toString()], {
             cwd,
           });
+          let timer: Timer | undefined;
           processes.push(dtsProcess);
           await Promise.race([
             dtsProcess.exited,
             new Promise((_, reject) => {
-              setTimeout(() => reject(new Error('timed out')), 60000);
+              timer = setTimeout(() => {
+                console.log(index, fileName);
+
+                reject(new Error('timed out'));
+              }, 60000);
             }),
           ]);
-          await dtsProcess.exited;
+          if (timer) {
+            clearTimeout(timer);
+          }
           if (dtsProcess.exitCode !== 0) {
             processes.forEach((p) => p.kill());
             processes = [];

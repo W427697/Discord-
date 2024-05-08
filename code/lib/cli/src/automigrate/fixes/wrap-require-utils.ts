@@ -98,7 +98,7 @@ export function isRequireWrapperNecessary(
  * Get all fields that need to be wrapped with require wrapper.
  * @returns Array of fields that need to be wrapped with require wrapper.
  */
-export function getFieldsForRequireWrapper(config: ConfigFile) {
+export function getFieldsForRequireWrapper(config: ConfigFile): t.Node[] {
   const frameworkNode = config.getFieldNode(['framework']);
   const builderNode = config.getFieldNode(['core', 'builder']);
   const rendererNode = config.getFieldNode(['core', 'renderer']);
