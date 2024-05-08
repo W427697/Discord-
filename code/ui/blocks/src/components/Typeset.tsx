@@ -35,7 +35,7 @@ const Wrapper = styled.div(withReset, ({ theme }) => ({
 
 export interface TypesetProps {
   fontFamily?: string;
-  fontSizes: number[];
+  fontSizes: (string | number)[];
   fontWeight?: number;
   sampleText?: string;
 }
