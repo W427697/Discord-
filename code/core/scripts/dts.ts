@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import { process, genDtsBundle, nodeInternals } from '../../../scripts/prepare/tools';
+import { process, dts, nodeInternals } from '../../../scripts/prepare/tools';
 import { getEntries } from './entries';
 import pkg from '../package.json';
 
@@ -28,7 +28,7 @@ const list = selection === 'all' ? all : [all[Number(selection)]];
 
 await Promise.all(
   list.map(async (i) => {
-    await genDtsBundle(
+    await dts(
       i.file,
       [...external, ...i.externals],
       join(import.meta.dirname, '..', 'tsconfig.build.json')

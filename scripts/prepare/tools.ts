@@ -8,7 +8,7 @@ import slash from 'slash';
 import * as rpd from 'rollup-plugin-dts';
 import * as rollup from 'rollup';
 
-export const genDtsBundle = async (entry: string, externals: string[], tsconfig: string) => {
+export const dts = async (entry: string, externals: string[], tsconfig: string) => {
   console.log(entry);
   const dir = dirname(entry).replace('src', 'dist');
   const out = await rollup.rollup({
@@ -54,11 +54,9 @@ export const genDtsBundle = async (entry: string, externals: string[], tsconfig:
 
 import typescript from 'typescript';
 import sortPackageJson from 'sort-package-json';
-import * as tsmorph from 'ts-morph';
 import * as tsup from 'tsup';
 import * as esbuild from 'esbuild';
 import type * as typefest from 'type-fest';
-import * as dts from 'dts-bundle-generator';
 import prettyTime from 'pretty-hrtime';
 import * as prettier from 'prettier';
 import chalk from 'chalk';
@@ -93,12 +91,10 @@ export const measure = async (fn: () => Promise<void>) => {
 
 export {
   typescript,
-  tsmorph,
   tsup,
   typefest,
   process,
   esbuild,
-  dts,
   prettyTime,
   chalk,
   dedent,
