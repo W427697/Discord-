@@ -6,6 +6,9 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
+      alias: {
+        '@storybook/core/dist/theming': '@storybook/core/dist/theming.js',
+      },
     },
   })
 );

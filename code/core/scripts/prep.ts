@@ -61,6 +61,7 @@ const esbuildDefaultOptions = {
   lineLimit: 140,
   external: ['@storybook/core', ...external],
   metafile: true,
+  legalComments: 'none',
 } satisfies EsbuildContextOptions;
 
 console.log(isWatch ? 'Watching...' : 'Bundling...');
@@ -125,12 +126,13 @@ async function generateDistFiles() {
     esbuild.context(
       merge<EsbuildContextOptions>(esbuildDefaultOptions, {
         format: 'esm',
-        target: 'chrome100',
+        target: ['chrome100', 'safari15', 'firefox91'],
         splitting: true,
         entryPoints: entries
           .filter(isBrowser)
           .filter(noExternals)
           .map((entry) => entry.file),
+        platform: 'browser',
         conditions: ['browser', 'module', 'import', 'default'],
         outExtension: { '.js': '.js' },
       })

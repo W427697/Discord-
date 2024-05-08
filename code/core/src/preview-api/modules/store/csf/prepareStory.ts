@@ -30,6 +30,7 @@ import type {
   PreparedMeta,
   PreparedStory,
 } from '@storybook/core/dist/types';
+import { once } from '@storybook/core/dist/client-logger';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc

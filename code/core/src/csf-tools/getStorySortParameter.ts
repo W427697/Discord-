@@ -9,7 +9,7 @@ import { findVarInitialization } from './findVarInitialization';
 // @ts-expect-error (needed due to it's use of `exports.default`)
 const traverse = (bt.default || bt) as typeof bt;
 // @ts-expect-error (needed due to it's use of `exports.default`)
-const generate = (bg.default | bg) as typeof bg;
+const generate = (bg.default || bg) as typeof bg;
 
 const logger = console;
 
