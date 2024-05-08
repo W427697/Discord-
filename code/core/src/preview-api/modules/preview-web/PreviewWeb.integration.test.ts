@@ -31,7 +31,7 @@ vi.mock('@storybook/channels', async (importOriginal) => {
     createBrowserChannel: () => mockChannel,
   };
 });
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 
 vi.mock('./WebView');
 

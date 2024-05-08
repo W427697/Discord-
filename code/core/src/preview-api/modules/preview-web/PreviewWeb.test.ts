@@ -74,7 +74,7 @@ vi.mock('@storybook/global', async (importOriginal) => ({
   },
 }));
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 vi.mock('react-dom');
 vi.mock('./WebView');
 

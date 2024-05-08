@@ -11,7 +11,7 @@ import { global } from '@storybook/global';
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 
 const callSpy = vi.fn();
 const syncSpy = vi.fn();

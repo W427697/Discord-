@@ -1,1 +1,1 @@
-export * from '@storybook/core/dist/csf-tools';
+export * from '@storybook/core/dist/telemetry';

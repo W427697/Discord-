@@ -3,7 +3,7 @@
 export const globalsNameReferenceMap = {
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
   '@storybook/channels': '__STORYBOOK_MODULE_CHANNELS__',
-  '@storybook/client-logger': '__STORYBOOK_MODULE_CLIENT_LOGGER__',
+  '@storybook/core/dist/client-logger': '__STORYBOOK_MODULE_CLIENT_LOGGER__',
   '@storybook/core-events': '__STORYBOOK_MODULE_CORE_EVENTS__',
   '@storybook/core-events/preview-errors': '__STORYBOOK_MODULE_CORE_EVENTS_PREVIEW_ERRORS__',
   '@storybook/core/dist/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',

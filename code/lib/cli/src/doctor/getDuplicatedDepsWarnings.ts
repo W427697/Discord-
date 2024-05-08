@@ -13,7 +13,7 @@ export const allowList = [
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',
-  '@storybook/client-logger',
+  '@storybook/core/dist/client-logger',
   '@storybook/core-client',
   '@storybook/preview-web',
   '@storybook/core/dist/preview-api',

@@ -13,7 +13,7 @@ import { getEventMetadata as _getEventData } from '../lib/events';
 const getEventMetadata = vi.mocked(_getEventData, true);
 const logger = vi.mocked(_logger, true);
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 vi.mock('../lib/events');
 beforeEach(() => {
   getEventMetadata.mockReset().mockReturnValue({ sourceType: 'local' } as any);

@@ -4,7 +4,7 @@ import { valueToAST } from './valueToAST';
 import { SaveStoryError } from './utils';
 
 // @ts-expect-error (needed due to it's use of `exports.default`)
-const traverse = bt.default as typeof bt;
+const traverse = (bt.default || bt) as typeof bt;
 
 export const updateArgsInCsfFile = async (node: t.Node, input: Record<string, any>) => {
   let found = false;

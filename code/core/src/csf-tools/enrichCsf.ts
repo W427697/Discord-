@@ -5,7 +5,7 @@ import bg from '@babel/generator';
 import type { CsfFile } from './CsfFile';
 
 // @ts-expect-error (needed due to it's use of `exports.default`)
-const generate = bg.default as typeof bg;
+const generate = (bg.default || bg) as typeof bg;
 
 export interface EnrichCsfOptions {
   disableSource?: boolean;

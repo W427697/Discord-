@@ -1,1 +1,1 @@
-module.exports = require('@storybook/core/dist/csf-tools');
+module.exports = require('@storybook/core/dist/telemetry');

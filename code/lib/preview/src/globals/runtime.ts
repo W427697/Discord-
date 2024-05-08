@@ -11,7 +11,7 @@ import type { globalsNameReferenceMap } from './globals';
 // Here we map the name of a module to their VALUE in the global scope.
 export const globalsNameValueMap: Required<Record<keyof typeof globalsNameReferenceMap, any>> = {
   '@storybook/channels': CHANNELS,
-  '@storybook/client-logger': CLIENT_LOGGER,
+  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
   '@storybook/core-events': CORE_EVENTS,
   '@storybook/core-events/preview-errors': CORE_EVENTS_PREVIEW_ERRORS,
   '@storybook/core/dist/preview-api': PREVIEW_API,

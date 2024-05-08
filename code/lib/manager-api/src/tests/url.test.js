@@ -5,7 +5,7 @@ import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storyb
 import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 vi.useFakeTimers();
 
 describe('initial state', () => {

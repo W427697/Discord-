@@ -19,7 +19,7 @@ import type {
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/core/dist/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core/dist/common';
 import { logger, once } from '@storybook/core/dist/node-logger';
-import { getStorySortParameter } from '@storybook/core/dist/csf-tools';
+import { getStorySortParameter, loadConfig } from '@storybook/core/dist/csf-tools';
 import { storyNameFromExport, toId, combineTags } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';

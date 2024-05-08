@@ -23,7 +23,7 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
   '@storybook/core/dist/theming': THEMING,
   '@storybook/icons': ICONS,
   '@storybook/manager-api': MANAGER_API,
-  '@storybook/client-logger': CLIENT_LOGGER,
+  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
   '@storybook/channels': CHANNELS,
   '@storybook/core-events': EVENTS,
   '@storybook/types': TYPES,

@@ -280,6 +280,9 @@ async function generatePackageJsonFile() {
     if (entry.browser) {
       content.import = main.replace('.ts', '.js');
     }
+    if (entry.node && !entry.browser) {
+      content.import = main.replace('.ts', '.cjs');
+    }
     if (main === './dist/index.ts') {
       main = '.';
     }
