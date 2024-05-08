@@ -61,7 +61,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
-    "@storybook/csf": "^0.1.6",
+    "@storybook/csf": "^0.1.7",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "memoizerific": "^1.11.3",

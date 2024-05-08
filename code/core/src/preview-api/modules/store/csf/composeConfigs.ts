@@ -65,5 +65,6 @@ export function composeConfigs<TRenderer extends Renderer>(
     renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'), // deprecated
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
     runStep: composeStepRunners<TRenderer>(stepRunners),
+    tags: getArrayField(moduleExportList, 'tags'),
   };
 }

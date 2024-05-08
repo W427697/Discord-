@@ -123,7 +123,7 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/csf": "^0.1.6",
+    "@storybook/csf": "^0.1.7",
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/ember": "workspace:*",
