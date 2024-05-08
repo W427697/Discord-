@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { filterArgTypes } from '@storybook/core/dist/preview-api';
 import type { PropDescriptor } from '@storybook/core/dist/preview-api';
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
+import type { ArgTypesExtractor } from '@storybook/core/dist/docs-tools';
 
 import type { SortType } from '../components';
 import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';

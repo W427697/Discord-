@@ -1,10 +1,10 @@
-import type { ExtractedProp } from '@storybook/docs-tools';
+import type { ExtractedProp } from '@storybook/core/dist/docs-tools';
 import {
   convert,
   extractComponentProps,
   hasDocgen,
   type ArgTypesExtractor,
-} from '@storybook/docs-tools';
+} from '@storybook/core/dist/docs-tools';
 import type { SBType, StrictArgTypes, StrictInputType } from '@storybook/core/dist/types';
 import type { VueDocgenInfo, VueDocgenInfoEntry, VueDocgenPlugin } from '@storybook/vue3-vite';
 

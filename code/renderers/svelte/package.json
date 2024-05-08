@@ -57,7 +57,6 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0",

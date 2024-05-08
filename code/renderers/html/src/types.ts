@@ -3,7 +3,7 @@ import type {
   StoryContext as DefaultStoryContext,
   WebRenderer,
 } from '@storybook/core/dist/types';
-import type { SourceType } from '@storybook/docs-tools';
+import type { SourceType } from '@storybook/core/dist/docs-tools';
 
 export type { RenderContext } from '@storybook/core/dist/types';
 

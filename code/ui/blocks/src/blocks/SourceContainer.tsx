@@ -1,7 +1,7 @@
 import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SNIPPET_RENDERED } from '@storybook/core/dist/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
 import type { StoryId, Args, DocsContextProps } from '@storybook/core/dist/types';
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SourceType } from '@storybook/docs-tools';
+import { SourceType } from '@storybook/core/dist/docs-tools';
 
 import type { StoryContext } from '@storybook/core/dist/types';
 

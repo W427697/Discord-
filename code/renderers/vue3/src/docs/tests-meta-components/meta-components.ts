@@ -1,4 +1,4 @@
-import { TypeSystem } from '@storybook/docs-tools';
+import { TypeSystem } from '@storybook/core/dist/docs-tools';
 import type { VueDocgenInfo } from 'frameworks/vue3-vite/src';
 
 type TestComponent = { __docgenInfo: VueDocgenInfo<'vue-component-meta'> };

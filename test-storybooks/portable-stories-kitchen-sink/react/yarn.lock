@@ -2225,9 +2225,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.3.0":
-  version: 0.3.0
-  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.3.0"
+"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.3.1":
+  version: 0.3.1
+  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.3.1"
   dependencies:
     glob: "npm:^7.2.0"
     glob-promise: "npm:^4.2.0"
@@ -2239,7 +2239,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/9237499394b1f5f1320c9a489dbf5db2ba4b1d68081bf767a08895b70d0d0830adb9f0f1e2c5c94202e5bee63fe031ea2b91870a6bc806ed5e370be6b06df2e8
+  checksum: 10/ec5052f9cb50e7388ebd2f49f974fd0d67dcd429571047bfeb75304bc6b128b5779d05be5f2143d3d22cd1ee3d4f0e9a4c66168999d861e2e60a2ba6787d11a4
   languageName: node
   linkType: hard
 
@@ -2966,8 +2966,7 @@ __metadata:
   resolution: "@storybook/blocks@portal:../../../code/ui/blocks::locator=portable-stories-react%40workspace%3A."
   dependencies:
     "@storybook/components": "workspace:*"
-    "@storybook/csf": "npm:^0.1.6"
-    "@storybook/docs-tools": "workspace:*"
+    "@storybook/csf": "npm:^0.1.7"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     "@storybook/manager-api": "workspace:*"
@@ -3004,7 +3003,7 @@ __metadata:
     "@types/ejs": "npm:^3.1.1"
     "@yarnpkg/esbuild-plugin-pnp": "npm:^3.0.0-rc.10"
     browser-assert: "npm:^1.2.1"
-    ejs: "npm:^3.1.8"
+    ejs: "npm:^3.1.10"
     esbuild: "npm:^0.18.0 || ^0.19.0 || ^0.20.0"
     esbuild-plugin-alias: "npm:^0.2.1"
     express: "npm:^4.17.3"
@@ -3095,7 +3094,7 @@ __metadata:
     "@babel/core": "npm:^7.24.4"
     "@babel/preset-env": "npm:^7.24.4"
     "@babel/types": "npm:^7.24.0"
-    "@storybook/csf": "npm:^0.1.6"
+    "@storybook/csf": "npm:^0.1.7"
     "@types/cross-spawn": "npm:^6.0.2"
     cross-spawn: "npm:^7.0.3"
     globby: "npm:^14.0.1"
@@ -3115,7 +3114,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-slot": "npm:^1.0.2"
-    "@storybook/csf": "npm:^0.1.6"
+    "@storybook/csf": "npm:^0.1.7"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     memoizerific: "npm:^1.11.3"
@@ -3136,8 +3135,8 @@ __metadata:
     "@babel/parser": "npm:^7.24.4"
     "@discoveryjs/json-ext": "npm:^0.5.3"
     "@storybook/builder-manager": "workspace:*"
-    "@storybook/csf": "npm:^0.1.6"
-    "@storybook/docs-mdx": "npm:3.0.0"
+    "@storybook/csf": "npm:^0.1.7"
+    "@storybook/docs-mdx": "npm:3.1.0-next.0"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/manager": "workspace:*"
     "@storybook/manager-api": "workspace:*"
@@ -3193,7 +3192,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf@npm:^0.1.6":
+"@storybook/csf@npm:^0.1.7":
   version: 0.1.7
   resolution: "@storybook/csf@npm:0.1.7"
   dependencies:
@@ -3202,25 +3201,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-mdx@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@storybook/docs-mdx@npm:3.0.0"
-  checksum: 10/fba67fc5950890fbdf2b597f9cfac1230da3300002ab55938f75302beec9b3ec00ab8f405608b229961b50adebcdec3e1d8999e183d778b381ed5e79e4f5f0d2
+"@storybook/docs-mdx@npm:3.1.0-next.0":
+  version: 3.1.0-next.0
+  resolution: "@storybook/docs-mdx@npm:3.1.0-next.0"
+  checksum: 10/ba02a76ebfc23c0ffb5b6ced32ed35d68a0a8438cf467f4d4ac23f66385a3cb4fba3a89ec00cb414e2aae8256ebb1f598ee6fc3920633e30dd18bcf0c0322561
   languageName: node
   linkType: hard
-
-"@storybook/docs-tools@portal:../../../code/lib/docs-tools::locator=portable-stories-react%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@storybook/docs-tools@portal:../../../code/lib/docs-tools::locator=portable-stories-react%40workspace%3A."
-  dependencies:
-    "@types/doctrine": "npm:^0.0.3"
-    assert: "npm:^2.1.0"
-    doctrine: "npm:^3.0.0"
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    "@storybook/core": "workspace:*"
-  languageName: node
-  linkType: soft
 
 "@storybook/global@npm:^5.0.0":
   version: 5.0.0
@@ -3243,7 +3229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/manager-api@portal:../../../code/lib/manager-api::locator=portable-stories-react%40workspace%3A."
   dependencies:
-    "@storybook/csf": "npm:^0.1.6"
+    "@storybook/csf": "npm:^0.1.7"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.2.5"
     dequal: "npm:^2.0.2"
@@ -3283,7 +3269,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@portal:../../../code/frameworks/react-vite::locator=portable-stories-react%40workspace%3A."
   dependencies:
-    "@joshwooding/vite-plugin-react-docgen-typescript": "npm:0.3.0"
+    "@joshwooding/vite-plugin-react-docgen-typescript": "npm:0.3.1"
     "@rollup/pluginutils": "npm:^5.0.2"
     "@storybook/builder-vite": "workspace:*"
     "@storybook/react": "workspace:*"
@@ -3304,7 +3290,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react@portal:../../../code/renderers/react::locator=portable-stories-react%40workspace%3A."
   dependencies:
-    "@storybook/docs-tools": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/react-dom-shim": "workspace:*"
     "@types/escodegen": "npm:^0.0.6"
@@ -3638,13 +3623,6 @@ __metadata:
   version: 5.2.0
   resolution: "@types/diff@npm:5.2.0"
   checksum: 10/e1d3e6e9fd9d5386496c8716dd89316288d139cd8159a064f886a079149d05d65289b7b725ce1e333d4e77ce8024e210c6e281e9875a636fc17b4c760c2cf85f
-  languageName: node
-  linkType: hard
-
-"@types/doctrine@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@types/doctrine@npm:0.0.3"
-  checksum: 10/398c30efc903a750c71166c7385d763c98605723dfae23f0134d6de4d365a8f0a5585a0fe6f959569ff33646e7f43fa83bacb5f2a4d5929cd0f6163d06e4f6b3
   languageName: node
   linkType: hard
 
@@ -4498,19 +4476,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"assert@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "assert@npm:2.1.0"
-  dependencies:
-    call-bind: "npm:^1.0.2"
-    is-nan: "npm:^1.3.2"
-    object-is: "npm:^1.1.5"
-    object.assign: "npm:^4.1.4"
-    util: "npm:^0.12.5"
-  checksum: 10/6b9d813c8eef1c0ac13feac5553972e4bd180ae16000d4eb5c0ded2489188737c75a5aacefc97a985008b37502f62fe1bad34da1a7481a54bbfabec3964c8aa7
-  languageName: node
-  linkType: hard
-
 "assertion-error@npm:^1.1.0":
   version: 1.1.0
   resolution: "assertion-error@npm:1.1.0"
@@ -4931,7 +4896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"call-bind@npm:^1.0.0, call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
+"call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
   version: 1.0.7
   resolution: "call-bind@npm:1.0.7"
   dependencies:
@@ -5833,14 +5798,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.8":
-  version: 3.1.9
-  resolution: "ejs@npm:3.1.9"
+"ejs@npm:^3.1.10":
+  version: 3.1.10
+  resolution: "ejs@npm:3.1.10"
   dependencies:
     jake: "npm:^10.8.5"
   bin:
     ejs: bin/cli.js
-  checksum: 10/71f56d37540d2c2d71701f0116710c676f75314a3e997ef8b83515d5d4d2b111c5a72725377caeecb928671bacb84a0d38135f345904812e989847057d59f21a
+  checksum: 10/a9cb7d7cd13b7b1cd0be5c4788e44dd10d92f7285d2f65b942f33e127230c054f99a42db4d99f766d8dbc6c57e94799593ee66a14efd7c8dd70c4812bf6aa384
   languageName: node
   linkType: hard
 
@@ -7754,16 +7719,6 @@ __metadata:
   version: 2.0.2
   resolution: "is-map@npm:2.0.2"
   checksum: 10/60ba910f835f2eacb1fdf5b5a6c60fe1c702d012a7673e6546992bcc0c873f62ada6e13d327f9e48f1720d49c152d6cdecae1fa47a261ef3d247c3ce6f0e1d39
-  languageName: node
-  linkType: hard
-
-"is-nan@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "is-nan@npm:1.3.2"
-  dependencies:
-    call-bind: "npm:^1.0.0"
-    define-properties: "npm:^1.1.3"
-  checksum: 10/1f784d3472c09bc2e47acba7ffd4f6c93b0394479aa613311dc1d70f1bfa72eb0846c81350967722c959ba65811bae222204d6c65856fdce68f31986140c7b0e
   languageName: node
   linkType: hard
 
@@ -11877,7 +11832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"util@npm:^0.12.4, util@npm:^0.12.5":
+"util@npm:^0.12.4":
   version: 0.12.5
   resolution: "util@npm:0.12.5"
   dependencies:

@@ -53,7 +53,6 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@vue/compiler-core": "^3.0.0",
     "lodash": "^4.17.21",

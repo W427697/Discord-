@@ -26,5 +26,6 @@ export const getEntries = (cwd: string) => {
     define('src/router/index.ts', ['browser', 'node'], true, ['react']),
     define('src/theming/index.ts', ['browser', 'node'], true, ['react']),
     define('src/theming/create.ts', ['browser', 'node'], true, ['react']),
+    define('src/docs-tools/index.ts', ['node'], true),
   ];
 };

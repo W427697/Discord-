@@ -33,7 +33,6 @@
     "@storybook/core": "link:../../code/core",
     "@storybook/core-server": "link:../../code/lib/core-server",
     "@storybook/core-webpack": "link:../../code/lib/core-webpack",
-    "@storybook/docs-tools": "link:../../code/lib/docs-tools",
     "@storybook/ember": "link:../../code/frameworks/ember",
     "@storybook/html": "link:../../code/renderers/html",
     "@storybook/html-webpack5": "link:../../code/frameworks/html-webpack5",

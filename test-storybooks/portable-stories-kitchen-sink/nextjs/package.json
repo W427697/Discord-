@@ -72,7 +72,6 @@
     "@storybook/core-server": "file:../../../code/lib/core-server",
     "@storybook/core-webpack": "file:../../../code/lib/core-webpack",
     "@storybook/csf-plugin": "file:../../../code/lib/csf-plugin",
-    "@storybook/docs-tools": "file:../../../code/lib/docs-tools",
     "@storybook/ember": "file:../../../code/frameworks/ember",
     "@storybook/html": "file:../../../code/renderers/html",
     "@storybook/html-webpack5": "file:../../../code/frameworks/html-webpack5",

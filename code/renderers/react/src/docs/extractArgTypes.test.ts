@@ -7,7 +7,7 @@ import { transformFileSync, transformSync } from '@babel/core';
 
 import { inferControls } from '@storybook/core/dist/preview-api';
 import type { Renderer } from '@storybook/core/dist/types';
-import { normalizeNewlines } from '@storybook/docs-tools';
+import { normalizeNewlines } from '@storybook/core/dist/docs-tools';
 
 import type { StoryContext } from '../types';
 import { extractProps } from './extractProps';

@@ -46,7 +46,6 @@
   "dependencies": {
     "@storybook/components": "workspace:*",
     "@storybook/csf": "^0.1.7",
-    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/manager-api": "workspace:*",

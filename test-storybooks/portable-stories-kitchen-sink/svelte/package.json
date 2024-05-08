@@ -43,7 +43,6 @@
     "@storybook/core-server": "portal:../../../code/lib/core-server",
     "@storybook/core-webpack": "portal:../../../code/lib/core-webpack",
     "@storybook/csf-plugin": "portal:../../../code/lib/csf-plugin",
-    "@storybook/docs-tools": "portal:../../../code/lib/docs-tools",
     "@storybook/ember": "portal:../../../code/frameworks/ember",
     "@storybook/html": "portal:../../../code/renderers/html",
     "@storybook/html-webpack5": "portal:../../../code/frameworks/html-webpack5",
