@@ -28,7 +28,7 @@ const { document } = global;
 
 const DEFAULT_MAX_SEARCH_RESULTS = 50;
 
-export const FILTER_KEY = 'filter';
+export const FILTER_KEY = 'search';
 
 const options = {
   shouldSort: true,
@@ -267,7 +267,7 @@ export const Search = React.memo<{
     showAllComponents(false);
     const isBrowsing = !stateAndHelpers.isOpen && document.activeElement !== inputRef.current;
     api.setQueryParams({
-      filter: isBrowsing ? null : inputValue,
+      [FILTER_KEY]: isBrowsing ? null : inputValue,
     });
     const params = new URLSearchParams(window.location.search);
     if (window.history.replaceState) {
@@ -428,7 +428,7 @@ export const Search = React.memo<{
                   </FocusKey>
                 )}
                 {isOpen && (
-                  <ClearIcon onClick={() => clearSelection()}>
+                  <ClearIcon onClick={() => clearSelection()} title="Clear search">
                     <CloseIcon />
                   </ClearIcon>
                 )}
