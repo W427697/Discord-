@@ -36,6 +36,8 @@ const CRITICAL_YARN2_ERROR_CODES = {
   YN0083: 'AUTOMERGE_GIT_ERROR',
 };
 
+// @ts-expect-error If we want a code to be parsed, we move from the list below to the list above
+// Keep the codes here, they might be helpful in the future
 const YARN2_ERROR_CODES = {
   ...CRITICAL_YARN2_ERROR_CODES,
   YN0000: 'UNNAMED',
@@ -79,7 +81,7 @@ const YARN2_ERROR_CODES = {
   YN0090: 'OFFLINE_MODE_ENABLED',
 };
 
-// This encompasses both yarn 2 and yarn 3
+// This encompasses Yarn Berry (v2+)
 export class Yarn2Proxy extends JsPackageManager {
   readonly type = 'yarn2';
 
@@ -306,10 +308,12 @@ export class Yarn2Proxy extends JsPackageManager {
     while ((match = regex.exec(logs)) !== null) {
       const code = match[1];
       const message = match[2].replace(/[┌│└]/g, '').trim();
-      if (CRITICAL_YARN2_ERROR_CODES[code]) {
+      if (code in CRITICAL_YARN2_ERROR_CODES) {
         errorCodesWithMessages.push({
           code,
-          message: `${CRITICAL_YARN2_ERROR_CODES[code]}\n-> ${message}\n`,
+          message: `${
+            CRITICAL_YARN2_ERROR_CODES[code as keyof typeof CRITICAL_YARN2_ERROR_CODES]
+          }\n-> ${message}\n`,
         });
       }
     }

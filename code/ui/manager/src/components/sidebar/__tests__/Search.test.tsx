@@ -1,105 +1,136 @@
+import { type Mock, beforeEach, afterEach, describe, test, expect, vi } from 'vitest';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ThemeProvider, themes, convert } from '@storybook/theming';
 import * as api from '@storybook/manager-api';
+import { ThemeProvider, themes, convert } from '@storybook/theming';
 
-import { FILTER_KEY } from '../Search';
-import * as Stories from '../Search.stories';
-import * as SidebarStories from '../Sidebar.stories';
+import { FILTER_KEY, Search } from '../Search';
+import type {
+  CombinedDataset,
+  SearchChildrenFn,
+  Selection,
+} from '../types';
 
-const TEST_URL = 'http://localhost';
 const FILTER_VALUE = 'filter';
 const PLACEHOLDER = 'Find components';
-const DEFAULT_SEARCH = '?path=story';
 
-const setLocation = (search = DEFAULT_SEARCH) => {
-  global.window.history.replaceState({}, 'Test', search);
-};
-
-const renderSearch = (Story = Stories.Simple) =>
+const renderSearch = (props?: Partial<Parameters<typeof Search>[0]>) => {
+  const dataset: CombinedDataset = {
+    hash: {},
+    entries: []
+  };
+  const getLastViewed = (): Selection[] => [];
+  const children: SearchChildrenFn = () => (
+    <></>
+  );
   render(
     <ThemeProvider theme={convert(themes.light)}>
-      <Story />
+      <Search
+        {...({
+          dataset,
+          getLastViewed,
+          children,
+          ...props
+        })}
+      >
+      </Search>
     </ThemeProvider>
   );
+};
 
-jest.mock('@storybook/manager-api');
-const mockedApi = api as jest.Mocked<typeof api>;
+vi.mock('@storybook/manager-api');
 
-beforeEach(() => {
-  const { history, location } = global.window;
-  delete global.window.location;
-  delete global.window.history;
-  global.window.location = { ...location };
-  global.window.history = { ...history };
+describe('Search', () => {
+  let setQueryParams: Mock;
+  let getQueryParams: Mock;
+  let queryParams: Record<string, string>;
 
-  global.window.history.replaceState = (state, title, url: string) => {
-    global.window.location.href = url;
-    global.window.location.search = url.indexOf('?') !== -1 ? url.slice(url.indexOf('?')) : '';
-  };
-  mockedApi.useStorybookApi.mockReset();
-  const mockApi: Partial<api.API> = {
-    setQueryParams: () => ({}),
-  };
-  mockedApi.useStorybookApi.mockReturnValue(mockApi as any);
-  mockedApi.useStorybookState.mockReset();
-});
+  beforeEach(() => {
+    vi.mocked(api.useStorybookApi).mockReset();
+    queryParams = {};
+    setQueryParams = vi.fn((params) => {
+      queryParams = params;
+    });
+    getQueryParams = vi.fn(() => queryParams);
+    const mockApi: Partial<api.API> = {
+      setQueryParams,
+      getQueryParams,
+      getShortcutKeys: () => ({
+        aboutPage: [],
+        collapseAll: [],
+        escape: [],
+        expandAll: [],
+        focusIframe: [],
+        focusNav: [],
+        focusPanel: [],
+        fullScreen: [],
+        nextComponent: [],
+        nextStory: [],
+        panelPosition: [],
+        prevComponent: [],
+        prevStory: [],
+        remount: [],
+        search: [],
+        shortcutsPage: [],
+        toggleNav: [],
+        togglePanel: [],
+        toolbar: []
+      })
+    };
+    vi.mocked(api.useStorybookApi).mockReturnValue(mockApi as any);
+    vi.mocked(api.useStorybookState).mockReset();
+  });
 
-describe('Search - reflect search in URL', () => {
-  it('renders OK', async () => {
-    setLocation();
+  afterEach(() => {
+    cleanup();
+  });
+
+  test('renders OK', async () => {
     renderSearch();
-    const INPUT = (await screen.getByPlaceholderText(PLACEHOLDER)) as HTMLInputElement;
+    const INPUT = screen.getByPlaceholderText(PLACEHOLDER) as HTMLInputElement;
     expect(INPUT.value).toBe('');
   });
-  // it('prefills input with search params', async () => {
-  //   const state: Partial<api.State> = {
-  //     storyId: 'jest',
-  //     customQueryParams: {
-  //       filter: 'filter',
-  //     },
-  //     ui: { enableShortcuts: true },
-  //   };
-  //   mockedApi.useStorybookState.mockReturnValue(state as any);
-  //   setLocation('?path=story&filter=filter');
-  //   renderSearch(SidebarStories.Simple);
-  //   const INPUT = (await screen.getByPlaceholderText(PLACEHOLDER)) as HTMLInputElement;
-  //   expect(INPUT.value).toBe(FILTER_VALUE);
-  // });
-  it('updates location on input update with current query', async () => {
-    setLocation();
-    renderSearch();
-    const INPUT = await screen.getByPlaceholderText(PLACEHOLDER);
-    userEvent.clear(INPUT);
-    // Using "paste" due to bug with @testing-library/user-event || jest: https://github.com/testing-library/user-event/issues/369
-    userEvent.paste(INPUT, FILTER_VALUE);
-    expect(global.window.location.href).toBe(
-      `${TEST_URL}${DEFAULT_SEARCH}&${FILTER_KEY}=${FILTER_VALUE}`
-    );
-    expect(global.window.location.search).toBe(`${DEFAULT_SEARCH}&${FILTER_KEY}=${FILTER_VALUE}`);
+
+  test('prefills input with initial query', async () => {
+    const state: Partial<api.State> = {
+      storyId: 'jest',
+      customQueryParams: {
+        [FILTER_KEY]: 'filter',
+      },
+      ui: { enableShortcuts: true },
+    };
+    vi.mocked(api.useStorybookState).mockReturnValue(state as any);
+    renderSearch({initialQuery: FILTER_VALUE});
+    const INPUT = screen.getByPlaceholderText(PLACEHOLDER) as HTMLInputElement;
+    expect(INPUT.value).toBe(FILTER_VALUE);
+    expect(setQueryParams).not.toHaveBeenCalled();
+    expect(queryParams).toEqual({});
   });
-  it('updates location on input update without current query', async () => {
-    setLocation();
-    renderSearch();
-    const INPUT = await screen.getByPlaceholderText(PLACEHOLDER);
-    userEvent.clear(INPUT);
-    userEvent.paste(INPUT, FILTER_VALUE);
-    expect(global.window.location.href).toBe(
-      `${TEST_URL}${DEFAULT_SEARCH}&${FILTER_KEY}=${FILTER_VALUE}`
-    );
-    expect(global.window.location.search).toBe(`${DEFAULT_SEARCH}&${FILTER_KEY}=${FILTER_VALUE}`);
+
+  test('updates location on input update with current query', async () => {
+    renderSearch({initialQuery: 'foo'});
+    const INPUT = screen.getByPlaceholderText(PLACEHOLDER) as HTMLInputElement;
+    await act(async () => {
+      await userEvent.clear(INPUT);
+      await userEvent.type(INPUT, FILTER_VALUE);
+    });
+    expect(setQueryParams).toHaveBeenCalled();
+    expect(queryParams).toEqual({
+      [FILTER_KEY]: FILTER_VALUE
+    });
   });
-  it('initialQuery updates URL', async () => {
-    const SEARCH_TERM = 'Search query';
-    const QUERY_VALUE = 'Search+query';
-    setLocation();
-    renderSearch(Stories.FilledIn);
-    const INPUT = (await screen.getByPlaceholderText(PLACEHOLDER)) as HTMLInputElement;
-    expect(INPUT.value).toBe(SEARCH_TERM);
-    expect(global.window.location.href).toBe(
-      `${TEST_URL}${DEFAULT_SEARCH}&${FILTER_KEY}=${QUERY_VALUE}`
-    );
-    expect(global.window.location.search).toBe(`${DEFAULT_SEARCH}&${FILTER_KEY}=${QUERY_VALUE}`);
+
+  test('updates location on input update without current query', async () => {
+    renderSearch();
+    const INPUT = screen.getByPlaceholderText(PLACEHOLDER) as HTMLInputElement;
+    await act(async () => {
+      await userEvent.clear(INPUT);
+      await userEvent.type(INPUT, FILTER_VALUE);
+    });
+    expect(setQueryParams).toHaveBeenCalled();
+    expect(queryParams).toEqual({
+      [FILTER_KEY]: FILTER_VALUE
+    });
   });
 });

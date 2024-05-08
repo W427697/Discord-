@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import { useStorybookState } from '@storybook/manager-api';
 import type { State } from '@storybook/manager-api';
 
 import type {
@@ -116,6 +115,7 @@ export interface SidebarProps extends API_LoadedRefData {
   enableShortcuts?: boolean;
   initialQuery?: string;
   onMenuClick?: HeadingProps['onMenuClick'];
+  showCreateStoryButton?: boolean;
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -133,6 +133,7 @@ export const Sidebar = React.memo(function Sidebar({
   refs = {},
   initialQuery,
   onMenuClick,
+  showCreateStoryButton,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
   const dataset = useCombination(index, indexError, previewInitialized, status, refs);
@@ -156,6 +157,7 @@ export const Sidebar = React.memo(function Sidebar({
             dataset={dataset}
             enableShortcuts={enableShortcuts}
             initialQuery={initialQuery}
+            showCreateStoryButton={showCreateStoryButton}
             {...lastViewedProps}
           >
             {({

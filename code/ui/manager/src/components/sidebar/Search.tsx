@@ -1,12 +1,13 @@
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import type { DownshiftState, StateChangeOptions } from 'downshift';
+import type { DownshiftState, StateChangeOptions, ControllerStateAndHelpers } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useRef, useState, useCallback } from 'react';
-import { CloseIcon, SearchIcon } from '@storybook/icons';
+import { CloseIcon, PlusIcon, SearchIcon } from '@storybook/icons';
+import { IconButton, TooltipNote, WithTooltip } from '@storybook/components';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {
   CombinedDataset,
@@ -21,31 +22,13 @@ import { isSearchResult, isExpandType } from './types';
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
+import { CreateNewStoryFileModal } from './CreateNewStoryFileModal';
 
 const { document } = global;
 
 const DEFAULT_MAX_SEARCH_RESULTS = 50;
 
 export const FILTER_KEY = 'filter';
-
-let searchParams: URLSearchParams;
-/**
- * Used if we want to sync user input in the address bar.
- */
-const syncUrlToFilter = (value: string) => {
-  if (!searchParams) searchParams = new URLSearchParams(global.window.location.search);
-  if (global.window.history.replaceState) {
-    if (value !== '' && value !== null) searchParams.set(FILTER_KEY, value);
-    else searchParams.delete(FILTER_KEY);
-    global.window.history.replaceState(
-      {},
-      '',
-      `${global.window.location.origin}${
-        searchParams.toString() !== '' ? '?' : ''
-      }${searchParams.toString()}`
-    );
-  }
-};
 
 const options = {
   shouldSort: true,
@@ -64,6 +47,16 @@ const options = {
   ],
 } as FuseOptions<SearchItem>;
 
+const SearchBar = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  columnGap: 6,
+});
+
+const TooltipNoteWrapper = styled(TooltipNote)({
+  margin: 0,
+});
+
 const ScreenReaderLabel = styled.label({
   position: 'absolute',
   left: -10000,
@@ -72,6 +65,10 @@ const ScreenReaderLabel = styled.label({
   height: 1,
   overflow: 'hidden',
 });
+
+const CreateNewStoryButton = styled(IconButton)(({ theme }) => ({
+  color: theme.color.mediumdark,
+}));
 
 const SearchIconWrapper = styled.div(({ theme }) => ({
   position: 'absolute',
@@ -88,15 +85,17 @@ const SearchIconWrapper = styled.div(({ theme }) => ({
 const SearchField = styled.div({
   display: 'flex',
   flexDirection: 'column',
+  flexGrow: 1,
   position: 'relative',
 });
 
 const Input = styled.input(({ theme }) => ({
   appearance: 'none',
-  height: 32,
+  height: 28,
   paddingLeft: 28,
   paddingRight: 28,
-  border: `1px solid ${theme.appBorderColor}`,
+  border: 0,
+  boxShadow: `${theme.button.border} 0 0 0 1px inset`,
   background: 'transparent',
   borderRadius: 4,
   fontSize: `${theme.typography.size.s1 + 1}px`,
@@ -134,7 +133,7 @@ const Input = styled.input(({ theme }) => ({
 
 const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
-  top: 8,
+  top: 6,
   right: 9,
   height: 16,
   zIndex: 1,
@@ -167,35 +166,30 @@ const ClearIcon = styled.div(({ theme }) => ({
 
 const FocusContainer = styled.div({ outline: 0 });
 
+const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
+const isRendererReact = global.STORYBOOK_RENDERER === 'react';
+
 export const Search = React.memo<{
   children: SearchChildrenFn;
   dataset: CombinedDataset;
   enableShortcuts?: boolean;
   getLastViewed: () => Selection[];
   initialQuery?: string;
+  showCreateStoryButton?: boolean;
 }>(function Search({
   children,
   dataset,
   enableShortcuts = true,
   getLastViewed,
   initialQuery = '',
+  showCreateStoryButton = isDevelopment && isRendererReact,
 }) {
   const api = useStorybookApi();
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputPlaceholder, setPlaceholder] = useState('Find components');
   const [allComponents, showAllComponents] = useState(false);
   const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
-
-  const selectStory = useCallback(
-    (id: string, refId: string) => {
-      if (api) {
-        api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
-      }
-      inputRef.current.blur();
-      showAllComponents(false);
-    },
-    [api, inputRef, showAllComponents, DEFAULT_REF_ID]
-  );
+  const [isFileSearchModalOpen, setIsFileSearchModalOpen] = useState(false);
 
   const makeFuse = useCallback(() => {
     const list = dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
@@ -253,6 +247,44 @@ export const Search = React.memo<{
     [allComponents, makeFuse]
   );
 
+  const onSelect = useCallback(
+    (selectedItem: DownshiftItem) => {
+      if (isSearchResult(selectedItem)) {
+        const { id, refId } = selectedItem.item;
+        api?.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
+        inputRef.current.blur();
+        showAllComponents(false);
+        return;
+      }
+      if (isExpandType(selectedItem)) {
+        selectedItem.showAll();
+      }
+    },
+    [api]
+  );
+
+  const onInputValueChange = useCallback((inputValue: string, stateAndHelpers: ControllerStateAndHelpers<DownshiftItem>) => {
+    showAllComponents(false);
+    const isBrowsing = !stateAndHelpers.isOpen && document.activeElement !== inputRef.current;
+    api.setQueryParams({
+      filter: isBrowsing ? null : inputValue,
+    });
+    const params = new URLSearchParams(window.location.search);
+    if (window.history.replaceState) {
+      if (inputValue) {
+        params.set(FILTER_KEY, inputValue);
+      } else {
+        params.delete(FILTER_KEY);
+      }
+      const paramsString = params.size > 0 ? `?${params.toString()}` : '';
+      window.history.replaceState(
+        {},
+        '',
+        paramsString
+      );
+    }
+  }, []);
+
   const stateReducer = useCallback(
     (state: DownshiftState<DownshiftItem>, changes: StateChangeOptions<DownshiftItem>) => {
       switch (changes.type) {
@@ -263,13 +295,12 @@ export const Search = React.memo<{
             inputValue: state.inputValue,
             // Return to the tree view after selecting an item
             isOpen: state.inputValue && !state.selectedItem,
-            selectedItem: null,
           };
         }
 
         case Downshift.stateChangeTypes.mouseUp: {
           // Prevent clearing the input on refocus
-          return {};
+          return state;
         }
 
         case Downshift.stateChangeTypes.keyDownEscape: {
@@ -277,30 +308,21 @@ export const Search = React.memo<{
             // Clear the inputValue, but don't return to the tree view
             return { ...changes, inputValue: '', isOpen: true, selectedItem: null };
           }
-          // When pressing escape a second time, blur the input and return to the tree view
-          inputRef.current.blur();
+          // When pressing escape a second time return to the tree view
+          // The onKeyDown handler will also blur the input in this case
           return { ...changes, isOpen: false, selectedItem: null };
         }
 
         case Downshift.stateChangeTypes.clickItem:
         case Downshift.stateChangeTypes.keyDownEnter: {
           if (isSearchResult(changes.selectedItem)) {
-            const { id, refId } = changes.selectedItem.item;
-            selectStory(id, refId);
             // Return to the tree view, but keep the input value
-            return { ...changes, inputValue: state.inputValue, isOpen: false };
+            return { ...changes, inputValue: state.inputValue };
           }
           if (isExpandType(changes.selectedItem)) {
-            changes.selectedItem.showAll();
             // Downshift should completely ignore this
-            return {};
+            return state;
           }
-          return changes;
-        }
-
-        case Downshift.stateChangeTypes.changeInput: {
-          // Reset the "show more" state whenever the input changes
-          showAllComponents(false);
           return changes;
         }
 
@@ -308,7 +330,7 @@ export const Search = React.memo<{
           return changes;
       }
     },
-    [inputRef, selectStory, showAllComponents]
+    []
   );
   const { isMobile } = useLayout();
 
@@ -320,6 +342,8 @@ export const Search = React.memo<{
       // @ts-expect-error (Converted from ts-ignore)
       itemToString={(result) => result?.item?.name || ''}
       scrollIntoView={(e) => scrollIntoView(e)}
+      onSelect={onSelect}
+      onInputValueChange={onInputValueChange}
     >
       {({
         isOpen,
@@ -338,8 +362,6 @@ export const Search = React.memo<{
         let results: DownshiftItem[] = input ? getResults(input) : [];
 
         const isBrowsing = !isOpen && document.activeElement !== inputRef.current;
-        syncUrlToFilter(isBrowsing ? null : input);
-        api.setQueryParams({ filter: isBrowsing ? null : input });
 
         const lastViewed = !input && getLastViewed();
         if (lastViewed && lastViewed.length) {
@@ -369,6 +391,13 @@ export const Search = React.memo<{
             setPlaceholder('Type to find...');
           },
           onBlur: () => setPlaceholder('Find components'),
+          onKeyDown: (e) => {
+            if (e.key === 'Escape' && inputValue.length === 0) {
+              // When pressing escape while the input is empty, blur the input
+              // The stateReducer will handle returning to the tree view
+              inputRef.current.blur();
+            }
+          }
         });
 
         const labelProps = getLabelProps({
@@ -378,39 +407,55 @@ export const Search = React.memo<{
         return (
           <>
             <ScreenReaderLabel {...labelProps}>Search for components</ScreenReaderLabel>
-            <SearchField
-              {...getRootProps({ refKey: '' }, { suppressRefError: true })}
-              className="search-field"
-            >
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              {/* @ts-expect-error (TODO) */}
-              <Input
-                {...inputProps}
-                onInput={(e) => {
-                  api.setQueryParams({
-                    filter: isBrowsing ? null : (e.target as any).value,
-                  });
-                }}
-              />
-              {!isMobile && enableShortcuts && !isOpen && (
-                <FocusKey>
-                  {searchShortcut === '⌘ K' ? (
-                    <>
-                      <FocusKeyCmd>⌘</FocusKeyCmd>K
-                    </>
-                  ) : (
-                    searchShortcut
-                  )}
-                </FocusKey>
+            <SearchBar>
+              <SearchField
+                {...getRootProps({ refKey: '' }, { suppressRefError: true })}
+                className="search-field"
+              >
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <Input {...inputProps} />
+                {!isMobile && enableShortcuts && !isOpen && (
+                  <FocusKey>
+                    {searchShortcut === '⌘ K' ? (
+                      <>
+                        <FocusKeyCmd>⌘</FocusKeyCmd>K
+                      </>
+                    ) : (
+                      searchShortcut
+                    )}
+                  </FocusKey>
+                )}
+                {isOpen && (
+                  <ClearIcon onClick={() => clearSelection()}>
+                    <CloseIcon />
+                  </ClearIcon>
+                )}
+              </SearchField>
+              {showCreateStoryButton && (
+                <>
+                  <WithTooltip
+                    trigger="hover"
+                    hasChrome={false}
+                    tooltip={<TooltipNoteWrapper note="Create a new story" />}
+                  >
+                    <CreateNewStoryButton
+                      onClick={() => {
+                        setIsFileSearchModalOpen(true);
+                      }}
+                      variant="outline"
+                    >
+                      <PlusIcon />
+                    </CreateNewStoryButton>
+                  </WithTooltip>
+                  <CreateNewStoryFileModal
+                    open={isFileSearchModalOpen}
+                    onOpenChange={setIsFileSearchModalOpen}
+                  />
+                </>
               )}
-              {isOpen && (
-                <ClearIcon onClick={() => clearSelection()}>
-                  <CloseIcon />
-                </ClearIcon>
-              )}
-            </SearchField>
+            </SearchBar>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
               {children({
                 query: input,
