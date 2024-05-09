@@ -18,7 +18,7 @@ export const getCompatibilityAliases = () => {
   const version = getNextjsVersion();
   const result: Record<string, string> = {};
 
-  Object.keys(mapping).filter((key) => {
+  Object.keys(mapping).forEach((key) => {
     if (semver.intersects(version, key)) {
       Object.assign(result, mapping[key]);
     }
