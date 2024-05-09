@@ -59,6 +59,7 @@
     "@babel/core": "^7.24.4",
     "@babel/parser": "^7.24.4",
     "@discoveryjs/json-ext": "^0.5.3",
+    "@parcel/watcher": "^2.4.1",
     "@storybook/builder-manager": "workspace:*",
     "@storybook/channels": "workspace:*",
     "@storybook/core-common": "workspace:*",

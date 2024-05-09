@@ -37,11 +37,18 @@ export function useStoriesJson({
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
     leading: true,
   });
-  watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
-    const generator = await initializedStoryIndexGenerator;
-    generator.invalidate(specifier, path, removed);
-    maybeInvalidate();
-  });
+  watchStorySpecifiers(
+    normalizedStories,
+    { workingDir },
+    async (specifier, path, removed) => {
+      const generator = await initializedStoryIndexGenerator;
+      generator.invalidate(specifier, path, removed);
+      maybeInvalidate();
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
 
   router.use('/index.json', async (req: Request, res: Response) => {
     try {
