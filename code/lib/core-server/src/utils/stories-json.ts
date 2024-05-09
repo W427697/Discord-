@@ -21,7 +21,7 @@ export async function extractStoriesJson(
   await writeJSON(outputFile, transform ? transform(storyIndex) : storyIndex);
 }
 
-export function useStoriesJson({
+export async function useStoriesJson({
   router,
   initializedStoryIndexGenerator,
   workingDir = process.cwd(),
@@ -37,7 +37,7 @@ export function useStoriesJson({
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
     leading: true,
   });
-  watchStorySpecifiers(
+  await watchStorySpecifiers(
     normalizedStories,
     { workingDir },
     async (specifier, path, removed) => {

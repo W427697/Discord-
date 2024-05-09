@@ -1,9 +1,10 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
+import type { Mocked } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
-import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
+import watchImport from '@parcel/watcher';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -13,9 +14,17 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-vi.mock('watchpack');
+const watch = watchImport as Mocked<typeof watchImport>;
+
 vi.mock('lodash/debounce');
 vi.mock('@storybook/node-logger');
+vi.mock('@parcel/watcher', () => {
+  return {
+    default: {
+      subscribe: vi.fn(() => Promise.resolve({ unsubscribe: () => Promise.resolve() })),
+    },
+  };
+});
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -85,7 +94,7 @@ describe('useStoriesJson', () => {
     it('scans and extracts index', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       console.time('useStoriesJson');
-      useStoriesJson({
+      await useStoriesJson({
         router,
         serverChannel: mockServerChannel,
         workingDir,
@@ -254,7 +263,7 @@ describe('useStoriesJson', () => {
     it('can handle simultaneous access', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
 
-      useStoriesJson({
+      await useStoriesJson({
         router,
         serverChannel: mockServerChannel,
         workingDir,
@@ -286,7 +295,7 @@ describe('useStoriesJson', () => {
 
     it('sends invalidate events', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
-      useStoriesJson({
+      await useStoriesJson({
         router,
         serverChannel: mockServerChannel,
         workingDir,
@@ -301,26 +310,19 @@ describe('useStoriesJson', () => {
 
       expect(write).not.toHaveBeenCalled();
 
-      expect(Watchpack).toHaveBeenCalledTimes(1);
-      const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          directories: expect.any(Array),
-          files: expect.any(Array),
-        })
-      );
+      expect(watch.subscribe).toHaveBeenCalledTimes(1);
+      const subscribeCallback = watch.subscribe.mock.lastCall?.[1] || (() => {});
 
-      expect(watcher.on).toHaveBeenCalledTimes(2);
-      const onChange = watcher.on.mock.calls[0][1];
-
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await subscribeCallback(null, [
+        { type: 'update', path: `${workingDir}/src/nested/Button.stories.ts` },
+      ]);
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
-      useStoriesJson({
+      await useStoriesJson({
         router,
         serverChannel: mockServerChannel,
         workingDir,
@@ -339,19 +341,12 @@ describe('useStoriesJson', () => {
 
       expect(write).not.toHaveBeenCalled();
 
-      expect(Watchpack).toHaveBeenCalledTimes(1);
-      const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          directories: expect.any(Array),
-          files: expect.any(Array),
-        })
-      );
+      expect(watch.subscribe).toHaveBeenCalledTimes(1);
+      const subscribeCallback = watch.subscribe.mock.lastCall?.[1] || (() => {});
 
-      expect(watcher.on).toHaveBeenCalledTimes(2);
-      const onChange = watcher.on.mock.calls[0][1];
-
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      await subscribeCallback(null, [
+        { type: 'update', path: `${workingDir}/src/nested/Button.stories.ts` },
+      ]);
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
     });
@@ -363,7 +358,7 @@ describe('useStoriesJson', () => {
       );
 
       const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
-      useStoriesJson({
+      await useStoriesJson({
         router,
         serverChannel: mockServerChannel,
         workingDir,
@@ -378,23 +373,13 @@ describe('useStoriesJson', () => {
 
       expect(write).not.toHaveBeenCalled();
 
-      expect(Watchpack).toHaveBeenCalledTimes(1);
-      const watcher = Watchpack.mock.instances[0];
-      expect(watcher.watch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          directories: expect.any(Array),
-          files: expect.any(Array),
-        })
-      );
-
-      expect(watcher.on).toHaveBeenCalledTimes(2);
-      const onChange = watcher.on.mock.calls[0][1];
-
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
-      await onChange(`${workingDir}/src/nested/Button.stories.ts`);
+      expect(watch.subscribe).toHaveBeenCalledTimes(1);
+      const subscribeCallback = watch.subscribe.mock.lastCall?.[1] || (() => {});
+      for (let i = 0; i < 5; i++) {
+        await subscribeCallback(null, [
+          { type: 'update', path: `${workingDir}/src/nested/Button.stories.ts` },
+        ]);
+      }
 
       expect(mockServerChannel.emit).toHaveBeenCalledTimes(1);
       expect(mockServerChannel.emit).toHaveBeenCalledWith(STORY_INDEX_INVALIDATED);
