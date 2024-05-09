@@ -61,6 +61,7 @@ const esbuildDefaultOptions = {
   lineLimit: 140,
   external: ['@storybook/core', ...external],
   metafile: true,
+  sourcemap: true,
   legalComments: 'none',
 } satisfies EsbuildContextOptions;
 
@@ -238,7 +239,7 @@ async function generateTypesFiles() {
             cwd,
             stdio: ['ignore', 'pipe', 'inherit'],
           });
-          let timer: Timer | undefined;
+          let timer: ReturnType<typeof setTimeout> | undefined;
           processes.push(dtsProcess);
           await Promise.race([
             dtsProcess.exited,
@@ -291,6 +292,8 @@ async function generatePackageJsonFile() {
     acc[main.replace('/index.ts', '').replace('.ts', '')] = content;
     return acc;
   }, {});
+
+  pkgJson.exports['./package.json'] = './package.json';
 
   await Bun.write(location, `${sortPackageJson(JSON.stringify(pkgJson, null, 2))}\n`, {});
 }

@@ -113,7 +113,8 @@
       "types": "./dist/docs-tools/index.d.ts",
       "require": "./dist/docs-tools/index.cjs",
       "import": "./dist/docs-tools/index.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -129,6 +130,7 @@
     "prep": "bun ./scripts/prep.ts"
   },
   "dependencies": {
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
     "@storybook/csf": "^0.1.7",
     "@types/express": "^4.17.21",
     "@types/node": "^18.0.0",
@@ -147,7 +149,6 @@
     "@emotion/is-prop-valid": "^1.2.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
-    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.1",
     "@ndelangen/fs-extra-unified": "^1.0.3",
     "@storybook/global": "^5.0.0",
     "@types/doctrine": "^0.0.3",
