@@ -31,7 +31,7 @@ export async function getStoryIndexGenerator(
 
   const initializedStoryIndexGenerator = generator.initialize().then(() => generator);
 
-  useStoriesJson({
+  await useStoriesJson({
     router,
     initializedStoryIndexGenerator,
     normalizedStories,
