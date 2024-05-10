@@ -50,7 +50,8 @@
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/preset-svelte-webpack": "workspace:*",
-    "@storybook/svelte": "workspace:*"
+    "@storybook/svelte": "workspace:*",
+    "@storybook/types": "workspace:*"
   },
   "devDependencies": {
     "svelte": "^4.0.0",

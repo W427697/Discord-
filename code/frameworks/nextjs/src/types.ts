@@ -8,9 +8,10 @@ import type {
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { CompatibleString } from '@storybook/types';
 
-type FrameworkName = '@storybook/nextjs';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = CompatibleString<'@storybook/nextjs'>;
+type BuilderName = CompatibleString<'@storybook/builder-webpack5'>;
 
 export type FrameworkOptions = ReactOptions & {
   nextConfigPath?: string;
