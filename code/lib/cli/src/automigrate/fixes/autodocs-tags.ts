@@ -7,8 +7,12 @@ import type { Fix } from '../types';
 
 const logger = console;
 
+const MIGRATION =
+  'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated';
+
 interface Options {
   autodocs: DocsOptions['autodocs'];
+  mainConfigPath?: string;
   previewConfigPath?: string;
 }
 
@@ -17,29 +21,27 @@ interface Options {
 export const autodocsTags: Fix<Options> = {
   id: 'autodocs-tags',
   versionRange: ['*.*.*', '>=8.0.*'],
-  async check({ mainConfig, previewConfigPath }) {
+  async check({ mainConfig, mainConfigPath, previewConfigPath }) {
     const autodocs = mainConfig?.docs?.autodocs;
     if (autodocs === undefined) return null;
 
     if (autodocs === true && !previewConfigPath) {
       throw Error(dedent`
         ❌ Failed to remove the deprecated ${chalk.cyan('docs.autodocs')} setting from ${chalk.cyan(
-          '.storybook/main.js'
+          mainConfigPath
         )}.
         
-        There is no preview config file to add the ${chalk.cyan('autodocs')} tag to.
+        There is no preview config file in which to add the ${chalk.cyan('autodocs')} tag.
 
-        Please perform the migration by hand: ${chalk.yellow(
-          'github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated'
-        )}
+        Please perform the migration by hand: ${chalk.yellow(MIGRATION)}
       `);
       return null;
     }
 
-    return { autodocs, previewConfigPath };
+    return { autodocs, mainConfigPath, previewConfigPath };
   },
 
-  prompt({ autodocs, previewConfigPath }) {
+  prompt({ autodocs, mainConfigPath, previewConfigPath }) {
     let falseMessage = '',
       trueMessage = '';
 
@@ -56,12 +58,10 @@ export const autodocsTags: Fix<Options> = {
 
     return dedent`
       The ${chalk.cyan('docs.autodocs')} setting in ${chalk.cyan(
-        '.storybook/main.js'
+        mainConfigPath
       )} is deprecated.${falseMessage}
         
-      Learn more: ${chalk.yellow(
-        'github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated'
-      )}
+      Learn more: ${chalk.yellow(MIGRATION)}
       
       Remove ${chalk.cyan('docs.autodocs')}${trueMessage}?
     `;
