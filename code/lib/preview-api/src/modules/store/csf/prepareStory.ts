@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
-import { dedent } from 'ts-dedent';
-
 import { global } from '@storybook/global';
 import type {
   Args,
@@ -23,7 +21,6 @@ import type {
 } from '@storybook/types';
 import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
-import { once } from '@storybook/client-logger';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
