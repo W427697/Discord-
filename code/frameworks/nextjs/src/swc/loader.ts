@@ -18,6 +18,14 @@ export const configureSWCLoader = async (
 
   const { jsConfig } = await loadJsConfig(dir, nextConfig as any);
 
+  const rawRule = baseConfig.module?.rules?.find(
+    (rule) => typeof rule === 'object' && rule?.resourceQuery?.toString() === '/raw/'
+  );
+
+  if (rawRule) {
+    rawRule.test = /^(?!__barrel_optimize__)/;
+  }
+
   baseConfig.module.rules = [
     ...baseConfig.module.rules,
     {
