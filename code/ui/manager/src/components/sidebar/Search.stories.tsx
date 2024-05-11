@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ManagerContext } from '@storybook/manager-api';
-import { within, userEvent, expect } from '@storybook/test';
+import { within, userEvent, expect, fn } from '@storybook/test';
 
 import { index } from './mockdata.large';
 import { Search } from './Search';
@@ -20,7 +20,8 @@ const getLastViewed = () =>
     .filter((item, i) => item.type === 'component' && item.parent && i % 20 === 0)
     .map((component) => ({ storyId: component.id, refId }));
 
-let queryParams: Record<string, string> = {};
+const setQueryParams = fn().mockName('setQueryParams');
+const getQueryParams = fn().mockName('setQueryParams');
 
 const meta = {
   component: Search,
@@ -50,10 +51,8 @@ const meta = {
               off: () => {},
               getShortcutKeys: () => ({ search: ['control', 'shift', 's'] }),
               selectStory: () => {},
-              setQueryParams: (params: Record<string, string>): void => {
-                queryParams = params;
-              },
-              getQueryParams: () => queryParams
+              setQueryParams,
+              getQueryParams
             },
           } as any
         }
@@ -103,7 +102,7 @@ export const Searching: Story = {
     const search = await canvas.findByPlaceholderText('Find components');
     await userEvent.clear(search);
     await userEvent.type(search, 'foo');
-    expect(queryParams).toEqual({
+    expect(setQueryParams).toHaveBeenCalledWith({
       search: 'foo'
     });
   }
@@ -119,6 +118,6 @@ export const Clearing: Story = {
     const clearIcon = await canvas.findByTitle('Clear search');
     await userEvent.click(clearIcon);
 
-    expect(queryParams).toEqual({search: null});
+    expect(setQueryParams).toHaveBeenCalledWith({search: null});
   }
 };
