@@ -10,6 +10,7 @@ export const generateSourceFiles = async () => {
   const frameworksFile = join(
     import.meta.dirname,
     '..',
+    '..',
     'src',
     'types',
     'modules',
