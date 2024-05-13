@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 import pick from 'lodash/pick.js';
 import { dequal as deepEqual } from 'dequal';
-import { create } from '@storybook/theming/create';
+import { create } from '@storybook/core/dist/theming/create';
 import { SET_CONFIG } from '@storybook/core/dist/core-events';
 import type { ThemeVars } from '@storybook/core/dist/theming';
 

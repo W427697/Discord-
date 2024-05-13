@@ -228,6 +228,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   })`;
   mainConfig.setFieldNode(
     ['webpackFinal'],
+    // @ts-expect-error (Property 'expression' does not exist on type 'BlockStatement')
     babelParse(webpackFinalCode).program.body[0].expression
   );
 }
@@ -251,6 +252,7 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
       },
     },
   })`;
+  // @ts-expect-error (Property 'expression' does not exist on type 'BlockStatement')
   mainConfig.setFieldNode(['viteFinal'], babelParse(viteFinalCode).program.body[0].expression);
 }
 
@@ -462,14 +464,11 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     // Add stories for lib/preview-api (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(
-      await workspacePath('core package', '@storybook/core/dist/preview-api'),
-      {
-        mainConfig,
-        cwd,
-        disableDocs,
-      }
-    );
+    await linkPackageStories(await workspacePath('core package', '@storybook/core'), {
+      mainConfig,
+      cwd,
+      disableDocs,
+    });
 
     await linkPackageStories(await workspacePath('core package', '@storybook/test'), {
       mainConfig,
@@ -566,6 +565,7 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
         }
       </style>
     \``;
+  // @ts-expect-error (Property 'expression' does not exist on type 'BlockStatement')
   mainConfig.setFieldNode(['previewHead'], babelParse(previewHeadCode).program.body[0].expression);
 
   // Simulate Storybook Lite
