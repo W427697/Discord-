@@ -281,12 +281,6 @@ export async function doInitiate(options: CommandOptions): Promise<
     }
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type, options);
-
-    if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
-      packageManager.addPackageResolutions({
-        '@storybook/core/dist/telemetry': versions['@storybook/core/dist/telemetry'],
-      });
-    }
   }
 
   let projectType: ProjectType;
