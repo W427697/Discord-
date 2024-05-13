@@ -128,9 +128,10 @@ jobs:
       class: xlarge
       name: sb_node_16_classic
     steps:
-      - bun-orb/setup
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - bun-orb/setup
+          version: 1.1.1
       - restore_cache:
           name: Restore Yarn cache
           keys:
