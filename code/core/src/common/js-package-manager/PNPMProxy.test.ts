@@ -71,36 +71,34 @@ describe('PNPM Proxy', () => {
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `pnpm add -D @storybook/preview-api`', async () => {
+    it('with devDep it should run `pnpm add -D @storybook/core`', async () => {
       const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('6.0.0');
 
-      await pnpmProxy.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/core/dist/preview-api',
-      ]);
+      await pnpmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/core']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         expect.objectContaining({
           command: 'pnpm',
-          args: ['add', '-D', '@storybook/core/dist/preview-api'],
+          args: ['add', '-D', '@storybook/core'],
         })
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('with devDep it should run `npm uninstall @storybook/preview-api`', async () => {
+    it('with devDep it should run `npm uninstall @storybook/core`', async () => {
       const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('6.0.0');
 
-      await pnpmProxy.removeDependencies({}, ['@storybook/core/dist/preview-api']);
+      await pnpmProxy.removeDependencies({}, ['@storybook/core']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         expect.objectContaining({
           command: 'pnpm',
-          args: ['remove', '@storybook/core/dist/preview-api'],
+          args: ['remove', '@storybook/core'],
         })
       );
     });
@@ -143,12 +141,12 @@ describe('PNPM Proxy', () => {
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
-      const version = await pnpmProxy.latestVersion('@storybook/core/dist/preview-api');
+      const version = await pnpmProxy.latestVersion('@storybook/core');
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'pnpm',
-          args: ['info', '@storybook/core/dist/preview-api', 'version', '--json'],
+          args: ['info', '@storybook/core', 'version', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -159,12 +157,12 @@ describe('PNPM Proxy', () => {
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
-      const version = await pnpmProxy.latestVersion('@storybook/core/dist/preview-api', '5.X');
+      const version = await pnpmProxy.latestVersion('@storybook/core', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'pnpm',
-          args: ['info', '@storybook/core/dist/preview-api', 'versions', '--json'],
+          args: ['info', '@storybook/core', 'versions', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -173,7 +171,7 @@ describe('PNPM Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       vi.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
-      await expect(pnpmProxy.latestVersion('@storybook/core/dist/preview-api')).rejects.toThrow();
+      await expect(pnpmProxy.latestVersion('@storybook/core')).rejects.toThrow();
     });
   });
 

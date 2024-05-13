@@ -69,32 +69,30 @@ describe('Yarn 2 Proxy', () => {
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `yarn install -D @storybook/preview-api`', async () => {
+    it('with devDep it should run `yarn install -D @storybook/core`', async () => {
       const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      await yarn2Proxy.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/core/dist/preview-api',
-      ]);
+      await yarn2Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/core']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: ['add', '-D', '@storybook/core/dist/preview-api'],
+          args: ['add', '-D', '@storybook/core'],
         })
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('should run `yarn remove @storybook/preview-api`', async () => {
+    it('should run `yarn remove @storybook/core`', async () => {
       const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      await yarn2Proxy.removeDependencies({}, ['@storybook/core/dist/preview-api']);
+      await yarn2Proxy.removeDependencies({}, ['@storybook/core']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: ['remove', '@storybook/core/dist/preview-api'],
+          args: ['remove', '@storybook/core'],
         })
       );
     });
@@ -133,21 +131,14 @@ describe('Yarn 2 Proxy', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
-        .mockResolvedValueOnce('{"name":"@storybook/preview-api","version":"5.3.19"}');
+        .mockResolvedValueOnce('{"name":"@storybook/core","version":"5.3.19"}');
 
-      const version = await yarn2Proxy.latestVersion('@storybook/core/dist/preview-api');
+      const version = await yarn2Proxy.latestVersion('@storybook/core');
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: [
-            'npm',
-            'info',
-            '@storybook/core/dist/preview-api',
-            '--fields',
-            'version',
-            '--json',
-          ],
+          args: ['npm', 'info', '@storybook/core', '--fields', 'version', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -157,22 +148,15 @@ describe('Yarn 2 Proxy', () => {
       const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce(
-          '{"name":"@storybook/preview-api","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
+          '{"name":"@storybook/core","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
         );
 
-      const version = await yarn2Proxy.latestVersion('@storybook/core/dist/preview-api', '5.X');
+      const version = await yarn2Proxy.latestVersion('@storybook/core', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           command: 'yarn',
-          args: [
-            'npm',
-            'info',
-            '@storybook/core/dist/preview-api',
-            '--fields',
-            'versions',
-            '--json',
-          ],
+          args: ['npm', 'info', '@storybook/core', '--fields', 'versions', '--json'],
         })
       );
       expect(version).toEqual('5.3.19');
@@ -181,7 +165,7 @@ describe('Yarn 2 Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
-      await expect(yarn2Proxy.latestVersion('@storybook/core/dist/preview-api')).rejects.toThrow();
+      await expect(yarn2Proxy.latestVersion('@storybook/core')).rejects.toThrow();
     });
   });
 
