@@ -5,9 +5,9 @@
     "strict": true,
     "skipDefaultLibCheck": true,
     "moduleResolution": "Bundler",
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "target": "ES2022",
     "module": "ES2022"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"]
 }
