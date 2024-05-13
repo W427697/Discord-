@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
-import type { StoryIndex } from '@storybook/core/src/src';
+import type { StoryIndex } from '@storybook/core/dist/types';
 import type { State } from '..';
 import { transformStoryIndexToStoriesHash } from '../lib/stories';
 import { getSourceType, init as initRefs } from '../modules/refs';

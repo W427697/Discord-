@@ -10,16 +10,23 @@ import type { globalsNameReferenceMap } from './globals';
 
 // Here we map the name of a module to their VALUE in the global scope.
 export const globalsNameValueMap: Required<Record<keyof typeof globalsNameReferenceMap, any>> = {
-  '@storybook/channels': CHANNELS,
-  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
-  '@storybook/core-events': CORE_EVENTS,
-  '@storybook/core-events/preview-errors': CORE_EVENTS_PREVIEW_ERRORS,
-  '@storybook/core/dist/preview-api': PREVIEW_API,
   '@storybook/global': GLOBAL,
-  '@storybook/types': TYPES,
-  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
-  '@storybook/core/dist/core-events': CORE_EVENTS,
-  '@storybook/core/dist/preview-errors': CORE_EVENTS_PREVIEW_ERRORS,
+
+  '@storybook/channels': CHANNELS,
   '@storybook/core/dist/channels': CHANNELS,
+
+  '@storybook/client-logger': CLIENT_LOGGER,
+  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
+
+  '@storybook/core-events': CORE_EVENTS,
+  '@storybook/core/dist/core-events': CORE_EVENTS,
+
+  '@storybook/core-events/preview-errors': CORE_EVENTS_PREVIEW_ERRORS,
+  '@storybook/core/dist/preview-errors': CORE_EVENTS_PREVIEW_ERRORS,
+
+  '@storybook/preview-api': PREVIEW_API,
+  '@storybook/core/dist/preview-api': PREVIEW_API,
+
+  '@storybook/types': TYPES,
   '@storybook/core/dist/types': TYPES,
 };

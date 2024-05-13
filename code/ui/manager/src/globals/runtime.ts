@@ -19,17 +19,27 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
   react: REACT,
   'react-dom': REACT_DOM,
   '@storybook/components': COMPONENTS,
-  '@storybook/core/dist/router': ROUTER,
-  '@storybook/core/dist/theming': THEMING,
   '@storybook/icons': ICONS,
   '@storybook/manager-api': MANAGER_API,
+
+  '@storybook/router': ROUTER,
+  '@storybook/core/dist/router': ROUTER,
+
+  '@storybook/theming': THEMING,
+  '@storybook/core/dist/theming': THEMING,
+
   '@storybook/channels': CHANNELS,
-  '@storybook/core-events': EVENTS,
-  '@storybook/types': TYPES,
-  '@storybook/core-events/manager-errors': EVENTS_MANAGER_ERRORS,
   '@storybook/core/dist/channels': CHANNELS,
+
+  '@storybook/core-events': EVENTS,
   '@storybook/core/dist/core-events': EVENTS,
-  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
-  '@storybook/core/dist/manager-errors': EVENTS_MANAGER_ERRORS,
+
+  '@storybook/types': TYPES,
   '@storybook/core/dist/types': TYPES,
+
+  '@storybook/core-events/manager-errors': EVENTS_MANAGER_ERRORS,
+  '@storybook/core/dist/manager-errors': EVENTS_MANAGER_ERRORS,
+
+  '@storybook/client-logger': CLIENT_LOGGER,
+  '@storybook/core/dist/client-logger': CLIENT_LOGGER,
 };
