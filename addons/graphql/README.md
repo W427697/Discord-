@@ -4,7 +4,7 @@ Storybook GraphQL Addon can be used to display the GraphiQL IDE with example que
 
 [Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md)
 
-![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/HEAD/addons/graphql/docs/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/master/addons/graphql/docs/screenshot.png)
 
 ## Getting Started
 
