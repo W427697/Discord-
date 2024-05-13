@@ -6660,6 +6660,7 @@ __metadata:
     "@storybook/cli": "workspace:*"
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
+    "@storybook/core": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
     "@storybook/csf": "npm:^0.1.7"
