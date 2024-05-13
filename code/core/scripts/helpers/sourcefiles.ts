@@ -25,7 +25,7 @@ export const generateSourceFiles = async () => {
     getWorkspace(),
     prettier.resolveConfig(frameworksFile),
   ]);
-  const frameworks = [...readFrameworks, ...thirdPartyFrameworks]
+  const frameworks = [...readFrameworks.sort(), ...thirdPartyFrameworks]
     .map((framework) => `'${framework}'`)
     .join(' | ');
 
