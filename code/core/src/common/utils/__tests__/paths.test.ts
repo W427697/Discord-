@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import path from 'path';
+import path from 'node:path';
 import { findUpSync } from 'find-up';
 import slash from 'slash';
 import { normalizeStoryPath, getProjectRoot } from '../paths';

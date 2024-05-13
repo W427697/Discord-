@@ -63,6 +63,7 @@ const esbuildDefaultOptions = {
   metafile: true,
   sourcemap: false,
   legalComments: 'none',
+  keepNames: true,
 } satisfies EsbuildContextOptions;
 
 console.log(isWatch ? 'Watching...' : 'Bundling...');

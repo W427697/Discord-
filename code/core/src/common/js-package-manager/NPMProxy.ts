@@ -2,7 +2,7 @@ import sort from 'semver/functions/sort';
 import { platform } from 'os';
 import { dedent } from 'ts-dedent';
 import { findUpSync } from 'find-up';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { logger } from '@storybook/core/dist/node-logger';
 import { JsPackageManager } from './JsPackageManager';

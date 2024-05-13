@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 
 export interface IErrorWithStdErrAndStdOut {
   stderr?: Buffer | string;

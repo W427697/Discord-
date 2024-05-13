@@ -3,10 +3,9 @@ import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
 import { execaCommand, execaCommandSync } from 'execa';
 import path from 'node:path';
-import fs from 'fs';
 
 import { dedent } from 'ts-dedent';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import invariant from 'tiny-invariant';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
@@ -97,7 +96,7 @@ export abstract class JsPackageManager {
         const turboJsonPath = `${cwd}/turbo.json`;
         const rushJsonPath = `${cwd}/rush.json`;
 
-        if (fs.existsSync(turboJsonPath) || fs.existsSync(rushJsonPath)) {
+        if (existsSync(turboJsonPath) || existsSync(rushJsonPath)) {
           return true;
         }
 
@@ -153,7 +152,7 @@ export abstract class JsPackageManager {
 
   async readPackageJson(): Promise<PackageJson> {
     const packageJsonPath = this.packageJsonPath();
-    if (!fs.existsSync(packageJsonPath)) {
+    if (!existsSync(packageJsonPath)) {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
 

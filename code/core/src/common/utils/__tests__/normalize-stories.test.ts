@@ -1,6 +1,6 @@
 /// <reference types="@testing-library/jest-dom" />;
 import { describe, it, expect, vi } from 'vitest';
-import { sep } from 'path';
+import { sep } from 'node:path';
 
 import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
 import {
@@ -14,7 +14,7 @@ expect.addSnapshotSerializer({
   test: (val) => typeof val !== 'string',
 });
 
-vi.mock('fs', () => {
+vi.mock('node:fs', () => {
   const mockStat = (
     path: string,
     options: Record<string, any>,

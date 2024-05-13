@@ -1,5 +1,5 @@
 import { existsSync, readJsonSync } from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import type { PackageJson } from '@storybook/core/dist/types';
 import { getProjectRoot } from '@storybook/core/dist/common';
 

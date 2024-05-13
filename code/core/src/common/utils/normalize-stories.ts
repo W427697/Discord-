@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import { lstatSync } from 'node:fs';
 import path from 'node:path';
 import * as pico from 'picomatch';
 import slash from 'slash';
@@ -13,7 +13,7 @@ const DEFAULT_FILES_PATTERN = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
-    return fs.lstatSync(path.resolve(configDir, entry)).isDirectory();
+    return lstatSync(path.resolve(configDir, entry)).isDirectory();
   } catch (err) {
     return false;
   }

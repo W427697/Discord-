@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import mapValues from 'lodash/mapValues.js';
 import { transformSync } from '@babel/core';
 import requireFromString from 'require-from-string';
-import fs from 'fs';
+import fs from 'node:fs';
 
 import { convert } from './index';
 import { normalizeNewlines } from '../utils';
