@@ -66,6 +66,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
   discord: antonioned/discord@0.1.0
   codecov: codecov/codecov@3.2.4
+  bun-orb: cmgriffing/bun-orb@0.0.28
   nx: nrwl/nx@1.6.2
 
 commands:
@@ -127,6 +128,7 @@ jobs:
       class: xlarge
       name: sb_node_16_classic
     steps:
+      - bun-orb/setup
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
       - restore_cache:
