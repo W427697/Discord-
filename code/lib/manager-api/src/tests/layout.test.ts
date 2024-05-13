@@ -1,7 +1,7 @@
 import type { Mock } from 'vitest';
 import { expect, describe, beforeEach, it, vi } from 'vitest';
 
-import { themes } from '@storybook/theming';
+import { themes } from '@storybook/core/dist/theming';
 import type { API_Provider } from '@storybook/core/src/src';
 import EventEmitter from 'events';
 import type { SubAPI, SubState } from '../modules/layout';

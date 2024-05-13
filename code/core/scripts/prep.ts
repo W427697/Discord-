@@ -61,7 +61,7 @@ const esbuildDefaultOptions = {
   lineLimit: 140,
   external: ['@storybook/core', ...external],
   metafile: true,
-  sourcemap: true,
+  sourcemap: false,
   legalComments: 'none',
 } satisfies EsbuildContextOptions;
 
@@ -119,6 +119,8 @@ async function generateDistFiles() {
           .filter(isNode)
           .filter(noExternals)
           .map((e) => e.file),
+        // platform: 'node',
+        // mainFields: ['main', 'module', 'browser'],
         outExtension: { '.js': '.cjs' },
         conditions: ['node', 'module', 'import', 'require'],
         external: [...nodeInternals, ...esbuildDefaultOptions.external],
@@ -149,6 +151,8 @@ async function generateDistFiles() {
                 format: 'cjs',
                 outdir: dirname(entry.file).replace('src', 'dist'),
                 target: 'node18',
+                // platform: 'node',
+                // mainFields: ['main', 'module', 'browser'],
                 entryPoints: [entry.file],
                 outExtension: { '.js': '.cjs' },
                 conditions: ['node', 'module', 'import', 'require'],
@@ -164,6 +168,7 @@ async function generateDistFiles() {
                 format: 'esm',
                 target: 'chrome100',
                 splitting: true,
+                // platform: 'browser',
                 outdir: dirname(entry.file).replace('src', 'dist'),
                 entryPoints: [entry.file],
                 conditions: ['browser', 'module', 'import', 'default'],

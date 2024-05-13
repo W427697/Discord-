@@ -3,7 +3,7 @@ import type { AnchorHTMLAttributes } from 'react';
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ThemeProvider, themes, convert } from '@storybook/theming';
+import { ThemeProvider, themes, convert } from '@storybook/core/dist/theming';
 import type { LinkProps } from './link';
 import { Link } from './link';
 

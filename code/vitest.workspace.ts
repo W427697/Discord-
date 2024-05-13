@@ -7,7 +7,6 @@ export default defineWorkspace([
   'lib/*/vitest.config.ts',
   'deprecated/*/vitest.config.ts',
   'builders/*/vitest.config.ts',
-  'ui/*/vitest.config.mts',
   'ui/*/vitest.config.ts',
   'presets/*/vitest.config.ts',
   'renderers/*/vitest.config.ts',
