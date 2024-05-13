@@ -62,9 +62,7 @@ export const reactDocgen: Fix<Options> = {
       For known "react-docgen" limitations, see: 
       ${chalk.yellow('https://github.com/storybookjs/storybook/issues/26606')}
       
-      Press Y to switch back to ${chalk.cyan(
-        'react-docgen-typesript'
-      )}, press N to use ${chalk.cyan('react-docgen')}
+      Would you like to switch back to ${chalk.cyan('react-docgen-typescript')} in your Storybook?
     `;
     }
   },
