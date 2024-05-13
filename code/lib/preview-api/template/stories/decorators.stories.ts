@@ -5,8 +5,7 @@ import type {
   PlayFunctionContext,
   StoryContext,
 } from '@storybook/types';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/test';
+import { within, expect } from '@storybook/test';
 import { useEffect } from '@storybook/preview-api';
 import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
 
@@ -15,14 +14,14 @@ export default {
   parameters: { useProjectDecorator: true },
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { ...context.args, text: `component ${context.args['text']}` } }),
+      storyFn({ args: { ...context.args, text: `component ${context.args.text}` } }),
   ],
 };
 
 export const Inheritance = {
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } }),
+      storyFn({ args: { ...context.args, text: `story ${context.args.text}` } }),
   ],
   args: {
     text: 'starting',
@@ -40,7 +39,7 @@ export const Hooks = {
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
-      return storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } });
+      return storyFn({ args: { ...context.args, text: `story ${context.args.text}` } });
     },
     // conditional decorator, runs before the above
     (storyFn: PartialStoryFn, context: StoryContext) =>

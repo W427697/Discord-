@@ -1,7 +1,6 @@
-import { expect } from '@storybook/test';
 import Head from 'next/head';
 import React from 'react';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { waitFor, expect } from '@storybook/test';
 
 function Component() {
   return (
@@ -23,7 +22,7 @@ export default {
 };
 
 export const Default = {
-  play: async ({ canvasElement }) => {
+  play: async () => {
     await waitFor(() => expect(document.title).toEqual('Next.js Head Title'));
     await expect(document.querySelectorAll('meta[property="og:title"]')).toHaveLength(1);
     await expect(document.querySelector('meta[property="og:title"]').content).toEqual(

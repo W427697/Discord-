@@ -1,5 +1,4 @@
 import { appendFile, readFile } from 'fs/promises';
-import type { PackageJson } from 'read-pkg-up';
 import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
@@ -228,10 +227,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-export async function doInitiate(
-  options: CommandOptions,
-  pkg: PackageJson
-): Promise<
+export async function doInitiate(options: CommandOptions): Promise<
   | {
       shouldRunDev: true;
       projectType: ProjectType;
@@ -242,7 +238,7 @@ export async function doInitiate(
 > {
   const { packageManager: pkgMgr } = options;
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({
+  let packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr,
   });
 
@@ -276,6 +272,13 @@ export async function doInitiate(
 
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
+    // Initializing Storybook in an empty directory with yarn1
+    // will very likely fail due to different kind of hoisting issues
+    // which doesn't get fixed anymore in yarn1.
+    // We will fallback to npm in this case.
+    if (packageManager.type === 'yarn1') {
+      packageManager = JsPackageManagerFactory.getPackageManager({ force: 'npm' });
+    }
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type, options);
 
@@ -409,14 +412,14 @@ export async function doInitiate(
   };
 }
 
-export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+export async function initiate(options: CommandOptions): Promise<void> {
   const initiateResult = await withTelemetry(
     'init',
     {
       cliOptions: options,
       printError: (err) => !err.handled && logger.error(err),
     },
-    () => doInitiate(options, pkg)
+    () => doInitiate(options)
   );
 
   if (initiateResult?.shouldRunDev) {
@@ -434,7 +437,8 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
       const flags = [];
 
       // npm needs extra -- to pass flags to the command
-      if (packageManager.type === 'npm') {
+      // in the case of Angular, we are calling `ng run` which doesn't need the extra `--`
+      if (packageManager.type === 'npm' && projectType !== ProjectType.ANGULAR) {
         flags.push('--');
       }
 

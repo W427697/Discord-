@@ -85,11 +85,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ],
     format: ['esm'],
     esbuildOptions: (options) => {
-      /* eslint-disable no-param-reassign */
       options.conditions = ['module'];
       options.platform = 'browser';
+      options.loader = {
+        ...options.loader,
+        '.png': 'dataurl',
+      };
       Object.assign(options, getESBuildOptions(optimized));
-      /* eslint-enable no-param-reassign */
     },
   };
 
@@ -124,10 +126,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'neutral',
         external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
-          /* eslint-disable no-param-reassign */
           options.platform = 'neutral';
           Object.assign(options, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );
@@ -150,19 +150,29 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       })
     );
   }
+
   if (previewEntries.length > 0) {
+    const { dtsConfig, tsConfigExists } = await getDTSConfigs({
+      formats,
+      entries: previewEntries,
+      optimized,
+    });
     tasks.push(
       build({
         ...commonOptions,
+        ...(optimized ? dtsConfig : {}),
         ...browserOptions,
+        format: ['esm', 'cjs'],
         entry: previewEntries.map((e: string) => slash(join(cwd, e))),
-        outExtension: () => ({
-          js: '.js',
-        }),
         external: [...commonExternals, ...globalPreviewPackages],
       })
     );
+
+    if (tsConfigExists && !optimized) {
+      tasks.push(...previewEntries.map(generateDTSMapperFile));
+    }
   }
+
   if (nodeEntries.length > 0) {
     tasks.push(
       build({
@@ -173,10 +183,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         external: commonExternals,
         esbuildOptions: (c) => {
-          /* eslint-disable no-param-reassign */
           c.platform = 'node';
           Object.assign(c, getESBuildOptions(optimized));
-          /* eslint-enable no-param-reassign */
         },
       })
     );

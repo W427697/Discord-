@@ -5,6 +5,7 @@ import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
 import { join } from 'path';
 import invariant from 'tiny-invariant';
+import semver from 'semver';
 
 import {
   JsPackageManagerFactory,
@@ -26,6 +27,10 @@ import { FixStatus, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
+import { doctor } from '../doctor';
+
+import { upgradeStorybookRelatedDependencies } from './fixes/upgrade-storybook-related-dependencies';
+import dedent from 'ts-dedent';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -54,8 +59,16 @@ const cleanup = () => {
 };
 
 const logAvailableMigrations = () => {
-  const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
-  logger.info(`\nThe following migrations are available: ${availableFixes}`);
+  const availableFixes = allFixes
+    .map((f) => chalk.yellow(f.id))
+    .map((x) => `- ${x}`)
+    .join('\n');
+
+  console.log();
+  logger.info(dedent`
+    The following migrations are available:
+    ${availableFixes}
+  `);
 };
 
 export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
@@ -82,7 +95,20 @@ export const doAutomigrate = async (options: AutofixOptionsFromCLI) => {
     throw new Error('Could not determine main config path');
   }
 
-  return automigrate({ ...options, packageManager, storybookVersion, mainConfigPath, configDir });
+  const outcome = await automigrate({
+    ...options,
+    packageManager,
+    storybookVersion,
+    beforeVersion: storybookVersion,
+    mainConfigPath,
+    configDir,
+    isUpgrade: false,
+    isLatest: false,
+  });
+
+  if (outcome) {
+    await doctor({ configDir, packageManager: options.packageManager });
+  }
 };
 
 export const automigrate = async ({
@@ -95,9 +121,12 @@ export const automigrate = async ({
   configDir,
   mainConfigPath,
   storybookVersion,
+  beforeVersion,
   renderer: rendererPackage,
   skipInstall,
   hideMigrationSummary = false,
+  isUpgrade,
+  isLatest,
 }: AutofixOptions): Promise<{
   fixResults: Record<string, FixStatus>;
   preCheckFailure?: PreCheckFailure;
@@ -107,8 +136,21 @@ export const automigrate = async ({
     return null;
   }
 
-  const selectedFixes = inputFixes || allFixes;
-  const fixes = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
+  const selectedFixes: Fix[] =
+    inputFixes ||
+    allFixes.filter((fix) => {
+      // we only allow this automigration when the user explicitly asks for it, or they are upgrading to the latest version of storybook
+      if (
+        fix.id === upgradeStorybookRelatedDependencies.id &&
+        isLatest === false &&
+        fixId !== upgradeStorybookRelatedDependencies.id
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  const fixes: Fix[] = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
   if (fixId && fixes.length === 0) {
     logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
@@ -128,6 +170,8 @@ export const automigrate = async ({
     configDir,
     mainConfigPath,
     storybookVersion,
+    beforeVersion,
+    isUpgrade: !!isUpgrade,
     dryRun,
     yes,
   });
@@ -171,6 +215,8 @@ export async function runFixes({
   packageManager,
   mainConfigPath,
   storybookVersion,
+  beforeVersion,
+  isUpgrade,
 }: {
   fixes: Fix[];
   yes?: boolean;
@@ -181,6 +227,8 @@ export async function runFixes({
   packageManager: JsPackageManager;
   mainConfigPath: string;
   storybookVersion: string;
+  beforeVersion: string;
+  isUpgrade?: boolean;
 }): Promise<{
   preCheckFailure?: PreCheckFailure;
   fixResults: Record<FixId, FixStatus>;
@@ -199,15 +247,22 @@ export async function runFixes({
         packageManager,
       });
 
-      result = await f.check({
-        packageManager,
-        configDir,
-        rendererPackage,
-        mainConfig,
-        storybookVersion,
-        previewConfigPath,
-        mainConfigPath,
-      });
+      if (
+        (isUpgrade &&
+          semver.satisfies(beforeVersion, f.versionRange[0], { includePrerelease: true }) &&
+          semver.satisfies(storybookVersion, f.versionRange[1], { includePrerelease: true })) ||
+        !isUpgrade
+      ) {
+        result = await f.check({
+          packageManager,
+          configDir,
+          rendererPackage,
+          mainConfig,
+          storybookVersion,
+          previewConfigPath,
+          mainConfigPath,
+        });
+      }
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
       if (error instanceof Error) {
@@ -287,7 +342,7 @@ export async function runFixes({
               type: 'confirm',
               name: 'fix',
               message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
-              initial: true,
+              initial: f.promptDefaultValue ?? true,
             },
             {
               onCancel: () => {

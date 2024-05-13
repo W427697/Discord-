@@ -1,9 +1,11 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, fn, expect } from '@storybook/test';
 import type { StoryFn as CSF2Story, StoryObj as CSF3Story, Meta } from '..';
 
 import type { ButtonProps } from './Button';
 import { Button } from './Button';
+import type { HandlerFunction } from '@storybook/addon-actions';
+import { action } from '@storybook/addon-actions';
 
 const meta = {
   title: 'Example/Button',
@@ -33,14 +35,21 @@ const getCaptionForLocale = (locale: string) => {
       return '안녕하세요!';
     case 'pt':
       return 'Olá!';
-    default:
+    case 'en':
       return 'Hello!';
+    default:
+      return undefined;
   }
 };
 
 export const CSF2StoryWithLocale: CSF2Story = (args, { globals: { locale } }) => {
   const caption = getCaptionForLocale(locale);
-  return <Button>{caption}</Button>;
+  return (
+    <>
+      <p>locale: {locale}</p>
+      <Button>{caption}</Button>
+    </>
+  );
 };
 CSF2StoryWithLocale.storyName = 'WithLocale';
 
@@ -84,7 +93,68 @@ export const CSF3InputFieldFilled: CSF3Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Step label', async () => {
-      await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
+      const inputEl = canvas.getByTestId('input');
+      await userEvent.type(inputEl, 'Hello world!');
+      await expect(inputEl).toHaveValue('Hello world!');
     });
+  },
+};
+
+const mockFn = fn();
+export const LoaderStory: CSF3Story<{ mockFn: (val: string) => string }> = {
+  args: {
+    mockFn,
+  },
+  loaders: [
+    async () => {
+      mockFn.mockReturnValueOnce('mockFn return value');
+      return {
+        value: 'loaded data',
+      };
+    },
+  ],
+  render: (args, { loaded }) => {
+    const data = args.mockFn('render');
+    return (
+      <div>
+        <div data-testid="loaded-data">{loaded.value}</div>
+        <div data-testid="spy-data">{String(data)}</div>
+      </div>
+    );
+  },
+  play: async () => {
+    expect(mockFn).toHaveBeenCalledWith('render');
+  },
+};
+
+export const WithActionArg: CSF3Story<{ someActionArg: HandlerFunction }> = {
+  args: {
+    someActionArg: action('some-action-arg'),
+  },
+  render: (args) => {
+    args.someActionArg('in render');
+    return (
+      <button
+        onClick={() => {
+          args.someActionArg('on click');
+        }}
+      />
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const buttonEl = await canvas.getByRole('button');
+    await buttonEl.click();
+  },
+};
+
+export const WithActionArgType: CSF3Story<{ someActionArg: HandlerFunction }> = {
+  argTypes: {
+    someActionArg: {
+      action: true,
+    },
+  },
+  render: () => {
+    return <div>nothing</div>;
   },
 };

@@ -1,7 +1,17 @@
 <h1>Migration</h1>
 
+- [From version 8.0.x to 8.1.x](#from-version-80x-to-81x)
+  - [Portable stories](#portable-stories)
+    - [@storybook/nextjs requires specific path aliases to be setup](#storybooknextjs-requires-specific-path-aliases-to-be-setup)
+  - [main.js `docs.autodocs` is deprecated](#mainjs-docsautodocs-is-deprecated)
+  - [`docs` and `story` system tags removed](#docs-and-story-system-tags-removed)
+  - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
+  - [Title block `of` prop](#title-block-of-prop)
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
-  - [Type change in `composeStories` API](#type-change-in-composestories-api)
+  - [Portable stories](#portable-stories-1)
+    - [Project annotations are now merged instead of overwritten in composeStory](#project-annotations-are-now-merged-instead-of-overwritten-in-composestory)
+    - [Type change in `composeStories` API](#type-change-in-composestories-api)
+    - [Composed Vue stories are now components instead of functions](#composed-vue-stories-are-now-components-instead-of-functions)
   - [Tab addons are now routed to a query parameter](#tab-addons-are-now-routed-to-a-query-parameter)
   - [Default keyboard shortcuts changed](#default-keyboard-shortcuts-changed)
   - [Manager addons are now rendered with React 18](#manager-addons-are-now-rendered-with-react-18)
@@ -61,6 +71,7 @@
     - [Removed `passArgsFirst` option](#removed-passargsfirst-option)
     - [Methods and properties from AddonStore](#methods-and-properties-from-addonstore)
     - [Methods and properties from PreviewAPI](#methods-and-properties-from-previewapi)
+    - [Removals in @storybook/components](#removals-in-storybookcomponents)
     - [Removals in @storybook/types](#removals-in-storybooktypes)
     - [--use-npm flag in storybook CLI](#--use-npm-flag-in-storybook-cli)
     - [hideNoControlsWarning parameter from addon controls](#hidenocontrolswarning-parameter-from-addon-controls)
@@ -399,9 +410,98 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 8.0.x to 8.1.x
+
+### Portable stories
+
+#### @storybook/nextjs requires specific path aliases to be setup
+
+In order to properly mock the `next/router`, `next/header`, `next/navigation` and `next/cache` APIs, the `@storybook/nextjs` framework includes internal Webpack aliases to those modules. If you use portable stories in your Jest tests, you should set the aliases in your Jest config files `moduleNameMapper` property using the `getPackageAliases` helper from `@storybook/nextjs/export-mocks`:
+
+```js
+const nextJest = require("next/jest.js");
+const { getPackageAliases } = require("@storybook/nextjs/export-mocks");
+const createJestConfig = nextJest();
+const customJestConfig = {
+  moduleNameMapper: {
+    ...getPackageAliases(), // Add aliases for @storybook/nextjs mocks
+  },
+};
+module.exports = createJestConfig(customJestConfig);
+```
+
+This will make sure you end using the correct implementation of the packages and avoid having issues in your tests.
+
+### main.js `docs.autodocs` is deprecated
+
+The `docs.autodocs` setting in `main.js` is deprecated in 8.1 and will be removed in 9.0.
+
+It has been replaced with a tags-based system which is more flexible than before.
+
+`docs.autodocs` takes three values:
+- `true`: generate autodocs for every component
+- `false`: don't generate autodocs at all
+- `tag`: generate autodocs for components that have been tagged `'autodocs'`.
+
+Starting in 8.1, to generate autodocs for every component (`docs.autodocs = true`), add the following code to `.storybook/preview.js`:
+
+```js
+// .storybook/preview.js
+export default {
+  tags: ['autodocs'],
+}
+```
+
+Tags cascade, so setting `'autodocs'` at the project level automatically propagates to every component and story. If you set autodocs globally and want to opt-out for a particular component, you can remove the `'autodocs'` tag for a component like this:
+
+```js
+// Button.stories.ts
+export default {
+  component: Button,
+  tags: ['!autodocs'],
+}
+```
+
+If you had set `docs.autodocs = 'tag'`, the default setting, you can remove the setting from `.storybook/main.js`. That is now the default behavior.
+
+If you had set `docs.autodocs = false`, this still works in 8.x, but will go away in 9.0 as a breaking change. If you don't want autodocs at all, simply remove the `'autodocs'` tag throughout your Storybook and autodocs will not be created.
+
+### `docs` and `story` system tags removed
+
+Storybook automatically added the tag `'docs'` to any docs entry in the index and `'story'` to any story entry in the index. This behavior was undocumented, and in an effort to reduce the number of tags we've removed them in 8.1. If you depended on these tags, please file an issue on the [Storybook monorepo](https://github.com/storybookjs/storybook) and let us know!
+
+### Subtitle block and `parameters.componentSubtitle`
+
+The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+`parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
+
+### Title block `of` prop
+
+The `Title` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+It still accepts being passed `children`.
+
 ## From version 7.x to 8.0.0
 
-### Type change in `composeStories` API
+### Portable stories
+
+#### Project annotations are now merged instead of overwritten in composeStory
+
+When passing project annotations overrides via `composeStory` such as:
+
+```tsx
+const projectAnnotationOverrides = { parameters: { foo: "bar" } };
+const Primary = composeStory(
+  stories.Primary,
+  stories,
+  projectAnnotationOverrides
+);
+```
+
+they are now merged with the annotations passed via `setProjectAnnotations` rather than completely overwriting them. This was seen as a bug and it's now fixed. If you have a use case where you really need this, please open an issue to elaborate.
+
+#### Type change in `composeStories` API
 
 There is a TypeScript type change in the `play` function returned from `composeStories` or `composeStory` in `@storybook/react` or `@storybook/vue3`, where before it was always defined, now it is potentially undefined. This means that you might have to make a small change in your code, such as:
 
@@ -417,6 +517,33 @@ await Primary.play!(...) // if you want a runtime error when the play function d
 ```
 
 There are plans to make the type of the play function be inferred based on your imported story's play function in a near future, so the types will be 100% accurate.
+
+#### Composed Vue stories are now components instead of functions
+
+`composeStory` (and `composeStories`) from `@storybook/vue3` now return Vue components rather than story functions that return components. This means that when rendering these composed stories you just pass the composed story _without_ first calling it.
+
+Previously when using `composeStory` from `@storybook/testing-vue3`, you would render composed stories with e.g. `render(MyStoryComposedStory({ someProp: true}))`. That is now changed to more [closely match how you would render regular Vue components](https://testing-library.com/docs/vue-testing-library/examples).
+
+When migrating from `@storybook/testing-vue3`, you will likely hit the following error:
+
+```ts
+TypeError: Cannot read properties of undefined (reading 'devtoolsRawSetupState')
+```
+
+To fix it, you should change the usage of the composed story to reference it instead of calling it as a function. Here's an example using `@testing-library/vue` and Vitest:
+
+```diff
+import { it } from 'vitest';
+import { render } from '@testing-library/vue';
+import * as stories from './Button.stories';
+import { composeStory } from '@storybook/vue3';
+
+it('renders primary button', () => {
+  const Primary = composeStory(stories.Primary, stories.default);
+-  render(Primary({ label: 'Hello world' }));
++  render(Primary, { props: { label: 'Hello world' } });
+});
+```
 
 ### Tab addons are now routed to a query parameter
 
@@ -462,8 +589,8 @@ For migrating to CSF, see: [`storyStoreV6` and `storiesOf` is deprecated](#story
 In Storybook 7, these packages existed for backwards compatibility, but were marked as deprecated:
 
 - `@storybook/addons` - this package has been split into 2 packages: `@storybook/preview-api` and `@storybook/manager-api`, see more here: [New Addons API](#new-addons-api).
-- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channel`.
-- `@storybook/channel-websocket` - this package has been merged into `@storybook/channel`.
+- `@storybook/channel-postmessage` - this package has been merged into `@storybook/channels`.
+- `@storybook/channel-websocket` - this package has been merged into `@storybook/channels`.
 - `@storybook/client-api` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/core-client` - this package has been merged into `@storybook/preview-api`.
 - `@storybook/preview-web` - this package has been merged into `@storybook/preview-api`.
@@ -506,7 +633,7 @@ export default defineConfig({
 
 ```ts
 import { defineConfig } from "vite";
-import svelte from "@sveltejs/vite-plugin-svelte";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -555,7 +682,6 @@ This means https://github.com/IanVS/vite-plugin-turbosnap is no longer necessary
 ### `--webpack-stats-json` option renamed `--stats-json`
 
 Now that both Vite and Webpack support the `preview-stats.json` file, the flag has been renamed. The old flag will continue to work.
-
 
 ### Implicit actions can not be used during rendering (for example in the play function)
 
@@ -992,6 +1118,45 @@ The following exports from `@storybook/preview-api` are now removed:
 
 Please file an issue if you need these APIs.
 
+#### Removals in @storybook/components
+
+The `TooltipLinkList` UI component used to customize the Storybook toolbar has been updated to use the `icon` property instead of the `left` property to position its content. If you've enabled this property in your `globalTypes` configuration, addons, or any other place, you'll need to replace it with an `icon` property to mimic the same behavior. For example:
+
+```diff
+// .storybook/preview.js|ts
+// Replace your-framework with the framework you are using (e.g., react, vue3)
+import { Preview } from '@storybook/your-framework';
+
+const preview: Preview = {
+  globalTypes: {
+    locale: {
+      description: 'Internationalization locale',
+      defaultValue: 'en',
+      toolbar: {
+        icon: 'globe',
+        items: [
+          {
+            value: 'en',
+            right: '🇺🇸',
+-            left: '＄'
++            icon: 'facehappy'
+            title: 'English'
+          },
+          { value: 'fr', right: '🇫🇷', title: 'Français' },
+          { value: 'es', right: '🇪🇸', title: 'Español' },
+          { value: 'zh', right: '🇨🇳', title: '中文' },
+          { value: 'kr', right: '🇰🇷', title: '한국어' },
+        ],
+      },
+    },
+  },
+};
+
+export default preview;
+```
+
+To learn more about the available icons and their names, see the [Storybook documentation](https://storybook.js.org/docs/8.0/faq#what-icons-are-available-for-my-toolbar-or-my-addon).
+
 #### Removals in @storybook/types
 
 The following exports from `@storybook/types` are now removed:
@@ -1013,7 +1178,7 @@ The `hideNoControlsWarning` parameter is now removed. [More info here](#addon-co
 The `setGlobalConfig` (used for reusing stories in your tests) is now removed in favor of `setProjectAnnotations`.
 
 ```ts
-import { setProjectAnnotations } from `@storybook/testing-react`.
+import { setProjectAnnotations } from `@storybook/react`.
 ```
 
 #### StorybookViteConfig type from @storybook/builder-vite
@@ -3734,7 +3899,7 @@ export default {
 We are replacing `@storybook/addon-knobs` with `@storybook/addon-controls`.
 
 - [Rationale & discussion](https://github.com/storybookjs/storybook/discussions/15060)
-- [Migration notes](https://github.com/storybookjs/storybook/blob/next/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
+- [Migration notes](https://github.com/storybookjs/storybook/blob/next/code/addons/controls/README.md#how-do-i-migrate-from-addon-knobs)
 
 #### Deprecated scoped blocks imports
 
@@ -4091,7 +4256,7 @@ For more information, [see the documentation](https://github.com/storybookjs/sto
 
 Storybook has built-in Typescript support in 6.0. That means you should remove your complex Typescript configurations from your `.storybook` config. We've tried to pick sensible defaults that work out of the box, especially for nice prop table generation in `@storybook/addon-docs`.
 
-To migrate from an old setup, we recommend deleting any typescript-specific webpack/babel configurations in your project. You should also remove `@storybook/preset-typescript`, which is superceded by the built-in configuration.
+To migrate from an old setup, we recommend deleting any typescript-specific webpack/babel configurations in your project. You should also remove `@storybook/preset-typescript`, which is superseded by the built-in configuration.
 
 If you want to override the defaults, see the [typescript configuration docs](https://storybook.js.org/docs/react/configure/typescript).
 
@@ -4963,7 +5128,7 @@ SB 5.1.0 added [support for project root `babel.config.js` files](https://github
 
 ### React native server
 
-Storybook 5.1 contains a major overhaul of `@storybook/react-native` as compared to 4.1 (we didn't ship a version of RN in 5.0 due to timing constraints). Storybook for RN consists of an an UI for browsing stories on-device or in a simulator, and an optional webserver which can also be used to browse stories and web addons.
+Storybook 5.1 contains a major overhaul of `@storybook/react-native` as compared to 4.1 (we didn't ship a version of RN in 5.0 due to timing constraints). Storybook for RN consists of an UI for browsing stories on-device or in a simulator, and an optional webserver which can also be used to browse stories and web addons.
 
 5.1 refactors both pieces:
 
@@ -5391,7 +5556,7 @@ Currently there is no recommended way of accessing the component options of a st
 
 ## From version 4.0.x to 4.1.x
 
-There are are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
+There are a few migrations you should be aware of in 4.1, including one unintentionally breaking change for advanced addon usage.
 
 ### Private addon config
 
@@ -5484,7 +5649,7 @@ The `@storybook/react-native` had built-in addons (`addon-actions` and `addon-li
 
 1. `imageSnapshot` test function was extracted from `addon-storyshots`
    and moved to a new package - `addon-storyshots-puppeteer` that now will
-   be dependant on puppeteer. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer)
+   be dependent on puppeteer. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-puppeteer)
 2. `getSnapshotFileName` export was replaced with the `Stories2SnapsConverter`
    class that now can be overridden for a custom implementation of the
    snapshot-name generation. [README](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-core#stories2snapsconverter)

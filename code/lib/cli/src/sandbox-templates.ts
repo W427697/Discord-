@@ -201,6 +201,28 @@ const baseTemplates = {
     },
     skipTasks: ['bench'],
   },
+  'react-vite/prerelease-ts': {
+    name: 'React Prerelease (Vite | TypeScript)',
+    /**
+     * 1. Create a Vite project with the React template
+     * 2. Add React beta versions
+     * 3. Add resolutions for @types/react and @types/react-dom, see https://react.dev/blog/2024/04/25/react-19-upgrade-guide#installing
+     * 4. Add @types/react and @types/react-dom pointing to the beta packages
+     */
+    script: `
+      npm create vite --yes {{beforeDir}} -- --template react-ts && \
+      cd {{beforeDir}} && \
+      yarn add react@beta react-dom@beta && \
+      jq '.resolutions += {"@types/react": "npm:types-react@beta", "@types/react-dom": "npm:types-react-dom@beta"}' package.json > tmp.json && mv tmp.json package.json && \
+      yarn add --dev @types/react@npm:types-react@beta @types/react-dom@npm:types-react-dom@beta
+      `,
+    expected: {
+      framework: '@storybook/react-vite',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
   'react-webpack/18-ts': {
     name: 'React Latest (Webpack | TypeScript)',
     script: 'yarn create webpack5-react {{beforeDir}}',
@@ -215,6 +237,26 @@ const baseTemplates = {
     name: 'React v17 (Webpack | TypeScript)',
     script:
       'yarn create webpack5-react {{beforeDir}} --version-react="17" --version-react-dom="17"',
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'react-webpack/prerelease-ts': {
+    name: 'React Prerelease (Webpack | TypeScript)',
+    /**
+     * 1. Create a Webpack project with React beta versions
+     * 3. Add resolutions for @types/react and @types/react-dom, see https://react.dev/blog/2024/04/25/react-19-upgrade-guide#installing
+     * 4. Add @types/react and @types/react-dom pointing to the beta packages
+     */
+    script: `
+      yarn create webpack5-react {{beforeDir}} --version-react="beta" --version-react-dom="beta" && \
+      cd {{beforeDir}} && \
+      jq '.resolutions += {"@types/react": "npm:types-react@beta", "@types/react-dom": "npm:types-react-dom@beta"}' package.json > tmp.json && mv tmp.json package.json && \
+      yarn add --dev @types/react@npm:types-react@beta @types/react-dom@npm:types-react-dom@beta
+      `,
     expected: {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
@@ -429,6 +471,9 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-vite/default-ts': {
@@ -439,11 +484,14 @@ const baseTemplates = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-vite',
     },
+    modifications: {
+      extraDependencies: ['preact-render-to-string'],
+    },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'qwik-vite/default-ts': {
     name: 'Qwik CLI Latest (Vite | TypeScript)',
-    script: 'yarn create qwik basic {{beforeDir}}',
+    script: 'npm create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {
@@ -622,10 +670,13 @@ export const daily: TemplateKey[] = [
   'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
+  'react-vite/prerelease-ts',
+  'react-webpack/prerelease-ts',
   'vue3-vite/default-js',
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
+  'svelte-kit/prerelease-ts',
   'svelte-vite/default-js',
   'nextjs/13-ts',
   'nextjs/default-js',

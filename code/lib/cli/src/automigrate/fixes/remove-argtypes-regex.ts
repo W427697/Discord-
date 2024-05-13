@@ -9,6 +9,7 @@ import chalk from 'chalk';
 export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPath: string }> = {
   id: 'remove-argtypes-regex',
   promptType: 'manual',
+  versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
   async check({ previewConfigPath }) {
     if (!previewConfigPath) return null;
 
@@ -33,49 +34,28 @@ export const removeArgtypesRegex: Fix<{ argTypesRegex: NodePath; previewConfigPa
     return argTypesRegex ? { argTypesRegex, previewConfigPath } : null;
   },
   prompt({ argTypesRegex, previewConfigPath }) {
-    const snippet = dedent`
-      import { fn } from '@storybook/test';
-      export default {
-        args: { onClick: fn() }, // will log to the action panel when clicked
-      };`;
-
-    // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
-    const file: BabelFile = new babel.File(
-      { file: 'story.tsx' },
-      { code: snippet, ast: babelParse(snippet) }
-    );
-
-    let formattedSnippet;
-    file.path.traverse({
-      Identifier: (path) => {
-        if (path.node.name === 'fn') {
-          formattedSnippet = path.buildCodeFrameError(``).message;
-        }
-      },
-    });
-
     return dedent`
       ${chalk.bold('Attention')}: We've detected that you're using argTypesRegex:
       
       ${argTypesRegex.buildCodeFrameError(`${previewConfigPath}`).message}
 
-      In Storybook 8, we recommend removing this regex.
-      Assign explicit spies with the ${chalk.cyan('fn')} function instead:      
-      ${formattedSnippet}
+      Storybook's play functions let you render your stories interactively.
       
-      The above pattern is needed when using spies in the play function, ${chalk.bold(
-        'even'
-      )} if you keep using argTypesRegex.
-      Implicit spies (based on a combination of argTypesRegex and docgen) is not supported in Storybook 8.
+      In the past, play functions mocked action args implicitly by analyzing the argTypesRegex
+      in your preview.js|ts file.
       
-      Use the following command to check for spy usages in your play functions:
-       ${chalk.cyan(
-         'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
-       )}
+      However, Storybook 8 changes this behavior, and we now recommend using the 
+      (fn) function to mock your component's methods instead.
+      
+      Use the following command to check for implied mocked actions in your play functions:
+      ${chalk.cyan(
+        'npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"'
+      )}
        
-      Make sure to assign an explicit ${chalk.cyan('fn')} to your args for those usages. 
-      
-      For more information please visit our migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function
+      Then, refer to our docs to migrate your play functions to Storybook 8: 
+      ${chalk.yellow(
+        'https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function'
+      )}
     `;
   },
 };

@@ -2,7 +2,6 @@ module.exports = {
   toc: [
     {
       pathSegment: 'get-started',
-      redirectPath: 'get-started/install',
       title: 'Get started',
       type: 'heading',
       children: [
@@ -24,8 +23,58 @@ module.exports = {
           type: 'menu',
           children: [
             {
+              pathSegment: 'angular',
+              title: 'Angular',
+              type: 'link',
+            },
+            {
               pathSegment: 'nextjs',
               title: 'Next.js',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-vite',
+              title: 'React & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'react-webpack5',
+              title: 'React & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'sveltekit',
+              title: 'SvelteKit',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-vite',
+              title: 'Svelte & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'svelte-webpack5',
+              title: 'Svelte & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-vite',
+              title: 'Vue & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'vue3-webpack5',
+              title: 'Vue & Webpack',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-vite',
+              title: 'Web components & Vite',
+              type: 'link',
+            },
+            {
+              pathSegment: 'web-components-webpack5',
+              title: 'Web components & Webpack',
               type: 'link',
             },
           ],
@@ -88,9 +137,36 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'tags',
+          title: 'Tags',
+          type: 'link',
+        },
+        {
           pathSegment: 'naming-components-and-hierarchy',
           title: 'Naming components and hierarchy',
           type: 'link',
+        },
+        {
+          pathSegment: '',
+          title: 'Mocking data and modules',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'mocking-modules',
+              title: 'Modules',
+              type: 'link',
+            },
+            {
+              pathSegment: 'mocking-network-requests',
+              title: 'Network requests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'mocking-providers',
+              title: 'Providers',
+              type: 'link',
+            },
+          ],
         },
         {
           pathSegment: 'build-pages-with-storybook',
@@ -173,12 +249,12 @@ module.exports = {
           children: [
             {
               pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
+              title: 'Write',
               type: 'link',
             },
             {
               pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
+              title: 'Storyshots migration guide',
               type: 'link',
             },
           ],
@@ -562,7 +638,7 @@ module.exports = {
               pathSegment: 'main-config-static-dirs',
               type: 'link',
             },
-             {
+            {
               title: 'swc',
               pathSegment: 'main-config-swc',
               type: 'link',
@@ -692,6 +768,31 @@ module.exports = {
           ],
         },
         {
+          title: 'Portable stories',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            // Unpublished for now
+            // {
+            //   pathSegment: 'portable-stories-jest',
+            //   title: 'Jest',
+            //   type: 'link',
+            // },
+            {
+              pathSegment: 'portable-stories-playwright',
+              title: 'Playwright',
+              type: 'link',
+            },
+            // Unpublished for now
+            // {
+            //   pathSegment: 'portable-stories-vitest',
+            //   title: 'Vitest',
+            //   type: 'link',
+            // },
+          ],
+        },
+        
+        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
@@ -753,9 +854,16 @@ module.exports = {
       type: 'link',
     },
     {
-      title: 'Migrate to 8.0',
       pathSegment: 'migration-guide',
-      type: 'link',
+      title: 'Migrate to 8.0',
+      type: 'heading',
+      children: [
+        {
+          title: 'Migrate from 6.x to 8.0',
+          pathSegment: 'from-older-version',
+          type: 'link',
+        },
+      ],
     },
   ],
 };

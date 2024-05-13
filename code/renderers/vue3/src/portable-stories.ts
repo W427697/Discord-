@@ -5,15 +5,25 @@ import {
 } from '@storybook/preview-api';
 import type {
   Args,
+  NamedOrDefaultProjectAnnotations,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
 } from '@storybook/types';
+import { h } from 'vue';
 
-import * as defaultProjectAnnotations from './render';
+import * as defaultProjectAnnotations from './entry-preview';
 import type { Meta } from './public-types';
 import type { VueRenderer } from './types';
+
+type JSXAble<TElement> = TElement & {
+  new (...args: any[]): any;
+  $props: any;
+};
+type MapToJSXAble<T> = {
+  [K in keyof T]: JSXAble<T[K]>;
+};
 
 /** Function that sets the globalConfig of your Storybook. The global config is the preview module of your .storybook folder.
  *
@@ -31,7 +41,9 @@ import type { VueRenderer } from './types';
  * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<VueRenderer> | ProjectAnnotations<VueRenderer>[]
+  projectAnnotations:
+    | NamedOrDefaultProjectAnnotations<VueRenderer>
+    | NamedOrDefaultProjectAnnotations<VueRenderer>[]
 ) {
   originalSetProjectAnnotations<VueRenderer>(projectAnnotations);
 }
@@ -53,7 +65,7 @@ export function setProjectAnnotations(
  * const Primary = composeStory(PrimaryStory, Meta);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -69,13 +81,21 @@ export function composeStory<TArgs extends Args = Args>(
   projectAnnotations?: ProjectAnnotations<VueRenderer>,
   exportsName?: string
 ) {
-  return originalComposeStory<VueRenderer, TArgs>(
+  const composedStory = originalComposeStory<VueRenderer, TArgs>(
     story as StoryAnnotationsOrFn<VueRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
     exportsName
   );
+
+  // Returning h(composedStory) instead makes it an actual Vue component renderable by @testing-library/vue, Playwright CT, etc.
+  const renderable = (...args: Parameters<typeof composedStory>) => h(composedStory(...args));
+  Object.assign(renderable, composedStory);
+
+  // typing this as newable means TS allows it to be used as a JSX element
+  // TODO: we should do the same for composeStories as well
+  return renderable as unknown as JSXAble<typeof composedStory>;
 }
 
 /**
@@ -95,7 +115,7 @@ export function composeStory<TArgs extends Args = Args>(
  * const { Primary, Secondary } = composeStories(stories);
  *
  * test('renders primary button with Hello World', () => {
- *   const { getByText } = render(Primary({label: "Hello world"}));
+ *   const { getByText } = render(Primary, { props: { label: "Hello world" } });
  *   expect(getByText(/Hello world/i)).not.toBeNull();
  * });
  *```
@@ -110,8 +130,7 @@ export function composeStories<TModule extends Store_CSFExports<VueRenderer, any
   // @ts-expect-error Deep down TRenderer['canvasElement'] resolves to canvasElement: unknown but VueRenderer uses WebRenderer where canvasElement is HTMLElement, so the types clash
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
-  return composedStories as unknown as Omit<
-    StoriesWithPartialProps<VueRenderer, TModule>,
-    keyof Store_CSFExports
+  return composedStories as unknown as MapToJSXAble<
+    Omit<StoriesWithPartialProps<VueRenderer, TModule>, keyof Store_CSFExports>
   >;
 }
