@@ -15,7 +15,7 @@ type BuilderName = '@storybook/builder-webpack5';
 
 export type FrameworkOptions = ReactOptions & {
   nextConfigPath?: string;
-  image?: NextImage.ImageProps;
+  image?: Partial<NextImage.ImageProps>;
   builder?: BuilderOptions;
 };
 
