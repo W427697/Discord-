@@ -2,13 +2,14 @@ import * as REACT from 'react';
 import * as REACT_DOM from 'react-dom';
 
 import * as COMPONENTS from '@storybook/components';
+import * as ICONS from '@storybook/icons';
+import * as MANAGER_API from '@storybook/manager-api';
+
 import * as CHANNELS from '@storybook/core/dist/channels';
 import * as EVENTS from '@storybook/core/dist/core-events';
 import * as EVENTS_MANAGER_ERRORS from '@storybook/core/dist/manager-errors';
 import * as ROUTER from '@storybook/core/dist/router';
-import * as ICONS from '@storybook/icons';
 import * as THEMING from '@storybook/core/dist/theming';
-import * as MANAGER_API from '@storybook/manager-api';
 import * as TYPES from '@storybook/core/dist/types';
 import * as CLIENT_LOGGER from '@storybook/core/dist/client-logger';
 
