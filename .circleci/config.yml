@@ -130,7 +130,7 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
-      - bun-orb/setup
+      - bun-orb/setup:
           version: 1.1.1
       - restore_cache:
           name: Restore Yarn cache
