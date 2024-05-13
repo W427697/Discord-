@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
-import { dedent } from 'ts-dedent';
-
 import { global } from '@storybook/global';
 import type {
   Args,
@@ -16,6 +14,7 @@ import type {
   StrictArgTypes,
 } from '@storybook/core/dist/types';
 import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
@@ -30,10 +29,9 @@ import type {
   PreparedMeta,
   PreparedStory,
 } from '@storybook/core/dist/types';
-import { once } from '@storybook/core/dist/client-logger';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
-// into a "renderable" story function, with all decorators applied, parameters passed as context etc
+// into a "render-able" story function, with all decorators applied, parameters passed as context etc
 //
 // Note that this story function is *stateless* in the sense that it does not track args or globals
 // Instead, it is expected these are tracked separately (if necessary) and are passed into each invocation.
@@ -160,13 +158,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // will have a limited cost. If this proves misguided, we can refactor it.
 
   const defaultTags = ['dev', 'test'];
-  if (typeof globalThis.DOCS_OPTIONS?.autodocs !== 'undefined') {
-    once.warn(dedent`
-      The \`docs.autodocs\` setting in '.storybook/main.js' is deprecated. Use \`tags: ['autodocs']\` in \`.storybook/preview.js\` instead.
-
-      For more info see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsautodocs-is-deprecated
-    `);
-  }
   const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
 
   const tags = combineTags(
