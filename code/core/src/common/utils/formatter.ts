@@ -1,17 +1,14 @@
 import semver from 'semver';
 import { dedent } from 'ts-dedent';
 
-// TODO: should remove this v2 business when we drop support for v2
-type Prettier = typeof import('prettier-v2') | typeof import('prettier-v3');
-type PrettierVersion = 2 | 3;
+type Prettier = typeof import('prettier');
+type PrettierVersion = 3;
 
 let prettierInstance: Prettier | undefined;
-let prettierVersion: 2 | 3 | null = null;
+let prettierVersion: 3 | null = null;
 
 const getPrettier = async (): Promise<
-  | { instance: undefined; version: null }
-  | { instance: typeof import('prettier-v2'); version: 2 }
-  | { instance: typeof import('prettier-v3'); version: 3 }
+  { instance: undefined; version: null } | { instance: typeof import('prettier'); version: 3 }
 > => {
   if (!prettierInstance) {
     try {
@@ -47,7 +44,6 @@ export async function formatFileContent(filePath: string, content: string): Prom
     const prettier = await getPrettier();
 
     switch (prettier.version) {
-      case 2:
       case 3:
         const config = await prettier.instance.resolveConfig(filePath);
 
@@ -80,7 +76,7 @@ export async function formatFileContent(filePath: string, content: string): Prom
 }
 
 async function formatWithEditorConfig(filePath: string, content: string) {
-  const prettier = await import('prettier-fallback');
+  const prettier = await import('prettier');
   const config = await prettier.resolveConfig(filePath, { editorconfig: true });
 
   if (!config || Object.keys(config).length === 0) {
