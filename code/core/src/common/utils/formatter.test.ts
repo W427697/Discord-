@@ -34,24 +34,8 @@ describe('formatter', () => {
   describe('withPrettierConfig', () => {
     const testPath = path.resolve(__dirname, '__tests-formatter__', 'withPrettierConfig');
 
-    describe('prettier-v2', async () => {
-      const prettierV2 = await import('prettier-v2');
-
-      it('formats content with prettier', async () => {
-        mockPrettier.format.mockImplementation(prettierV2.format);
-        mockPrettier.version.mockReturnValue(prettierV2.version);
-        mockPrettier.resolveConfig.mockImplementation(prettierV2.resolveConfig);
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toMatchSnapshot();
-      });
-    });
-
-    describe('prettier-v3', async () => {
-      const prettierV3 = await import('prettier-v3');
+    describe('prettier', async () => {
+      const prettierV3 = await import('prettier');
 
       it('formats content with prettier', async () => {
         mockPrettier.format.mockImplementation(prettierV3.format);
@@ -84,24 +68,8 @@ describe('formatter', () => {
   describe('withoutPrettierConfigAndWithEditorConfig', () => {
     const testPath = path.resolve(__dirname, '__tests-formatter__', 'withoutPrettierConfig');
 
-    describe('prettier-v2', async () => {
-      const prettierV2 = await import('prettier-v2');
-
-      it('formats content with prettier', async () => {
-        mockPrettier.format.mockImplementation(prettierV2.format);
-        mockPrettier.version.mockReturnValue(prettierV2.version);
-        mockPrettier.resolveConfig.mockImplementation(prettierV2.resolveConfig);
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toMatchSnapshot();
-      });
-    });
-
     describe('prettier-v3', async () => {
-      const prettierV3 = await import('prettier-v3');
+      const prettierV3 = await import('prettier');
 
       it('formats content with prettier', async () => {
         mockPrettier.format.mockImplementation(prettierV3.format);
@@ -134,24 +102,8 @@ describe('formatter', () => {
   describe('withoutPrettierConfigAndWithEditorConfig', () => {
     const testPath = path.resolve(__dirname, '__tests-formatter__', 'withoutEditorConfig');
 
-    describe('prettier-v2', async () => {
-      const prettierV2 = await import('prettier-v2');
-
-      it('formats content with prettier', async () => {
-        mockPrettier.format.mockImplementation(prettierV2.format);
-        mockPrettier.version.mockReturnValue(prettierV2.version);
-        mockPrettier.resolveConfig.mockResolvedValue(null);
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toBe(dummyContent);
-      });
-    });
-
     describe('prettier-v3', async () => {
-      const prettierV3 = await import('prettier-v3');
+      const prettierV3 = await import('prettier');
 
       it('formats content with prettier', async () => {
         mockPrettier.format.mockImplementation(prettierV3.format);
