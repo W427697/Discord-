@@ -51,6 +51,7 @@
     "@storybook/core-server": "workspace:*",
     "@storybook/html": "workspace:*",
     "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
     "magic-string": "^0.30.0"
   },
   "devDependencies": {
