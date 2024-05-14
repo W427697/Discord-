@@ -97,7 +97,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   }
 
   logger.info(`Linking ${reproDir}`);
-  await exec(`yarn link --all ${storybookDir}`, { cwd: reproDir });
+  await exec(`yarn link --all --relative ${storybookDir}`, { cwd: reproDir });
 
   logger.info(`Installing ${reproName}`);
   await exec(`yarn install`, { cwd: reproDir });
