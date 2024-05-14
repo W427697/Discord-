@@ -1,0 +1,42 @@
+```ts filename=".storybook/main.ts" renderer="common" language="ts" tabTitle="main-ts"
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  framework: '@storybook/your-framework',
+  stories: ['../src'],
+};
+
+export default config;
+```
+
+```ts filename=".storybook/main.ts" renderer="common" language="ts" tabTitle="main-ts"
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  core: {
+    disableTelemetry: true, // 👈 Disables telemetry
+  },
+};
+
+export default config;
+```
+
+```ts filename=".storybook/main.ts" renderer="common" language="ts" tabTitle="main-ts"
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  core: {
+    enableCrashReports: true, // 👈 Appends the crash reports to the telemetry events
+  },
+};
+
+export default config;
+```
+

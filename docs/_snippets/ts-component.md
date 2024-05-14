@@ -1,0 +1,14 @@
+```ts filename="CustomDocumentationComponent.ts|tsx" renderer="common" language="ts" tabTitle="ts-component"
+export const CustomDocumentationComponent: React.FC = () => {
+  return (
+    <div>
+      <h1>Replacing DocsPage with a custom component</h1>
+      <p>
+        The Docs page can be customized with your own custom content written as a React Component.
+      </p>
+      <p>Write your own code here👇</p>
+    </div>
+  );
+};
+```
+
