@@ -20,7 +20,6 @@ import {
   getStorybookInfo,
   loadMainConfig,
   JsPackageManagerFactory,
-  getCoercedStorybookVersion,
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
