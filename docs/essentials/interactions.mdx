@@ -20,7 +20,7 @@ By default, the [`@storybook/addon-interactions`](https://storybook.js.org/addon
 
 Run the following command to install the interactions addon and related dependencies.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -30,11 +30,11 @@ Run the following command to install the interactions addon and related dependen
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -43,7 +43,7 @@ Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-ren
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -61,7 +61,7 @@ Interactions run as part of the `play` function of your stories. We rely on Test
 
 Make sure to import the Storybook wrappers for Vitest and Testing Library via `@storybook/test` rather than importing the original packages directly.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -75,7 +75,7 @@ Make sure to import the Storybook wrappers for Vitest and Testing Library via `@
   csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The above example uses the `canvasElement` to scope your element queries to the current story. It's essential if you want your play functions to eventually be compatible with Storybook Docs, which renders multiple components on the same page. Additionally, the `step` function can be used to create labeled groups of interactions.
 

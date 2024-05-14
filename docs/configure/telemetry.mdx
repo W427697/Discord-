@@ -45,7 +45,7 @@ Access to the raw data is highly controlled, limited to select members of Storyb
 
 We take your privacy and our security very seriously. We perform additional steps to ensure that secure data (e.g., environment variables or other forms of sensitive data) **do not** make their way into our analytics. You can view all the information we collect by setting the `STORYBOOK_TELEMETRY_DEBUG` to `1` to print out the information gathered. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -54,7 +54,7 @@ We take your privacy and our security very seriously. We perform additional step
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Will generate the following output:
 
@@ -159,7 +159,7 @@ In the future, we plan to share relevant data with the community through public 
 
 You may opt-out of the telemetry by setting Storybook's configuration element `disableTelemetry` to `true`, using the `--disable-telemetry` flag, or setting the environment variable`STORYBOOK_DISABLE_TELEMETRY` to `1`. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -172,7 +172,7 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -184,7 +184,7 @@ There is a `boot` event containing no metadata (used to ensure the telemetry is 
 
 In addition to general usage telemetry, you may also choose to share crash reports. Storybook will then sanitize the error object (removing all user paths) and append it to the telemetry event. To enable crash reporting, you can set the `enableCrashReports` configuration element to `true`, using the `--enable-crash-reports` flag, or set the `STORYBOOK_ENABLE_CRASH_REPORTS` environment variable to `1`. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -197,11 +197,11 @@ In addition to general usage telemetry, you may also choose to share crash repor
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Generates the following item in the telemetry event:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -209,4 +209,4 @@ Generates the following item in the telemetry event:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

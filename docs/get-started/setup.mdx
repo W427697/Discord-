@@ -6,7 +6,7 @@ Now that you’ve learned what stories are and how to browse them, let’s demo 
 
 Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.ts` file to go along with it. It might look something like this:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -29,7 +29,7 @@ Pick a simple component from your project, like a Button, and write a `.stories.
   csf2Path="get-started/setup#snippet-your-component"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Go to your Storybook to view the rendered component. It’s OK if it looks a bit unusual right now.
 
@@ -86,7 +86,7 @@ A common frontend pattern is for components to assume that they render in a spec
 
 Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fontawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -102,7 +102,7 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </details>
 

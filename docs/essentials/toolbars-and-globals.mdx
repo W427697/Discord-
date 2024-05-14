@@ -18,7 +18,7 @@ When the globals change, the story re-renders, and the decorators rerun with the
 
 Storybook has a simple, declarative syntax for configuring toolbar menus. In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), you can add your own toolbars by creating `globalTypes` with a `toolbar` annotation:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -27,7 +27,7 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -45,7 +45,7 @@ We have a `global` implemented. Let's wire it up! We can consume our new `theme`
 
 For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -54,7 +54,7 @@ For example, suppose you are using [`styled-components`](https://styled-componen
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -62,7 +62,7 @@ For example, suppose you are using [`styled-components`](https://styled-componen
 
 For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -71,7 +71,7 @@ For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You c
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -79,7 +79,7 @@ For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You c
 
 For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,7 +87,7 @@ For example, suppose you are using [`Angular Material`](https://material.angular
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -95,7 +95,7 @@ For example, suppose you are using [`Angular Material`](https://material.angular
 
 Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -104,7 +104,7 @@ Depending on your framework and theming library, you can extend your [`.storyboo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -116,7 +116,7 @@ Now let's take a look at a more complex example. Let's suppose we wanted to impl
 
 In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering), add the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -125,7 +125,7 @@ In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rende
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡" style={{ marginBottom: '10px' }}>
 
@@ -159,7 +159,7 @@ But we're aware that sometimes it's more beneficial to use toolbar options on a 
 
 Using the example above, you can modify any story to retrieve the **Locale** `global` from the story context:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -179,7 +179,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
   csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Consuming globals from within an addon
 
@@ -187,7 +187,7 @@ If you're working on a Storybook addon and need to retrieve globals, you can do 
 
 Using the ThemeProvider example above, you could expand it to display which theme is active inside a panel as such:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -195,7 +195,7 @@ Using the ThemeProvider example above, you could expand it to display which them
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Updating globals from within an addon
 
@@ -203,7 +203,7 @@ If you're working on a Storybook addon that needs to update the global and refre
 
 For example, if you were working on a [toolbar addon](../addons/addon-types.md#toolbars), and you want to refresh the UI and update the global once the user clicks on a button:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -211,4 +211,4 @@ For example, if you were working on a [toolbar addon](../addons/addon-types.md#t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

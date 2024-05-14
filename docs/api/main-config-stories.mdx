@@ -22,7 +22,7 @@ Configures Storybook to load stories from the specified locations. The intention
     └── Button.stories.ts
 ```
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -31,7 +31,7 @@ Configures Storybook to load stories from the specified locations. The intention
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -47,7 +47,7 @@ Storybook will load stories from your project as found by this array of globs (p
 
 Stories are loaded in the order they are defined in the array. This allows you to control the order in which stories are displayed in the sidebar:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -56,7 +56,7 @@ Stories are loaded in the order they are defined in the array. This allows you t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## With a configuration object
 
@@ -64,7 +64,7 @@ Additionally, you can customize your Storybook configuration to load your storie
 
 For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -73,7 +73,7 @@ For example, if you wanted to load your stories from a `packages/components` dir
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
@@ -123,7 +123,7 @@ When [auto-titling](../configure/sidebar-and-urls.md#csf-30-auto-titles), prefix
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -132,4 +132,4 @@ You can also adjust your Storybook configuration and implement custom logic to l
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

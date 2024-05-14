@@ -10,7 +10,7 @@ When the components you're documenting have a parent-child relationship, you can
 
 Here's an example with `List` and `ListItem` components:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -26,7 +26,7 @@ Here's an example with `List` and `ListItem` components:
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Note that by adding a `subcomponents` property to the default export, we get an extra panel on the [ArgTypes](../writing-docs/doc-blocks.md#argtypes) and [Controls](../essentials/controls.md#) tables, listing the props of `ListItem`:
 
@@ -43,7 +43,7 @@ Let's talk about some techniques you can use to mitigate the above, which are es
 
 We can also reduce repetition in our stories by reusing story definitions. Here, we can reuse the `ListItem` stories' args in the story for `List`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -63,7 +63,7 @@ We can also reduce repetition in our stories by reusing story definitions. Here,
   csf2Path="writing-stories/#snippet-list-story-reuse-data"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 By rendering the `Unchecked` story with its args, we are able to reuse the input data from the `ListItem` stories in the `List`.
 
@@ -75,7 +75,7 @@ However, we still aren’t using args to control the `ListItem` stories, which m
 
 One way we improve that situation is by pulling the rendered subcomponent out into a `children` arg:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -86,7 +86,7 @@ One way we improve that situation is by pulling the rendered subcomponent out in
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Now that `children` is an arg, we can potentially reuse it in another story.
 
@@ -104,14 +104,14 @@ We're currently working on improving the overall experience for the children arg
 
 </Callout>
 
-<!-- End if react -->
+{/* End if react */}
 </If>
 
 ## Creating a Template Component
 
 Another option that is more “data”-based is to create a special “story-generating” template component:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -129,6 +129,6 @@ Another option that is more “data”-based is to create a special “story-gen
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 This approach is a little more complex to setup, but it means you can more easily reuse the `args` to each story in a composite component. It also means that you can alter the args to the component with the Controls addon.

@@ -17,7 +17,7 @@ The Viewport toolbar item allows you to adjust the dimensions of the iframe your
 
 Out of the box, the Viewport addon offers you a standard set of viewports that you can use. If you want to change the default set of viewports, you can set the global `parameters.viewport` [parameter](../writing-stories/parameters.md) in your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -26,7 +26,7 @@ Out of the box, the Viewport addon offers you a standard set of viewports that y
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The viewport global can take an object with the following keys:
 
@@ -83,7 +83,7 @@ The Viewport addon includes a selection of devices that you can use to test your
 | iPad Pro 12.9-in           | Sets the iPad Pro (12.9-inch) as a device to be used by the Viewport addon.<br/>`parameters: { viewport: {  defaultViewport: 'ipad12p', }},`                                    | 1024 × 1366                                                                      |
 | Tablet                     | Enabled by default.<br/>Configures a standard form factor tablet device to be used by the Viewport addon.<br/>`parameters: { viewport: {  defaultViewport: 'tablet', }},`       | 834 × 1112                                                                       |
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -92,7 +92,7 @@ The Viewport addon includes a selection of devices that you can use to test your
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -104,7 +104,7 @@ The generic devices are enabled by default as they are the most common for testi
 
 If you have either a specific viewport or a list of viewports that you need to use, you can modify your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file and include them:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -112,11 +112,11 @@ If you have either a specific viewport or a list of viewports that you need to u
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Make the following changes to use them in your Storybook:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -125,7 +125,7 @@ Make the following changes to use them in your Storybook:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Once you start Storybook, you'll see your new viewports and devices.
 
@@ -133,7 +133,7 @@ You can add these two to another list of viewports if needed.
 
 For instance, if you want to use these two with the minimal set of viewports, you can do it like so:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -142,7 +142,7 @@ For instance, if you want to use these two with the minimal set of viewports, yo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Both viewports (`Kindle Fire 2` and `Kindle Fire HD`) will feature in the list of devices by merging them into the [`MINIMAL_VIEWPORTS`](https://github.com/storybookjs/storybook/blob/next/code/addons/viewport/src/defaults.ts#L231).
 
@@ -152,7 +152,7 @@ In some cases, it's not practical for you to use a specific visual viewport on a
 
 Update your story through [parameters](../writing-stories/parameters.md) to include your viewports at a component level or for a specific story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -172,7 +172,7 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
   csf2Path="essentials/viewport#snippet-my-component-story-configure-viewports"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Keyboard shortcuts
 

@@ -1,15 +1,15 @@
 ```html
-<!-- Button.stories.svelte -->
+{/* Button.stories.svelte */}
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
   import Button from './Button.svelte';
 </script>
 
-<!--
+{/*
   See https://storybook.js.org/docs/essentials/actions#action-argtype-annotation
   to learn how to set up argTypes for actions
--->
+*/}
 
 <Meta title="Button" component={Button} argTypes={{ onClick: { action: "onClick" }, }} />
 

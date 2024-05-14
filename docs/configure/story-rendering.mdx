@@ -34,7 +34,7 @@ export default preview;
 
 For example, with Vue, you can extend Storybook's application and register your library (e.g., [Fontawesome](https://github.com/FortAwesome/vue-fontawesome)). Or with Angular, add the package ([localize](https://angular.io/api/localize)) into your `polyfills.ts` and import it:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -47,7 +47,7 @@ For example, with Vue, you can extend Storybook's application and register your 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </If>
 
@@ -55,7 +55,7 @@ For example, with Vue, you can extend Storybook's application and register your 
 
 If you need to add extra elements to the `head` of the preview iframe, for instance, to load static stylesheets, font files, or similar, you can create a file called [`.storybook/preview-head.html`](./index.md#configure-story-rendering) and add tags like this:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -63,7 +63,7 @@ If you need to add extra elements to the `head` of the preview iframe, for insta
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -79,7 +79,7 @@ Sometimes, you may need to add different tags to the `<body>`. Helpful for addin
 
 You can accomplish this by creating a file called `preview-body.html` inside your `.storybook` directory and adding tags like this:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,11 +87,11 @@ You can accomplish this by creating a file called `preview-body.html` inside you
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 If using relative sizing in your project (like `rem` or `em`), you may update the base `font-size` by adding a `style` tag to `preview-body.html`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -99,7 +99,7 @@ If using relative sizing in your project (like `rem` or `em`), you may update th
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 

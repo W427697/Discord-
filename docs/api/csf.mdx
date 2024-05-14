@@ -20,7 +20,7 @@ The default export defines metadata about your component, including the `compone
 
 The `component` field is required and used by addons for automatic prop table generation and display of other component metadata. The `title` field is optional and should be unique (i.e., not re-used across files).
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -32,7 +32,7 @@ The `component` field is required and used by addons for automatic prop table ge
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 For more examples, see [writing stories](../writing-stories/index.md).
 
@@ -40,7 +40,7 @@ For more examples, see [writing stories](../writing-stories/index.md).
 
 With CSF, every named export in the file represents a story object by default.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -60,7 +60,7 @@ With CSF, every named export in the file represents a story object by default.
   csf2Path="api/csf#snippet-my-component-story-basic-and-props"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The exported identifiers will be converted to "start case" using Lodash's [startCase](https://lodash.com/docs/#startCase) function. For example:
 
@@ -78,7 +78,7 @@ Story objects can be annotated with a few different fields to define story-level
 
 Storybook's `name` configuration element is helpful in specific circumstances. Common use cases are names with special characters or Javascript restricted words. If not specified, Storybook defaults to the named export.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -92,7 +92,7 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
   csf2Path="api/csf#snippet-my-component-story-with-storyname"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Args story inputs
 
@@ -100,7 +100,7 @@ Starting in SB 6.0, stories accept named inputs called Args. Args are dynamic da
 
 Consider Storybook’s ["Button" example](../writing-stories/index.md#defining-stories) of a text button that logs its click events:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -120,11 +120,11 @@ Consider Storybook’s ["Button" example](../writing-stories/index.md#defining-s
   csf2Path="api/csf#snippet-button-story-click-handler"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Now consider the same example, re-written with args:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -144,11 +144,11 @@ Now consider the same example, re-written with args:
   csf2Path="api/csf#snippet-button-story-click-handler-args"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Or even more simply:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -168,7 +168,7 @@ Or even more simply:
   csf2Path="api/csf#snippet-button-story-click-handler-simplificated"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Not only are these versions shorter and more accessible to write than their no-args counterparts, but they are also more portable since the code doesn't depend on the actions addon specifically.
 
@@ -180,7 +180,7 @@ Storybook's `play` functions are small snippets of code executed when the story 
 
 A good use case for the `play` function is a form component. With previous Storybook versions, you'd write your set of stories and had to interact with the component to validate it. With Storybook's play functions, you could write the following story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -200,7 +200,7 @@ A good use case for the `play` function is a form component. With previous Story
   csf2Path="api/csf#snippet-login-form-with-play-function"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When the story renders in the UI, Storybook executes each step defined in the `play` function and runs the assertions without the need for user interaction.
 
@@ -210,7 +210,7 @@ When the story renders in the UI, Storybook executes each step defined in the `p
 
 Starting in Storybook 6.4, you can write your stories as JavaScript objects, reducing the boilerplate code you need to generate to test your components, thus improving functionality and usability. `Render` functions are helpful methods to give you additional control over how the story renders. For example, if you were writing a story as an object and you wanted to specify how your component should render, you could write the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -229,7 +229,7 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
   csf2Path="api/csf#snippet-component-story-with-custom-render-function"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When Storybook loads this story, it will detect the existence of a `render` function and adjust the component rendering accordingly based on what's defined.
 
@@ -243,7 +243,7 @@ Storybook will always use the named export to determine the story ID and URL.
 
 If you specify the `name` option, it will be used as the story display name in the UI. Otherwise, it defaults to the named export, processed through Storybook's `storyNameFromExport` and `lodash.startCase` functions.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -251,7 +251,7 @@ If you specify the `name` option, it will be used as the story display name in t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When you want to change the name of your story, rename the CSF export. It will change the name of the story and also change the story's ID and URL.
 
@@ -268,7 +268,7 @@ You can use the optional configuration fields `includeStories` and `excludeStori
 
 Consider the following story file:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -288,7 +288,7 @@ Consider the following story file:
   csf2Path="api/csf#snippet-my-component-story-with-nonstory"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When this file renders in Storybook, it treats `ComplexStory` and `SimpleStory` as stories and ignores the `data` named exports.
 
@@ -307,7 +307,7 @@ The first option is the recommended solution if you follow the best practice of 
 
 In CSF 2, the named exports are always functions that instantiate a component, and those functions can be annotated with configuration options. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -325,13 +325,13 @@ In CSF 2, the named exports are always functions that instantiate a component, a
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 This declares a Primary story for a Button that renders itself by spreading `{ primary: true }` into the component. The `default.title` metadata says where to place the story in a navigation hierarchy.
 
 Here's the CSF 3 equivalent:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -346,7 +346,7 @@ Here's the CSF 3 equivalent:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Let's go through the changes individually to understand what's going on.
 
@@ -358,7 +358,7 @@ Consider the following addition to the intro example, which creates a `PrimaryOn
 
 Here's the CSF 2 implementation:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -366,13 +366,13 @@ Here's the CSF 2 implementation:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 `Primary.bind({})` copies the story function, but it doesn't copy the annotations hanging off the function, so we must add `PrimaryOnDark.args = Primary.args` to inherit the args.
 
 In CSF 3, we can spread the `Primary` object to carry over all its annotations:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -383,7 +383,7 @@ In CSF 3, we can spread the `Primary` object to carry over all its annotations:
 
 Learn more about [named story exports](#named-story-exports).
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Default render functions
 
@@ -391,7 +391,7 @@ In CSF 3, you specify how a story renders through a `render` function. We can re
 
 Let's start with a simple CSF 2 story function:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -409,11 +409,11 @@ Let's start with a simple CSF 2 story function:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Now, let's rewrite it as a story object in CSF 3 with an explicit `render` function that tells the story how to render itself. Like CSF 2, this gives us full control of how we render a component or even a collection of components.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -437,13 +437,13 @@ Learn more about [render functions](#custom-render-functions).
 
 </IfRenderer>
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 But in CSF 2, a lot of story functions are identical: take the component specified in the default export and spread args into it. What's interesting about these stories is not the function, but the args passed into the function.
 
 CSF 3 provides default render functions for each renderer. If all you're doing is spreading args into your component—which is the most common case—you don't need to specify any `render` function at all:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -451,7 +451,7 @@ CSF 3 provides default render functions for each renderer. If all you're doing i
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
@@ -463,7 +463,7 @@ For more information, see the section on [custom render functions](#custom-rende
 
 Finally, CSF 3 can automatically generate titles.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -471,9 +471,9 @@ Finally, CSF 3 can automatically generate titles.
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -481,6 +481,6 @@ Finally, CSF 3 can automatically generate titles.
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/index.md#configure-story-loading).

@@ -12,7 +12,7 @@ When writing stories, there are two aspects that are helpful to type. The first 
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -22,7 +22,7 @@ Storybook provides utility types for each of these, named `Meta` and `StoryObj`.
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Props type parameter
 
@@ -63,7 +63,7 @@ Finally, use of `satisfies` allows you to pass `typeof meta` to the `StoryObj` g
 
 Sometimes stories need to define args that aren’t included in the component's props. For this case, you can use an [intersection type](https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types) to combine a component's props type and your custom args' type. For example, here's how you could use a `footer` arg to populate a child component:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -77,7 +77,7 @@ Sometimes stories need to define args that aren’t included in the component's 
   csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer='vue'>
 

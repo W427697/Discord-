@@ -12,7 +12,7 @@ The [context provider pattern](https://react.dev/learn/passing-data-deeply-with-
 
 </Callout>
 
-<!-- End non-supported renderers -->
+{/* End non-supported renderers */}
 
 </If>
 
@@ -20,7 +20,7 @@ The [context provider pattern](https://react.dev/learn/passing-data-deeply-with-
 
 Components can receive data or configuration from context providers. For example, a styled component might access its theme from a ThemeProvider or Redux uses React context to provide components access to app data. To mock a provider, you can wrap your component in a [decorator](./decorators.md) that includes the necessary context.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -31,7 +31,7 @@ Components can receive data or configuration from context providers. For example
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="warning">
 
@@ -59,7 +59,7 @@ For a better way, with much less repetition, you can use the [decorator function
 
 For example, we can adjust the decorator from above to read from `parameters.theme` to determine which theme to provide:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -68,11 +68,11 @@ For example, we can adjust the decorator from above to read from `parameters.the
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Now, you can define a `theme` parameter in your stories to adjust the theme provided by the decorator:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -81,7 +81,7 @@ Now, you can define a `theme` parameter in your stories to adjust the theme prov
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 This powerful approach allows you to provide any value (theme, user role, mock data, etc.) to your components in a way that is both flexible and maintainable.
 

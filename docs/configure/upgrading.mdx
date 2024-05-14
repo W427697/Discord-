@@ -10,7 +10,7 @@ The most common upgrade is Storybook itself. [Storybook releases](https://storyb
 
 To help ease the pain of keeping Storybook up-to-date, we provide a command-line script:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -20,7 +20,7 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The `upgrade` command will use whichever version you specify. For example:
 
@@ -43,7 +43,7 @@ In addition to running the command, we also recommend checking the [MIGRATION.md
 
 To help you verify that the upgrade was completed and that your project is still working as expected, the Storybook CLI provides the [`doctor`](../api/cli-options.md#doctor) command that allows you to do a health check on your project for common issues that might arise after an upgrade, such as duplicated dependencies, incompatible addons or mismatched versions. To perform the health check, run the following command with your package manager of choice:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -53,13 +53,13 @@ To help you verify that the upgrade was completed and that your project is still
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Automigrate script
 
 Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example well-known frontend frameworks, such as [Angular](https://update.angular.io/?l=2&v=16.0-17.0), [Next.js](https://nextjs.org/docs/pages/building-your-application/upgrading) or [Svelte](https://svelte.dev/docs/v4-migration-guide) have been rolling out significant changes to their ecosystem, so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -69,7 +69,7 @@ Storybook upgrades are not the only thing to consider: changes in the ecosystem 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 It runs a set of standard configuration checks, explains what is potentially out-of-date, and offers to fix it for you automatically. It also points to the relevant documentation so you can learn more. It runs automatically as part of [`storybook upgrade`](#upgrade-script) command, but it's also available on its own if you don't want to upgrade Storybook.
 
@@ -79,7 +79,7 @@ In addition to the above, Storybook is under constant development, and we publis
 
 To upgrade to the latest pre-release:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -89,7 +89,7 @@ To upgrade to the latest pre-release:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The `upgrade` command will use whichever version you specify. For example:
 
@@ -113,7 +113,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 If you're attempting to upgrade Storybook to the latest version in your existing Vue 2 project, you will no longer be able to. This is because Vue 2 entered [End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and will no longer receive any updates from the Vue team. We recommend you upgrade your Vue 2 project to Vue 3 and then upgrade Storybook to the latest version. If you cannot upgrade your Vue 2 project to Vue 3, you can still upgrade Storybook, but only for the latest 7.x version. You can do this by running the following command:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -123,6 +123,6 @@ If you're attempting to upgrade Storybook to the latest version in your existing
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>

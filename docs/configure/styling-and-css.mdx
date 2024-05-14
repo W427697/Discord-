@@ -2,7 +2,7 @@
 title: 'Styling and CSS'
 ---
 
-<!-- Not Angular -->
+{/* Not Angular */}
 <If notRenderer="angular">
 
 There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration.
@@ -15,7 +15,7 @@ Storybook supports importing CSS files in a few different ways. Storybook will i
 
 All Storybooks are pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.ts`](./overview.md#configure-story-rendering). These files will be subject to HMR, so you can see your changes without restarting your Storybook server.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -24,7 +24,7 @@ All Storybooks are pre-configured to recognize imports for CSS files. To add glo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 If your component files import their CSS files, this will work too. However, if you're using CSS processor tools like Sass or Postcss, you may need some more configuration.
 
@@ -33,7 +33,7 @@ If your component files import their CSS files, this will work too. However, if 
 If you have a global CSS file that you want to include in all your stories, you can import it in [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head).
 However, these files will not be subject to HMR, so you'll need to restart your Storybook server to see your changes.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -41,7 +41,7 @@ However, these files will not be subject to HMR, so you'll need to restart your 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## CSS modules
 
@@ -125,7 +125,7 @@ If you're using something like [`fontsource`](https://fontsource.org/) for your 
 
 </If>
 
-<!-- Angular only -->
+{/* Angular only */}
 <IfRenderer renderer="angular">
 
 Storybook for Angular relies on the Angular CLI to build your stories. This means that you can use any CSS preprocessor that the Angular CLI supports. You can read more about this in the [Angular CLI documentation](https://angular.io/guide/workspace-config#style-script-config).

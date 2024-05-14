@@ -14,7 +14,7 @@ Note that you can change the folder that Storybook uses by setting the `-c` flag
 
 Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook project's behavior, including the location of your stories, the addons you use, feature flags and other project-specific settings. This file should be in the `.storybook` folder in your project's root directory. You can author this file in either JavaScript or [TypeScript](./typescript.md). Listed below are the available options and examples of how to use them.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -23,7 +23,7 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -63,7 +63,7 @@ If you want to use a different naming convention, you can alter the glob using t
 
 For example, if you wanted to pull both `.md` and `.js` files from the `my-project/src/components` directory, you could write:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -72,13 +72,13 @@ For example, if you wanted to pull both `.md` and `.js` files from the `my-proje
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### With a configuration object
 
 Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,7 +87,7 @@ Additionally, you can customize your Storybook configuration to load your storie
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
@@ -95,7 +95,7 @@ When Storybook starts, it will look for any file containing the `stories` extens
 
 You can also simplify your Storybook configuration and load the stories using a directory. For example, if you want to load all the stories inside a `packages/MyStories`, you can adjust the configuration as such:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -104,13 +104,13 @@ You can also simplify your Storybook configuration and load the stories using a 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### With a custom implementation
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -119,7 +119,7 @@ You can also adjust your Storybook configuration and implement custom logic to l
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### Known limitations
 

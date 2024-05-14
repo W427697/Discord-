@@ -1,5 +1,5 @@
 ```html
-<!-- Button.stories.svelte -->
+{/* Button.stories.svelte */}
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
@@ -10,13 +10,13 @@
 <Meta title="Button" component={Button} argTypes={{ label: { control: 'text' }, primary: { control:
 'boolean' }, }} />
 
-<!--👇 We create a “template” of how args map to rendering -->
+{/*👇 We create a “template” of how args map to rendering */}
 
 <template let:args>
   <button {...args} />
 </template>
 
-<!-- 👇 Each story then reuses that template -->
+{/* 👇 Each story then reuses that template */}
 
 <Story name='Primary' args={{ primary: true, label: 'Button' }} />
 ```

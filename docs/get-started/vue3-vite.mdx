@@ -19,7 +19,7 @@ Storybook for Vue & Vite is only supported in [Vue](?renderer=vue) projects.
 
 </Callout>
 
-<!-- End non-supported renderers -->
+{/* End non-supported renderers */}
 
 </If>
 
@@ -37,7 +37,7 @@ Storybook for Vue & Vite is only supported in [Vue](?renderer=vue) projects.
 
 Follow the prompts after running this command in your Vue project's root directory:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -47,7 +47,7 @@ Follow the prompts after running this command in your Vue project's root directo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 [More on getting started with Storybook.](./install.md)
 
@@ -55,7 +55,7 @@ Follow the prompts after running this command in your Vue project's root directo
 
 This framework is designed to work with Storybook 7+. If you’re not already using v7, upgrade with this command:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -65,7 +65,7 @@ This framework is designed to work with Storybook 7+. If you’re not already us
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### Automatic migration
 
@@ -75,7 +75,7 @@ When running the `upgrade` command above, you should get a prompt asking you to 
 
 First, install the framework:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -85,11 +85,11 @@ First, install the framework:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Then, update your `.storybook/main.js|ts` to change the framework property:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -98,7 +98,7 @@ Then, update your `.storybook/main.js|ts` to change the framework property:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Extending the Vue application
 
@@ -163,7 +163,7 @@ It also supports both default and named component exports.
 To provide a description for a prop, including tags, you can use JSDoc comments in your component's props definition:
 
 ```html
-<!-- YourComponent.vue -->
+{/* YourComponent.vue */}
 <script setup lang="ts">
   interface MyComponentProps {
     /** The name of the user */
@@ -191,7 +191,7 @@ The props definition above will generate the following controls:
 To provide a type for an emitted event, you can use TypeScript types (including JSDoc comments) in your component's `defineEmits` call:
 
 ```html
-<!-- YourComponent.vue -->
+{/* YourComponent.vue */}
 <script setup lang="ts">
   type MyChangeEvent = 'change';
 
@@ -217,7 +217,7 @@ Which will generate the following controls:
 The slot types are automatically extracted from your component definition and displayed in the controls panel.
 
 ```html
-<!-- YourComponent.vue -->
+{/* YourComponent.vue */}
 <template>
   <slot :num="123"></slot>
   <br />
@@ -255,7 +255,7 @@ The definition above will generate the following controls:
 The properties and methods exposed by your component are automatically extracted and displayed in the controls panel.
 
 ```html
-<!-- YourComponent.vue -->
+{/* YourComponent.vue */}
 <script setup lang="ts">
   import { ref } from 'vue';
 
@@ -312,7 +312,7 @@ Otherwise, you might face missing component types/descriptions or unresolvable i
 
 [Vue 2 entered End of Life](https://v2.vuejs.org/lts/) (EOL) on December 31st, 2023, and is no longer maintained by the Vue team. As a result, Storybook no longer supports Vue 2. We recommend you upgrade your project to Vue 3, which Storybook fully supports. If that's not an option, you can still use Storybook with Vue 2 by installing the latest version of Storybook 7 with the following command:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -322,7 +322,7 @@ Otherwise, you might face missing component types/descriptions or unresolvable i
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## API
 
@@ -362,6 +362,6 @@ Since: `8.0`
 
 Choose which docgen tool to use when generating controls for your components. See [Using `vue-component-meta`](#using-vue-component-meta) for more information.
 
-<!-- End supported renderers -->
+{/* End supported renderers */}
 
 </If>

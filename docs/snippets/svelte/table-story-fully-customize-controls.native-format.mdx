@@ -1,5 +1,5 @@
 ```html
-<!--Table.stories.svelte -->
+{/*Table.stories.svelte */}
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
@@ -24,6 +24,6 @@
   </table>
 </template>
 
-<!-- 👇 The data arg is for the story component and the remaining args get passed to the Table component -->
+{/* 👇 The data arg is for the story component and the remaining args get passed to the Table component */}
 <Story name="Numeric" args={{ data: [ [1, 2, 3], [4, 5, 6], ], size: 'large', }} />
 ```
