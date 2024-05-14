@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "8.1.0-alpha.7",
+  "version": "8.2.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -59,9 +59,10 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
-    "@storybook/csf": "^0.1.5",
+    "@storybook/csf": "^0.1.7",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
     "@storybook/theming": "workspace:*",
@@ -86,8 +87,8 @@
     "use-resize-observer": "^9.1.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta"
   },
   "publishConfig": {
     "access": "public"
