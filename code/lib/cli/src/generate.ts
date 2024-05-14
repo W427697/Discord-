@@ -59,7 +59,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch(() => process.exit(1));
+    initiate(options).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -68,6 +68,7 @@ command('add <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
@@ -155,7 +156,7 @@ command('sandbox [filterValue]')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }, pkg).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
