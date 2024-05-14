@@ -9,13 +9,14 @@ import type {
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
 import type { CompatibleString } from '@storybook/types';
+import type * as NextImage from 'next/image';
 
 type FrameworkName = CompatibleString<'@storybook/nextjs'>;
 type BuilderName = CompatibleString<'@storybook/builder-webpack5'>;
 
 export type FrameworkOptions = ReactOptions & {
   nextConfigPath?: string;
-
+  image?: Partial<NextImage.ImageProps>;
   builder?: BuilderOptions;
 };
 
