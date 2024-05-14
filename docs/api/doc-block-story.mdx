@@ -2,21 +2,20 @@
 title: 'Story'
 ---
 
-<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Story Doc Block" params='start=124' />
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Story Doc Block" params="start=124" />
 
 Stories (component tests) are Storybook's fundamental building blocks.
 
 In Storybook Docs, you can render any of your stories from your CSF files in the context of an MDX file with all annotations (parameters, args, loaders, decorators, play function) applied using the `Story` block.
 
 <Callout variant="info">
-
-Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render a story with a surrounding border and the source block, but you can use the `Story` block to render just the story.
-
+  Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render a story with a surrounding border and the source block, but you can use the `Story` block to render just the story.
 </Callout>
 
 ![Screenshot of Story block](./doc-block-story.png)
 
 {/* prettier-ignore-start */}
+
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -27,6 +26,7 @@ import * as ButtonStories from './Button.stories';
 
 <Story of={ButtonStories.Primary} />
 ```
+
 {/* prettier-ignore-end */}
 
 ## Story
@@ -36,36 +36,29 @@ import { Story } from '@storybook/blocks';
 ```
 
 <details>
-<summary>Configuring with props <strong>and</strong> parameters</summary>
+  <summary>Configuring with props <strong>and</strong> parameters</summary>
 
-ℹ️ Like most blocks, the `Story` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.story`.
+  ℹ️ Like most blocks, the `Story` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.story`.
 
-The following `autoplay` configurations are equivalent:
+  The following `autoplay` configurations are equivalent:
 
-{/* prettier-ignore-start */}
+  {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/api-doc-block-story-parameter.ts.mdx',
-    'web-components/api-doc-block-story-parameter.js.mdx',
-    'web-components/api-doc-block-story-parameter.ts.mdx',
-    'common/api-doc-block-story-parameter.js.mdx',
-    'common/api-doc-block-story-parameter.ts.mdx',
-  ]}
-/>
+  <CodeSnippets path="api-doc-block-story-parameter.md" />
 
-{/* prettier-ignore-end */}
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-start */}
-```md
-{/* ButtonDocs.mdx */}
+  {/* prettier-ignore-start */}
 
-<Story of={ButtonStories.Basic} autoplay />
-```
-{/* prettier-ignore-end */}
+  ```md
+  {/* ButtonDocs.mdx */}
 
-The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+  <Story of={ButtonStories.Basic} autoplay />
+  ```
 
+  {/* prettier-ignore-end */}
+
+  The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
 </details>
 
 ### `autoplay`
@@ -97,9 +90,7 @@ Default: `parameters.docs.story.inline` or `true` (for [supported frameworks](..
 Determines whether the story is rendered `inline` (in the same browser frame as the other docs content) or in an iframe.
 
 <Callout variant="info">
-
-Setting the `inline` option to false will prevent the associated [controls](./doc-block-controls.md) from updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
-
+  Setting the `inline` option to false will prevent the associated [controls](./doc-block-controls.md) from updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
 </Callout>
 
 ### `meta`
@@ -111,6 +102,7 @@ Specifies the CSF file to which the story is associated.
 You can render a story from a CSF file that you haven’t attached to the MDX file (via `Meta`) by using the `meta` prop. Pass the **full set of exports** from the CSF file (not the default export!).
 
 {/* prettier-ignore-start */}
+
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -124,6 +116,7 @@ import * as HeaderStories from './Header.stories';
     it can render Header stories too */}
 <Story of={HeaderStories.LoggedIn} meta={HeaderStories} />
 ```
+
 {/* prettier-ignore-end */}
 
 ### `of`
@@ -132,4 +125,4 @@ Type: Story export
 
 Specifies which story is rendered by the `Story` block. If no `of` is defined and the MDX file is [attached](./doc-block-meta.md#attached-vs-unattached), the primary (first) story will be rendered.
 
-<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Story Doc Block configuration" params='start=160' />
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Story Doc Block configuration" params="start=160" />

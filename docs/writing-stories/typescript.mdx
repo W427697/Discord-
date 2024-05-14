@@ -14,13 +14,7 @@ Storybook provides utility types for each of these, named `Meta` and `StoryObj`.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/typed-csf-file.ts.mdx',
-    'web-components/typed-csf-file.ts.mdx',
-    'common/typed-csf-file.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="typed-csf-file.md" />
 
 {/* prettier-ignore-end */}
 
@@ -33,24 +27,19 @@ The example above passes a component type. See [**Typing custom args**](#typing-
 ## Using `satisfies` for better type safety
 
 <IfRenderer renderer={['angular', 'web-components']}>
+  <Callout variant="info">
+    We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
 
-<Callout variant="info">
+    <details>
+      <summary>More info</summary>
 
-We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
+      Both Angular and Web components utilize a class plus decorator approach. The decorators provide runtime metadata, but do not offer metadata at compile time.
 
-<details>
-<summary>More info</summary>
+      As a result, it appears impossible to determine if a property in the class is a required property or an optional property (but non-nullable due to a default value) or a non-nullable internal state variable.
 
-Both Angular and Web components utilize a class plus decorator approach. The decorators provide runtime metadata, but do not offer metadata at compile time.
-
-As a result, it appears impossible to determine if a property in the class is a required property or an optional property (but non-nullable due to a default value) or a non-nullable internal state variable.
-
-For more information, please refer to [this discussion](https://github.com/storybookjs/storybook/discussions/20988).
-
-</details>
-
-</Callout>
-
+      For more information, please refer to [this discussion](https://github.com/storybookjs/storybook/discussions/20988).
+    </details>
+  </Callout>
 </IfRenderer>
 
 If you are using TypeScript 4.9+, you can take advantage of the new [`satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html) operator to get stricter type checking. Now you will receive type errors for missing required args, not just invalid ones.
@@ -65,74 +54,60 @@ Sometimes stories need to define args that aren’t included in the component's 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.3.ts.mdx',
-    'angular/page-story-slots.ts.mdx',
-    'web-components/page-story-slots.ts.mdx',
-    'solid/page-story-slots.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/args#snippet-page-story-slots"
-/>
+<CodeSnippets path="page-story-slots.md" usesCsf3 csf2Path="writing-stories/args#snippet-page-story-slots" />
 
 {/* prettier-ignore-end */}
 
-<IfRenderer renderer='vue'>
+<IfRenderer renderer="vue">
+  ### Vue specific tips
 
-### Vue specific tips
+  Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue 3 single file component (SFC):
 
-Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue 3 single file component (SFC):
+  ```html
+  <script setup lang="ts">
+    defineProps<{ count: number; disabled: boolean }>();
 
-```html
-<script setup lang="ts">
-  defineProps<{ count: number; disabled: boolean }>();
+    const emit = defineEmits<{
+      (e: 'increaseBy', amount: number): void;
+      (e: 'decreaseBy', amount: number): void;
+    }>();
+  </script>
 
-  const emit = defineEmits<{
-    (e: 'increaseBy', amount: number): void;
-    (e: 'decreaseBy', amount: number): void;
-  }>();
-</script>
+  <template>
+    <div class="card">
+      {{ count }}
+      <button @click="emit('increaseBy', 1)" :disabled="disabled">Increase by 1</button>
+      <button @click="$emit('decreaseBy', 1)" :disabled="disabled">Decrease by 1</button>
+    </div>
+  </template>
+  ```
 
-<template>
-  <div class="card">
-    {{ count }}
-    <button @click="emit('increaseBy', 1)" :disabled="disabled">Increase by 1</button>
-    <button @click="$emit('decreaseBy', 1)" :disabled="disabled">Decrease by 1</button>
-  </div>
-</template>
-```
+  You can type check SFC files with vue-tsc and get editor support in VSCode by installing the [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and [TypeScript Vue Plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) extensions.
 
-You can type check SFC files with vue-tsc and get editor support in VSCode by installing the [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and [TypeScript Vue Plugin](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) extensions.
-
-This setup will add type support for `*.vue` imports to your `*.stories.ts` files, providing the same type safety and autocomplete features.
-
+  This setup will add type support for `*.vue` imports to your `*.stories.ts` files, providing the same type safety and autocomplete features.
 </IfRenderer>
 
-<IfRenderer renderer='svelte'>
+<IfRenderer renderer="svelte">
+  ### Svelte specific tips
 
-### Svelte specific tips
+  Svelte offers excellent TypeScript support for .svelte files. For example, consider the following component. You can run type checks using svelte-check and add VSCode editor support with the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode\&ssr=false#overview).
 
-Svelte offers excellent TypeScript support for .svelte files. For example, consider the following component. You can run type checks using svelte-check and add VSCode editor support with the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode&ssr=false#overview).
+  ```html
+  <script lang="ts">
+    import { createEventDispatcher } from 'svelte';
 
-```html
-<script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+    export let count: number;
+    export let disabled: boolean;
 
-  export let count: number;
-  export let disabled: boolean;
+    const dispatch = createEventDispatcher();
+  </script>
 
-  const dispatch = createEventDispatcher();
-</script>
+  <div class="card">
+    {count}
+    <button on:click={() => dispatch('increaseBy', 1)} {disabled}> Increase by 1 </button>
+    <button on:click={() => dispatch('decreaseBy', 1)} {disabled}> Decrease by 1 </button>
+  </div>
+  ```
 
-<div class="card">
-  {count}
-  <button on:click={() => dispatch('increaseBy', 1)} {disabled}> Increase by 1 </button>
-  <button on:click={() => dispatch('decreaseBy', 1)} {disabled}> Decrease by 1 </button>
-</div>
-```
-
-The same setup works with Svelte stories files too, providing both type safety and autocompletion.
-
+  The same setup works with Svelte stories files too, providing both type safety and autocompletion.
 </IfRenderer>

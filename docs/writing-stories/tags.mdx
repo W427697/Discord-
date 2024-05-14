@@ -8,7 +8,7 @@ Tags allow you to control which stories are included in your Storybook, enabling
 
 The following tags are available in every Storybook project:
 
-| Tag        | Applied&nbsp;by&nbsp;default? | Description                                                                                                                                                                                                              |
+| Tag        | Applied by default? | Description                                                                                                                                                                                                              |
 | ---------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `autodocs` | No                            | Stories tagged with `autodocs` will be included in the [docs page](../writing-docs/autodocs.md). If a CSF file does not contain at least one story tagged with `autodocs`, that component will not generate a docs page. |
 | `dev`      | Yes                           | Stories tagged with `dev` are rendered in Storybook's sidebar.                                                                                                                                                           |
@@ -24,12 +24,7 @@ For example, to apply the `autodocs` tag to all stories in your project, you can
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/tags-in-preview.js.mdx',
-    'common/tags-in-preview.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="tags-in-preview.md" />
 
 {/* prettier-ignore-end */}
 
@@ -37,15 +32,7 @@ Within a component stories file, you apply tags like so:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/tags-in-meta-and-story.js.mdx',
-    'common/tags-in-meta-and-story.ts.mdx',
-    'angular/tags-in-meta-and-story.ts.mdx',
-    'web-components/tags-in-meta-and-story.ts.mdx',
-    'web-components/tags-in-meta-and-story.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="tags-in-meta-and-story.md" />
 
 {/* prettier-ignore-end */}
 
@@ -55,15 +42,7 @@ To remove a tag from a story, prefix it with `!`. For example:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/tags-remove-in-story.js.mdx',
-    'common/tags-remove-in-story.ts.mdx',
-    'angular/tags-remove-in-story.ts.mdx',
-    'web-components/tags-remove-in-story.ts.mdx',
-    'web-components/tags-remove-in-story.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="tags-remove-in-story.md" />
 
 {/* prettier-ignore-end */}
 
@@ -77,15 +56,7 @@ It can sometimes be helpful to provide example stories for documentation purpose
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/tags-docs-only-in-meta.js.mdx',
-    'common/tags-docs-only-in-meta.ts.mdx',
-    'angular/tags-docs-only-in-meta.ts.mdx',
-    'web-components/tags-docs-only-in-meta.ts.mdx',
-    'web-components/tags-docs-only-in-meta.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="tags-docs-only-in-meta.md" />
 
 {/* prettier-ignore-end */}
 
@@ -95,18 +66,6 @@ For a component with many variants, like a Button, a grid of those variants all 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/tags-combo-example.js.mdx',
-    'react/tags-combo-example.ts.mdx',
-    'vue/tags-combo-example.js.mdx',
-    'vue/tags-combo-example.ts.mdx',
-    'angular/tags-combo-example.ts.mdx',
-    'web-components/tags-combo-example.js.mdx',
-    'web-components/tags-combo-example.ts.mdx',
-    'solid/tags-combo-example.js.mdx',
-    'solid/tags-combo-example.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="tags-combo-example.md" />
 
 {/* prettier-ignore-end */}

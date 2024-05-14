@@ -5,9 +5,7 @@ title: 'indexers'
 (⚠️ **Experimental**)
 
 <Callout variant="warning" icon="🧪">
-
-While this feature is experimental, it must be specified by the `experimental_indexers` property of [`StorybookConfig`](./main-config.md).
-
+  While this feature is experimental, it must be specified by the `experimental_indexers` property of [`StorybookConfig`](./main-config.md).
 </Callout>
 
 Parent: [main.js|ts configuration](./main-config.md)
@@ -22,12 +20,7 @@ They are defined as a function that returns the full list of indexers, including
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-indexers.js.mdx',
-    'common/main-config-indexers.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-indexers.md" />
 
 {/* prettier-ignore-end */}
 
@@ -141,7 +134,7 @@ Default: Auto-generated from [`title`](#title)
 
 Define the custom id for meta of the entry.
 
-If specified, the export default (meta) in the CSF file _must_ have a corresponding `id` property, to be correctly matched.
+If specified, the export default (meta) in the CSF file *must* have a corresponding `id` property, to be correctly matched.
 
 ##### `name`
 
@@ -169,12 +162,7 @@ Most of the time, you should **not** specify a title, so that your indexer will 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-indexers-title.js.mdx',
-    'common/main-config-indexers-title.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-indexers-title.md" />
 
 {/* prettier-ignore-end */}
 
@@ -192,7 +180,7 @@ Only use this if you need to override the auto-generated id.
 
 ## Transpiling to CSF
 
-The value of [`importPath`](#importpath) in an [`IndexInput`](#indexinput) must resolve to a [CSF](./csf.md) file. Most custom indexers, however, are only necessary because the input is _not_ CSF. Therefore, you will likely need to transpile the input to CSF, so that Storybook can read it in the browser and render your stories.
+The value of [`importPath`](#importpath) in an [`IndexInput`](#indexinput) must resolve to a [CSF](./csf.md) file. Most custom indexers, however, are only necessary because the input is *not* CSF. Therefore, you will likely need to transpile the input to CSF, so that Storybook can read it in the browser and render your stories.
 
 Transpiling the custom source format to CSF is beyond the scope of this documentation. This transpilation is often done at the builder level ([Vite](../builders/vite.md) and/or [Webpack](../builders/webpack.md)), and we recommend using [unplugin](https://github.com/unjs/unplugin) to create plugins for multiple builders.
 
@@ -264,101 +252,90 @@ export const Primary = {
 Some example usages of custom indexers include:
 
 <details open>
+  <summary>Generating stories dynamically from fixture data or API endpoints</summary>
 
-<summary>Generating stories dynamically from fixture data or API endpoints</summary>
+  This indexer generates stories for components based on JSON fixture data. It looks for `*.stories.json` files in the project, adds them to the index and separately converts their content to CSF.
 
-This indexer generates stories for components based on JSON fixture data. It looks for `*.stories.json` files in the project, adds them to the index and separately converts their content to CSF.
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="main-config-indexers-jsonstories.md" />
 
-<CodeSnippets
-  paths={[
-    'common/main-config-indexers-jsonstories.js.mdx',
-    'common/main-config-indexers-jsonstories.ts.mdx',
-  ]}
-/>
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-end */}
+  An example input JSON file could look like this:
 
-An example input JSON file could look like this:
-
-```json
-{
-  "Button": {
-    "componentPath": "./button/Button.jsx",
-    "stories": {
-      "Primary": {
-        "args": {
-          "primary": true
-        },
-      "Secondary": {
-        "args": {
-          "primary": false
+  ```json
+  {
+    "Button": {
+      "componentPath": "./button/Button.jsx",
+      "stories": {
+        "Primary": {
+          "args": {
+            "primary": true
+          },
+        "Secondary": {
+          "args": {
+            "primary": false
+          }
         }
       }
-    }
-  },
-  "Dialog": {
-    "componentPath": "./dialog/Dialog.jsx",
-    "stories": {
-      "Closed": {},
-      "Open": {
-        "args": {
-          "isOpen": true
-        }
-      },
+    },
+    "Dialog": {
+      "componentPath": "./dialog/Dialog.jsx",
+      "stories": {
+        "Closed": {},
+        "Open": {
+          "args": {
+            "isOpen": true
+          }
+        },
+      }
     }
   }
-}
-```
+  ```
 
-A builder plugin will then need to transform the JSON file into a regular CSF file. This transformation could be done with a Vite plugin similar to this:
+  A builder plugin will then need to transform the JSON file into a regular CSF file. This transformation could be done with a Vite plugin similar to this:
 
-```ts
-// vite-plugin-storybook-json-stories.ts
+  ```ts
+  // vite-plugin-storybook-json-stories.ts
 
-import type { PluginOption } from 'vite';
-import fs from 'fs/promises';
+  import type { PluginOption } from 'vite';
+  import fs from 'fs/promises';
 
-function JsonStoriesPlugin(): PluginOption {
-  return {
-    name: 'vite-plugin-storybook-json-stories',
-    load(id) {
-      if (!id.startsWith('virtual:jsonstories')) {
-        return;
-      }
+  function JsonStoriesPlugin(): PluginOption {
+    return {
+      name: 'vite-plugin-storybook-json-stories',
+      load(id) {
+        if (!id.startsWith('virtual:jsonstories')) {
+          return;
+        }
 
-      const [, fileName, componentName] = id.split('--');
-      const content = JSON.parse(fs.readFileSync(fileName));
+        const [, fileName, componentName] = id.split('--');
+        const content = JSON.parse(fs.readFileSync(fileName));
 
-      const { componentPath, stories } = getComponentStoriesFromJson(content, componentName);
+        const { componentPath, stories } = getComponentStoriesFromJson(content, componentName);
 
-      return `
-        import ${componentName} from '${componentPath}';
+        return `
+          import ${componentName} from '${componentPath}';
 
-        export default { component: ${componentName} };
+          export default { component: ${componentName} };
 
-        ${stories.map((story) => `export const ${story.name} = ${story.config};\n`)}
-      `;
-    },
-  };
-}
-```
-
+          ${stories.map((story) => `export const ${story.name} = ${story.config};\n`)}
+        `;
+      },
+    };
+  }
+  ```
 </details>
 
 <details>
+  <summary>Generating stories with an alternative API</summary>
 
-<summary>Generating stories with an alternative API</summary>
-
-You can use a custom indexer and builder plugin to create your API to define stories extending the CSF format. To learn more, see the following [proof of concept](https://stackblitz.com/edit/github-h2rgfk?file=README.md) to set up a custom indexer to generate stories dynamically. It contains everything needed to support such a feature, including the indexer, a Vite plugin, and a Webpack loader.
-
+  You can use a custom indexer and builder plugin to create your API to define stories extending the CSF format. To learn more, see the following [proof of concept](https://stackblitz.com/edit/github-h2rgfk?file=README.md) to set up a custom indexer to generate stories dynamically. It contains everything needed to support such a feature, including the indexer, a Vite plugin, and a Webpack loader.
 </details>
 
 <details>
+  <summary>Defining stories in non-JavaScript language</summary>
 
-<summary>Defining stories in non-JavaScript language</summary>
-
-Custom indexers can be used for an advanced purpose: defining stories in any language, including template languages, and converting the files to CSF. To see examples of this in action, you can refer to [`@storybook/addon-svelte-csf`](https://github.com/storybookjs/addon-svelte-csf) for Svelte template syntax and [`storybook-vue-addon`](https://github.com/tobiasdiez/storybook-vue-addon) for Vue template syntax.
-
+  Custom indexers can be used for an advanced purpose: defining stories in any language, including template languages, and converting the files to CSF. To see examples of this in action, you can refer to [`@storybook/addon-svelte-csf`](https://github.com/storybookjs/addon-svelte-csf) for Svelte template syntax and [`storybook-vue-addon`](https://github.com/tobiasdiez/storybook-vue-addon) for Vue template syntax.
 </details>

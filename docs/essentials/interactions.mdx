@@ -22,13 +22,7 @@ Run the following command to install the interactions addon and related dependen
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addon-interactions-addon-full-install.md" />
 
 {/* prettier-ignore-end */}
 
@@ -36,19 +30,12 @@ Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-ren
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-interactions-addon-registration.js.mdx',
-    'common/storybook-interactions-addon-registration.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-interactions-addon-registration.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./index.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
-
+  Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./index.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
 </Callout>
 
 Now when you run Storybook, the Interactions addon will be enabled.
@@ -63,17 +50,7 @@ Make sure to import the Storybook wrappers for Vitest and Testing Library via `@
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-interactions-play-function.ts.mdx',
-    'web-components/storybook-interactions-play-function.js.mdx',
-    'web-components/storybook-interactions-play-function.ts.mdx',
-    'common/storybook-interactions-play-function.js.mdx',
-    'common/storybook-interactions-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
-/>
+<CodeSnippets path="storybook-interactions-play-function.md" usesCsf3 csf2Path="essentials/interactions#snippet-storybook-interactions-play-function" />
 
 {/* prettier-ignore-end */}
 
@@ -84,9 +61,7 @@ While you can refer to the [Testing Library documentation](https://testing-libra
 Any `args` that have been marked as an Action, either using the [argTypes annotation](./actions.md#action-argtype-annotation) or the [argTypesRegex](./actions.md#automatically-matching-args), will be automatically converted to a [Jest mock function](https://jestjs.io/docs/mock-function-api) (spy). This allows you to make assertions about calls to these functions.
 
 <Callout variant="info">
-
-To mock functions in your Storybook stories for reliable and isolated component testing, use the named `fn` import from `@storybook/test`.
-
+  To mock functions in your Storybook stories for reliable and isolated component testing, use the named `fn` import from `@storybook/test`.
 </Callout>
 
 ## API

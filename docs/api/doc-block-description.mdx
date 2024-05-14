@@ -2,13 +2,14 @@
 title: 'Description'
 ---
 
-<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Description Doc Block" params='start=84' />
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Description Doc Block" params="start=84" />
 
 The `Description` block displays the description for a component, story, or meta, obtained from their respective JSDoc comments.
 
 ![Screenshot of Description block](./doc-block-title-subtitle-description.png)
 
 {/* prettier-ignore-start */}
+
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -19,6 +20,7 @@ import * as ButtonStories from './Button.stories';
 
 <Description of={ButtonStories.Primary} />
 ```
+
 {/* prettier-ignore-end */}
 
 ## Description
@@ -70,19 +72,12 @@ export const Button = () => <button>Click me</button>;
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/api-doc-block-description-example.ts.mdx',
-    'web-components/api-doc-block-description-example.js.mdx',
-    'web-components/api-doc-block-description-example.ts.mdx',
-    'common/api-doc-block-description-example.js.mdx',
-    'common/api-doc-block-description-example.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="api-doc-block-description-example.md" />
 
 {/* prettier-ignore-end */}
 
 {/* prettier-ignore-start */}
+
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -99,4 +94,5 @@ import * as ButtonStories from './Button.stories';
 {/* Shows the description for the Primary export */}
 <Description of={ButtonStories.Primary} />
 ```
+
 {/* prettier-ignore-end */}

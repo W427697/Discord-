@@ -10,15 +10,13 @@ Storybook addons are distributed via npm. The catalog is populated by querying n
 
 Add your addon to the catalog by publishing a npm package that follows these requirements:
 
-- `package.json` with [module information](./writing-addons.md#get-started) and [addon metadata](#addon-metadata)
-- `README.md` file with installation and configuration instructions
-- `/dist` directory containing transpiled ES5 code
-- `preset.js` file written as an ES5 module at the root level
+* `package.json` with [module information](./writing-addons.md#get-started) and [addon metadata](#addon-metadata)
+* `README.md` file with installation and configuration instructions
+* `/dist` directory containing transpiled ES5 code
+* `preset.js` file written as an ES5 module at the root level
 
 <Callout variant="info" icon="💡">
-
-Get a refresher on how to [write a Storybook addon](./writing-addons.md).
-
+  Get a refresher on how to [write a Storybook addon](./writing-addons.md).
 </Callout>
 
 ### Addon metadata
@@ -44,20 +42,18 @@ Customize your addon's appearance by adding the `storybook` property with the fo
 
 Use the list below as a reference when filling in the values for both the `supportedFrameworks` and `unsupportedFrameworks` fields.
 
-- react
-- vue
-- angular
-- web-components
-- ember
-- html
-- svelte
-- preact
-- react-native
+* react
+* vue
+* angular
+* web-components
+* ember
+* html
+* svelte
+* preact
+* react-native
 
 <Callout variant="info" icon="💡">
-
-Make sure to copy each item **exactly** as listed so that we can properly index your addon in our catalog.
-
+  Make sure to copy each item **exactly** as listed so that we can properly index your addon in our catalog.
 </Callout>
 
 ```json
@@ -106,8 +102,8 @@ If you'd like to request a recipe, open a [new discussion](https://github.com/st
 
 **Learn more about the Storybook addon ecosystem**
 
-- [Types of addons](./addon-types.md) for other types of addons
-- [Writing addons](./writing-addons.md) for the basics of addon development
-- [Presets](./writing-presets.md) for preset development
-- Integration catalog for requirements and available recipes
-- [API reference](./addons-api.md) to learn about the available APIs
+* [Types of addons](./addon-types.md) for other types of addons
+* [Writing addons](./writing-addons.md) for the basics of addon development
+* [Presets](./writing-presets.md) for preset development
+* Integration catalog for requirements and available recipes
+* [API reference](./addons-api.md) to learn about the available APIs

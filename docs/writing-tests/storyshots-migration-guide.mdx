@@ -2,22 +2,16 @@
 title: 'Storyshots migration guide'
 ---
 
-<Callout variant="info" style={{ marginBottom: "2rem" }} >
-
-We're actively integrating community feedback to improve the tooling and documentation for snapshot testing with Storybook. If you're interested in participating in this process and helping us improve it. Please fill out this [form](https://forms.gle/jzcMr6cqmZZpH9Z5A) to share your feedback.
-
+<Callout variant="info" style={{ marginBottom: "2rem" }}>
+  We're actively integrating community feedback to improve the tooling and documentation for snapshot testing with Storybook. If you're interested in participating in this process and helping us improve it. Please fill out this [form](https://forms.gle/jzcMr6cqmZZpH9Z5A) to share your feedback.
 </Callout>
 
 <IfRenderer renderer={['react', 'vue' ]}>
-
-This guide will teach you how to migrate your snapshot tests from the Storyshots addon to Storybook's test-runner or portable stories. Also, you will be able to understand the differences between them and set up, configure, and run snapshot tests using the available tooling provided by Storybook.
-
+  This guide will teach you how to migrate your snapshot tests from the Storyshots addon to Storybook's test-runner or portable stories. Also, you will be able to understand the differences between them and set up, configure, and run snapshot tests using the available tooling provided by Storybook.
 </IfRenderer>
 
 <IfRenderer renderer={['angular', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik', 'solid' ]}>
-
-This guide will teach you how to migrate your snapshot tests from the Storyshots addon to Storybook's test-runner. With it, you'll be able to set up, configure your project, and run snapshot tests using the available tooling provided by Storybook.
-
+  This guide will teach you how to migrate your snapshot tests from the Storyshots addon to Storybook's test-runner. With it, you'll be able to set up, configure your project, and run snapshot tests using the available tooling provided by Storybook.
 </IfRenderer>
 
 ## Migrating tests from Storyshots
@@ -26,8 +20,8 @@ This guide will teach you how to migrate your snapshot tests from the Storyshots
 
 Before you begin the migration process, ensure that you have:
 
-- A fully functional Storybook configured with one of the [supported frameworks](../configure/frameworks.md) running the latest stable version (i.e., 7.6 or higher).
-- Familiarity with your current Storybook and its testing setup.
+* A fully functional Storybook configured with one of the [supported frameworks](../configure/frameworks.md) running the latest stable version (i.e., 7.6 or higher).
+* Familiarity with your current Storybook and its testing setup.
 
 ### With the test-runner
 
@@ -47,19 +41,12 @@ To enable DOM snapshot testing with the test-runner, you can extend the test-run
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-dom-snapshot-testing.js.mdx',
-    'common/test-runner-dom-snapshot-testing.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-dom-snapshot-testing.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-If you've set up DOM snapshot tests in your project with the test-runner and enabled the [`index.json` mode](./test-runner#indexjson-mode) via CLI flag, tests are generated in a temporary folder outside your project, and snapshots get stored alongside them. You'll need to extend the test-runner's configuration and provide a custom snapshot resolver to allow a different location for the snapshots. See the [Troubleshooting](#the-test-runner-does-not-generate-snapshot-files-in-the-expected-directory) section for more information.
-
+  If you've set up DOM snapshot tests in your project with the test-runner and enabled the [`index.json` mode](./test-runner#indexjson-mode) via CLI flag, tests are generated in a temporary folder outside your project, and snapshots get stored alongside them. You'll need to extend the test-runner's configuration and provide a custom snapshot resolver to allow a different location for the snapshots. See the [Troubleshooting](#the-test-runner-does-not-generate-snapshot-files-in-the-expected-directory) section for more information.
 </Callout>
 
 #### Run image snapshot tests with the test-runner
@@ -68,120 +55,89 @@ By default, the test-runner provides you with the option to run multiple testing
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-image-snapshot-testing.js.mdx',
-    'common/test-runner-image-snapshot-testing.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-image-snapshot-testing.md" />
 
 {/* prettier-ignore-end */}
 
 <IfRenderer renderer={['react', 'vue' ]}>
+  ### With Portable Stories
 
-### With Portable Stories
+  Storybook provides a `composeStories` utility that helps convert stories from a story file into renderable elements that can be reused in your Node tests with JSDOM. It also allows you to apply other Storybook features that you have enabled in your project (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md)), which allows your component to render correctly. This is what is known as portable stories.
 
-Storybook provides a `composeStories` utility that helps convert stories from a story file into renderable elements that can be reused in your Node tests with JSDOM. It also allows you to apply other Storybook features that you have enabled in your project (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md)), which allows your component to render correctly. This is what is known as portable stories.
+  #### Setup
 
-#### Setup
+  We recommend you turn off your current storyshots tests to start the migration process. To do this, rename the configuration file (i.e., `storybook.test.ts|js` or similar) to `storybook.test.ts|js.old`. This will prevent the tests from being detected, as you'll create a new testing configuration file with the same name. By doing this, you'll be able to preserve your existing tests while transitioning to portable stories before removing the Storyshots addon from your project.
 
-We recommend you turn off your current storyshots tests to start the migration process. To do this, rename the configuration file (i.e., `storybook.test.ts|js` or similar) to `storybook.test.ts|js.old`. This will prevent the tests from being detected, as you'll create a new testing configuration file with the same name. By doing this, you'll be able to preserve your existing tests while transitioning to portable stories before removing the Storyshots addon from your project.
+  #### Import project-level annotations from Storybook
 
-#### Import project-level annotations from Storybook
+  If you need project-level annotations (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md), styles) enabled in your `./storybook/preview.js|ts` included in your tests, adjust your test set up file to import the annotations as follows:
 
-If you need project-level annotations (e.g., [decorators](../writing-stories/decorators.md), [args](../writing-stories/args.md), styles) enabled in your `./storybook/preview.js|ts` included in your tests, adjust your test set up file to import the annotations as follows:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="portable-stories-import-annotations.md" />
 
-<CodeSnippets
-  paths={[
-    'common/portable-stories-import-annotations.js.mdx',
-  ]}
-/>
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-end */}
+  <Callout variant="info" icon="ℹ️">
+    If you're using Vue 3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
+  </Callout>
 
-<Callout variant="info" icon="ℹ️">
+  #### Configure the testing framework for portable stories
 
-If you're using Vue 3, you must install the [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3) package to use the `setProjectAnnotations` API in your setup file and the `composeStories` API in your existing tests.
+  To help you migrate from Storyshots addon to Storybook's portable stories with the `composeStories` helper API, we've prepared examples to help you get started. Listed below are examples of two of the most popular testing frameworks: [Jest](https://jestjs.io/) and [Vitest](https://vitest.dev/). We recommend placing the code in a newly created `storybook.test.ts|js` file and adjusting the code accordingly, depending on your testing framework. Both examples below will:
 
-</Callout>
+  * Import all story files based on a glob pattern
+  * Iterate over these files and use `composeStories` on each of their modules, resulting in a list of renderable components from each story
+  * Cycle through the stories, render them, and snapshot them
 
-#### Configure the testing framework for portable stories
+  #### Vitest
 
-To help you migrate from Storyshots addon to Storybook's portable stories with the `composeStories` helper API, we've prepared examples to help you get started. Listed below are examples of two of the most popular testing frameworks: [Jest](https://jestjs.io/) and [Vitest](https://vitest.dev/). We recommend placing the code in a newly created `storybook.test.ts|js` file and adjusting the code accordingly, depending on your testing framework. Both examples below will:
+  If you're using [Vitest](https://vitest.dev/) as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
 
-- Import all story files based on a glob pattern
-- Iterate over these files and use `composeStories` on each of their modules, resulting in a list of renderable components from each story
-- Cycle through the stories, render them, and snapshot them
+  {/* prettier-ignore-start */}
 
-#### Vitest
+  <CodeSnippets path="portable-stories-vitest-snapshot-test.md" />
 
-If you're using [Vitest](https://vitest.dev/) as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-start */}
+  When your test is executed with Vitest, it will generate a single snapshot file (i.e., `storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use Vitest's [`toMatchFileSnapshot`](https://vitest.dev/guide/snapshot.html#file-snapshots) API. For example:
 
-<CodeSnippets
-  paths={[
-    'common/portable-stories-vitest-snapshot-test.js.mdx',
-    'common/portable-stories-vitest-snapshot-test.ts.mdx',
-  ]}
-/>
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-end */}
+  <CodeSnippets path="portable-stories-vitest-multi-snapshot-test.md" />
 
-When your test is executed with Vitest, it will generate a single snapshot file (i.e., `storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use Vitest's [`toMatchFileSnapshot`](https://vitest.dev/guide/snapshot.html#file-snapshots) API. For example:
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-start */}
+  #### Jest
 
-<CodeSnippets
-  paths={[
-    'common/portable-stories-vitest-multi-snapshot-test.js.mdx',
-  ]}
-/>
+  If you're using Jest as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
 
-{/* prettier-ignore-end */}
+  {/* prettier-ignore-start */}
 
-#### Jest
+  <CodeSnippets path="portable-stories-jest-snapshot-test.md" />
 
-If you're using Jest as your testing framework, you can begin migrating your snapshot tests to Storybook's portable stories with the `composeStories` helper API by referring to the following example. You will need to modify the code in your `storybook.test.ts|js` file as follows:
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-start */}
+  When your test is executed with Jest, it will generate a single snapshot file (i.e., `__snapshots__/storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use the [`jest-specific-snapshot`](https://github.com/igor-dv/jest-specific-snapshot) package. For example:
 
-<CodeSnippets
-  paths={[
-    'common/portable-stories-jest-snapshot-test.js.mdx',
-    'common/portable-stories-jest-snapshot-test.ts.mdx',
-  ]}
-/>
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-end */}
+  <CodeSnippets path="portable-stories-jest-multi-snapshot-test.md" />
 
-When your test is executed with Jest, it will generate a single snapshot file (i.e., `__snapshots__/storybook.test.ts|js.snap`) with all the stories in your project. However, if you want to generate individual snapshot files, you can use the [`jest-specific-snapshot`](https://github.com/igor-dv/jest-specific-snapshot) package. For example:
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-start */}
+  #### Known limitations
 
-<CodeSnippets
-  paths={[
-    'common/portable-stories-jest-multi-snapshot-test.js.mdx',
-  ]}
-/>
+  If you opt to use portable stories in your tests, you'll have a single test file that can run in a JSDOM environment, rendering and snapshotting all your stories. However, as your project grows, you may run into the limitations you had with Storyshots previously:
 
-{/* prettier-ignore-end */}
+  * You are not testing against a real browser.
+  * You must mock many browser utilities (e.g., canvas, window APIs, etc).
+  * Your debugging experience will not be as good, given you can't access the browser as part of your tests.
 
-#### Known limitations
-
-If you opt to use portable stories in your tests, you'll have a single test file that can run in a JSDOM environment, rendering and snapshotting all your stories. However, as your project grows, you may run into the limitations you had with Storyshots previously:
-
-- You are not testing against a real browser.
-- You must mock many browser utilities (e.g., canvas, window APIs, etc).
-- Your debugging experience will not be as good, given you can't access the browser as part of your tests.
-
-Alternatively, you may want to consider migrating to the other available option for snapshot testing with Storybook: the [test-runner](#with-the-test-runner) for a more robust solution that runs tests against a real browser environment with [Playwright](https://playwright.dev/).
-
+  Alternatively, you may want to consider migrating to the other available option for snapshot testing with Storybook: the [test-runner](#with-the-test-runner) for a more robust solution that runs tests against a real browser environment with [Playwright](https://playwright.dev/).
 </IfRenderer>
 
----
+***
 
 ## Troubleshooting
 
@@ -199,13 +155,7 @@ Run the following command to generate a custom configuration file for the test-r
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-eject-config.yarn.js.mdx',
-    'common/test-runner-eject-config.npm.js.mdx',
-    'common/test-runner-eject-config.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-eject-config.md" />
 
 {/* prettier-ignore-end */}
 
@@ -213,11 +163,7 @@ Update the file and enable the `snapshotResolver` option to use a custom snapsho
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-config-snapshot-resolver.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-config-snapshot-resolver.md" />
 
 {/* prettier-ignore-end */}
 
@@ -225,11 +171,7 @@ Finally, create a `snapshot-resolver.js` file to implement a custom snapshot res
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-custom-snapshot-resolver.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-custom-snapshot-resolver.md" />
 
 {/* prettier-ignore-end */}
 
@@ -241,13 +183,7 @@ Run the following command to generate a custom configuration file for the test-r
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-eject-config.yarn.js.mdx',
-    'common/test-runner-eject-config.npm.js.mdx',
-    'common/test-runner-eject-config.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-eject-config.md" />
 
 {/* prettier-ignore-end */}
 
@@ -255,11 +191,7 @@ Update the file and enable the `snapshotSerializers` option to use a custom snap
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-config-serializer.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-config-serializer.md" />
 
 {/* prettier-ignore-end */}
 
@@ -267,11 +199,7 @@ Finally, create a `snapshot-serializer.js` file to implement a custom snapshot s
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-custom-snapshot-serializer.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-custom-snapshot-serializer.md" />
 
 {/* prettier-ignore-end */}
 

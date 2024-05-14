@@ -6,30 +6,26 @@ Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
 
-<IfRenderer renderer='react'>
-
-```ts
-{
-  check?: boolean;
-  checkOptions?: CheckOptions;
-  reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
-  reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
-  skipCompiler?: boolean;
-}
-```
-
+<IfRenderer renderer="react">
+  ```ts
+  {
+    check?: boolean;
+    checkOptions?: CheckOptions;
+    reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
+    reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
+    skipCompiler?: boolean;
+  }
+  ```
 </IfRenderer>
 
 <IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik','solid' ]}>
-
-```ts
-{
-  check?: boolean;
-  checkOptions?: CheckOptions;
-  skipCompiler?: boolean;
-}
-```
-
+  ```ts
+  {
+    check?: boolean;
+    checkOptions?: CheckOptions;
+    skipCompiler?: boolean;
+  }
+  ```
 </IfRenderer>
 
 Configures how Storybook handles [TypeScript files](../configure/typescript.md).
@@ -42,11 +38,7 @@ Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fo
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-typescript-check.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-typescript-check.md" />
 
 {/* prettier-ignore-end */}
 
@@ -58,53 +50,39 @@ Options to pass to `fork-ts-checker-webpack-plugin`, if [enabled](#check). See [
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-typescript-check-options.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-typescript-check-options.md" />
 
 {/* prettier-ignore-end */}
 
-<IfRenderer renderer='react'>
+<IfRenderer renderer="react">
+  ## `reactDocgen`
 
-## `reactDocgen`
+  Type: `'react-docgen' | 'react-docgen-typescript' | false`
 
-Type: `'react-docgen' | 'react-docgen-typescript' | false`
+  Default:
 
-Default:
+  * `false`: if `@storybook/react` is not installed
+  * `'react-docgen'`: if `@storybook/react` is installed
 
-- `false`: if `@storybook/react` is not installed
-- `'react-docgen'`: if `@storybook/react` is installed
+  Configures which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
 
-Configures which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components. `react-docgen-typescript` invokes the TypeScript compiler, which makes it slow but generally accurate. `react-docgen` performs its own analysis, which is much faster but incomplete.
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="main-config-typescript-react-docgen.md" />
 
-<CodeSnippets
-  paths={[
-    'react/main-config-typescript-react-docgen.ts.mdx',
-  ]}
-/>
+  {/* prettier-ignore-end */}
 
-{/* prettier-ignore-end */}
+  ## `reactDocgenTypescriptOptions`
 
-## `reactDocgenTypescriptOptions`
+  Type: `ReactDocgenTypescriptOptions`
 
-Type: `ReactDocgenTypescriptOptions`
+  Configures the options to pass to `react-docgen-typescript-plugin` if `react-docgen-typescript` is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
 
-Configures the options to pass to `react-docgen-typescript-plugin` if `react-docgen-typescript` is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="main-config-typescript-react-docgen-typescript-options.md" />
 
-<CodeSnippets
-  paths={[
-    'react/main-config-typescript-react-docgen-typescript-options.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
 ## `skipCompiler`
@@ -115,10 +93,6 @@ Disable parsing of TypeScript files through the compiler, which is used for Webp
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-typescript-skip-compiler.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-typescript-skip-compiler.md" />
 
 {/* prettier-ignore-end */}

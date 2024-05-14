@@ -14,21 +14,12 @@ Stories are a practical starting point for UI testing. Import stories into tools
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/component-test-with-testing-library.js.mdx',
-    'react/component-test-with-testing-library.ts.mdx',
-    'vue/component-test-with-testing-library.3.js.mdx',
-    'vue/component-test-with-testing-library.3.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="component-test-with-testing-library.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
-
+  You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
 </Callout>
 
 Once the test runs, it loads the story and renders it. [Testing Library](https://testing-library.com/) then emulates the user's behavior and checks if the component state has been updated.
@@ -39,48 +30,28 @@ By default, Storybook offers a zero-config setup for React and other frameworks 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/storybook-testing-addon-optional-config.js.mdx',
-    'vue/storybook-testing-addon-optional-config.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-testing-addon-optional-config.md" />
 
 {/* prettier-ignore-end */}
 
-<IfRenderer renderer='react'>
+<IfRenderer renderer="react">
+  Update your test script to include the configuration file:
 
-Update your test script to include the configuration file:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="react-test-scripts-optional-config-scripts.md" />
 
-<CodeSnippets
-  paths={[
-    'react/react-test-scripts-optional-config-scripts.json.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
-<IfRenderer renderer='vue'>
+<IfRenderer renderer="vue">
+  Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/) or your test script if you're using [Jest](https://jestjs.io/):
 
-Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/) or your test script if you're using [Jest](https://jestjs.io/):
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="storybook-testing-addon-optional-config.md" />
 
-<CodeSnippets
-  paths={[
-    'vue/storybook-testing-addon-optional-config.vite.js.mdx',
-    'vue/storybook-testing-addon-optional-config.vite.ts.mdx',
-    'vue/vue-jest-optional-config-scripts.jest.js.mdx',
-    'vue/vue-jest-optional-config-scripts.jest.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
 ### Override story properties
@@ -89,18 +60,7 @@ By default, the `setProjectAnnotations` function injects into your existing test
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/override-compose-story-test.compose-story.js.mdx',
-    'react/override-compose-story-test.compose-story.ts.mdx',
-    'vue/override-compose-story-test.compose-story.3.js.mdx',
-    'vue/override-compose-story-test.compose-story.3.ts.mdx',
-    'react/override-compose-story-test.compose-stories.js.mdx',
-    'react/override-compose-story-test.compose-stories.ts.mdx',
-    'vue/override-compose-story-test.compose-stories.3.js.mdx',
-    'vue/override-compose-story-test.compose-stories.3.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="override-compose-story-test.md" />
 
 {/* prettier-ignore-end */}
 
@@ -110,14 +70,7 @@ You can use the `composeStory` function from the appropriate framework or suppor
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/single-story-test.js.mdx',
-    'react/single-story-test.ts.mdx',
-    'vue/single-story-test.3.js.mdx',
-    'vue/single-story-test.3.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="single-story-test.md" />
 
 {/* prettier-ignore-end */}
 
@@ -127,14 +80,7 @@ If you intend to test multiple stories in a single test, use the `composeStories
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/multiple-stories-test.js.mdx',
-    'react/multiple-stories-test.ts.mdx',
-    'vue/multiple-stories-test.3.js.mdx',
-    'vue/multiple-stories-test.3.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="multiple-stories-test.md" />
 
 {/* prettier-ignore-end */}
 
@@ -144,51 +90,37 @@ If you intend to test multiple stories in a single test, use the `composeStories
 
 Storybook provides community-led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However, these addons still lack support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
 
-<IfRenderer renderer='react'>
+<IfRenderer renderer="react">
+  ### The args are not being passed to the test
 
-### The args are not being passed to the test
+  The components returned by `composeStories` or `composeStory` not only can be rendered as React components but also come with the combined properties from the story, meta, and global configuration. This means that if you want to access args or parameters, for instance, you can do so:
 
-The components returned by `composeStories` or `composeStory` not only can be rendered as React components but also come with the combined properties from the story, meta, and global configuration. This means that if you want to access args or parameters, for instance, you can do so:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="reuse-args-test.md" />
 
-<CodeSnippets
-  paths={[
-    'react/reuse-args-test.js.mdx',
-    'react/reuse-args-test.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
-<IfRenderer renderer='vue'>
+<IfRenderer renderer="vue">
+  ### The args are not being passed to the test
 
-### The args are not being passed to the test
+  When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
 
-When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="reuse-args-test.md" />
 
-<CodeSnippets
-  paths={[
-    'vue/reuse-args-test.3.js.mdx',
-    'vue/reuse-args-test.3.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
 **Learn about other UI tests**
 
-- [Test runner](./test-runner.md) to automate test execution
-- [Visual tests](./visual-testing.md) for appearance
-- [Accessibility tests](./accessibility-testing.md) for accessibility
-- [Interaction tests](./interaction-testing.md) for user behavior simulation
-- [Coverage tests](./test-coverage.md) for measuring code coverage
-- [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
-- Unit tests for functionality
+* [Test runner](./test-runner.md) to automate test execution
+* [Visual tests](./visual-testing.md) for appearance
+* [Accessibility tests](./accessibility-testing.md) for accessibility
+* [Interaction tests](./interaction-testing.md) for user behavior simulation
+* [Coverage tests](./test-coverage.md) for measuring code coverage
+* [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
+* [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+* Unit tests for functionality

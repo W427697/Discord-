@@ -20,19 +20,12 @@ Storybook has a simple, declarative syntax for configuring toolbar menus. In you
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-configure-globaltypes.js.mdx',
-    'common/storybook-preview-configure-globaltypes.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-preview-configure-globaltypes.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-As globals are _global_ you can _only_ set `globalTypes` in [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering).
-
+  As globals are *global* you can *only* set `globalTypes` in [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering).
 </Callout>
 
 When you start your Storybook, you should see a new dropdown with the `light` and `dark` options in your toolbar.
@@ -41,71 +34,44 @@ When you start your Storybook, you should see a new dropdown with the `light` an
 
 We have a `global` implemented. Let's wire it up! We can consume our new `theme` global in a decorator using the `context.globals.theme` value.
 
-<IfRenderer renderer='react'>
+<IfRenderer renderer="react">
+  For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-For example, suppose you are using [`styled-components`](https://styled-components.com/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="storybook-preview-use-global-type.md" />
 
-<CodeSnippets
-  paths={[
-    'react/storybook-preview-use-global-type.js.mdx',
-    'react/storybook-preview-use-global-type.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
-<IfRenderer renderer='vue'>
+<IfRenderer renderer="vue">
+  For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-For example, suppose you are using [`Vuetify`](https://vuetifyjs.com/en/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="storybook-preview-use-global-type.md" />
 
-<CodeSnippets
-  paths={[
-    'vue/storybook-preview-use-global-type.3.js.mdx',
-    'vue/storybook-preview-use-global-type.3.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
-<IfRenderer renderer='angular'>
+<IfRenderer renderer="angular">
+  For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
 
-For example, suppose you are using [`Angular Material`](https://material.angular.io/). You can add a theme provider decorator to your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) config:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="storybook-preview-use-global-type.md" />
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-preview-use-global-type.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
 <IfRenderer renderer={['ember', 'html', 'preact', 'qwik', 'svelte', 'solid', 'web-components' ]}>
+  Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
 
-Depending on your framework and theming library, you can extend your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rendering) and provide a decorator to load the theme. For example:
+  {/* prettier-ignore-start */}
 
-{/* prettier-ignore-start */}
+  <CodeSnippets path="storybook-preview-use-global-type.md" />
 
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-use-global-type.js.mdx',
-    'common/storybook-preview-use-global-type.ts.mdx',
-  ]}
-/>
-
-{/* prettier-ignore-end */}
-
+  {/* prettier-ignore-end */}
 </IfRenderer>
 
 ## Advanced usage
@@ -118,26 +84,17 @@ In your [`.storybook/preview.js|ts`](../configure/index.md#configure-story-rende
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-locales-globaltype.js.mdx',
-    'common/storybook-preview-locales-globaltype.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-preview-locales-globaltype.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡" style={{ marginBottom: '10px' }}>
-
-The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
-
+  The `icon` element used in the examples loads the icons from the `@storybook/components` package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 </Callout>
 
 <Callout variant="info" icon="💡">
-
-The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
-`@storybook/addon-essentials`.
-
+  The `@storybook/addon-toolbars` addon is required to use toolbars. The toolbars addon is included by default in
+  `@storybook/addon-essentials`.
 </Callout>
 
 By adding the configuration element `right`, the text will be displayed on the right side in the toolbar menu once you connect it to a decorator.
@@ -161,23 +118,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/my-component-story-use-globaltype.js.mdx',
-    'react/my-component-story-use-globaltype.ts.mdx',
-    'vue/my-component-story-use-globaltype.js.mdx',
-    'vue/my-component-story-use-globaltype.ts.mdx',
-    'angular/my-component-story-use-globaltype.ts.mdx',
-    'svelte/my-component-story-use-globaltype.js.mdx',
-    'svelte/my-component-story-use-globaltype.ts.mdx',
-    'web-components/my-component-story-use-globaltype.js.mdx',
-    'web-components/my-component-story-use-globaltype.ts.mdx',
-    'solid/my-component-story-use-globaltype.js.mdx',
-    'solid/my-component-story-use-globaltype.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
-/>
+<CodeSnippets path="my-component-story-use-globaltype.md" usesCsf3 csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype" />
 
 {/* prettier-ignore-end */}
 
@@ -189,11 +130,7 @@ Using the ThemeProvider example above, you could expand it to display which them
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/addon-consume-globaltype.js.mdx',
-  ]}
-/>
+<CodeSnippets path="addon-consume-globaltype.md" />
 
 {/* prettier-ignore-end */}
 
@@ -205,10 +142,6 @@ For example, if you were working on a [toolbar addon](../addons/addon-types.md#t
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/addon-consume-and-update-globaltype.js.mdx',
-  ]}
-/>
+<CodeSnippets path="addon-consume-and-update-globaltype.md" />
 
 {/* prettier-ignore-end */}

@@ -5,9 +5,7 @@ title: Mocking modules
 Components can also depend on modules that are imported into the component file. These can be from external packages or internal to your project. When rendering those components in Storybook or testing them, you may want to mock those modules to control their behavior.
 
 <Callout variant="info">
-
-If you prefer learning by example, we created a [comprehensive demo project](https://github.com/storybookjs/module-mocking-demo) using the mocking strategies described here.
-
+  If you prefer learning by example, we created a [comprehensive demo project](https://github.com/storybookjs/module-mocking-demo) using the mocking strategies described here.
 </Callout>
 
 There are two primary approaches to mocking modules in Storybook. They both involve creating a mock file to replace the original module. The difference between the two approaches is how you import the mock file into your component.
@@ -18,22 +16,18 @@ For either approach, relative imports of the mocked module are not supported.
 
 To mock a module, create a file with the same name and in the same directory as the module you want to mock. For example, to mock a module named `session`, create a file next to it named `session.mock.js|ts`, with a few characteristics:
 
-- It must import the original module using a relative import.
-  - Using a subpath or alias import would result in it importing itself.
-- It should re-export all exports from the original module.
-- It should use the `fn` utility to mock any necessary functionality from the original module.
-- It should use the [`mockName`](https://vitest.dev/api/mock.html#mockname) method to ensure the name is preserved when minified
-- It should not introduce side effects that could affect other tests or components. Mock files should be isolated and only affect the module they are mocking.
+* It must import the original module using a relative import.
+  * Using a subpath or alias import would result in it importing itself.
+* It should re-export all exports from the original module.
+* It should use the `fn` utility to mock any necessary functionality from the original module.
+* It should use the [`mockName`](https://vitest.dev/api/mock.html#mockname) method to ensure the name is preserved when minified
+* It should not introduce side effects that could affect other tests or components. Mock files should be isolated and only affect the module they are mocking.
 
 Here's an example of a mock file for a module named `session`:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-test-mock-file-example.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-test-mock-file-example.md" />
 
 {/* prettier-ignore-end */}
 
@@ -69,11 +63,7 @@ To configure subpath imports, you define the `imports` property in your project'
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/subpath-imports-config.json.mdx',
-  ]}
-/>
+<CodeSnippets path="subpath-imports-config.md" />
 
 {/* prettier-ignore-end */}
 
@@ -101,14 +91,7 @@ If your project is unable to use [subpath imports](#subpath-imports), you can co
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/module-aliases-config.vite.ts.mdx',
-    'common/module-aliases-config.vite.js.mdx',
-    'common/module-aliases-config.webpack.ts.mdx',
-    'common/module-aliases-config.webpack.js.mdx',
-  ]}
-/>
+<CodeSnippets path="module-aliases-config.md" />
 
 {/* prettier-ignore-end */}
 
@@ -120,22 +103,12 @@ Here, we define `beforeEach` on a story (which will run before the story is rend
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-test-mock-return-value.ts.mdx',
-    'web-components/storybook-test-mock-return-value.js.mdx',
-    'web-components/storybook-test-mock-return-value.ts.mdx',
-    'common/storybook-test-mock-return-value.js.mdx',
-    'common/storybook-test-mock-return-value.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-test-mock-return-value.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info">
-
-If you are [writing your stories in TypeScript](./typescript.md), you must import your mock modules using the full mocked file name to have the functions correctly typed in your stories. You do **not** need to do this in your component files. That's what the [subpath import](#subpath-imports) or [builder alias](#builder-aliases) is for.
-
+  If you are [writing your stories in TypeScript](./typescript.md), you must import your mock modules using the full mocked file name to have the functions correctly typed in your stories. You do **not** need to do this in your component files. That's what the [subpath import](#subpath-imports) or [builder alias](#builder-aliases) is for.
 </Callout>
 
 ### Spying on mocked modules
@@ -146,15 +119,7 @@ For example, this story checks that the `saveNote` function was called when the 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-test-fn-mock-spy.ts.mdx',
-    'web-components/storybook-test-fn-mock-spy.js.mdx',
-    'web-components/storybook-test-fn-mock-spy.ts.mdx',
-    'common/storybook-test-fn-mock-spy.js.mdx',
-    'common/storybook-test-fn-mock-spy.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-test-fn-mock-spy.md" />
 
 {/* prettier-ignore-end */}
 
@@ -165,23 +130,13 @@ Before the story renders, you can use the asynchronous `beforeEach` function to 
 You can also return a cleanup function from `beforeEach` which will be called after your story unmounts. This is useful for tasks like unsubscribing observers, etc.
 
 <Callout variant="info">
-
-It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
-
+  It is *not* necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
 </Callout>
 
 Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/before-each-in-meta-mock-date.ts.mdx',
-    'web-components/before-each-in-meta-mock-date.js.mdx',
-    'web-components/before-each-in-meta-mock-date.ts.mdx',
-    'common/before-each-in-meta-mock-date.js.mdx',
-    'common/before-each-in-meta-mock-date.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="before-each-in-meta-mock-date.md" />
 
 {/* prettier-ignore-end */}

@@ -9,10 +9,7 @@ Test coverage is the practice of measuring whether existing tests fully cover yo
 Coverage tests examine the instrumented code against a set of industry-accepted best practices. They act as the last line of QA to improve the quality of your test suite.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="component-test-coverage-whitebg.mp4"
-    type="video/mp4"
-  />
+  <source src="component-test-coverage-whitebg.mp4" type="video/mp4" />
 </video>
 
 ## Code instrumentation with the coverage addon
@@ -27,13 +24,7 @@ Run the following command to install the addon.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-install.yarn.js.mdx',
-    'common/storybook-coverage-addon-install.npm.js.mdx',
-    'common/storybook-coverage-addon-install.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-addon-install.md" />
 
 {/* prettier-ignore-end */}
 
@@ -41,12 +32,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-registration.js.mdx',
-    'common/storybook-coverage-addon-registration.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-addon-registration.md" />
 
 {/* prettier-ignore-end */}
 
@@ -54,13 +40,7 @@ Start your Storybook with:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-run-dev.yarn.js.mdx',
-    'common/storybook-run-dev.npm.js.mdx',
-    'common/storybook-run-dev.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-run-dev.md" />
 
 {/* prettier-ignore-end */}
 
@@ -68,13 +48,7 @@ Finally, open a new terminal window and run the test-runner with:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-coverage.yarn.js.mdx',
-    'common/test-runner-coverage.npm.js.mdx',
-    'common/test-runner-coverage.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-coverage.md" />
 
 {/* prettier-ignore-end */}
 
@@ -86,42 +60,37 @@ By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@s
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-config-options.js.mdx',
-    'common/storybook-coverage-addon-config-options.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-addon-config-options.md" />
 
 {/* prettier-ignore-end */}
 
 | Vite options           | Description                                                                                                                                                                                                                                        | Type                        |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `checkProd`            | Configures the plugin to skip instrumentation in production environments<br/>`options: { istanbul: { checkProd: true,}}`                                                                                                                           | `boolean`                   |
-| `cwd`                  | Configures the working directory for the coverage tests.<br/>Defaults to `process.cwd()`<br/>`options: { istanbul: { cwd: process.cwd(),}}`                                                                                                        | `string`                    |
-| `cypress`              | Replaces the `VITE_COVERAGE` environment variable with `CYPRESS_COVERAGE`.<br/>Requires Cypress's [code coverage](https://docs.cypress.io/guides/tooling/code-coverage)<br/>`options: { istanbul: { cypress: true,}}`                              | `boolean`                   |
-| `exclude`              | Overrides the [default exclude list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of files or directories to exclude from coverage<br/>`options: { istanbul: { exclude: ['**/stories/**'],}}`  | `Array<String>` or `string` |
-| `extension`            | Extends the [default extension list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of file extensions to include in coverage<br/>`options: { istanbul: { extension: ['.js', '.cjs', '.mjs'],}}` | `Array<String>` or `string` |
-| `forceBuildInstrument` | Configures the plugin to add instrumentation in build mode <br/>`options: { istanbul: { forceBuildInstrument: true,}}`                                                                                                                             | `boolean`                   |
-| `include`              | Select the files to collect coverage<br/>`options: { istanbul: { include: ['**/stories/**'],}}`                                                                                                                                                    | `Array<String>` or `string` |
-| `nycrcPath`            | Defines the relative path for the existing nyc [configuration file](https://github.com/istanbuljs/nyc?tab=readme-ov-file#configuration-files)<br/>`options: { istanbul: { nycrcPath: '../nyc.config.js',}}`                                        | `string`                    |
-| `requireEnv`           | Overrides the `VITE_COVERAGE` environment variable's value by granting access to the `env` variables<br/>`options: { istanbul: { requireEnv: true,}}`                                                                                              | `boolean`                   |
+| `checkProd`            | Configures the plugin to skip instrumentation in production environments<br />`options: { istanbul: { checkProd: true,}}`                                                                                                                           | `boolean`                   |
+| `cwd`                  | Configures the working directory for the coverage tests.<br />Defaults to `process.cwd()`<br />`options: { istanbul: { cwd: process.cwd(),}}`                                                                                                        | `string`                    |
+| `cypress`              | Replaces the `VITE_COVERAGE` environment variable with `CYPRESS_COVERAGE`.<br />Requires Cypress's [code coverage](https://docs.cypress.io/guides/tooling/code-coverage)<br />`options: { istanbul: { cypress: true,}}`                              | `boolean`                   |
+| `exclude`              | Overrides the [default exclude list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of files or directories to exclude from coverage<br />`options: { istanbul: { exclude: ['**/stories/**'],}}`  | `Array<String>` or `string` |
+| `extension`            | Extends the [default extension list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of file extensions to include in coverage<br />`options: { istanbul: { extension: ['.js', '.cjs', '.mjs'],}}` | `Array<String>` or `string` |
+| `forceBuildInstrument` | Configures the plugin to add instrumentation in build mode <br />`options: { istanbul: { forceBuildInstrument: true,}}`                                                                                                                             | `boolean`                   |
+| `include`              | Select the files to collect coverage<br />`options: { istanbul: { include: ['**/stories/**'],}}`                                                                                                                                                    | `Array<String>` or `string` |
+| `nycrcPath`            | Defines the relative path for the existing nyc [configuration file](https://github.com/istanbuljs/nyc?tab=readme-ov-file#configuration-files)<br />`options: { istanbul: { nycrcPath: '../nyc.config.js',}}`                                        | `string`                    |
+| `requireEnv`           | Overrides the `VITE_COVERAGE` environment variable's value by granting access to the `env` variables<br />`options: { istanbul: { requireEnv: true,}}`                                                                                              | `boolean`                   |
 
 | Webpack 5 options      | Description                                                                                                                                                                                                                                        | Type                        |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `autoWrap`             | Provides support for top-level return statements by wrapping the program code in a function<br/>`options: { istanbul: { autoWrap: true,}}`                                                                                                         | `boolean`                   |
-| `compact`              | Condenses the output of the instrumented code. Useful for debugging<br/>`options: { istanbul: { compact: false,}}`                                                                                                                                 | `boolean`                   |
-| `coverageVariable`     | Defines the global variable name that Istanbul will use to store coverage results<br/>`options: { istanbul: { coverageVariable: '__coverage__',}}`                                                                                                 | `string`                    |
-| `cwd`                  | Configures the working directory for the coverage tests.<br/>Defaults to `process.cwd()`<br/>`options: { istanbul: { cwd: process.cwd(),}}`                                                                                                        | `string`                    |
-| `debug`                | Enables the debug mode for additional logging information during the instrumentation process<br/>`options: { istanbul: { debug: true,}}`                                                                                                           | `boolean`                   |
-| `esModules`            | Enables support for ES Module syntax<br/>`options: { istanbul: { esModules: true,}}`                                                                                                                                                               | `boolean`                   |
-| `exclude`              | Overrides the [default exclude list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of files or directories to exclude from coverage<br/>`options: { istanbul: { exclude: ['**/stories/**'],}}`  | `Array<String>` or `string` |
-| `extension`            | Extends the [default extension list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of file extensions to include in coverage<br/>`options: { istanbul: { extension: ['.js', '.cjs', '.mjs'],}}` | `Array<String>` or `string` |
-| `include`              | Select the files to collect coverage<br/>`options: { istanbul: { include: ['**/stories/**'],}}`                                                                                                                                                    | `Array<String>` or `string` |
-| `nycrcPath`            | Defines the relative path for the existing nyc [configuration file](https://github.com/istanbuljs/nyc?tab=readme-ov-file#configuration-files)<br/>`options: { istanbul: { nycrcPath: '../nyc.config.js',}}`                                        | `string`                    |
-| `preserveComments`     | Includes comments in the instrumented code<br/>`options: { istanbul: { preserveComments: true,}}`                                                                                                                                                  | `boolean`                   |
-| `produceSourceMap`     | Configures Instanbul to generate a source map for the instrumented code<br/>`options: { istanbul: { produceSourceMap: true,}}`                                                                                                                     | `boolean`                   |
-| `sourceMapUrlCallback` | Defines a callback function invoked with the filename and the source map URL when a source map is generated<br/>`options: { istanbul: { sourceMapUrlCallback: (filename, url) => {},}}`                                                            | `function`                  |
+| `autoWrap`             | Provides support for top-level return statements by wrapping the program code in a function<br />`options: { istanbul: { autoWrap: true,}}`                                                                                                         | `boolean`                   |
+| `compact`              | Condenses the output of the instrumented code. Useful for debugging<br />`options: { istanbul: { compact: false,}}`                                                                                                                                 | `boolean`                   |
+| `coverageVariable`     | Defines the global variable name that Istanbul will use to store coverage results<br />`options: { istanbul: { coverageVariable: '__coverage__',}}`                                                                                                 | `string`                    |
+| `cwd`                  | Configures the working directory for the coverage tests.<br />Defaults to `process.cwd()`<br />`options: { istanbul: { cwd: process.cwd(),}}`                                                                                                        | `string`                    |
+| `debug`                | Enables the debug mode for additional logging information during the instrumentation process<br />`options: { istanbul: { debug: true,}}`                                                                                                           | `boolean`                   |
+| `esModules`            | Enables support for ES Module syntax<br />`options: { istanbul: { esModules: true,}}`                                                                                                                                                               | `boolean`                   |
+| `exclude`              | Overrides the [default exclude list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of files or directories to exclude from coverage<br />`options: { istanbul: { exclude: ['**/stories/**'],}}`  | `Array<String>` or `string` |
+| `extension`            | Extends the [default extension list](https://github.com/storybookjs/addon-coverage/blob/main/src/constants.ts) with the provided list of file extensions to include in coverage<br />`options: { istanbul: { extension: ['.js', '.cjs', '.mjs'],}}` | `Array<String>` or `string` |
+| `include`              | Select the files to collect coverage<br />`options: { istanbul: { include: ['**/stories/**'],}}`                                                                                                                                                    | `Array<String>` or `string` |
+| `nycrcPath`            | Defines the relative path for the existing nyc [configuration file](https://github.com/istanbuljs/nyc?tab=readme-ov-file#configuration-files)<br />`options: { istanbul: { nycrcPath: '../nyc.config.js',}}`                                        | `string`                    |
+| `preserveComments`     | Includes comments in the instrumented code<br />`options: { istanbul: { preserveComments: true,}}`                                                                                                                                                  | `boolean`                   |
+| `produceSourceMap`     | Configures Instanbul to generate a source map for the instrumented code<br />`options: { istanbul: { produceSourceMap: true,}}`                                                                                                                     | `boolean`                   |
+| `sourceMapUrlCallback` | Defines a callback function invoked with the filename and the source map URL when a source map is generated<br />`options: { istanbul: { sourceMapUrlCallback: (filename, url) => {},}}`                                                            | `function`                  |
 
 ## What about other coverage reporting tools?
 
@@ -129,15 +98,11 @@ Out of the box, code coverage tests work seamlessly with Storybook's test-runner
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-report-lcov.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-report-lcov.md" />
 
 {/* prettier-ignore-end */}
 
----
+***
 
 ## Troubleshooting
 
@@ -147,12 +112,7 @@ If you intend on running coverage tests in frameworks with special files like Vu
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-report-vue.json.mdx',
-    'common/storybook-coverage-report-vue.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-report-vue.md" />
 
 {/* prettier-ignore-end */}
 
@@ -162,12 +122,7 @@ If you generated a production build optimized for performance with the [`--test`
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-coverage-addon-optimized-config.js.mdx',
-    'common/storybook-coverage-addon-optimized-config.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-coverage-addon-optimized-config.md" />
 
 {/* prettier-ignore-end */}
 
@@ -177,11 +132,11 @@ As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverag
 
 **Learn about other UI tests**
 
-- [Test runner](./test-runner.md) to automate test execution
-- [Visual tests](./visual-testing.md) for appearance
-- [Accessibility tests](./accessibility-testing.md) for accessibility
-- [Interaction tests](./interaction-testing.md) for user behavior simulation
-- Coverage tests for measuring code coverage
-- [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
-- [Unit tests](./stories-in-unit-tests.md) for functionality
+* [Test runner](./test-runner.md) to automate test execution
+* [Visual tests](./visual-testing.md) for appearance
+* [Accessibility tests](./accessibility-testing.md) for accessibility
+* [Interaction tests](./interaction-testing.md) for user behavior simulation
+* Coverage tests for measuring code coverage
+* [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
+* [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+* [Unit tests](./stories-in-unit-tests.md) for functionality

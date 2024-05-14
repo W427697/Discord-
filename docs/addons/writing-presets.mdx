@@ -14,12 +14,7 @@ This type of preset allows you to encapsulate and organize configurations specif
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-local-preset.js.mdx',
-    'common/storybook-addons-local-preset.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-local-preset.md" />
 
 {/* prettier-ignore-end */}
 
@@ -29,11 +24,7 @@ This type of preset is user-facing and responsible for registering the addon wit
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-root-preset.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-root-preset.md" />
 
 {/* prettier-ignore-end */}
 
@@ -47,19 +38,12 @@ To customize Storybook's Babel configuration and add support for additional feat
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-preset-babelDefault.js.mdx',
-    'common/storybook-addons-preset-babelDefault.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-preset-babelDefault.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info">
-
-The Babel configuration is only applied to frameworks that use Babel internally. If you enable it for a framework that uses a different compiler, like [SWC](https://swc.rs/) or [esbuild](https://esbuild.github.io/), it will be ignored.
-
+  The Babel configuration is only applied to frameworks that use Babel internally. If you enable it for a framework that uses a different compiler, like [SWC](https://swc.rs/) or [esbuild](https://esbuild.github.io/), it will be ignored.
 </Callout>
 
 ### Builders
@@ -72,12 +56,7 @@ If you are creating a preset and want to include Vite support, the `viteFinal` A
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-preset-viteFinal.js.mdx',
-    'common/storybook-addons-preset-viteFinal.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-preset-viteFinal.md" />
 
 {/* prettier-ignore-end */}
 
@@ -87,12 +66,7 @@ To customize the Webpack configuration in Storybook to add support for additiona
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-preset-webpackFinal.js.mdx',
-    'common/storybook-addons-preset-webpackFinal.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-preset-webpackFinal.md" />
 
 {/* prettier-ignore-end */}
 
@@ -102,11 +76,7 @@ If you're writing a preset that loads third-party addons, which you may not have
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-root-preset-manager-entries.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-root-preset-manager-entries.md" />
 
 {/* prettier-ignore-end */}
 
@@ -116,14 +86,7 @@ If you need additional settings to render stories for a preset, like [decorators
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-preset-preview.js.mdx',
-    'common/storybook-addons-preset.root-preset.js.mdx',
-    'common/storybook-addons-preset-preview.ts.mdx',
-    'common/storybook-addons-preset.root-preset.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addons-preset-preview.md" />
 
 {/* prettier-ignore-end */}
 
@@ -133,12 +96,7 @@ The presets API is designed to be flexible and allow you to customize Storybook 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-main-advanced-config-example.js.mdx',
-    'common/storybook-main-advanced-config-example.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-main-advanced-config-example.md" />
 
 {/* prettier-ignore-end */}
 
@@ -148,12 +106,7 @@ For addon consumers, the [`managerEntries`](#managerentries) API can be too tech
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-main-register-example-addon.js.mdx',
-    'common/storybook-main-register-example-addon.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-main-register-example-addon.md" />
 
 {/* prettier-ignore-end */}
 
@@ -169,14 +122,7 @@ The Storybook preset API also provides access to the UI configuration, including
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-preview.head.js.mdx',
-    'common/main-config-preview.head.ts.mdx',
-    'common/main-config-preview.body.js.mdx',
-    'common/main-config-preview.body.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-preview.md" />
 
 {/* prettier-ignore-end */}
 
@@ -184,12 +130,7 @@ Additionally, if you need to customize the manager (i.e., where Storybook’s se
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-custom-manager-head.js.mdx',
-    'common/storybook-custom-manager-head.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-custom-manager-head.md" />
 
 {/* prettier-ignore-end */}
 
@@ -203,8 +144,8 @@ As Storybook relies on [esbuild](https://esbuild.github.io/) instead of Webpack 
 
 **Learn more about the Storybook addon ecosystem**
 
-- [Types of addons](./addon-types.md) for other types of addons
-- [Writing addons](./writing-addons.md) for the basics of addon development
-- Presets for preset development
-- [Integration catalog](./integration-catalog.md) for requirements and available recipes
-- [API reference](./addons-api.md) to learn about the available APIs
+* [Types of addons](./addon-types.md) for other types of addons
+* [Writing addons](./writing-addons.md) for the basics of addon development
+* Presets for preset development
+* [Integration catalog](./integration-catalog.md) for requirements and available recipes
+* [API reference](./addons-api.md) to learn about the available APIs

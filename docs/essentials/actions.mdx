@@ -7,10 +7,7 @@ title: 'Actions'
 The actions addon is used to display data received by event handler (callback) arguments in your stories.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="addon-actions-demo-optimized.mp4"
-    type="video/mp4"
-  />
+  <source src="addon-actions-demo-optimized.mp4" type="video/mp4" />
 </video>
 
 ## Action args
@@ -23,13 +20,7 @@ The recommended way to write actions is to use the `fn` utility from `@storybook
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/button-story-onclick-action-spy.ts.mdx',
-    'common/button-story-onclick-action-spy.js.mdx',
-    'common/button-story-onclick-action-spy.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="button-story-onclick-action-spy.md" />
 
 {/* prettier-ignore-end */}
 
@@ -45,12 +36,7 @@ This is quite useful when your component has dozens (or hundreds) of methods and
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-matching-argtypes.js.mdx',
-    'common/storybook-preview-matching-argtypes.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-preview-matching-argtypes.md" />
 
 {/* prettier-ignore-end */}
 
@@ -58,22 +44,12 @@ If you need more granular control over which `argTypes` are matched, you can adj
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/button-story-matching-argtypes.ts.mdx',
-    'web-components/button-story-matching-argtypes.js.mdx',
-    'web-components/button-story-matching-argtypes.ts.mdx',
-    'common/button-story-matching-argtypes.js.mdx',
-    'common/button-story-matching-argtypes.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="button-story-matching-argtypes.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-If you're generating argTypes with another addon (like [docs](../writing-docs/index.md), which is the common behavior), ensure the actions addon **AFTER** the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/index.md#configure-story-rendering). This is default in [essentials](./index.md).
-
+  If you're generating argTypes with another addon (like [docs](../writing-docs/index.md), which is the common behavior), ensure the actions addon **AFTER** the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/index.md#configure-story-rendering). This is default in [essentials](./index.md).
 </Callout>
 
 ## Action event handlers
@@ -82,16 +58,7 @@ It is also possible to detect if your component is emitting the correct HTML eve
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/button-story-action-event-handle.ts.mdx',
-    'web-components/button-story-action-event-handle.js.mdx',
-    'web-components/button-story-action-event-handle.ts.mdx',
-    'common/button-story-action-event-handle.js.mdx',
-    'common/button-story-action-event-handle.ts.mdx',
-  ]}
-/>
-
+<CodeSnippets path="button-story-action-event-handle.md" />
 
 {/* prettier-ignore-end */}
 
@@ -141,15 +108,7 @@ Allows you to create an action that appears in the actions panel of the Storyboo
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/addon-actions-action-function.ts.mdx',
-    'web-components/addon-actions-action-function.js.mdx',
-    'web-components/addon-actions-action-function.ts.mdx',
-    'common/addon-actions-action-function.js.mdx',
-    'common/addon-actions-action-function.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="addon-actions-action-function.md" />
 
 {/* prettier-ignore-end */}
 

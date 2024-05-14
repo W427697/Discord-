@@ -9,20 +9,17 @@ In a nutshell, you start by supplying the appropriate props for the initial stat
 In Storybook, this familiar workflow happens in your browser. That makes it easier to debug failures because you're running tests in the same environment as you develop components: the browser.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="component-interaction-testing.mp4"
-    type="video/mp4"
-  />
+  <source src="component-interaction-testing.mp4" type="video/mp4" />
 </video>
 
 ## How does component testing in Storybook work?
 
 You start by writing a [**story**](../writing-stories/index.md) to set up the component's initial state. Then simulate user behavior using the **play** function. Finally, use the **test-runner** to confirm that the component renders correctly and that your interaction tests with the **play** function pass. Additionally, you can automate test execution via the [command line](./test-runner.md#cli-options) or in your [CI environment](./test-runner.md#set-up-ci-to-run-tests).
 
-- The [`play`](../writing-stories/play-function.md) function is a small snippet of code that runs after a story finishes rendering. You can use this to test user workflows.
-- The test is written using Storybook-instrumented versions of [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) coming from the [`@storybook/test`](https://npmjs.com/package/@storybook/test) package.
-- [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions/) visualizes the test in Storybook and provides a playback interface for convenient browser-based debugging.
-- [`@storybook/test-runner`](https://github.com/storybookjs/test-runner) is a standalone utility—powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/)—that executes all of your interactions tests and catches broken stories.
+* The [`play`](../writing-stories/play-function.md) function is a small snippet of code that runs after a story finishes rendering. You can use this to test user workflows.
+* The test is written using Storybook-instrumented versions of [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) coming from the [`@storybook/test`](https://npmjs.com/package/@storybook/test) package.
+* [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions/) visualizes the test in Storybook and provides a playback interface for convenient browser-based debugging.
+* [`@storybook/test-runner`](https://github.com/storybookjs/test-runner) is a standalone utility—powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/)—that executes all of your interactions tests and catches broken stories.
 
 ## Set up the interactions addon
 
@@ -32,13 +29,7 @@ Run the following command to install the interactions addon and related dependen
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
-    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addon-interactions-addon-full-install.md" />
 
 {/* prettier-ignore-end */}
 
@@ -46,12 +37,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-interactions-addon-registration.js.mdx',
-    'common/storybook-interactions-addon-registration.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-interactions-addon-registration.md" />
 
 {/* prettier-ignore-end */}
 
@@ -61,33 +47,14 @@ The test itself is defined inside a `play` function connected to a story. Here's
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/login-form-with-play-function.js.mdx',
-    'react/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.js.mdx',
-    'vue/login-form-with-play-function.ts.mdx',
-    'web-components/login-form-with-play-function.js.mdx',
-    'web-components/login-form-with-play-function.ts.mdx',
-    'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.ts.mdx',
-    'solid/login-form-with-play-function.js.mdx',
-    'solid/login-form-with-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
-/>
+<CodeSnippets path="login-form-with-play-function.md" usesCsf3 csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function" />
 
 {/* prettier-ignore-end */}
 
 Once the story loads in the UI, it simulates the user's behavior and verifies the underlying logic.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="addon-interaction-example-optimized.mp4"
-    type="video/mp4"
-  />
+  <source src="addon-interaction-example-optimized.mp4" type="video/mp4" />
 </video>
 
 ### Run code before each test
@@ -97,24 +64,14 @@ It can be helpful to run code before each test to set up the initial state of th
 Additionally, if you return a cleanup function from the `beforeEach` function, it will run **after** each test, when the story is remounted or navigated away from.
 
 <Callout variant="info">
-
-It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
-
+  It is *not* necessary to restore `fn()` mocks with the cleanup function, as Storybook will already do that automatically before rendering a story. See the [`parameters.test.restoreMocks` API](../api/parameters.md#restoremocks) for more information.
 </Callout>
 
 Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/before-each-in-meta-mock-date.ts.mdx',
-    'web-components/before-each-in-meta-mock-date.js.mdx',
-    'web-components/before-each-in-meta-mock-date.ts.mdx',
-    'common/before-each-in-meta-mock-date.js.mdx',
-    'common/before-each-in-meta-mock-date.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="before-each-in-meta-mock-date.md" />
 
 {/* prettier-ignore-end */}
 
@@ -126,15 +83,15 @@ Below is an abridged API for user-event. For more, check out the [official user-
 
 | User events       | Description                                                                                                                                              |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `clear`           | Selects the text inside inputs, or textareas and deletes it <br/>`userEvent.clear(await within(canvasElement).getByRole('myinput'));`                    |
-| `click`           | Clicks the element, calling a click() function <br/>`userEvent.click(await within(canvasElement).getByText('mycheckbox'));`                              |
-| `dblClick`        | Clicks the element twice <br/>`userEvent.dblClick(await within(canvasElement).getByText('mycheckbox'));`                                                 |
-| `deselectOptions` | Removes the selection from a specific option of a select element <br/>`userEvent.deselectOptions(await within(canvasElement).getByRole('listbox'),'1');` |
-| `hover`           | Hovers an element <br/>`userEvent.hover(await within(canvasElement).getByTestId('example-test'));`                                                       |
-| `keyboard`        | Simulates the keyboard events <br/>`userEvent.keyboard(‘foo’);`                                                                                          |
-| `selectOptions`   | Selects the specified option, or options of a select element <br/>`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
-| `type`            | Writes text inside inputs, or textareas <br/>`userEvent.type(await within(canvasElement).getByRole('my-input'),'Some text');`                            |
-| `unhover`         | Unhovers out of element <br/>`userEvent.unhover(await within(canvasElement).getByLabelText(/Example/i));`                                                |
+| `clear`           | Selects the text inside inputs, or textareas and deletes it <br />`userEvent.clear(await within(canvasElement).getByRole('myinput'));`                    |
+| `click`           | Clicks the element, calling a click() function <br />`userEvent.click(await within(canvasElement).getByText('mycheckbox'));`                              |
+| `dblClick`        | Clicks the element twice <br />`userEvent.dblClick(await within(canvasElement).getByText('mycheckbox'));`                                                 |
+| `deselectOptions` | Removes the selection from a specific option of a select element <br />`userEvent.deselectOptions(await within(canvasElement).getByRole('listbox'),'1');` |
+| `hover`           | Hovers an element <br />`userEvent.hover(await within(canvasElement).getByTestId('example-test'));`                                                       |
+| `keyboard`        | Simulates the keyboard events <br />`userEvent.keyboard(‘foo’);`                                                                                          |
+| `selectOptions`   | Selects the specified option, or options of a select element <br />`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
+| `type`            | Writes text inside inputs, or textareas <br />`userEvent.type(await within(canvasElement).getByRole('my-input'),'Some text');`                            |
+| `unhover`         | Unhovers out of element <br />`userEvent.unhover(await within(canvasElement).getByLabelText(/Example/i));`                                                |
 
 ### Assert tests with Vitest's APIs
 
@@ -142,17 +99,7 @@ Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-interactions-play-function.ts.mdx',
-    'web-components/storybook-interactions-play-function.js.mdx',
-    'web-components/storybook-interactions-play-function.ts.mdx',
-    'common/storybook-interactions-play-function.js.mdx',
-    'common/storybook-interactions-play-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
-/>
+<CodeSnippets path="storybook-interactions-play-function.md" usesCsf3 csf2Path="essentials/interactions#snippet-storybook-interactions-play-function" />
 
 {/* prettier-ignore-end */}
 
@@ -162,17 +109,7 @@ For complex flows, it can be worthwhile to group sets of related interactions to
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-interactions-step-function.ts.mdx',
-    'web-components/storybook-interactions-step-function.js.mdx',
-    'web-components/storybook-interactions-step-function.ts.mdx',
-    'common/storybook-interactions-step-function.js.mdx',
-    'common/storybook-interactions-step-function.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
-/>
+<CodeSnippets path="storybook-interactions-step-function.md" usesCsf3 csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function" />
 
 {/* prettier-ignore-end */}
 
@@ -188,15 +125,7 @@ You can then import the mocked module (which has all of the helpful methods of a
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/storybook-test-fn-mock-spy.ts.mdx',
-    'web-components/storybook-test-fn-mock-spy.js.mdx',
-    'web-components/storybook-test-fn-mock-spy.ts.mdx',
-    'common/storybook-test-fn-mock-spy.js.mdx',
-    'common/storybook-test-fn-mock-spy.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-test-fn-mock-spy.md" />
 
 {/* prettier-ignore-end */}
 
@@ -205,10 +134,7 @@ You can then import the mocked module (which has all of the helpful methods of a
 If you check your interactions panel, you'll see the step-by-step flow. It also offers a handy set of UI controls to pause, resume, rewind, and step through each interaction.
 
 <video autoPlay muted playsInline loop>
-  <source
-    src="addon-interactions-playback-controls-optimized.mp4"
-    type="video/mp4"
-  />
+  <source src="addon-interactions-playback-controls-optimized.mp4" type="video/mp4" />
 </video>
 
 ### Permalinks for reproductions
@@ -227,22 +153,14 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/test-runner-execute.yarn.js.mdx',
-    'common/test-runner-execute.npm.js.mdx',
-    'common/test-runner-execute.pnpm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="test-runner-execute.md" />
 
 {/* prettier-ignore-end */}
 
 ![Interaction test with test runner](./storybook-interaction-test-runner-loginform-optimized.png)
 
 <Callout variant="info" icon="💡">
-
-If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
-
+  If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
 </Callout>
 
 ## Automate
@@ -262,7 +180,7 @@ public-hoist-pattern[]=@types*
 
 If you're still encountering issues, you can always add the [`@types/testing-library__jest-dom`](https://www.npmjs.com/package/@types/testing-library__jest-dom) package to your project.
 
----
+***
 
 #### What’s the difference between interaction tests and visual tests?
 
@@ -274,11 +192,11 @@ Interaction tests integrate Jest and Testing Library into Storybook. The biggest
 
 **Learn about other UI tests**
 
-- [Test runner](./test-runner.md) to automate test execution
-- [Visual tests](./visual-testing.md) for appearance
-- [Accessibility tests](./accessibility-testing.md) for accessibility
-- Interaction tests for user behavior simulation
-- [Coverage tests](./test-coverage.md) for measuring code coverage
-- [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
-- [Unit tests](./stories-in-unit-tests.md) for functionality
+* [Test runner](./test-runner.md) to automate test execution
+* [Visual tests](./visual-testing.md) for appearance
+* [Accessibility tests](./accessibility-testing.md) for accessibility
+* Interaction tests for user behavior simulation
+* [Coverage tests](./test-coverage.md) for measuring code coverage
+* [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
+* [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+* [Unit tests](./stories-in-unit-tests.md) for functionality
