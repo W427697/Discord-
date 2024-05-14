@@ -10,7 +10,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     'svelte',
     {
       extensions: ['js', 'ts', 'svelte'],
-      extraAddons: ['@storybook/addon-svelte-csf']
+      extraAddons: ['@storybook/addon-svelte-csf'],
     },
     'sveltekit'
   );
