@@ -5706,7 +5706,6 @@ __metadata:
     "@types/semver": "npm:^7.3.4"
     "@types/terser-webpack-plugin": "npm:^5.2.0"
     "@types/webpack-hot-middleware": "npm:^2.25.6"
-    "@types/webpack-virtual-modules": "npm:^0.1.1"
     browser-assert: "npm:^1.2.1"
     case-sensitive-paths-webpack-plugin: "npm:^2.4.0"
     cjs-module-lexer: "npm:^1.2.3"
@@ -5733,7 +5732,7 @@ __metadata:
     webpack: "npm:5"
     webpack-dev-middleware: "npm:^6.1.2"
     webpack-hot-middleware: "npm:^2.25.1"
-    webpack-virtual-modules: "npm:^0.5.0"
+    webpack-virtual-modules: "npm:^0.6.0"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -8520,15 +8519,6 @@ __metadata:
     "@types/source-list-map": "npm:*"
     source-map: "npm:^0.7.3"
   checksum: 10c0/651fcf880b2ed4f309fce9f47b85b7d1771a63436880792688b8c5e6e4177272dbe80c88cc4d877bc8370446499ab9b6a9ac6348b1fd2b29e56f7657f4562dd7
-  languageName: node
-  linkType: hard
-
-"@types/webpack-virtual-modules@npm:^0.1.1":
-  version: 0.1.3
-  resolution: "@types/webpack-virtual-modules@npm:0.1.3"
-  dependencies:
-    "@types/webpack": "npm:^4"
-  checksum: 10c0/3ead19e20df409433de7f5244d3c581ba050c691fe0aee0014fac4d9307366791e07c1db5c8beee0bd5010d4e06fd9b600dc9efc27e0aaf7d8daa9ec0714abf6
   languageName: node
   linkType: hard
 
@@ -29489,13 +29479,6 @@ __metadata:
     html-webpack-plugin:
       optional: true
   checksum: 10c0/7def5d995a43fc5e60097084e68145359fbeb47b96cb9c87ee811d70c5eb99766c28974ef28f09ae6b1d1b3cd2b7c35838b36206f1c39d090a8f531cd1fbbf6a
-  languageName: node
-  linkType: hard
-
-"webpack-virtual-modules@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "webpack-virtual-modules@npm:0.5.0"
-  checksum: 10c0/0742e069cd49d91ccd0b59431b3666903d321582c1b1062fa6bdae005c3538af55ff8787ea5eafbf72662f3496d3a879e2c705d55ca0af8283548a925be18484
   languageName: node
   linkType: hard
 
