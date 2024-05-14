@@ -70,9 +70,9 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
         newSegment.length > 0 ? ` tabTitle="${newSegment.join('-')}"` : ''
       }${packageManager ? ` packageManager="${packageManager}"` : ''}`;
 
-      console.log(file);
-      console.log(segments);
-      console.log('Newline', newFirstLine);
+      // console.log(file);
+      // console.log(segments);
+      // console.log('Newline', newFirstLine);
 
       // Replace content first line by new first line
       const newContent = codeFilename
