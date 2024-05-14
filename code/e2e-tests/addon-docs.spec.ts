@@ -67,7 +67,7 @@ test.describe('addon-docs', () => {
         await new Promise(resolve => resolve('Play function'));
       }
     }`;
-    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
+    await expect(sourceCode).toHaveText(expectedSource);
   });
 
   test('should render errors', async ({ page }) => {
@@ -200,6 +200,12 @@ test.describe('addon-docs', () => {
       expectedReactVersionRange = /^17/;
     } else if (templateName.includes('react16')) {
       expectedReactVersionRange = /^16/;
+    } else if (
+      templateName.includes('nextjs/prerelease') ||
+      templateName.includes('react-vite/prerelease') ||
+      templateName.includes('react-webpack/prerelease')
+    ) {
+      expectedReactVersionRange = /^19/;
     }
 
     // Arrange - Get the actual versions

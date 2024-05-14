@@ -7,12 +7,11 @@ const amountOfVCPUs = 8;
 
 const parallel = `--parallel=${process.env.CI ? amountOfVCPUs - 1 : maxConcurrentTasks}`;
 
-const linkCommand = `nx run-many --target="check" --all ${parallel} --exclude=@storybook/vue,@storybook/svelte,@storybook/vue3,@storybook/angular`;
-const nolinkCommand = `nx run-many --target="check" --all ${parallel}`;
+const linkCommand = `nx affected -t check ${parallel}`;
+const nolinkCommand = `nx affected -t check -c production ${parallel}`;
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',
-  dependsOn: ['compile'],
   async ready() {
     return false;
   },
@@ -21,8 +20,8 @@ export const check: Task = {
       link ? linkCommand : nolinkCommand,
       { cwd: codeDir },
       {
-        startMessage: '🥾 Checking types validity',
-        errorMessage: '❌ Unsound types detected',
+        startMessage: '🥾 Checking for TS errors',
+        errorMessage: '❌ TS errors detected',
         dryRun,
         debug,
       }

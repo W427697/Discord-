@@ -11,8 +11,8 @@ const amountOfVCPUs = 4;
 const parallel = `--parallel=${process.env.CI ? amountOfVCPUs - 1 : maxConcurrentTasks}`;
 
 const linkedContents = `export * from '../src/index';`;
-const linkCommand = `nx run-many --target="prep" --all ${parallel} -- --reset`;
-const noLinkCommand = `nx run-many --target="prep" --all ${parallel} -- --reset --optimized`;
+const linkCommand = `nx run-many -t build ${parallel}`;
+const noLinkCommand = `nx run-many -t build -c production ${parallel}`;
 
 export const compile: Task = {
   description: 'Compile the source code of the monorepo',
