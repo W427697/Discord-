@@ -1,3 +1,8 @@
+## 8.1.0
+
+- Automigration: Improve react-docgen automigration prompt - [#27106](https://github.com/storybookjs/storybook/pull/27106), thanks @valentinpalkovic!
+- Typescript: Add types for `experimental-playwright` entries without `type:bundler` - [#27107](https://github.com/storybookjs/storybook/pull/27107), thanks @ndelangen!
+
 ## 8.0.10
 
 - MDX: Don't transform `http://` links - [#26488](https://github.com/storybookjs/storybook/pull/26488), thanks @JReinhold!
