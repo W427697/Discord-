@@ -56,7 +56,7 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
       if (languageIndex !== -1) newSegment.splice(languageIndex, 1);
       if (packageManagerIndex !== -1) newSegment.splice(packageManagerIndex, 1);
 
-      console.log(segments, languageIndex, language, packageManager, newSegment);
+      // console.log(segments, languageIndex, language, packageManager, newSegment);
 
       const content = fs.readFileSync(`${oldSnippetsDir}/${dir}/${file}`, 'utf8');
 
@@ -72,7 +72,7 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
         newSegment.length > 0 ? ` tabTitle="${newSegment[0]}"` : ''
       }${packageManager ? ` packageManager="${packageManager}"` : ''}`;
 
-      console.log('Newline', newFirstLine);
+      // console.log('Newline', newFirstLine);
 
       // Replace content first line by new first line
       const newContent = codeFilename
