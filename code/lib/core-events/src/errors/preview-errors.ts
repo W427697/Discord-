@@ -254,20 +254,43 @@ export class NextJsSharpError extends StorybookError {
   }
 }
 
+export class NextjsRouterMocksNotAvailable extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 2;
+
+  constructor(public data: { importType: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Tried to access router mocks from "${this.data.importType}" but they were not created yet. You might be running code in an unsupported environment.
+    `;
+  }
+}
+
 export class UnknownArgTypesError extends StorybookError {
   readonly category = Category.DOCS_TOOLS;
 
   readonly code = 1;
+
+  readonly documentation = 'https://github.com/storybookjs/storybook/issues/26606';
 
   constructor(public data: { type: object; language: string }) {
     super();
   }
 
   template() {
-    return `There was a failure when generating ArgTypes in ${
+    return dedent`There was a failure when generating detailed ArgTypes in ${
       this.data.language
-    } for ${JSON.stringify(this.data.type)}
-    This type is either not supported or it is a bug in Storybook.
-    If you think this is a bug, please open an issue in Github.`;
+    } for:
+    
+    ${JSON.stringify(this.data.type, null, 2)} 
+    
+    Storybook will fall back to use a generic type description instead.
+
+    This type is either not supported or it is a bug in the docgen generation in Storybook.
+    If you think this is a bug, please detail it as much as possible in the Github issue.`;
   }
 }
