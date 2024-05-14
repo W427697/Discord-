@@ -37,7 +37,7 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
 
       // Find the index for a language in the array
       const languageIndex = segments.findIndex((segment) => {
-        return ['js', 'ts', 'ts-4-9', 'mdx'].includes(segment);
+        return ['js', 'ts', 'ts-4-9', 'mdx', 'json'].includes(segment);
       });
 
       // Language
@@ -56,8 +56,6 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
       if (languageIndex !== -1) newSegment.splice(languageIndex, 1);
       if (packageManagerIndex !== -1) newSegment.splice(packageManagerIndex, 1);
 
-      // console.log(segments, languageIndex, language, packageManager, newSegment);
-
       const content = fs.readFileSync(`${oldSnippetsDir}/${dir}/${file}`, 'utf8');
 
       // take first line of content
@@ -69,10 +67,12 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
       const newFirstLine = `${firstLine}${
         codeFilename ? ` filename="${codeFilename}"` : ''
       } renderer="${dir}" language="${language}"${
-        newSegment.length > 0 ? ` tabTitle="${newSegment[0]}"` : ''
+        newSegment.length > 0 ? ` tabTitle="${newSegment.join('-')}"` : ''
       }${packageManager ? ` packageManager="${packageManager}"` : ''}`;
 
-      // console.log('Newline', newFirstLine);
+      console.log(file);
+      console.log(segments);
+      console.log('Newline', newFirstLine);
 
       // Replace content first line by new first line
       const newContent = codeFilename
