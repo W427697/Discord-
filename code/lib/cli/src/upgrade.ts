@@ -21,7 +21,6 @@ import {
   loadMainConfig,
   JsPackageManagerFactory,
 } from '@storybook/core/dist/common';
-
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
 import { hasStorybookDependencies } from './helpers';

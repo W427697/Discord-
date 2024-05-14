@@ -1,8 +1,11 @@
-import type { StorybookConfig as StorybookConfigBase } from '@storybook/core/dist/types';
+import type {
+  CompatibleString,
+  StorybookConfig as StorybookConfigBase,
+} from '@storybook/core/dist/types';
 import type { StorybookConfigVite, BuilderOptions } from '@storybook/builder-vite';
 
-type FrameworkName = '@storybook/preact-vite';
-type BuilderName = '@storybook/builder-vite';
+type FrameworkName = CompatibleString<'@storybook/preact-vite'>;
+type BuilderName = CompatibleString<'@storybook/builder-vite'>;
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;
