@@ -1,7 +1,6 @@
 ## 8.2.0-alpha.0
 
-- Automigration: Improve react-docgen automigration prompt - [#27106](https://github.com/storybookjs/storybook/pull/27106), thanks @valentinpalkovic!
-- Typescript: Add types for `experimental-playwright` entries without `type:bundler` - [#27107](https://github.com/storybookjs/storybook/pull/27107), thanks @ndelangen!
+Empty release. 🙈
 
 ## 8.1.0-beta.1
 
