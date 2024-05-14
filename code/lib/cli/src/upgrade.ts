@@ -20,6 +20,7 @@ import {
   getStorybookInfo,
   loadMainConfig,
   JsPackageManagerFactory,
+  getCoercedStorybookVersion,
 } from '@storybook/core-common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
@@ -146,10 +147,11 @@ export const doUpgrade = async ({
     throw new UpgradeStorybookToSameVersionError({ beforeVersion });
   }
 
-  const [latestVersion, packageJson] = await Promise.all([
+  const [latestVersion, packageJson, storybookVersion] = await Promise.all([
     //
     packageManager.latestVersion('@storybook/cli'),
     packageManager.retrievePackageJson(),
+    getCoercedStorybookVersion(packageManager),
   ]);
 
   const isOutdated = lt(currentVersion, latestVersion);
@@ -193,7 +195,7 @@ export const doUpgrade = async ({
   const mainConfig = await loadMainConfig({ configDir });
 
   // GUARDS
-  if (!beforeVersion) {
+  if (!storybookVersion) {
     throw new UpgradeStorybookUnknownCurrentVersionError();
   }
 
