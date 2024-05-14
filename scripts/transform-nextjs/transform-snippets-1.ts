@@ -22,33 +22,41 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
   // Iterate over each folder in the snippets directory
   root.forEach((dir) => {
     const folder = fs.readdirSync(`${oldSnippetsDir}/${dir}`).map((file) => {
+      /**
+       * - example-name.js.mdx
+       * - example-name.npm.js.mdx
+       * - example-name.tab-title.js.mdx (storybook-run-dev.with-builder.js.mdx)
+       * - example-name.tab-title.mdx
+       */
+
       const segments = file.split('.');
-      segments.pop();
+      segments.pop(); // Remove the last element (the file extension)
+      segments.shift(); // Remove the first element (the filename)
 
-      let tabTitle = null;
-      if (segments.length === 3) tabTitle = segments[1];
-      if (tabTitle === '2') tabTitle = 'Vue 2';
-      if (tabTitle === '3') tabTitle = 'Vue 3';
+      const tabTitle = null;
 
-      let packageManager = null;
-      if (tabTitle === 'npm') {
-        packageManager = 'npm';
-        tabTitle = null;
-      }
-      if (tabTitle === 'yarn') {
-        packageManager = 'yarn';
-        tabTitle = null;
-      }
-      if (tabTitle === 'pnpm') {
-        packageManager = 'pnpm';
-        tabTitle = null;
-      }
-      if (tabTitle === 'npx') {
-        packageManager = 'npx';
-        tabTitle = null;
-      }
+      // Find the index for a language in the array
+      const languageIndex = segments.findIndex((segment) => {
+        return ['js', 'ts', 'ts-4-9', 'mdx'].includes(segment);
+      });
 
-      const language = segments[segments.length - 1];
+      // Language
+      // If no language is found, default to 'ts'
+      const language = segments[languageIndex] || 'ts';
+
+      // Find the index for a language in the array
+      const packageManagerIndex = segments.findIndex((segment) => {
+        return ['npm', 'yarn', 'pnpm', 'npx'].includes(segment);
+      });
+
+      const packageManager = segments[packageManagerIndex] || null;
+
+      // Remove language and package manager from the segments
+      const newSegment = [...segments];
+      if (languageIndex !== -1) newSegment.splice(languageIndex, 1);
+      if (packageManagerIndex !== -1) newSegment.splice(packageManagerIndex, 1);
+
+      console.log(segments, languageIndex, language, packageManager, newSegment);
 
       const content = fs.readFileSync(`${oldSnippetsDir}/${dir}/${file}`, 'utf8');
 
@@ -56,11 +64,15 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
       const firstLine = content.split('\n')[0];
       const secondLine = content.split('\n')[1];
       const codeFilename = secondLine.startsWith('// ') ? secondLine.slice(3) : null;
+
+      // TODO: Check what we need to do when there's more than one tab
       const newFirstLine = `${firstLine}${
         codeFilename ? ` filename="${codeFilename}"` : ''
-      } renderer="${dir}" language="${language}"${tabTitle ? ` tabTitle="${tabTitle}"` : ''}${
-        packageManager ? ` packageManager="${packageManager}"` : ''
-      }`;
+      } renderer="${dir}" language="${language}"${
+        newSegment.length > 0 ? ` tabTitle="${newSegment[0]}"` : ''
+      }${packageManager ? ` packageManager="${packageManager}"` : ''}`;
+
+      console.log('Newline', newFirstLine);
 
       // Replace content first line by new first line
       const newContent = codeFilename
