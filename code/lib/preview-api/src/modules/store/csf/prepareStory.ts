@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
 import { global } from '@storybook/global';
-
 import type {
   Args,
   ArgsStoryFn,
@@ -20,7 +19,8 @@ import type {
   StoryContextForLoaders,
   StrictArgTypes,
 } from '@storybook/types';
-import { type CleanupCallback, includeConditionalArg } from '@storybook/csf';
+import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
@@ -155,7 +155,16 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
+  const defaultTags = ['dev', 'test'];
+  const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
+
+  const tags = combineTags(
+    ...defaultTags,
+    ...extraTags,
+    ...(projectAnnotations.tags ?? []),
+    ...(componentAnnotations.tags ?? []),
+    ...(storyAnnotations?.tags ?? [])
+  );
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
