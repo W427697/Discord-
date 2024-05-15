@@ -193,6 +193,8 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: "--depth 1 --verbose"
+      - bun-orb/setup:
+          version: 1.1.1
       - attach_workspace:
           at: .
       - nx/set-shas:
