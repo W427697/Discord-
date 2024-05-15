@@ -34,6 +34,8 @@ Normally, Storybook composes a story and its [annotations](#annotations) automat
 
 <Callout variant="warning">
 
+Your project must be using React 18+ to use the portable stories API with Playwright CT.
+
 **Using `Next.js`?** The portable stories API is not yet supported in Next.js with Playwright CT.
 
 <!-- **Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT. -->
