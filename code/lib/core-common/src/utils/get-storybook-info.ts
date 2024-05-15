@@ -1,11 +1,10 @@
 import path from 'path';
 import fse from 'fs-extra';
-import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
+import type { CoreCommon_StorybookInfo, PackageJson, SupportedFrameworks } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
 export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
-  '@storybook/vue': 'vue',
   '@storybook/vue3': 'vue3',
   '@storybook/angular': 'angular',
   '@storybook/html': 'html',
@@ -15,12 +14,18 @@ export const rendererPackages: Record<string, string> = {
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
   '@storybook/server': 'server',
+
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
   'storybook-solidjs': 'solid',
+
+  /**
+   * @deprecated This is deprecated.
+   */
+  '@storybook/vue': 'vue',
 };
 
-export const frameworkPackages: Record<string, string> = {
+export const frameworkPackages: Record<string, SupportedFrameworks> = {
   '@storybook/angular': 'angular',
   '@storybook/ember': 'ember',
   '@storybook/html-vite': 'html-vite',
@@ -36,8 +41,6 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/sveltekit': 'sveltekit',
   '@storybook/vue3-vite': 'vue3-vite',
   '@storybook/vue3-webpack5': 'vue3-webpack5',
-  '@storybook/vue-vite': 'vue-vite',
-  '@storybook/vue-webpack5': 'vue-webpack5',
   '@storybook/web-components-vite': 'web-components-vite',
   '@storybook/web-components-webpack5': 'web-components-webpack5',
   // community (outside of monorepo)
@@ -91,9 +94,9 @@ export const findConfigFile = (prefix: string, configDir: string) => {
   return extension ? `${filePrefix}.${extension}` : null;
 };
 
-const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
+export const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
   let storybookConfigDir = configDir ?? '.storybook';
-  const storybookScript = packageJson.scripts?.['storybook'];
+  const storybookScript = packageJson.scripts?.storybook;
   if (storybookScript && !configDir) {
     const configParam = getStorybookConfiguration(storybookScript, '-c', '--config-dir');
     if (configParam) storybookConfigDir = configParam;

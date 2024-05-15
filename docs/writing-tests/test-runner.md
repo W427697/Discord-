@@ -4,7 +4,7 @@ title: 'Test runner'
 
 Storybook test runner turns all of your stories into executable tests. It is powered by [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/).
 
-- For those [without a play function](../writing-stories/introduction.md): it verifies whether the story renders without any errors.
+- For those [without a play function](../writing-stories/index.md): it verifies whether the story renders without any errors.
 - For those [with a play function](../writing-stories/play-function.md): it also checks for errors in the play function and that all assertions passed.
 
 These tests run in a live browser and can be executed via the [command line](#cli-options) or your [CI server](#set-up-ci-to-run-tests).
@@ -144,7 +144,7 @@ You can also configure the test-runner to run tests on a CI environment. Documen
 
 ### Run against deployed Storybooks via Github Actions deployment
 
-If you're publishing your Storybook with services such as [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/), they emit a `deployment_status` event in GitHub Actions. You can use it and set the `deployment_status.target_url` as the `TARGET_URL` environment variable. Here's how:
+If you're publishing your Storybook with services such as [Vercel](https://vercel.com/) or [Netlify](https://docs.netlify.com/site-deploys/notifications/#github-commit-statuses), they emit a `deployment_status` event in GitHub Actions. You can use it and set the `deployment_status.target_url` as the `TARGET_URL` environment variable. Here's how:
 
 <!-- prettier-ignore-start -->
 
@@ -202,12 +202,12 @@ The test-runner renders a story and executes its [play function](../writing-stor
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook        | Description                                                                                                     |
-| ----------- | --------------------------------------------------------------------------------------------------------------- |
-| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`               |
-| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                         |
+| Hook        | Description                                                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`            |
+| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                      |
 | `preVisit`  | Executes before a story is initially visited and rendered in the browser<br/>`async preVisit(page, context) {}` |
-| `postVisit` | Executes after the story is is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
+| `postVisit` | Executes after the story is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
 
 <Callout variant="info" icon="💡">
 
@@ -389,7 +389,7 @@ If you're running a specific set of tests (e.g., image snapshot testing), the te
 
 ### Index.json mode
 
-The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [index.json](../configure/overview.md#feature-flags) (formerly `stories.json`) file (a static index of all the stories) to run the tests.
+The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [index.json](../configure/index.md#feature-flags) (formerly `stories.json`) file (a static index of all the stories) to run the tests.
 
 #### Why?
 
@@ -429,7 +429,7 @@ If you need to disable it, use the `--no-index-json` flag:
 
 #### How do I check if my Storybook has a `index.json` file?
 
-Index.json mode requires a `index.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/index.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [index.json mode](../configure/overview.md#feature-flags).
+Index.json mode requires a `index.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/index.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [index.json mode](../configure/index.md#feature-flags).
 
 ---
 
@@ -465,7 +465,17 @@ As the test runner is based on Playwright, you might need to use specific docker
 
 If you've enabled filtering tests with tags and provided similar tags to the `include` and `exclude` lists, the test-runner will execute the tests based on the `exclude` list and ignore the `include` list. To avoid this, make sure the tags provided to the `include` and `exclude` lists differ.
 
-#### Learn about other UI tests
+### The test runner doesn't support Yarn PnP out of the box
+
+If you've enabled the test-runner in a project running on a newer version of Yarn with Plug'n'Play (PnP) enabled, the test-runner might not work as expected and may generate the following error when running tests:
+
+```shell
+PlaywrightError: jest-playwright-preset: Cannot find playwright package to use chromium
+```
+
+This is due to the test-runner using the community-maintained package [jest-playwright-preset](https://github.com/playwright-community/jest-playwright) that still needs to support this feature. To solve this, you can either switch the [`nodeLinker`](https://yarnpkg.com/features/linkers) setting to `node-modules` or install Playwright as a direct dependency in your project, followed by adding the browser binaries via the [`install`](https://playwright.dev/docs/browsers#install-browsers) command.
+
+**Learn about other UI tests**
 
 - Test runner to automate test execution
 - [Visual tests](./visual-testing.md) for appearance

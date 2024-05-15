@@ -2,16 +2,20 @@ import type { FC, ChangeEvent, FocusEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
 import convert from 'color-convert';
-import throttle from 'lodash/throttle.js';
+import debounce from 'lodash/debounce.js';
 import { styled } from '@storybook/theming';
-import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
+import { TooltipNote, WithTooltip, Form } from '@storybook/components';
 
 import type { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
 import { getControlId } from './helpers';
+import { MarkupIcon } from '@storybook/icons';
 
 const Wrapper = styled.div({
   position: 'relative',
   maxWidth: 250,
+  '&[aria-readonly="true"]': {
+    opacity: 0.5,
+  },
 });
 
 const PickerTooltip = styled(WithTooltip)({
@@ -19,6 +23,9 @@ const PickerTooltip = styled(WithTooltip)({
   zIndex: 1,
   top: 4,
   left: 4,
+  '[aria-readonly=true] &': {
+    cursor: 'not-allowed',
+  },
 });
 
 const TooltipContent = styled.div({
@@ -49,7 +56,7 @@ const Swatches = styled.div({
   width: 200,
 });
 
-const SwatchColor = styled.div<{ active: boolean }>(({ theme, active }) => ({
+const SwatchColor = styled.div<{ active?: boolean }>(({ theme, active }) => ({
   width: 16,
   height: 16,
   boxShadow: active
@@ -60,13 +67,13 @@ const SwatchColor = styled.div<{ active: boolean }>(({ theme, active }) => ({
 
 const swatchBackground = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><path d="M8 0h8v8H8zM0 8h8v8H0z"/></svg>')`;
 
-type SwatchProps = { value: string; active?: boolean; onClick?: () => void; style?: object };
-const Swatch = ({ value, active, onClick, style, ...props }: SwatchProps) => {
+type SwatchProps = { value: string } & React.ComponentProps<typeof SwatchColor>;
+const Swatch = ({ value, style, ...props }: SwatchProps) => {
   const backgroundImage = `linear-gradient(${value}, ${value}), ${swatchBackground}, linear-gradient(#fff, #fff)`;
-  return <SwatchColor {...props} {...{ active, onClick }} style={{ ...style, backgroundImage }} />;
+  return <SwatchColor {...props} style={{ ...style, backgroundImage }} />;
 };
 
-const Input = styled(Form.Input)(({ theme }) => ({
+const Input = styled(Form.Input)(({ theme, readOnly }) => ({
   width: '100%',
   paddingLeft: 30,
   paddingRight: 30,
@@ -74,7 +81,7 @@ const Input = styled(Form.Input)(({ theme }) => ({
   fontFamily: theme.typography.fonts.base,
 }));
 
-const ToggleIcon = styled(Icons)(({ theme }) => ({
+const ToggleIcon = styled(MarkupIcon)(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   top: 6,
@@ -308,19 +315,23 @@ export const ColorControl: FC<ColorControlProps> = ({
   onBlur,
   presetColors,
   startOpen = false,
+  argType,
 }) => {
-  const throttledOnChange = useCallback(throttle(onChange, 200), [onChange]);
+  const debouncedOnChange = useCallback(debounce(onChange, 200), [onChange]);
   const { value, realValue, updateValue, color, colorSpace, cycleColorSpace } = useColorInput(
     initialValue,
-    throttledOnChange
+    debouncedOnChange
   );
   const { presets, addPreset } = usePresets(presetColors, color, colorSpace);
   const Picker = ColorPicker[colorSpace];
 
+  const readonly = !!argType?.table?.readonly;
+
   return (
-    <Wrapper>
+    <Wrapper aria-readonly={readonly}>
       <PickerTooltip
         startOpen={startOpen}
+        trigger={readonly ? [null] : undefined}
         closeOnOutsideClick
         onVisibleChange={() => addPreset(color)}
         tooltip={
@@ -333,7 +344,6 @@ export const ColorControl: FC<ColorControlProps> = ({
               <Swatches>
                 {presets.map((preset, index: number) => (
                   <WithTooltip
-                    // eslint-disable-next-line react/no-array-index-key
                     key={`${preset.value}-${index}`}
                     hasChrome={false}
                     tooltip={<Note note={preset.keyword || preset.value} />}
@@ -357,9 +367,10 @@ export const ColorControl: FC<ColorControlProps> = ({
         value={value}
         onChange={(e: ChangeEvent<HTMLInputElement>) => updateValue(e.target.value)}
         onFocus={(e: FocusEvent<HTMLInputElement>) => e.target.select()}
+        readOnly={readonly}
         placeholder="Choose color..."
       />
-      {value ? <ToggleIcon icon="markup" onClick={cycleColorSpace} /> : null}
+      {value ? <ToggleIcon onClick={cycleColorSpace} /> : null}
     </Wrapper>
   );
 };

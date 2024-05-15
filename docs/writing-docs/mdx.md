@@ -12,7 +12,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <Callout variant="info">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
+Writing stories directly in MDX was removed in Storybook 8, and we're no longer supporting it. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature or [migrate](../migration-guide.md#storiesmdx-to-mdxcsf) to the new format.
 
 </Callout>
 
@@ -63,15 +63,9 @@ The first thing you'll notice is that the component documentation is divided int
 - **CSF** is great for succinctly defining stories (component examples). If you use TypeScript, it also provides type safety and auto-completion.
 - **MDX** is great for writing structured documentation and composing it with interactive JSX elements.
 
-<Callout variant="info" icon="💡">
-
-If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
-
-</Callout>
-
 ### Anatomy of MDX
 
-Assuming you’re already familiar with writing stories with [CSF](../writing-stories/introduction.md), we can dissect the MDX side of things in greater detail.
+Assuming you’re already familiar with writing stories with [CSF](../writing-stories/index.md), we can dissect the MDX side of things in greater detail.
 
 The document consists of a number of blocks separated by blank lines. Since MDX mixes a few different languages together, it uses those blank lines to help distinguish where one starts, and the next begins. Failing to separate blocks by whitespace can cause (sometimes cryptic) parse errors.
 
@@ -127,7 +121,7 @@ The `Meta` block defines where the document will be placed in the sidebar. In th
 
 <!-- prettier-ignore-end -->
 
-MDX2 supports standard markdown ([”commonmark”](https://commonmark.org/)) by default and can be extended to support [GitHub-flavored markdown (GFM)](https://github.github.com/gfm) and other extensions (see [Breaking changes](#breaking-changes), below).
+MDX supports standard markdown (["commonmark"](https://commonmark.org/)) by default and can be extended to support [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) and other extensions (see the [Troubleshooting section](#troubleshooting) to learn more about some of the current limitations).
 
 <!-- prettier-ignore-start -->
 
@@ -157,62 +151,7 @@ In addition to Doc Blocks, MDX can incorporate arbitrary React components, makin
 
 ### Known limitations
 
-While MDX2 supports a variety of runtimes ([React](https://mdxjs.com/packages/react/), [Preact](https://mdxjs.com/packages/preact/), [Vue](https://mdxjs.com/packages/vue/)), Storybook’s implementation is React-only. That means your documentation is rendered in React, while your stories render in the runtime of your choice (React, Vue, Angular, Web Components, Svelte, etc.).
-
-## Breaking changes
-
-There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published its own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here, we try to summarize some of the fundamental changes for Storybook users.
-
-### Custom components apply differently
-
-From the MDX migration guide:
-
-> We now “sandbox” components, for lack of a better name. It means that when you pass a component for `h1`, it does get used for `# hi` but not for `<h1>hi</h1>`
-
-This means that the first heading in the following example gets replaced, whereas the second does not. It may not sound like a significant change, but in practice, it is highly disruptive and manifests itself in various ways. Unfortunately, this cannot be automatically converted in a safe way.
-
-<!-- prettier-ignore-start -->
-
-```md
-# Some heading
-
-<h1>another heading</h1>
-```
-
-<!-- prettier-ignore-end -->
-
-### Lack of GitHub Flavored Markdown (GFM)
-
-Also, from the MDX migration guide:
-
-> We turned off GFM features in MDX by default. GFM extends CommonMark to add autolink literals, footnotes, strikethrough, tables, and task lists. If you do want these features, you can use a plugin. How to do so is described in [our guide on GFM](https://mdxjs.com/guides/gfm/).
-
-In Storybook, you can apply MDX options, including plugins, in the main configuration file:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-paths={[
-  'common/storybook-main-config-remark-options.js.mdx',
-  'common/storybook-main-config-remark-options.ts.mdx',
-]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<Callout variant="info" icon="💡">
-
-The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
-
-</Callout>
-
-### Automigration
-
-To help you transition to the new version, we've created a migration helper in our CLI. We recommend using it and reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)) for problems you encounter.
-
-```shell
-npx storybook@latest automigrate mdx1to2
-```
+While MDX supports a variety of runtimes ([React](https://mdxjs.com/packages/react/), [Preact](https://mdxjs.com/packages/preact/), [Vue](https://mdxjs.com/packages/vue/)), Storybook’s implementation is React-only. That means your documentation is rendered in React, while your stories render in the runtime of your choice (React, Vue, Angular, Web Components, Svelte, etc.).
 
 ## Setup custom documentation
 
@@ -384,52 +323,38 @@ By applying this pattern with the Controls addon, all anchors will be ignored in
 
 ## Troubleshooting
 
+### Markdown tables aren't rendering correctly
+
+If you're extending your documentation to include specific features (e.g., tables, footnotes), you may run into some issues rendering them correctly using the current MDX version supported by Storybook. We recommend enabling the [`remark-gfm`](https://github.com/remarkjs/remark-gfm) plugin in your configuration file (i.e., [`.storybook/main.js|ts`](../configure/index.md)) to render them correctly.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+paths={[
+  'common/storybook-main-config-remark-options.js.mdx',
+  'common/storybook-main-config-remark-options.ts.mdx',
+]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info" icon="💡">
+
+The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package is not included by default with Storybook and must be installed separately as a development dependency. To learn more about how to use it and the other breaking changes introduced by MDX, refer to the [GFM guide](https://mdxjs.com/guides/gfm/) and the [migration guide](https://mdxjs.com/migrating/v2/) provided by the MDX team for more information.
+
+</Callout>
+
 ### The MDX documentation doesn't render in my environment
 
-As Storybook relies on MDX 2 to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
+As Storybook relies on [MDX 3](https://mdxjs.com/) to render documentation, some technical limitations may prevent you from migrating to this version. If that's the case, we've prepared a set of instructions to help you transition to this new version.
 
 #### Storybook doesn't create documentation for my component stories
 
-If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
-
-#### The documentation doesn't render using `stories.mdx`
-
-Starting with Storybook 7.0, we've deprecated documenting stories with the `.stories.mdx` file extension. If you're still using the `stories.mdx` extension, we recommend [migrating](#automigration) as soon as possible to avoid any issues, as the majority of APIs and [Doc Blocks](./doc-blocks.md) used by Storybook were overhauled to support MDX 2 and the new MDX compiler (e.g., the [`Meta`](../api/doc-block-meta.md) block).
-
-#### MDX 1 fallback
-
-If you're still having issues with MDX documentation, you can enable MDX 1 as a fallback. To do so, you'll need to take some additional steps.
-
-Run the following command to install the required dependency.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-fallback-mdx-install.yarn.js.mdx',
-    'common/storybook-fallback-mdx-install.npm.js.mdx',
-    'common/storybook-fallback-mdx-install.pnpm.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Update your Storybook configuration (in `.storybook/main.js|ts`), and provide the `legacyMdx1` feature flag to enable MDX 1 support.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features-legacy-mdx-1.js.mdx',
-    'common/main-config-features-legacy-mdx-1.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location (e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
 
 ### The migration seems flaky and keeps failing
 
-By default, running the [migration command](#automigration) will try and migrate all existing MDX files in your project according to the MDX 2 specification. However, this might not always be possible, and you might run into issues during the migration. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
+By default, running the [migration](../configure/upgrading.md) command will prompt you to update the existing MDX files in your project according to the MDX version supported by Storybook. However, this might be a disruptive process, specifically if you're upgrading from a previous version of Storybook where you were using the legacy MDX format. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
 
 Start by running the following command inside your project directory:
 
@@ -453,9 +378,22 @@ Additionally, if you're working with VSCode, you can add the [MDX extension](htt
 }
 ```
 
-If you're still encountering issues, we recommend reaching out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 
-#### Learn more about Storybook documentation
+### The controls are not updating the story within the MDX documentation page
+
+If you turned off inline rendering for your stories via the [`inline`](../api/doc-block-story.md#inline) configuration option, you would run into a situation where the associated controls are not updating the story within the documentation page. This is a known limitation of the current implementation and will be addressed in a future release.
+
+### The React version used is unexpected
+
+For most projects, Storybook's addon-docs uses the React version listed in your project's dependencies. If it does not find one, it will use React 18.2.0. There are two exceptions to this:
+
+- Preact projects will always use React 17
+- Next.js projects will always use the canary version that comes with the Next.js version installed, regardless of which React version is listed in the project’s dependencies.
+
+If you're having issues with the React version used, you may need to re-create your project's `node_modules` folder to ensure the correct version is used.
+
+**Learn more about Storybook documentation**
 
 - [Autodocs](./autodocs.md) for creating documentation for your stories
 - MDX for customizing your documentation

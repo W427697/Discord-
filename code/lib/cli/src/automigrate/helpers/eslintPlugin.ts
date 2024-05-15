@@ -1,12 +1,12 @@
 import fse, { readFile, readJson, writeJson } from 'fs-extra';
-
 import { dedent } from 'ts-dedent';
 import detectIndent from 'detect-indent';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
 import prompts from 'prompts';
 import chalk from 'chalk';
-import type { JsPackageManager } from '../../js-package-manager';
-import { paddedLog } from '../../helpers';
+
+import { readConfig, writeConfig } from '@storybook/csf-tools';
+import type { JsPackageManager } from '@storybook/core-common';
+import { paddedLog } from '@storybook/core-common';
 
 export const SUPPORTED_ESLINT_EXTENSIONS = ['js', 'cjs', 'json'];
 const UNSUPPORTED_ESLINT_EXTENSIONS = ['yaml', 'yml'];
@@ -47,40 +47,44 @@ export async function extractEslintInfo(packageManager: JsPackageManager): Promi
   return { hasEslint, isStorybookPluginInstalled, eslintConfigFile };
 }
 
-export async function configureEslintPlugin(eslintFile: string, packageManager: JsPackageManager) {
+export const normalizeExtends = (existingExtends: any): string[] => {
+  if (!existingExtends) return [];
+  if (typeof existingExtends === 'string') return [existingExtends];
+  if (Array.isArray(existingExtends)) return existingExtends;
+  throw new Error(`Invalid eslint extends ${existingExtends}`);
+};
+
+export async function configureEslintPlugin(
+  eslintFile: string | undefined,
+  packageManager: JsPackageManager
+) {
   if (eslintFile) {
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
       const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
-      const existingConfigValue = Array.isArray(eslintConfig.extends)
-        ? eslintConfig.extends
-        : [eslintConfig.extends].filter(Boolean);
-      eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
+      const existingExtends = normalizeExtends(eslintConfig.extends).filter(Boolean);
+      eslintConfig.extends = [...existingExtends, 'plugin:storybook/recommended'] as string[];
 
       const eslintFileContents = await readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;
       await writeJson(eslintFile, eslintConfig, { spaces });
     } else {
       const eslint = await readConfig(eslintFile);
-      const extendsConfig = eslint.getFieldValue(['extends']) || [];
-      const existingConfigValue = Array.isArray(extendsConfig)
-        ? extendsConfig
-        : [extendsConfig].filter(Boolean);
-      eslint.setFieldValue(
-        ['extends'],
-        [...(existingConfigValue || []), 'plugin:storybook/recommended']
-      );
+      const existingExtends = normalizeExtends(eslint.getFieldValue(['extends'])).filter(Boolean);
+      eslint.setFieldValue(['extends'], [...existingExtends, 'plugin:storybook/recommended']);
 
       await writeConfig(eslint);
     }
   } else {
     paddedLog(`Configuring eslint-plugin-storybook in your package.json`);
     const packageJson = await packageManager.retrievePackageJson();
+    const existingExtends = normalizeExtends(packageJson.eslintConfig?.extends).filter(Boolean);
+
     await packageManager.writePackageJson({
       ...packageJson,
       eslintConfig: {
         ...packageJson.eslintConfig,
-        extends: [...(packageJson.eslintConfig?.extends || []), 'plugin:storybook/recommended'],
+        extends: [...existingExtends, 'plugin:storybook/recommended'],
       },
     });
   }

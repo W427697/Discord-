@@ -35,12 +35,14 @@ export type {
   SyntaxHighlighterFormatTypes,
   SyntaxHighlighterProps,
   SyntaxHighlighterRendererProps,
+  SupportedLanguage,
 } from './components/syntaxhighlighter/syntaxhighlighter-types';
 export { SyntaxHighlighter } from './components/syntaxhighlighter/lazy-syntaxhighlighter';
 export { createCopyToClipboardFunction } from './components/syntaxhighlighter/syntaxhighlighter';
 
 // UI
 export { ActionBar } from './components/ActionBar/ActionBar';
+export { Modal } from './components/Modal/Modal';
 export { Spaced } from './components/spaced/Spaced';
 export { Placeholder } from './components/placeholder/placeholder';
 export { ScrollArea } from './components/ScrollArea/ScrollArea';
@@ -50,6 +52,7 @@ export { ErrorFormatter } from './components/ErrorFormatter/ErrorFormatter';
 
 // Forms
 export { Button } from './components/Button/Button';
+export { IconButton } from './components/IconButton/IconButton';
 export { Form } from './components/form/index';
 
 // Tooltips
@@ -64,7 +67,8 @@ export { default as ListItem } from './components/tooltip/ListItem';
 
 // Toolbar and subcomponents
 export { Tabs, TabsState, TabBar, TabWrapper } from './components/tabs/tabs';
-export { IconButton, IconButtonSkeleton, TabButton } from './components/bar/button';
+export { EmptyTabContent } from './components/tabs/EmptyTabContent';
+export { IconButtonSkeleton, TabButton } from './components/bar/button';
 export { Separator, interleaveSeparators } from './components/bar/separator';
 export { Bar, FlexBar } from './components/bar/bar';
 export { AddonPanel } from './components/addon-panel/addon-panel';
@@ -72,7 +76,7 @@ export { AddonPanel } from './components/addon-panel/addon-panel';
 // Graphics
 export type { IconsProps } from './components/icon/icon';
 export { Icons, Symbols } from './components/icon/icon';
-export { icons } from './components/icon/icons';
+export { icons } from './components/icon/icon';
 export { StorybookLogo } from './components/brand/StorybookLogo';
 export { StorybookIcon } from './components/brand/StorybookIcon';
 
@@ -89,7 +93,6 @@ export { withReset, codeCommon } from './components/typography/lib/common';
 
 export { ClipboardCode } from './components/clipboard/ClipboardCode';
 
-// eslint-disable-next-line prefer-destructuring
 export const components = typography.components;
 
 const resetComponents: Record<string, ElementType> = {};

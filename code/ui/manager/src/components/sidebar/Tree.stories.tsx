@@ -4,9 +4,7 @@ import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { action } from '@storybook/addon-actions';
 
 import type { StoryObj, Meta } from '@storybook/react';
-import { within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { within, expect } from '@storybook/test';
 import { Tree } from './Tree';
 import { index } from './mockdata.large';
 import { DEFAULT_REF_ID } from './Sidebar';
@@ -27,7 +25,6 @@ const meta = {
   excludeStories: /.*Data$/,
   parameters: {
     layout: 'fullscreen',
-    withSymbols: true,
     theme: 'light',
     viewport: {
       defaultViewport: 'sized',
@@ -88,9 +85,6 @@ export const SingleStoryComponents: Story = {
               type: 'component',
               name: 'Single',
               id: 'single',
-              isRoot: false,
-              isLeaf: false,
-              isComponent: true,
               parent: null,
               depth: 0,
               children: ['single--single'],
@@ -101,11 +95,7 @@ export const SingleStoryComponents: Story = {
               id: 'single--single',
               title: 'Single',
               name: 'Single',
-              kind: 'single',
               tags: [],
-              isRoot: false,
-              isLeaf: true,
-              isComponent: false,
               prepared: true,
               args: {},
               argTypes: {},
@@ -160,9 +150,6 @@ export const DocsOnlySingleStoryComponents = {
             single: {
               type: 'component',
               name: 'Single',
-              isRoot: false,
-              isLeaf: false,
-              isComponent: true,
               id: 'single',
               parent: null,
               depth: 0,
@@ -173,11 +160,7 @@ export const DocsOnlySingleStoryComponents = {
               id: 'single--docs',
               title: 'Single',
               name: 'Single',
-              kind: 'single',
               tags: [],
-              isRoot: false,
-              isLeaf: true,
-              isComponent: false,
               prepared: true,
               depth: 1,
               parent: 'single',

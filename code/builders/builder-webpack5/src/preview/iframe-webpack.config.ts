@@ -8,8 +8,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
-import type { JsMinifyOptions as SwcOptions } from '@swc/core';
-import type { Options, CoreConfig, DocsOptions } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
@@ -17,11 +16,10 @@ import {
   normalizeStories,
   isPreservingSymlinks,
 } from '@storybook/core-common';
-import type { BuilderOptions } from '@storybook/core-webpack';
-import { getVirtualModuleMapping } from '@storybook/core-webpack';
+import { type BuilderOptions } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { TypescriptOptions } from '../types';
-import { createBabelLoader, createSWCLoader } from './loaders';
+import { getVirtualModules } from './virtual-module-mapping';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
@@ -45,8 +43,6 @@ const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
 const storybookPaths: Record<string, string> = {
   ...(managerAPIPath
     ? {
-        // deprecated, remove in 8.0
-        [`@storybook/api`]: managerAPIPath,
         [`@storybook/manager-api`]: managerAPIPath,
       }
     : {}),
@@ -57,7 +53,7 @@ const storybookPaths: Record<string, string> = {
 };
 
 export default async (
-  options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
+  options: Options & { typescriptOptions: TypescriptOptions }
 ): Promise<Configuration> => {
   const {
     outputDir = join('.', 'public'),
@@ -66,7 +62,6 @@ export default async (
     configType,
     presets,
     previewUrl,
-    babelOptions,
     typescriptOptions,
     features,
   } = options;
@@ -87,19 +82,21 @@ export default async (
     nonNormalizedStories,
     modulesCount = 1000,
     build,
+    tagsOptions,
   ] = await Promise.all([
-    presets.apply<CoreConfig>('core'),
+    presets.apply('core'),
     presets.apply('frameworkOptions'),
     presets.apply<Record<string, string>>('env'),
     presets.apply('logLevel', undefined),
     presets.apply('previewHead'),
     presets.apply('previewBody'),
     presets.apply<string>('previewMainTemplate'),
-    presets.apply<DocsOptions>('docs'),
+    presets.apply('docs'),
     presets.apply<string[]>('entries', []),
     presets.apply('stories', []),
     options.cache?.get('modulesCount').catch(() => {}),
     options.presets.apply('build'),
+    presets.apply('tags', {}),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -109,8 +106,7 @@ export default async (
 
   const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
-  const shouldCheckTs =
-    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
+  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
@@ -135,18 +131,15 @@ export default async (
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
-  const virtualModuleMapping = await getVirtualModuleMapping(options);
-
-  Object.keys(virtualModuleMapping).forEach((key) => {
-    entries.push(key);
-  });
+  const { virtualModules: virtualModuleMapping, entries: dynamicEntries } =
+    await getVirtualModules(options);
 
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
     devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
-    entry: entries,
+    entry: [...(entries ?? []), ...dynamicEntries],
     output: {
       path: resolve(process.cwd(), outputDir),
       filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',
@@ -193,6 +186,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
+            TAGS_OPTIONS: tagsOptions,
             ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
@@ -223,6 +217,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          exclude: /node_modules/,
           enforce: 'post',
           use: [
             {
@@ -240,9 +235,6 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC
-          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
-          : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -278,7 +270,6 @@ export default async (
       ...(isProd
         ? {
             minimize: true,
-            // eslint-disable-next-line no-nested-ternary
             minimizer: options.build?.test?.esbuildMinify
               ? [
                   new TerserWebpackPlugin<EsbuildOptions>({
@@ -287,17 +278,6 @@ export default async (
                     terserOptions: {
                       sourcemap: !options.build?.test?.disableSourcemaps,
                       treeShaking: !options.build?.test?.disableTreeShaking,
-                    },
-                  }),
-                ]
-              : builderOptions.useSWC
-              ? [
-                  new TerserWebpackPlugin<SwcOptions>({
-                    minify: TerserWebpackPlugin.swcMinify,
-                    terserOptions: {
-                      sourceMap: !options.build?.test?.disableSourcemaps,
-                      mangle: false,
-                      keep_fnames: true,
                     },
                   }),
                 ]

@@ -1,4 +1,3 @@
-/* eslint-disable no-eval */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext } from '@storybook/types';
@@ -16,7 +15,7 @@ import type {
 import { baseParse } from '@vue/compiler-core';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
-import { kebabCase } from 'lodash';
+import kebabCase from 'lodash/kebabCase';
 import {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,
@@ -86,7 +85,7 @@ function mapAttributesAndDirectives(props: Args) {
         loc: { source: attributeSource(tranformKey(key), props[key]) }, // attribute value or directive value
         exp: { isStatic: false, loc: { source: props[key] } }, // directive expression
         modifiers: [''],
-      } as unknown as AttributeNode)
+      }) as unknown as AttributeNode
   );
 }
 /**
@@ -167,13 +166,15 @@ function getTemplateComponents(
     if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
-    console.log('error', e);
     return [];
   }
 }
 
 function getComponents(template: string): (TemplateChildNode | VNode)[] {
-  const ast = baseParse(template);
+  const ast = baseParse(template, {
+    isNativeTag: () => true,
+    decodeEntities: (rawtext, asAttr) => rawtext,
+  });
   const components = ast?.children;
   if (!components) return [];
   return components;
@@ -240,7 +241,7 @@ export function generateTemplateSource(
       const slotArgs = Object.fromEntries(
         Object.entries(props ?? {}).filter(([key, value]) => slotsProps?.[key])
       );
-      // eslint-disable-next-line no-nested-ternary
+
       const childSources: string = children
         ? typeof children === 'string'
           ? children

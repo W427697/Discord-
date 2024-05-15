@@ -1,32 +1,38 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
+import invariant from 'tiny-invariant';
 
 import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import {
+  parseList,
+  getEnvConfig,
+  JsPackageManagerFactory,
+  versions,
+  removeAddon as remove,
+} from '@storybook/core-common';
+import { withTelemetry } from '@storybook/core-server';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
-import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
+import { doAutomigrate } from './automigrate';
 import { dev } from './dev';
 import { build } from './build';
-import { parseList, getEnvConfig } from './utils';
-import versions from './versions';
-import { JsPackageManagerFactory } from './js-package-manager';
+import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>
@@ -34,27 +40,37 @@ const command = (name: string) =>
     .command(name)
     .option(
       '--disable-telemetry',
-      'disable sending telemetry data',
+      'Disable sending telemetry data',
       // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
       process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
     )
     .option('--debug', 'Get more logs in debug mode', false)
-    .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+    .option('--enable-crash-reports', 'Enable sending crash reports to telemetry data');
 
 command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
-  .option('-N --use-npm', 'Use npm to install deps (deprecated)')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
+  // due to how Commander handles default values and negated options, we have to elevate the default into Commander, and we have to specify `--dev`
+  // alongside `--no-dev` even if we are unlikely to directly use `--dev`. https://github.com/tj/commander.js/issues/2068#issuecomment-1804524585
+  .option(
+    '--dev',
+    'Launch the development server after completing initialization. Enabled by default',
+    process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true'
+  )
+  .option(
+    '--no-dev',
+    'Complete the initialization of Storybook without launching the Storybook development server'
+  )
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch(() => process.exit(1));
+    initiate(options).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -63,25 +79,34 @@ command('add <addon>')
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
 
-command('babelrc')
-  .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
-
-command('upgrade')
-  .description('Upgrade your Storybook packages to the latest')
+command('remove <addon>')
+  .description('Remove an addon from your Storybook')
   .option(
     '--package-manager <npm|pnpm|yarn1|yarn2>',
     'Force package manager for installing dependencies'
   )
-  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
+  .action((addonName: string, options: any) =>
+    withTelemetry('remove', { cliOptions: options }, async () => {
+      await remove(addonName, options);
+      if (!options.disableTelemetry) {
+        await telemetry('remove', { addon: addonName, source: 'cli' });
+      }
+    })
+  );
+
+command('upgrade')
+  .description(`Upgrade your Storybook packages to v${versions.storybook}`)
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
   .option('-y --yes', 'Skip prompting the user')
+  .option('-f --force', 'force the upgrade, skipping autoblockers')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
-  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
-  .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
@@ -113,6 +138,7 @@ command('migrate [migration]')
   .option('-l --list', 'List available migrations')
   .option('-g --glob <glob>', 'Glob for files upon which to apply the migration', '**/*.js')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '-n --dry-run',
     'Dry run: verify the migration exists and show the files to which it will be applied'
@@ -129,27 +155,16 @@ command('migrate [migration]')
       list,
       rename,
       parser,
-      logger: consoleLogger,
     }).catch((err) => {
       logger.error(err);
       process.exit(1);
     });
   });
 
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {
@@ -170,11 +185,10 @@ command('link <repo-url-or-directory>')
   );
 
 command('automigrate [fixId]')
-  .description('Check storybook for known problems or migrations and apply fixes')
+  .description('Check storybook for incompatibilities or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
-  .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
   .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
   .option('-s --skip-install', 'Skip installing deps')
@@ -183,7 +197,18 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
-    await automigrate({ fixId, ...options }).catch((e) => {
+    await doAutomigrate({ fixId, ...options }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    });
+  });
+
+command('doctor')
+  .description('Check Storybook for known problems and provide suggestions or fixes')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configuration')
+  .action(async (options) => {
+    await doctor(options).catch((e) => {
       logger.error(e);
       process.exit(1);
     });
@@ -192,7 +217,6 @@ command('automigrate [fixId]')
 command('dev')
   .option('-p, --port <number>', 'Port to run Storybook', (str) => parseInt(str, 10))
   .option('-h, --host <string>', 'Host to run Storybook')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option(
     '--https',
@@ -212,13 +236,18 @@ command('dev')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--exact-port', 'Exit early if the desired port is not available')
   .option(
     '--initial-path [path]',
     'URL path to be appended when visiting Storybook for the first time'
@@ -238,7 +267,6 @@ command('dev')
     });
 
     if (parseInt(`${options.port}`, 10)) {
-      // eslint-disable-next-line no-param-reassign
       options.port = parseInt(`${options.port}`, 10);
     }
 
@@ -246,13 +274,16 @@ command('dev')
   });
 
 command('build')
-  .option('-s, --static-dir <dir-names>', 'Directory where to load static files from', parseList)
   .option('-o, --output-dir <dir-name>', 'Directory where to store built files')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .option('--quiet', 'Suppress verbose build output')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
-  .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option(
+    '--webpack-stats-json [directory]',
+    'Write Webpack stats JSON to disk (synonym for `--stats-json`)'
+  )
+  .option('--stats-json [directory]', 'Write stats JSON to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'

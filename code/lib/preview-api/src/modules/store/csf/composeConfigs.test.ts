@@ -1,9 +1,9 @@
-import { expect } from '@jest/globals';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     FEATURES: {},
   },
@@ -21,7 +21,9 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -45,7 +47,9 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -73,7 +77,9 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -107,7 +113,9 @@ describe('composeConfigs', () => {
       globals: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       globalTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -144,7 +152,9 @@ describe('composeConfigs', () => {
       globals: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       globalTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -172,7 +182,39 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: ['1', '2', '3', '4'],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
+    });
+  });
+
+  it('allows single array to be written without array', () => {
+    expect(
+      composeConfigs([
+        {
+          argsEnhancers: ['1', '2'],
+          argTypesEnhancers: ['1', '2'],
+          loaders: '1',
+        },
+        {
+          argsEnhancers: '3',
+          argTypesEnhancers: '3',
+          loaders: ['2', '3'],
+        },
+      ])
+    ).toEqual({
+      parameters: {},
+      decorators: [],
+      args: {},
+      argsEnhancers: ['1', '2', '3'],
+      argTypes: {},
+      argTypesEnhancers: ['1', '2', '3'],
+      globals: {},
+      globalTypes: {},
+      loaders: ['1', '2', '3'],
+      beforeEach: [],
+      runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -196,7 +238,9 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -221,7 +265,9 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
@@ -249,15 +295,17 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: [],
+      beforeEach: [],
       render: 'render-2',
       renderToCanvas: 'renderToCanvas-2',
       applyDecorators: 'applyDecorators-2',
       runStep: expect.any(Function),
+      tags: [],
     });
   });
 
   it('composes step runners', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     const { runStep } = composeConfigs([
       // @ts-expect-error (not defined)

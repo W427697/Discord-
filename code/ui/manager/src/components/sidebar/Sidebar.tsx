@@ -9,20 +9,21 @@ import type {
   Addon_SidebarTopType,
   API_LoadedRefData,
 } from '@storybook/types';
+import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 
-// eslint-disable-next-line import/no-cycle
 import { Explorer } from './Explorer';
-// eslint-disable-next-line import/no-cycle
+
 import { Search } from './Search';
-// eslint-disable-next-line import/no-cycle
+
 import { SearchResults } from './SearchResults';
-import type { Refs, CombinedDataset, Selection } from './types';
+import type { CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav({
+const Container = styled.nav(({ theme }) => ({
   position: 'absolute',
   zIndex: 1,
   left: 0,
@@ -33,10 +34,18 @@ const Container = styled.nav({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-});
+  background: theme.background.content,
+
+  [MEDIA_DESKTOP_BREAKPOINT]: {
+    background: theme.background.app,
+  },
+}));
 
 const Top = styled(Spaced)({
-  padding: 20,
+  paddingLeft: 12,
+  paddingRight: 12,
+  paddingBottom: 20,
+  paddingTop: 16,
   flex: 1,
 });
 
@@ -70,20 +79,26 @@ const Swap = React.memo(function Swap({
 });
 
 const useCombination = (
-  defaultRefData: API_LoadedRefData & { status: State['status'] },
-  refs: Refs
+  index: SidebarProps['index'],
+  indexError: SidebarProps['indexError'],
+  previewInitialized: SidebarProps['previewInitialized'],
+  status: SidebarProps['status'],
+  refs: SidebarProps['refs']
 ): CombinedDataset => {
   const hash = useMemo(
     () => ({
       [DEFAULT_REF_ID]: {
-        ...defaultRefData,
+        index,
+        indexError,
+        previewInitialized,
+        status,
         title: null,
         id: DEFAULT_REF_ID,
         url: 'iframe.html',
       },
       ...refs,
     }),
-    [refs, defaultRefData]
+    [refs, index, indexError, previewInitialized, status]
   );
   return useMemo(() => ({ hash, entries: Object.entries(hash) }), [hash]);
 };
@@ -98,6 +113,8 @@ export interface SidebarProps extends API_LoadedRefData {
   refId?: string;
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
+  onMenuClick?: HeadingProps['onMenuClick'];
+  showCreateStoryButton?: boolean;
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -113,15 +130,17 @@ export const Sidebar = React.memo(function Sidebar({
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
+  onMenuClick,
+  showCreateStoryButton,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
-  const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
+  const dataset = useCombination(index, indexError, previewInitialized, status, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
 
   return (
     <Container className="container sidebar-container">
-      <ScrollArea vertical offset={8}>
+      <ScrollArea vertical offset={3} scrollbarSize={6}>
         <Top row={1.6}>
           <Heading
             className="sidebar-header"
@@ -130,12 +149,12 @@ export const Sidebar = React.memo(function Sidebar({
             extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
             isLoading={isLoading}
+            onMenuClick={onMenuClick}
           />
-
           <Search
             dataset={dataset}
-            isLoading={isLoading}
             enableShortcuts={enableShortcuts}
+            showCreateStoryButton={showCreateStoryButton}
             {...lastViewedProps}
           >
             {({
@@ -163,6 +182,7 @@ export const Sidebar = React.memo(function Sidebar({
                   highlightedIndex={highlightedIndex}
                   enableShortcuts={enableShortcuts}
                   isLoading={isLoading}
+                  clearLastViewed={lastViewedProps.clearLastViewed}
                 />
               </Swap>
             )}
@@ -170,7 +190,7 @@ export const Sidebar = React.memo(function Sidebar({
         </Top>
       </ScrollArea>
       {isLoading ? null : (
-        <Bottom>
+        <Bottom className="sb-bar">
           {bottom.map(({ id, render: Render }) => (
             <Render key={id} />
           ))}

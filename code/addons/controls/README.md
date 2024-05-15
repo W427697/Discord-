@@ -8,13 +8,13 @@
 
 ## Installation
 
-Controls is part of [essentials](https://storybook.js.org/docs/react/essentials/introduction) and so is installed in all new Storybooks by default. If you need to add it to your Storybook, you can run:
+Controls is part of [essentials](https://storybook.js.org/docs/react/essentials) and so is installed in all new Storybooks by default. If you need to add it to your Storybook, you can run:
 
 ```sh
 npm i -D @storybook/addon-controls
 ```
 
-Then, add following content to [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
+Then, add following content to [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project):
 
 ```js
 export default {
@@ -44,7 +44,7 @@ Addon-knobs is one of Storybook's most popular addons with over 1M weekly downlo
 
 Therefore, rather than deprecating addon-knobs immediately, we will continue to release knobs with the Storybook core distribution until 7.0. This will give us time to improve Controls based on user feedback, and also give knobs users ample time to migrate.
 
-If you are somehow tied to knobs or prefer the knobs interface, we are happy to take on maintainers for the knobs project. If this interests you, hop on our [Discord](https://discord.gg/storybook).
+If you are somehow tied to knobs or prefer the knobs interface, we are happy to take on maintainers for the knobs project. If this interests you, please get in touch with us in the [`#contributing`](https://discord.com/channels/486522875931656193/839297503446695956) Discord channel.
 
 ### How do I migrate from addon-knobs?
 
@@ -176,38 +176,4 @@ Like [story parameters](https://storybook.js.org/docs/react/writing-stories/para
 
 ### How do controls work with MDX?
 
-MDX compiles to component story format (CSF) under the hood, so there's a direct mapping for every example above using the `args` and `argTypes` props.
-
-Consider this example in CSF:
-
-```js
-import { Button } from './Button';
-export default {
-  title: 'Button',
-  component: Button,
-  argTypes: {
-    background: { control: 'color' },
-  },
-};
-
-const Template = (args) => <Button {...args} />;
-export const Basic = Template.bind({});
-Basic.args = { label: 'hello', background: '#ff0' };
-```
-
-Here's the MDX equivalent:
-
-```jsx
-import { Meta, Story } from '@storybook/addon-docs';
-import { Button } from './Button';
-
-<Meta title="Button" component={Button} argTypes={{ background: { control: 'color' } }} />
-
-export const Template = (args) => <Button {...args} />
-
-<Story name="Basic" args={{ label: 'hello', background: '#ff0' }}>
-  {Template.bind({})}
-</Story>
-```
-
-For more info, see a full [Controls example in MDX for Vue](https://raw.githubusercontent.com/storybookjs/storybook/next/code/examples/vue-kitchen-sink/src/stories/addon-controls.stories.mdx).
+When importing stories from your CSF file into MDX, controls will work the same way. See [the documentation](https://storybook.js.org/docs/writing-docs/mdx#basic-example) for examples.

@@ -16,12 +16,11 @@ Afterward, you can use any asset in your stories:
   paths={[
     'react/component-story-static-asset-with-import.js.mdx',
     'react/component-story-static-asset-with-import.ts.mdx',
-    'vue/component-story-static-asset-with-import.2.js.mdx',
-    'vue/component-story-static-asset-with-import.2.ts.mdx',
     'vue/component-story-static-asset-with-import.3.js.mdx',
     'vue/component-story-static-asset-with-import.3.ts.mdx',
     'angular/component-story-static-asset-with-import.ts.mdx',
     'svelte/component-story-static-asset-with-import.js.mdx',
+    'svelte/component-story-static-asset-with-import.ts.mdx',
     'web-components/component-story-static-asset-with-import.js.mdx',
     'web-components/component-story-static-asset-with-import.ts.mdx',
     'solid/component-story-static-asset-with-import.js.mdx',
@@ -43,8 +42,8 @@ Configure a directory (or a list of directories) where your assets live when sta
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-single-static-dir.js.mdx',
-    'common/storybook-main-with-single-static-dir.ts.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -62,6 +61,7 @@ Here `../public` is your static directory. Now use it in a component or story li
     'vue/component-story-static-asset-without-import.ts.mdx',
     'angular/component-story-static-asset-without-import.ts.mdx',
     'svelte/component-story-static-asset-without-import.js.mdx',
+    'svelte/component-story-static-asset-without-import.ts.mdx',
     'web-components/component-story-static-asset-without-import.js.mdx',
     'web-components/component-story-static-asset-without-import.ts.mdx',
     'solid/component-story-static-asset-without-import.js.mdx',
@@ -99,10 +99,6 @@ Or even use a configuration object to define the directories:
 
 <!-- prettier-ignore-end -->
 
-### **[⚠️ Deprecated]** Serving static files via Storybook CLI
-
-Using `--static-dir` or `-s` option with Storybook CLI is deprecated. It is recommended to use [Storybook static directory configuration option](#serving-static-files-via-storybook-configuration) instead.
-
 ### Reference assets from a CDN
 
 Upload your files to an online CDN and reference them. In this example, we’re using a placeholder image service.
@@ -117,6 +113,7 @@ Upload your files to an online CDN and reference them. In this example, we’re 
     'vue/component-story-static-asset-cdn.ts.mdx',
     'angular/component-story-static-asset-cdn.ts.mdx',
     'svelte/component-story-static-asset-cdn.js.mdx',
+    'svelte/component-story-static-asset-cdn.ts.mdx',
     'web-components/component-story-static-asset-cdn.js.mdx',
     'web-components/component-story-static-asset-cdn.ts.mdx',
     'solid/component-story-static-asset-cdn.js.mdx',
@@ -140,9 +137,7 @@ Suppose you are serving assets in a [static directory](#serving-static-files-via
 
 ### Referencing Fonts in Stories
 
-After configuring Storybook to serve assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font in your stories.
-
-Inside the `.storybook/` configuration folder, create `preview-head.html`, then use `<link />` to reference your font.
+After configuring Storybook to serve assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font to your stories. To do this, create a [`preview-head.html`](./story-rendering.md) file inside the configuration directory (i.e., `.storybook`) and add a `<link />` tag to reference your font.
 
 <!-- prettier-ignore-start -->
 

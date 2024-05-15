@@ -7,7 +7,7 @@ import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
 import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
+import type { Addon_RenderOptions } from './addons';
 import type { StoryIndex } from './indexer';
 
 type OrString<T extends string> = T | (string & {});
@@ -29,21 +29,6 @@ export interface API_MatchOptions {
   path: string;
 }
 
-/**
- * @deprecated this is synonymous with `Addon_Type`. This interface will be removed in 8.0
- */
-export type API_Addon = Addon_Type;
-
-/**
- * @deprecated this is synonymous with `Addon_Collection`. This interface will be removed in 8.0
- */
-export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
-
-/**
- * @deprecated This interface will be removed in 8.0
- */
-export type API_Panels = Addon_Collection<Addon_BaseType>;
-
 export type API_StateMerger<S> = (input: S) => S;
 
 export interface API_ProviderData<API> {
@@ -60,7 +45,7 @@ export interface API_Provider<API> {
   renderPreview?: API_IframeRenderer;
   handleAPI(api: API): void;
   getConfig(): {
-    sidebar?: API_SidebarOptions;
+    sidebar?: API_SidebarOptions<API>;
     theme?: ThemeVars;
     StoryMapper?: API_StoryMapper;
     [k: string]: any;
@@ -90,10 +75,20 @@ export interface API_UIOptions {
 
 export interface API_Layout {
   initialActive: API_ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
+  navSize: number;
+  bottomPanelHeight: number;
+  rightPanelWidth: number;
+  /**
+   * the sizes of the panels when they were last visible
+   * used to restore the sizes when the panels are shown again
+   * eg. when toggling fullscreen, panels, etc.
+   */
+  recentVisibleSizes: {
+    navSize: number;
+    bottomPanelHeight: number;
+    rightPanelWidth: number;
+  };
   panelPosition: API_PanelPositions;
-  showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
   /**
@@ -111,32 +106,51 @@ export interface API_UI {
 export type API_PanelPositions = 'bottom' | 'right';
 export type API_ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 
-export interface API_SidebarOptions {
+export interface API_SidebarOptions<API = any> {
   showRoots?: boolean;
   filters?: Record<string, API_FilterFunction>;
   collapsedRoots?: string[];
-  renderLabel?: (item: API_HashEntry) => any;
+  renderLabel?: (item: API_HashEntry, api: API) => any;
 }
 
 interface OnClearOptions {
   /**
-   *  True when the user dismissed the notification.
+   *  True when the user manually dismissed the notification.
    */
   dismissed: boolean;
+  /**
+   *  True when the notification timed out after the set duration.
+   */
+  timeout: boolean;
 }
 
+interface OnClickOptions {
+  /**
+   *  Function to dismiss the notification.
+   */
+  onDismiss: () => void;
+}
+
+/**
+ * @deprecated Use ReactNode for the icon instead.
+ * @see https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated
+ */
+interface DeprecatedIconType {
+  name: string;
+  color?: string;
+}
 export interface API_Notification {
   id: string;
-  link: string;
   content: {
     headline: string;
     subHeadline?: string | any;
   };
-  icon?: {
-    name: string;
-    color?: string;
-  };
+  duration?: number;
+  link?: string;
+  // TODO: Remove DeprecatedIconType in 9.0
+  icon?: React.ReactNode | DeprecatedIconType;
   onClear?: (options: OnClearOptions) => void;
+  onClick?: (options: OnClickOptions) => void;
 }
 
 type API_Versions = Record<string, string>;
@@ -165,6 +179,8 @@ export interface API_ComposedRef extends API_LoadedRefData {
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
+  /** DO NOT USE THIS */
+  internal_index?: StoryIndex;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -179,6 +195,7 @@ export type API_ComposedRefUpdate = Partial<
     | 'version'
     | 'indexError'
     | 'previewInitialized'
+    | 'internal_index'
   >
 >;
 

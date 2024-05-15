@@ -1,4 +1,10 @@
-import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
+import type {
+  Renderer,
+  ProjectAnnotations as CsfProjectAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
+  CleanupCallback,
+} from '@storybook/csf';
 
 import type {
   ComponentAnnotations,
@@ -42,30 +48,45 @@ export type ProjectAnnotations<TRenderer extends Renderer> = CsfProjectAnnotatio
   renderToDOM?: RenderToCanvas<TRenderer>;
 };
 
-export type NormalizedProjectAnnotations<TRenderer extends Renderer = Renderer> =
-  ProjectAnnotations<TRenderer> & {
-    argTypes?: StrictArgTypes;
-    globalTypes?: StrictGlobalTypes;
-  };
+type NamedExportsOrDefault<TExport> = TExport | { default: TExport };
 
-export type NormalizedComponentAnnotations<TRenderer extends Renderer = Renderer> =
-  ComponentAnnotations<TRenderer> & {
-    // Useful to guarantee that id & title exists
-    id: ComponentId;
-    title: ComponentTitle;
-    argTypes?: StrictArgTypes;
-  };
+export type NamedOrDefaultProjectAnnotations<TRenderer extends Renderer = Renderer> =
+  NamedExportsOrDefault<ProjectAnnotations<TRenderer>>;
+
+export type NormalizedProjectAnnotations<TRenderer extends Renderer = Renderer> = Omit<
+  ProjectAnnotations<TRenderer>,
+  'decorators' | 'loaders'
+> & {
+  argTypes?: StrictArgTypes;
+  globalTypes?: StrictGlobalTypes;
+  decorators?: DecoratorFunction<TRenderer>[];
+  loaders?: LoaderFunction<TRenderer>[];
+};
+
+export type NormalizedComponentAnnotations<TRenderer extends Renderer = Renderer> = Omit<
+  ComponentAnnotations<TRenderer>,
+  'decorators' | 'loaders'
+> & {
+  // Useful to guarantee that id & title exists
+  id: ComponentId;
+  title: ComponentTitle;
+  argTypes?: StrictArgTypes;
+  decorators?: DecoratorFunction<TRenderer>[];
+  loaders?: LoaderFunction<TRenderer>[];
+};
 
 export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = Omit<
   StoryAnnotations<TRenderer>,
-  'storyName' | 'story'
+  'storyName' | 'story' | 'decorators' | 'loaders'
 > & {
   moduleExport: ModuleExport;
-  // You cannot actually set id on story annotations, but we normalize it to be there for convience
+  // You cannot actually set id on story annotations, but we normalize it to be there for convenience
   id: StoryId;
   argTypes?: StrictArgTypes;
   name: StoryName;
   userStoryFn?: StoryFn<TRenderer>;
+  decorators?: DecoratorFunction<TRenderer>[];
+  loaders?: LoaderFunction<TRenderer>[];
 };
 
 export type CSFFile<TRenderer extends Renderer = Renderer> = {
@@ -83,6 +104,7 @@ export type PreparedStory<TRenderer extends Renderer = Renderer> =
     applyLoaders: (
       context: StoryContextForLoaders<TRenderer>
     ) => Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }>;
+    applyBeforeEach: (context: StoryContext<TRenderer>) => Promise<CleanupCallback[]>;
     playFunction?: (context: StoryContext<TRenderer>) => Promise<void> | void;
   };
 

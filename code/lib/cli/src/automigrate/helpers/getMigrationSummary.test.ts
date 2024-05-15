@@ -1,11 +1,11 @@
+import { describe, expect, vi, it } from 'vitest';
 import { getMigrationSummary } from './getMigrationSummary';
 import { FixStatus } from '../types';
-import type { InstallationMetadata } from '../../js-package-manager/types';
+import type { InstallationMetadata } from '@storybook/core-common';
 
-jest.mock('boxen', () =>
-  // eslint-disable-next-line no-control-regex
-  jest.fn((str, { title = '' }) => `${title}\n\n${str.replace(/\x1b\[[0-9;]*[mG]/g, '')}`)
-);
+vi.mock('boxen', () => ({
+  default: vi.fn((str, { title = '' }) => `${title}\n\n${str.replace(/\x1b\[[0-9;]*[mG]/g, '')}`),
+}));
 
 describe('getMigrationSummary', () => {
   const fixResults = {
@@ -25,7 +25,6 @@ describe('getMigrationSummary', () => {
 
   const installationMetadata: InstallationMetadata = {
     duplicatedDependencies: {
-      '@storybook/core-client': ['7.0.0', '7.1.0'],
       '@storybook/instrumenter': ['6.0.0', '7.1.0'],
       '@storybook/core-common': ['6.0.0', '7.1.0'],
       '@storybook/addon-essentials': ['7.0.0', '7.1.0'],
@@ -37,7 +36,7 @@ describe('getMigrationSummary', () => {
 
   const logFile = '/path/to/log/file';
 
-  test('renders a summary with a "no migrations" message if all migrations were unnecessary', () => {
+  it('renders a summary with a "no migrations" message if all migrations were unnecessary', () => {
     const summary = getMigrationSummary({
       fixResults: { 'foo-package': FixStatus.UNNECESSARY },
       fixSummary: {
@@ -53,7 +52,7 @@ describe('getMigrationSummary', () => {
     expect(summary).toContain('No migrations were applicable to your project');
   });
 
-  test('renders a summary with a "check failed" message if at least one migration completely failed', () => {
+  it('renders a summary with a "check failed" message if at least one migration completely failed', () => {
     const summary = getMigrationSummary({
       fixResults: {
         'foo-package': FixStatus.SUCCEEDED,
@@ -73,7 +72,7 @@ describe('getMigrationSummary', () => {
     expect(summary).toContain('Migration check ran with failures');
   });
 
-  test('renders a summary with successful, manual, failed, and skipped migrations', () => {
+  it('renders a summary with successful, manual, failed, and skipped migrations', () => {
     const summary = getMigrationSummary({
       fixResults,
       fixSummary,
@@ -105,16 +104,16 @@ describe('getMigrationSummary', () => {
 
       ─────────────────────────────────────────────────
 
-      If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'
+      If you'd like to run the migrations again, you can do so by running 'npx storybook automigrate'
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
       And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });
 
-  test('renders a summary with a warning if there are duplicated dependencies outside the allow list', () => {
+  it('renders a summary with a warning if there are duplicated dependencies outside the allow list', () => {
     const summary = getMigrationSummary({
       fixResults: {},
       fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },
@@ -125,35 +124,16 @@ describe('getMigrationSummary', () => {
     expect(summary).toMatchInlineSnapshot(`
       "No migrations were applicable to your project
 
-      If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'
+      If you'd like to run the migrations again, you can do so by running 'npx storybook automigrate'
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
-      And reach out on Discord if you need help: https://discord.gg/storybook
-
-      ─────────────────────────────────────────────────
-
-      Critical: The following dependencies are duplicated and WILL cause unexpected behavior:
-
-      @storybook/instrumenter:
-      6.0.0, 7.1.0
-
-      Attention: The following dependencies are duplicated which might cause unexpected behavior:
-
-      @storybook/core-common:
-      6.0.0, 7.1.0
-
-      @storybook/addon-essentials:
-      7.0.0, 7.1.0
-
-      You can find more information for a given dependency by running yarn why <package-name>
-
-      Please try de-duplicating these dependencies by running yarn dedupe"
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
+      And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });
 
-  test('renders a basic summary if there are no duplicated dependencies or migrations', () => {
+  it('renders a basic summary if there are no duplicated dependencies or migrations', () => {
     const summary = getMigrationSummary({
       fixResults: {},
       fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },
@@ -164,11 +144,11 @@ describe('getMigrationSummary', () => {
     expect(summary).toMatchInlineSnapshot(`
       "No migrations were applicable to your project
 
-      If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'
+      If you'd like to run the migrations again, you can do so by running 'npx storybook automigrate'
 
       The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
 
-      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/docs/8.0/migration-guide
       And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });

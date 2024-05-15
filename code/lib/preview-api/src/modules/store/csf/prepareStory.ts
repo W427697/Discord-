@@ -1,31 +1,32 @@
+/* eslint-disable @typescript-eslint/no-loop-func,no-underscore-dangle */
 import { global } from '@storybook/global';
-
 import type {
-  Renderer,
   Args,
   ArgsStoryFn,
-  LegacyStoryFn,
-  Parameters,
-  PlayFunction,
-  PlayFunctionContext,
-  StepLabel,
+  ModuleExport,
   NormalizedComponentAnnotations,
   NormalizedProjectAnnotations,
   NormalizedStoryAnnotations,
+  Parameters,
+  PlayFunction,
+  PlayFunctionContext,
+  PreparedMeta,
   PreparedStory,
+  Renderer,
+  StepLabel,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StrictArgTypes,
-  PreparedMeta,
-  ModuleExport,
 } from '@storybook/types';
-import { includeConditionalArg } from '@storybook/csf';
+import { type CleanupCallback, includeConditionalArg, combineTags } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, UNTARGETED } from '../args';
+import { normalizeArrays } from './normalizeArrays';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc
@@ -48,31 +49,49 @@ export function prepareStory<TRenderer extends Renderer>(
     projectAnnotations
   );
 
-  const loaders = [
-    ...(projectAnnotations.loaders || []),
-    ...(componentAnnotations.loaders || []),
-    ...(storyAnnotations?.loaders || []),
-  ];
-  const applyLoaders = async (context: StoryContextForLoaders<TRenderer>) => {
-    const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
-    const loaded = Object.assign({}, ...loadResults);
-    return { ...context, loaded };
+  const applyLoaders = async (
+    context: StoryContextForLoaders<TRenderer>
+  ): Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }> => {
+    let updatedContext = { ...context, loaded: {} };
+    for (const loaders of [
+      ...('__STORYBOOK_TEST_LOADERS__' in global && Array.isArray(global.__STORYBOOK_TEST_LOADERS__)
+        ? [global.__STORYBOOK_TEST_LOADERS__]
+        : []),
+      normalizeArrays(projectAnnotations.loaders),
+      normalizeArrays(componentAnnotations.loaders),
+      normalizeArrays(storyAnnotations.loaders),
+    ]) {
+      const loadResults = await Promise.all(loaders.map((loader) => loader(updatedContext)));
+      const loaded: Record<string, any> = Object.assign({}, ...loadResults);
+      updatedContext = { ...updatedContext, loaded: { ...updatedContext.loaded, ...loaded } };
+    }
+
+    return updatedContext;
   };
 
-  const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
-    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
-    return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(context.args, context)
-      : (render as LegacyStoryFn<TRenderer>)(context);
+  const applyBeforeEach = async (context: StoryContext<TRenderer>): Promise<CleanupCallback[]> => {
+    const cleanupCallbacks = new Array<() => unknown>();
+    for (const beforeEach of [
+      ...normalizeArrays(projectAnnotations.beforeEach),
+      ...normalizeArrays(componentAnnotations.beforeEach),
+      ...normalizeArrays(storyAnnotations.beforeEach),
+    ]) {
+      const cleanup = await beforeEach(context);
+      if (cleanup) cleanupCallbacks.push(cleanup);
+    }
+    return cleanupCallbacks;
   };
+
+  const undecoratedStoryFn = (context: StoryContext<TRenderer>) =>
+    (render as ArgsStoryFn<TRenderer>)(context.args, context);
 
   // Currently it is only possible to set these globally
   const { applyDecorators = defaultDecorateStory, runStep } = projectAnnotations;
 
   const decorators = [
-    ...(storyAnnotations?.decorators || []),
-    ...(componentAnnotations.decorators || []),
-    ...(projectAnnotations.decorators || []),
+    ...normalizeArrays(storyAnnotations?.decorators),
+    ...normalizeArrays(componentAnnotations?.decorators),
+    ...normalizeArrays(projectAnnotations?.decorators),
   ];
 
   // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
@@ -112,10 +131,10 @@ export function prepareStory<TRenderer extends Renderer>(
     undecoratedStoryFn,
     unboundStoryFn,
     applyLoaders,
+    applyBeforeEach,
     playFunction,
   };
 }
-
 export function prepareMeta<TRenderer extends Renderer>(
   componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
   projectAnnotations: NormalizedProjectAnnotations<TRenderer>,
@@ -136,7 +155,16 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
+  const defaultTags = ['dev', 'test'];
+  const extraTags = globalThis.DOCS_OPTIONS?.autodocs === true ? ['autodocs'] : [];
+
+  const tags = combineTags(
+    ...defaultTags,
+    ...extraTags,
+    ...(projectAnnotations.tags ?? []),
+    ...(componentAnnotations.tags ?? []),
+    ...(storyAnnotations?.tags ?? [])
+  );
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
@@ -162,10 +190,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
       componentAnnotations.render ||
       projectAnnotations.render;
 
-    const { passArgsFirst = true } = parameters;
-
-    // eslint-disable-next-line no-underscore-dangle
-    parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
+    parameters.__isArgsStory = render && render.length > 0;
   }
 
   // Pull out args[X] into initialArgs for argTypes enhancers
@@ -220,7 +245,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 // eg. reactive proxies set by frameworks like SolidJS or Vue
 export function prepareContext<
   TRenderer extends Renderer,
-  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>
+  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>,
 >(
   context: TContext
 ): TContext & Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget' | 'unmappedArgs'> {
@@ -249,10 +274,10 @@ export function prepareContext<
       return acc;
     }
 
-    const mappingFn = (originalValue: any) =>
-      originalValue in targetedContext.argTypes[key].mapping
-        ? targetedContext.argTypes[key].mapping[originalValue]
-        : originalValue;
+    const mappingFn = (originalValue: any) => {
+      const mapping = targetedContext.argTypes[key].mapping;
+      return mapping && originalValue in mapping ? mapping[originalValue] : originalValue;
+    };
 
     acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
 

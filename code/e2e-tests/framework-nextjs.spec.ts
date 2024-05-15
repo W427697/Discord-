@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-disabled-tests */
 import type { Locator } from '@playwright/test';
 import { test, expect } from '@playwright/test';
 import process from 'process';
@@ -11,8 +10,7 @@ test.describe('Next.js', () => {
   // TODO: improve these E2E tests given that we have more version of Next.js to test
   // and this only tests nextjs/default-js
   test.skip(
-    // eslint-disable-next-line jest/valid-title
-    !templateName?.includes('nextjs/default-js'),
+    !templateName?.includes('nextjs/default-ts'),
     'Only run this test for the Frameworks that support next/navigation'
   );
 
@@ -30,7 +28,7 @@ test.describe('Next.js', () => {
 
     // TODO: Test is flaky, investigate why
     test.skip('should lazy load images by default', async () => {
-      await sbPage.navigateToStory('frameworks/nextjs/Image', 'lazy');
+      await sbPage.navigateToStory('stories/frameworks/nextjs/Image', 'lazy');
 
       const img = sbPage.previewRoot().locator('img');
 
@@ -39,7 +37,7 @@ test.describe('Next.js', () => {
 
     // TODO: Test is flaky, investigate why
     test.skip('should eager load images when loading parameter is set to eager', async () => {
-      await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
+      await sbPage.navigateToStory('stories/frameworks/nextjs/Image', 'eager');
 
       const img = sbPage.previewRoot().locator('img');
 
@@ -58,7 +56,7 @@ test.describe('Next.js', () => {
 
         await sbPage.viewAddonPanel('Actions');
         const logItem = await page.locator('#storybook-panel-root #panel-tab-content', {
-          hasText: `nextNavigation.${action}`,
+          hasText: `useRouter().${action}`,
         });
         await expect(logItem).toBeVisible();
       });
@@ -67,7 +65,10 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Navigation', 'default');
+      await sbPage.navigateToStory(
+        'stories/frameworks/nextjs-nextjs-default-ts/Navigation',
+        'default'
+      );
       root = sbPage.previewRoot();
     });
 
@@ -90,7 +91,7 @@ test.describe('Next.js', () => {
 
         await sbPage.viewAddonPanel('Actions');
         const logItem = await page.locator('#storybook-panel-root #panel-tab-content', {
-          hasText: `nextRouter.${action}`,
+          hasText: `useRouter().${action}`,
         });
         await expect(logItem).toBeVisible();
       });
@@ -99,7 +100,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Router', 'default');
+      await sbPage.navigateToStory('stories/frameworks/nextjs-nextjs-default-ts/Router', 'default');
       root = sbPage.previewRoot();
     });
 

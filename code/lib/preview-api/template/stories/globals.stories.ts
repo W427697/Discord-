@@ -1,7 +1,6 @@
 import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { within, expect } from '@storybook/test';
 
 export default {
   component: globalThis.Components.Pre,
@@ -26,7 +25,7 @@ export const Events = {
   // Just pass the "foo" global to the pre
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { text: context.globals['foo'] } }),
+      storyFn({ args: { text: context.globals.foo } }),
   ],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;

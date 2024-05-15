@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { AboutScreen } from './about';
+import { AboutScreen } from './About';
+import UpgradeBlockStoriesMeta from '../components/upgrade/UpgradeBlock.stories';
+import { fn } from '@storybook/test';
 
 const meta = {
   component: AboutScreen,
   title: 'Settings/AboutScreen',
   decorators: [
+    UpgradeBlockStoriesMeta.decorators[0],
     (Story) => (
       <div
         style={{
@@ -18,6 +21,7 @@ const meta = {
       </div>
     ),
   ],
+  args: { onNavigateToWhatsNew: fn() },
 } satisfies Meta<typeof AboutScreen>;
 
 export default meta;
@@ -25,11 +29,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    current: {
-      version: '7.0.1',
-    },
-  },
   parameters: {
     design: {
       type: 'figma',

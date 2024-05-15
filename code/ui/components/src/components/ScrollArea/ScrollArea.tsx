@@ -1,5 +1,4 @@
-import type { FC } from 'react';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
@@ -73,41 +72,38 @@ const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)(({ theme }) => ({
     transform: 'translate(-50%,-50%)',
     width: '100%',
     height: '100%',
-    minWidth: 44,
-    minHeight: 44,
   },
 }));
 
-export const ScrollArea: FC<ScrollAreaProps> = ({
-  children,
-  horizontal = false,
-  vertical = false,
-  offset = 2,
-  scrollbarSize = 6,
-  className,
-}) => (
-  <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset} className={className}>
-    <ScrollAreaViewport>{children}</ScrollAreaViewport>
-    {horizontal && (
-      <ScrollAreaScrollbar
-        orientation="horizontal"
-        offset={offset}
-        horizontal={horizontal.toString()}
-        vertical={vertical.toString()}
-      >
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-    )}
-    {vertical && (
-      <ScrollAreaScrollbar
-        orientation="vertical"
-        offset={offset}
-        horizontal={horizontal.toString()}
-        vertical={vertical.toString()}
-      >
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-    )}
-    {horizontal && vertical && <ScrollAreaPrimitive.Corner />}
-  </ScrollAreaRoot>
+export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
+  (
+    { children, horizontal = false, vertical = false, offset = 2, scrollbarSize = 6, className },
+    ref
+  ) => (
+    <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset} className={className}>
+      <ScrollAreaViewport ref={ref}>{children}</ScrollAreaViewport>
+      {horizontal && (
+        <ScrollAreaScrollbar
+          orientation="horizontal"
+          offset={offset}
+          horizontal={horizontal.toString()}
+          vertical={vertical.toString()}
+        >
+          <ScrollAreaThumb />
+        </ScrollAreaScrollbar>
+      )}
+      {vertical && (
+        <ScrollAreaScrollbar
+          orientation="vertical"
+          offset={offset}
+          horizontal={horizontal.toString()}
+          vertical={vertical.toString()}
+        >
+          <ScrollAreaThumb />
+        </ScrollAreaScrollbar>
+      )}
+      {horizontal && vertical && <ScrollAreaPrimitive.Corner />}
+    </ScrollAreaRoot>
+  )
 );
+ScrollArea.displayName = 'ScrollArea';

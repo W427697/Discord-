@@ -1,12 +1,12 @@
-import fs, { pathExists, readFile } from 'fs-extra';
-import { deprecate, logger } from '@storybook/node-logger';
+import { pathExists, readFile } from 'fs-extra';
+import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
-  findConfigFile,
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
+  removeAddon as removeAddonBase,
 } from '@storybook/core-common';
 import type {
   CLIOptions,
@@ -14,25 +14,18 @@ import type {
   Indexer,
   Options,
   PresetPropertyFn,
-  StorybookConfig,
+  PresetProperty,
 } from '@storybook/types';
-import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join, isAbsolute } from 'path';
+import { readCsf } from '@storybook/csf-tools';
+import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
-import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
-import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
-import {
-  REQUEST_WHATS_NEW_DATA,
-  RESULT_WHATS_NEW_DATA,
-  TELEMETRY_ERROR,
-  SET_WHATS_NEW_CACHE,
-  TOGGLE_WHATS_NEW_NOTIFICATIONS,
-} from '@storybook/core-events';
-import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
-import { sendTelemetryError } from '../withTelemetry';
+import { initializeWhatsNew, type OptionsWithRequiredCache } from '../utils/whats-new';
+import { initializeSaveStory } from '../utils/save-story/save-story';
+import { initFileSearchChannel } from '../server-channel/file-search-channel';
+import { initCreateNewStoryChannel } from '../server-channel/create-new-story-channel';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -46,16 +39,16 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 
 export const favicon = async (
   value: string | undefined,
-  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+  options: Pick<Options, 'presets' | 'configDir'>
 ) => {
   if (value) {
     return value;
   }
-  const staticDirsValue = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const staticDirsValue = await options.presets.apply('staticDirs');
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+    : [];
 
   if (statics && statics.length > 0) {
     const lists = await Promise.all(
@@ -95,7 +88,7 @@ export const favicon = async (
     if (flatlist.length > 1) {
       logger.warn(dedent`
         Looks like multiple favicons were detected. Using the first one.
-        
+
         ${flatlist.join(', ')}
         `);
     }
@@ -133,8 +126,8 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 
 export const typescript = () => ({
   check: false,
-  // 'react-docgen' faster but produces lower quality typescript results
-  reactDocgen: 'react-docgen-typescript',
+  // 'react-docgen' faster than `react-docgen-typescript` but produces lower quality results
+  reactDocgen: 'react-docgen',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,
     shouldRemoveUndefinedFromOptional: true,
@@ -160,6 +153,18 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverAPI = (extension: Record<string, Function>, options: Options) => {
+  let removeAddon = removeAddonBase;
+  if (!options.disableTelemetry) {
+    removeAddon = async (id: string, opts: any) => {
+      await telemetry('remove', { addon: id, source: 'api' });
+      return removeAddonBase(id, opts);
+    };
+  }
+  return { ...extension, removeAddon };
+};
+
 /**
  * If for some reason this config is not applied, the reason is that
  * likely there is an addon that does `export core = () => ({ someConfig })`,
@@ -173,28 +178,11 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
 
-export const previewAnnotations = async (base: any, options: Options) => {
-  const config = await options.presets.apply('config', [], options);
-
-  if (config.length > 0) {
-    deprecate(
-      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
-    );
-  }
-
-  return [...config, ...base];
-};
-
-export const features = async (
-  existing: StorybookConfig['features']
-): Promise<StorybookConfig['features']> => ({
+export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
-  warnOnLegacyHierarchySeparator: true,
-  buildStoriesJson: false,
-  storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  disallowImplicitActionsInRenderV8: false,
+  disallowImplicitActionsInRenderV8: true,
 });
 
 export const csfIndexer: Indexer = {
@@ -203,14 +191,14 @@ export const csfIndexer: Indexer = {
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+export const experimental_indexers: PresetProperty<'experimental_indexers'> = (existingIndexers) =>
   [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,
   options: Options
 ): Promise<Record<string, any> | null> => {
-  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+  const config = await options.presets.apply('framework');
 
   if (typeof config === 'string') {
     return {};
@@ -223,10 +211,7 @@ export const frameworkOptions = async (
   return config.options;
 };
 
-export const docs = (
-  docsOptions: StorybookConfig['docs'],
-  { docs: docsMode }: CLIOptions
-): StorybookConfig['docs'] =>
+export const docs: PresetProperty<'docs'> = (docsOptions, { docs: docsMode }: CLIOptions) =>
   docsOptions && docsMode !== undefined
     ? {
         ...docsOptions,
@@ -246,20 +231,6 @@ export const managerHead = async (_: any, options: Options) => {
   return '';
 };
 
-const WHATS_NEW_CACHE = 'whats-new-cache';
-const WHATS_NEW_URL = 'https://storybook.js.org/whats-new/v1';
-
-// Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
-type WhatsNewResponse = {
-  title: string;
-  url: string;
-  blogUrl?: string;
-  publishedAt: string;
-  excerpt: string;
-};
-
-type OptionsWithRequiredCache = Exclude<Options, 'cache'> & Required<Pick<Options, 'cache'>>;
-
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const experimental_serverChannel = async (
   channel: Channel,
@@ -267,85 +238,45 @@ export const experimental_serverChannel = async (
 ) => {
   const coreOptions = await options.presets.apply('core');
 
-  channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
-    const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
-      logger.verbose(e);
-      return {};
-    });
-    await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
-  });
+  initializeWhatsNew(channel, options, coreOptions);
+  initializeSaveStory(channel, options, coreOptions);
 
-  channel.on(REQUEST_WHATS_NEW_DATA, async () => {
-    try {
-      const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
-        if (response.ok) return response.json();
-        // eslint-disable-next-line @typescript-eslint/no-throw-literal
-        throw response;
-      })) as WhatsNewResponse;
-
-      const configFileName = findConfigFile('main', options.configDir);
-      if (!configFileName)
-        throw new Error(`unable to find storybook main file in ${options.configDir}`);
-      const main = await readConfig(configFileName);
-      const disableWhatsNewNotifications = main.getFieldValue([
-        'core',
-        'disableWhatsNewNotifications',
-      ]);
-
-      const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
-      const data = {
-        ...post,
-        status: 'SUCCESS',
-        postIsRead: post.url === cache.lastReadPost,
-        showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
-        disableWhatsNewNotifications,
-      } satisfies WhatsNewData;
-      channel.emit(RESULT_WHATS_NEW_DATA, { data });
-    } catch (e) {
-      logger.verbose(e instanceof Error ? e.message : String(e));
-      channel.emit(RESULT_WHATS_NEW_DATA, {
-        data: { status: 'ERROR' } satisfies WhatsNewData,
-      });
-    }
-  });
-
-  channel.on(
-    TOGGLE_WHATS_NEW_NOTIFICATIONS,
-    async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
-      const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
-      try {
-        const mainPath = findConfigFile('main', options.configDir);
-        invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
-        const main = await readConfig(mainPath);
-        main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await fs.writeFile(mainPath, printConfig(main).code);
-        if (isTelemetryEnabled) {
-          await telemetry('core-config', { disableWhatsNewNotifications });
-        }
-      } catch (error) {
-        invariant(error instanceof Error);
-        if (isTelemetryEnabled) {
-          await sendTelemetryError(error, 'core-config', {
-            cliOptions: options,
-            presetOptions: { ...options, corePresets: [], overridePresets: [] },
-            skipPrompt: true,
-          });
-        }
-      }
-    }
-  );
-
-  channel.on(TELEMETRY_ERROR, async (error) => {
-    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
-
-    if (isTelemetryEnabled) {
-      await sendTelemetryError(error, 'browser', {
-        cliOptions: options,
-        presetOptions: { ...options, corePresets: [], overridePresets: [] },
-        skipPrompt: true,
-      });
-    }
-  });
+  initFileSearchChannel(channel, options, coreOptions);
+  initCreateNewStoryChannel(channel, options, coreOptions);
 
   return channel;
+};
+
+/**
+ * Try to resolve react and react-dom from the root node_modules of the project
+ * addon-docs uses this to alias react and react-dom to the project's version when possible
+ * If the user doesn't have an explicit dependency on react this will return the existing values
+ * Which will be the versions shipped with addon-docs
+ */
+export const resolvedReact = async (existing: any) => {
+  try {
+    return {
+      ...existing,
+      react: dirname(require.resolve('react/package.json')),
+      reactDom: dirname(require.resolve('react-dom/package.json')),
+    };
+  } catch (e) {
+    return existing;
+  }
+};
+
+/**
+ * Set up `dev-only`, `docs-only`, `test-only` tags out of the box
+ */
+export const tags = async (existing: any) => {
+  return {
+    ...existing,
+    'dev-only': { excludeFromDocsStories: true },
+    'docs-only': { excludeFromSidebar: true },
+    'test-only': { excludeFromSidebar: true, excludeFromDocsStories: true },
+  };
+};
+
+export const managerEntries = async (existing: any, options: Options) => {
+  return [require.resolve('./common-manager'), ...(existing || [])];
 };

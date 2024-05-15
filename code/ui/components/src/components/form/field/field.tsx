@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
@@ -28,7 +28,7 @@ export interface FieldProps {
   label?: ReactNode;
 }
 
-export const Field: FC<FieldProps> = ({ label, children, ...props }) => (
+export const Field = ({ label, children, ...props }: FieldProps) => (
   <Wrapper {...props}>
     {label ? (
       <Label>
@@ -38,7 +38,3 @@ export const Field: FC<FieldProps> = ({ label, children, ...props }) => (
     {children}
   </Wrapper>
 );
-
-Field.defaultProps = {
-  label: undefined,
-};

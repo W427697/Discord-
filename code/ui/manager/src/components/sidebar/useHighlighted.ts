@@ -7,7 +7,6 @@ import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 import type { CombinedDataset, Highlight, Selection } from './types';
 
-// eslint-disable-next-line import/no-cycle
 import { cycle, isAncestor, scrollIntoView } from '../../utils/tree';
 
 const { document, window: globalWindow } = global;
@@ -32,7 +31,7 @@ export const useHighlighted = ({
 }: HighlightedProps): [
   Highlight,
   Dispatch<SetStateAction<Highlight>>,
-  MutableRefObject<Highlight>
+  MutableRefObject<Highlight>,
 ] => {
   const initialHighlight = fromSelection(selected);
   const highlightedRef = useRef<Highlight>(initialHighlight);
@@ -40,7 +39,7 @@ export const useHighlighted = ({
   const api = useStorybookApi();
 
   const updateHighlighted = useCallback(
-    (highlight) => {
+    (highlight: Highlight) => {
       highlightedRef.current = highlight;
       setHighlighted(highlight);
     },
@@ -109,11 +108,10 @@ export const useHighlighted = ({
 
         if (highlightable[nextIndex].getAttribute('data-nodetype') === 'component') {
           const { itemId, refId } = highlightedRef.current;
-          const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
-          if (item.isComponent) {
+          const item = api.resolveStory(itemId, refId === 'storybook_internal' ? undefined : refId);
+          if (item.type === 'component') {
             api.emit(PRELOAD_ENTRIES, {
-              // @ts-expect-error (TODO)
-              ids: [item.isLeaf ? item.id : item.children[0]],
+              ids: [item.children[0]],
               options: { target: refId },
             });
           }

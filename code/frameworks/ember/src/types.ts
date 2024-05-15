@@ -7,9 +7,10 @@ import type {
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { CompatibleString } from '@storybook/types';
 
-type FrameworkName = '@storybook/ember-webpack5';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = CompatibleString<'@storybook/ember-webpack5'>;
+type BuilderName = CompatibleString<'@storybook/builder-webpack5'>;
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;
@@ -43,3 +44,8 @@ export type StorybookConfig = Omit<
 > &
   StorybookConfigWebpack &
   StorybookConfigFramework;
+
+declare global {
+  // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention, no-var
+  var __EMBER_GENERATED_DOC_JSON__: any;
+}

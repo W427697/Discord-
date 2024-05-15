@@ -109,12 +109,12 @@ If you need, you can also configure Storybook's Vite builder using TypeScript. R
 
 ### Working directory not being detected
 
-By default, the Vite builder enables Vite's [`server.fs.strict`](https://vitejs.dev/config/#server-fs-strict) option for increased security, defining the project's `root` to Storybook's configuration directory
+By default, the Vite builder enables Vite's [`server.fs.strict`](https://vitejs.dev/config/#server-fs-strict) option for increased security, defining the project's `root` to Storybook's configuration directory.
 If you need to override it, you can use the `viteFinal` function and adjust it.
 
 ### ArgTypes are not generated automatically
 
-Currently, [automatic argType inference](../api/argtypes.md#automatic-argtype-inference) is only available for React, Vue3 and Svelte (JSDocs only). With React, the Vite builder defaults to `react-docgen-typescript` if TypeScript is listed as a dependency. If you run into any issues, you can revert to `react-docgen` by updating your Storybook configuration file as follows:
+Currently, [automatic argType inference](../api/arg-types.md#automatic-argtype-inference) is only available for React, Vue 3, and Svelte (JSDocs only). With React, the Vite builder defaults to `react-docgen`, a faster alternative to `react-docgen-typescript` for parsing React components. If you run into any issues, you can revert to `react-docgen-typescript` by updating your Storybook configuration file as follows:
 
 <!-- prettier-ignore-start -->
 
@@ -140,7 +140,7 @@ If you are migrating from a Webpack-based project, such as [CRA](https://create-
 
 <!-- prettier-ignore-end -->
 
-#### Learn more about builders
+**Learn more about builders**
 
 - Vite builder for bundling with Vite
 - [Webpack builder](./webpack.md) for bundling with Webpack

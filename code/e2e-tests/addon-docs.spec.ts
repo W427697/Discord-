@@ -1,6 +1,3 @@
-/* eslint-disable jest/valid-title */
-/* eslint-disable jest/no-disabled-tests */
-/* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import dedent from 'ts-dedent';
@@ -70,7 +67,7 @@ test.describe('addon-docs', () => {
         await new Promise(resolve => resolve('Play function'));
       }
     }`;
-    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
+    await expect(sourceCode).toHaveText(expectedSource);
   });
 
   test('should render errors', async ({ page }) => {
@@ -122,9 +119,6 @@ test.describe('addon-docs', () => {
       //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
       //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
       'lit-vite',
-      // Vue doesn't update when you change args, apparently fixed by this:
-      //   https://github.com/storybookjs/storybook/pull/20995
-      'vue2-vite',
     ];
     test.skip(
       new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
@@ -188,5 +182,94 @@ test.describe('addon-docs', () => {
     await expect(stories.first()).toHaveText('Basic');
     await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
+  });
+
+  test('should resolve react to the correct version', async ({ page }) => {
+    // Arrange - Navigate to MDX docs
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'mdx', 'docs');
+    const root = sbPage.previewRoot();
+
+    // Arrange - Setup expectations
+    let expectedReactVersionRange = /^18/;
+    if (
+      templateName.includes('preact') ||
+      templateName.includes('react-webpack/17') ||
+      templateName.includes('react-vite/17')
+    ) {
+      expectedReactVersionRange = /^17/;
+    } else if (templateName.includes('react16')) {
+      expectedReactVersionRange = /^16/;
+    } else if (
+      templateName.includes('nextjs/prerelease') ||
+      templateName.includes('react-vite/prerelease') ||
+      templateName.includes('react-webpack/prerelease')
+    ) {
+      expectedReactVersionRange = /^19/;
+    }
+
+    // Arrange - Get the actual versions
+    const mdxReactVersion = await root.getByTestId('mdx-react');
+    const mdxReactDomVersion = await root.getByTestId('mdx-react-dom');
+    const mdxReactDomServerVersion = await root.getByTestId('mdx-react-dom-server');
+    const componentReactVersion = await root.getByTestId('component-react');
+    const componentReactDomVersion = await root.getByTestId('component-react-dom');
+    const componentReactDomServerVersion = await root.getByTestId('component-react-dom-server');
+
+    // Assert - The versions are in the expected range
+    await expect(mdxReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(componentReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(mdxReactDomVersion).toHaveText(expectedReactVersionRange);
+    await expect(componentReactDomVersion).toHaveText(expectedReactVersionRange);
+    if (!templateName.includes('preact')) {
+      // preact/compat alias doesn't have a version export in react-dom/server
+      await expect(mdxReactDomServerVersion).toHaveText(expectedReactVersionRange);
+      await expect(componentReactDomServerVersion).toHaveText(expectedReactVersionRange);
+    }
+
+    // Arrange - Navigate to autodocs
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'docs');
+
+    // Arrange - Get the actual versions
+    const autodocsReactVersion = await root.getByTestId('react');
+    const autodocsReactDomVersion = await root.getByTestId('react-dom');
+    const autodocsReactDomServerVersion = await root.getByTestId('react-dom-server');
+
+    // Assert - The versions are in the expected range
+    await expect(autodocsReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(autodocsReactDomVersion).toHaveText(expectedReactVersionRange);
+    if (!templateName.includes('preact')) {
+      await expect(autodocsReactDomServerVersion).toHaveText(expectedReactVersionRange);
+    }
+
+    // Arrange - Navigate to story
+    await sbPage.navigateToStory('addons/docs/docs2/resolvedreact', 'story');
+
+    // Arrange - Get the actual versions
+    const storyReactVersion = await root.getByTestId('react');
+    const storyReactDomVersion = await root.getByTestId('react-dom');
+    const storyReactDomServerVersion = await root.getByTestId('react-dom-server');
+
+    // Assert - The versions are in the expected range
+    await expect(storyReactVersion).toHaveText(expectedReactVersionRange);
+    await expect(storyReactDomVersion).toHaveText(expectedReactVersionRange);
+    if (!templateName.includes('preact')) {
+      await expect(storyReactDomServerVersion).toHaveText(expectedReactVersionRange);
+    }
+  });
+
+  test('should have stories from multiple CSF files in autodocs', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('/addons/docs/multiple-csf-files-same-title', 'docs');
+    const root = sbPage.previewRoot();
+
+    const storyHeadings = root.locator('.sb-anchor > h3');
+    await expect(await storyHeadings.count()).toBe(6);
+    await expect(storyHeadings.nth(0)).toHaveText('Default A');
+    await expect(storyHeadings.nth(1)).toHaveText('Span Content');
+    await expect(storyHeadings.nth(2)).toHaveText('Code Content');
+    await expect(storyHeadings.nth(3)).toHaveText('Default B');
+    await expect(storyHeadings.nth(4)).toHaveText('H 1 Content');
+    await expect(storyHeadings.nth(5)).toHaveText('H 2 Content');
   });
 });
