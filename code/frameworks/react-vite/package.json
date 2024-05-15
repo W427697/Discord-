@@ -52,6 +52,7 @@
     "@storybook/builder-vite": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/types": "workspace:*",
     "find-up": "^5.0.0",
     "magic-string": "^0.30.0",
     "react-docgen": "^7.0.0",
