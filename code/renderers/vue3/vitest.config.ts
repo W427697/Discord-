@@ -8,7 +8,7 @@ export default mergeConfig(
   // @ts-expect-error seems like there's a type mismatch in the vue plugin
   defineConfig({
     test: {
-      environment: 'jsdom',
+      environment: 'node',
     },
     // @ts-expect-error seems like there's a type mismatch in the vue plugin
     plugins: [vue()],

@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 /// <reference types="@testing-library/jest-dom" />;
 import { it, expect, vi, describe } from 'vitest';
 import { render, screen } from '@testing-library/vue';

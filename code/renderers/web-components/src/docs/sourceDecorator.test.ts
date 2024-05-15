@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { html, render } from 'lit';
 import type { Mock } from 'vitest';
 import { describe, beforeEach, it, vi, expect } from 'vitest';

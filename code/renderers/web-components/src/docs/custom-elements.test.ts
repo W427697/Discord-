@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { global } from '@storybook/global';

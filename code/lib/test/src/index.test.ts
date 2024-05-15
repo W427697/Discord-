@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, it, test } from 'vitest';
 import { expect, fn, isMockFunction, traverseArgs } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
