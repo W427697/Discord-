@@ -19,13 +19,9 @@ jobs:
     steps:
       - uses: balazsorban44/nissuer@1.10.0
         with:
-          label-area-prefix: ""
-          label-area-match: "name"
-          label-area-section: 'Which area\(s\) are affected\? \(Select all that apply\)(.*)### To Reproduce'
           label-comments: |
             {
-              "good first issue": ".github/comments/good-first-issue.md",
-              "resolved": ".github/comments/resolved.md"
+              "good first issue": ".github/comments/good-first-issue.md"
             }
           reproduction-comment: ".github/comments/invalid-link.md"
           reproduction-hosts: "github.com,codesandbox.io,stackblitz.com"
