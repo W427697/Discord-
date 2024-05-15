@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { sep } from 'node:path';
 
-import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
+import { InvalidStoriesEntryError } from '@storybook/core/dist/server-errors';
 import {
   getDirectoryFromWorkingDir,
   normalizeStories,

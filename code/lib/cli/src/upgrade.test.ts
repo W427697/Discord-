@@ -3,7 +3,7 @@ import * as sbcc from '@storybook/core/dist/common';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
 
 const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
