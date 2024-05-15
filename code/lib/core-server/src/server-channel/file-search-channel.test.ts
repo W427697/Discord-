@@ -1,10 +1,13 @@
 import type { ChannelTransport } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
-import type { RequestData, FileComponentSearchRequestPayload } from '@storybook/core-events';
+import type {
+  RequestData,
+  FileComponentSearchRequestPayload,
+} from '@storybook/core/dist/core-events';
 import {
   FILE_COMPONENT_SEARCH_RESPONSE,
   FILE_COMPONENT_SEARCH_REQUEST,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import { beforeEach, describe, expect, vi, it } from 'vitest';
 
 import { initFileSearchChannel } from './file-search-channel';

@@ -13,7 +13,7 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
   DOCS_PREPARED,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
 
