@@ -1,10 +1,10 @@
-import fetch from 'node-fetch';
+import { fetch } from './fetch';
 
 import { beforeEach, it, expect, vi } from 'vitest';
 
 import { sendTelemetry } from './telemetry';
 
-vi.mock('node-fetch');
+vi.mock('./fetch');
 vi.mock('./event-cache', () => {
   return { set: vi.fn() };
 });
@@ -24,10 +24,9 @@ beforeEach(() => {
 });
 
 it('makes a fetch request with name and data', async () => {
-  fetchMock.mockClear();
   await sendTelemetry({ eventType: 'dev', payload: { foo: 'bar' } });
 
-  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(fetchMock).toHaveBeenCalledTimes(1);
   const body = JSON.parse(fetchMock?.mock?.calls?.[0]?.[1]?.body as any);
   expect(body).toMatchObject({
     eventType: 'dev',
@@ -36,7 +35,7 @@ it('makes a fetch request with name and data', async () => {
 });
 
 it('retries if fetch fails with a 503', async () => {
-  fetchMock.mockClear().mockResolvedValueOnce({ status: 503 } as any);
+  fetchMock.mockResolvedValueOnce({ status: 503 } as any);
   await sendTelemetry(
     {
       eventType: 'dev',
@@ -45,11 +44,11 @@ it('retries if fetch fails with a 503', async () => {
     { retryDelay: 0 }
   );
 
-  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(fetchMock).toHaveBeenCalledTimes(2);
 });
 
 it('gives up if fetch repeatedly fails', async () => {
-  fetchMock.mockClear().mockResolvedValue({ status: 503 } as any);
+  fetchMock.mockResolvedValue({ status: 503 } as any);
   await sendTelemetry(
     {
       eventType: 'dev',
@@ -58,7 +57,7 @@ it('gives up if fetch repeatedly fails', async () => {
     { retryDelay: 0 }
   );
 
-  expect(fetch).toHaveBeenCalledTimes(4);
+  expect(fetchMock).toHaveBeenCalledTimes(4);
 });
 
 it('await all pending telemetry when passing in immediate = true', async () => {
@@ -92,7 +91,7 @@ it('await all pending telemetry when passing in immediate = true', async () => {
     setTimeout(resolve, 0);
   });
 
-  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(fetchMock).toHaveBeenCalledTimes(2);
   expect(numberOfResolvedTasks).toBe(0);
 
   // here we await
@@ -104,6 +103,6 @@ it('await all pending telemetry when passing in immediate = true', async () => {
     { retryDelay: 0, immediate: true }
   );
 
-  expect(fetch).toHaveBeenCalledTimes(3);
+  expect(fetchMock).toHaveBeenCalledTimes(3);
   expect(numberOfResolvedTasks).toBe(3);
 });

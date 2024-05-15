@@ -1,16 +1,17 @@
 /// <reference types="node" />
 
 import * as os from 'os';
-import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
+import retry from 'fetch-retry';
 import type { Options, TelemetryData } from './types';
 import { getAnonymousProjectId } from './anonymous-id';
 import { set as saveToCache } from './event-cache';
 import { getSessionId } from './session-id';
-
-const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
+import { fetch } from './fetch';
 
 const retryingFetch = retry(fetch);
+
+const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
 let tasks: Promise<any>[] = [];
 
