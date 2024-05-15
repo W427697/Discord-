@@ -30,22 +30,17 @@ const meta = {
   args: {
     dataset,
     getLastViewed: (): Selection[] => [],
-    children: () => (<SearchResults {...noResults} />)
+    children: () => <SearchResults {...noResults} />,
   },
-  render: ({children, ...args}) => {
-    return (
-      <Search {...args}>
-        {children}
-      </Search>
-    );
+  render: ({ children, ...args }) => {
+    return <Search {...args}>{children}</Search>;
   },
   decorators: [
     (storyFn) => (
       <ManagerContext.Provider
         value={
           {
-            state: {
-            },
+            state: {},
             api: {
               emit: () => {},
               on: () => {},
@@ -53,7 +48,7 @@ const meta = {
               getShortcutKeys: () => ({ search: ['control', 'shift', 's'] }),
               selectStory: () => {},
               setQueryParams,
-              getQueryParams
+              getQueryParams,
             },
           } as any
         }
@@ -64,7 +59,7 @@ const meta = {
         </LayoutProvider>
       </ManagerContext.Provider>
     ),
-  ]
+  ],
 } satisfies Meta<typeof Search>;
 
 export default meta;
@@ -75,26 +70,26 @@ export const Simple: Story = {};
 
 export const SimpleWithCreateButton: Story = {
   args: {
-    showCreateStoryButton: true
-  }
+    showCreateStoryButton: true,
+  },
 };
 
 export const FilledIn: Story = {
   args: {
-    initialQuery: 'Search query'
-  }
+    initialQuery: 'Search query',
+  },
 };
 
 export const LastViewed: Story = {
   args: {
-    getLastViewed
-  }
+    getLastViewed,
+  },
 };
 
 export const ShortcutsDisabled: Story = {
   args: {
-    enableShortcuts: false
-  }
+    enableShortcuts: false,
+  },
 };
 
 export const Searching: Story = {
@@ -104,9 +99,9 @@ export const Searching: Story = {
     await userEvent.clear(search);
     await userEvent.type(search, 'foo');
     expect(setQueryParams).toHaveBeenCalledWith({
-      search: 'foo'
+      search: 'foo',
     });
-  }
+  },
 };
 
 export const Clearing: Story = {
@@ -119,6 +114,6 @@ export const Clearing: Story = {
     const clearIcon = await canvas.findByTitle('Clear search');
     await userEvent.click(clearIcon);
 
-    expect(setQueryParams).toHaveBeenCalledWith({search: null});
-  }
+    expect(setQueryParams).toHaveBeenCalledWith({ search: null });
+  },
 };

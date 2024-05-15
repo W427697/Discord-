@@ -60,7 +60,7 @@ const meta = {
               off: () => {},
               getShortcutKeys: () => ({ search: ['control', 'shift', 's'] }),
               setQueryParams: () => {},
-              getQueryParams: () => {}
+              getQueryParams: () => {},
             },
           } as any
         }

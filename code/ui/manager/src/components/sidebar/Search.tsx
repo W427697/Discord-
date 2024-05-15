@@ -265,27 +265,26 @@ export const Search = React.memo(function Search({
     [api]
   );
 
-  const onInputValueChange = useCallback((inputValue: string, stateAndHelpers: ControllerStateAndHelpers<DownshiftItem>) => {
-    showAllComponents(false);
-    const isBrowsing = !stateAndHelpers.isOpen && document.activeElement !== inputRef.current;
-    api.setQueryParams({
-      [FILTER_KEY]: isBrowsing ? null : inputValue,
-    });
-    const params = new URLSearchParams(window.location.search);
-    if (window.history.replaceState) {
-      if (inputValue) {
-        params.set(FILTER_KEY, inputValue);
-      } else {
-        params.delete(FILTER_KEY);
+  const onInputValueChange = useCallback(
+    (inputValue: string, stateAndHelpers: ControllerStateAndHelpers<DownshiftItem>) => {
+      showAllComponents(false);
+      const isBrowsing = !stateAndHelpers.isOpen && document.activeElement !== inputRef.current;
+      api.setQueryParams({
+        [FILTER_KEY]: isBrowsing ? null : inputValue,
+      });
+      const params = new URLSearchParams(window.location.search);
+      if (window.history.replaceState) {
+        if (inputValue) {
+          params.set(FILTER_KEY, inputValue);
+        } else {
+          params.delete(FILTER_KEY);
+        }
+        const paramsString = params.size > 0 ? `?${params.toString()}` : '';
+        window.history.replaceState({}, '', paramsString);
       }
-      const paramsString = params.size > 0 ? `?${params.toString()}` : '';
-      window.history.replaceState(
-        {},
-        '',
-        paramsString
-      );
-    }
-  }, []);
+    },
+    []
+  );
 
   const stateReducer = useCallback(
     (state: DownshiftState<DownshiftItem>, changes: StateChangeOptions<DownshiftItem>) => {
@@ -399,7 +398,7 @@ export const Search = React.memo(function Search({
               // The stateReducer will handle returning to the tree view
               inputRef.current.blur();
             }
-          }
+          },
         });
 
         const labelProps = getLabelProps({
