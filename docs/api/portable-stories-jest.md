@@ -2,6 +2,8 @@
 title: 'Portable stories in Jest'
 ---
 
+<!-- This page is unpublished for now -->
+
 export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 <If notRenderer={SUPPORTED_RENDERERS}>
@@ -20,16 +22,17 @@ Portable stories in Jest are currently only supported in [React](?renderer=react
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Jest](https://jestjs.io).
 
-Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
+Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
 <If renderer="react">
 
 <Callout variant="info">
 
-**Using `Next.js`?** You need to do two things differently when using portable stories in Jest with Next.js projects:
+**Using `Next.js`?** You need to do three things differently when using portable stories in Jest with Next.js projects:
 
 - Configure the [`next/jest.js` transformer](https://nextjs.org/docs/pages/building-your-application/testing/jest#manual-setup), which will handle all of the necessary Next.js configuration for you.
 - Import [`composeStories`](#composestories) or [`composeStory`](#composestory) from the `@storybook/nextjs` package (e.g. `import { composeStories } from '@storybook/nextjs'`).
+- Set up [internal module aliases](../get-started/nextjs.md#storybooknextjsexport-mocks) to ensure the framework configuration works correctly and to be able to mock and assert on them.
 
 </Callout>
 
@@ -91,15 +94,15 @@ An object where the keys are the names of the stories and the values are the com
 
 Additionally, the composed story will have the following properties:
 
-| Property   | Type                                                     | Description                                                     |
-| ---------- | -------------------------------------------------------- | --------------------------------------------------------------- |
-| storyName  | `string`                                                 | The story's name                                                |
-| args       | `Record<string, any>`                                    | The story's [args](../writing-stories/args.md)                  |
-| argTypes   | `ArgType`                                                | The story's [argTypes](./arg-types.md)                          |
-| id         | `string`                                                 | The story's id                                                  |
-| parameters | `Record<string, any>`                                    | The story's [parameters](./parameters.md)                       |
-| load       | `() => Promise<void>`                                    | Executes all the [loaders](#2-load-optional) for a given story  |
-| play       | `(context?: StoryContext) => Promise<void> \| undefined` | Executes the [play function](#4-play-optional) of a given story |
+| Property   | Type                                                     | Description                                                                           |
+| ---------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| storyName  | `string`                                                 | The story's name                                                                      |
+| args       | `Record<string, any>`                                    | The story's [args](../writing-stories/args.md)                                        |
+| argTypes   | `ArgType`                                                | The story's [argTypes](./arg-types.md)                                                |
+| id         | `string`                                                 | The story's id                                                                        |
+| parameters | `Record<string, any>`                                    | The story's [parameters](./parameters.md)                                             |
+| load       | `() => Promise<void>`                                    | [Prepares](#3-prepare) the story for rendering and and cleans up all previous stories |
+| play       | `(context?: StoryContext) => Promise<void> \| undefined` | Executes the [play function](#5-play) of a given story                                |
 
 ## composeStory
 
@@ -239,17 +242,21 @@ When you want to reuse a story in a different environment, however, it's crucial
 
 👉 For this, you use the [`setProjectAnnotations`](#setprojectannotations) API.
 
-### 2. Prepare
+### 2. Compose
 
 The story is prepared by running [`composeStories`](#composestories) or [`composeStory`](#composestory). You do not need to do anything for this step.
 
-### 3. Load
+### 3. Prepare
 
-**(optional)**
-
-Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md). In portable stories, the loaders are not applied automatically—you have to apply them yourself.
+Stories can prepare data they need (e.g. setting up some mocks or fetching data) before rendering by defining [loaders](../writing-stories/loaders.md) or [beforeEach](../writing-tests/interaction-testing.md#run-code-before-each-test). In portable stories, loaders and beforeEach are not applied automatically — you have to apply them yourself.
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed story will return a `load` method to be called **before** it is rendered.
+
+<Callout variant="info">
+
+It is recommended to always run `load` before rendering, even if the story doesn't have any loaders or beforeEach applied. By doing so, you ensure that the tests are cleaned up properly to maintain isolation and you will not have to update your test if you later add them to your story.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
