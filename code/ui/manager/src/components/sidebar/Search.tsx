@@ -169,21 +169,23 @@ const FocusContainer = styled.div({ outline: 0 });
 const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
 const isRendererReact = global.STORYBOOK_RENDERER === 'react';
 
-export const Search = React.memo<{
+export interface SearchProps {
   children: SearchChildrenFn;
   dataset: CombinedDataset;
   enableShortcuts?: boolean;
   getLastViewed: () => Selection[];
   initialQuery?: string;
   showCreateStoryButton?: boolean;
-}>(function Search({
+}
+
+export const Search = React.memo(function Search({
   children,
   dataset,
   enableShortcuts = true,
   getLastViewed,
   initialQuery = '',
   showCreateStoryButton = isDevelopment && isRendererReact,
-}) {
+}: SearchProps) {
   const api = useStorybookApi();
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputPlaceholder, setPlaceholder] = useState('Find components');

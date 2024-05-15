@@ -29,12 +29,13 @@ const meta = {
   parameters: { layout: 'fullscreen' },
   args: {
     dataset,
-    getLastViewed: (): Selection[] => []
+    getLastViewed: (): Selection[] => [],
+    children: () => (<SearchResults {...noResults} />)
   },
-  render: (args) => {
+  render: ({children, ...args}) => {
     return (
       <Search {...args}>
-        {() => <SearchResults {...noResults} />}
+        {children}
       </Search>
     );
   },
