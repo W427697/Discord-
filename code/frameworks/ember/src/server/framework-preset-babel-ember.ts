@@ -30,17 +30,25 @@ export const babel: PresetPropertyFn<'babel'> = (config: TransformOptions, optio
 
   const extraPlugins = [
     [
-      require.resolve('babel-plugin-htmlbars-inline-precompile'),
+      require.resolve('babel-plugin-ember-template-compilation'),
       {
-        precompile: precompileWithPlugins,
-        modules: {
-          'ember-cli-htmlbars': 'hbs',
-          'ember-cli-htmlbars-inline-precompile': 'default',
-          'htmlbars-inline-precompile': 'default',
+        compiler: precompileWithPlugins,
+        compilerPath: 'ember-source/dist/ember-template-compiler',
+        enableLegacyModules: [
+          'ember-cli-htmlbars',
+          'ember-cli-htmlbars-inline-precompile',
+          'htmlbars-inline-precompile',
+        ],
+        outputModuleOverrides: {
+          '@ember/template-factory': {
+            createTemplateFactory: [
+              'templateFactory',
+              'ember-source/dist/dependencies/@glimmer/opcode-compiler',
+            ],
+          },
         },
       },
     ],
-    [require.resolve('babel-plugin-ember-modules-api-polyfill')],
   ];
 
   return {
