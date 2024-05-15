@@ -2,9 +2,9 @@ We could not detect a valid reproduction link. **Make sure to follow the bug rep
 
 ### Why was this issue closed?
 
-To be able to investigate, we need access to a reproduction to identify what triggered the issue. We need a link to a **public** GitHub repository, Stackblitz or CodeSandbox.
+To be able to investigate, we need access to a reproduction to identify what triggered the issue. We need a link to a **public** GitHub repository, Stackblitz or CodeSandbox. Please use [storybook.new](https://storybook.new) to create one, and consult our [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce) for guidance.
 
-The bug template that you filled out has a section called "Reproduction link", which is where you should provide the link to the reproduction.
+The bug template that you filled out has a section called "To reproduce", which is where you should provide the link to the reproduction.
 
 - If you did not provide a link or the link you provided is not valid, we will close the issue.
 - If you provide a link to a private repository, we will close the issue.

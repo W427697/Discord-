@@ -1,7 +1,7 @@
 name: Bug report 🐞
 description: >-
   Something is broken and you have a reliable reproduction? Let us know here.
-  For questions, please use "Question" below.
+  For questions, please post in GitHub Discussion.
 title: '[Bug]: '
 labels:
   - needs triage
