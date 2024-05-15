@@ -2,8 +2,6 @@
 title: Storybook for Vue & Vite
 ---
 
-export const SUPPORTED_RENDERER = 'vue';
-
 Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Vue](https://vuejs.org/) applications built with [Vite](https://vitejs.dev/). It includes:
 
 * 🏎️ Pre-bundled for performance
@@ -11,7 +9,7 @@ Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes
 * 🧠 Comprehensive docgen
 * 💫 and more!
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='vue'>
   <Callout variant="info">
     Storybook for Vue & Vite is only supported in [Vue](?renderer=vue) projects.
   </Callout>
@@ -19,7 +17,7 @@ Storybook for Vue & Vite is a [framework](../contribute/framework.md) that makes
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='vue'>
   ## Requirements
 
   * Vue ≥ 3

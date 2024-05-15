@@ -2,11 +2,9 @@
 title: Storybook for React & Webpack
 ---
 
-export const SUPPORTED_RENDERER = 'react';
-
 Storybook for React & Webpack is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [React](https://react.dev/) applications built with [Webpack](https://webpack.js.org/).
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='react'>
   <Callout variant="info">
     Storybook for React & Webpack is only supported in [React](?renderer=react) projects.
   </Callout>
@@ -14,7 +12,7 @@ Storybook for React & Webpack is a [framework](../contribute/framework.md) that 
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='react'>
   ## Requirements
 
   * React ≥ 16.8

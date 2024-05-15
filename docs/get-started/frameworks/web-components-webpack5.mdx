@@ -2,11 +2,9 @@
 title: Storybook for Web components & Webpack
 ---
 
-export const SUPPORTED_RENDERER = 'web-components';
-
 Storybook for Web components & Webpack is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for applications using [Web components](https://www.webcomponents.org/introduction) built with [Webpack](https://webpack.js.org/).
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='web-components'>
   <Callout variant="info">
     Storybook for Web components & Webpack is only supported in [Web components](?renderer=web-components) projects.
   </Callout>
@@ -14,7 +12,7 @@ Storybook for Web components & Webpack is a [framework](../contribute/framework.
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='web-components'>
   ## Requirements
 
   * Webpack ≥ 5.0

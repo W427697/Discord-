@@ -2,7 +2,6 @@
 title: Storybook for Next.js
 ---
 
-export const SUPPORTED_RENDERER = 'react';
 
 Storybook for Next.js is a [framework](../contribute/framework.md) that makes it easy to develop and test UI components in isolation for [Next.js](https://nextjs.org/) applications. It includes:
 
@@ -13,7 +12,7 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
 * 🎛 Webpack & Babel config
 * 💫 and more!
 
-<If notRenderer={SUPPORTED_RENDERER}>
+<If notRenderer='react'>
   <Callout variant="info">
     Storybook for Next.js is only supported in [React](?renderer=react) projects.
   </Callout>
@@ -21,7 +20,7 @@ Storybook for Next.js is a [framework](../contribute/framework.md) that makes it
   {/* End non-supported renderers */}
 </If>
 
-<If renderer={SUPPORTED_RENDERER}>
+<If renderer='react'>
   ## Requirements
 
   * Next.js ≥ 13.5
