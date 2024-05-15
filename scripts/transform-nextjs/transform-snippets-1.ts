@@ -30,29 +30,30 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
        */
 
       const segments = file.split('.');
-      segments.pop(); // Remove the last element (the file extension)
-      segments.shift(); // Remove the first element (the filename)
+      const localSegments = [...segments];
+      localSegments.pop(); // Remove the last element (the file extension)
+      localSegments.shift(); // Remove the first element (the filename)
 
       const tabTitle = null;
 
       // Find the index for a language in the array
-      const languageIndex = segments.findIndex((segment) => {
+      const languageIndex = localSegments.findIndex((segment) => {
         return ['js', 'ts', 'ts-4-9', 'mdx', 'json'].includes(segment);
       });
 
       // Language
       // If no language is found, default to 'ts'
-      const language = segments[languageIndex] || 'ts';
+      const language = localSegments[languageIndex] || 'ts';
 
       // Find the index for a language in the array
-      const packageManagerIndex = segments.findIndex((segment) => {
+      const packageManagerIndex = localSegments.findIndex((segment) => {
         return ['npm', 'yarn', 'pnpm', 'npx'].includes(segment);
       });
 
-      const packageManager = segments[packageManagerIndex] || null;
+      const packageManager = localSegments[packageManagerIndex] || null;
 
       // Remove language and package manager from the segments
-      const newSegment = [...segments];
+      const newSegment = [...localSegments];
       if (languageIndex !== -1) newSegment.splice(languageIndex, 1);
       if (packageManagerIndex !== -1) newSegment.splice(packageManagerIndex, 1);
 
@@ -124,6 +125,8 @@ export const transformSnippets = async (oldSnippetsDir, newSnippetsDir) => {
     grouped[group].forEach((snippet) => {
       content += snippet.newContent + '\n';
     });
+
+    console.log(group);
 
     // Write the combined content to a new file
     fs.writeFileSync(`${newSnippetsDir}/${group}.md`, content, 'utf8');
