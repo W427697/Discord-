@@ -10,7 +10,7 @@ The [MSW addon](https://storybook.js.org/addons/msw-storybook-addon/) brings thi
 
 First, if necessary, run this command to install MSW and the MSW addon:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -20,11 +20,11 @@ First, if necessary, run this command to install MSW and the MSW addon:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 If you're not already using MSW, generate the service worker file necessary for MSW to work:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -33,7 +33,7 @@ If you're not already using MSW, generate the service worker file necessary for 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <If renderer="angular">
 
@@ -47,7 +47,7 @@ Angular projects will likely need to adjust the command to save the mock service
 
 Then ensure the [`staticDirs`](../api/main-config-static-dirs.md) property in your Storybook configuration will include the generated service worker file (in `/public`, by default):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -56,11 +56,11 @@ Then ensure the [`staticDirs`](../api/main-config-static-dirs.md) property in yo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Finally, initialize the addon and apply it to all stories with a [project-level loader](./loaders.md#global-loaders):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -69,13 +69,13 @@ Finally, initialize the addon and apply it to all stories with a [project-level 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Mocking REST requests
 
 If your component fetches data from a REST API, you can use MSW to mock those requests in Storybook. As an example, consider this document screen component:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -91,7 +91,7 @@ If your component fetches data from a REST API, you can use MSW to mock those re
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -101,7 +101,7 @@ This example uses the [`fetch` API](https://developer.mozilla.org/en-US/docs/Web
 
 With the MSW addon, we can write stories that use MSW to mock the REST requests. Here's an example of two stories for the document screen component: one that fetches data successfully and another that fails.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -115,13 +115,13 @@ With the MSW addon, we can write stories that use MSW to mock the REST requests.
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Mocking GraphQL requests
 
 GraphQL is another common way to fetch data in components. You can use MSW to mock GraphQL requests in Storybook. Here's an example of a document screen component that fetches data from a GraphQL API:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -135,7 +135,7 @@ GraphQL is another common way to fetch data in components. You can use MSW to mo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -145,7 +145,7 @@ This example uses GraphQL with [Apollo Client](https://www.apollographql.com/doc
 
 The MSW addon allows you to write stories that use MSW to mock the GraphQL requests. Here's an example demonstrating two stories for the document screen component. The first story fetches data successfully, while the second story fails.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -165,7 +165,7 @@ The MSW addon allows you to write stories that use MSW to mock the GraphQL reque
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-graphql-query"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Configuring MSW for stories
 

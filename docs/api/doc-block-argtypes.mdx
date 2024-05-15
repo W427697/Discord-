@@ -14,7 +14,7 @@ If you’re looking for a dynamic table that shows a story’s current arg value
 
 ![Screenshot of ArgTypes block](./doc-block-argtypes.png)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -25,7 +25,7 @@ import * as ButtonStories from './Button.stories';
 
 <ArgTypes of={ButtonStories} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## ArgTypes
 
@@ -40,7 +40,7 @@ import { ArgTypes } from '@storybook/blocks';
 
 The following `exclude` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -53,15 +53,15 @@ The following `exclude` configurations are equivalent:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
 <ArgTypes of={ButtonStories} exclude={['style']} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
 

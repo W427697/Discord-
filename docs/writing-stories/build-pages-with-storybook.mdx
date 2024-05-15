@@ -32,7 +32,7 @@ The downsides:
 
 When you are building screens in this way, it is typical that the inputs of a composite component are a combination of the inputs of the various sub-components it renders. For instance, if your screen renders a page layout (containing details of the current user), a header (describing the document you are looking at), and a list (of the subdocuments), the inputs of the screen may consist of the user, document and subdocuments.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -49,11 +49,11 @@ When you are building screens in this way, it is typical that the inputs of a co
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 In such cases, it is natural to use [args composition](./args.md#args-composition) to build the stories for the page based on the stories of the sub-components:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -67,7 +67,7 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
   csf2Path="writing-stories/build-pages-with-storybook#snippet-page-story-with-args-composition"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 This approach is beneficial when the various subcomponents export a complex list of different stories. You can pick and choose to build realistic scenarios for your screen-level stories without repeating yourself. Your story maintenance burden is minimal by reusing the data and taking a Don't-Repeat-Yourself(DRY) philosophy.
 
@@ -116,7 +116,7 @@ Let’s look at an example implementation of this approach.
 
 First, create a React context, and name it `ProfilePageContext`. It does nothing more than export a React context:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -125,11 +125,11 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 `ProfilePage` is our presentational component. It will use the `useContext` hook to retrieve the container components from `ProfilePageContext`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -138,13 +138,13 @@ First, create a React context, and name it `ProfilePageContext`. It does nothing
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### Mocking containers in Storybook
 
 In the context of Storybook, instead of providing container components through context, we’ll instead provide their mocked counterparts. In most cases, the mocked versions of these components can often be borrowed directly from their associated stories.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -155,7 +155,7 @@ In the context of Storybook, instead of providing container components through c
   csf2Path="writing-stories/build-pages-with-storybook#snippet-mock-context-container"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -169,7 +169,7 @@ Now, in the context of your application, you’ll need to provide `ProfilePage` 
 
 For example, in Next.js, this would be your `pages/profile.js` component.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -178,13 +178,13 @@ For example, in Next.js, this would be your `pages/profile.js` component.
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### Mocking global containers in Storybook
 
 If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator within Storybook’s `preview.js` to provide context to all stories. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -195,6 +195,6 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>

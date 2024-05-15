@@ -2,7 +2,7 @@
 title: 'Portable stories in Vitest'
 ---
 
-<!-- This page is unpublished for now -->
+{/* This page is unpublished for now */}
 
 export const SUPPORTED_RENDERERS = ['react', 'vue', 'svelte'];
 
@@ -14,7 +14,7 @@ Portable stories in Vitest are currently only supported in [React](?renderer=rea
 
 </Callout>
 
-<!-- End non-supported renderers -->
+{/* End non-supported renderers */}
 
 </If>
 
@@ -50,7 +50,7 @@ By default, the composed story will render the component with the [args](../writ
 
 </If>
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -60,18 +60,18 @@ By default, the composed story will render the component with the [args](../writ
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Type
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```ts
 (
   csfExports: CSF file exports,
   projectAnnotations?: ProjectAnnotations
 ) => Record<string, ComposedStoryFn>
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Parameters
 
@@ -115,7 +115,7 @@ Additionally, the composed story will have the following properties:
 
 You can use `composeStory` if you wish to compose a single story for a component.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -125,11 +125,11 @@ You can use `composeStory` if you wish to compose a single story for a compone
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Type
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```ts
 (
   story: Story export,
@@ -138,7 +138,7 @@ You can use `composeStory` if you wish to compose a single story for a compone
   exportsName?: string
 ) => ComposedStoryFn
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Parameters
 
@@ -252,7 +252,7 @@ It is recommended to always run `load` before rendering, even if the story doesn
 
 </Callout>
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -262,7 +262,7 @@ It is recommended to always run `load` before rendering, even if the story doesn
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### 4. Render
 
@@ -280,7 +280,7 @@ Finally, stories can define a [play function](../essentials/interactions.md#play
 
 👉 For this, you use the [`composeStories`](#composestories) or [`composeStory`](#composestory) API. The composed Story will return a `play` method to be called **after** it has rendered.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -290,7 +290,7 @@ Finally, stories can define a [play function](../essentials/interactions.md#play
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -302,7 +302,7 @@ If your play function contains assertions (e.g. `expect` calls), your test will 
 
 If your stories behave differently based on [globals](../essentials/toolbars-and-globals.md#globals) (e.g. rendering text in English or Spanish), you can define those global values in portable stories by overriding project annotations when composing a story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -312,8 +312,8 @@ If your stories behave differently based on [globals](../essentials/toolbars-and
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- End supported renderers -->
+{/* End supported renderers */}
 
 </If>

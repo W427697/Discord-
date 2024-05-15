@@ -16,7 +16,7 @@ Autodocs is configured through [tags](../writing-stories/tags.md). If a [CSF](..
 
 To enable automatic documentation for all stories in a project, add it to `tags` in your `.storybook/preview.js|ts` file:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -25,11 +25,11 @@ To enable automatic documentation for all stories in a project, add it to `tags`
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 You can also enable it at the component (or story) level:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -41,11 +41,11 @@ You can also enable it at the component (or story) level:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 You can disable auto docs for a particular component by [removing the tag](../writing-stories/tags.md#removing-tags):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -57,11 +57,11 @@ You can disable auto docs for a particular component by [removing the tag](../wr
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Similarly, you can exclude a particular story from the auto docs page, by removing the tag:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -73,13 +73,13 @@ Similarly, you can exclude a particular story from the auto docs page, by removi
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Configure
 
 In addition to enabling the feature with `tags`, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts|cjs`) and provide additional options to control how documentation gets created. Listed below are the available options and examples of how to use them.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -88,7 +88,7 @@ In addition to enabling the feature with `tags`, you can extend your Storybook c
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 | Option        | Description                                                                                          |
 | ------------- | ---------------------------------------------------------------------------------------------------- |
@@ -100,7 +100,7 @@ In addition to enabling the feature with `tags`, you can extend your Storybook c
 
 To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js|ts`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -109,7 +109,7 @@ To replace the default documentation template used by Storybook, you can extend 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -128,7 +128,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -136,11 +136,11 @@ You can also use MDX to generate the documentation template. This is useful in n
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Then you can use it in your `.storybook/preview.js` or an individual story file by importing it:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -148,7 +148,7 @@ Then you can use it in your `.storybook/preview.js` or an individual story file 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -160,7 +160,7 @@ If you only need to override the documentation page for a single component, we r
 
 Storybook's auto-generated documentation pages can be quite long and difficult to navigate. To help with this, you can enable the table of contents feature to provide a quick overview of the documentation page and allow users to jump to a specific section. To enable it, extend your Storybook UI configuration file (i.e., `.storybook/preview.js`) and provide a `docs` [parameter](../writing-stories/parameters.md#global-parameters) with a `toc` property.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -169,7 +169,7 @@ Storybook's auto-generated documentation pages can be quite long and difficult t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Configure the table of contents
 
@@ -190,7 +190,7 @@ The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow
 
 </Callout>
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -199,13 +199,13 @@ The `contentsSelector`, `headingSelector`, and `ignoreSelector` properties allow
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### Component-level configuration
 
 If you want to customize the table of contents for a specific story, you can include a `toc` property in the story's default export and provide the required [configuration](#configure-the-table-of-contents). For example, if you need to hide the table of contents for a specific story, adjust your story as follows:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -217,7 +217,7 @@ If you want to customize the table of contents for a specific story, you can inc
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Customize component documentation
 
@@ -231,7 +231,7 @@ Sometimes it's helpful to document multiple components together. For example, a 
 
 Autodocs allows you to document your "main" component, defined by the `component` property, as well as one or more `subcomponents` related to it.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -247,7 +247,7 @@ Autodocs allows you to document your "main" component, defined by the `component
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ![Subcomponents in ArgTypes doc block](../writing-stories/doc-block-arg-types-subcomponents-for-list.png)
 
@@ -259,7 +259,7 @@ If you want to organize your documentation differently for component groups, we 
 
 The Docs Container is the component that wraps up the documentation page. It's responsible for rendering the documentation page in Storybook's UI. You can customize it by creating your own component and updating your Storybook UI configuration file (i.e., `.storybook/preview.js`) to reference it.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -268,13 +268,13 @@ The Docs Container is the component that wraps up the documentation page. It's r
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Override the default theme
 
 By default, Storybook provides two themes for the UI: `light` and `dark`. If you need to customize the theme used by the documentation to match the existing one, you can update your Storybook UI configuration file (i.e., `.storybook/preview.js`) and apply it.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -283,13 +283,13 @@ By default, Storybook provides two themes for the UI: `light` and `dark`. If you
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Working with custom MDX components
 
 Out of the box, Storybook has a set of components that you can use to customize your documentation page. If you're working with a design system or component library and wish to add them to your documentation page, you can override the `MDXProvider` component inherited from `@mdx-js/react` with your own. However, there's a caveat to this, the component replacement will only have an impact if you're writing documentation using Markdown syntax (e.g., `#` for headings). Native HTML elements, such as `<h1>`, will not be replaced with your custom implementation.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -298,7 +298,7 @@ Out of the box, Storybook has a set of components that you can use to customize 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -332,7 +332,7 @@ Out of the box, Storybook's Autodocs feature is built to generate documentation 
 
 Update your import statements to reference the component directly instead of the package's root. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 
 <CodeSnippets
@@ -342,11 +342,11 @@ Update your import statements to reference the component directly instead of the
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Additionally, if you're developing using TypeScript, you may need to update Storybook's configuration file (i.e., `.storybook/main.js|ts`) to include the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 
 <CodeSnippets
@@ -356,7 +356,7 @@ Additionally, if you're developing using TypeScript, you may need to update Stor
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 If you're still encountering issues, we recommend reaching out to the community using the default communication channels (e.g., [GitHub discussions](https://github.com/storybookjs/storybook/discussions/new?category=help)).
 

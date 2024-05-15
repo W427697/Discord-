@@ -19,7 +19,7 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 <IfRenderer renderer={['angular', 'ember' ]}>
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -29,11 +29,11 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 </IfRenderer>
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -44,7 +44,7 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 </IfRenderer>
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 You can also access these variables in your custom `<head>`/`<body>` using the substitution `%STORYBOOK_X%`, for example: `%STORYBOOK_THEME%` will become `red`.
 
@@ -64,7 +64,7 @@ STORYBOOK_DATA_KEY=12345
 
 Then you can access this environment variable anywhere, even within your stories:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -76,7 +76,7 @@ Then you can access this environment variable anywhere, even within your stories
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
 
@@ -84,7 +84,7 @@ Then you can access this environment variable anywhere, even within your stories
 
 Out of the box, Storybook provides a [Vite builder](../builders/vite.md), which does not output Node.js globals like `process.env`. To access environment variables in Storybook (e.g., `STORYBOOK_`, `VITE_`), you can use `import.meta.env`. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -95,7 +95,7 @@ Out of the box, Storybook provides a [Vite builder](../builders/vite.md), which 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -113,7 +113,7 @@ Then they'll be hardcoded to the static version of your Storybook.
 
 Additionally, you can extend your Storybook configuration file (i.e., [`.storybook/main.js|.ts`](../configure/index.md#configure-story-rendering)) and provide a configuration field that you can use to define specific variables (e.g., API URLs). For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -122,11 +122,11 @@ Additionally, you can extend your Storybook configuration file (i.e., [`.storybo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When Storybook loads, it will enable you to access them in your stories similar as you would do if you were working with an `env` file:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -140,7 +140,7 @@ When Storybook loads, it will enable you to access them in your stories similar 
   csf2Path="configure/environment-variables#snippet-my-component-env-var-config"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Using environment variables to choose the browser
 

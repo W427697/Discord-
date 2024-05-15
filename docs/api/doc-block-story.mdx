@@ -16,7 +16,7 @@ Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render 
 
 ![Screenshot of Story block](./doc-block-story.png)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -27,7 +27,7 @@ import * as ButtonStories from './Button.stories';
 
 <Story of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Story
 
@@ -42,7 +42,7 @@ import { Story } from '@storybook/blocks';
 
 The following `autoplay` configurations are equivalent:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -54,15 +54,15 @@ The following `autoplay` configurations are equivalent:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
 <Story of={ButtonStories.Basic} autoplay />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
 
@@ -110,7 +110,7 @@ Specifies the CSF file to which the story is associated.
 
 You can render a story from a CSF file that you haven’t attached to the MDX file (via `Meta`) by using the `meta` prop. Pass the **full set of exports** from the CSF file (not the default export!).
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -124,7 +124,7 @@ import * as HeaderStories from './Header.stories';
     it can render Header stories too */}
 <Story of={HeaderStories.LoggedIn} meta={HeaderStories} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `of`
 

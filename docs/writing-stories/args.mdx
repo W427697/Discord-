@@ -18,7 +18,7 @@ The `args` object can be defined at the [story](#story-args), [component](#compo
 
 To define the args of a single story, use the `args` CSF story key:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -41,11 +41,11 @@ To define the args of a single story, use the `args` CSF story key:
 />
 
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 These args will only apply to the story for which they are attached, although you can [reuse](./build-pages-with-storybook.md#args-composition-for-presentational-screens) them via JavaScript object reuse:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -59,7 +59,7 @@ These args will only apply to the story for which they are attached, although yo
   csf2Path="writing-stories/args#snippet-button-story-primary-long-name"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 In the above example, we use the [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) feature of ES 2015.
 
@@ -67,7 +67,7 @@ In the above example, we use the [object spread](https://developer.mozilla.org/e
 
 You can also define args at the component level; they will apply to all the component's stories unless you overwrite them. To do so, use the `args` key on the `default` CSF export:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,13 +87,13 @@ You can also define args at the component level; they will apply to all the comp
   csf2Path="writing-stories/args#snippet-button-story-component-args-primary"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Global args
 
 You can also define args at the global level; they will apply to every component's stories unless you overwrite them. To do so, define the `args` property in the default export of `preview.js`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -102,7 +102,7 @@ You can also define args at the global level; they will apply to every component
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -114,7 +114,7 @@ For most uses of global args, [globals](../essentials/toolbars-and-globals.md) a
 
 You can separate the arguments to a story to compose in other stories. Here's how you can combine args for multiple stories of the same component.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -128,7 +128,7 @@ You can separate the arguments to a story to compose in other stories. Here's ho
   csf2Path="writing-stories/args#snippet-button-story-primary-composition"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -138,7 +138,7 @@ If you find yourself re-using the same args for most of a component's stories, y
 
 Args are useful when writing stories for composite components that are assembled from other components. Composite components often pass their arguments unchanged to their child components, and similarly, their stories can be compositions of their child components stories. With args, you can directly compose the arguments:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -158,17 +158,17 @@ Args are useful when writing stories for composite components that are assembled
   csf2Path="writing-stories/args#snippet-page-story"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer={[ 'angular', 'ember', 'html', 'preact', 'qwik', 'react', 'solid', 'vue', 'web-components' ]}>
 
-<!-- Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example -->
+{/* Uncomment once frameworks that support custom templates are enabled to prevent misinformation about the example */}
 
 ## Args can modify any aspect of your component
 
 You can use args in your stories to configure the component's appearance, similar to what you would do in an application. For example, here's how you could use a `footer` arg to populate a child component:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -186,7 +186,7 @@ You can use args in your stories to configure the component's appearance, simila
   csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -202,7 +202,7 @@ As a safeguard against [XSS](https://owasp.org/www-community/attacks/xss/) attac
 
 The `args` param is always a set of `key: value` pairs delimited with a semicolon `;`. Values will be coerced (cast) to their respective `argTypes` (which may have been automatically inferred). Objects and arrays are supported. Special values `null` and `undefined` can be set by prefixing with a bang `!`. For example, `args=obj.key:val;arr[0]:one;arr[1]:two;nil:!null` will be interpreted as:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -210,7 +210,7 @@ The `args` param is always a set of `key: value` pairs delimited with a semicolo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Similarly, special formats are available for dates and colors. Date objects will be encoded as `!date(value)` with value represented as an ISO date string. Colors are encoded as `!hex(value)`, `!rgba(value)` or `!hsla(value)`. Note that rgb(a) and hsl(a) should not contain spaces or percentage signs in the URL.
 
@@ -222,7 +222,7 @@ Args specified through the URL will extend and override any default values of ar
 
 Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the `useArgs` API exported by `@storybook/preview-api`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[    
@@ -231,7 +231,7 @@ Interactive components often need to be controlled by their containing component
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -239,7 +239,7 @@ Interactive components often need to be controlled by their containing component
 
 Complex values such as JSX elements cannot be serialized to the manager (e.g., the Controls addon) or synced with the URL. Arg values can be "mapped" from a simple string to a complex type using the `mapping` property in `argTypes` to work around this limitation. It works in any arg but makes the most sense when used with the `select` control type.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -251,7 +251,7 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Note that `mapping` does not have to be exhaustive. If the arg value is not a property of `mapping`, the value will be used directly. Keys in `mapping` always correspond to arg _values_, not their index in the `options` array.
 
@@ -260,7 +260,7 @@ Note that `mapping` does not have to be exhaustive. If the arg value is not a pr
 
 If you are [writing an addon](../addons/writing-addons.md) that wants to read or update args, use the `useArgs` hook exported by `@storybook/manager-api`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -268,6 +268,6 @@ If you are [writing an addon](../addons/writing-addons.md) that wants to read or
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </details>

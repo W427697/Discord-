@@ -14,7 +14,7 @@ Portable stories are currently only supported in [React](?renderer=react) and [V
 
 </Callout>
 
-<!-- End non-supported renderers -->
+{/* End non-supported renderers */}
 
 </If>
 
@@ -36,7 +36,7 @@ Normally, Storybook composes a story and its [annotations](#annotations) automat
 
 **Using `Next.js`?** The portable stories API is not yet supported in Next.js with Playwright CT.
 
-<!-- **Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT. -->
+{/* **Using `Next.js`?** Next.js requires specific configuration that is only available in [Jest](./portable-stories-jest.md). The portable stories API is not supported in Next.js with Playwright CT. */}
 
 </Callout>
 
@@ -78,7 +78,7 @@ export default defineConfig({
 
 Instead of using Playwright's own `test` function, you can use Storybook's special `createTest` function to [extend Playwright's base fixture](https://playwright.dev/docs/test-fixtures#creating-a-fixture) and override the `mount` function to load, render, and play the story. This function is experimental and is subject to changes.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,7 +87,7 @@ Instead of using Playwright's own `test` function, you can use Storybook's speci
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout icon="ℹ️">
 
@@ -213,7 +213,7 @@ If your play function contains assertions (e.g. `expect` calls), your test will 
 
 If your stories behave differently based on [globals](../essentials/toolbars-and-globals.md#globals) (e.g. rendering text in English or Spanish), you can define those global values in portable stories by overriding project annotations when composing a story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 ```tsx
 // Button.portable.ts
@@ -235,8 +235,8 @@ export const PrimarySpanish =
 
 You can then use those composed stories in your Playwright test file using the [`createTest`](#createtest) function.
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- End supported renderers -->
+{/* End supported renderers */}
 
 </If>

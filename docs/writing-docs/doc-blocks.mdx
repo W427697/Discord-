@@ -14,7 +14,7 @@ The blocks are most commonly used within Storybook's [MDX documentation](./mdx.m
 
 ![Screenshot of mdx content](./mdx-example.png)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -47,7 +47,7 @@ A button can be of secondary importance.
 
 {/* ... */}
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Customizing the automatic docs page
 
@@ -74,7 +74,7 @@ If you [override the default page template](./autodocs.md#write-a-custom-templat
 
 Note that some doc blocks render other blocks. For example, the `<Stories />` block expands to:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 ## Stories
 
@@ -87,7 +87,7 @@ Note that some doc blocks render other blocks. For example, the `<Stories />` bl
 
 {/* ... repeat <Canvas> for each story */}
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 As a result, for example, customizing the [`Source`](../api/doc-block-source.md) block via parameters (see next section) will also affect the Source blocks rendered as part of [`Canvas`](../api/doc-block-canvas.md) blocks.
 
@@ -97,7 +97,7 @@ In both use cases (MDX and automatic docs), many of the doc blocks can be custom
 
 For example, you can filter out the `style` prop from all [`Controls`](../api/doc-block-controls.md) tables through your Storybook:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 <CodeSnippets
   paths={[
     'common/storybook-preview-doc-blocks-controls-exclude-prop.js.mdx',
@@ -105,7 +105,7 @@ For example, you can filter out the `style` prop from all [`Controls`](../api/do
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -117,11 +117,11 @@ The blocks that accept customization via parameters are marked in the list of av
 
 When using a doc block in MDX, it can also be customized with its props:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 <Controls exclude={['style']}>
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Available blocks
 
@@ -268,7 +268,7 @@ Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it e
 
 Storybook's Doc Blocks are highly customizable and helpful building blocks to assist you with building your custom documentation. Although most of them enable you to customize them with parameters or globally to create custom [documentation templates](#customizing-the-automatic-docs-page), they are primarily designed for MDX files. For example, if you try to add the `ColorPalette` block to your stories as follows, you'll get an error message when the story loads in Storybook.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 <CodeSnippets
   paths={[
     'common/storybook-canvas-doc-block-story.js.mdx',
@@ -276,7 +276,7 @@ Storybook's Doc Blocks are highly customizable and helpful building blocks to as
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 **Learn more about Storybook documentation**
 

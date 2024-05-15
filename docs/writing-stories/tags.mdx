@@ -22,7 +22,7 @@ A tag can be any static (i.e. not created dynamically) string, either the [built
 
 For example, to apply the `autodocs` tag to all stories in your project, you can use `.storybook/preview.js|ts`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -31,11 +31,11 @@ For example, to apply the `autodocs` tag to all stories in your project, you can
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Within a component stories file, you apply tags like so:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -47,13 +47,13 @@ Within a component stories file, you apply tags like so:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Removing tags
 
 To remove a tag from a story, prefix it with `!`. For example:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -65,7 +65,7 @@ To remove a tag from a story, prefix it with `!`. For example:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Tags can be removed for all stories in your project (in `.storybook/preview.js|ts`), all stories for a component (in the CSF file meta), or a single story (as above).
 
@@ -75,7 +75,7 @@ Tags can be removed for all stories in your project (in `.storybook/preview.js|t
 
 It can sometimes be helpful to provide example stories for documentation purposes, but you want to keep the sidebar navigation more focused on stories useful for development. By enabling the `autodocs` tag and removing the `dev` tag, a story becomes docs-only: appearing only in the [docs page](../writing-docs/autodocs.md) and not in Storybook's sidebar.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -87,13 +87,13 @@ It can sometimes be helpful to provide example stories for documentation purpose
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Combo stories, still tested individually
 
 For a component with many variants, like a Button, a grid of those variants all together can be a helpful way to visualize it. But you may wish to test the variants individually. You can accomplish this with tags like so:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -109,4 +109,4 @@ For a component with many variants, like a Button, a grid of those variants all 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

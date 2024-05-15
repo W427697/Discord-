@@ -20,7 +20,7 @@ The indexers API is an advanced feature that allows you to customize Storybook's
 
 They are defined as a function that returns the full list of indexers, including the existing ones. This allows you to add your own indexer to the list, or to replace an existing one:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -29,7 +29,7 @@ They are defined as a function that returns the full list of indexers, including
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Unless your indexer is doing something relatively trivial (e.g. [indexing stories with a different naming convention](../configure/sidebar-and-urls#story-indexers)), in addition to indexing the file, you will likely need to [transpile it to CSF](#transpiling-to-csf) so that Storybook can read them in the browser.
 
@@ -167,7 +167,7 @@ Determines the location of the entry in the sidebar.
 
 Most of the time, you should **not** specify a title, so that your indexer will use the default naming behavior. When specifying a title, you **must** use the [`makeTitle`](#maketitle) function provided in [`IndexerOptions`](#indexeroptions) to also use this behavior. For example, here's an indexer that merely appends a "Custom" prefix to the title derived from the file name:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -176,7 +176,7 @@ Most of the time, you should **not** specify a title, so that your indexer will 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ##### `__id`
 
@@ -269,7 +269,7 @@ Some example usages of custom indexers include:
 
 This indexer generates stories for components based on JSON fixture data. It looks for `*.stories.json` files in the project, adds them to the index and separately converts their content to CSF.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -278,7 +278,7 @@ This indexer generates stories for components based on JSON fixture data. It loo
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 An example input JSON file could look like this:
 

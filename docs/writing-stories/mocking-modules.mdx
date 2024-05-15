@@ -27,7 +27,7 @@ To mock a module, create a file with the same name and in the same directory as 
 
 Here's an example of a mock file for a module named `session`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -35,7 +35,7 @@ Here's an example of a mock file for a module named `session`:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When you use the `fn` utility to mock a module, you create full [Vitest mock functions](https://vitest.dev/api/mock.html). See [below](#using-mocked-modules-in-stories) for examples of how you can use a mocked module in your stories.
 
@@ -67,7 +67,7 @@ The recommended method for mocking modules is to use [subpath imports](https://n
 
 To configure subpath imports, you define the `imports` property in your project's `package.json` file. This property maps the subpath to the actual file path. The example below configures subpath imports for four internal modules:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -75,7 +75,7 @@ To configure subpath imports, you define the `imports` property in your project'
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 There are two aspects to this configuration worth noting:
 
@@ -99,7 +99,7 @@ import { getUserFromSession } from '#lib/session';
 
 If your project is unable to use [subpath imports](#subpath-imports), you can configure your Storybook builder to alias the module to the mock file. This will instruct the builder to replace the module with the mock file when bundling your Storybook stories.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -110,7 +110,7 @@ If your project is unable to use [subpath imports](#subpath-imports), you can co
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Using mocked modules in stories
 
@@ -118,7 +118,7 @@ When you use the `fn` utility to mock a module, you create full [Vitest mock fun
 
 Here, we define `beforeEach` on a story (which will run before the story is rendered) to set a mocked return value for the `getUserFromSession` function used by the Page component:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -130,7 +130,7 @@ Here, we define `beforeEach` on a story (which will run before the story is rend
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -144,7 +144,7 @@ The `fn` utility also spies on the original module's functions, which you can us
 
 For example, this story checks that the `saveNote` function was called when the user clicks the save button:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -156,7 +156,7 @@ For example, this story checks that the `saveNote` function was called when the 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### Setting up and cleaning up
 
@@ -172,7 +172,7 @@ It is _not_ necessary to restore `fn()` mocks with the cleanup function, as Stor
 
 Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate) package to mock the [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) and reset it when the story unmounts.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -184,4 +184,4 @@ Here's an example of using the [`mockdate`](https://github.com/boblauer/MockDate
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

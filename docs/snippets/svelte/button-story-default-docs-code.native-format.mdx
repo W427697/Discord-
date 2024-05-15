@@ -1,5 +1,5 @@
 ```html
-<!-- Button.stories.svelte -->
+{/* Button.stories.svelte */}
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
@@ -12,10 +12,10 @@
   }
 </script>
 
-<!--👇 Creates specific argTypes -->
+{/*👇 Creates specific argTypes */}
 <Meta title="Button" component={Button} argTypes={{ backgroundColor: { control: 'color' }, }} />
 
-<!-- 👇 Assigns the function result to a variable and pass it as a prop into the component -->
+{/* 👇 Assigns the function result to a variable and pass it as a prop into the component */}
 <template let:args>
   <button {...args} label="{someFunction(args.label)}" />
 </template>

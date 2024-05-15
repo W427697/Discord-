@@ -10,7 +10,7 @@ Storybook includes a [`storybook add`](../api/cli-options.md#add) command to aut
 
 Run the `storybook add` command using your chosen package manager, and the CLI will update your Storybook configuration to include the addon and install any necessary dependencies.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -20,7 +20,7 @@ Run the `storybook add` command using your chosen package manager, and the CLI w
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="warning">
 
@@ -34,7 +34,7 @@ Storybook addons are always added through the [`addons`](../api/main-config-addo
 
 Run the following command with your package manager of choice to install the addon.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -44,11 +44,11 @@ Run the following command with your package manager of choice to install the add
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Next, update `.storybook/main.js|ts` to the following:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -57,7 +57,7 @@ Next, update `.storybook/main.js|ts` to the following:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When you run Storybook, the accessibility testing addon will be enabled.
 
@@ -67,7 +67,7 @@ When you run Storybook, the accessibility testing addon will be enabled.
 
 To remove an addon from Storybook, you can choose to manually uninstall it and remove it from the configuration file (i.e., [`.storybook/main.js|ts`](../configure/index.md)) or opt-in to do it automatically via the CLI with the [`remove`](../api/cli-options.md#remove) command. For example, to remove the [Accessibility addon](https://storybook.js.org/addons/@storybook/addon-a11y) from Storybook with the CLI, run the following command:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -77,4 +77,4 @@ To remove an addon from Storybook, you can choose to manually uninstall it and r
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

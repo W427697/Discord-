@@ -32,7 +32,7 @@ For most Storybook projects, argTypes are [automatically inferred](#automatic-ar
 
 ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/index.md#default-export) of the CSF file:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -44,11 +44,11 @@ ArgTypes are most often specified at the meta (component) level, in the [default
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 They can apply to all stories when specified at the project (global) level, in the `preview.js|ts` configuration file:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -57,11 +57,11 @@ They can apply to all stories when specified at the project (global) level, in t
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Or they can apply only to a [specific story](../writing-stories/index.md#defining-stories):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -73,7 +73,7 @@ Or they can apply only to a [specific story](../writing-stories/index.md#definin
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## `argTypes`
 
@@ -128,7 +128,7 @@ Default:
 
 Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration. Specifying `false` will prevent the control from rendering.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -140,7 +140,7 @@ Specify the behavior of the [controls addon](../essentials/controls.md) for the 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### `control.type`
 
@@ -218,7 +218,7 @@ Default: [Inferred](#automatic-argtype-inference)
 
 Describe the arg. (If you intend to describe the type of the arg, you should use [`table.type`](#tabletype), instead.)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -230,7 +230,7 @@ Describe the arg. (If you intend to describe the type of the arg, you should use
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `if`
 
@@ -248,7 +248,7 @@ Type:
 
 Conditionally render an argType based on the value of another [arg](../writing-stories/args.md) or [global](../essentials/toolbars-and-globals.md).
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -260,7 +260,7 @@ Conditionally render an argType based on the value of another [arg](../writing-s
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `mapping`
 
@@ -272,7 +272,7 @@ When dealing with non-primitive values, you'll notice that you'll run into some 
 
 `mapping` doesn't have to be exhaustive. If the currently selected option is not listed, it's used verbatim. Can be used with [`control.labels`](#labels).
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -284,7 +284,7 @@ When dealing with non-primitive values, you'll notice that you'll run into some 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `name`
 
@@ -292,7 +292,7 @@ Type: `string`
 
 The `argTypes` object uses the name of the arg as the key. By default, that key is used when displaying the argType in Storybook. You can override the displayed name by specifying a `name` property.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -304,7 +304,7 @@ The `argTypes` object uses the name of the arg as the key. By default, that key 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="warning">
 
@@ -322,7 +322,7 @@ Default: [Inferred](#automatic-argtype-inference)
 
 If the arg accepts a finite set of values, you can specify them with `options`. If those values are [complex](../essentials/controls#dealing-with-complex-values), like JSX elements, you can use [`mapping`](#mapping) to map them to string values. You can use [`control.labels`](#labels) to provide custom labels for the options.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -334,7 +334,7 @@ If the arg accepts a finite set of values, you can specify them with `options`. 
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `table`
 
@@ -360,7 +360,7 @@ Default: [Inferred](#automatic-argtype-inference)
 
 Specify how the arg is documented in the [`ArgTypes` doc block](./doc-block-argtypes.md), [`Controls` doc block](./doc-block-controls.md), and [Controls addon panel](../essentials/controls.md).
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
  <CodeSnippets
   paths={[
@@ -372,7 +372,7 @@ Specify how the arg is documented in the [`ArgTypes` doc block](./doc-block-argt
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 #### `table.category`
 
@@ -480,7 +480,7 @@ Specifies the semantic type of the argType. When an argType is [inferred](#autom
 
 If you only need to specify the documented type, you should use [`table.type`](#tabletype), instead.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -492,7 +492,7 @@ If you only need to specify the documented type, you should use [`table.type`](#
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ### `defaultValue`
 
@@ -502,7 +502,7 @@ Type: `any`
 
 Define the default value of the argType. Deprecated in favor of defining the [`arg`](../writing-stories/args.md) value directly.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -514,4 +514,4 @@ Define the default value of the argType. Deprecated in favor of defining the [`a
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}

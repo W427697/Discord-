@@ -14,7 +14,7 @@ Some components require a “harness” to render in a useful way. For instance,
 
 ![Story without padding](./decorators-no-padding.png)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -34,7 +34,7 @@ Some components require a “harness” to render in a useful way. For instance,
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ![Story with padding](./decorators-padding.png)
 
@@ -52,7 +52,7 @@ The second argument to a decorator function is the **story context** which conta
 This context can be used to adjust the behavior of your decorator based on the story's arguments or other metadata. For example, you could create a decorator that allows you to optionally apply a layout to the story, by defining `parameters.pageLayout = 'page'` (or `'page-mobile'`):
 :
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -66,7 +66,7 @@ This context can be used to adjust the behavior of your decorator based on the s
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 
@@ -82,7 +82,7 @@ If your components are “connected” and require side-loaded data to render, y
 
 To define a decorator for a single story, use the `decorators` key on a named export:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -105,7 +105,7 @@ To define a decorator for a single story, use the `decorators` key on a named ex
 />
 
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
@@ -113,7 +113,7 @@ It is useful to ensure that the story remains a “pure” rendering of the comp
 
 To define a decorator for all stories of a component, use the `decorators` key of the default CSF export:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -133,13 +133,13 @@ To define a decorator for all stories of a component, use the `decorators` key o
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Global decorators
 
 We can also set a decorator for **all stories** via the `decorators` export of your [`.storybook/preview.js`](../configure/index.md#configure-story-rendering) file (this is the file where you configure all stories):
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -158,7 +158,7 @@ We can also set a decorator for **all stories** via the `decorators` export of y
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Decorator inheritance
 

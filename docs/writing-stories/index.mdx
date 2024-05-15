@@ -29,7 +29,7 @@ The key ingredients are the [default export](https://developer.mozilla.org/en-US
 
 The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js|ts`:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -49,7 +49,7 @@ The _default_ export metadata controls how Storybook lists your stories and prov
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info">
 
@@ -61,7 +61,7 @@ Starting with Storybook version 7.0, story titles are analyzed statically as par
 
 Use the _named_ exports of a CSF file to define your component’s stories. We recommend you use UpperCamelCase for your story exports. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -84,7 +84,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
   csf2Path="get-started/whats-a-story#snippet-button-story-with-args"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <IfRenderer renderer='react'>
 
@@ -92,7 +92,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 [React Hooks](https://react.dev/reference/react) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -103,7 +103,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
   csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -113,7 +113,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 [Solid Signals](https://www.solidjs.com/docs/latest/api#basic-reactivity) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses Solid Signals to change the button's state:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -124,7 +124,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
   csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 </IfRenderer>
 
@@ -132,7 +132,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 You can rename any particular story you need. For instance, to give it a more accurate name. Here's how you can change the name of the `Primary` story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -154,18 +154,18 @@ You can rename any particular story you need. For instance, to give it a more ac
   csf2Path="writing-stories/#snippet-button-story-rename-story"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Your story will now be shown in the sidebar with the given text.
 
-<!-- Maintaining a prior heading -->
+{/* Maintaining a prior heading */}
 <a id="using-args" />
 
 ## How to write stories
 
 A story is an object that describes how to render a component. You can have multiple stories per component, and those stories can build upon one another. For example, we can add Secondary and Tertiary stories based on our Primary story from above.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -187,11 +187,11 @@ A story is an object that describes how to render a component. You can have mult
   csf2Path="writing-stories/#snippet-button-story-using-args"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 What’s more, you can import `args` to reuse when writing stories for other components, and it's helpful when you’re building composite components. For example, if we make a `ButtonGroup` story, we might remix two stories from its child component `Button`.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -212,7 +212,7 @@ What’s more, you can import `args` to reuse when writing stories for other com
 />
 
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 When Button’s signature changes, you only need to change Button’s stories to reflect the new schema, and ButtonGroup’s stories will automatically be updated. This pattern allows you to reuse your data definitions across the component hierarchy, making your stories more maintainable.
 
@@ -247,7 +247,7 @@ Addons can enhance args. For instance, [Actions](../essentials/actions.md) auto-
 
 Storybook's `play` function and the [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions) are convenient helper methods to test component scenarios that otherwise require user intervention. They're small code snippets that execute once your story renders. For example, suppose you wanted to validate a form component, you could write the following story using the `play` function to check how the component responds when filling in the inputs with information:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -275,7 +275,7 @@ Parameters are Storybook’s method of defining static metadata for stories. A s
 
 For instance, suppose you wanted to test your Button component against a different set of backgrounds than the other components in your app. You might add a component-level `backgrounds` parameter:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -287,7 +287,7 @@ For instance, suppose you wanted to test your Button component against a differe
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ![Parameters background color](./parameters-background-colors.png)
 
@@ -299,7 +299,7 @@ Decorators are a mechanism to wrap a component in arbitrary markup when renderin
 
 A simple example is adding padding to a component’s stories. Accomplish this using a decorator that wraps the stories in a `div` with padding, like so:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -321,7 +321,7 @@ A simple example is adding padding to a component’s stories. Accomplish this u
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 Decorators [can be more complex](./decorators.md#context-for-mocking) and are often provided by [addons](../configure/storybook-addons.md). You can also configure decorators at the [story](./decorators.md#story-decorators), [component](./decorators.md#component-decorators) and [global](./decorators.md#global-decorators) level.
 
@@ -329,7 +329,7 @@ Decorators [can be more complex](./decorators.md#context-for-mocking) and are of
 
 Sometimes you may have two or more components created to work together. For instance, if you have a parent `List` component, it may require child `ListItem` components.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -349,11 +349,11 @@ Sometimes you may have two or more components created to work together. For inst
   csf2Path="writing-stories/#snippet-list-story-starter"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 In such cases, it makes sense to render a different function for each story:
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -373,11 +373,11 @@ In such cases, it makes sense to render a different function for each story:
   csf2Path="writing-stories/#snippet-list-story-expanded"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 You can also reuse _story data_ from the child `ListItem` in your `List` component. That’s easier to maintain because you don’t have to update it in multiple places.
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -397,7 +397,7 @@ You can also reuse _story data_ from the child `ListItem` in your `List` compone
   csf2Path="writing-stories/#snippet-list-story-reuse-data"
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
 

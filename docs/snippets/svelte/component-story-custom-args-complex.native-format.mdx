@@ -1,5 +1,5 @@
 ```html
-<!-- YourComponent.stories.svelte -->
+{/* YourComponent.stories.svelte */}
 
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
@@ -12,7 +12,7 @@
   }
 </script>
 
-<!--👇 Creates specific argTypes and automatically infers them when 'options' is defined -->
+{/*👇 Creates specific argTypes and automatically infers them when 'options' is defined */}
 
 <Meta title="YourComponent" component={YourComponent} argTypes={{ propertyA: { options: ['Item One',
 'Item Two', 'Item Three'], control: { type: 'select' }, }, propertyB: { options: ['Another Item

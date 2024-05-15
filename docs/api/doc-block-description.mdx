@@ -8,7 +8,7 @@ The `Description` block displays the description for a component, story, or meta
 
 ![Screenshot of Description block](./doc-block-title-subtitle-description.png)
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -19,7 +19,7 @@ import * as ButtonStories from './Button.stories';
 
 <Description of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
 ## Description
 
@@ -68,7 +68,7 @@ This flow gives you powerful ways to override the description for each scenario.
 export const Button = () => <button>Click me</button>;
 ```
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 
 <CodeSnippets
   paths={[
@@ -80,9 +80,9 @@ export const Button = () => <button>Click me</button>;
   ]}
 />
 
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
 
-<!-- prettier-ignore-start -->
+{/* prettier-ignore-start */}
 ```md
 {/* ButtonDocs.mdx */}
 
@@ -99,4 +99,4 @@ import * as ButtonStories from './Button.stories';
 {/* Shows the description for the Primary export */}
 <Description of={ButtonStories.Primary} />
 ```
-<!-- prettier-ignore-end -->
+{/* prettier-ignore-end */}
