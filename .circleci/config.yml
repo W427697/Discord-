@@ -354,6 +354,8 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
+          environment:
+            STORYBOOK_TELEMETRY_URL: "http://localhost:6007/event-log"
       - run:
           name: Verifying Telemetry
           command: |
