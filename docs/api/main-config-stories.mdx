@@ -24,21 +24,14 @@ Configures Storybook to load stories from the specified locations. The intention
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-stories.js.mdx',
-    'common/main-config-stories.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-stories.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
+  If you want to use a different naming convention, you can alter the glob using the syntax supported by [picomatch](https://github.com/micromatch/picomatch#globbing-features).
 
-If you want to use a different naming convention, you can alter the glob using the syntax supported by [picomatch](https://github.com/micromatch/picomatch#globbing-features).
-
-Keep in mind that some addons may assume Storybook's default naming convention.
-
+  Keep in mind that some addons may assume Storybook's default naming convention.
 </Callout>
 
 ## With an array of globs
@@ -49,12 +42,7 @@ Stories are loaded in the order they are defined in the array. This allows you t
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-stories-ordered.js.mdx',
-    'common/main-config-stories-ordered.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-stories-ordered.md" />
 
 {/* prettier-ignore-end */}
 
@@ -66,12 +54,7 @@ For example, if you wanted to load your stories from a `packages/components` dir
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-stories-with-object.js.mdx',
-    'common/main-config-stories-with-object.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-stories-with-object.md" />
 
 {/* prettier-ignore-end */}
 
@@ -116,20 +99,13 @@ When [auto-titling](../configure/sidebar-and-urls.md#csf-30-auto-titles), prefix
 ## With a custom implementation
 
 <Callout variant="info" icon="💡">
-
-💡 Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
-
+  💡 Storybook now statically analyzes the configuration file to improve performance. Loading stories with a custom implementation may de-optimize or break this ability.
 </Callout>
 
 You can also adjust your Storybook configuration and implement custom logic to load your stories. For example, suppose you were working on a project that includes a particular pattern that the conventional ways of loading stories could not solve. In that case, you could adjust your configuration as follows:
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-stories-with-logic.js.mdx',
-    'common/main-config-stories-with-logic.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-stories-with-logic.md" />
 
 {/* prettier-ignore-end */}

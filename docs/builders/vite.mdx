@@ -4,8 +4,8 @@ title: 'Vite'
 
 Storybook Vite builder bundles your components and stories with [Vite](https://vitejs.dev/), a fast ESM bundler.
 
-- For applications built with Vite: it allows reusing the existing configuration in Storybook.
-- For applications built with Webpack: it provides faster startup and refresh times, with the disadvantage that your component's execution environment differs from your application.
+* For applications built with Vite: it allows reusing the existing configuration in Storybook.
+* For applications built with Webpack: it provides faster startup and refresh times, with the disadvantage that your component's execution environment differs from your application.
 
 ## Setup
 
@@ -15,13 +15,7 @@ Run the following command to install the builder.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-install.yarn.js.mdx',
-    'common/storybook-vite-builder-install.pnpm.js.mdx',
-    'common/storybook-vite-builder-install.npm.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-install.md" />
 
 {/* prettier-ignore-end */}
 
@@ -29,11 +23,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-register.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-register.md" />
 
 {/* prettier-ignore-end */}
 
@@ -45,11 +35,7 @@ When Storybook loads, it automatically merges the configuration into its own. Ho
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-aliasing.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-aliasing.md" />
 
 {/* prettier-ignore-end */}
 
@@ -61,11 +47,7 @@ If you need to customize the builder's configuration and apply specific options 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-vite-final-env.js.mdx'
-  ]}
-/>
+<CodeSnippets path="main-config-vite-final-env.md" />
 
 {/* prettier-ignore-end */}
 
@@ -75,18 +57,12 @@ By default, the Vite builder in Storybook searches for the Vite configuration fi
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-builder-custom-config.js.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-builder-custom-config.md" />
 
 {/* prettier-ignore-end */}
 
 <Callout variant="info" icon="💡">
-
-If you do not want Storybook to load the Vite configuration file automatically, you can use the `viteConfigPath` option to point to a non-existent file.
-
+  If you do not want Storybook to load the Vite configuration file automatically, you can use the `viteConfigPath` option to point to a non-existent file.
 </Callout>
 
 ### TypeScript
@@ -95,15 +71,11 @@ If you need, you can also configure Storybook's Vite builder using TypeScript. R
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-ts-configure.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-ts-configure.md" />
 
 {/* prettier-ignore-end */}
 
----
+***
 
 ## Troubleshooting
 
@@ -118,11 +90,7 @@ Currently, [automatic argType inference](../api/arg-types.md#automatic-argtype-i
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-react-docgen.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-react-docgen.md" />
 
 {/* prettier-ignore-end */}
 
@@ -132,16 +100,12 @@ If you are migrating from a Webpack-based project, such as [CRA](https://create-
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-vite-builder-jest-mock.html.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-vite-builder-jest-mock.md" />
 
 {/* prettier-ignore-end */}
 
 **Learn more about builders**
 
-- Vite builder for bundling with Vite
-- [Webpack builder](./webpack.md) for bundling with Webpack
-- [Builder API](./builder-api.md) for building a Storybook builder
+* Vite builder for bundling with Vite
+* [Webpack builder](./webpack.md) for bundling with Webpack
+* [Builder API](./builder-api.md) for building a Storybook builder

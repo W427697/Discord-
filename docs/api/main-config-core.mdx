@@ -37,21 +37,14 @@ Type:
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
 
 <Callout variant="info" icon="💡">
+  With the new [Framework API](./new-frameworks.md), [`framework.options.builder`](./main-config-framework.md#optionsbuilder) is now the preferred way to configure the builder.
 
-With the new [Framework API](./new-frameworks.md), [`framework.options.builder`](./main-config-framework.md#optionsbuilder) is now the preferred way to configure the builder.
-
-You should only use `core.builder.options` if you need to configure a builder that is not part of a framework.
-
+  You should only use `core.builder.options` if you need to configure a builder that is not part of a framework.
 </Callout>
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-builder.js.mdx',
-    'common/main-config-core-builder.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-builder.md" />
 
 {/* prettier-ignore-end */}
 
@@ -101,17 +94,12 @@ Enable CORS headings to run document in a "secure context". See [SharedArrayBuff
 
 This enables these headers in development-mode:
 
-- `Cross-Origin-Opener-Policy: same-origin`
-- `Cross-Origin-Embedder-Policy: require-corp`
+* `Cross-Origin-Opener-Policy: same-origin`
+* `Cross-Origin-Embedder-Policy: require-corp`
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-cross-origin-isolated.js.mdx',
-    'common/main-config-core-cross-origin-isolated.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-cross-origin-isolated.md" />
 
 {/* prettier-ignore-end */}
 
@@ -123,12 +111,7 @@ Disables the generation of `project.json`, a file containing Storybook metadata
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-disable-project-json.js.mdx',
-    'common/main-config-core-disable-project-json.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-disable-project-json.md" />
 
 {/* prettier-ignore-end */}
 
@@ -140,12 +123,7 @@ Disables Storybook's [telemetry collection](../configure/telemetry.md).
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-disable-telemetry.js.mdx',
-    'common/main-config-core-disable-telemetry.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-disable-telemetry.md" />
 
 {/* prettier-ignore-end */}
 
@@ -157,12 +135,7 @@ Disables Storybook's default Webpack configuration.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-disable-webpack-defaults.js.mdx',
-    'common/main-config-core-disable-webpack-defaults.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-disable-webpack-defaults.md" />
 
 {/* prettier-ignore-end */}
 
@@ -174,12 +147,7 @@ Disables the "What's New" notifications in the UI for new Storybook versions and
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-disable-update-notifications.js.mdx',
-    'common/main-config-core-disable-update-notifications.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-disable-update-notifications.md" />
 
 {/* prettier-ignore-end */}
 
@@ -191,12 +159,7 @@ Enable crash reports to be sent to Storybook [telemetry](../configure/telemetry.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/main-config-core-enable-crash-reports.js.mdx',
-    'common/main-config-core-enable-crash-reports.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="main-config-core-enable-crash-reports.md" />
 
 {/* prettier-ignore-end */}
 

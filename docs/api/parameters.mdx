@@ -7,48 +7,28 @@ Parameters are static metadata used to configure your [stories](../get-started/w
 ## Story parameters
 
 <div class="aside">
-
-ℹ️ Parameters specified at the story level will [override](#parameter-inheritance) those specified at the project level and meta (component) level.
-
+  ℹ️ Parameters specified at the story level will [override](#parameter-inheritance) those specified at the project level and meta (component) level.
 </div>
 
 Parameters specified at the story level apply to that story only. They are defined in the `parameters` property of the story (named export):
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/parameters-in-story.ts.mdx',
-    'web-components/parameters-in-story.js.mdx',
-    'web-components/parameters-in-story.ts.mdx',
-    'common/parameters-in-story.js.mdx',
-    'common/parameters-in-story.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="parameters-in-story.md" />
 
 {/* prettier-ignore-end */}
 
 ## Meta parameters
 
 <div class="aside">
-
-ℹ️ Parameters specified at the meta (component) level will [override](#parameter-inheritance) those specified at the project level.
-
+  ℹ️ Parameters specified at the meta (component) level will [override](#parameter-inheritance) those specified at the project level.
 </div>
 
 Parameter's specified in a [CSF](../writing-stories/index.md#component-story-format-csf) file's meta configuration apply to all stories in that file. They are defined in the `parameters` property of the `meta` (default export):
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/parameters-in-meta.ts.mdx',
-    'web-components/parameters-in-meta.js.mdx',
-    'web-components/parameters-in-meta.ts.mdx',
-    'common/parameters-in-meta.js.mdx',
-    'common/parameters-in-meta.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="parameters-in-meta.md" />
 
 {/* prettier-ignore-end */}
 
@@ -58,12 +38,7 @@ Parameters specified at the project (global) level apply to **all stories** in y
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-   'common/parameters-in-preview.js.mdx',
-   'common/parameters-in-preview.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="parameters-in-preview.md" />
 
 {/* prettier-ignore-end */}
 
@@ -79,9 +54,9 @@ Default: `'padded'`
 
 Specifies how the canvas should [lay out the story](../configure/story-layout.md).
 
-- **centered**: Center the story within the canvas
-- **padded**: (default) Add padding to the story
-- **fullscreen**: Show the story as-is, without padding
+* **centered**: Center the story within the canvas
+* **padded**: (default) Add padding to the story
+* **fullscreen**: Show the story as-is, without padding
 
 ### `options`
 
@@ -94,9 +69,7 @@ Type:
 ```
 
 <Callout variant="warning">
-
-The `options` parameter can _only_ be applied at the [project level](#project-parameters).
-
+  The `options` parameter can *only* be applied at the [project level](#project-parameters).
 </Callout>
 
 #### `options.storySort`
@@ -125,13 +98,13 @@ Specifies the order in which stories are displayed in the Storybook UI.
 
 When specifying a configuration object, the following options are available:
 
-- **includeNames**: Whether to include the story name in the sorting algorithm. Defaults to `false`.
-- **locales**: The locale to use when sorting stories. Defaults to your system locale.
-- **method**: The sorting method to use. Defaults to `alphabetical`.
-  - **alphabetical**: Sort stories alphabetically by name.
-  - **alphabetical-by-kind**: Sort stories alphabetically by kind, then by name.
-  - **custom**: Use a custom sorting function.
-- **order**: Stories in the specified order will be displayed first, in the order specified. All other stories will be displayed after, in alphabetical order. The order array can accept a nested array to sort 2nd-level story kinds, e.g. `['Intro', 'Pages', ['Home', 'Login', 'Admin'], 'Components']`.
+* **includeNames**: Whether to include the story name in the sorting algorithm. Defaults to `false`.
+* **locales**: The locale to use when sorting stories. Defaults to your system locale.
+* **method**: The sorting method to use. Defaults to `alphabetical`.
+  * **alphabetical**: Sort stories alphabetically by name.
+  * **alphabetical-by-kind**: Sort stories alphabetically by kind, then by name.
+  * **custom**: Use a custom sorting function.
+* **order**: Stories in the specified order will be displayed first, in the order specified. All other stories will be displayed after, in alphabetical order. The order array can accept a nested array to sort 2nd-level story kinds, e.g. `['Intro', 'Pages', ['Home', 'Login', 'Admin'], 'Components']`.
 
 When specifying a custom sorting function, the function behaves like a typical JavaScript sorting function. It accepts two stories to compare and returns a number. For example:
 
@@ -186,19 +159,19 @@ Default: `false`
 
 Unhandled errors might cause false positive assertions. Setting this to `true` will prevent the [play function](../writing-stories/play-function.md) from failing and showing a warning when unhandled errors are thrown during execution.
 
----
+***
 
 ### Essential addons
 
 All other parameters are contributed by addons. The [essential addon's](../essentials/index.md) parameters are documented on their individual pages:
 
-- [Actions](../essentials/actions.md#parameters)
-- [Backgrounds](../essentials/backgrounds.md#parameters)
-- [Controls](../essentials/controls.md#parameters)
-- [Highlight](../essentials/highlight.md#parameters)
-- [Interactions](../essentials/interactions.md#parameters)
-- [Measure & Outline](../essentials/measure-and-outline.md#parameters)
-- [Viewport](../essentials/viewport.md#parameters)
+* [Actions](../essentials/actions.md#parameters)
+* [Backgrounds](../essentials/backgrounds.md#parameters)
+* [Controls](../essentials/controls.md#parameters)
+* [Highlight](../essentials/highlight.md#parameters)
+* [Interactions](../essentials/interactions.md#parameters)
+* [Measure & Outline](../essentials/measure-and-outline.md#parameters)
+* [Viewport](../essentials/viewport.md#parameters)
 
 ## Parameter inheritance
 
@@ -211,9 +184,7 @@ When specifying parameters, they are merged together in order of increasing spec
 3. Story parameters
 
 <div class="aside">
-
-ℹ️ Parameters are **merged**, so objects are deep-merged, but arrays and other properties are overwritten.
-
+  ℹ️ Parameters are **merged**, so objects are deep-merged, but arrays and other properties are overwritten.
 </div>
 
 In other words, the following specifications of parameters:

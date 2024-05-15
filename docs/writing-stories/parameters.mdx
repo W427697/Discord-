@@ -7,9 +7,7 @@ title: 'Parameters'
 Parameters are a set of static, named metadata about a story, typically used to control the behavior of Storybook features and addons.
 
 <Callout variant="info">
-
-Available parameters are listed in the [parameters API reference](../api/parameters.md#available-parameters).
-
+  Available parameters are listed in the [parameters API reference](../api/parameters.md#available-parameters).
 </Callout>
 
 For example, let’s customize the backgrounds addon via a parameter. We’ll use `parameters.backgrounds` to define which backgrounds appear in the backgrounds toolbar when a story is selected.
@@ -20,17 +18,7 @@ We can set a parameter for a single story with the `parameters` key on a CSF exp
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/parameters-in-story.ts.mdx',
-    'web-components/parameters-in-story.js.mdx',
-    'web-components/parameters-in-story.ts.mdx',
-    'common/parameters-in-story.js.mdx',
-    'common/parameters-in-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/parameters#snippet-component-story-custom-params"
-/>
+<CodeSnippets path="parameters-in-story.md" usesCsf3 csf2Path="writing-stories/parameters#snippet-component-story-custom-params" />
 
 {/* prettier-ignore-end */}
 
@@ -40,15 +28,7 @@ We can set the parameters for all stories of a component using the `parameters` 
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/parameters-in-meta.ts.mdx',
-    'web-components/parameters-in-meta.js.mdx',
-    'web-components/parameters-in-meta.ts.mdx',
-    'common/parameters-in-meta.js.mdx',
-    'common/parameters-in-meta.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="parameters-in-meta.md" />
 
 {/* prettier-ignore-end */}
 
@@ -58,12 +38,7 @@ We can also set the parameters for **all stories** via the `parameters` export o
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-   'common/parameters-in-preview.js.mdx',
-   'common/parameters-in-preview.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="parameters-in-preview.md" />
 
 {/* prettier-ignore-end */}
 
@@ -73,8 +48,8 @@ Setting a global parameter is a common way to configure addons. With backgrounds
 
 The way the global, component and story parameters are combined is:
 
-- More specific parameters take precedence (so a story parameter overwrites a component parameter which overwrites a global parameter).
-- Parameters are **merged** so keys are only ever overwritten, never dropped.
+* More specific parameters take precedence (so a story parameter overwrites a component parameter which overwrites a global parameter).
+* Parameters are **merged** so keys are only ever overwritten, never dropped.
 
 The merging of parameters is important. It means it is possible to override a single specific sub-parameter on a per-story basis but still retain the majority of the parameters defined globally.
 

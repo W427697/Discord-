@@ -16,23 +16,7 @@ Loaders are helpful when you need to load story data externally (e.g., from a re
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'react/loader-story.js.mdx',
-    'react/loader-story.ts.mdx',
-    'vue/loader-story.js.mdx',
-    'vue/loader-story.ts.mdx',
-    'angular/loader-story.ts.mdx',
-    'web-components/loader-story.js.mdx',
-    'web-components/loader-story.ts.mdx',
-    'svelte/loader-story.js.mdx',
-    'svelte/loader-story.ts.mdx',
-    'solid/loader-story.js.mdx',
-    'solid/loader-story.ts.mdx',
-  ]}
-  usesCsf3
-  csf2Path="writing-stories/loaders#snippet-loader-story"
-/>
+<CodeSnippets path="loader-story.md" usesCsf3 csf2Path="writing-stories/loaders#snippet-loader-story" />
 
 {/* prettier-ignore-end */}
 
@@ -44,12 +28,7 @@ We can also set a loader for **all stories** via the `loaders` export of your [`
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-global-loader.js.mdx',
-    'common/storybook-preview-global-loader.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-preview-global-loader.md" />
 
 {/* prettier-ignore-end */}
 
@@ -61,9 +40,9 @@ Like [parameters](./parameters.md), loaders can be defined globally, at the comp
 
 All loaders, defined at all levels that apply to a story, run before the story renders in Storybook's canvas.
 
-- All loaders run in parallel
-- All results are the `loaded` field in the story context
-- If there are keys that overlap, "later" loaders take precedence (from lowest to highest):
-  - Global loaders, in the order they are defined
-  - Component loaders, in the order they are defined
-  - Story loaders, in the order they are defined
+* All loaders run in parallel
+* All results are the `loaded` field in the story context
+* If there are keys that overlap, "later" loaders take precedence (from lowest to highest):
+  * Global loaders, in the order they are defined
+  * Component loaders, in the order they are defined
+  * Story loaders, in the order they are defined

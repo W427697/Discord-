@@ -12,11 +12,7 @@ To make that possible, you need to pass the `paramKey` element when you register
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-disable-addon.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addon-disable-addon.md" />
 
 {/* prettier-ignore-end */}
 
@@ -24,15 +20,7 @@ Then when adding a story, you can pass a disabled parameter.
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'angular/button-story-disable-addon.ts.mdx',
-    'web-components/button-story-disable-addon.js.mdx',
-    'web-components/button-story-disable-addon.ts.mdx',
-    'common/button-story-disable-addon.js.mdx',
-    'common/button-story-disable-addon.ts.mdx',
-  ]}
-/>
+<CodeSnippets path="button-story-disable-addon.md" />
 
 {/* prettier-ignore-end */}
 
@@ -47,9 +35,9 @@ If you don’t want to use Emotion, you can use inline styles or another css-in-
 
 Addon authors can develop their UIs using any React library. But we recommend using Storybook’s UI components in `@storybook/components` to build addons faster. When you use Storybook components, you get:
 
-- Battle-tested off-the-shelf components
-- Storybook native look and feel
-- Built-in support for Storybook theming
+* Battle-tested off-the-shelf components
+* Storybook native look and feel
+* Built-in support for Storybook theming
 
 Use the components listed below with your next addon.
 
@@ -79,9 +67,7 @@ Complementing the components, also included is a set of UI primitives. Use the c
 | Typography                     | [See implementation](https://github.com/storybookjs/storybook/tree/master/code/ui/components/src/typography)   | [See story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-typography--all)    |
 
 <Callout variant="info">
-
-The color palette implemented by `@storybook/components` is a high-level abstraction of the [`@storybook/theming`](https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src) package.
-
+  The color palette implemented by `@storybook/components` is a high-level abstraction of the [`@storybook/theming`](https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src) package.
 </Callout>
 
 ### Build system
@@ -97,9 +83,7 @@ When you're developing your addon as a package, you can’t use `npm link` to ad
 ```
 
 <Callout variant="info">
-
-Run either `yarn` or `npm install` to install the addon.
-
+  Run either `yarn` or `npm install` to install the addon.
 </Callout>
 
 ### Hot module replacement
@@ -128,11 +112,7 @@ If you're working on a preset that loads third-party addons, which you don't hav
 
 {/* prettier-ignore-start */}
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-load-external-addons-preset.js.mdx',
-  ]}
-/>
+<CodeSnippets path="storybook-addon-load-external-addons-preset.md" />
 
 {/* prettier-ignore-end */}
 
