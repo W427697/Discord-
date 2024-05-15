@@ -1,7 +1,6 @@
 /// <reference types="node" />
 
 import * as os from 'os';
-import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
@@ -11,7 +10,7 @@ import { getSessionId } from './session-id';
 
 const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
-const fetch = retry(originalFetch);
+const retryingFetch = retry(fetch);
 
 let tasks: Promise<any>[] = [];
 
@@ -54,8 +53,8 @@ const prepareRequest = async (data: TelemetryData, context: Record<string, any>,
   const eventId = nanoid();
   const body = { ...rest, eventType, eventId, sessionId, metadata, payload, context };
 
-  return fetch(URL, {
-    method: 'POST',
+  return retryingFetch(URL, {
+    method: 'post',
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' },
     retries: 3,
