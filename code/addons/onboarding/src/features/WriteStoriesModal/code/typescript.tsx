@@ -17,14 +17,14 @@ const data: CodeSnippets = {
         title: 'Example/Button',
         component: Button,
         // ...
-      };
+      } satisfies Meta<typeof Button>;
           
       export default meta;`,
       },
     ],
     [
       {
-        snippet: `type Story = StoryObj<typeof Button>;
+        snippet: `type Story = StoryObj<typeof meta>;
         
       export const Primary: Story = {`,
       },
