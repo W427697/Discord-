@@ -1,5 +1,5 @@
 ---
-title: 'Portable stories in Playwright'
+title: 'Portable stories in Playwright CT'
 ---
 
 export const SUPPORTED_RENDERERS = ['react', 'vue'];
