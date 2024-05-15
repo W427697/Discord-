@@ -311,7 +311,8 @@ describe('StoryStore', () => {
             "story": "A",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -409,7 +410,7 @@ describe('StoryStore', () => {
 
       const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
       hooks.clean = vi.fn();
-      store.cleanupStory(story);
+      await store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
     });
   });
@@ -476,7 +477,8 @@ describe('StoryStore', () => {
             "story": "A",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -514,7 +516,8 @@ describe('StoryStore', () => {
             "story": "B",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
           },
@@ -552,7 +555,8 @@ describe('StoryStore', () => {
             "story": "C",
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component Two",
           },
@@ -621,6 +625,7 @@ describe('StoryStore', () => {
       expect(store.raw()).toMatchInlineSnapshot(`
         [
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
@@ -659,13 +664,15 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
             "undecoratedStoryFn": [Function],
           },
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
@@ -704,13 +711,15 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
             "undecoratedStoryFn": [Function],
           },
           {
+            "applyBeforeEach": [Function],
             "applyLoaders": [Function],
             "argTypes": {
               "a": {
@@ -749,7 +758,8 @@ describe('StoryStore', () => {
             "storyFn": [Function],
             "subcomponents": undefined,
             "tags": [
-              "story",
+              "dev",
+              "test",
             ],
             "title": "Component Two",
             "unboundStoryFn": [Function],
@@ -810,7 +820,8 @@ describe('StoryStore', () => {
               "story": "A",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component One",
             },
@@ -848,7 +859,8 @@ describe('StoryStore', () => {
               "story": "B",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component One",
             },
@@ -886,7 +898,8 @@ describe('StoryStore', () => {
               "story": "C",
               "subcomponents": undefined,
               "tags": [
-                "story",
+                "dev",
+                "test",
               ],
               "title": "Component Two",
             },

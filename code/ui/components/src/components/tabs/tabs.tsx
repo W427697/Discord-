@@ -134,29 +134,24 @@ export interface TabsProps {
 export const Tabs: FC<TabsProps> = memo(
   ({
     children,
-    selected,
+    selected = null,
     actions,
-    absolute,
-    bordered,
-    tools,
+    absolute = false,
+    bordered = false,
+    tools = null,
     backgroundColor,
-    id: htmlId,
-    menuName,
+    id: htmlId = null,
+    menuName = 'Tabs',
     emptyState,
     showToolsWhenEmpty,
   }) => {
-    const idList = childrenToList(children)
-      .map((i) => i.id)
-      .join(',');
-
     const list = useMemo(
       () =>
         childrenToList(children).map((i, index) => ({
           ...i,
           active: selected ? i.id === selected : index === 0,
         })),
-      // eslint-disable-next-line react-hooks/exhaustive-deps -- we're using idList as a replacement for children
-      [selected, idList]
+      [children, selected]
     );
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
@@ -211,15 +206,6 @@ export const Tabs: FC<TabsProps> = memo(
   }
 );
 Tabs.displayName = 'Tabs';
-Tabs.defaultProps = {
-  id: null,
-  children: null,
-  tools: null,
-  selected: null,
-  absolute: false,
-  bordered: false,
-  menuName: 'Tabs',
-};
 
 export interface TabsStateProps {
   children: TabsProps['children'];
