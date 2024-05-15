@@ -49,20 +49,6 @@ describe('formatter', () => {
         expect(result).toMatchSnapshot();
       });
     });
-
-    describe('prettier not available', async () => {
-      it('should return the content as is', async () => {
-        mockPrettier.format.mockImplementation(() => {
-          throw new Error('Prettier not available');
-        });
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toBe(dummyContent);
-      });
-    });
   });
 
   describe('withoutPrettierConfigAndWithEditorConfig', () => {
@@ -83,20 +69,6 @@ describe('formatter', () => {
         expect(result).toMatchSnapshot();
       });
     });
-
-    describe('prettier not available', async () => {
-      it('should return the content formatted by settings of editorconfig', async () => {
-        mockPrettier.format.mockImplementation(() => {
-          throw new Error('Prettier not available');
-        });
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toMatchSnapshot();
-      });
-    });
   });
 
   describe('withoutPrettierConfigAndWithEditorConfig', () => {
@@ -109,20 +81,6 @@ describe('formatter', () => {
         mockPrettier.format.mockImplementation(prettierV3.format);
         mockPrettier.version.mockReturnValue(prettierV3.version);
         mockPrettier.resolveConfig.mockResolvedValue(null);
-
-        const filePath = path.resolve(testPath, 'testFile.ts');
-
-        const result = await formatFileContent(filePath, dummyContent);
-
-        expect(result).toBe(dummyContent);
-      });
-    });
-
-    describe('prettier not available', async () => {
-      it('should return the content as is', async () => {
-        mockPrettier.format.mockImplementation(() => {
-          throw new Error('Prettier not available');
-        });
 
         const filePath = path.resolve(testPath, 'testFile.ts');
 

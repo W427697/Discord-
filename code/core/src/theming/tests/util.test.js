@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest';
 import { lightenColor as lighten, darkenColor as darken, getPreferredColorScheme } from '../utils';
 

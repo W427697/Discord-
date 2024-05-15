@@ -31,15 +31,19 @@ export class JsPackageManagerFactory {
     }
 
     // Option 2: We try to infer the package manager from the closest lockfile
-    const closestLockfilePath = findUpSync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
-      cwd,
-    });
+    const closestLockfilePath = [
+      findUpSync(YARN_LOCKFILE, { cwd }),
+      findUpSync(PNPM_LOCKFILE, { cwd }),
+      findUpSync(NPM_LOCKFILE, { cwd }),
+    ].filter(Boolean)[0];
+
     const closestLockfile = closestLockfilePath && path.basename(closestLockfilePath);
 
     const hasNPMCommand = hasNPM(cwd);
     const hasPNPMCommand = hasPNPM(cwd);
     const yarnVersion = getYarnVersion(cwd);
 
+    console.log({ hasNPMCommand, hasPNPMCommand, yarnVersion, closestLockfile });
     if (yarnVersion && (closestLockfile === YARN_LOCKFILE || (!hasNPMCommand && !hasPNPMCommand))) {
       return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
     }

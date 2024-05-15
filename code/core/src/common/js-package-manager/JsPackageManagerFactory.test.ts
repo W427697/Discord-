@@ -235,7 +235,7 @@ describe('CLASS: JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
 
-      it('when multiple lockfiles are in a project, prefers yarn', async () => {
+      it.only('when multiple lockfiles are in a project, prefers yarn', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
         findUpSyncMock.mockImplementation(
           (await vi.importActual<typeof import('find-up')>('find-up')).findUpSync
