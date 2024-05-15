@@ -6106,7 +6106,6 @@ __metadata:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/html": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
@@ -6322,7 +6321,6 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/preact": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
@@ -6339,7 +6337,6 @@ __metadata:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/preact": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     preact: "npm:^10.5.13"
     typescript: "npm:^5.3.2"
@@ -6551,7 +6548,6 @@ __metadata:
     "@rollup/pluginutils": "npm:^5.0.2"
     "@storybook/builder-vite": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     find-up: "npm:^5.0.0"
     magic-string: "npm:^0.30.0"
@@ -6575,7 +6571,6 @@ __metadata:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
   peerDependencies:
     "@storybook/core": "workspace:*"
@@ -6791,7 +6786,6 @@ __metadata:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/preset-server-webpack": "workspace:*"
     "@storybook/server": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
@@ -6835,7 +6829,6 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/svelte": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@sveltejs/vite-plugin-svelte": "npm:^3.0.1"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
@@ -6860,7 +6853,6 @@ __metadata:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/preset-svelte-webpack": "workspace:*"
     "@storybook/svelte": "workspace:*"
-    "@storybook/types": "workspace:*"
     svelte: "npm:^4.0.0"
     svelte-loader: "npm:^3.1.9"
     typescript: "npm:^5.3.2"
@@ -6902,7 +6894,6 @@ __metadata:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-vite": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
@@ -6960,7 +6951,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/types@workspace:*, @storybook/types@workspace:deprecated/types":
+"@storybook/types@workspace:deprecated/types":
   version: 0.0.0-use.local
   resolution: "@storybook/types@workspace:deprecated/types"
   peerDependencies:
@@ -6974,7 +6965,6 @@ __metadata:
   dependencies:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/core-server": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@types/find-package-json": "npm:^1.2.6"
     "@types/node": "npm:^18.0.0"
@@ -6996,7 +6986,6 @@ __metadata:
   dependencies:
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/preset-vue3-webpack": "workspace:*"
-    "@storybook/types": "workspace:*"
     "@storybook/vue3": "workspace:*"
     "@types/node": "npm:^18.0.0"
     "@vue/compiler-sfc": "npm:3.0.0"
