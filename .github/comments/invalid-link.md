@@ -2,7 +2,7 @@ We could not detect a valid reproduction link. **Make sure to follow the bug rep
 
 ### Why was this issue closed?
 
-To be able to investigate, we need access to a reproduction to identify what triggered the issue. We need a link to a **public** GitHub repository, Stackblitz or CodeSandbox. Please use [storybook.new](https://storybook.new) to create one, and consult our [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce) for guidance.
+To be able to investigate, we need access to a reproduction to identify what triggered the issue. We need a link to a **public** GitHub repository, Stackblitz or CodeSandbox. The easiest way to create a reproduction is with [storybook.new](https://storybook.new).
 
 The bug template that you filled out has a section called "To reproduce", which is where you should provide the link to the reproduction.
 
@@ -45,6 +45,6 @@ Upvoting issues to show your interest will help us prioritize and address them a
 
 ### Useful Resources
 
+- [Create a Storybook reproduction](https://storybook.js.org/docs/react/contribute/how-to-reproduce)
 - [How to create a Minimal, Complete, and Verifiable example](https://stackoverflow.com/help/mcve)
-- [Reporting a Storybook bug](https://github.com/storybookjs/storybook/blob/next/.github/ISSUE_TEMPLATE/bug_report.yml)
-- [Contributing to Storybook](https://github.com/storybookjs/storybook/tree/next?tab=readme-ov-file#contributing)
+- [Contributing to Storybook](https://storybook.js.org/docs/contribute/how-to-contribute)
