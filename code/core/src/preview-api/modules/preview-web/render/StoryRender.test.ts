@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest';
-import { Channel } from '@storybook/channels';
+import { Channel } from '@storybook/core/dist/channels';
 import type { Renderer, StoryIndexEntry } from '@storybook/core/dist/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';

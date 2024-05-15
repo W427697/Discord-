@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { initCreateNewStoryChannel } from './create-new-story-channel';
 import path from 'path';
-import type { ChannelTransport } from '@storybook/channels';
-import { Channel } from '@storybook/channels';
+import type { ChannelTransport } from '@storybook/core/dist/channels';
+import { Channel } from '@storybook/core/dist/channels';
 import type { CreateNewStoryRequestPayload, RequestData } from '@storybook/core/dist/core-events';
 import {
   CREATE_NEW_STORYFILE_REQUEST,

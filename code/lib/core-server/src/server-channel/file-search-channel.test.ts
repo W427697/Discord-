@@ -1,5 +1,5 @@
-import type { ChannelTransport } from '@storybook/channels';
-import { Channel } from '@storybook/channels';
+import type { ChannelTransport } from '@storybook/core/dist/channels';
+import { Channel } from '@storybook/core/dist/channels';
 import type {
   RequestData,
   FileComponentSearchRequestPayload,
