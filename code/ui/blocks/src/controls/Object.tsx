@@ -31,9 +31,6 @@ const Wrapper = styled.div(({ theme }) => ({
       opacity: 1,
     },
   },
-  '.rejt-edit-form button': {
-    display: 'none',
-  },
   '.rejt-add-form': {
     marginLeft: 10,
   },
@@ -268,7 +265,6 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
           onFullyUpdate={onChange}
           getStyle={getCustomStyleFunction(theme)}
           cancelButtonElement={<ButtonInline type="button">Cancel</ButtonInline>}
-          editButtonElement={<ButtonInline type="submit">Save</ButtonInline>}
           addButtonElement={
             <ButtonInline type="submit" primary>
               Save

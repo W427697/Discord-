@@ -349,7 +349,6 @@ export class JsonArray extends Component<JsonArrayProps, JsonArrayState> {
       dataType,
       addButtonElement,
       cancelButtonElement,
-      editButtonElement,
       inputElementGenerator,
       textareaElementGenerator,
       minusMenuElement,
@@ -403,7 +402,6 @@ export class JsonArray extends Component<JsonArrayProps, JsonArrayState> {
               getStyle={getStyle}
               addButtonElement={addButtonElement}
               cancelButtonElement={cancelButtonElement}
-              editButtonElement={editButtonElement}
               inputElementGenerator={inputElementGenerator}
               textareaElementGenerator={textareaElementGenerator}
               minusMenuElement={minusMenuElement}
@@ -471,7 +469,6 @@ interface JsonArrayProps {
   getStyle: (...args: any) => any;
   addButtonElement?: ReactElement;
   cancelButtonElement?: ReactElement;
-  editButtonElement?: ReactElement;
   inputElementGenerator: (...args: any) => any;
   textareaElementGenerator: (...args: any) => any;
   minusMenuElement?: ReactElement;
@@ -599,8 +596,6 @@ export class JsonFunctionValue extends Component<JsonFunctionValueProps, JsonFun
       readOnly,
       dataType,
       getStyle,
-      editButtonElement,
-      cancelButtonElement,
       textareaElementGenerator,
       minusMenuElement,
       keyPath: comeFromKeyPath,
@@ -621,12 +616,6 @@ export class JsonFunctionValue extends Component<JsonFunctionValueProps, JsonFun
         dataType
       );
 
-      const editButtonElementLayout = cloneElement(editButtonElement, {
-        onClick: this.handleEdit,
-      });
-      const cancelButtonElementLayout = cloneElement(cancelButtonElement, {
-        onClick: this.handleCancelEdit,
-      });
       const textareaElementLayout = cloneElement(textareaElement, {
         ref: this.refInput,
         defaultValue: value,
@@ -635,8 +624,7 @@ export class JsonFunctionValue extends Component<JsonFunctionValueProps, JsonFun
 
       result = (
         <span className="rejt-edit-form" style={style.editForm}>
-          {textareaElementLayout} {cancelButtonElementLayout}
-          {editButtonElementLayout}
+          {textareaElementLayout}
         </span>
       );
       minusElement = null;
@@ -687,7 +675,6 @@ interface JsonFunctionValueProps {
   readOnly: (...args: any) => any;
   dataType?: string;
   getStyle: (...args: any) => any;
-  editButtonElement?: ReactElement;
   cancelButtonElement?: ReactElement;
   textareaElementGenerator: (...args: any) => any;
   minusMenuElement?: ReactElement;
@@ -700,7 +687,6 @@ JsonFunctionValue.defaultProps = {
   keyPath: [],
   deep: 0,
   handleUpdateValue: () => {},
-  editButtonElement: <button>e</button>,
   cancelButtonElement: <button>c</button>,
   minusMenuElement: <span> - </span>,
 };
@@ -739,7 +725,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
       getStyle,
       addButtonElement,
       cancelButtonElement,
-      editButtonElement,
       inputElementGenerator,
       textareaElementGenerator,
       minusMenuElement,
@@ -770,7 +755,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             getStyle={getStyle}
             addButtonElement={addButtonElement}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             textareaElementGenerator={textareaElementGenerator}
             minusMenuElement={minusMenuElement}
@@ -798,7 +782,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             getStyle={getStyle}
             addButtonElement={addButtonElement}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             textareaElementGenerator={textareaElementGenerator}
             minusMenuElement={minusMenuElement}
@@ -826,7 +809,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             getStyle={getStyle}
             addButtonElement={addButtonElement}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             textareaElementGenerator={textareaElementGenerator}
             minusMenuElement={minusMenuElement}
@@ -852,7 +834,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -873,7 +854,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -894,7 +874,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -915,7 +894,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -936,7 +914,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -957,7 +934,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -978,7 +954,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             textareaElementGenerator={textareaElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -999,7 +974,6 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             dataType={dataType}
             getStyle={getStyle}
             cancelButtonElement={cancelButtonElement}
-            editButtonElement={editButtonElement}
             inputElementGenerator={inputElementGenerator}
             minusMenuElement={minusMenuElement}
             logger={logger}
@@ -1026,7 +1000,6 @@ interface JsonNodeProps {
   getStyle: (...args: any) => any;
   addButtonElement?: ReactElement;
   cancelButtonElement?: ReactElement;
-  editButtonElement?: ReactElement;
   inputElementGenerator: (...args: any) => any;
   textareaElementGenerator: (...args: any) => any;
   minusMenuElement?: ReactElement;
@@ -1246,7 +1219,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
       dataType,
       addButtonElement,
       cancelButtonElement,
-      editButtonElement,
       inputElementGenerator,
       textareaElementGenerator,
       minusMenuElement,
@@ -1292,7 +1264,6 @@ export class JsonObject extends Component<JsonObjectProps, JsonObjectState> {
         getStyle={getStyle}
         addButtonElement={addButtonElement}
         cancelButtonElement={cancelButtonElement}
-        editButtonElement={editButtonElement}
         inputElementGenerator={inputElementGenerator}
         textareaElementGenerator={textareaElementGenerator}
         minusMenuElement={minusMenuElement}
@@ -1371,7 +1342,6 @@ interface JsonObjectProps {
   getStyle: (...args: any) => any;
   addButtonElement?: ReactElement;
   cancelButtonElement?: ReactElement;
-  editButtonElement?: ReactElement;
   inputElementGenerator: (...args: any) => any;
   textareaElementGenerator: (...args: any) => any;
   minusMenuElement?: ReactElement;
@@ -1497,8 +1467,6 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
       readOnly,
       dataType,
       getStyle,
-      editButtonElement,
-      cancelButtonElement,
       inputElementGenerator,
       minusMenuElement,
       keyPath: comeFromKeyPath,
@@ -1516,12 +1484,6 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
       dataType
     );
 
-    const editButtonElementLayout = cloneElement(editButtonElement, {
-      onClick: this.handleEdit,
-    });
-    const cancelButtonElementLayout = cloneElement(cancelButtonElement, {
-      onClick: this.handleCancelEdit,
-    });
     const inputElementLayout = cloneElement(inputElement, {
       ref: this.refInput,
       defaultValue: JSON.stringify(originalValue),
@@ -1547,8 +1509,7 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
         </span>
         {isEditing ? (
           <span className="rejt-edit-form" style={style.editForm}>
-            {inputElementLayout} {editButtonElementLayout}
-            {cancelButtonElementLayout}
+            {inputElementLayout}
           </span>
         ) : (
           <span
@@ -1576,7 +1537,6 @@ interface JsonValueProps {
   readOnly: (...args: any) => any;
   dataType?: string;
   getStyle: (...args: any) => any;
-  editButtonElement?: ReactElement;
   cancelButtonElement?: ReactElement;
   inputElementGenerator: (...args: any) => any;
   minusMenuElement?: ReactElement;
@@ -1589,7 +1549,6 @@ JsonValue.defaultProps = {
   keyPath: [],
   deep: 0,
   handleUpdateValue: () => Promise.resolve(),
-  editButtonElement: <button>e</button>,
   cancelButtonElement: <button>c</button>,
   minusMenuElement: <span> - </span>,
 };
