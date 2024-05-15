@@ -50,7 +50,6 @@
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/react": "workspace:*",
-    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0"
   },
   "peerDependencies": {
