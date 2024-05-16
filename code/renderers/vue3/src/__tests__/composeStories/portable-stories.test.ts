@@ -10,58 +10,72 @@ import type Button from './Button.vue';
 import { composeStories, composeStory, setProjectAnnotations } from '../../portable-stories';
 
 // example with composeStories, returns an object with all stories composed with args/decorators
-const { CSF3Primary } = composeStories(stories);
+const { CSF3Primary, LoaderStory } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
 
-it('renders primary button', () => {
-  render(CSF3Primary({ label: 'Hello world' }));
-  const buttonElement = screen.getByText(/Hello world/i);
-  expect(buttonElement).toBeInTheDocument();
-});
+describe('renders', () => {
+  it('renders primary button', () => {
+    render(CSF3Primary, { props: { label: 'Hello world' } });
+    const buttonElement = screen.getByText(/Hello world/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 
-it('reuses args from composed story', () => {
-  render(Secondary());
-  const buttonElement = screen.getByRole('button');
-  expect(buttonElement.textContent).toEqual(Secondary.args.label);
-});
+  it('reuses args from composed story', () => {
+    render(Secondary);
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement.textContent).toEqual(Secondary.args.label);
+  });
 
-it('myClickEvent handler is called', async () => {
-  const myClickEventSpy = vi.fn();
-  render(Secondary({ onMyClickEvent: myClickEventSpy }));
-  const buttonElement = screen.getByRole('button');
-  buttonElement.click();
-  expect(myClickEventSpy).toHaveBeenCalled();
-});
+  it('myClickEvent handler is called', async () => {
+    const myClickEventSpy = vi.fn();
+    render(Secondary, { props: { onMyClickEvent: myClickEventSpy } });
+    const buttonElement = screen.getByRole('button');
+    buttonElement.click();
+    expect(myClickEventSpy).toHaveBeenCalled();
+  });
 
-it('reuses args from composeStories', () => {
-  const { getByText } = render(CSF3Primary());
-  const buttonElement = getByText(/foo/i);
-  expect(buttonElement).toBeInTheDocument();
+  it('reuses args from composeStories', () => {
+    const { getByText } = render(CSF3Primary);
+    const buttonElement = getByText(/foo/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  it('should call and compose loaders data', async () => {
+    await LoaderStory.load();
+    const { getByTestId } = render(LoaderStory);
+    expect(getByTestId('spy-data').textContent).toEqual('mockFn return value');
+    expect(getByTestId('loaded-data').textContent).toEqual('loaded data');
+    // spy assertions happen in the play function and should work
+    await LoaderStory.play!();
+  });
 });
 
 describe('projectAnnotations', () => {
   it('renders with default projectAnnotations', () => {
+    setProjectAnnotations([
+      {
+        parameters: { injected: true },
+        globalTypes: {
+          locale: { defaultValue: 'en' },
+        },
+      },
+    ]);
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
-    const { getByText } = render(WithEnglishText());
+    const { getByText } = render(WithEnglishText);
     const buttonElement = getByText('Hello!');
     expect(buttonElement).toBeInTheDocument();
+    expect(WithEnglishText.parameters?.injected).toBe(true);
   });
 
   it('renders with custom projectAnnotations via composeStory params', () => {
     const WithPortugueseText = composeStory(stories.CSF2StoryWithLocale, stories.default, {
-      globalTypes: { locale: { defaultValue: 'pt' } } as any,
+      globals: { locale: 'pt' },
     });
-    const { getByText } = render(WithPortugueseText());
+    const { getByText } = render(WithPortugueseText);
     const buttonElement = getByText('Olá!');
     expect(buttonElement).toBeInTheDocument();
-  });
-
-  it('renders with custom projectAnnotations via setProjectAnnotations', () => {
-    setProjectAnnotations([{ parameters: { injected: true } }]);
-    const Story = composeStory(stories.CSF2StoryWithLocale, stories.default);
-    expect(Story.parameters?.injected).toBe(true);
   });
 });
 
@@ -69,7 +83,7 @@ describe('CSF3', () => {
   it('renders with inferred globalRender', () => {
     const Primary = composeStory(stories.CSF3Button, stories.default);
 
-    render(Primary({ label: 'Hello world' }));
+    render(Primary, { props: { label: 'Hello world' } });
     const buttonElement = screen.getByText(/Hello world/i);
     expect(buttonElement).toBeInTheDocument();
   });
@@ -77,16 +91,16 @@ describe('CSF3', () => {
   it('renders with custom render function', () => {
     const Primary = composeStory(stories.CSF3ButtonWithRender, stories.default);
 
-    render(Primary());
+    render(Primary);
     expect(screen.getByTestId('custom-render')).toBeInTheDocument();
   });
 
   it('renders with play function', async () => {
     const CSF3InputFieldFilled = composeStory(stories.CSF3InputFieldFilled, stories.default);
 
-    const { container } = render(CSF3InputFieldFilled());
+    render(CSF3InputFieldFilled);
 
-    await CSF3InputFieldFilled.play({ canvasElement: container as HTMLElement });
+    await CSF3InputFieldFilled.play!();
 
     const input = screen.getByTestId('input') as HTMLInputElement;
     expect(input.value).toEqual('Hello world!');
@@ -103,7 +117,7 @@ it('should pass with decorators that need addons channel', () => {
       },
     ],
   });
-  render(PrimaryWithChannels({ label: 'Hello world' }));
+  render(PrimaryWithChannels, { props: { label: 'Hello world' } });
   const buttonElement = screen.getByText(/Hello world/i);
   expect(buttonElement).not.toBeNull();
 });
@@ -127,12 +141,14 @@ describe('ComposeStories types', () => {
 // Batch snapshot testing
 const testCases = Object.values(composeStories(stories)).map((Story) => [Story.storyName, Story]);
 it.each(testCases)('Renders %s story', async (_storyName, Story) => {
-  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithParamsAndDecorator') {
+  if (typeof Story === 'string' || _storyName === 'CSF2StoryWithLocale') {
     return;
   }
 
+  await Story.load();
+  const { baseElement } = await render(Story);
+  await Story.play?.();
   await new Promise((resolve) => setTimeout(resolve, 0));
 
-  const tree = await render(Story());
-  expect(tree.baseElement).toMatchSnapshot();
+  expect(baseElement).toMatchSnapshot();
 });

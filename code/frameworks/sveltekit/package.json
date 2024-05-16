@@ -1,6 +1,6 @@
 {
   "name": "@storybook/sveltekit",
-  "version": "8.0.0-beta.1",
+  "version": "8.2.0-alpha.1",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -56,7 +56,8 @@
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-vite": "workspace:*",
     "@storybook/svelte": "workspace:*",
-    "@storybook/svelte-vite": "workspace:*"
+    "@storybook/svelte-vite": "workspace:*",
+    "@storybook/types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
@@ -64,7 +65,7 @@
     "vite": "^4.0.0"
   },
   "peerDependencies": {
-    "svelte": "^4.0.0 || ^5.0.0-next.16",
+    "svelte": "^4.0.0 || ^5.0.0-next.65",
     "vite": "^4.0.0 || ^5.0.0"
   },
   "engines": {

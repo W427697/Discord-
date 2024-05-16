@@ -186,6 +186,7 @@ export interface CLIOptions {
   test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
+  statsJson?: string | boolean;
   outputDir?: string;
 }
 
@@ -279,6 +280,8 @@ export type DocsOptions = {
    * Should we generate a docs entry per CSF file?
    * Set to 'tag' (the default) to generate an entry for every CSF file with the
    * 'autodocs' tag.
+   *
+   * @deprecated Use `tags: ['autodocs']` in `.storybook/preview.js` instead
    */
   autodocs?: boolean | 'tag';
   /**
@@ -354,11 +357,6 @@ export interface StorybookConfigRaw {
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
-
-    /**
-     * Use legacy MDX1, to help smooth migration to 7.0
-     */
-    legacyMdx1?: boolean;
 
     /**
      * Apply decorators from preview.js before decorators from addons or frameworks
@@ -573,3 +571,15 @@ export interface CoreCommon_StorybookInfo {
   previewConfig?: string;
   managerConfig?: string;
 }
+
+/**
+ * Given a generic string type, returns that type but ensures that a string in general is compatible with it.
+ * We use this construct to ensure that IDEs can provide better autocompletion for string types.
+ * This is, for example, needed for main config fields, where we want to ensure that the user can provide
+ * a custom string, but also a string that is compatible with the type.
+ * @example
+ * type Framework = CompatibleString<'@storybook/nextjs'>
+ * const framework: Framework = '@storybook/nextjs'; // valid and will be autocompleted
+ * const framework: Framework = path.dirname(require.resolve(path.join("@storybook/nextjs", "package.json"))) // valid
+ */
+export type CompatibleString<T extends string> = T | (string & Record<string, never>);

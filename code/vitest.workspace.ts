@@ -24,9 +24,11 @@ const threadCount = process.env.CI ? 8 : undefined;
 
 export const vitestCommonConfig = defineConfig({
   test: {
+    passWithNoTests: true,
     clearMocks: true,
-    setupFiles: [resolve('./vitest-setup.ts')],
+    setupFiles: [resolve(__dirname, './vitest-setup.ts')],
     globals: true,
+    testTimeout: 10000,
     poolOptions: {
       threads: {
         minThreads: threadCount,

@@ -3,8 +3,9 @@ import dedent from 'ts-dedent';
 import type { Fix } from '../types';
 
 export const storyshotsMigration: Fix = {
-  id: 'storyshots-migration',
-  promptOnly: true,
+  id: 'storyshots',
+  versionRange: ['<8.0.0-alpha.0', '>=8.0.0-alpha.0'],
+  promptType: 'manual',
 
   async check({ mainConfig, packageManager }) {
     const allDeps = await packageManager.getAllDependencies();

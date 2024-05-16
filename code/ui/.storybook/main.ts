@@ -1,5 +1,4 @@
 import path from 'path';
-import pluginTurbosnap from 'vite-plugin-turbosnap';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite';
@@ -9,8 +8,11 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 const allStories = [
   {
     directory: '../manager/src',
-    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
     titlePrefix: '@manager',
+  },
+  {
+    directory: '../../lib/preview-api/src',
+    titlePrefix: '@preview',
   },
   {
     directory: '../components/src/components',
@@ -19,6 +21,14 @@ const allStories = [
   {
     directory: '../blocks/src',
     titlePrefix: '@blocks',
+  },
+  {
+    directory: '../../addons/controls/src', // TODO other addons?
+    titlePrefix: '@addons/controls',
+  },
+  {
+    directory: '../../addons/onboarding/src',
+    titlePrefix: '@addons/onboarding',
   },
 ];
 
@@ -53,7 +63,8 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
-    '@chromaui/addon-visual-tests',
+    '@storybook/addon-a11y',
+    '@chromatic-com/storybook',
   ],
   build: {
     test: {
@@ -79,11 +90,6 @@ const config: StorybookConfig = {
             : {}),
         },
       },
-      plugins: [
-        configType === 'PRODUCTION'
-          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
-          : [],
-      ],
       optimizeDeps: { force: true },
       build: {
         // disable sourcemaps in CI to not run out of memory

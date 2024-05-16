@@ -13,18 +13,17 @@ exports[`Renders CSF2Secondary story 1`] = `
 </body>
 `;
 
-exports[`Renders CSF2StoryWithLocale story 1`] = `
+exports[`Renders CSF2StoryWithParamsAndDecorator story 1`] = `
 <body>
   <div>
-    <div>
-      <p>
-        locale: undefined
-      </p>
+    <div
+      style="margin: 3em;"
+    >
       <button
         class="storybook-button storybook-button--secondary storybook-button--medium"
         type="button"
       >
-        Hello!
+        foo
       </button>
     </div>
   </div>
@@ -83,6 +82,25 @@ exports[`Renders CSF3Primary story 1`] = `
     >
       foo
     </button>
+  </div>
+</body>
+`;
+
+exports[`Renders LoaderStory story 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        data-testid="loaded-data"
+      >
+        loaded data
+      </div>
+      <div
+        data-testid="spy-data"
+      >
+        mockFn return value
+      </div>
+    </div>
   </div>
 </body>
 `;

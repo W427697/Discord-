@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import React, { Fragment, useEffect } from 'react';
-import isChromatic from 'chromatic/isChromatic';
+import { isChromatic } from './isChromatic';
 import {
   Global,
   ThemeProvider,
@@ -260,7 +260,6 @@ export const decorators = [
 ];
 
 export const parameters = {
-  actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) =>
       a.title === b.title ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),

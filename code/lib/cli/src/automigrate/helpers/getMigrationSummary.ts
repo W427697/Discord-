@@ -1,10 +1,9 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
 import dedent from 'ts-dedent';
-import type { InstallationMetadata } from '@storybook/core-common';
+import { type InstallationMetadata } from '@storybook/core-common';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
-import { getDuplicatedDepsWarnings } from '../../doctor/getDuplicatedDepsWarnings';
 
 export const messageDivider = '\n\n';
 const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
@@ -64,24 +63,16 @@ export function getMigrationSummary({
   messages.push(getGlossaryMessages(fixSummary, fixResults, logFile).join(messageDivider));
 
   messages.push(dedent`If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
-    'npx storybook@next automigrate'
+    'npx storybook automigrate'
   )}'
     
     The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
     
     Please check the changelog and migration guide for manual migrations and more information: ${chalk.yellow(
-      'https://storybook.js.org/migration-guides/7.0'
+      'https://storybook.js.org/docs/8.0/migration-guide'
     )}
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
-
-  const duplicatedDepsMessage = installationMetadata
-    ? getDuplicatedDepsWarnings(installationMetadata)
-    : getDuplicatedDepsWarnings();
-
-  if (duplicatedDepsMessage) {
-    messages.push(duplicatedDepsMessage.join(messageDivider));
-  }
 
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
   const hasFailures = Object.values(fixResults).some(

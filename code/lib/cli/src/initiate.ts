@@ -1,4 +1,5 @@
-import type { PackageJson } from 'read-pkg-up';
+import { appendFile, readFile } from 'fs/promises';
+import findUp from 'find-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -10,6 +11,7 @@ import {
   JsPackageManagerFactory,
   commandLog,
   paddedLog,
+  getProjectRoot,
 } from '@storybook/core-common';
 import type { JsPackageManager } from '@storybook/core-common';
 
@@ -225,10 +227,7 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-export async function doInitiate(
-  options: CommandOptions,
-  pkg: PackageJson
-): Promise<
+export async function doInitiate(options: CommandOptions): Promise<
   | {
       shouldRunDev: true;
       projectType: ProjectType;
@@ -239,7 +238,7 @@ export async function doInitiate(
 > {
   const { packageManager: pkgMgr } = options;
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({
+  let packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr,
   });
 
@@ -273,6 +272,13 @@ export async function doInitiate(
 
   // Check if the current directory is empty.
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
+    // Initializing Storybook in an empty directory with yarn1
+    // will very likely fail due to different kind of hoisting issues
+    // which doesn't get fixed anymore in yarn1.
+    // We will fallback to npm in this case.
+    if (packageManager.type === 'yarn1') {
+      packageManager = JsPackageManagerFactory.getPackageManager({ force: 'npm' });
+    }
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type, options);
 
@@ -369,6 +375,15 @@ export async function doInitiate(
     return { shouldRunDev: false };
   }
 
+  const foundGitIgnoreFile = await findUp('.gitignore');
+  const rootDirectory = getProjectRoot();
+  if (foundGitIgnoreFile && foundGitIgnoreFile.includes(rootDirectory)) {
+    const contents = await readFile(foundGitIgnoreFile, 'utf-8');
+    if (!contents.includes('*storybook.log')) {
+      await appendFile(foundGitIgnoreFile, '\n*storybook.log');
+    }
+  }
+
   const storybookCommand =
     projectType === ProjectType.ANGULAR
       ? `ng run ${installResult.projectName}:storybook`
@@ -390,21 +405,21 @@ export async function doInitiate(
   );
 
   return {
-    shouldRunDev: process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true',
+    shouldRunDev: !!options.dev,
     projectType,
     packageManager,
     storybookCommand,
   };
 }
 
-export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+export async function initiate(options: CommandOptions): Promise<void> {
   const initiateResult = await withTelemetry(
     'init',
     {
       cliOptions: options,
       printError: (err) => !err.handled && logger.error(err),
     },
-    () => doInitiate(options, pkg)
+    () => doInitiate(options)
   );
 
   if (initiateResult?.shouldRunDev) {
@@ -422,7 +437,8 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
       const flags = [];
 
       // npm needs extra -- to pass flags to the command
-      if (packageManager.type === 'npm') {
+      // in the case of Angular, we are calling `ng run` which doesn't need the extra `--`
+      if (packageManager.type === 'npm' && projectType !== ProjectType.ANGULAR) {
         flags.push('--');
       }
 

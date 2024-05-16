@@ -1,8 +1,6 @@
 import { dedent } from 'ts-dedent';
-import semver from 'semver';
 import { join } from 'path';
 import slash from 'slash';
-import glob from 'globby';
 import { commonGlobOptions } from '@storybook/core-common';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
@@ -19,11 +17,9 @@ interface Options {
 export const mdxgfm: Fix<Options> = {
   id: 'github-flavored-markdown-mdx',
 
-  async check({ configDir, mainConfig, storybookVersion }) {
-    if (!semver.gte(storybookVersion, '7.0.0')) {
-      return null;
-    }
+  versionRange: ['<7', '>=7'],
 
+  async check({ configDir, mainConfig }) {
     const hasMDXFiles = await mainConfig?.stories?.reduce(async (acc, item) => {
       const val = await acc;
 
@@ -49,11 +45,15 @@ export const mdxgfm: Fix<Options> = {
         return false;
       }
 
-      const files = await glob(pattern, commonGlobOptions(pattern));
+      // Dynamically import globby because it is a pure ESM module
+      const { globby } = await import('globby');
+
+      const files = await globby(pattern, commonGlobOptions(pattern));
 
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));
 
+    // @ts-expect-error (user might be upgrading from an older version that still had it)
     const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;
     const skip =
       usesMDX1 ||
@@ -82,11 +82,11 @@ export const mdxgfm: Fix<Options> = {
     return dedent`
       In MDX1 you had the option of using GitHub flavored markdown.
 
-      Storybook 8.0 uses MDX3 for compiling MDX, and thus no longer supports GFM out of the box.
+      Storybook >= 8.0 uses MDX3 for compiling MDX, and thus no longer supports GFM out of the box.
       Because of this you need to explicitly add the GFM plugin in the addon-docs options:
-      https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm
+      https://storybook.js.org/docs/writing-docs/mdx#markdown-tables-arent-rendering-correctly
 
-      We recommend you follow the guide on the link above, however we can add a temporary storybook addon that helps make this migration easier.
+      We recommend that you follow the guide in the link above; however, we can add a temporary Storybook addon to help make this migration easier.
       We'll install the addon and add it to your storybook config.
     `;
   },

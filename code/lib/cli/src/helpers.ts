@@ -8,12 +8,14 @@ import stripJsonComments from 'strip-json-comments';
 import findUp from 'find-up';
 import invariant from 'tiny-invariant';
 import { getCliDir, getRendererDir } from './dirs';
-import type {
-  JsPackageManager,
-  PackageJson,
-  PackageJsonWithDepsAndDevDeps,
+import {
+  type JsPackageManager,
+  type PackageJson,
+  type PackageJsonWithDepsAndDevDeps,
+  frameworkToRenderer as CoreFrameworkToRenderer,
 } from '@storybook/core-common';
-import type { SupportedFrameworks, SupportedRenderers } from './project_types';
+import type { SupportedFrameworks, SupportedRenderers } from '@storybook/types';
+import { CoreBuilder } from './project_types';
 import { SupportedLanguage } from './project_types';
 import { versions as storybookMonorepoPackages } from '@storybook/core-common';
 
@@ -130,24 +132,31 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
-const frameworkToRenderer: Record<
-  SupportedFrameworks | SupportedRenderers,
-  SupportedRenderers | 'vue'
-> = {
-  angular: 'angular',
-  ember: 'ember',
-  html: 'html',
-  nextjs: 'react',
-  preact: 'preact',
-  qwik: 'qwik',
-  react: 'react',
-  'react-native': 'react',
-  server: 'react',
-  solid: 'solid',
-  svelte: 'svelte',
-  sveltekit: 'svelte',
-  vue3: 'vue',
-  'web-components': 'web-components',
+/**
+ * @deprecated Please use `frameworkToRenderer` from `@storybook/core-common` instead
+ */
+export const frameworkToRenderer = CoreFrameworkToRenderer;
+
+export const frameworkToDefaultBuilder: Record<SupportedFrameworks, CoreBuilder> = {
+  angular: CoreBuilder.Webpack5,
+  ember: CoreBuilder.Webpack5,
+  'html-vite': CoreBuilder.Vite,
+  'html-webpack5': CoreBuilder.Webpack5,
+  nextjs: CoreBuilder.Webpack5,
+  'preact-vite': CoreBuilder.Vite,
+  'preact-webpack5': CoreBuilder.Webpack5,
+  qwik: CoreBuilder.Vite,
+  'react-vite': CoreBuilder.Vite,
+  'react-webpack5': CoreBuilder.Webpack5,
+  'server-webpack5': CoreBuilder.Webpack5,
+  solid: CoreBuilder.Vite,
+  'svelte-vite': CoreBuilder.Vite,
+  'svelte-webpack5': CoreBuilder.Webpack5,
+  sveltekit: CoreBuilder.Vite,
+  'vue3-vite': CoreBuilder.Vite,
+  'vue3-webpack5': CoreBuilder.Webpack5,
+  'web-components-vite': CoreBuilder.Vite,
+  'web-components-webpack5': CoreBuilder.Webpack5,
 };
 
 export async function copyTemplateFiles({
@@ -256,4 +265,10 @@ export function coerceSemver(version: string) {
   const coercedSemver = coerce(version);
   invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
   return coercedSemver;
+}
+
+export async function hasStorybookDependencies(packageManager: JsPackageManager) {
+  const currentPackageDeps = await packageManager.getAllDependencies();
+
+  return Object.keys(currentPackageDeps).some((dep) => dep.includes('storybook'));
 }

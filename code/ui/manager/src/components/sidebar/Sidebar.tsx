@@ -17,7 +17,7 @@ import { Explorer } from './Explorer';
 import { Search } from './Search';
 
 import { SearchResults } from './SearchResults';
-import type { Refs, CombinedDataset, Selection } from './types';
+import type { CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
@@ -79,20 +79,26 @@ const Swap = React.memo(function Swap({
 });
 
 const useCombination = (
-  defaultRefData: API_LoadedRefData & { status: State['status'] },
-  refs: Refs
+  index: SidebarProps['index'],
+  indexError: SidebarProps['indexError'],
+  previewInitialized: SidebarProps['previewInitialized'],
+  status: SidebarProps['status'],
+  refs: SidebarProps['refs']
 ): CombinedDataset => {
   const hash = useMemo(
     () => ({
       [DEFAULT_REF_ID]: {
-        ...defaultRefData,
+        index,
+        indexError,
+        previewInitialized,
+        status,
         title: null,
         id: DEFAULT_REF_ID,
         url: 'iframe.html',
       },
       ...refs,
     }),
-    [refs, defaultRefData]
+    [refs, index, indexError, previewInitialized, status]
   );
   return useMemo(() => ({ hash, entries: Object.entries(hash) }), [hash]);
 };
@@ -108,6 +114,7 @@ export interface SidebarProps extends API_LoadedRefData {
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
   onMenuClick?: HeadingProps['onMenuClick'];
+  showCreateStoryButton?: boolean;
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -124,9 +131,10 @@ export const Sidebar = React.memo(function Sidebar({
   enableShortcuts = true,
   refs = {},
   onMenuClick,
+  showCreateStoryButton,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
-  const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
+  const dataset = useCombination(index, indexError, previewInitialized, status, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
 
@@ -143,7 +151,12 @@ export const Sidebar = React.memo(function Sidebar({
             isLoading={isLoading}
             onMenuClick={onMenuClick}
           />
-          <Search dataset={dataset} enableShortcuts={enableShortcuts} {...lastViewedProps}>
+          <Search
+            dataset={dataset}
+            enableShortcuts={enableShortcuts}
+            showCreateStoryButton={showCreateStoryButton}
+            {...lastViewedProps}
+          >
             {({
               query,
               results,
@@ -177,7 +190,7 @@ export const Sidebar = React.memo(function Sidebar({
         </Top>
       </ScrollArea>
       {isLoading ? null : (
-        <Bottom>
+        <Bottom className="sb-bar">
           {bottom.map(({ id, render: Render }) => (
             <Render key={id} />
           ))}

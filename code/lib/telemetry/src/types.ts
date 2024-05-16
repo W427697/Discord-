@@ -15,7 +15,11 @@ export type EventType =
   | 'error'
   | 'error-metadata'
   | 'version-update'
-  | 'core-config';
+  | 'core-config'
+  | 'remove'
+  | 'save-story'
+  | 'create-new-story-file'
+  | 'create-new-story-file-search';
 
 export interface Dependency {
   version: string | undefined;
