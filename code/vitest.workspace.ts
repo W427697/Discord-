@@ -30,6 +30,7 @@ export const vitestCommonConfig = defineConfig({
     setupFiles: [resolve(__dirname, './vitest-setup.ts')],
     globals: true,
     testTimeout: 10000,
+    environment: 'node',
     poolOptions: {
       threads: {
         minThreads: threadCount,
