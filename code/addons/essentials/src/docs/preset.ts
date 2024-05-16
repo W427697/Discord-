@@ -1,5 +1,6 @@
 import { dirname, join } from 'path';
 
+// @ts-expect-error no types
 export * from '@storybook/addon-docs/dist/preset';
 
 export const mdxLoaderOptions = async (config: any) => {
