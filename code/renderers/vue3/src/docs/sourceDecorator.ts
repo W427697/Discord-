@@ -2,29 +2,29 @@
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext } from '@storybook/types';
 
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 
 import type {
-  ElementNode,
   AttributeNode,
   DirectiveNode,
-  TextNode,
+  ElementNode,
   InterpolationNode,
   TemplateChildNode,
+  TextNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
+import kebabCase from 'lodash/kebabCase';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
-import kebabCase from 'lodash/kebabCase';
+import type { VueRenderer } from '../types';
 import {
   attributeSource,
+  evalExp,
+  generateExpression,
   htmlEventAttributeToVueEventAttribute,
   omitEvent,
-  evalExp,
   replaceValueWithRef,
-  generateExpression,
 } from './utils';
-import type { VueRenderer } from '../types';
 
 /**
  * Check if the sourcecode should be generated.
@@ -101,7 +101,7 @@ function mapSlots(
     const slot = slotsArgs[key];
     let slotContent = '';
 
-    const scropedArgs = slots
+    const scopedArgs = slots
       .find((s) => s.name === key && s.scoped)
       ?.bindings?.map((b) => b.name)
       .join(',');
@@ -116,8 +116,13 @@ function mapSlots(
       slotContent = JSON.stringify(slot);
     }
 
-    const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
-    slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
+    const bindingsString = scopedArgs ? `="{${scopedArgs}}"` : '';
+
+    // do not add unnecessary "<template #default>" tag since the default slot content without bindings
+    // can be put directly into the slot without need of "<template #default>"
+    if (slot && (key !== 'default' || bindingsString)) {
+      slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
+    }
 
     return {
       type: 2,
@@ -310,10 +315,10 @@ export function generateSource(context: StoryContext<VueRenderer>) {
 }
 // export local function for testing purpose
 export {
+  attributeSource,
   generateScriptSetup,
   getTemplateComponents as getComponentsFromRenderFn,
   getComponents as getComponentsFromTemplate,
-  mapAttributesAndDirectives,
-  attributeSource,
   htmlEventAttributeToVueEventAttribute,
+  mapAttributesAndDirectives,
 };
