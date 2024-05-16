@@ -1,9 +1,7 @@
 /* eslint-disable no-underscore-dangle */
+import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext } from '@storybook/types';
-
-import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
-
 import type {
   AttributeNode,
   DirectiveNode,
@@ -27,11 +25,11 @@ import {
 } from './utils';
 
 /**
- * Check if the sourcecode should be generated.
+ * Checks if the source code should be generated for the given Story context.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<VueRenderer>) => {
+const skipSourceRender = (context: StoryContext<VueRenderer>): boolean => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
   const isDocsViewMode = context?.viewMode === 'docs';
@@ -70,6 +68,7 @@ export function generateAttributesSource(
     })
     .join(' ');
 }
+
 /**
  * map attributes and directives
  * @param props
@@ -88,15 +87,15 @@ function mapAttributesAndDirectives(props: Args) {
       }) as unknown as AttributeNode
   );
 }
+
 /**
- *  map slots
- * @param slotsArgs
+ * Maps all slots to the source code for the given slot.
  */
 function mapSlots(
   slotsArgs: Args,
   generateComponentSource: any,
   slots: { name: string; scoped?: boolean; bindings?: { name: string }[] }[]
-): TextNode[] {
+): string[] {
   return Object.keys(slotsArgs).map((key) => {
     const slot = slotsArgs[key];
     let slotContent = '';
@@ -115,6 +114,7 @@ function mapSlots(
     } else if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
+    // TODO: handle other cases (array, object, html,etc)
 
     const bindingsString = scopedArgs ? `="{${scopedArgs}}"` : '';
 
@@ -124,17 +124,8 @@ function mapSlots(
       slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
     }
 
-    return {
-      type: 2,
-      content: slotContent,
-      loc: {
-        source: slotContent,
-        start: { offset: 0, line: 1, column: 0 },
-        end: { offset: 0, line: 1, column: 0 },
-      },
-    };
+    return slotContent;
   });
-  // TODO: handle other cases (array, object, html,etc)
 }
 /**
  *
@@ -186,14 +177,13 @@ function getComponents(template: string): (TemplateChildNode | VNode)[] {
 }
 
 /**
- * Generate a vue3 template.
+ * Generates the source code for the "<template>" section of a Vue 3 component.
  *
  * @param component Component
  * @param args Args
  * @param argTypes ArgTypes
  * @param slotProp Prop used to simulate a slot
  */
-
 export function generateTemplateSource(
   componentOrNodes: (ConcreteComponent | TemplateChildNode)[] | TemplateChildNode | VNode,
   { args, argTypes }: { args: Args; argTypes: ArgTypes },
@@ -250,9 +240,7 @@ export function generateTemplateSource(
       const childSources: string = children
         ? typeof children === 'string'
           ? children
-          : mapSlots(slotArgs as Args, generateComponentSource, componentSlots ?? [])
-              .map((child) => child.content)
-              .join('')
+          : mapSlots(slotArgs, generateComponentSource, componentSlots ?? []).join('')
         : '';
       const name =
         typeof type === 'string'
@@ -313,6 +301,7 @@ export function generateSource(context: StoryContext<VueRenderer>) {
   }
   return null;
 }
+
 // export local function for testing purpose
 export {
   attributeSource,

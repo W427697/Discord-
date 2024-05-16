@@ -80,12 +80,12 @@ function generateExpression(slot: FunctionalComponent): string {
 }
 
 export {
-  omitEvent,
-  displayObject,
-  htmlEventAttributeToVueEventAttribute,
-  directiveSource,
   attributeSource,
+  directiveSource,
+  displayObject,
   evalExp,
-  replaceValueWithRef,
   generateExpression,
+  htmlEventAttributeToVueEventAttribute,
+  omitEvent,
+  replaceValueWithRef,
 };
