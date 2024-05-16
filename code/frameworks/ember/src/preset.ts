@@ -24,9 +24,16 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
       ...baseConfig.resolve,
       alias: {
         ...baseConfig.resolve?.alias,
-        '@glimmer/destroyable': 'ember-source/dist/dependencies/@glimmer/destroyable',
-        '@glimmer/debug': 'ember-source/dist/dependencies/@glimmer/debug',
-        '@glimmer/validator': 'ember-source/dist/dependencies/@glimmer/validator',
+
+        // Packages
+        ember: 'ember-source/dist/packages/ember',
+        '@ember': 'ember-source/dist/packages/@ember',
+
+        // Dependencies
+        '@glimmer': 'ember-source/dist/dependencies/@glimmer',
+        '@simple-dom': 'ember-source/dist/dependencies/@simple-dom',
+        'backburner.js': 'ember-source/dist/dependencies/backburner.js',
+        'rsvp.js': 'ember-source/dist/dependencies/rsvp',
       },
     },
     module: {
@@ -44,8 +51,8 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
               },
             },
           ],
-          include: [getProjectRoot(), getProjectRoot() + '/node_modules/ember-source'],
-          exclude: [/node_modules/, ...Object.keys(virtualModules)],
+          include: [getProjectRoot()],
+          exclude: [/node_modules\/(?!.*ember.*)/, ...Object.keys(virtualModules)],
         },
       ],
     },

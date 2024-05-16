@@ -53,14 +53,6 @@ export const babel: PresetPropertyFn<'babel'> = (config: TransformOptions, optio
           'ember-cli-htmlbars-inline-precompile',
           'htmlbars-inline-precompile',
         ],
-        outputModuleOverrides: {
-          '@ember/template-factory': {
-            createTemplateFactory: [
-              'templateFactory',
-              'ember-source/dist/dependencies/@glimmer/opcode-compiler',
-            ],
-          },
-        },
       },
     ],
   ];
