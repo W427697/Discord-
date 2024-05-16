@@ -133,7 +133,8 @@
   },
   "bundler": {
     "exportEntries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/shims/mdx-react-shim.ts"
     ],
     "previewEntries": [
       "./src/blocks.ts",
@@ -142,8 +143,7 @@
     "nodeEntries": [
       "./src/preset.ts",
       "./src/csf-loader.ts",
-      "./src/mdx-loader.ts",
-      "./src/shims/mdx-react-shim.ts"
+      "./src/mdx-loader.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
