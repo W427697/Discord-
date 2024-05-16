@@ -20,6 +20,15 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
 
   return {
     ...baseConfig,
+    resolve: {
+      ...baseConfig.resolve,
+      alias: {
+        ...baseConfig.resolve?.alias,
+        '@glimmer/destroyable': 'ember-source/dist/dependencies/@glimmer/destroyable',
+        '@glimmer/debug': 'ember-source/dist/dependencies/@glimmer/debug',
+        '@glimmer/validator': 'ember-source/dist/dependencies/@glimmer/validator',
+      },
+    },
     module: {
       ...baseConfig.module,
       rules: [
@@ -35,7 +44,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
               },
             },
           ],
-          include: [getProjectRoot()],
+          include: [getProjectRoot(), getProjectRoot() + '/node_modules/ember-source'],
           exclude: [/node_modules/, ...Object.keys(virtualModules)],
         },
       ],

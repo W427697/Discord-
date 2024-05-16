@@ -26,9 +26,23 @@ export const babel: PresetPropertyFn<'babel'> = (config: TransformOptions, optio
     });
   }
 
+  const isDebug = options.configType === 'DEVELOPMENT';
   const babelConfigPlugins = config?.plugins || [];
 
   const extraPlugins = [
+    [
+      require.resolve('babel-plugin-debug-macros'),
+      {
+        debugTools: {
+          source: '@glimmer/debug',
+          isDebug,
+        },
+        externalizeHelpers: {
+          module: true,
+        },
+        flags: [{ source: '@glimmer/env', flags: { DEBUG: isDebug } }],
+      },
+    ],
     [
       require.resolve('babel-plugin-ember-template-compilation'),
       {
