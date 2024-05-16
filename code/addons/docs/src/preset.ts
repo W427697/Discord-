@@ -3,9 +3,9 @@ import rehypeSlug from 'rehype-slug';
 import rehypeExternalLinks from 'rehype-external-links';
 
 import type { DocsOptions, Options, PresetProperty } from '@storybook/types';
-import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { logger } from '@storybook/node-logger';
 import type { CompileOptions } from './compiler';
+import type { EnrichCsfOptions } from '@storybook/csf-tools';
 
 /**
  * Get the resolvedReact preset, which points either to
@@ -30,7 +30,7 @@ const getResolvedReact = async (options: Options) => {
 async function webpack(
   webpackConfig: any = {},
   options: Options & {
-    csfPluginOptions: CsfPluginOptions | null;
+    csfPluginOptions: EnrichCsfOptions | null;
     mdxPluginOptions?: CompileOptions;
   } /* & Parameters<
       typeof createCompiler
@@ -89,13 +89,6 @@ async function webpack(
 
   const result = {
     ...webpackConfig,
-    plugins: [
-      ...(webpackConfig.plugins || []),
-
-      ...(csfPluginOptions
-        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
-        : []),
-    ],
     resolve: {
       ...webpackConfig.resolve,
       alias,
@@ -104,6 +97,20 @@ async function webpack(
       ...module,
       rules: [
         ...(module.rules || []),
+        ...(csfPluginOptions
+          ? [
+              {
+                test: /\.stories\.[tj]sx?$/,
+                enforce: 'post',
+                use: [
+                  {
+                    loader: require.resolve('./csf-loader'),
+                    options: csfPluginOptions,
+                  },
+                ],
+              },
+            ]
+          : []),
         {
           test: /\.mdx$/,
           exclude: /(stories|story)\.mdx$/,
