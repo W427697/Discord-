@@ -1,4 +1,4 @@
-import path from 'node:path';
+import path, { parse, relative } from 'node:path';
 import { sync as spawnSync } from 'cross-spawn';
 import { findUpSync } from 'find-up';
 
@@ -30,12 +30,31 @@ export class JsPackageManagerFactory {
       return new this.PROXY_MAP[force]({ cwd });
     }
 
-    // Option 2: We try to infer the package manager from the closest lockfile
-    const closestLockfilePath = [
+    const lockFiles = [
       findUpSync(YARN_LOCKFILE, { cwd }),
       findUpSync(PNPM_LOCKFILE, { cwd }),
       findUpSync(NPM_LOCKFILE, { cwd }),
-    ].filter(Boolean)[0];
+    ]
+      .filter(Boolean)
+      .sort((a, b) => {
+        const dirA = parse(a as string).dir;
+        const dirB = parse(b as string).dir;
+
+        const compare = relative(dirA, dirB);
+
+        if (dirA === dirB) {
+          return 0;
+        }
+
+        if (compare.startsWith('..')) {
+          return -1;
+        }
+
+        return 1;
+      });
+
+    // Option 2: We try to infer the package manager from the closest lockfile
+    const closestLockfilePath = lockFiles[0];
 
     const closestLockfile = closestLockfilePath && path.basename(closestLockfilePath);
 
@@ -43,7 +62,6 @@ export class JsPackageManagerFactory {
     const hasPNPMCommand = hasPNPM(cwd);
     const yarnVersion = getYarnVersion(cwd);
 
-    console.log({ hasNPMCommand, hasPNPMCommand, yarnVersion, closestLockfile });
     if (yarnVersion && (closestLockfile === YARN_LOCKFILE || (!hasNPMCommand && !hasPNPMCommand))) {
       return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
     }
