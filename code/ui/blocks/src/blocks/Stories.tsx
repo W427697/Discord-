@@ -4,10 +4,16 @@ import { styled } from '@storybook/theming';
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';
 import { Heading } from './Heading';
+import type { Of } from './useOf';
+import { useOf } from './useOf';
 
 interface StoriesProps {
   title?: ReactElement | string;
-  includePrimary?: boolean;
+  includePrimaryStory?: boolean;
+  /**
+   * Specify where to get the stories from.
+   */
+  of?: Of;
 }
 
 const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
@@ -26,7 +32,14 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
   },
 }));
 
-export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = true }) => {
+export const Stories: FC<StoriesProps> = (
+  props = { title: 'Stories', includePrimaryStory: true }
+) => {
+  const { of } = props;
+
+  if ('of' in props && of === undefined) {
+    throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+  }
   const { componentStories, projectAnnotations, getStoryContext } = useContext(DocsContext);
 
   let stories = componentStories();
@@ -46,7 +59,13 @@ export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = 
     stories = stories.filter((story) => story.tags?.includes('autodocs'));
   }
 
-  if (!includePrimary) stories = stories.slice(1);
+  const { preparedMeta } = useOf(of || 'meta', ['meta']);
+
+  const title = props.title ?? preparedMeta.parameters.docs?.stories?.title;
+  const includePrimaryStory =
+    props.includePrimaryStory ?? preparedMeta.parameters.docs?.stories?.includePrimaryStory;
+
+  if (!includePrimaryStory) stories = stories.slice(1);
 
   if (!stories || stories.length === 0) {
     return null;

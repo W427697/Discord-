@@ -9,6 +9,12 @@ const meta = {
   },
   parameters: {
     chromatic: { disable: true },
+    docs: {
+      stories: {
+        title: 'Stories',
+        includePrimaryStory: true,
+      },
+    },
   },
 } satisfies Meta<typeof Button>;
 

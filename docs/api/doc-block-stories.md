@@ -29,24 +29,30 @@ import { Stories } from '@storybook/blocks';
 
 `Stories` is configured with the following props:
 
-### `includePrimary`
+### `includePrimaryStory`
 
 Type: `boolean`
 
-Default: `true`
+Default: `parameters.docs.stories.includePrimaryStory`
 
 Determines if the collection of stories includes the primary (first) story.
 
 <Callout variant="info" icon="💡">
 
-If a stories file contains only one story and `includePrimary={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
+If a stories file contains only one story and `includePrimaryStory={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
 
 </Callout>
+
+### `of`
+
+Type: CSF file exports
+
+Specifies which meta's stories are displayed.
 
 ### `title`
 
 Type: `string`
 
-Default: `'Stories'`
+Default: `parameters.docs.stories.title`
 
 Sets the heading content preceding the collection of stories.
