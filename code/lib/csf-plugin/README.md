@@ -1,4 +1,4 @@
-# CSF Plugin
+# [DEPRECATED] CSF Plugin
 
 The CSF plugin reads CSF files and enriches their content via static analysis.
 It supports Webpack, Vite, and other bundlers using [unplugin](https://github.com/unjs/unplugin).

@@ -62,7 +62,6 @@
 # /code/lib/core-events/    @ndelangen @kasperpeulen
 # /code/lib/core-server/    @ndelangen @JReinhold @tmeasday @shilman
 # /code/lib/core-webpack/   @valentinpalkovic @ndelangen
-# /code/lib/csf-plugin/     @ndelangen @valentinpalkovic
 # /code/lib/csf-tools/      @kasperpeulen @shilman
 # /code/lib/docs-tools/     @JReinhold @shilman
 # /code/lib/instrumenter/   @yannbf @kasperpeulen

@@ -57,7 +57,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
   const { source: loaderSource, locationsMap }: SourceParams = useParameter('storySource', {});
   const { source: { originalSource: docsSource } = {} }: DocsParams = useParameter('docs', {});
   // prefer to use the source from source-loader, but fallback to
-  // source provided by csf-plugin for vite usage
+  // source provided by csf-tools for vite usage
   const source = loaderSource || docsSource || 'loading source...';
   const currentLocationIndex = locationsMap
     ? Object.keys(locationsMap).find((key: string) => {
