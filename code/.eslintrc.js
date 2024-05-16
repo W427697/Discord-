@@ -112,26 +112,13 @@ module.exports = {
         ],
       },
     },
-    {
-      files: ['**/core/**'],
-      rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          { packageDir: [__dirname], devDependencies: true, peerDependencies: true },
-        ],
-      },
-    },
     ...addonsPackages.map((directory) => ({
       files: [path.join('**', 'addons', directory, '**', '*.*')],
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [
-              __dirname,
-              path.join(__dirname, 'addons', directory),
-              path.join(__dirname, 'core'),
-            ],
+            packageDir: [__dirname, path.join(__dirname, 'addons', directory)],
             devDependencies: true,
           },
         ],
@@ -143,11 +130,7 @@ module.exports = {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [
-              __dirname,
-              path.join(__dirname, 'ui', directory),
-              path.join(__dirname, 'core'),
-            ],
+            packageDir: [__dirname, path.join(__dirname, 'ui', directory)],
             devDependencies: true,
             peerDependencies: true,
           },
@@ -160,11 +143,7 @@ module.exports = {
         'import/no-extraneous-dependencies': [
           'error',
           {
-            packageDir: [
-              __dirname,
-              path.join(__dirname, 'lib', directory),
-              path.join(__dirname, 'core'),
-            ],
+            packageDir: [__dirname, path.join(__dirname, 'lib', directory)],
             devDependencies: true,
           },
         ],
