@@ -120,8 +120,8 @@ async function generateDistFiles() {
           .filter(isNode)
           .filter(noExternals)
           .map((e) => e.file),
-        // platform: 'node',
-        // mainFields: ['main', 'module', 'browser'],
+        platform: 'neutral',
+        mainFields: ['main', 'module', 'node'],
         outExtension: { '.js': '.cjs' },
         conditions: ['node', 'module', 'import', 'require'],
         external: [...nodeInternals, ...esbuildDefaultOptions.external],
@@ -152,8 +152,8 @@ async function generateDistFiles() {
                 format: 'cjs',
                 outdir: dirname(entry.file).replace('src', 'dist'),
                 target: 'node18',
-                // platform: 'node',
-                // mainFields: ['main', 'module', 'browser'],
+                platform: 'neutral',
+                mainFields: ['main', 'module', 'node'],
                 entryPoints: [entry.file],
                 outExtension: { '.js': '.cjs' },
                 conditions: ['node', 'module', 'import', 'require'],
