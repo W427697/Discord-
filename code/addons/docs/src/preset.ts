@@ -156,6 +156,7 @@ export const viteFinal = async (config: any, options: Options) => {
            * The packages will be duplicated by the package manager when the user has react installed with another version than 18.2.0
            */
           '@storybook/core/dist/theming': dirname(require.resolve('@storybook/core/dist/theming')),
+          '@storybook/theming': dirname(require.resolve('@storybook/core/dist/theming')),
           '@storybook/components': dirname(require.resolve('@storybook/components')),
           '@storybook/blocks': dirname(require.resolve('@storybook/blocks')),
         },
