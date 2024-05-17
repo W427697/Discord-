@@ -11,7 +11,7 @@ const allStories = [
     titlePrefix: '@manager',
   },
   {
-    directory: '../../lib/preview-api/src',
+    directory: '../../core/src/preview-api',
     titlePrefix: '@preview',
   },
   {
