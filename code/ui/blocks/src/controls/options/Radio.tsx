@@ -27,7 +27,7 @@ const Wrapper = styled.div<{ isInline: boolean }>(
           },
         },
   (props) => {
-    if ([props['aria-readonly']]) {
+    if (props['aria-readonly'] === 'true') {
       return {
         input: {
           cursor: 'not-allowed',
@@ -86,7 +86,7 @@ export const RadioControl: FC<RadioProps> = ({
             <input
               type="radio"
               id={id}
-              name={id}
+              name={controlId}
               disabled={readonly}
               value={key}
               onChange={(e) => onChange(options[e.currentTarget.value])}

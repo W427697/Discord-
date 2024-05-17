@@ -99,8 +99,8 @@ export const Clickable: Story = {
   },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    const [button] = await canvas.findAllByRole('button');
-    await userEvent.click(button);
+    const notification = await canvas.findByText('Storybook cool!');
+    await userEvent.click(notification);
     await expect(args.notification.onClick).toHaveBeenCalledWith({ onDismiss: expect.anything() });
   },
 };
@@ -218,7 +218,7 @@ export const BookIconLongSubHeadline: Story = {
       content: {
         headline: 'Storybook has a book icon!',
         subHeadline:
-          'Find out more! by clicking on on buttons and downloading some applications. Find out more! by clicking on buttons and downloading some applications',
+          'Find out more! by clicking on buttons and downloading some applications. Find out more! by clicking on buttons and downloading some applications',
       },
       icon: <BookIconIcon />,
       link: undefined,
