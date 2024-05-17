@@ -32,7 +32,8 @@ export async function csfPlugin(config: Options): Promise<Plugin> {
           makeTitle,
         }).parse();
         enrichCsf(csf, csfSource, options);
-        return formatCsf(csf, { sourceMaps: true });
+        const inputSourceMap = this.getCombinedSourcemap();
+        return formatCsf(csf, { sourceMaps: true, inputSourceMap }, code);
       } catch (err: any) {
         // This can be called on legacy storiesOf files, so just ignore
         // those errors. But warn about other errors.
