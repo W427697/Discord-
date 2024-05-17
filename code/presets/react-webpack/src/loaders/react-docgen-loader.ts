@@ -70,7 +70,8 @@ let matchPath: TsconfigPaths.MatchPath | undefined;
 
 export default async function reactDocgenLoader(
   this: LoaderContext<{ debug: boolean }>,
-  source: string
+  source: string,
+  map: any
 ) {
   const callback = this.async();
   // get options
@@ -115,10 +116,6 @@ export default async function reactDocgenLoader(
       }
     });
 
-    const map = magicString.generateMap({
-      includeContent: true,
-      source: this.resourcePath,
-    });
     callback(null, magicString.toString(), map);
   } catch (error: any) {
     if (error.code === ERROR_CODES.MISSING_DEFINITION) {
