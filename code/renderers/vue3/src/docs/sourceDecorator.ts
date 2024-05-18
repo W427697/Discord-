@@ -1,35 +1,37 @@
 /* eslint-disable no-underscore-dangle */
-import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext } from '@storybook/types';
+
+import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+
 import type {
+  ElementNode,
   AttributeNode,
   DirectiveNode,
-  ElementNode,
+  TextNode,
   InterpolationNode,
   TemplateChildNode,
-  TextNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
-import kebabCase from 'lodash/kebabCase';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
-import type { VueRenderer } from '../types';
+import kebabCase from 'lodash/kebabCase';
 import {
   attributeSource,
-  evalExp,
-  generateExpression,
   htmlEventAttributeToVueEventAttribute,
   omitEvent,
+  evalExp,
   replaceValueWithRef,
+  generateExpression,
 } from './utils';
+import type { VueRenderer } from '../types';
 
 /**
- * Checks if the source code should be generated for the given Story context.
+ * Check if the sourcecode should be generated.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<VueRenderer>): boolean => {
+const skipSourceRender = (context: StoryContext<VueRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
   const isDocsViewMode = context?.viewMode === 'docs';
@@ -68,7 +70,6 @@ export function generateAttributesSource(
     })
     .join(' ');
 }
-
 /**
  * map attributes and directives
  * @param props
@@ -87,20 +88,20 @@ function mapAttributesAndDirectives(props: Args) {
       }) as unknown as AttributeNode
   );
 }
-
 /**
- * Maps all slots to the source code for the given slot.
+ *  map slots
+ * @param slotsArgs
  */
 function mapSlots(
   slotsArgs: Args,
   generateComponentSource: any,
   slots: { name: string; scoped?: boolean; bindings?: { name: string }[] }[]
-): string[] {
+): TextNode[] {
   return Object.keys(slotsArgs).map((key) => {
     const slot = slotsArgs[key];
     let slotContent = '';
 
-    const scopedArgs = slots
+    const scropedArgs = slots
       .find((s) => s.name === key && s.scoped)
       ?.bindings?.map((b) => b.name)
       .join(',');
@@ -114,18 +115,21 @@ function mapSlots(
     } else if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
-    // TODO: handle other cases (array, object, html,etc)
 
-    const bindingsString = scopedArgs ? `="{${scopedArgs}}"` : '';
+    const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
+    slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
 
-    // do not add unnecessary "<template #default>" tag since the default slot content without bindings
-    // can be put directly into the slot without need of "<template #default>"
-    if (slot && (key !== 'default' || bindingsString)) {
-      slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
-    }
-
-    return slotContent;
+    return {
+      type: 2,
+      content: slotContent,
+      loc: {
+        source: slotContent,
+        start: { offset: 0, line: 1, column: 0 },
+        end: { offset: 0, line: 1, column: 0 },
+      },
+    };
   });
+  // TODO: handle other cases (array, object, html,etc)
 }
 /**
  *
@@ -177,13 +181,14 @@ function getComponents(template: string): (TemplateChildNode | VNode)[] {
 }
 
 /**
- * Generates the source code for the "<template>" section of a Vue 3 component.
+ * Generate a vue3 template.
  *
  * @param component Component
  * @param args Args
  * @param argTypes ArgTypes
  * @param slotProp Prop used to simulate a slot
  */
+
 export function generateTemplateSource(
   componentOrNodes: (ConcreteComponent | TemplateChildNode)[] | TemplateChildNode | VNode,
   { args, argTypes }: { args: Args; argTypes: ArgTypes },
@@ -240,7 +245,9 @@ export function generateTemplateSource(
       const childSources: string = children
         ? typeof children === 'string'
           ? children
-          : mapSlots(slotArgs, generateComponentSource, componentSlots ?? []).join('')
+          : mapSlots(slotArgs as Args, generateComponentSource, componentSlots ?? [])
+              .map((child) => child.content)
+              .join('')
         : '';
       const name =
         typeof type === 'string'
@@ -301,13 +308,12 @@ export function generateSource(context: StoryContext<VueRenderer>) {
   }
   return null;
 }
-
 // export local function for testing purpose
 export {
-  attributeSource,
   generateScriptSetup,
   getTemplateComponents as getComponentsFromRenderFn,
   getComponents as getComponentsFromTemplate,
-  htmlEventAttributeToVueEventAttribute,
   mapAttributesAndDirectives,
+  attributeSource,
+  htmlEventAttributeToVueEventAttribute,
 };
