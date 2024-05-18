@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useContext } from 'react';
 import type { FC } from 'react';
-import type { ModuleExport, ModuleExports } from '@storybook/types';
+import type { ModuleExport, ModuleExports } from '@storybook/core/dist/types';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview } from '../components';
 import { DocsContext } from './DocsContext';

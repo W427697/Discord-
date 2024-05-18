@@ -7,7 +7,7 @@ import {
   themes,
   ignoreSsrWarning,
   useTheme,
-} from '@storybook/theming';
+} from '@storybook/core/dist/theming';
 
 import type { SupportedLanguage, SyntaxHighlighterProps } from '@storybook/components';
 import { SyntaxHighlighter } from '@storybook/components';

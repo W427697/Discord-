@@ -2,7 +2,7 @@ import type { FunctionComponent, ComponentProps } from 'react';
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import { expect, screen } from '@storybook/test';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { TooltipMessage } from './TooltipMessage';
 import { WithToolTipState as WithTooltip } from './WithTooltip';
 

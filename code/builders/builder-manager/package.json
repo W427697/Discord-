@@ -45,9 +45,7 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/core-common": "workspace:*",
     "@storybook/manager": "workspace:*",
-    "@storybook/node-logger": "workspace:*",
     "@types/ejs": "^3.1.1",
     "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
     "browser-assert": "^1.2.1",
@@ -62,6 +60,9 @@
   "devDependencies": {
     "slash": "^5.0.0",
     "typescript": "^5.3.2"
+  },
+  "peerDependencies": {
+    "@storybook/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

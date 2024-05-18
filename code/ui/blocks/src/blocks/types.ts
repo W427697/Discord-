@@ -1,4 +1,4 @@
-import type { ModuleExport } from '@storybook/types';
+import type { ModuleExport } from '@storybook/core/dist/types';
 
 export const PRIMARY_STORY = '^';
 

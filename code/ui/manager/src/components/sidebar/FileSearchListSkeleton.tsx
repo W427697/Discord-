@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { FileList, FileListItem } from './FileList';
 
 const FileListItemContentWrapperSkeleton = styled('div')(({ theme }) => ({

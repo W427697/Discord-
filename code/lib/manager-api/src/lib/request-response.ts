@@ -1,5 +1,5 @@
-import type { Channel } from '@storybook/channels';
-import type { RequestData, ResponseData } from '@storybook/core-events';
+import type { Channel } from '@storybook/core/dist/channels';
+import type { RequestData, ResponseData } from '@storybook/core/dist/core-events';
 
 export class RequestResponseError<Payload extends Record<string, any> | void> extends Error {
   payload: Payload | undefined = undefined;
@@ -22,7 +22,7 @@ export const experimental_requestResponse = <
   payload: RequestPayload,
   timeout = 5000
 ): Promise<ResponsePayload> => {
-  let timeoutId: NodeJS.Timeout;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   return new Promise((resolve, reject) => {
     const request: RequestData<typeof payload> = {

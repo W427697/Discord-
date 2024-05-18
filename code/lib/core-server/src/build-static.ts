@@ -2,16 +2,16 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 import { global } from '@storybook/global';
-import { logger } from '@storybook/node-logger';
-import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
-import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/types';
+import { logger } from '@storybook/core/dist/node-logger';
+import { getPrecedingUpgrade, telemetry } from '@storybook/core/dist/telemetry';
+import type { BuilderOptions, CLIOptions, LoadOptions, Options } from '@storybook/core/dist/types';
 import {
   loadAllPresets,
   loadMainConfig,
   logConfig,
   normalizeStories,
   resolveAddonName,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 
 import { outputStats } from './utils/output-stats';
 import { copyAllStaticFilesRelativeToMain } from './utils/copy-all-static-files';

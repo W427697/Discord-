@@ -1,7 +1,7 @@
 import React from 'react';
 import memoize from 'memoizerific';
 
-import { styled, type Color, lighten } from '@storybook/theming';
+import { styled, type Color, lighten } from '@storybook/core/dist/theming';
 
 const match = memoize(1000)((requests, actual, value, fallback = 0) =>
   actual.split('-')[0] === requests ? value : fallback

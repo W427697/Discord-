@@ -1,6 +1,6 @@
 import { basename } from 'path';
-import type { Options } from '@storybook/types';
-import { getRefs } from '@storybook/core-common';
+import type { Options } from '@storybook/core/dist/types';
+import { getRefs } from '@storybook/core/dist/common';
 
 import { readTemplate } from './template';
 

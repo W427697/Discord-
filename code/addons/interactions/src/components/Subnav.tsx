@@ -9,9 +9,9 @@ import {
   WithTooltip,
   Bar,
 } from '@storybook/components';
-import type { Call, ControlStates } from '@storybook/instrumenter';
-import { CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+import type { Call, ControlStates } from '@storybook/core/dist/instrumenter';
+import { CallStates } from '@storybook/core/dist/instrumenter';
+import { styled } from '@storybook/core/dist/theming';
 
 import {
   FastForwardIcon,

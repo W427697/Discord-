@@ -1,7 +1,7 @@
 // this file tests Typescript types that's why there are no assertions
 import { describe, it } from 'vitest';
-import { satisfies } from '@storybook/core-common';
-import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import { satisfies } from '@storybook/core/dist/common';
+import type { ComponentAnnotations, StoryAnnotations } from '@storybook/core/dist/types';
 import { expectTypeOf } from 'expect-type';
 import type { SetOptional } from 'type-fest';
 import { h } from 'vue';

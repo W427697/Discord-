@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { DocsOptions, TagsOptions, Options, Ref } from '@storybook/types';
+import type { DocsOptions, TagsOptions, Options, Ref } from '@storybook/core/dist/types';
 
 export const getTemplatePath = async (template: string) => {
   return join(

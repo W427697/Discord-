@@ -7,7 +7,7 @@ declare var PREVIEW_URL: any;
 declare var __STORYBOOK_ADDONS_MANAGER: any;
 declare var RELEASE_NOTES_DATA: any;
 
-declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
+declare var FEATURES: import('@storybook/core/dist/types').StorybookConfigRaw['features'];
 
 declare var REFS: any;
 declare var VERSIONCHECK: any;
@@ -21,6 +21,7 @@ declare var __STORYBOOK_CORE_EVENTS__: any;
 declare var __STORYBOOK_CORE_EVENTS_MANAGER_ERRORS__: any;
 declare var __STORYBOOK_ROUTER__: any;
 declare var __STORYBOOK_THEMING__: any;
+declare var __STORYBOOK_THEMING_CREATE__: any;
 declare var __STORYBOOK_API__: any;
 declare var __STORYBOOK_ICONS__: any;
 declare var __STORYBOOK_CLIENT_LOGGER__: any;

@@ -1,4 +1,4 @@
-import { instrument } from '@storybook/instrumenter';
+import { instrument } from '@storybook/core/dist/instrumenter';
 import { type LoaderFunction } from '@storybook/csf';
 import chai from 'chai';
 import { global } from '@storybook/global';
@@ -11,7 +11,7 @@ import {
   resetAllMocks,
   restoreAllMocks,
 } from './spy';
-import type { Renderer } from '@storybook/types';
+import type { Renderer } from '@storybook/core/dist/types';
 
 export * from './spy';
 

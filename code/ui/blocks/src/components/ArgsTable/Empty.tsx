@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Link, EmptyTabContent } from '@storybook/components';
 import { DocumentIcon, VideoIcon } from '@storybook/icons';
 

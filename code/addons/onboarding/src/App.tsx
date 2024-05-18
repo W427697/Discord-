@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ThemeProvider, convert } from '@storybook/theming';
+import { ThemeProvider, convert } from '@storybook/core/dist/theming';
 import { addons, type API } from '@storybook/manager-api';
 
 import { GuidedTour } from './features/GuidedTour/GuidedTour';

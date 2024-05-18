@@ -1,4 +1,4 @@
-import { CallStates } from '@storybook/instrumenter';
+import { CallStates } from '@storybook/core/dist/instrumenter';
 import { StatusIcon } from './StatusIcon';
 
 export default {

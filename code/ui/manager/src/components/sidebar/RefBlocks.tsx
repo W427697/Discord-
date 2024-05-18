@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
 import { WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
-import { logger } from '@storybook/client-logger';
-import { styled } from '@storybook/theming';
+import { logger } from '@storybook/core/dist/client-logger';
+import { styled } from '@storybook/core/dist/theming';
 
 import { ChevronDownIcon, LockIcon, SyncIcon } from '@storybook/icons';
 import { Loader, Contained } from './Loader';

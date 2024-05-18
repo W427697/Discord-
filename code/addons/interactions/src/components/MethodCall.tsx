@@ -1,6 +1,6 @@
 import { ObjectInspector } from '@devtools-ds/object-inspector';
-import type { Call, CallRef, ElementRef } from '@storybook/instrumenter';
-import { useTheme } from '@storybook/theming';
+import type { Call, CallRef, ElementRef } from '@storybook/core/dist/instrumenter';
+import { useTheme } from '@storybook/core/dist/theming';
 import type { ReactElement } from 'react';
 import React, { Fragment } from 'react';
 

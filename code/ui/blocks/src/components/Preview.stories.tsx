@@ -1,9 +1,9 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { global } from '@storybook/global';
 import { Spaced, Button } from '@storybook/components';
-import type { DocsContextProps, ModuleExport } from '@storybook/types';
+import type { DocsContextProps, ModuleExport } from '@storybook/core/dist/types';
 import { Preview, PreviewSkeleton } from './Preview';
 import { Story } from './Story';
 import * as sourceStories from './Source.stories';

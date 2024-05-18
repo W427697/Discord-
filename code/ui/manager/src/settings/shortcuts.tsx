@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 import React, { Component } from 'react';
-import { styled, keyframes } from '@storybook/theming';
+import { styled, keyframes } from '@storybook/core/dist/theming';
 
 import {
   eventToShortcut,

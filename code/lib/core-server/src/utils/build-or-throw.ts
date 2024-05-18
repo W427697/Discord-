@@ -1,4 +1,4 @@
-import { NoMatchingExportError } from '@storybook/core-events/server-errors';
+import { NoMatchingExportError } from '@storybook/core/dist/server-errors';
 
 export async function buildOrThrow<T>(callback: () => Promise<T>): Promise<T> {
   try {
@@ -6,8 +6,8 @@ export async function buildOrThrow<T>(callback: () => Promise<T>): Promise<T> {
   } catch (err: any) {
     const builderErrors = err.errors as { text: string }[];
     if (builderErrors) {
-      const inconsistentVersionsError = builderErrors.find(
-        (er) => er.text?.includes('No matching export')
+      const inconsistentVersionsError = builderErrors.find((er) =>
+        er.text?.includes('No matching export')
       );
 
       if (inconsistentVersionsError) {

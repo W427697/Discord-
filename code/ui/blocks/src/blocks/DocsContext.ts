@@ -3,7 +3,7 @@ import type { Context } from 'react';
 import { createContext } from 'react';
 import { global } from '@storybook/global';
 
-import type { DocsContextProps, Renderer } from '@storybook/types';
+import type { DocsContextProps, Renderer } from '@storybook/core/dist/types';
 
 export type { DocsContextProps };
 

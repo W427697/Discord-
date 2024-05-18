@@ -1,9 +1,9 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
-import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core-common';
+import type { JsPackageManager, PackageJsonWithMaybeDeps } from '@storybook/core/dist/common';
 
 vi.mock('./helpers', () => ({
   isNxProject: vi.fn(),
@@ -25,7 +25,7 @@ vi.mock('path', () => ({
   join: vi.fn((_, p) => p),
 }));
 
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;

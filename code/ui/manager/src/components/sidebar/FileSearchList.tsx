@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { ChevronDownIcon, ChevronRightIcon, ComponentIcon } from '@storybook/icons';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { FileSearchListLoadingSkeleton } from './FileSearchListSkeleton';
 import {
   DefaultExport,
@@ -26,7 +26,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import type {
   CreateNewStoryRequestPayload,
   FileComponentSearchResponsePayload,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import { WithTooltip, TooltipNote } from '@storybook/components';
 import { useArrowKeyNavigation } from './FIleSearchList.utils';
 

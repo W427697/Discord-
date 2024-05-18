@@ -4,8 +4,8 @@ import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core/dist/core-events';
+import { normalizeStoriesEntry } from '@storybook/core/dist/common';
 
 import { useStoriesJson, DEBOUNCE } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
@@ -15,7 +15,7 @@ import { csfIndexer } from '../presets/common-preset';
 
 vi.mock('watchpack');
 vi.mock('lodash/debounce');
-vi.mock('@storybook/node-logger');
+vi.mock('@storybook/core/dist/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [

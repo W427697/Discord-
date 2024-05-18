@@ -7,13 +7,13 @@ import type {
   State,
   API,
 } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Button, IconButton, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
-import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { PRELOAD_ENTRIES } from '@storybook/core/dist/core-events';
 import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
 import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 

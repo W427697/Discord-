@@ -8,7 +8,7 @@ import {
   WithTooltip,
 } from '@storybook/components';
 import { AddIcon, CheckIcon, UndoIcon } from '@storybook/icons';
-import { keyframes, styled } from '@storybook/theming';
+import { keyframes, styled } from '@storybook/core/dist/theming';
 import React from 'react';
 
 const slideIn = keyframes({

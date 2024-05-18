@@ -1,6 +1,6 @@
 import { writeJSON } from 'fs-extra';
 import type { Request, Response, Router } from 'express';
-import { getStorybookMetadata } from '@storybook/telemetry';
+import { getStorybookMetadata } from '@storybook/core/dist/telemetry';
 
 export async function extractStorybookMetadata(outputFile: string, configDir: string) {
   const storybookMetadata = await getStorybookMetadata(configDir);

@@ -1,8 +1,8 @@
 import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/core/dist/preview-api';
+import type { RenderContext, ArgsStoryFn } from '@storybook/core/dist/types';
 import type { HtmlRenderer } from './types';
 
 const { Node } = global;

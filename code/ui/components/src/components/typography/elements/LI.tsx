@@ -1,5 +1,5 @@
-import type { CSSObject } from '@storybook/theming';
-import { styled } from '@storybook/theming';
+import type { CSSObject } from '@storybook/core/dist/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { withReset, codeCommon } from '../lib/common';
 
 export const LI = styled.li(withReset, ({ theme }) => ({

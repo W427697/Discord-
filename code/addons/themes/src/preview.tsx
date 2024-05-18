@@ -1,4 +1,4 @@
-import type { Renderer, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ProjectAnnotations } from '@storybook/core/dist/types';
 import { GLOBAL_KEY } from './constants';
 
 export const globals: ProjectAnnotations<Renderer>['globals'] = {

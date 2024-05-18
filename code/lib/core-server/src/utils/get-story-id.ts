@@ -1,9 +1,9 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/types';
 import dedent from 'ts-dedent';
-import { normalizeStories, normalizeStoryPath } from '@storybook/core-common';
+import { normalizeStories, normalizeStoryPath } from '@storybook/core/dist/common';
 import path from 'path';
 import { sanitize, storyNameFromExport, toId } from '@storybook/csf';
-import { userOrAutoTitleFromSpecifier } from '@storybook/preview-api';
+import { userOrAutoTitleFromSpecifier } from '@storybook/core/dist/preview-api';
 import { posix } from './posix';
 
 interface StoryIdData {

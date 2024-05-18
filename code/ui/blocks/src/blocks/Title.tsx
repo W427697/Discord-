@@ -1,4 +1,4 @@
-import type { ComponentTitle } from '@storybook/types';
+import type { ComponentTitle } from '@storybook/core/dist/types';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 import { Title as PureTitle } from '../components';

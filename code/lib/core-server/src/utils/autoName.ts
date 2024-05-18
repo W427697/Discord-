@@ -1,4 +1,4 @@
-import type { Path } from '@storybook/types';
+import type { Path } from '@storybook/core/dist/types';
 import { basename } from 'path';
 
 /**

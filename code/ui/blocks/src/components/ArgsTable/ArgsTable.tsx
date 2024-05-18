@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy.js';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
-import { once } from '@storybook/client-logger';
+import { once } from '@storybook/core/dist/client-logger';
 import { IconButton, ResetWrapper, Link } from '@storybook/components';
 
 import { DocumentIcon, UndoIcon } from '@storybook/icons';

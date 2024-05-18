@@ -2,10 +2,10 @@ import type {
   ArgsStoryFn,
   StoryContext as DefaultStoryContext,
   WebRenderer,
-} from '@storybook/types';
-import type { SourceType } from '@storybook/docs-tools';
+} from '@storybook/core/dist/types';
+import type { SourceType } from '@storybook/core/dist/docs-tools';
 
-export type { RenderContext } from '@storybook/types';
+export type { RenderContext } from '@storybook/core/dist/types';
 
 export type StoryFnHtmlReturnType = string | Node;
 

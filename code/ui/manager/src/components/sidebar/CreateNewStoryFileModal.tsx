@@ -12,7 +12,7 @@ import type {
   ResponseData,
   SaveStoryRequestPayload,
   SaveStoryResponsePayload,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import {
   ARGTYPES_INFO_REQUEST,
   ARGTYPES_INFO_RESPONSE,
@@ -22,7 +22,7 @@ import {
   FILE_COMPONENT_SEARCH_RESPONSE,
   SAVE_STORY_REQUEST,
   SAVE_STORY_RESPONSE,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import type { RequestResponseError } from '@storybook/manager-api';
 import { addons, experimental_requestResponse, useStorybookApi } from '@storybook/manager-api';
 

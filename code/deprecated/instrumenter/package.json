@@ -1,0 +1,48 @@
+{
+  "name": "@storybook/instrumenter",
+  "version": "8.2.0-alpha.1",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/instrumenter",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/instrumenter"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./shim.d.ts",
+      "node": "./shim.js",
+      "require": "./shim.js",
+      "import": "./shim.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./shim.js",
+  "module": "./shim.mjs",
+  "types": "./shim.d.ts",
+  "files": [
+    "README.md",
+    "*.js",
+    "*.mjs",
+    "*.cjs",
+    "*.d.ts"
+  ],
+  "peerDependencies": {
+    "@storybook/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

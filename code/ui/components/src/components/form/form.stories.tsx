@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { action } from '@storybook/addon-actions';
 
 import * as InputComponents from './input/input';

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
-import { Global, styled } from '@storybook/theming';
+import { Global, styled } from '@storybook/core/dist/theming';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { AccessibilityIcon } from '@storybook/icons';

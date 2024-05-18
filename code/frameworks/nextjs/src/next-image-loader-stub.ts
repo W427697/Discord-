@@ -3,7 +3,7 @@ import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
 import type { NextConfig } from 'next';
 import { cpus } from 'os';
-import { NextJsSharpError } from '@storybook/core-events/preview-errors';
+import { NextJsSharpError } from '@storybook/core/dist/preview-errors';
 
 interface LoaderOptions {
   filename: string;

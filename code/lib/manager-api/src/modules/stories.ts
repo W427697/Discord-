@@ -22,7 +22,7 @@ import type {
   API_StatusState,
   API_StatusUpdate,
   API_FilterFunction,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
@@ -41,8 +41,8 @@ import {
   DOCS_PREPARED,
   SET_CURRENT_STORY,
   SET_CONFIG,
-} from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+} from '@storybook/core/dist/core-events';
+import { logger } from '@storybook/core/dist/client-logger';
 
 import { getEventMetadata } from '../lib/events';
 

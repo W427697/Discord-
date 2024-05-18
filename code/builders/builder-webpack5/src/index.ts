@@ -2,18 +2,18 @@ import type { Stats, Configuration, StatsOptions } from 'webpack';
 import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import { logger } from '@storybook/node-logger';
-import type { Builder, Options } from '@storybook/types';
+import { logger } from '@storybook/core/dist/node-logger';
+import type { Builder, Options } from '@storybook/core/dist/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
-import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core/dist/core-events';
 import {
   WebpackCompilationError,
   WebpackInvocationError,
   WebpackMissingStatsError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/server-errors';
 
 import prettyTime from 'pretty-hrtime';
 

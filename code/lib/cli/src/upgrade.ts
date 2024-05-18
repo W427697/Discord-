@@ -1,26 +1,26 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry } from '@storybook/core/dist/telemetry';
 import semver, { eq, lt, prerelease } from 'semver';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 import {
   UpgradeStorybookInWrongWorkingDirectory,
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
   UpgradeStorybookUnknownCurrentVersionError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/server-errors';
 
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import type { JsPackageManager, PackageManagerName } from '@storybook/core-common';
+import type { JsPackageManager, PackageManagerName } from '@storybook/core/dist/common';
 import {
   isCorePackage,
   versions,
   getStorybookInfo,
   loadMainConfig,
   JsPackageManagerFactory,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import { automigrate } from './automigrate/index';
 import { autoblock } from './autoblock/index';
 import { hasStorybookDependencies } from './helpers';

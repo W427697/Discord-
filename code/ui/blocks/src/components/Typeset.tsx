@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { transparentize } from 'polished';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { withReset } from '@storybook/components';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 

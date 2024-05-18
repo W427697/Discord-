@@ -1,15 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
-import * as sbcc from '@storybook/core-common';
+import * as sbcc from '@storybook/core/dist/common';
 import {
   UpgradeStorybookToLowerVersionError,
   UpgradeStorybookToSameVersionError,
-} from '@storybook/core-events/server-errors';
+} from '@storybook/core/dist/server-errors';
 import { doUpgrade, getStorybookVersion } from './upgrade';
 
 const findInstallationsMock = vi.fn<string[], Promise<sbcc.InstallationMetadata | undefined>>();
 
-vi.mock('@storybook/telemetry');
-vi.mock('@storybook/core-common', async (importOriginal) => {
+vi.mock('@storybook/core/dist/telemetry');
+vi.mock('@storybook/core/dist/common', async (importOriginal) => {
   const originalModule = (await importOriginal()) as typeof sbcc;
   return {
     ...originalModule,
@@ -32,8 +32,8 @@ vi.mock('@storybook/core-common', async (importOriginal) => {
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
   [
-    '│ ├── @storybook/theming@6.0.0-beta.37 extraneous',
-    { package: '@storybook/theming', version: '6.0.0-beta.37' },
+    '│ ├── "@storybook/core/dist/theming@6.0.0-beta.37 extraneous',
+    { package: '@storybook/core/dist/theming', version: '6.0.0-beta.37' },
   ],
   [
     '├─┬ @storybook/preset-create-react-app@3.1.2',

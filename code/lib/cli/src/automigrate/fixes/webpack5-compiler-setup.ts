@@ -1,6 +1,6 @@
 import prompts from 'prompts';
-import type { SupportedFrameworks } from '@storybook/types';
-import { frameworkPackages } from '@storybook/core-common';
+import type { SupportedFrameworks } from '@storybook/core/dist/types';
+import { frameworkPackages } from '@storybook/core/dist/common';
 import type { Fix } from '../types';
 import {
   getAddonNames,

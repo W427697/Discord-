@@ -2,7 +2,7 @@ import type {
   CompatibleString,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsWebComponents,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import type {
   BuilderOptions,
   StorybookConfigWebpack,

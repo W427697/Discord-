@@ -9,14 +9,14 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
   stringifyProcessEnvs,
   normalizeStories,
   isPreservingSymlinks,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import { type BuilderOptions } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { TypescriptOptions } from '../types';

@@ -2,12 +2,12 @@ import express from 'express';
 import compression from 'compression';
 import invariant from 'tiny-invariant';
 
-import type { Options } from '@storybook/types';
+import type { Options } from '@storybook/core/dist/types';
 
-import { logConfig } from '@storybook/core-common';
-import { logger } from '@storybook/node-logger';
+import { logConfig } from '@storybook/core/dist/common';
+import { logger } from '@storybook/core/dist/node-logger';
 
-import { MissingBuilderError } from '@storybook/core-events/server-errors';
+import { MissingBuilderError } from '@storybook/core/dist/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';

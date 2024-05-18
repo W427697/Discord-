@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { useStorybookApi } from '@storybook/manager-api';
 import { Link } from '@storybook/components';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';

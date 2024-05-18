@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Tabs, IconButton, Link, EmptyTabContent } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
-import { styled } from '@storybook/theming';
+import type { Addon_BaseType } from '@storybook/core/dist/types';
+import { styled } from '@storybook/core/dist/theming';
 import { BottomBarIcon, CloseIcon, DocumentIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 

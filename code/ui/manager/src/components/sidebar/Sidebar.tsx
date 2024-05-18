@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 
@@ -8,7 +8,7 @@ import type {
   Addon_SidebarBottomType,
   Addon_SidebarTopType,
   API_LoadedRefData,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 

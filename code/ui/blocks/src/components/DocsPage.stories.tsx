@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Global, css } from '@storybook/theming';
+import { Global, css } from '@storybook/core/dist/theming';
 import { Source, ArgsTable } from '.';
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
 import { Markdown as MarkdownComponent } from '../blocks/Markdown';

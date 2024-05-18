@@ -1,7 +1,7 @@
 import { transparentize } from 'polished';
 import type { FC } from 'react';
 import React from 'react';
-import { Global } from '@storybook/theming';
+import { Global } from '@storybook/core/dist/theming';
 import type { Highlight } from './types';
 
 export const HighlightStyles: FC<Highlight> = ({ refId, itemId }) => (

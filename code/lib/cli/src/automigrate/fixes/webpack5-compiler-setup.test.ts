@@ -1,6 +1,6 @@
 import { vi, describe, it, expect } from 'vitest';
-import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core/dist/types';
+import type { JsPackageManager } from '@storybook/core/dist/common';
 import { webpack5CompilerSetup } from './webpack5-compiler-setup';
 import { CoreWebpackCompilers } from '../../project_types';
 

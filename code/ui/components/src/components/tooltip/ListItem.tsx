@@ -1,6 +1,6 @@
 import type { ReactNode, ComponentProps } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
 

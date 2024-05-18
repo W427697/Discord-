@@ -2,9 +2,9 @@ import fs from 'fs';
 import { join } from 'path';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
-import { MissingAngularJsonError } from '@storybook/core-events/server-errors';
+import { MissingAngularJsonError } from '@storybook/core/dist/server-errors';
 import boxen from 'boxen';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 
 export const ANGULAR_JSON_PATH = 'angular.json';
 

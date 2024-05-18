@@ -1,4 +1,4 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 import {
   getIncompatibleStorybookPackages,
   getIncompatiblePackagesSummary,

@@ -53,6 +53,7 @@ module.exports = {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/frameworks/angular/template/**/*'],
       rules: {
+        'import/no-extraneous-dependencies': 'off',
         '@typescript-eslint/no-useless-constructor': 'off',
         '@typescript-eslint/dot-notation': 'off',
       },
@@ -98,7 +99,7 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { bundledDependencies: false, devDependencies: true },
+          { bundledDependencies: false, devDependencies: true, peerDependencies: true },
         ],
       },
     },
@@ -107,7 +108,7 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { packageDir: [__dirname], devDependencies: true },
+          { packageDir: [__dirname], devDependencies: true, peerDependencies: true },
         ],
       },
     },
@@ -128,7 +129,11 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
-          { packageDir: [__dirname, path.join(__dirname, 'ui', directory)], devDependencies: true },
+          {
+            packageDir: [__dirname, path.join(__dirname, 'ui', directory)],
+            devDependencies: true,
+            peerDependencies: true,
+          },
         ],
       },
     })),

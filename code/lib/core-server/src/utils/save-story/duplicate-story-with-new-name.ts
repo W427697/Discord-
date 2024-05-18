@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import type { CsfFile } from '@storybook/csf-tools';
-import * as traverse from '@babel/traverse';
+import type { CsfFile } from '@storybook/core/dist/csf-tools';
 import * as t from '@babel/types';
+import bt from '@babel/traverse';
 import { SaveStoryError } from './utils';
+
+// @ts-expect-error (needed due to it's use of `exports.default`)
+const traverse = (bt.default || bt) as typeof bt;
 
 type In = ReturnType<CsfFile['parse']>;
 
@@ -15,7 +18,7 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
   }
 
   let found = false;
-  traverse.default(cloned, {
+  traverse(cloned, {
     Identifier(path) {
       if (found) {
         return;
@@ -41,7 +44,7 @@ export const duplicateStoryWithNewName = (csfFile: In, storyName: string, newSto
     throw new SaveStoryError(`Creating a new story based on a CSF2 story is not supported`);
   }
 
-  traverse.default(csfFile._ast, {
+  traverse(csfFile._ast, {
     Program(path) {
       path.pushContainer(
         'body',

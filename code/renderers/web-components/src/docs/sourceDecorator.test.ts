@@ -1,13 +1,14 @@
+// @vitest-environment jsdom
 import { html, render } from 'lit';
 import type { Mock } from 'vitest';
 import { describe, beforeEach, it, vi, expect } from 'vitest';
 import { styleMap } from 'lit/directives/style-map.js';
-import { addons, useEffect } from '@storybook/preview-api';
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { addons, useEffect } from '@storybook/core/dist/preview-api';
+import { SNIPPET_RENDERED } from '@storybook/core/dist/docs-tools';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 
-vi.mock('@storybook/preview-api');
+vi.mock('@storybook/core/dist/preview-api');
 const mockedAddons = vi.mocked(addons);
 const mockedUseEffect = vi.mocked(useEffect);
 

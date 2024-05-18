@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import { ActionBar, ScrollArea } from '@storybook/components';
 import { SyncIcon, CheckIcon } from '@storybook/icons';

@@ -1,6 +1,6 @@
 import { sync as readUpSync } from 'read-pkg-up';
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
-import { cache } from '@storybook/core-common';
+import { cache } from '@storybook/core/dist/common';
 import invariant from 'tiny-invariant';
 
 export const build = async (cliOptions: any) => {

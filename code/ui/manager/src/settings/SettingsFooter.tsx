@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Link } from '@storybook/components';
 
 const Footer = styled.div(({ theme }) => ({

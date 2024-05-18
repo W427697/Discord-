@@ -1,4 +1,4 @@
-import { keyframes, styled } from '@storybook/theming';
+import { keyframes, styled } from '@storybook/core/dist/theming';
 import { Modal } from '@storybook/components';
 
 export const ModalWrapper = styled(Modal)``;

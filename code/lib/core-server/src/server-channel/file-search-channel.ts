@@ -1,10 +1,10 @@
-import type { CoreConfig, Options, SupportedRenderers } from '@storybook/types';
-import type { Channel } from '@storybook/channels';
+import type { CoreConfig, Options, SupportedRenderers } from '@storybook/core/dist/types';
+import type { Channel } from '@storybook/core/dist/channels';
 import {
   extractProperRendererNameFromFramework,
   getFrameworkName,
   getProjectRoot,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import path from 'path';
 import fs from 'fs/promises';
 
@@ -15,13 +15,13 @@ import type {
   FileComponentSearchResponsePayload,
   RequestData,
   ResponseData,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import {
   FILE_COMPONENT_SEARCH_REQUEST,
   FILE_COMPONENT_SEARCH_RESPONSE,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import { doesStoryFileExist, getStoryMetadata } from '../utils/get-new-story-file';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry } from '@storybook/core/dist/telemetry';
 
 export async function initFileSearchChannel(
   channel: Channel,

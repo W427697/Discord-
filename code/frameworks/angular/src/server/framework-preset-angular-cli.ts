@@ -1,6 +1,6 @@
 import webpack from 'webpack';
-import { logger } from '@storybook/node-logger';
-import { AngularLegacyBuildOptionsError } from '@storybook/core-events/server-errors';
+import { logger } from '@storybook/core/dist/node-logger';
+import { AngularLegacyBuildOptionsError } from '@storybook/core/dist/server-errors';
 
 import { getWebpackConfig as getCustomWebpackConfig } from './angular-cli-webpack';
 import { moduleIsAvailable } from './utils/module-is-available';

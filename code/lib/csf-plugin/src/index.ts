@@ -1,7 +1,7 @@
 import { createUnplugin } from 'unplugin';
 import fs from 'fs/promises';
-import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
-import type { EnrichCsfOptions } from '@storybook/csf-tools';
+import { loadCsf, enrichCsf, formatCsf } from '@storybook/core/dist/csf-tools';
+import type { EnrichCsfOptions } from '@storybook/core/dist/csf-tools';
 
 export type CsfPluginOptions = EnrichCsfOptions;
 

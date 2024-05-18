@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 interface MobileAddonsDrawerProps {
   children: ReactNode;

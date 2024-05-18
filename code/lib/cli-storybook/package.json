@@ -26,6 +26,9 @@
   "dependencies": {
     "@storybook/cli": "workspace:*"
   },
+  "peerDependencies": {
+    "@storybook/core": "workspace:*"
+  },
   "publishConfig": {
     "access": "public"
   },

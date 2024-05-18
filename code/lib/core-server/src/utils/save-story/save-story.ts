@@ -1,23 +1,27 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'node:fs/promises';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/channels';
 import type {
   RequestData,
   ResponseData,
   SaveStoryRequestPayload,
   SaveStoryResponsePayload,
-} from '@storybook/core-events';
-import { SAVE_STORY_REQUEST, SAVE_STORY_RESPONSE, STORY_RENDERED } from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
+import {
+  SAVE_STORY_REQUEST,
+  SAVE_STORY_RESPONSE,
+  STORY_RENDERED,
+} from '@storybook/core/dist/core-events';
 import { storyNameFromExport, toId } from '@storybook/csf';
-import { printCsf, readCsf } from '@storybook/csf-tools';
-import { logger } from '@storybook/node-logger';
-import type { CoreConfig, Options } from '@storybook/types';
-import { telemetry } from '@storybook/telemetry';
+import { printCsf, readCsf } from '@storybook/core/dist/csf-tools';
+import { logger } from '@storybook/core/dist/node-logger';
+import type { CoreConfig, Options } from '@storybook/core/dist/types';
+import { telemetry } from '@storybook/core/dist/telemetry';
 
 import { basename, join } from 'path';
 import { updateArgsInCsfFile } from './update-args-in-csf-file';
 import { duplicateStoryWithNewName } from './duplicate-story-with-new-name';
-import { formatFileContent } from '@storybook/core-common';
+import { formatFileContent } from '@storybook/core/dist/common';
 import { SaveStoryError } from './utils';
 
 const parseArgs = (args: string): Record<string, any> =>

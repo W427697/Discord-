@@ -1,7 +1,7 @@
 import type { ClipboardEvent, FC, ReactElement, ReactNode } from 'react';
 import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import { global } from '@storybook/global';
 import { ActionBar, Zoom } from '@storybook/components';

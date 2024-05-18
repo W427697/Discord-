@@ -2,10 +2,10 @@ import { basename } from 'path';
 import type { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndex } from '@storybook/core/dist/types';
 import debounce from 'lodash/debounce.js';
 
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED } from '@storybook/core/dist/core-events';
 import type { StoryIndexGenerator } from './StoryIndexGenerator';
 import { watchStorySpecifiers } from './watch-story-specifiers';
 import { watchConfig } from './watchConfig';

@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 
-import { TELEMETRY_ERROR } from '@storybook/core-events';
+import { TELEMETRY_ERROR } from '@storybook/core/dist/core-events';
 
 import { globalsNameValueMap } from './globals/runtime';
 import { globalPackages, globalsNameReferenceMap } from './globals/globals';

@@ -1,4 +1,4 @@
-import type { Options, PreviewAnnotation } from '@storybook/types';
+import type { Options, PreviewAnnotation } from '@storybook/core/dist/types';
 import { join, resolve } from 'path';
 import {
   getBuilderOptions,
@@ -6,7 +6,7 @@ import {
   loadPreviewOrConfigFile,
   normalizeStories,
   readTemplate,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import slash from 'slash';
 import { toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions } from '../types';

@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import uniq from 'lodash/uniq.js';
 
-import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
-import { commonGlobOptions } from '@storybook/core-common';
+import type { NormalizedStoriesSpecifier, Path } from '@storybook/core/dist/types';
+import { commonGlobOptions } from '@storybook/core/dist/common';
 
 const isDirectory = (directory: Path) => {
   try {

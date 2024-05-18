@@ -1,4 +1,4 @@
-import type { SupportedRenderers } from '@storybook/types';
+import type { SupportedRenderers } from '@storybook/core/dist/types';
 import { GenericParser } from './generic-parser';
 import type { Parser } from './types';
 

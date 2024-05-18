@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Tooltip } from './Tooltip';
 
 // Popper would position the tooltip absolutely. We just need to make sure we are pos:rel

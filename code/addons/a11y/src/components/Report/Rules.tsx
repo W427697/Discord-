@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Badge } from '@storybook/components';
 import type { CheckResult } from 'axe-core';
 import { useResizeDetector } from 'react-resize-detector';

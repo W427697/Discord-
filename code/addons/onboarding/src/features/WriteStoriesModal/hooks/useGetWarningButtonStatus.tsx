@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Response } from '../../../types/response';
 import type { API, AddonStore } from '@storybook/manager-api';
-import { STORY_INDEX_INVALIDATED, STORY_RENDERED } from '@storybook/core-events';
+import { STORY_INDEX_INVALIDATED, STORY_RENDERED } from '@storybook/core/dist/core-events';
 
 export const useGetWarningButtonStatus = (active: boolean, api: API, addonsStore: AddonStore) => {
   const [status, setStatus] = useState<Response<boolean>>(null);

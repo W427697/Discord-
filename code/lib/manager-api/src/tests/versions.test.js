@@ -24,7 +24,7 @@ vi.mock('@storybook/global', () => ({
   },
 }));
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 
 function createMockStore() {
   let state = {
@@ -45,7 +45,7 @@ function createMockStore() {
   };
 }
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 
 describe('versions API', () => {
   it('sets initial state with current version', async () => {

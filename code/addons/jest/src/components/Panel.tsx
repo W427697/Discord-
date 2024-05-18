@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { styled, themes, convert } from '@storybook/theming';
+import { styled, themes, convert } from '@storybook/core/dist/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { useResizeDetector } from 'react-resize-detector';
 import { Result } from './Result';

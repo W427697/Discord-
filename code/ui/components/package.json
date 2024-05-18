@@ -61,12 +61,9 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
-    "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.7",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.5",
-    "@storybook/theming": "workspace:*",
-    "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
     "util-deprecate": "^1.0.2"
   },
@@ -87,6 +84,7 @@
     "use-resize-observer": "^9.1.0"
   },
   "peerDependencies": {
+    "@storybook/core": "workspace:*",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta"
   },

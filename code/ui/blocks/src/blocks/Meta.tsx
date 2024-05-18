@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import type { BaseAnnotations, ModuleExports } from '@storybook/types';
+import type { BaseAnnotations, ModuleExports } from '@storybook/core/dist/types';
 
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import type { ChangeEvent, FC } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { Form } from '@storybook/components';
 
 import type { ControlProps } from './types';

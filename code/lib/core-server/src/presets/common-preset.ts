@@ -1,13 +1,13 @@
 import { pathExists, readFile } from 'fs-extra';
-import { logger } from '@storybook/node-logger';
-import { telemetry } from '@storybook/telemetry';
+import { logger } from '@storybook/core/dist/node-logger';
+import { telemetry } from '@storybook/core/dist/telemetry';
 import {
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
   removeAddon as removeAddonBase,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import type {
   CLIOptions,
   CoreConfig,
@@ -15,11 +15,11 @@ import type {
   Options,
   PresetPropertyFn,
   PresetProperty,
-} from '@storybook/types';
-import { readCsf } from '@storybook/csf-tools';
+} from '@storybook/core/dist/types';
+import { readCsf } from '@storybook/core/dist/csf-tools';
 import { join, dirname, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/core/dist/channels';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { initializeWhatsNew, type OptionsWithRequiredCache } from '../utils/whats-new';

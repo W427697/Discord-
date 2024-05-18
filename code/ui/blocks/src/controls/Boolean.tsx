@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useCallback } from 'react';
 
 import { opacify, transparentize } from 'polished';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import { Button } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';

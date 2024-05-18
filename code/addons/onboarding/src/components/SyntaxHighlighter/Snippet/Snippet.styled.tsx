@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { motion } from 'framer-motion';
 
 export const SnippetWrapper = styled(motion.div)`

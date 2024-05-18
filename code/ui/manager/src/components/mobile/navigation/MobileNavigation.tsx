@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { IconButton } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { BottomBarToggleIcon, MenuIcon } from '@storybook/icons';

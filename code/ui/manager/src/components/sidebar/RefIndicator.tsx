@@ -4,7 +4,7 @@ import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
-import { styled, useTheme } from '@storybook/theming';
+import { styled, useTheme } from '@storybook/core/dist/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 

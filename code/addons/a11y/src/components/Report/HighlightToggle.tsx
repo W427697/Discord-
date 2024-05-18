@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import type { NodeResult } from 'axe-core';
 import { useA11yContext } from '../A11yContext';

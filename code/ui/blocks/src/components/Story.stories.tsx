@@ -2,10 +2,14 @@ import React from 'react';
 import type { Meta, ReactRenderer, StoryObj } from '@storybook/react';
 import { within } from '@storybook/test';
 import type { PlayFunctionContext } from '@storybook/csf';
-import type { WebRenderer, ModuleExport } from '@storybook/types';
-import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
-import type { PreviewWeb } from '@storybook/preview-api';
-import type { Channel } from '@storybook/channels';
+import type { WebRenderer, ModuleExport } from '@storybook/core/dist/types';
+import {
+  RESET_STORY_ARGS,
+  STORY_ARGS_UPDATED,
+  UPDATE_STORY_ARGS,
+} from '@storybook/core/dist/core-events';
+import type { PreviewWeb } from '@storybook/core/dist/preview-api';
+import type { Channel } from '@storybook/core/dist/channels';
 
 import type { StoryProps } from './Story';
 import { Story as StoryComponent, StorySkeleton } from './Story';

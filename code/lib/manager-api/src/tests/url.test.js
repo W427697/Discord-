@@ -1,11 +1,15 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
+import {
+  SET_CURRENT_STORY,
+  GLOBALS_UPDATED,
+  UPDATE_QUERY_PARAMS,
+} from '@storybook/core/dist/core-events';
 
 import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
-vi.mock('@storybook/client-logger');
+vi.mock('@storybook/core/dist/client-logger');
 vi.useFakeTimers();
 
 describe('initial state', () => {

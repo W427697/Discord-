@@ -1,6 +1,6 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import * as path from 'path';
-import { JsPackageManagerFactory } from '@storybook/core-common';
+import { JsPackageManagerFactory } from '@storybook/core/dist/common';
 
 const hasTsConfigArg = (args: string[]) => args.indexOf('-p') !== -1;
 const hasOutputArg = (args: string[]) =>

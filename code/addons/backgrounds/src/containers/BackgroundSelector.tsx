@@ -3,7 +3,7 @@ import React, { useState, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/manager-api';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@storybook/core/dist/client-logger';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { PhotoIcon } from '@storybook/icons';

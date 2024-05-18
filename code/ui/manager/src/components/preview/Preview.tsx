@@ -4,8 +4,8 @@ import { Helmet } from 'react-helmet-async';
 import { global } from '@storybook/global';
 
 import { Consumer, type Combo, merge, addons, types } from '@storybook/manager-api';
-import type { Addon_BaseType, Addon_WrapperType } from '@storybook/types';
-import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
+import type { Addon_BaseType, Addon_WrapperType } from '@storybook/core/dist/types';
+import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core/dist/core-events';
 
 import { Loader } from '@storybook/components';
 

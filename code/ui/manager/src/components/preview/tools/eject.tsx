@@ -3,7 +3,7 @@ import React from 'react';
 import { getStoryHref, IconButton } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import type { Addon_BaseType } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/core/dist/types';
 import { ShareAltIcon } from '@storybook/icons';
 
 const { PREVIEW_URL } = global;

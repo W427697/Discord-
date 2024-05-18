@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 import { withReset } from '@storybook/components';
 
 const breakpoint = 600;

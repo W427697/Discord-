@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/core/dist/theming';
 
 import { IconButton, Separator, TabButton, TabBar } from '@storybook/components';
 import {
@@ -15,7 +15,7 @@ import {
   types,
 } from '@storybook/manager-api';
 
-import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/types';
+import { Addon_TypesEnum, type Addon_BaseType } from '@storybook/core/dist/types';
 import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 

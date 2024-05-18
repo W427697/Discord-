@@ -1,12 +1,12 @@
 import React from 'react';
 import { global } from '@storybook/global';
-import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core/dist/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
-} from '@storybook/core-events';
+} from '@storybook/core/dist/core-events';
 import type { ModuleFn } from '../lib/types';
 import { StorybookIcon } from '@storybook/icons';
 
@@ -59,11 +59,10 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
     provider.channel?.emit(REQUEST_WHATS_NEW_DATA);
 
-    return new Promise(
-      (resolve) =>
-        provider.channel?.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
-          resolve(data)
-        )
+    return new Promise((resolve) =>
+      provider.channel?.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) =>
+        resolve(data)
+      )
     );
   }
 

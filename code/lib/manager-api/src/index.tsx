@@ -28,17 +28,17 @@ import type {
   API_StoryEntry,
   Parameters,
   StoryId,
-} from '@storybook/types';
+} from '@storybook/core/dist/types';
 
 import {
   STORY_CHANGED,
   SHARED_STATE_CHANGED,
   SHARED_STATE_SET,
   SET_STORIES,
-} from '@storybook/core-events';
-import type { RouterData } from '@storybook/router';
-import type { Listener } from '@storybook/channels';
-import { deprecate } from '@storybook/client-logger';
+} from '@storybook/core/dist/core-events';
+import type { RouterData } from '@storybook/core/dist/router';
+import type { Listener } from '@storybook/core/dist/channels';
+import { deprecate } from '@storybook/core/dist/client-logger';
 
 import { createContext } from './context';
 import type { Options } from './store';

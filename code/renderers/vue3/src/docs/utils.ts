@@ -1,4 +1,4 @@
-import type { Args } from '@storybook/types';
+import type { Args } from '@storybook/core/dist/types';
 import type { FunctionalComponent } from 'vue';
 
 /**

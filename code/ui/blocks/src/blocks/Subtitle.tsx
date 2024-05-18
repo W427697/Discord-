@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@storybook/core/dist/client-logger';
 
 import { Subtitle as PureSubtitle } from '../components';
 import type { Of } from './useOf';

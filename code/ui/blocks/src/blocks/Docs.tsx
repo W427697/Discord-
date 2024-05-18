@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ComponentType, PropsWithChildren } from 'react';
-import type { Renderer, Parameters } from '@storybook/types';
-import type { Theme } from '@storybook/theming';
+import type { Renderer, Parameters } from '@storybook/core/dist/types';
+import type { Theme } from '@storybook/core/dist/theming';
 
 import type { DocsContextProps } from './DocsContext';
 import { DocsContainer } from './DocsContainer';

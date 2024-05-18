@@ -5,15 +5,15 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 import invariant from 'tiny-invariant';
 
-import { logger } from '@storybook/node-logger';
-import { addToGlobalContext, telemetry } from '@storybook/telemetry';
+import { logger } from '@storybook/core/dist/node-logger';
+import { addToGlobalContext, telemetry } from '@storybook/core/dist/telemetry';
 import {
   parseList,
   getEnvConfig,
   JsPackageManagerFactory,
   versions,
   removeAddon as remove,
-} from '@storybook/core-common';
+} from '@storybook/core/dist/common';
 import { withTelemetry } from '@storybook/core-server';
 
 import type { CommandOptions } from './generators/types';
