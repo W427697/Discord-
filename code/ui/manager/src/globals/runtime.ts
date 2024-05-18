@@ -10,6 +10,7 @@ import * as EVENTS from '@storybook/core/dist/core-events';
 import * as EVENTS_MANAGER_ERRORS from '@storybook/core/dist/manager-errors';
 import * as ROUTER from '@storybook/core/dist/router';
 import * as THEMING from '@storybook/core/dist/theming';
+import * as THEMINGCREATE from '@storybook/core/dist/theming/create';
 import * as TYPES from '@storybook/core/dist/types';
 import * as CLIENT_LOGGER from '@storybook/core/dist/client-logger';
 
@@ -28,6 +29,8 @@ export const globalsNameValueMap: Required<Record<keyof typeof globalsNameRefere
 
   '@storybook/theming': THEMING,
   '@storybook/core/dist/theming': THEMING,
+  '@storybook/theming/create': THEMINGCREATE,
+  '@storybook/core/dist/theming/create': THEMINGCREATE,
 
   '@storybook/channels': CHANNELS,
   '@storybook/core/dist/channels': CHANNELS,

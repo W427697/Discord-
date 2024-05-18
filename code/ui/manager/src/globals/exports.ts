@@ -608,6 +608,8 @@ export default {
     'useTheme',
     'withTheme',
   ],
+  '@storybook/theming/create': ['create', 'themes'],
+  '@storybook/core/dist/theming/create': ['create', 'themes'],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
   '@storybook/core/dist/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
   '@storybook/types': ['Addon_TypesEnum'],

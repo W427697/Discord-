@@ -20,6 +20,8 @@ export const globalsNameReferenceMap = {
 
   '@storybook/theming': '__STORYBOOK_THEMING__',
   '@storybook/core/dist/theming': '__STORYBOOK_THEMING__',
+  '@storybook/theming/create': '__STORYBOOK_THEMING_CREATE__',
+  '@storybook/core/dist/theming/create': '__STORYBOOK_THEMING_CREATE__',
 
   '@storybook/client-logger': '__STORYBOOK_CLIENT_LOGGER__',
   '@storybook/core/dist/client-logger': '__STORYBOOK_CLIENT_LOGGER__',
