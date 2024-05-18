@@ -6,7 +6,6 @@ export const getEntries = (cwd: string) => {
   return [
     //
     define('src/index.ts', ['node', 'browser'], true),
-    define('src/test.ts', ['node'], false), // testing a non-dts file
 
     define('src/node-logger/index.ts', ['node'], true),
     define('src/client-logger/index.ts', ['browser', 'node'], true),
