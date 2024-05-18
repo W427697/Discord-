@@ -3,7 +3,7 @@ import { BuilderContext } from '@angular-devkit/architect';
 import { JsonObject, logging } from '@angular-devkit/core';
 import { sync as findUpSync } from 'find-up';
 import { BrowserBuilderOptions } from '@angular-devkit/build-angular';
-import { logger } from '@storybook/code/dist/node-logger';
+import { logger } from '@storybook/core/dist/node-logger';
 
 export type AngularBuilderOptions = BrowserBuilderOptions & {
   browserTarget?: string | null;

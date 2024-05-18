@@ -304,7 +304,7 @@ async function generatePackageJsonFile() {
 
   pkgJson.typesVersions = {
     '*': {
-      '*': ['dist/index.d.ts'],
+      '*': ['./dist/index.d.ts'],
       ...entries.reduce<Record<string, string[]>>((acc, entry) => {
         let main = relative(cwd, entry.file).replace('src', 'dist');
         if (main === './dist/index.ts') {
@@ -316,7 +316,7 @@ async function generatePackageJsonFile() {
           return acc;
         }
 
-        const content = [main.replace('.ts', '.d.ts')];
+        const content = ['./' + main.replace('.ts', '.d.ts')];
         acc[key] = content;
         return acc;
       }, {}),
