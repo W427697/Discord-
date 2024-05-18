@@ -279,11 +279,6 @@ async function generatePackageJsonFile() {
   const pkgJson = await Bun.file(location).json();
   pkgJson.exports = entries.reduce<Record<string, Record<string, string>>>((acc, entry) => {
     let main = './' + relative(cwd, entry.file).replace('src', 'dist');
-    const key = main.replace('/index.ts', '').replace('.ts', '');
-
-    if (entry.file.startsWith('__')) {
-      return acc;
-    }
 
     const content: Record<string, string> = {};
     if (entry.dts) {
@@ -301,7 +296,7 @@ async function generatePackageJsonFile() {
     if (main === './dist/index.ts') {
       main = '.';
     }
-    acc[key] = content;
+    acc[main.replace('/index.ts', '').replace('.ts', '')] = content;
     return acc;
   }, {});
 
