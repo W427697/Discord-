@@ -279,6 +279,12 @@ async function generatePackageJsonFile() {
   const pkgJson = await Bun.file(location).json();
   pkgJson.exports = entries.reduce<Record<string, Record<string, string>>>((acc, entry) => {
     let main = './' + relative(cwd, entry.file).replace('src', 'dist');
+    const key = main.replace('/index.ts', '').replace('.ts', '');
+
+    if (entry.file.startsWith('__')) {
+      return acc;
+    }
+
     const content: Record<string, string> = {};
     if (entry.dts) {
       content.types = main.replace('.ts', '.d.ts');
@@ -295,11 +301,32 @@ async function generatePackageJsonFile() {
     if (main === './dist/index.ts') {
       main = '.';
     }
-    acc[main.replace('/index.ts', '').replace('.ts', '')] = content;
+    acc[key] = content;
     return acc;
   }, {});
 
   pkgJson.exports['./package.json'] = './package.json';
+
+  pkgJson.typesVersions = {
+    '*': {
+      '*': ['dist/index.d.ts'],
+      ...entries.reduce<Record<string, string[]>>((acc, entry) => {
+        let main = relative(cwd, entry.file).replace('src', 'dist');
+        if (main === './dist/index.ts') {
+          main = '.';
+        }
+        const key = main.replace('/index.ts', '').replace('.ts', '');
+
+        if (key === 'dist') {
+          return acc;
+        }
+
+        const content = [main.replace('.ts', '.d.ts')];
+        acc[key] = content;
+        return acc;
+      }, {}),
+    },
+  };
 
   await Bun.write(location, `${sortPackageJson(JSON.stringify(pkgJson, null, 2))}\n`, {});
 }

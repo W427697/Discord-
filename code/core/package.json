@@ -22,14 +22,10 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
+    "./dist": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
-    },
-    "./dist/test": {
-      "require": "./dist/test.cjs",
-      "import": "./dist/test.cjs"
     },
     "./dist/node-logger": {
       "types": "./dist/node-logger/index.d.ts",
@@ -120,6 +116,64 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/node-logger": [
+        "dist/node-logger/index.d.ts"
+      ],
+      "dist/client-logger": [
+        "dist/client-logger/index.d.ts"
+      ],
+      "dist/core-events": [
+        "dist/core-events/index.d.ts"
+      ],
+      "dist/manager-errors": [
+        "dist/manager-errors.d.ts"
+      ],
+      "dist/preview-errors": [
+        "dist/preview-errors.d.ts"
+      ],
+      "dist/server-errors": [
+        "dist/server-errors.d.ts"
+      ],
+      "dist/channels": [
+        "dist/channels/index.d.ts"
+      ],
+      "dist/types": [
+        "dist/types/index.d.ts"
+      ],
+      "dist/csf-tools": [
+        "dist/csf-tools/index.d.ts"
+      ],
+      "dist/common": [
+        "dist/common/index.d.ts"
+      ],
+      "dist/telemetry": [
+        "dist/telemetry/index.d.ts"
+      ],
+      "dist/preview-api": [
+        "dist/preview-api/index.d.ts"
+      ],
+      "dist/instrumenter": [
+        "dist/instrumenter/index.d.ts"
+      ],
+      "dist/router": [
+        "dist/router/index.d.ts"
+      ],
+      "dist/theming": [
+        "dist/theming/index.d.ts"
+      ],
+      "dist/theming/create": [
+        "dist/theming/create.d.ts"
+      ],
+      "dist/docs-tools": [
+        "dist/docs-tools/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "assets/**/*",
