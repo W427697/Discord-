@@ -257,7 +257,7 @@ const generateSlotChildrenSourceCode = (children: unknown[]): string => {
  * Generates source code for the given VNode and all its children (e.g. created using `h(MyComponent)` or `h("div")`).
  */
 const generateVNodeSourceCode = (vnode: VNode): string => {
-  let componentName = '';
+  let componentName = 'component';
   if (typeof vnode.type === 'string') {
     // this is e.g. the case when rendering native HTML elements like, h("div")
     componentName = vnode.type;
@@ -271,9 +271,6 @@ const generateVNodeSourceCode = (vnode: VNode): string => {
       componentName = vnode.type.__name;
     }
   }
-
-  // component name could not be found
-  if (componentName === '') return '';
 
   let childrenCode = '';
 
