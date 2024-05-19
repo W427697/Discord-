@@ -195,7 +195,7 @@ export const generateSlotSourceCode = (args: Args, slotNames: string[]): string 
     }
   });
 
-  return slotSourceCodes.join('\n');
+  return slotSourceCodes.join('\n\n');
 };
 
 /**
