@@ -5,7 +5,7 @@ hideRendererSelector: true
 
 The Storybook team maintains a [public roadmap](https://github.com/orgs/storybookjs/projects/20/views/1) in the form of a GitHub project. This page explains what's in the roadmap, how to interpret it, and how to contribute to it.
 
-## What's in the roadmap
+## What's in the roadmap?
 
 Each card represents a Storybook project. The columns represent how larger changes make their way from idea to shipped feature. Projects typically start as an [Request for Comment (RFC)](./RFC.md), then evolve into a [tracking issue](https://github.com/storybookjs/storybook/issues?q=is%3Aissue++sort%3Aupdated-desc+label%3ATracking+) once the team has fully scoped what it entails. We ship a Storybook [minor version](https://semver.org/) every eight weeks, and a major version once per year, typically in Feb/Mar.
 
