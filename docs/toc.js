@@ -847,7 +847,7 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'public-roadmap',
+          pathSegment: 'roadmap',
           title: 'Roadmap',
           type: 'link',
         },
