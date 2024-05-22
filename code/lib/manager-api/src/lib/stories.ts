@@ -270,6 +270,47 @@ export const transformStoryIndexToStoriesHash = (
     return acc;
   }, {} as API_IndexHash);
 
+  // This function expands an item's children (item is either root, group or component)
+  function expandItem(acc: API_IndexHash | any, item: API_HashEntry | any) {
+    item.children.forEach((childId: any) => addItem(acc, storiesHashOutOfOrder[childId]));
+  }
+
+  function fixDepth(item: API_HashEntry | any) {
+    if (item.type !== 'root') {
+      const parent = storiesHashOutOfOrder[item.parent];
+      item.depth = parent.depth + 1;
+    }
+    if (item.type === 'root' || item.type === 'group' || item.type === 'component') {
+      item.children.forEach((childId: any) => fixDepth(storiesHashOutOfOrder[childId]));
+    }
+  }
+
+  // This function nests components of the same type to show compact folders
+  function makeSameComponentNested(acc: API_IndexHash | any,
+    item: API_HashEntry | any, type: string) {
+    if (item.children.length === 1) {
+      const childId = item.children[0];
+      var child = storiesHashOutOfOrder[childId];
+
+      if (child.type === type) {
+        var parent = storiesHashOutOfOrder[item.parent];
+
+        parent.children = [child.id];
+        child.parent = parent.id;
+        child.name = `${item.name} / ${child.name}`;
+
+        fixDepth(parent);
+        expandItem(acc, parent);
+
+        delete acc[item.id];
+      } else {
+        expandItem(acc, item);
+      }
+    } else {
+      expandItem(acc, item);
+    }
+  }
+
   // This function adds a "root" or "orphan" and all of its descendents to the hash.
   function addItem(acc: API_IndexHash | any, item: API_HashEntry | any) {
     // If we were already inserted as part of a group, that's great.
@@ -279,8 +320,12 @@ export const transformStoryIndexToStoriesHash = (
 
     acc[item.id] = item;
     // Ensure we add the children depth-first *before* inserting any other entries
-    if (item.type === 'root' || item.type === 'group' || item.type === 'component') {
-      item.children.forEach((childId: any) => addItem(acc, storiesHashOutOfOrder[childId]));
+    if (item.type === 'root') {
+      expandItem(acc, item);
+    } else if (item.type === 'group') {
+      makeSameComponentNested(acc, item, 'group');
+    } else if (item.type === 'component') {
+      makeSameComponentNested(acc, item, 'component');
     }
     return acc;
   }
