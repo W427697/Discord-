@@ -1,84 +1,15 @@
 import { global } from '@storybook/global';
-import React, { Fragment, useEffect } from 'react';
-import { isChromatic } from './isChromatic';
-import {
-  Global,
-  ThemeProvider,
-  themes,
-  createReset,
-  convert,
-  styled,
-  useTheme,
-} from '@storybook/theming';
+import React, { useEffect } from 'react';
+import { Global, ThemeProvider, themes, createReset, convert, useTheme } from '@storybook/theming';
 import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
-
+import { withThemeByClassName } from '@storybook/addon-themes';
 import { DocsContext } from '@storybook/blocks';
-
 import { DocsPageWrapper } from '../blocks/src/components';
 
 const { document } = global;
-
-const ThemeBlock = styled.div<{ side: 'left' | 'right' }>(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: '50vw',
-    width: '50vw',
-    height: '100vh',
-    bottom: 0,
-    overflow: 'auto',
-    padding: 10,
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  }),
-  ({ side }) =>
-    side === 'left'
-      ? {
-          left: 0,
-          right: '50vw',
-        }
-      : {
-          right: 0,
-          left: '50vw',
-        }
-);
-
-const ThemeStack = styled.div(
-  {
-    position: 'relative',
-    minHeight: 'calc(50vh - 15px)',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  })
-);
-
-const PlayFnNotice = styled.div(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    borderBottom: '1px solid #ccc',
-    padding: '3px 8px',
-    fontSize: '10px',
-    fontWeight: 'bold',
-    '> *': {
-      display: 'block',
-    },
-  },
-  ({ theme }) => ({
-    background: '#fffbd9',
-    color: theme.color.defaultText,
-  })
-);
 
 const ThemedSetRoot = () => {
   const theme = useTheme();
@@ -86,7 +17,7 @@ const ThemedSetRoot = () => {
   useEffect(() => {
     document.body.style.background = theme.background.content;
     document.body.style.color = theme.color.defaultText;
-  });
+  }, []);
 
   return null;
 };
@@ -146,6 +77,20 @@ export const decorators = [
       <Story />
     ),
   /**
+   * This decorator sets the theme based on the new CSS custom properties API
+   * In preview-head.html, CSS properties are set based on the class on the html element
+   */
+  withThemeByClassName({
+    themes: {
+      Light: 'theme-light',
+      Dark: 'theme-dark',
+      Green: 'theme-green',
+      Red: 'theme-red',
+      Yellow: 'theme-yellow',
+    },
+    defaultTheme: 'Light',
+  }),
+  /**
    * This decorator adds wrappers that contains global styles for stories to be targeted by.
    * Activated with parameters.docsStyles = true
    */ (Story, { parameters: { docsStyles } }) =>
@@ -159,72 +104,14 @@ export const decorators = [
   /**
    * This decorator renders the stories side-by-side, stacked or default based on the theme switcher in the toolbar
    */
-  (StoryFn, { globals, parameters, playFunction, args }) => {
-    const defaultTheme =
-      isChromatic() && !playFunction && args.autoplay !== true ? 'stacked' : 'light';
-    const theme = globals.theme || parameters.theme || defaultTheme;
-
-    switch (theme) {
-      case 'side-by-side': {
-        return (
-          <Fragment>
-            <ThemeProvider theme={convert(themes.light)}>
-              <Global styles={createReset} />
-            </ThemeProvider>
-            <ThemeProvider theme={convert(themes.light)}>
-              <ThemeBlock side="left" data-side="left">
-                <StoryFn />
-              </ThemeBlock>
-            </ThemeProvider>
-            <ThemeProvider theme={convert(themes.dark)}>
-              <ThemeBlock side="right" data-side="right">
-                <StoryFn />
-              </ThemeBlock>
-            </ThemeProvider>
-          </Fragment>
-        );
-      }
-      case 'stacked': {
-        return (
-          <Fragment>
-            <ThemeProvider theme={convert(themes.light)}>
-              <Global styles={createReset} />
-            </ThemeProvider>
-            <ThemeProvider theme={convert(themes.light)}>
-              <ThemeStack data-side="left">
-                <StoryFn />
-              </ThemeStack>
-            </ThemeProvider>
-            <ThemeProvider theme={convert(themes.dark)}>
-              <ThemeStack data-side="right">
-                <StoryFn />
-              </ThemeStack>
-            </ThemeProvider>
-          </Fragment>
-        );
-      }
-      case 'default':
-      default: {
-        return (
-          <ThemeProvider theme={convert(themes[theme])}>
-            <Global styles={createReset} />
-            <ThemedSetRoot />
-            {!parameters.theme && isChromatic() && playFunction && (
-              <>
-                <PlayFnNotice>
-                  <span>
-                    Detected play function in Chromatic. Rendering only light theme to avoid
-                    multiple play functions in the same story.
-                  </span>
-                </PlayFnNotice>
-                <div style={{ marginBottom: 20 }} />
-              </>
-            )}
-            <StoryFn />
-          </ThemeProvider>
-        );
-      }
-    }
+  (StoryFn) => {
+    return (
+      <ThemeProvider theme={convert(themes.light)}>
+        <Global styles={createReset} />
+        <ThemedSetRoot />
+        <StoryFn />
+      </ThemeProvider>
+    );
   },
   /**
    * This decorator shows the current state of the arg named in the
@@ -233,7 +120,7 @@ export const decorators = [
    *
    * If parameters.withRawArg is not set, this decorator will do nothing
    */
-  (StoryFn, { parameters, args, hooks }) => {
+  (StoryFn, { parameters, args }) => {
     const [, updateArgs] = useArgs();
     if (!parameters.withRawArg) {
       return <StoryFn />;
@@ -294,22 +181,5 @@ export const parameters = {
       'HSLA(240,11%,91%,0.5)',
       'slategray',
     ],
-  },
-};
-
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    description: 'Global theme for components',
-    toolbar: {
-      icon: 'circlehollow',
-      title: 'Theme',
-      items: [
-        { value: 'light', icon: 'circlehollow', title: 'light' },
-        { value: 'dark', icon: 'circle', title: 'dark' },
-        { value: 'side-by-side', icon: 'sidebar', title: 'side by side' },
-        { value: 'stacked', icon: 'bottombar', title: 'stacked' },
-      ],
-    },
   },
 };

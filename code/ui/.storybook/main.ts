@@ -64,6 +64,7 @@ const config: StorybookConfig = {
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
     '@storybook/addon-a11y',
+    '@storybook/addon-themes',
     '@chromatic-com/storybook',
   ],
   build: {
@@ -74,6 +75,7 @@ const config: StorybookConfig = {
       disableDocgen: false,
     },
   },
+  staticDirs: ['../manager/static'],
   framework: {
     name: '@storybook/react-vite',
     options: {},
