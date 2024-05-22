@@ -2,6 +2,8 @@
 title: 'Portable stories in Jest'
 ---
 
+<!-- This page is unpublished for now -->
+
 export const SUPPORTED_RENDERERS = ['react', 'vue'];
 
 <If notRenderer={SUPPORTED_RENDERERS}>
@@ -20,16 +22,17 @@ Portable stories in Jest are currently only supported in [React](?renderer=react
 
 Portable stories are Storybook [stories](../writing-stories/index.md) which can be used in external environments, such as [Jest](https://jestjs.io).
 
-Normally, Storybok composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
+Normally, Storybook composes a story and its [annotations](#annotations) automatically, as part of the [story pipeline](#story-pipeline). When using stories in Jest tests, you must handle the story pipeline yourself, which is what the [`composeStories`](#composestories) and [`composeStory`](#composestory) functions enable.
 
 <If renderer="react">
 
 <Callout variant="info">
 
-**Using `Next.js`?** You need to do two things differently when using portable stories in Jest with Next.js projects:
+**Using `Next.js`?** You need to do three things differently when using portable stories in Jest with Next.js projects:
 
 - Configure the [`next/jest.js` transformer](https://nextjs.org/docs/pages/building-your-application/testing/jest#manual-setup), which will handle all of the necessary Next.js configuration for you.
 - Import [`composeStories`](#composestories) or [`composeStory`](#composestory) from the `@storybook/nextjs` package (e.g. `import { composeStories } from '@storybook/nextjs'`).
+- Set up [internal module aliases](../get-started/nextjs.md#storybooknextjsexport-mocks) to ensure the framework configuration works correctly and to be able to mock and assert on them.
 
 </Callout>
 
