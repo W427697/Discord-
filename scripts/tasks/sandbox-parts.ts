@@ -219,18 +219,10 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
           ],
         },
         // Ensure no other loaders from the framework apply
-        ...config.module.rules.map(rule => {
-
-          // The csf loader is responsible to add metadata to CSF files (e.g. extracting JSON comments)
-          if(typeof rule === 'object' && rule?.use?.[0]?.loader?.includes('csf-loader')) {
-            return rule;
-          }
-
-          return ({
-            ...rule,
-            exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
-          })
-        }),
+        ...config.module.rules.map(rule => ({
+          ...rule,
+          exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
+        })),
       ],
     },
   })`;

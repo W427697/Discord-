@@ -96,10 +96,12 @@ async function webpack(
     module: {
       ...module,
       rules: [
+        ...(module.rules || []),
         ...(csfPluginOptions
           ? [
               {
-                test: /(?<!node_modules.*)\.(story|stories)\.[tj]sx?$/,
+                test: /\.stories\.[tj]sx?$/,
+                enforce: 'post',
                 use: [
                   {
                     loader: require.resolve('./csf-loader'),
@@ -109,7 +111,6 @@ async function webpack(
               },
             ]
           : []),
-        ...(module.rules || []),
         {
           test: /\.mdx$/,
           exclude: /(stories|story)\.mdx$/,
