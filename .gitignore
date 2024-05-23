@@ -53,4 +53,3 @@ code/bench-results/
 
 /packs
 code/.nx/cache
-*storybook.log
