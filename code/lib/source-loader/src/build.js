@@ -15,7 +15,7 @@ export async function transform(inputSource) {
 
   const { source, sourceJson, addsMap } = sourceObject;
 
-  // We do this so the source we display doesn't get clobbered by csf-tools
+  // We do this so the source we display doesn't get clobbered by csf-plugin
   const rawSource = await readFile(this.resourcePath, 'utf-8');
   const rawJson = sanitizeSource(rawSource);
 

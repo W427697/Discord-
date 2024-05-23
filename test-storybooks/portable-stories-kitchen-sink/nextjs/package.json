@@ -74,6 +74,7 @@
     "@storybook/core-events": "file:../../../code/lib/core-events",
     "@storybook/core-server": "file:../../../code/lib/core-server",
     "@storybook/core-webpack": "file:../../../code/lib/core-webpack",
+    "@storybook/csf-plugin": "file:../../../code/lib/csf-plugin",
     "@storybook/csf-tools": "file:../../../code/lib/csf-tools",
     "@storybook/docs-tools": "file:../../../code/lib/docs-tools",
     "@storybook/ember": "file:../../../code/frameworks/ember",
