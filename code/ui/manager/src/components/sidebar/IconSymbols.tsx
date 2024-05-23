@@ -14,20 +14,42 @@ const Svg = styled.svg`
 // We are importing the icons from @storybook/icons as we need to add symbols inside of them.
 // This will allow to set icons once and use them everywhere.
 
+const NESTED_GROUP_ID = 'icon--group';
 const GROUP_ID = 'icon--group';
+const NESTED_COMPONENT_ID = 'icon--component';
 const COMPONENT_ID = 'icon--component';
 const DOCUMENT_ID = 'icon--document';
 const STORY_ID = 'icon--story';
 
+// For now the nested groups/components remain with the same icon as the group/components themselves.
+
 export const IconSymbols: FC = () => {
   return (
     <Svg data-chromatic="ignore">
+      <symbol id={NESTED_GROUP_ID}>
+        {/* https://github.com/storybookjs/icons/blob/main/src/icons/Folder.tsx */}
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M6.586 3.504l-1.5-1.5H1v9h12v-7.5H6.586zm.414-1L5.793 1.297a1 1 0 00-.707-.293H.5a.5.5 0 00-.5.5v10a.5.5 0 00.5.5h13a.5.5 0 00.5-.5v-8.5a.5.5 0 00-.5-.5H7z"
+          fill="currentColor"
+        />
+      </symbol>
       <symbol id={GROUP_ID}>
         {/* https://github.com/storybookjs/icons/blob/main/src/icons/Folder.tsx */}
         <path
           fillRule="evenodd"
           clipRule="evenodd"
           d="M6.586 3.504l-1.5-1.5H1v9h12v-7.5H6.586zm.414-1L5.793 1.297a1 1 0 00-.707-.293H.5a.5.5 0 00-.5.5v10a.5.5 0 00.5.5h13a.5.5 0 00.5-.5v-8.5a.5.5 0 00-.5-.5H7z"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id={NESTED_COMPONENT_ID}>
+        {/* https://github.com/storybookjs/icons/blob/main/src/icons/Component.tsx */}
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M3.5 1.004a2.5 2.5 0 00-2.5 2.5v7a2.5 2.5 0 002.5 2.5h7a2.5 2.5 0 002.5-2.5v-7a2.5 2.5 0 00-2.5-2.5h-7zm8.5 5.5H7.5v-4.5h3a1.5 1.5 0 011.5 1.5v3zm0 1v3a1.5 1.5 0 01-1.5 1.5h-3v-4.5H12zm-5.5 4.5v-4.5H2v3a1.5 1.5 0 001.5 1.5h3zM2 6.504h4.5v-4.5h-3a1.5 1.5 0 00-1.5 1.5v3z"
           fill="currentColor"
         />
       </symbol>
@@ -66,9 +88,11 @@ export const IconSymbols: FC = () => {
   );
 };
 
-export const UseSymbol: FC<{ type: 'group' | 'component' | 'document' | 'story' }> = ({ type }) => {
+export const UseSymbol: FC<{ type: 'group' | 'nested_group' | 'component' | 'nested_component' | 'document' | 'story' }> = ({ type }) => {
   if (type === 'group') return <use xlinkHref={`#${GROUP_ID}`} />;
+  if (type === 'nested_group') return <use xlinkHref={`#${NESTED_GROUP_ID}`} />;
   if (type === 'component') return <use xlinkHref={`#${COMPONENT_ID}`} />;
+  if (type === 'nested_component') return <use xlinkHref={`#${NESTED_COMPONENT_ID}`} />;
   if (type === 'document') return <use xlinkHref={`#${DOCUMENT_ID}`} />;
   if (type === 'story') return <use xlinkHref={`#${STORY_ID}`} />;
   return null;

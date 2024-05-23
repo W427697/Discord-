@@ -452,7 +452,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         } else {
           // Support legacy API with component permalinks, where kind is `x/y` but permalink is 'z'
           const entry = hash[sanitize(titleOrId)];
-          if (entry?.type === 'component') {
+          if (entry?.type === 'component' || entry?.type === 'nested_component') {
             const foundId = entry.children.find((childId: any) => hash[childId].name === name);
             if (foundId) {
               api.selectStory(foundId, undefined, options);
@@ -689,7 +689,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         const stateHasSelection = state.viewMode && state.storyId;
         const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
         const { type } = state.index?.[state.storyId] || {};
-        const isStory = !(type === 'root' || type === 'component' || type === 'group');
+        const isStory = !(type === 'root' || type === 'component' || type === 'group' ||
+          type === 'nested_group' || type === 'nested_component');
 
         /**
          * When storybook starts, we want to navigate to the first story.

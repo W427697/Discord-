@@ -13,7 +13,9 @@ import type {
   StoryIndexV3,
   IndexEntry,
   API_RootEntry,
+  API_NestedGroupEntry,
   API_GroupEntry,
+  API_NestedComponentEntry,
   API_ComponentEntry,
   API_IndexHash,
   API_DocsEntry,
@@ -280,7 +282,8 @@ export const transformStoryIndexToStoriesHash = (
       const parent = storiesHashOutOfOrder[item.parent];
       item.depth = parent.depth + 1;
     }
-    if (item.type === 'root' || item.type === 'group' || item.type === 'component') {
+    if (item.type === 'root' || item.type === 'group' || item.type === 'nested_group'
+       || item.type === 'component' ||  item.type === 'nested_component') {
       item.children.forEach((childId: any) => fixDepth(storiesHashOutOfOrder[childId]));
     }
   }
@@ -298,11 +301,19 @@ export const transformStoryIndexToStoriesHash = (
         parent.children = [child.id];
         child.parent = parent.id;
         child.name = `${item.name} / ${child.name}`;
+        if (type === 'group') {
+          child.type = 'nested_group';
+          child = child as API_NestedGroupEntry;
+        } else {
+          child.type = 'nested_component';
+          child = child as API_NestedComponentEntry;
+        }
 
         fixDepth(parent);
         expandItem(acc, parent);
 
         delete acc[item.id];
+        delete storiesHashOutOfOrder[item.id];
       } else {
         expandItem(acc, item);
       }
@@ -322,9 +333,9 @@ export const transformStoryIndexToStoriesHash = (
     // Ensure we add the children depth-first *before* inserting any other entries
     if (item.type === 'root') {
       expandItem(acc, item);
-    } else if (item.type === 'group') {
+    } else if (item.type === 'group' || item.type === 'nested_group') {
       makeSameComponentNested(acc, item, 'group');
-    } else if (item.type === 'component') {
+    } else if (item.type === 'component' || item.type === 'nested_component') {
       makeSameComponentNested(acc, item, 'component');
     }
     return acc;
@@ -358,7 +369,7 @@ export const addPreparedStories = (newHash: API_IndexHash, oldHash?: API_IndexHa
 export const getComponentLookupList = memoize(1)((hash: API_IndexHash) => {
   return Object.entries(hash).reduce((acc, i) => {
     const value = i[1];
-    if (value.type === 'component') {
+    if (value.type === 'component' || value.type === 'nested_component') {
       acc.push([...value.children]);
     }
     return acc;

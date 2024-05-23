@@ -5,15 +5,15 @@ import React from 'react';
 import { UseSymbol } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
 
-export const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
+export const TypeIcon = styled.svg<{ type: 'component' | 'nested_component' | 'story' | 'group' | 'nested_group' | 'document' }>(
   ({ theme, type }) => ({
     width: 14,
     height: 14,
     flex: '0 0 auto',
     color: (() => {
-      if (type === 'group')
+      if (type === 'group' || type === 'nested_group')
         return theme.base === 'dark' ? theme.color.primary : theme.color.ultraviolet;
-      if (type === 'component') return theme.color.secondary;
+      if (type === 'component' || type === 'nested_component') return theme.color.secondary;
       if (type === 'document') return theme.base === 'dark' ? theme.color.gold : '#ff8300';
       if (type === 'story') return theme.color.seafoam;
       return 'currentColor';

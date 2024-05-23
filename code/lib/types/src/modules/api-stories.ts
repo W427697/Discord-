@@ -17,8 +17,20 @@ export interface API_RootEntry extends API_BaseEntry {
   children: StoryId[];
 }
 
+export interface API_NestedGroupEntry extends API_BaseEntry {
+  type: 'nested_group';
+  parent?: StoryId;
+  children: StoryId[];
+}
+
 export interface API_GroupEntry extends API_BaseEntry {
   type: 'group';
+  parent?: StoryId;
+  children: StoryId[];
+}
+
+export interface API_NestedComponentEntry extends API_BaseEntry {
+  type: 'nested_component';
   parent?: StoryId;
   children: StoryId[];
 }
@@ -59,7 +71,9 @@ export interface API_StoryEntry extends API_BaseEntry {
 export type API_LeafEntry = API_DocsEntry | API_StoryEntry;
 export type API_HashEntry =
   | API_RootEntry
+  | API_NestedGroupEntry
   | API_GroupEntry
+  | API_NestedComponentEntry
   | API_ComponentEntry
   | API_DocsEntry
   | API_StoryEntry;
