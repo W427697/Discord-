@@ -583,19 +583,15 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 interface FormatOptions {
   sourceMaps?: boolean;
   preserveStyle?: boolean;
-  inputSourceMap?: any;
 }
 
-export const formatCsf = (
-  csf: CsfFile,
-  options: FormatOptions = { sourceMaps: false },
-  code?: string
-) => {
-  const result = generate.default(csf._ast, options, code);
+export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
+  const result = generate.default(csf._ast, options);
   if (options.sourceMaps) {
     return result;
   }
-  return result.code;
+  const { code } = result;
+  return code;
 };
 
 /**
