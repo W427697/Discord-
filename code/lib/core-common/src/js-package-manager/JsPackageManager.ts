@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
-import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'path';
 import fs from 'fs';
 
@@ -523,11 +522,11 @@ export abstract class JsPackageManager {
     ignoreError?: boolean;
   }): Promise<string> {
     try {
-      const commandResult = await execaCommand([command, ...args].join(' '), {
+      const { execa } = await import('execa');
+      const commandResult = await execa(command, args, {
         cwd: cwd ?? this.cwd,
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
-        shell: true,
         cleanup: true,
         env,
         ...execaOptions,
