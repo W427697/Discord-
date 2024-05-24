@@ -33,7 +33,6 @@ import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/sta
 import { useLayout } from '../layout/LayoutProvider';
 import { IconSymbols } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
-import { I } from 'vitest/dist/reporters-1evA5lom';
 
 const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
   marginTop: props.hasOrphans ? 20 : 0,

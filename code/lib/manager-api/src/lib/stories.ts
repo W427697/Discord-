@@ -277,6 +277,7 @@ export const transformStoryIndexToStoriesHash = (
     item.children.forEach((childId: any) => addItem(acc, storiesHashOutOfOrder[childId]));
   }
 
+  // This function fixes the depth of an item and its children
   function fixDepth(item: API_HashEntry | any) {
     if (item.type !== 'root') {
       const parent = storiesHashOutOfOrder[item.parent];

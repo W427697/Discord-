@@ -192,7 +192,7 @@ const Result: FC<
           </TypeIcon>
         )}
         {item.type === 'nested_component' && (
-          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="nested_component">
+          <TypeIcon viewBox="0 0 22 22" width="14" height="14" type="nested_component">
             <UseSymbol type="nested_component" />
           </TypeIcon>
         )}
