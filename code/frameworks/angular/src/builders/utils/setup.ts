@@ -2,24 +2,34 @@ import { Target, targetFromTargetString } from '@angular-devkit/architect';
 import { BuilderContext } from '@angular-devkit/architect';
 import { JsonObject, logging } from '@angular-devkit/core';
 import { sync as findUpSync } from 'find-up';
-import { BrowserBuilderOptions } from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 import { logger } from '@storybook/node-logger';
+import {
+  AssetPattern,
+  SourceMapUnion,
+  StyleElement,
+} from '@angular-devkit/build-angular/src/builders/browser/schema';
 
-export type AngularBuilderOptions = BrowserBuilderOptions & {
+type AngularBuilderOptions = {
+  stylePreprocessorOptions?: StylePreprocessorOptions;
+  styles?: StyleElement[];
+  assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
+};
+
+type Options = AngularBuilderOptions & {
   browserTarget?: string | null;
+  tsConfig?: string;
   configDir?: string;
 };
 
-export async function setup(
-  { stylePreprocessorOptions, styles, assets, sourceMap, ...options }: AngularBuilderOptions,
-  context: BuilderContext
-) {
-  let browserOptions: BrowserBuilderOptions | undefined;
+export async function setup(options: Options, context: BuilderContext) {
+  let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;
   let browserTarget: Target | undefined;
 
   if (options.browserTarget) {
     browserTarget = targetFromTargetString(options.browserTarget);
-    browserOptions = await context.validateOptions<any>(
+    browserOptions = await context.validateOptions<JsonObject & BrowserBuilderOptions>(
       await context.getTargetOptions(browserTarget),
       await context.getBuilderNameForTarget(browserTarget)
     );
@@ -35,11 +45,12 @@ export async function setup(
   const angularBuilderOptions = await getBuilderOptions(
     options.browserTarget,
     {
-      ...options,
-      ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
-      ...(styles ? { styles } : {}),
-      ...(assets ? { assets } : {}),
-      sourceMap: sourceMap ?? false,
+      ...(options.stylePreprocessorOptions
+        ? { stylePreprocessorOptions: options.stylePreprocessorOptions }
+        : {}),
+      ...(options.styles ? { styles: options.styles } : {}),
+      ...(options.assets ? { assets: options.assets } : {}),
+      sourceMap: options.sourceMap ?? false,
     },
     tsConfig,
     options.configDir,
@@ -80,7 +91,7 @@ async function getBuilderOptions(
   tsConfig: string,
   configDir: string,
   builderContext: BuilderContext
-): Promise<BrowserBuilderOptions> {
+) {
   /**
    * Get Browser Target options
    */
@@ -99,9 +110,7 @@ async function getBuilderOptions(
     ...browserTargetOptions,
     ...angularBuilderOptions,
     tsConfig:
-      tsConfig ??
-      findUpSync('tsconfig.json', { cwd: configDir }) ??
-      (browserTargetOptions.tsConfig as string),
+      tsConfig ?? findUpSync('tsconfig.json', { cwd: configDir }) ?? browserTargetOptions.tsConfig,
   };
   logger.info(`=> Using angular project with "tsConfig:${builderOptions.tsConfig}"`);
 

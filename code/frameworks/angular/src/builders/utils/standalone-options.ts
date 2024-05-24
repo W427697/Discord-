@@ -1,7 +1,7 @@
 import { BuilderContext } from '@angular-devkit/architect';
 
 import { LoadOptions, CLIOptions, BuilderOptions } from '@storybook/types';
-import { AngularBuilderOptions } from './setup';
+import { AngularBuilderOptions } from '../../server/framework-preset-angular-cli';
 
 export type StandaloneOptions = CLIOptions &
   LoadOptions &

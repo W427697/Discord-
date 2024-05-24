@@ -2,21 +2,27 @@ import { BuilderContext, BuilderOutput, createBuilder } from '@angular-devkit/ar
 import { JsonObject } from '@angular-devkit/core';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
+import { StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/types';
 import { getEnvConfig, versions } from '@storybook/core-common';
 import { addToGlobalContext } from '@storybook/telemetry';
 
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
-import { StyleClass } from '@angular-devkit/build-angular/src/builders/browser/schema';
+import {
+  AssetPattern,
+  SourceMapUnion,
+  StyleClass,
+  StyleElement,
+} from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { errorSummary, printErrorDetails } from '../utils/error-handler';
-import { AngularBuilderOptions, setup } from '../utils/setup';
+import { setup } from '../utils/setup';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-export type StorybookBuilderOptions = AngularBuilderOptions & {
+export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
   test: boolean;
@@ -24,6 +30,10 @@ export type StorybookBuilderOptions = AngularBuilderOptions & {
   compodoc: boolean;
   compodocArgs: string[];
   enableProdMode?: boolean;
+  styles?: StyleElement[];
+  stylePreprocessorOptions?: StylePreprocessorOptions;
+  assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,

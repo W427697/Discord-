@@ -17,16 +17,20 @@ import {
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
-import { AngularBuilderOptions, setup } from '../utils/setup';
+import { setup } from '../utils/setup';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-export type StorybookBuilderOptions = AngularBuilderOptions & {
+export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
   compodoc: boolean;
   compodocArgs: string[];
   enableProdMode?: boolean;
+  styles?: StyleElement[];
+  stylePreprocessorOptions?: StylePreprocessorOptions;
+  assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
