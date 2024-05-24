@@ -116,7 +116,16 @@ export default async function reactDocgenLoader(
       }
     });
 
-    callback(null, magicString.toString(), map);
+    callback(
+      null,
+      magicString.toString(),
+      map ??
+        magicString.generateMap({
+          hires: true,
+          source: this.resourcePath,
+          includeContent: true,
+        })
+    );
   } catch (error: any) {
     if (error.code === ERROR_CODES.MISSING_DEFINITION) {
       callback(null, source);
