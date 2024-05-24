@@ -451,7 +451,7 @@ export async function initiate(options: CommandOptions): Promise<void> {
       // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
       // executed directly in the user's project directory. This avoid potential issues
       // with packages running in npxs' node_modules
-      packageManager.runPackageCommandSync(
+      await packageManager.runPackageCommand(
         storybookCommand.replace(/^yarn /, ''),
         flags,
         undefined,

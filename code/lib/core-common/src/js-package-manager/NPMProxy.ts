@@ -108,20 +108,6 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  public runPackageCommandSync(
-    command: string,
-    args: string[],
-    cwd?: string,
-    stdio?: 'pipe' | 'inherit'
-  ): string {
-    return this.executeCommandSync({
-      command: 'npm',
-      args: ['exec', '--', command, ...args],
-      cwd,
-      stdio,
-    });
-  }
-
   public async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
     return this.executeCommand({
       command: 'npm',

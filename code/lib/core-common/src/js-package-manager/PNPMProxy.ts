@@ -74,20 +74,6 @@ export class PNPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  public runPackageCommandSync(
-    command: string,
-    args: string[],
-    cwd?: string,
-    stdio?: 'pipe' | 'inherit'
-  ): string {
-    return this.executeCommandSync({
-      command: 'pnpm',
-      args: ['exec', command, ...args],
-      cwd,
-      stdio,
-    });
-  }
-
   async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
     return this.executeCommand({
       command: 'pnpm',
