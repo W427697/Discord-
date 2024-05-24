@@ -1,6 +1,5 @@
 import boxen from 'boxen';
 import chalk from 'chalk';
-import execa from 'execa';
 import { readdirSync, remove } from 'fs-extra';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
@@ -179,9 +178,10 @@ export const scaffoldNewProject = async (
     await remove(`${targetDir}/.cache`);
 
     // Create new project in temp directory
-    await execa.command(createScript, {
+    const { execa } = await import('execa');
+    const [script, ...args] = createScript.split(' ');
+    await execa(script, args, {
       stdio: 'pipe',
-      shell: true,
       cwd: targetDir,
       cleanup: true,
     });

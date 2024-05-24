@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
-import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'path';
 import fs from 'fs';
 
@@ -493,48 +492,8 @@ export abstract class JsPackageManager {
     cwd?: string,
     stdio?: string
   ): Promise<string>;
-  public abstract runPackageCommandSync(
-    command: string,
-    args: string[],
-    cwd?: string,
-    stdio?: 'inherit' | 'pipe'
-  ): string;
   public abstract findInstallations(pattern?: string[]): Promise<InstallationMetadata | undefined>;
   public abstract parseErrorFromLogs(logs?: string): string;
-
-  public executeCommandSync({
-    command,
-    args = [],
-    stdio,
-    cwd,
-    ignoreError = false,
-    env,
-    ...execaOptions
-  }: CommonOptions<string> & {
-    command: string;
-    args: string[];
-    cwd?: string;
-    ignoreError?: boolean;
-  }): string {
-    try {
-      const commandResult = execaCommandSync(command, args, {
-        cwd: cwd ?? this.cwd,
-        stdio: stdio ?? 'pipe',
-        encoding: 'utf-8',
-        shell: true,
-        cleanup: true,
-        env,
-        ...execaOptions,
-      });
-
-      return commandResult.stdout ?? '';
-    } catch (err) {
-      if (ignoreError !== true) {
-        throw err;
-      }
-      return '';
-    }
-  }
 
   /**
    * Returns the installed (within node_modules or pnp zip) version of a specified package
@@ -563,11 +522,11 @@ export abstract class JsPackageManager {
     ignoreError?: boolean;
   }): Promise<string> {
     try {
-      const commandResult = await execaCommand([command, ...args].join(' '), {
+      const { execa } = await import('execa');
+      const commandResult = await execa(command, args, {
         cwd: cwd ?? this.cwd,
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
-        shell: true,
         cleanup: true,
         env,
         ...execaOptions,

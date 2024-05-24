@@ -26,7 +26,7 @@ export const runCompodoc = async (
   const packageManager = JsPackageManagerFactory.getPackageManager();
 
   try {
-    const stdout = packageManager.runPackageCommandSync(
+    const stdout = await packageManager.runPackageCommand(
       'compodoc',
       finalCompodocArgs,
       context.workspaceRoot,

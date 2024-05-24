@@ -5779,7 +5779,7 @@ __metadata:
     cross-spawn: "npm:^7.0.3"
     detect-indent: "npm:^6.1.0"
     envinfo: "npm:^7.7.3"
-    execa: "npm:^5.0.0"
+    execa: "npm:^7.0.0"
     find-up: "npm:^5.0.0"
     fs-extra: "npm:^11.1.0"
     get-npm-tarball-url: "npm:^2.0.3"
@@ -5905,7 +5905,7 @@ __metadata:
     cross-spawn: "npm:^7.0.3"
     esbuild: "npm:^0.18.0 || ^0.19.0 || ^0.20.0"
     esbuild-register: "npm:^3.5.0"
-    execa: "npm:^5.0.0"
+    execa: "npm:^7.0.0"
     file-system-cache: "npm:2.3.0"
     find-cache-dir: "npm:^3.0.0"
     find-up: "npm:^5.0.0"
@@ -14940,7 +14940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:7.2.0":
+"execa@npm:7.2.0, execa@npm:^7.0.0":
   version: 7.2.0
   resolution: "execa@npm:7.2.0"
   dependencies:
