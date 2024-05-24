@@ -22,7 +22,7 @@ const Wrapper = styled.div(({ theme }) => ({
   },
 
   '.rejt-tree': {
-    marginLeft: '1rem',
+    marginLeft: '0.1 rem',
     fontSize: '13px',
   },
   '.rejt-value-node, .rejt-object-node > .rejt-collapsed, .rejt-array-node > .rejt-collapsed, .rejt-object-node > .rejt-not-collapsed, .rejt-array-node > .rejt-not-collapsed':
@@ -71,7 +71,7 @@ const Wrapper = styled.div(({ theme }) => ({
       top: 0,
       display: 'block',
       width: '100%',
-      marginLeft: '-1rem',
+      marginLeft: '-0.5rem',
       padding: '0 4px 0 1rem',
       height: 22,
     },
@@ -97,15 +97,15 @@ const Wrapper = styled.div(({ theme }) => ({
     height: 0,
   },
   '.rejt-collapsed::after': {
-    left: -8,
-    top: 8,
+    left: -6,
+    top: 6,
     borderTop: '3px solid transparent',
     borderBottom: '3px solid transparent',
     borderLeft: '3px solid rgba(153,153,153,0.6)',
   },
   '.rejt-not-collapsed::after': {
-    left: -10,
-    top: 10,
+    left: -8,
+    top: 8,
     borderTop: '3px solid rgba(153,153,153,0.6)',
     borderLeft: '3px solid transparent',
     borderRight: '3px solid transparent',
@@ -124,6 +124,115 @@ const Wrapper = styled.div(({ theme }) => ({
     borderColor: theme.appBorderColor,
   },
 }));
+
+const FancyExpandButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  margin: 5px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-rigth: 0px;
+  height: 30px;
+  border: none;
+  border-radius: 12px;
+  background-color:  #00aaff;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0099cc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 2px rgba(108, 92, 231, 0.5);
+  }
+
+  &:active {
+    background-color: #0099cc;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const ButtonWithInput = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 5px;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 30px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: black;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: default;
+
+  input {
+    width: 50px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 12px;
+    text-align: center;
+    -webkit-appearance: none; /* Remove default styling in Safari */
+    -moz-appearance: textfield; /* Remove default styling in Firefox */
+    appearance: textfield; /* Remove default styling in other browsers */
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Removes default margin */
+  }
+`;
+
+const CheckButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 15px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 10%;
+  background-color: #00aaff;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0099cc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 2px rgba(108, 92, 231, 0.5);
+  }
+
+  &:active {
+    background-color: #0099cc;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+`;
 
 const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
   border: 0,
@@ -264,15 +373,48 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
   );
 
   const [forceVisible, setForceVisible] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isNotCollapsed, setIsNotCollapsed] = useState(false);
+  const [showOnlyOne, setShowOnlyOne] = useState(false);
+
+  const [nodeCountUntil, setNodeCountUntil] = useState(0);
+  const [nodeCountOnly, setNodeCountOnly] = useState(0);
+  const [nodeToShowDown, setNodeToShowDown] = useState(0);
+
+  const [nodeToShowUp, setNodeToShowUp] = useState(10);
+
+  const totalNodes = Array.isArray(data) ? data.length : Object.keys(data).length;
+
   const onForceVisible = useCallback(() => {
     onChange({});
     setForceVisible(true);
   }, [setForceVisible]);
 
   const htmlElRef = useRef(null);
+
   useEffect(() => {
     if (forceVisible && htmlElRef.current) htmlElRef.current.select();
   }, [forceVisible]);
+
+  const toggleExpand = useCallback(() => {
+    setIsExpanded((prev) => {
+        const newExpanded = !prev;
+        setNodeToShowUp(newExpanded ? totalNodes : 10);
+        setNodeToShowDown(0);
+        setShowOnlyOne(false);
+        return newExpanded;
+    });
+  }, [totalNodes]);
+
+  const handleSaveUntil = useCallback(() => {
+    setShowOnlyOne(false);
+    setNodeToShowUp(nodeCountUntil);
+    setNodeToShowDown(0);
+  }, [nodeCountUntil]);
+
+  const handleSaveOnly = useCallback(() => {
+    setShowOnlyOne(true);
+  }, [nodeCountOnly]);
 
   if (!hasData) {
     return (
@@ -281,6 +423,41 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
       </Button>
     );
   }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIsNotCollapsed(document.querySelector('.rejt-not-collapsed') !== null);
+    }, 1);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const displayedData = useMemo(() => {
+    console.log(`Only one = ${showOnlyOne}`);
+    console.log(`Expande = ${isExpanded}`);
+    if(showOnlyOne) {
+
+      if(Array.isArray(data)) {
+
+        return { [nodeCountOnly]: data[nodeCountOnly] };
+      } else {
+        const key = Object.keys(data)[nodeCountOnly];
+
+        return { [key]: data[key] };
+      }
+    }
+    else if(isExpanded) {
+      return data.slice(nodeToShowDown, nodeToShowUp);
+    }
+    else {
+      if(Array.isArray(data)) {
+        return data.slice(nodeToShowDown, nodeToShowUp);
+      }
+      else {
+        return data;
+      }
+    }
+  }, [data, showOnlyOne, nodeCountOnly, isExpanded, nodeToShowDown, nodeToShowUp]);
 
   const rawJSONForm = (
     <RawInput
@@ -300,43 +477,94 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange, argType 
     Array.isArray(value) || (typeof value === 'object' && value?.constructor === Object);
 
   return (
-    <Wrapper aria-readonly={readonly}>
-      {isObjectOrArray && (
-        <RawButton
-          onClick={(e: SyntheticEvent) => {
-            e.preventDefault();
-            setShowRaw((v) => !v);
-          }}
-        >
-          {showRaw ? <EyeCloseIcon /> : <EyeIcon />}
-          <span>RAW</span>
-        </RawButton>
-      )}
-      {!showRaw ? (
-        <JsonTree
-          readOnly={readonly || !isObjectOrArray}
-          isCollapsed={isObjectOrArray ? /* default value */ undefined : () => true}
-          data={data}
-          rootName={name}
-          onFullyUpdate={onChange}
-          getStyle={getCustomStyleFunction(theme)}
-          cancelButtonElement={<ButtonInline type="button">Cancel</ButtonInline>}
-          editButtonElement={<ButtonInline type="submit">Save</ButtonInline>}
-          addButtonElement={
-            <ButtonInline type="submit" primary>
+    <>
+      {!showRaw && isNotCollapsed &&(
+        <>
+          <ButtonWithInput>
+            See only node
+            <input
+              type="number"
+              value={nodeCountOnly}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                setNodeCountOnly(Math.min(Math.max(value, 0), totalNodes));
+              }}
+              min="0"
+              max={totalNodes}
+            />
+            <CheckButton onClick={handleSaveOnly} primary>
               Save
-            </ButtonInline>
-          }
-          plusMenuElement={<ActionAddIcon />}
-          minusMenuElement={<ActionSubstractIcon />}
-          inputElement={(_: any, __: any, ___: any, key: string) =>
-            key ? <Input onFocus={selectValue} onBlur={dispatchEnterKey} /> : <Input />
-          }
-          fallback={rawJSONForm}
-        />
-      ) : (
-        rawJSONForm
+            </CheckButton>
+          </ButtonWithInput>
+          <ButtonWithInput>
+            See until node
+            <input
+              type="number"
+              value={nodeCountUntil}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                setNodeCountUntil(Math.min(Math.max(value, 0), totalNodes));
+              }}
+              min="0"
+              max={totalNodes}
+            />
+            <CheckButton onClick={handleSaveUntil} primary>
+              Save
+            </CheckButton>
+          </ButtonWithInput>
+        </>
       )}
-    </Wrapper>
+      <Wrapper aria-readonly={readonly}>
+        {isObjectOrArray && (
+          <RawButton
+            onClick={(e: SyntheticEvent) => {
+              e.preventDefault();
+              setShowRaw((v) => !v);
+              setShowOnlyOne(false);
+            }}
+          >
+            {showRaw ? <EyeCloseIcon /> : <EyeIcon />}
+            <span>RAW</span>
+          </RawButton>
+        )}
+        {!showRaw ? (
+          <>
+            <JsonTree
+              readOnly={readonly || !isObjectOrArray}
+              isCollapsed={isObjectOrArray ? /* default value */ undefined :  () => true}
+              data={isNotCollapsed ? displayedData : data}
+              rootName={name}
+              onFullyUpdate={onChange}
+              getStyle={getCustomStyleFunction(theme)}
+              cancelButtonElement={<ButtonInline type="button">Cancel</ButtonInline>}
+              editButtonElement={<ButtonInline type="submit">Save</ButtonInline>}
+              addButtonElement={
+                <ButtonInline type="submit" primary>
+                  Save
+                </ButtonInline>
+              }
+              plusMenuElement={<ActionAddIcon />}
+              minusMenuElement={<ActionSubstractIcon />}
+              inputElement={(_: any, __: any, ___: any, key: string) =>
+                key ? <Input onFocus={selectValue} onBlur={dispatchEnterKey} /> : <Input />
+              }
+              fallback={rawJSONForm}
+            />
+            {isNotCollapsed && isExpanded && (
+              <FancyExpandButton onClick={toggleExpand}>
+                Show few
+              </FancyExpandButton>
+            )}
+            {isNotCollapsed && !isExpanded && (
+              <FancyExpandButton onClick={toggleExpand}>
+                Show all
+              </FancyExpandButton>
+            )}
+          </>
+        ) : (
+          rawJSONForm
+        )}
+      </Wrapper>
+    </>
   );
 };
