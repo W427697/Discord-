@@ -300,7 +300,7 @@ export const transformStoryIndexToStoriesHash = (
 
         parent.children = [child.id];
         child.parent = parent.id;
-        child.name = `${item.name} / ${child.name}`;
+        child.name = `${item.name}/ ${child.name}`;
         if (type === 'group') {
           child.type = 'nested_group';
           child = child as API_NestedGroupEntry;

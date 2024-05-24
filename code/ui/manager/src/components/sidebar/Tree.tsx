@@ -15,7 +15,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
-import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
+import { ComponentNode, NestedComponentNode, DocumentNode, GroupNode, NestedGroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
 
@@ -33,6 +33,7 @@ import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/sta
 import { useLayout } from '../layout/LayoutProvider';
 import { IconSymbols } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
+import { I } from 'vitest/dist/reporters-1evA5lom';
 
 const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
   marginTop: props.hasOrphans ? 20 : 0,
@@ -293,9 +294,22 @@ const Node = React.memo<NodeProps>(function Node({
     );
   }
 
+  function getBranchNode(item: Item) {
+    switch (item.type) {
+      case 'nested_group':
+        return NestedGroupNode;
+      case 'component':
+        return ComponentNode;
+      case 'nested_component':
+        return NestedComponentNode;
+      default:
+        return GroupNode;
+    }
+  }
+
   if (item.type === 'component' || item.type === 'group' || item.type === 'nested_group' || item.type === 'nested_component') {
     const isComponent = (item.type === 'component' || item.type === 'nested_component');
-    const BranchNode = isComponent ? ComponentNode : GroupNode;
+    const BranchNode = getBranchNode(item);
     return (
       <BranchNode
         key={id}
