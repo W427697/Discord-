@@ -18,7 +18,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
     webpack(compiler) {
       compiler.options.module.rules.unshift({
         test: STORIES_REGEX,
-        enforce: 'pre',
+        enforce: 'post',
         use: {
           options,
           loader: require.resolve('@storybook/csf-plugin/dist/webpack-loader'),
@@ -28,7 +28,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
     rspack(compiler) {
       compiler.options.module.rules.unshift({
         test: STORIES_REGEX,
-        enforce: 'pre',
+        enforce: 'post',
         use: {
           options,
           loader: require.resolve('@storybook/csf-plugin/dist/webpack-loader'),
