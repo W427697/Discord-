@@ -86,7 +86,7 @@ export const transformSetStoriesStoryDataToPreparedStoryIndex = (
     {} as API_PreparedStoryIndex['entries']
   );
 
-  return { v: 4, entries };
+  return { v: 5, entries };
 };
 
 export const transformStoryIndexV2toV3 = (index: StoryIndexV2): StoryIndexV3 => {
