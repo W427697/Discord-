@@ -1,7 +1,7 @@
 import type { WriteStream } from 'fs-extra';
 import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
-import tempy from 'tempy';
+import { temporaryFile } from 'tempy';
 import { rendererPackages } from './get-storybook-info';
 import type { JsPackageManager } from '../js-package-manager';
 import versions from '../versions';
@@ -86,7 +86,7 @@ export const createLogStream = async (
   logStream: WriteStream;
 }> => {
   const finalLogPath = join(process.cwd(), logFileName);
-  const temporaryLogPath = tempy.file({ name: logFileName });
+  const temporaryLogPath = temporaryFile({ name: logFileName });
 
   const logStream = createWriteStream(temporaryLogPath, { encoding: 'utf8' });
 

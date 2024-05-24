@@ -5,7 +5,7 @@
 import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import { globSync } from 'glob';
-import { directory } from 'tempy';
+import { temporaryDirectory } from 'tempy';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
 
@@ -36,7 +36,7 @@ async function run(cwd: string) {
 
   const docsArray: Record<string, any>[] = await Promise.all(
     dirs.map(async (dir) => {
-      const outputDir = directory();
+      const outputDir = temporaryDirectory();
       const resolvedDir = await realpath(dir);
       await execaCommand(
         `yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`,
