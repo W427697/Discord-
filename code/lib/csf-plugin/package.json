@@ -27,7 +27,7 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./webpack-loader": {
+    "./dist/webpack-loader": {
       "types": "./dist/webpack-loader.d.ts",
       "node": "./dist/webpack-loader.js",
       "require": "./dist/webpack-loader.js",
