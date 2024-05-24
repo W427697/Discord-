@@ -1461,6 +1461,9 @@ describe('stories API', () => {
             "parent": "a",
             "prepared": false,
             "renderLabel": undefined,
+            "tags": [
+              "dev",
+            ],
             "title": "a",
             "type": "story",
           },
@@ -1472,6 +1475,9 @@ describe('stories API', () => {
             "parent": "a",
             "prepared": false,
             "renderLabel": undefined,
+            "tags": [
+              "dev",
+            ],
             "title": "a",
             "type": "story",
           },
@@ -1526,6 +1532,9 @@ describe('stories API', () => {
             "parent": "a",
             "prepared": false,
             "renderLabel": undefined,
+            "tags": [
+              "dev",
+            ],
             "title": "a",
             "type": "story",
           },
@@ -1567,6 +1576,9 @@ describe('stories API', () => {
             "parent": "a",
             "prepared": false,
             "renderLabel": undefined,
+            "tags": [
+              "dev",
+            ],
             "title": "a",
             "type": "story",
           },
@@ -1578,6 +1590,9 @@ describe('stories API', () => {
             "parent": "a",
             "prepared": false,
             "renderLabel": undefined,
+            "tags": [
+              "dev",
+            ],
             "title": "a",
             "type": "story",
           },
