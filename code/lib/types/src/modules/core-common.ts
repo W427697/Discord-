@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { Router } from 'express';
-import type { Server } from 'http';
+import type { Server } from 'connect';
+import type { Server as HttpServer } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 
 import type { StoriesEntry, Indexer } from './indexer';
@@ -157,7 +157,7 @@ export interface LoadOptions {
   configDir?: string;
   cacheKey?: string;
   ignorePreview?: boolean;
-  extendServer?: (server: Server) => void;
+  extendServer?: (server: HttpServer) => void;
 }
 
 export interface CLIOptions {
@@ -217,8 +217,8 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
   start: (args: {
     options: Options;
     startTime: ReturnType<typeof process.hrtime>;
-    router: Router;
-    server: Server;
+    app: Server;
+    server: HttpServer;
     channel: ServerChannel;
   }) => Promise<void | {
     stats?: BuilderStats;

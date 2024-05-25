@@ -2,51 +2,99 @@ import { logger } from '@storybook/node-logger';
 import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
-import type { Router } from 'express';
-import express from 'express';
+import type { Server } from 'connect';
 import { pathExists } from 'fs-extra';
 import path, { basename, isAbsolute } from 'path';
+import sirv from 'sirv';
+import type { ServerResponse } from 'http';
 
 import { dedent } from 'ts-dedent';
 
-export async function useStatics(router: Router, options: Options) {
+// TODO (43081j): maybe get this from somewhere?
+const contentTypes: Record<string, string> = {
+  css: 'text/css',
+  woff2: 'font/woff2',
+  js: 'text/javascript',
+};
+const setContentTypeHeaders = (res: ServerResponse, pathname: string) => {
+  const base = basename(pathname);
+  const contentType = contentTypes[base];
+  if (contentType) {
+    res.setHeader('Content-Type', contentType);
+  }
+};
+
+export async function useStatics(app: Server, options: Options): Promise<void> {
   const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
-  const statics = [
+  const statics: Array<{ targetEndpoint: string; staticPath: string }> = [];
+  const userStatics = [
+    `${faviconPath}:/${basename(faviconPath)}`,
     ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
   ];
 
-  if (statics && statics.length > 0) {
-    await Promise.all(
-      statics.map(async (dir) => {
-        try {
-          const normalizedDir =
-            staticDirs && !isAbsolute(dir)
-              ? getDirectoryFromWorkingDir({
-                  configDir: options.configDir,
-                  workingDir: process.cwd(),
-                  directory: dir,
-                })
-              : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
+  for (const dir of userStatics) {
+    try {
+      const normalizedDir =
+        staticDirs && !isAbsolute(dir)
+          ? getDirectoryFromWorkingDir({
+              configDir: options.configDir,
+              workingDir: process.cwd(),
+              directory: dir,
+            })
+          : dir;
+      const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
-          // Don't log for the internal static dir
-          if (!targetEndpoint.startsWith('/sb-')) {
-            logger.info(
-              chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
-            );
-          }
+      // Don't log for the internal static dir
+      if (!targetEndpoint.startsWith('/sb-')) {
+        logger.info(
+          chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
+        );
+      }
 
-          router.use(targetEndpoint, express.static(staticPath, { index: false }));
-        } catch (e) {
-          if (e instanceof Error) logger.warn(e.message);
-        }
-      })
-    );
+      statics.push({ targetEndpoint, staticPath });
+    } catch (e) {
+      if (e instanceof Error) logger.warn(e.message);
+    }
   }
 
-  router.get(`/${basename(faviconPath)}`, (req, res) => res.sendFile(faviconPath));
+  const serve = sirv(process.cwd(), {
+    dev: true,
+    etag: true,
+    setHeaders: setContentTypeHeaders,
+  });
+
+  app.use((req, res, next) => {
+    if (!req.url) {
+      return next();
+    }
+
+    const url = new URL(req.url, 'https://storybook.js.org');
+    const pathname = path.normalize(url.pathname);
+
+    // TODO (43081j): this is 'security' so you can't break out of cwd
+    // Probably need to do something better here
+    if (pathname.startsWith('..') || pathname.endsWith('/')) {
+      return next();
+    }
+
+    for (const { targetEndpoint, staticPath } of statics) {
+      if (pathname.startsWith(targetEndpoint)) {
+        // TODO (43081j): similar as above, this might be doable in a cleaner way
+        const newPath = path.relative(
+          process.cwd(),
+          path.resolve(staticPath, './' + pathname.slice(targetEndpoint.length))
+        );
+        url.pathname = newPath;
+        req.url = url.href.slice(url.origin.length);
+        serve(req, res, next);
+        return;
+      }
+    }
+
+    next();
+  });
 }
 
 export const parseStaticDir = async (arg: string) => {

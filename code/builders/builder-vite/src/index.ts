@@ -1,9 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
 import * as fs from 'fs-extra';
-import type { RequestHandler } from 'express';
+import type { NextHandleFunction } from 'connect';
 import type { ViteDevServer } from 'vite';
-import express from 'express';
 import { dirname, join, parse } from 'path';
 import { NoStatsForViteDevError } from '@storybook/core-events/server-errors';
 import type { Options } from '@storybook/types';
@@ -11,6 +10,7 @@ import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
 import type { ViteBuilder } from './types';
+import sirv from 'sirv';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
@@ -20,16 +20,17 @@ export * from './types';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandler {
+function iframeMiddleware(options: Options, server: ViteDevServer): NextHandleFunction {
   return async (req, res, next) => {
-    if (!req.url.match(/^\/iframe\.html($|\?)/)) {
+    if (!req.url || !req.url.match(/^\/iframe\.html($|\?)/)) {
       next();
       return;
     }
+    const url = new URL(req.url, 'https://storybook.js.org');
 
     // We need to handle `html-proxy` params for style tag HMR https://github.com/storybookjs/builder-vite/issues/266#issuecomment-1055677865
     // e.g. /iframe.html?html-proxy&index=0.css
-    if (req.query['html-proxy'] !== undefined) {
+    if (url.searchParams.has('html-proxy')) {
       next();
       return;
     }
@@ -41,7 +42,9 @@ function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandl
     const generated = await transformIframeHtml(indexHtml, options);
     const transformed = await server.transformIndexHtml('/iframe.html', generated);
     res.setHeader('Content-Type', 'text/html');
-    res.status(200).send(transformed);
+    res.statusCode = 200;
+    res.write(transformed);
+    res.end();
   };
 }
 
@@ -54,18 +57,30 @@ export async function bail(): Promise<void> {
 export const start: ViteBuilder['start'] = async ({
   startTime,
   options,
-  router,
+  app,
   server: devServer,
 }) => {
   server = await createViteServer(options as Options, devServer);
 
   const previewResolvedDir = getAbsolutePath('@storybook/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const servePreview = sirv(previewDirOrigin, {
+    maxAge: 300000,
+    dev: true,
+    immutable: true,
+  });
 
-  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
+  app.use('/sb-preview', (req, res, next) => {
+    if (!req.url || req.url === '/') {
+      next();
+      return;
+    }
 
-  router.use(iframeMiddleware(options as Options, server));
-  router.use(server.middlewares);
+    servePreview(req, res, next);
+  });
+
+  app.use(iframeMiddleware(options as Options, server));
+  app.use(server.middlewares);
 
   return {
     bail,

@@ -6,7 +6,6 @@ import { logger } from '@storybook/node-logger';
 import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
-import express from 'express';
 import fs from 'fs-extra';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
 import {
@@ -14,6 +13,7 @@ import {
   WebpackInvocationError,
   WebpackMissingStatsError,
 } from '@storybook/core-events/server-errors';
+import sirv from 'sirv';
 
 import prettyTime from 'pretty-hrtime';
 
@@ -114,7 +114,7 @@ export const bail: WebpackBuilder['bail'] = async () => {
 const starter: StarterFunction = async function* starterGeneratorFn({
   startTime,
   options,
-  router,
+  app,
   channel,
 }) {
   const webpackInstance = await executor.get(options);
@@ -181,11 +181,23 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   const previewResolvedDir = getAbsolutePath('@storybook/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const servePreview = sirv(previewDirOrigin, {
+    maxAge: 300000,
+    dev: true,
+    immutable: true,
+  });
 
-  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
+  app.use('/sb-preview', (req, res, next) => {
+    if (!req.url || req.url === '/') {
+      next();
+      return;
+    }
 
-  router.use(compilation);
-  router.use(webpackHotMiddleware(compiler, { log: false }));
+    servePreview(req, res, next);
+  });
+
+  app.use(compilation);
+  app.use(webpackHotMiddleware(compiler, { log: false }));
 
   const stats = await new Promise<Stats>((res, rej) => {
     compilation?.waitUntilValid(res as any);
