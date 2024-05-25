@@ -5,7 +5,6 @@
 import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import { globSync } from 'glob';
-import { temporaryDirectory } from 'tempy';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
 
@@ -36,6 +35,7 @@ async function run(cwd: string) {
 
   const docsArray: Record<string, any>[] = await Promise.all(
     dirs.map(async (dir) => {
+      const { temporaryDirectory } = await import('tempy');
       const outputDir = temporaryDirectory();
       const resolvedDir = await realpath(dir);
       await execaCommand(
