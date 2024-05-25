@@ -104,6 +104,7 @@ export const DocsContent = styled.div(({ theme }) => {
   return {
     maxWidth: 1000,
     width: '100%',
+    min-width: 0,
     [toGlobalSelector('a')]: {
       ...reset,
       fontSize: 'inherit',
