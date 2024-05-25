@@ -1585,4 +1585,384 @@ describe('stories API', () => {
       `);
     });
   });
+
+  describe('nested', () => {
+    it('group has only a child of the same type but has also a child component (diff type)', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-main-folder-child-folder-component--story': {
+            type: 'story',
+            id: 'root-main-folder-child-folder-component--story',
+            title: 'root/main folder/child folder/component',
+            name: 'Story',
+            importPath: './path/to/component.ts',
+          },
+          'root-main-folder-child-component--story': {
+            type: 'story',
+            id: 'root-main-folder-child-component--story',
+            title: 'root/main folder/child component',
+            name: 'Story',
+            importPath: './path/to/child-component.ts',
+          },
+        },
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-main-folder',
+        'root-main-folder-child-folder',
+        'root-main-folder-child-folder-component',
+        'root-main-folder-child-folder-component--story',
+        'root-main-folder-child-component',
+        'root-main-folder-child-component--story',
+      ]);
+      expect(index!['root-main-folder']).toMatchObject({
+        type: 'group',
+        name: 'main folder',
+      });
+      expect(index!['root-main-folder-child-folder']).toMatchObject({
+        type: 'group',
+        name: 'child folder',
+      });
+      expect(index!['root-main-folder-child-component']).toMatchObject({
+        type: 'component',
+        name: 'child component',
+      });
+    });
+
+    it('group has only a child of the same type but has also a child story (diff type)', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-main-folder-child-folder-component--story': {
+            type: 'story',
+            id: 'root-main-folder-child-folder-component--story',
+            title: 'root/main folder/child folder/component',
+            name: 'Story',
+            importPath: './path/to/component.ts',
+          },
+          'root-main-folder--child-story': {
+            type: 'story',
+            id: 'root-main-folder--child-story',
+            title: 'root/main folder',
+            name: 'Child Story',
+            importPath: './path/to/.ts',
+          },
+        },
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-main-folder',
+        'root-main-folder-child-folder',
+        'root-main-folder-child-folder-component',
+        'root-main-folder-child-folder-component--story',
+        'root-main-folder--child-story',
+      ]);
+      expect(index!['root-main-folder']).toMatchObject({
+        type: 'group',
+        name: 'main folder',
+      });
+      expect(index!['root-main-folder-child-folder']).toMatchObject({
+        type: 'group',
+        name: 'child folder',
+      });
+      expect(index!['root-main-folder--child-story']).toMatchObject({
+        type: 'story',
+        name: 'Child Story',
+      });
+    });
+
+    it('2 groups become nested', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-nested-folder-some-component--my-story': {
+            type: 'story',
+            id: 'root-nested-folder-some-component--my-story',
+            title: 'Root/Nested/Folder/some component',
+            name: 'My Story',
+            importPath: './path/to/some-component.ts',
+          },
+        },
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-nested-folder',
+        'root-nested-folder-some-component',
+        'root-nested-folder-some-component--my-story',
+      ]);
+      expect(index!['root']).toMatchObject({
+        type: 'root',
+        name: 'Root',
+      });
+      expect(index!['root-nested-folder']).toMatchObject({
+        type: 'nested_group',     // verify group is compacted to the same heading
+        name: 'Nested/ Folder',   // space is placed only after slash
+      });
+    });
+
+    it('one group has 2 groups as children, therefore it does not nest', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-folder-with-children-child-1-component--story-1': {
+            type: 'story',
+            id: 'root-folder-with-children-child-1-component--story-1',
+            title: 'Root/folder with children/child 1/component',
+            name: 'Story 1',
+            importPath: './path/to/component.ts',
+          },
+          'root-folder-with-children-child-2-component--story-2': {
+            type: 'story',
+            id: 'root-folder-with-children-child-2-component--story-2',
+            title: 'Root/folder with children/child 2/component',
+            name: 'Story 2',
+            importPath: './path/to/component.ts',
+          },
+        }
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-folder-with-children',
+        'root-folder-with-children-child-1',
+        'root-folder-with-children-child-1-component',
+        'root-folder-with-children-child-1-component--story-1',
+        'root-folder-with-children-child-2',
+        'root-folder-with-children-child-2-component',
+        'root-folder-with-children-child-2-component--story-2',
+      ]);
+      expect(index!['root-folder-with-children']).toMatchObject({
+        type: 'group',
+        name: 'folder with children',
+      });
+      expect(index!['root-folder-with-children-child-1']).toMatchObject({
+        type: 'group',
+        name: 'child 1',
+      });
+      expect(index!['root-folder-with-children-child-2']).toMatchObject({
+        type: 'group',
+        name: 'child 2',
+      });
+    });
+
+    it('many groups have many groups as children, therefore none nest, there are only groups', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-lvl1-lvl2group1-lvl3group1-component1--story-1': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group1-lvl3group1-component1--story-1',
+            title: 'root/lvl1/lvl2group1/lvl3group1/component1',
+            name: 'Story 1',
+            importPath: './path/to/component1.ts',
+          },
+          'root-lvl1-lvl2group1-lvl3group2-component2--story-2': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group1-lvl3group2-component2--story-2',
+            title: 'root/lvl1/lvl2group1/lvl3group2/component2',
+            name: 'Story 2',
+            importPath: './path/to/component2.ts',
+          },
+          'root-lvl1-lvl2group2-lvl3group3-component3--story-3': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group2-lvl3group3-component3--story-3',
+            title: 'root/lvl1/lvl2group2/lvl3group3/component3',
+            name: 'Story 3',
+            importPath: './path/to/component3.ts',
+          },
+          'root-lvl1-lvl2group2-lvl3group4-component4--story-4': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group2-lvl3group4-component4--story-4',
+            title: 'root/lvl1/lvl2group2/lvl3group4/component4',
+            name: 'Story 4',
+            importPath: './path/to/component4.ts',
+          },
+        }
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-lvl1',
+        'root-lvl1-lvl2group1',
+        'root-lvl1-lvl2group1-lvl3group1',
+        'root-lvl1-lvl2group1-lvl3group1-component1',
+        'root-lvl1-lvl2group1-lvl3group1-component1--story-1',
+        'root-lvl1-lvl2group1-lvl3group2',
+        'root-lvl1-lvl2group1-lvl3group2-component2',
+        'root-lvl1-lvl2group1-lvl3group2-component2--story-2',
+        'root-lvl1-lvl2group2',
+        'root-lvl1-lvl2group2-lvl3group3',
+        'root-lvl1-lvl2group2-lvl3group3-component3',
+        'root-lvl1-lvl2group2-lvl3group3-component3--story-3',
+        'root-lvl1-lvl2group2-lvl3group4',
+        'root-lvl1-lvl2group2-lvl3group4-component4',
+        'root-lvl1-lvl2group2-lvl3group4-component4--story-4',
+      ]);
+      expect(index!['root-lvl1']).toMatchObject({
+        type: 'group',
+        name: 'lvl1',
+      });
+      expect(index!['root-lvl1-lvl2group1']).toMatchObject({
+        type: 'group',
+        name: 'lvl2group1',
+      });
+      expect(index!['root-lvl1-lvl2group1-lvl3group1']).toMatchObject({
+        type: 'group',
+        name: 'lvl3group1',
+      });
+      expect(index!['root-lvl1-lvl2group1-lvl3group2']).toMatchObject({
+        type: 'group',
+        name: 'lvl3group2',
+      });
+      expect(index!['root-lvl1-lvl2group2']).toMatchObject({
+        type: 'group',
+        name: 'lvl2group2',
+      });
+      expect(index!['root-lvl1-lvl2group2-lvl3group3']).toMatchObject({
+        type: 'group',
+        name: 'lvl3group3',
+      });
+      expect(index!['root-lvl1-lvl2group2-lvl3group4']).toMatchObject({
+        type: 'group',
+        name: 'lvl3group4',
+      });
+    });
+
+    it('multiple groups nested in the same heading', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-folders-with-one-child-component--story-3': {
+            type: 'story',
+            id: 'root-folders-with-one-child-component--story-3',
+            title: 'Root/folders/with/one child/component',
+            name: 'Story 3',
+            importPath: './path/to/component.ts',
+          },
+        }
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-folders-with-one-child',
+        'root-folders-with-one-child-component',
+        'root-folders-with-one-child-component--story-3',
+      ]);
+      expect(index!['root-folders-with-one-child']).toMatchObject({
+        type: 'nested_group',
+        name: 'folders/ with/ one child',
+      });
+    });
+
+    it('multiple groups nested in the same heading', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+      api.setIndex({
+        v: 4,
+        entries: {
+          'root-lvl1-lvl2group1-lvl3group1-component1--docs-1': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group1-lvl3group1-component1--docs-1',
+            title: 'root/lvl1/lvl2group1/lvl3group1/component1',
+            name: 'Docs 1',
+            importPath: './path/to/component1.ts',
+            storiesImports: [],
+          },
+          'root-lvl1-lvl2group2-fakegroup--docs-2': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group2-fakegroup--docs-2',
+            title: 'root/lvl1/lvl2group2/fakegroup',
+            name: 'Docs 2',
+            importPath: './path/to/.ts',
+            storiesImports: [],
+          },
+          'root-lvl1-lvl2group3-component3--story-3': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group3-component3--story-3',
+            title: 'root/lvl1/lvl2group3/component3',
+            name: 'Story 3',
+            importPath: './path/to/component3.ts',
+          },
+          'root-lvl1-lvl2group4-lvl3group4-lvl4-component4--story-4': {
+            type: 'story',
+            id: 'root-lvl1-lvl2group4-lvl3group4-lvl4-component4--story-4',
+            title: 'root/lvl1/lvl2group4/lvl3group4/lvl4/component4',
+            name: 'Story 4',
+            importPath: './path/to/component4.ts',
+          },
+        }
+      });
+      const { index } = store.getState();
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(index!)).toEqual([
+        'root',
+        'root-lvl1',
+        'root-lvl1-lvl2group1-lvl3group1',  // nested here...
+        'root-lvl1-lvl2group1-lvl3group1-component1',
+        'root-lvl1-lvl2group1-lvl3group1-component1--docs-1',
+        'root-lvl1-lvl2group2',
+        'root-lvl1-lvl2group2-fakegroup',   // is not nested beacause it is a component not a group
+        'root-lvl1-lvl2group2-fakegroup--docs-2',
+        'root-lvl1-lvl2group3',
+        'root-lvl1-lvl2group3-component3',
+        'root-lvl1-lvl2group3-component3--story-3',
+        'root-lvl1-lvl2group4-lvl3group4-lvl4', // ...and here
+        'root-lvl1-lvl2group4-lvl3group4-lvl4-component4',
+        'root-lvl1-lvl2group4-lvl3group4-lvl4-component4--story-4',
+      ]);
+      expect(index!['root-lvl1']).toMatchObject({
+        type: 'group',
+        name: 'lvl1',
+      });
+      expect(index!['root-lvl1-lvl2group1-lvl3group1']).toMatchObject({
+        type: 'nested_group',
+        name: 'lvl2group1/ lvl3group1',
+      });
+      expect(index!['root-lvl1-lvl2group2']).toMatchObject({
+        type: 'group',
+        name: 'lvl2group2',
+      });
+      expect(index!['root-lvl1-lvl2group2-fakegroup']).toMatchObject({
+        type: 'component',
+        name: 'fakegroup',
+      });
+      expect(index!['root-lvl1-lvl2group3']).toMatchObject({
+        type: 'group',
+        name: 'lvl2group3',
+      });
+      expect(index!['root-lvl1-lvl2group4-lvl3group4-lvl4']).toMatchObject({
+        type: 'nested_group',
+        name: 'lvl2group4/ lvl3group4/ lvl4',
+      });
+    });
+  });
 });

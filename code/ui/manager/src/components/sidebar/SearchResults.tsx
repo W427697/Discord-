@@ -173,7 +173,7 @@ const Result: FC<
 
   const api = useStorybookApi();
   useEffect(() => {
-    if (api && props.isHighlighted && item.type === 'component') {
+    if (api && props.isHighlighted && (item.type === 'component' || item.type === 'nested_component')) {
       api.emit(PRELOAD_ENTRIES, { ids: [item.children[0]] }, { options: { target: item.refId } });
     }
   }, [props.isHighlighted, item]);
@@ -191,12 +191,17 @@ const Result: FC<
             <UseSymbol type="component" />
           </TypeIcon>
         )}
+        {item.type === 'nested_component' && (
+          <TypeIcon viewBox="0 0 22 22" width="14" height="14" type="nested_component">
+            <UseSymbol type="nested_component" />
+          </TypeIcon>
+        )}
         {item.type === 'story' && (
           <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="story">
             <UseSymbol type="story" />
           </TypeIcon>
         )}
-        {!(item.type === 'component' || item.type === 'story') && (
+        {!(item.type === 'component' || item.type === 'nested_component' || item.type === 'story') && (
           <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="document">
             <UseSymbol type="document" />
           </TypeIcon>
@@ -267,7 +272,7 @@ export const SearchResults: FC<{
     const refId = currentTarget.getAttribute('data-refid');
     const item = api.resolveStory(storyId, refId === 'storybook_internal' ? undefined : refId);
 
-    if (item?.type === 'component') {
+    if (item?.type === 'component' || item?.type === 'nested_component') {
       api.emit(PRELOAD_ENTRIES, {
         // @ts-expect-error (TODO)
         ids: [item.isLeaf ? item.id : item.children[0]],

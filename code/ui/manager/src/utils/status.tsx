@@ -44,7 +44,7 @@ export function getGroupStatus(
   status: API_StatusState
 ): Record<string, API_StatusValue> {
   return Object.values(collapsedData).reduce<Record<string, API_StatusValue>>((acc, item) => {
-    if (item.type === 'group' || item.type === 'component') {
+    if (item.type === 'component' || item.type === 'group' || item.type === 'nested_group' || item.type === 'nested_component') {
       const leafs = getDescendantIds(collapsedData as any, item.id, false)
         .map((id) => collapsedData[id])
         .filter((i) => i.type === 'story');

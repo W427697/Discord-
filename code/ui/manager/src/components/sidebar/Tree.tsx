@@ -15,7 +15,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
-import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
+import { ComponentNode, NestedComponentNode, DocumentNode, GroupNode, NestedGroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
 
@@ -293,8 +293,22 @@ const Node = React.memo<NodeProps>(function Node({
     );
   }
 
-  if (item.type === 'component' || item.type === 'group') {
-    const BranchNode = item.type === 'component' ? ComponentNode : GroupNode;
+  function getBranchNode(item: Item) {
+    switch (item.type) {
+      case 'nested_group':
+        return NestedGroupNode;
+      case 'component':
+        return ComponentNode;
+      case 'nested_component':
+        return NestedComponentNode;
+      default:
+        return GroupNode;
+    }
+  }
+
+  if (item.type === 'component' || item.type === 'group' || item.type === 'nested_group' || item.type === 'nested_component') {
+    const isComponent = (item.type === 'component' || item.type === 'nested_component');
+    const BranchNode = getBranchNode(item);
     return (
       <BranchNode
         key={id}
@@ -304,21 +318,21 @@ const Node = React.memo<NodeProps>(function Node({
         data-ref-id={refId}
         data-item-id={item.id}
         data-parent-id={item.parent}
-        data-nodetype={item.type === 'component' ? 'component' : 'group'}
+        data-nodetype={item.type}
         data-highlightable={isDisplayed}
         aria-controls={item.children && item.children[0]}
         aria-expanded={isExpanded}
         depth={isOrphan ? item.depth : item.depth - 1}
-        isComponent={item.type === 'component'}
+        isComponent={isComponent}
         isExpandable={item.children && item.children.length > 0}
         isExpanded={isExpanded}
         onClick={(event) => {
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
+          if (isComponent && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
-          if (item.type === 'component') {
+          if (isComponent) {
             api.emit(PRELOAD_ENTRIES, {
               ids: [item.children[0]],
               options: { target: refId },

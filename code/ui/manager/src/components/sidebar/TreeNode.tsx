@@ -5,17 +5,39 @@ import React from 'react';
 import { UseSymbol } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
 
-export const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
+export const TypeIcon = styled.svg<{ type: 'component' | 'nested_component' | 'story' | 'group' | 'nested_group' | 'document' }>(
   ({ theme, type }) => ({
     width: 14,
     height: 14,
     flex: '0 0 auto',
     color: (() => {
-      if (type === 'group')
-        return theme.base === 'dark' ? theme.color.primary : theme.color.ultraviolet;
-      if (type === 'component') return theme.color.secondary;
-      if (type === 'document') return theme.base === 'dark' ? theme.color.gold : '#ff8300';
-      if (type === 'story') return theme.color.seafoam;
+      if (type === 'group') {
+        if (theme.base === 'dark') {
+          return theme.color.primary;
+        }
+        return theme.color.ultraviolet;
+      }
+      if (type === 'nested_group') {
+        if (theme.base === 'dark') {
+          return theme.color.purple;
+        }
+        return theme.color.ultraviolet;
+      }
+      if (type === 'component') {
+        return theme.color.secondary;
+      }
+      if (type === 'nested_component') {
+        return theme.color.green;
+      }
+      if (type === 'document') {
+        if (theme.base === 'dark') {
+          return theme.color.gold;
+        }
+        return '#ff8300';
+      }
+      if (type === 'story') {
+        return theme.color.seafoam;
+      }
       return 'currentColor';
     })(),
   })
@@ -110,6 +132,27 @@ export const GroupNode: FC<
   );
 });
 
+export const NestedGroupNode: FC<
+  ComponentProps<typeof BranchNode> & { isExpanded?: boolean; isExpandable?: boolean }
+> = React.memo(function NestedGroupNode({
+  children,
+  isExpanded = false,
+  isExpandable = false,
+  ...props
+}) {
+  return (
+    <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
+      <Wrapper>
+        {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
+        <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="nested_group">
+          <UseSymbol type="nested_group" />
+        </TypeIcon>
+      </Wrapper>
+      {children}
+    </BranchNode>
+  );
+});
+
 export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
   function ComponentNode({ theme, children, isExpanded, isExpandable, isSelected, ...props }) {
     return (
@@ -118,6 +161,22 @@ export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
           {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
           <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="component">
             <UseSymbol type="component" />
+          </TypeIcon>
+        </Wrapper>
+        {children}
+      </BranchNode>
+    );
+  }
+);
+
+export const NestedComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
+  function NestedComponentNode({ theme, children, isExpanded, isExpandable, isSelected, ...props }) {
+    return (
+      <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
+        <Wrapper>
+          {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
+          <TypeIcon viewBox="0 0 22 22" width="14" height="14" type="nested_component">
+            <UseSymbol type="nested_component" />
           </TypeIcon>
         </Wrapper>
         {children}
