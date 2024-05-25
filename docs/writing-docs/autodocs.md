@@ -270,6 +270,25 @@ The Docs Container is the component that wraps up the documentation page. It's r
 
 <!-- prettier-ignore-end -->
 
+#### Custom Docs Page
+
+The Docs Container accepts `DocsPage` render prop, where you can pass a custom component to render your page.
+Your custom page will no longer have the storybook's theme styles.
+Use this prop, when you want to style your docs pages globally with custom css.
+
+Your custom `DocsPage` component will receive `toc` and `children` props, containing the table of contents (if enabled) and page contents respectivelly.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-auto-docs-custom-docs-container-with-custom-page.js.mdx',
+    'common/storybook-preview-auto-docs-custom-docs-container-with-custom-page.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Override the default theme
 
 By default, Storybook provides two themes for the UI: `light` and `dark`. If you need to customize the theme used by the documentation to match the existing one, you can update your Storybook UI configuration file (i.e., `.storybook/preview.js`) and apply it.
