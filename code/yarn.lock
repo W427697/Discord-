@@ -6286,7 +6286,6 @@ __metadata:
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@tanstack/react-virtual": "npm:^3.3.0"
-    "@testing-library/react": "npm:^11.2.2"
     "@types/react-transition-group": "npm:^4"
     "@types/semver": "npm:^7.3.4"
     browser-dtector: "npm:^3.4.0"
@@ -7327,7 +7326,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^7.28.1, @testing-library/dom@npm:^7.29.4":
+"@testing-library/dom@npm:^7.29.4":
   version: 7.31.2
   resolution: "@testing-library/dom@npm:7.31.2"
   dependencies:
@@ -7419,19 +7418,6 @@ __metadata:
     vitest:
       optional: true
   checksum: 10c0/e7eba527b34ce30cde94424d2ec685bdfed51daaafb7df9b68b51aec6052e99a50c8bfe654612dacdf857a1eb81d68cf294fc89de558ee3a992bf7a6019fffcc
-  languageName: node
-  linkType: hard
-
-"@testing-library/react@npm:^11.2.2":
-  version: 11.2.7
-  resolution: "@testing-library/react@npm:11.2.7"
-  dependencies:
-    "@babel/runtime": "npm:^7.12.5"
-    "@testing-library/dom": "npm:^7.28.1"
-  peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: 10c0/5c97aa5fb28a867d674e292e9e556b0890385e729972f8e0c3386001903e5975f6798632a038558750101fc1ff20d5faf7a0fb4d382ee3afe28d0118e9bd2f36
   languageName: node
   linkType: hard
 
