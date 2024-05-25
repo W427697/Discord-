@@ -2,6 +2,7 @@
 
 import type { BuilderStats } from '@storybook/types';
 import path from 'path';
+import slash from 'slash';
 import type { Plugin } from 'vite';
 
 /*
@@ -46,9 +47,6 @@ function isUserCode(moduleName: string) {
 export type WebpackStatsPlugin = Plugin & { storybookGetStats: () => BuilderStats };
 
 export function pluginWebpackStats({ workingDir }: WebpackStatsPluginOptions): WebpackStatsPlugin {
-  // Replaces Windows-style backslash path separators with POSIX-style forward slashes, because the
-  // Webpack stats use forward slashes in the `name` and `moduleName` fields.
-  const posix = (localPath: string) => localPath.split(path.sep).filter(Boolean).join(path.posix.sep);
   /**
    * Convert an absolute path name to a path relative to the vite root, with a starting `./`
    */
@@ -59,11 +57,9 @@ export function pluginWebpackStats({ workingDir }: WebpackStatsPluginOptions): W
     }
     // Otherwise, we need them in the format `./path/to/file.js`.
     else {
-      const posixWorkingDir = posix(workingDir);
-      const posixFilename = posix(filename);
-      const relativePath = path.posix.relative(posixWorkingDir, stripQueryParams(posixFilename));
+      const relativePath = path.relative(workingDir, stripQueryParams(filename));
       // This seems hacky, got to be a better way to add a `./` to the start of a path.
-      return `./${relativePath}`;
+      return `./${slash(relativePath)}`;
     }
   }
 
