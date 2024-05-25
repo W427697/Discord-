@@ -15,7 +15,15 @@ import type { ComponentProps, ComponentType } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { ReactRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type {
+  Args,
+  ArgTypes,
+  Parameters,
+  StrictArgs,
+  ComponentAnnotations as _ComponentAnnotations,
+  AnnotatedStoryFn as _AnnotatedStoryFn,
+  PartialStoryFn as _PartialStoryFn,
+} from '@storybook/types';
 export type { ReactRenderer };
 
 /**
