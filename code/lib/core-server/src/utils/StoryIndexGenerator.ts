@@ -314,7 +314,8 @@ export class StoryIndexGenerator {
           metaId: input.metaId,
           name,
           title,
-          importPath,
+          // We must use `||` instead of `??` since "" (empty string) is not a valid import path
+          importPath: input.importPath || importPath,
           tags,
         };
       });

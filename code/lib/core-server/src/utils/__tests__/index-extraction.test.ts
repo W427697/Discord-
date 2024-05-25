@@ -34,7 +34,6 @@ describe('story extraction', () => {
             // properties identical to the auto-generated ones, eg. 'StoryOne' -> 'Story One'
             {
               type: 'story',
-              importPath: fileName,
               exportName: 'StoryOne',
               name: 'Story One',
               title: 'A',
@@ -45,7 +44,6 @@ describe('story extraction', () => {
             // properties different from the auto-generated ones, eg. 'StoryOne' -> 'Another Story Name'
             {
               type: 'story',
-              importPath: fileName,
               exportName: 'StoryOne',
               name: 'Another Story Name',
               title: 'Custom Title',
@@ -104,7 +102,6 @@ describe('story extraction', () => {
           createIndex: async (fileName) => [
             {
               exportName: 'StoryOne',
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -149,7 +146,6 @@ describe('story extraction', () => {
               name: 'Story One',
               metaId: 'a',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -196,7 +192,6 @@ describe('story extraction', () => {
               title: 'A',
               metaId: 'a',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -243,7 +238,6 @@ describe('story extraction', () => {
               name: 'Story One',
               title: 'A',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
             // exportName + custom title (ignoring custom name) -> id
@@ -252,7 +246,6 @@ describe('story extraction', () => {
               name: 'Custom Name For Second Story',
               title: 'Custom Title',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
             // exportName + custom metaId (ignoring custom title and name) -> id
@@ -261,7 +254,6 @@ describe('story extraction', () => {
               metaId: 'custom-meta-id',
               title: 'Custom Title',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -327,7 +319,6 @@ describe('story extraction', () => {
             {
               exportName: 'StoryOne',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -376,7 +367,6 @@ describe('docs entries from story extraction', () => {
               name: 'Story One',
               title: 'A',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -423,7 +413,6 @@ describe('docs entries from story extraction', () => {
               name: 'Story One',
               title: 'A',
               tags: [AUTODOCS_TAG, 'story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -483,7 +472,6 @@ describe('docs entries from story extraction', () => {
               name: 'Story One',
               title: 'A',
               tags: [AUTODOCS_TAG, 'story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
@@ -531,7 +519,6 @@ describe('docs entries from story extraction', () => {
               name: 'Story One',
               title: 'A',
               tags: [STORIES_MDX_TAG, 'story-tag-from-indexer'],
-              importPath: fileName,
               type: 'story',
             },
           ],
