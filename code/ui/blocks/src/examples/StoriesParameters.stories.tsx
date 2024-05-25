@@ -9,7 +9,7 @@ const meta = {
     docs: {
       stories: {
         title: 'Title Parameter',
-        includePrimaryStory: true,
+        includePrimary: true,
       },
     },
   },

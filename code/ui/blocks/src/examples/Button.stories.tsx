@@ -20,7 +20,7 @@ const meta = {
     docs: {
       stories: {
         title: 'Stories',
-        includePrimaryStory: true,
+        includePrimary: true,
       },
       subtitle: 'This is the subtitle for the Button stories',
     },

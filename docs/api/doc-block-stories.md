@@ -29,17 +29,17 @@ import { Stories } from '@storybook/blocks';
 
 `Stories` is configured with the following props:
 
-### `includePrimaryStory`
+### `includePrimary`
 
 Type: `boolean`
 
-Default: `parameters.docs.stories.includePrimaryStory`
+Default: `parameters.docs.stories.includePrimary`
 
 Determines if the collection of stories includes the primary (first) story.
 
 <Callout variant="info" icon="💡">
 
-If a stories file contains only one story and `includePrimaryStory={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
+If a stories file contains only one story and `includePrimary={true}`, the `Stories` block will render nothing to avoid a potentially confusing situation.
 
 </Callout>
 

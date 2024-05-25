@@ -9,7 +9,7 @@ import { useOf } from './useOf';
 
 interface StoriesProps {
   title?: ReactElement | string;
-  includePrimaryStory?: boolean;
+  includePrimary?: boolean;
   /**
    * Specify where to get the stories from.
    */
@@ -32,9 +32,7 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
   },
 }));
 
-export const Stories: FC<StoriesProps> = (
-  props = { title: 'Stories', includePrimaryStory: true }
-) => {
+export const Stories: FC<StoriesProps> = (props = { title: 'Stories', includePrimary: true }) => {
   const { of } = props;
 
   if ('of' in props && of === undefined) {
@@ -62,10 +60,10 @@ export const Stories: FC<StoriesProps> = (
   const { preparedMeta } = useOf(of || 'meta', ['meta']);
 
   const title = props.title ?? preparedMeta.parameters.docs?.stories?.title;
-  const includePrimaryStory =
-    props.includePrimaryStory ?? preparedMeta.parameters.docs?.stories?.includePrimaryStory;
+  const includePrimary =
+    props.includePrimary ?? preparedMeta.parameters.docs?.stories?.includePrimary;
 
-  if (!includePrimaryStory) stories = stories.slice(1);
+  if (!includePrimary) stories = stories.slice(1);
 
   if (!stories || stories.length === 0) {
     return null;

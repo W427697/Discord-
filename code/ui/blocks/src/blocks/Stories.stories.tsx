@@ -32,7 +32,7 @@ export const Default: Story = {
   },
 };
 export const WithoutPrimaryStory: Story = {
-  args: { includePrimaryStory: false },
+  args: { includePrimary: false },
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
@@ -64,7 +64,7 @@ export const DefaultWithOf: Story = {
 export const WithoutPrimaryStoryWithOf: Story = {
   name: 'Without Primary Story with Of',
   args: {
-    includePrimaryStory: false,
+    includePrimary: false,
     of: DefaultButtonStories,
   },
   parameters: {
