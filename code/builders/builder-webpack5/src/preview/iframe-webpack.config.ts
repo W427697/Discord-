@@ -243,6 +243,13 @@ export default async (
     },
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.cjs'],
+      // This mapping is taken from TypeScript's file extension substitution logic
+      // for more info see https://www.typescriptlang.org/docs/handbook/modules/reference.html#file-extension-substitution
+      extensionAlias: {
+        '.js': ['.ts', '.tsx', '.d.ts', '.js', '.jsx'],
+        '.mjs': ['.mts', '.d.mts', '.mjs'],
+        '.cjs': ['.cts', '.d.cts', '.cjs'],
+      },
       modules: ['node_modules'].concat(envs.NODE_PATH || []),
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: storybookPaths,
