@@ -50,7 +50,7 @@ export interface ArgType {
       detail?: string;
     };
     type?: {
-      summary?: string;
+      summary?: string | undefined;
       detail?: string;
     };
     readonly?: boolean;
