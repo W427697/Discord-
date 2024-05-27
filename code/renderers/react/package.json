@@ -80,7 +80,7 @@
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react-element-to-jsx-string": "^15.0.0",
+    "react-element-to-jsx-string": "14.3.2",
     "semver": "^7.3.7",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
